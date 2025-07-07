@@ -10,7 +10,6 @@ import {
   SidebarMenu,
   SidebarMenuButton,
   SidebarMenuItem,
-  useSidebar,
 } from '@/components/ui/sidebar';
 import { 
   Home, 
@@ -110,7 +109,6 @@ const navigationItems = [
 ];
 
 export function AppSidebar() {
-  const { collapsed } = useSidebar();
   const { user } = useAuth();
 
   const filteredItems = navigationItems.filter(item => 
@@ -121,12 +119,8 @@ export function AppSidebar() {
     <Sidebar className="bg-slate-800 border-r border-slate-700">
       <SidebarContent>
         <div className="p-4">
-          <h2 className="text-white font-semibold text-lg">
-            {collapsed ? 'CSD' : 'CSD Portal'}
-          </h2>
-          {!collapsed && (
-            <p className="text-slate-400 text-sm">Central Securities Depository</p>
-          )}
+          <h2 className="text-white font-semibold text-lg">CSD Portal</h2>
+          <p className="text-slate-400 text-sm">Central Securities Depository</p>
         </div>
         
         <SidebarGroup>
@@ -148,7 +142,7 @@ export function AppSidebar() {
                       }
                     >
                       <item.icon className="h-5 w-5" />
-                      {!collapsed && <span>{item.title}</span>}
+                      <span>{item.title}</span>
                     </NavLink>
                   </SidebarMenuButton>
                 </SidebarMenuItem>

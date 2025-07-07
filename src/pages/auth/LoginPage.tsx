@@ -6,13 +6,11 @@ import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { toast } from '@/hooks/use-toast';
 
 const LoginPage = () => {
-  const [username, setUsername] = useState('');
+  const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
-  const [role, setRole] = useState<UserRole>('Admin');
   const [isLoading, setIsLoading] = useState(false);
   const { login } = useAuth();
   const navigate = useNavigate();
@@ -20,7 +18,7 @@ const LoginPage = () => {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     
-    if (!username || !password) {
+    if (!email || !password) {
       toast({
         title: 'Error',
         description: 'Please fill in all fields',
@@ -29,16 +27,55 @@ const LoginPage = () => {
       return;
     }
 
+    // Extract role from email
+    const emailParts = email.split('@');
+    if (emailParts.length !== 2 || emailParts[1] !== 'test.com') {
+      toast({
+        title: 'Invalid Email',
+        description: 'Email must be in format <role>@test.com',
+        variant: 'destructive',
+      });
+      return;
+    }
+
+    const roleName = emailParts[0].toLowerCase();
+    let role: UserRole;
+    
+    switch (roleName) {
+      case 'admin':
+        role = 'Admin';
+        break;
+      case 'issuer':
+        role = 'Issuer';
+        break;
+      case 'custodian':
+        role = 'Custodian';
+        break;
+      case 'broker':
+        role = 'Broker';
+        break;
+      case 'regulator':
+        role = 'Regulator';
+        break;
+      default:
+        toast({
+          title: 'Invalid Role',
+          description: 'Valid roles: admin, issuer, custodian, broker, regulator',
+          variant: 'destructive',
+        });
+        return;
+    }
+
     setIsLoading(true);
     
     try {
-      const success = await login(username, password, role);
+      const success = await login(email, password, role);
       if (success) {
         navigate('/mfa');
       } else {
         toast({
           title: 'Login Failed',
-          description: 'Invalid credentials. Use password: password123',
+          description: 'Invalid credentials. Use password: CMA!@#$',
           variant: 'destructive',
         });
       }
@@ -68,14 +105,14 @@ const LoginPage = () => {
           <CardContent>
             <form onSubmit={handleSubmit} className="space-y-6">
               <div className="space-y-2">
-                <Label htmlFor="username" className="text-slate-200">Username</Label>
+                <Label htmlFor="email" className="text-slate-200">Email</Label>
                 <Input
-                  id="username"
-                  type="text"
-                  value={username}
-                  onChange={(e) => setUsername(e.target.value)}
+                  id="email"
+                  type="email"
+                  value={email}
+                  onChange={(e) => setEmail(e.target.value)}
                   className="bg-slate-700 border-slate-600 text-white"
-                  placeholder="Enter your username"
+                  placeholder="role@test.com"
                 />
               </div>
               
@@ -91,22 +128,6 @@ const LoginPage = () => {
                 />
               </div>
               
-              <div className="space-y-2">
-                <Label htmlFor="role" className="text-slate-200">Role</Label>
-                <Select value={role} onValueChange={(value: UserRole) => setRole(value)}>
-                  <SelectTrigger className="bg-slate-700 border-slate-600 text-white">
-                    <SelectValue />
-                  </SelectTrigger>
-                  <SelectContent className="bg-slate-700 border-slate-600">
-                    <SelectItem value="Admin">Admin</SelectItem>
-                    <SelectItem value="Issuer">Issuer</SelectItem>
-                    <SelectItem value="Custodian">Custodian</SelectItem>
-                    <SelectItem value="Broker">Broker</SelectItem>
-                    <SelectItem value="Regulator">Regulator</SelectItem>
-                  </SelectContent>
-                </Select>
-              </div>
-              
               <Button 
                 type="submit" 
                 className="w-full bg-blue-600 hover:bg-blue-700"
@@ -118,8 +139,8 @@ const LoginPage = () => {
             
             <div className="mt-4 p-3 bg-slate-700 rounded text-sm text-slate-300">
               <p><strong>Demo Credentials:</strong></p>
-              <p>Username: Any username</p>
-              <p>Password: password123</p>
+              <p>Email: admin@test.com, issuer@test.com, etc.</p>
+              <p>Password: CMA!@#$</p>
               <p>MFA Code: 123456</p>
             </div>
           </CardContent>

@@ -13,7 +13,7 @@ interface User {
 
 interface AuthContextType {
   user: User | null;
-  login: (username: string, password: string, role: UserRole) => Promise<boolean>;
+  login: (email: string, password: string, role: UserRole) => Promise<boolean>;
   logout: () => void;
   verifyMFA: (code: string) => Promise<boolean>;
   isAuthenticated: boolean;
@@ -48,14 +48,14 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
     }
   }, []);
 
-  const login = async (username: string, password: string, role: UserRole): Promise<boolean> => {
+  const login = async (email: string, password: string, role: UserRole): Promise<boolean> => {
     // Mock authentication - in real app, this would call an API
-    if (password === 'password123') {
+    if (password === 'CMA!@#$') {
       const mockUser: User = {
         id: '1',
-        username,
+        username: email,
         role,
-        name: username.charAt(0).toUpperCase() + username.slice(1)
+        name: role
       };
       
       setUser(mockUser);
