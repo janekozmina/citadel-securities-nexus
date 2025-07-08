@@ -141,14 +141,16 @@ export function AppSidebar() {
         </SidebarContent>
       </Sidebar>
       
-      {/* Floating expand button when sidebar is collapsed - positioned to not overlap */}
+      {/* Floating expand button when sidebar is collapsed - positioned outside sidebar area */}
       {state === 'collapsed' && (
-        <button
-          onClick={toggleSidebar}
-          className="fixed left-16 top-4 z-50 bg-slate-800 text-white p-2 rounded-md shadow-lg hover:bg-slate-700 transition-colors"
-        >
-          <ChevronRight className="h-4 w-4" />
-        </button>
+        <div className="fixed left-14 top-6 z-50">
+          <button
+            onClick={toggleSidebar}
+            className="bg-slate-800 text-white p-2 rounded-md shadow-lg hover:bg-slate-700 transition-colors"
+          >
+            <ChevronRight className="h-4 w-4" />
+          </button>
+        </div>
       )}
     </>
   );
