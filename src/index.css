@@ -98,18 +98,30 @@ All colors MUST be HSL.
   }
 }
 
-/* Custom styles for blue theme */
-.btn-primary, button:not(.btn-secondary):not(.btn-outline) {
+/* Custom styles for blue theme - ensuring white text on #1E3A8A backgrounds */
+.btn-primary, button:not(.btn-secondary):not(.btn-outline):not(.btn-ghost) {
   background-color: #1E3A8A !important;
   border-color: #1E3A8A !important;
+  color: white !important;
 }
 
-.btn-primary:hover, button:not(.btn-secondary):not(.btn-outline):hover {
+.btn-primary:hover, button:not(.btn-secondary):not(.btn-outline):not(.btn-ghost):hover {
   background-color: #1D4ED8 !important;
   border-color: #1D4ED8 !important;
+  color: white !important;
 }
 
 [data-state="active"] {
   background-color: #1E3A8A !important;
+  color: white !important;
+}
+
+/* Ensure tabs have white text on blue background */
+[data-state="active"], .bg-primary {
+  color: white !important;
+}
+
+/* Button text color override */
+button[class*="bg-primary"], button[class*="bg-blue"] {
   color: white !important;
 }

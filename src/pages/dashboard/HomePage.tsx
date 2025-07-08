@@ -1,7 +1,6 @@
 
 import { useAuth } from '@/contexts/AuthContext';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
-import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 import { TrendingUp, Users, Building, AlertCircle } from 'lucide-react';
 
@@ -43,12 +42,9 @@ const HomePage = () => {
     <div className="space-y-6">
       <div className="flex items-center justify-between">
         <div>
-          <h1 className="text-3xl font-bold text-slate-900">Central Bank Dashboard</h1>
+          <h1 className="text-3xl font-bold text-slate-900">Home Page</h1>
           <p className="text-slate-600">Welcome back, {user?.name}</p>
         </div>
-        <Badge variant="outline" className="text-sm">
-          Role: {user?.role}
-        </Badge>
       </div>
 
       {/* Stats Grid */}
@@ -76,7 +72,7 @@ const HomePage = () => {
             <CardTitle>Quick Actions</CardTitle>
           </CardHeader>
           <CardContent className="space-y-4">
-            <Button className="w-full justify-start">
+            <Button className="w-full justify-start text-white">
               Create New Security
             </Button>
             <Button variant="outline" className="w-full justify-start">
@@ -95,19 +91,19 @@ const HomePage = () => {
           <CardContent className="space-y-4">
             <div className="flex items-center justify-between">
               <span className="text-sm text-slate-600">Trading System</span>
-              <Badge className="bg-green-100 text-green-800">Online</Badge>
+              <span className="bg-green-100 text-green-800 px-2 py-1 rounded text-xs">Online</span>
             </div>
             <div className="flex items-center justify-between">
               <span className="text-sm text-slate-600">Settlement System</span>
-              <Badge className="bg-green-100 text-green-800">Online</Badge>
+              <span className="bg-green-100 text-green-800 px-2 py-1 rounded text-xs">Online</span>
             </div>
             <div className="flex items-center justify-between">
               <span className="text-sm text-slate-600">Clearing System</span>
-              <Badge className="bg-green-100 text-green-800">Online</Badge>
+              <span className="bg-green-100 text-green-800 px-2 py-1 rounded text-xs">Online</span>
             </div>
             <div className="flex items-center justify-between">
               <span className="text-sm text-slate-600">Risk Monitor</span>
-              <Badge className="bg-yellow-100 text-yellow-800">Monitoring</Badge>
+              <span className="bg-yellow-100 text-yellow-800 px-2 py-1 rounded text-xs">Monitoring</span>
             </div>
           </CardContent>
         </Card>

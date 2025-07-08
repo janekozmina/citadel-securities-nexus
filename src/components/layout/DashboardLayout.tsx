@@ -1,6 +1,6 @@
 
 import { Outlet } from 'react-router-dom';
-import { SidebarProvider, SidebarTrigger } from '@/components/ui/sidebar';
+import { SidebarProvider } from '@/components/ui/sidebar';
 import { AppSidebar } from './AppSidebar';
 import { DashboardHeader } from './DashboardHeader';
 
@@ -12,9 +12,6 @@ const DashboardLayout = () => {
         <div className="flex-1 flex flex-col">
           <DashboardHeader />
           <main className="flex-1 overflow-auto p-6">
-            <div className="mb-4">
-              <SidebarTrigger className="mb-4" />
-            </div>
             <Outlet />
           </main>
         </div>
