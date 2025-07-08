@@ -1,3 +1,4 @@
+
 import { NavLink } from 'react-router-dom';
 import { useAuth } from '@/contexts/AuthContext';
 import {
@@ -140,11 +141,11 @@ export function AppSidebar() {
         </SidebarContent>
       </Sidebar>
       
-      {/* Floating expand button when sidebar is collapsed */}
+      {/* Floating expand button when sidebar is collapsed - positioned to not overlap */}
       {state === 'collapsed' && (
         <button
           onClick={toggleSidebar}
-          className="fixed left-2 top-2 z-50 bg-slate-800 text-white p-2 rounded-md shadow-lg hover:bg-slate-700 transition-colors"
+          className="fixed left-16 top-4 z-50 bg-slate-800 text-white p-2 rounded-md shadow-lg hover:bg-slate-700 transition-colors"
         >
           <ChevronRight className="h-4 w-4" />
         </button>

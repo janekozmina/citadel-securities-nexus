@@ -126,7 +126,17 @@ button[class*="bg-primary"], button[class*="bg-blue"] {
   color: white !important;
 }
 
-/* Remove any remaining blue backgrounds from cards and containers */
-.bg-blue-50, .bg-blue-100 {
+/* Force white backgrounds on all cards and page containers */
+.bg-white, [class*="Card"], [class*="card"], .bg-blue-50, .bg-blue-100, .bg-slate-50 {
+  background-color: white !important;
+}
+
+/* Ensure main content areas have white background */
+main, .space-y-6, .space-y-4, .grid > div {
+  background-color: white !important;
+}
+
+/* Target specific card containers */
+div[class*="bg-"], div[class*="Card"] {
   background-color: white !important;
 }
