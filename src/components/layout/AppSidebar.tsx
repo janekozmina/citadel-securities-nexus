@@ -10,6 +10,7 @@ import {
   SidebarMenu,
   SidebarMenuButton,
   SidebarMenuItem,
+  SidebarTrigger,
 } from '@/components/ui/sidebar';
 import { 
   Home, 
@@ -116,11 +117,11 @@ export function AppSidebar() {
   );
 
   return (
-    <Sidebar className="bg-slate-800 border-r border-slate-700">
+    <Sidebar className="border-r border-slate-700" style={{ backgroundColor: '#0F172A' }}>
       <SidebarContent>
-        <div className="p-4">
+        <div className="p-4 border-b border-slate-700">
           <h2 className="text-white font-semibold text-lg">CSD Portal</h2>
-          <p className="text-slate-400 text-sm">Central Securities Depository</p>
+          <p className="text-slate-300 text-sm">Central Securities Depository</p>
         </div>
         
         <SidebarGroup>
@@ -136,7 +137,7 @@ export function AppSidebar() {
                       className={({ isActive }) => 
                         `flex items-center gap-3 px-3 py-2 rounded-lg transition-colors ${
                           isActive 
-                            ? 'bg-blue-600 text-white' 
+                            ? 'bg-blue-700 text-white' 
                             : 'text-slate-300 hover:bg-slate-700 hover:text-white'
                         }`
                       }

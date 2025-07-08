@@ -1,15 +1,12 @@
-
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
-import { Badge } from '@/components/ui/badge';
 
 const ClearingHubPage = () => {
   return (
     <div className="space-y-6">
       <div className="flex items-center justify-between">
         <h1 className="text-3xl font-bold text-slate-900">Clearing Hub</h1>
-        <Badge variant="outline">Admin, Custodian, Broker Access</Badge>
       </div>
 
       <Tabs defaultValue="manager" className="w-full">

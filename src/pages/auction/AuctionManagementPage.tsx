@@ -1,14 +1,12 @@
 
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
-import { Badge } from '@/components/ui/badge';
 
 const AuctionManagementPage = () => {
   return (
     <div className="space-y-6">
       <div className="flex items-center justify-between">
         <h1 className="text-3xl font-bold text-slate-900">Auction Management</h1>
-        <Badge variant="outline">Admin, Custodian, Issuer Access</Badge>
       </div>
 
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
