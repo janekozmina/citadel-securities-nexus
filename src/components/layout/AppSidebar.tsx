@@ -11,7 +11,7 @@ import {
   SidebarMenuButton,
   SidebarMenuItem,
 } from '@/components/ui/sidebar';
-import { ChevronLeft, ChevronRight } from 'lucide-react';
+import { Menu, X } from 'lucide-react';
 import { useSidebar } from '@/components/ui/sidebar';
 
 const navigationItems = [
@@ -91,67 +91,56 @@ export function AppSidebar() {
   );
 
   return (
-    <>
-      <Sidebar className="border-r border-slate-700" style={{ backgroundColor: '#0F172A' }}>
-        <SidebarContent>
-          <div className="p-4 border-b border-slate-700 flex items-center justify-between">
-            <div className={state === 'collapsed' ? 'hidden' : ''}>
-              <h2 className="text-white font-semibold text-lg">CSD Portal</h2>
-              <p className="text-slate-300 text-sm">Central Securities Depository</p>
-            </div>
-            {state === 'expanded' && (
-              <button
-                onClick={toggleSidebar}
-                className="text-slate-300 hover:text-white p-1 rounded"
-              >
-                <ChevronLeft className="h-4 w-4" />
-              </button>
-            )}
+    <Sidebar className="border-r border-slate-700" style={{ backgroundColor: '#0F172A' }}>
+      <SidebarContent>
+        <div className="p-4 border-b border-slate-700 flex items-center justify-between">
+          <div className={state === 'collapsed' ? 'hidden' : ''}>
+            <h2 className="text-white font-semibold text-lg">CSD Portal</h2>
+            <p className="text-slate-300 text-sm">Central Securities Depository</p>
           </div>
-          
-          <SidebarGroup>
-            <SidebarGroupLabel className={`text-slate-300 ${state === 'collapsed' ? 'hidden' : ''}`}>
-              Navigation
-            </SidebarGroupLabel>
-            <SidebarGroupContent>
-              <SidebarMenu>
-                {filteredItems.map((item) => (
-                  <SidebarMenuItem key={item.title}>
-                    <SidebarMenuButton asChild>
-                      <NavLink 
-                        to={item.url} 
-                        end={item.url === '/'}
-                        className={({ isActive }) => 
-                          `flex items-center gap-3 px-3 py-2 rounded-lg transition-colors ${
-                            isActive 
-                              ? 'bg-blue-700 text-white' 
-                              : 'text-slate-300 hover:bg-slate-700 hover:text-white'
-                          }`
-                        }
-                        title={item.title}
-                      >
-                        <span className={state === 'collapsed' ? 'hidden' : ''}>{item.title}</span>
-                      </NavLink>
-                    </SidebarMenuButton>
-                  </SidebarMenuItem>
-                ))}
-              </SidebarMenu>
-            </SidebarGroupContent>
-          </SidebarGroup>
-        </SidebarContent>
-      </Sidebar>
-      
-      {/* Floating expand button when sidebar is collapsed - positioned outside sidebar area */}
-      {state === 'collapsed' && (
-        <div className="fixed left-14 top-6 z-50">
           <button
             onClick={toggleSidebar}
-            className="bg-slate-800 text-white p-2 rounded-md shadow-lg hover:bg-slate-700 transition-colors"
+            className="text-slate-300 hover:text-white p-2 rounded-md hover:bg-slate-700 transition-colors"
+            aria-label={state === 'expanded' ? 'Collapse sidebar' : 'Expand sidebar'}
           >
-            <ChevronRight className="h-4 w-4" />
+            {state === 'expanded' ? (
+              <X className="h-5 w-5" />
+            ) : (
+              <Menu className="h-5 w-5" />
+            )}
           </button>
         </div>
-      )}
-    </>
+        
+        <SidebarGroup>
+          <SidebarGroupLabel className={`text-slate-300 ${state === 'collapsed' ? 'hidden' : ''}`}>
+            Navigation
+          </SidebarGroupLabel>
+          <SidebarGroupContent>
+            <SidebarMenu>
+              {filteredItems.map((item) => (
+                <SidebarMenuItem key={item.title}>
+                  <SidebarMenuButton asChild>
+                    <NavLink 
+                      to={item.url} 
+                      end={item.url === '/'}
+                      className={({ isActive }) => 
+                        `flex items-center gap-3 px-3 py-2 rounded-lg transition-colors ${
+                          isActive 
+                            ? 'bg-blue-700 text-white' 
+                            : 'text-slate-300 hover:bg-slate-700 hover:text-white'
+                        }`
+                      }
+                      title={item.title}
+                    >
+                      <span className={state === 'collapsed' ? 'hidden' : ''}>{item.title}</span>
+                    </NavLink>
+                  </SidebarMenuButton>
+                </SidebarMenuItem>
+              ))}
+            </SidebarMenu>
+          </SidebarGroupContent>
+        </SidebarGroup>
+      </SidebarContent>
+    </Sidebar>
   );
 }
