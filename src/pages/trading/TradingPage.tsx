@@ -1,3 +1,4 @@
+
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
@@ -19,7 +20,7 @@ const TradingPage = () => {
 
         <TabsContent value="instructions" className="space-y-6">
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-            <Card>
+            <Card className="bg-white">
               <CardHeader>
                 <CardTitle>DvP/RvP Instructions</CardTitle>
               </CardHeader>
@@ -30,7 +31,7 @@ const TradingPage = () => {
               </CardContent>
             </Card>
 
-            <Card>
+            <Card className="bg-white">
               <CardHeader>
                 <CardTitle>Free Transfers</CardTitle>
               </CardHeader>
@@ -44,7 +45,7 @@ const TradingPage = () => {
         </TabsContent>
 
         <TabsContent value="matching" className="space-y-6">
-          <Card>
+          <Card className="bg-white">
             <CardHeader>
               <CardTitle>Trade Matching from Exchange</CardTitle>
             </CardHeader>
@@ -61,7 +62,7 @@ const TradingPage = () => {
 
         <TabsContent value="orders" className="space-y-6">
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-            <Card>
+            <Card className="bg-white">
               <CardHeader>
                 <CardTitle>Quote Orders</CardTitle>
               </CardHeader>
@@ -70,7 +71,7 @@ const TradingPage = () => {
               </CardContent>
             </Card>
 
-            <Card>
+            <Card className="bg-white">
               <CardHeader>
                 <CardTitle>Offer Orders</CardTitle>
               </CardHeader>
@@ -83,7 +84,7 @@ const TradingPage = () => {
 
         <TabsContent value="monitoring" className="space-y-6">
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-            <Card>
+            <Card className="bg-white">
               <CardHeader>
                 <CardTitle>Auctions Trading Monitor</CardTitle>
               </CardHeader>
@@ -92,7 +93,7 @@ const TradingPage = () => {
               </CardContent>
             </Card>
 
-            <Card>
+            <Card className="bg-white">
               <CardHeader>
                 <CardTitle>Bilateral Trading Monitor</CardTitle>
               </CardHeader>

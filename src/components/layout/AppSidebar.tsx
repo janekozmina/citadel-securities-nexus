@@ -10,7 +10,6 @@ import {
   SidebarMenu,
   SidebarMenuButton,
   SidebarMenuItem,
-  SidebarTrigger,
 } from '@/components/ui/sidebar';
 import { ChevronLeft, ChevronRight } from 'lucide-react';
 import { useSidebar } from '@/components/ui/sidebar';
@@ -95,7 +94,7 @@ export function AppSidebar() {
     <Sidebar className="border-r border-slate-700" style={{ backgroundColor: '#0F172A' }}>
       <SidebarContent>
         <div className="p-4 border-b border-slate-700 flex items-center justify-between">
-          <div>
+          <div className={state === 'collapsed' ? 'hidden' : ''}>
             <h2 className="text-white font-semibold text-lg">CSD Portal</h2>
             <p className="text-slate-300 text-sm">Central Securities Depository</p>
           </div>
@@ -112,7 +111,9 @@ export function AppSidebar() {
         </div>
         
         <SidebarGroup>
-          <SidebarGroupLabel className="text-slate-300">Navigation</SidebarGroupLabel>
+          <SidebarGroupLabel className={`text-slate-300 ${state === 'collapsed' ? 'hidden' : ''}`}>
+            Navigation
+          </SidebarGroupLabel>
           <SidebarGroupContent>
             <SidebarMenu>
               {filteredItems.map((item) => (
@@ -128,8 +129,9 @@ export function AppSidebar() {
                             : 'text-slate-300 hover:bg-slate-700 hover:text-white'
                         }`
                       }
+                      title={item.title}
                     >
-                      <span>{item.title}</span>
+                      <span className={state === 'collapsed' ? 'hidden' : ''}>{item.title}</span>
                     </NavLink>
                   </SidebarMenuButton>
                 </SidebarMenuItem>

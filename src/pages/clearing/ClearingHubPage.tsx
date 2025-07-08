@@ -1,3 +1,4 @@
+
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
@@ -19,7 +20,7 @@ const ClearingHubPage = () => {
 
         <TabsContent value="manager" className="space-y-6">
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-            <Card>
+            <Card className="bg-white">
               <CardHeader>
                 <CardTitle>Multilateral Netting</CardTitle>
               </CardHeader>
@@ -29,7 +30,7 @@ const ClearingHubPage = () => {
               </CardContent>
             </Card>
 
-            <Card>
+            <Card className="bg-white">
               <CardHeader>
                 <CardTitle>Netting Cycles</CardTitle>
               </CardHeader>
@@ -41,7 +42,7 @@ const ClearingHubPage = () => {
           </div>
 
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-            <Card>
+            <Card className="bg-white">
               <CardHeader>
                 <CardTitle>Default Waterfall Simulation</CardTitle>
               </CardHeader>
@@ -50,7 +51,7 @@ const ClearingHubPage = () => {
               </CardContent>
             </Card>
 
-            <Card>
+            <Card className="bg-white">
               <CardHeader>
                 <CardTitle>DvP3 Pre-Clearing</CardTitle>
               </CardHeader>
@@ -63,7 +64,7 @@ const ClearingHubPage = () => {
 
         <TabsContent value="margin" className="space-y-6">
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-            <Card>
+            <Card className="bg-white">
               <CardHeader>
                 <CardTitle>Real-time Exposure Monitoring</CardTitle>
               </CardHeader>
@@ -73,7 +74,7 @@ const ClearingHubPage = () => {
               </CardContent>
             </Card>
 
-            <Card>
+            <Card className="bg-white">
               <CardHeader>
                 <CardTitle>Margin Call Automation</CardTitle>
               </CardHeader>
@@ -84,7 +85,7 @@ const ClearingHubPage = () => {
             </Card>
           </div>
 
-          <Card>
+          <Card className="bg-white">
             <CardHeader>
               <CardTitle>Haircut Matrix Valuation</CardTitle>
             </CardHeader>
@@ -95,7 +96,7 @@ const ClearingHubPage = () => {
         </TabsContent>
 
         <TabsContent value="default" className="space-y-6">
-          <Card>
+          <Card className="bg-white">
             <CardHeader>
               <CardTitle>Default Management</CardTitle>
             </CardHeader>
@@ -110,7 +111,7 @@ const ClearingHubPage = () => {
         </TabsContent>
 
         <TabsContent value="dashboard" className="space-y-6">
-          <Card>
+          <Card className="bg-white">
             <CardHeader>
               <CardTitle>Central Counterparty Dashboard</CardTitle>
             </CardHeader>

@@ -1,7 +1,5 @@
-
 import { useAuth } from '@/contexts/AuthContext';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
-import { Button } from '@/components/ui/button';
 import { TrendingUp, Users, Building, AlertCircle } from 'lucide-react';
 
 const HomePage = () => {
@@ -65,49 +63,30 @@ const HomePage = () => {
         ))}
       </div>
 
-      {/* Quick Actions */}
-      <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-        <Card>
-          <CardHeader>
-            <CardTitle>Quick Actions</CardTitle>
-          </CardHeader>
-          <CardContent className="space-y-4">
-            <Button className="w-full justify-start text-white">
-              Create New Security
-            </Button>
-            <Button variant="outline" className="w-full justify-start">
-              Process Corporate Action
-            </Button>
-            <Button variant="outline" className="w-full justify-start">
-              Generate Report
-            </Button>
-          </CardContent>
-        </Card>
-
-        <Card>
-          <CardHeader>
-            <CardTitle>System Status</CardTitle>
-          </CardHeader>
-          <CardContent className="space-y-4">
-            <div className="flex items-center justify-between">
-              <span className="text-sm text-slate-600">Trading System</span>
-              <span className="bg-green-100 text-green-800 px-2 py-1 rounded text-xs">Online</span>
-            </div>
-            <div className="flex items-center justify-between">
-              <span className="text-sm text-slate-600">Settlement System</span>
-              <span className="bg-green-100 text-green-800 px-2 py-1 rounded text-xs">Online</span>
-            </div>
-            <div className="flex items-center justify-between">
-              <span className="text-sm text-slate-600">Clearing System</span>
-              <span className="bg-green-100 text-green-800 px-2 py-1 rounded text-xs">Online</span>
-            </div>
-            <div className="flex items-center justify-between">
-              <span className="text-sm text-slate-600">Risk Monitor</span>
-              <span className="bg-yellow-100 text-yellow-800 px-2 py-1 rounded text-xs">Monitoring</span>
-            </div>
-          </CardContent>
-        </Card>
-      </div>
+      {/* System Status */}
+      <Card>
+        <CardHeader>
+          <CardTitle>System Status</CardTitle>
+        </CardHeader>
+        <CardContent className="space-y-4">
+          <div className="flex items-center justify-between">
+            <span className="text-sm text-slate-600">Trading System</span>
+            <span className="bg-green-100 text-green-800 px-2 py-1 rounded text-xs">Online</span>
+          </div>
+          <div className="flex items-center justify-between">
+            <span className="text-sm text-slate-600">Settlement System</span>
+            <span className="bg-green-100 text-green-800 px-2 py-1 rounded text-xs">Online</span>
+          </div>
+          <div className="flex items-center justify-between">
+            <span className="text-sm text-slate-600">Clearing System</span>
+            <span className="bg-green-100 text-green-800 px-2 py-1 rounded text-xs">Online</span>
+          </div>
+          <div className="flex items-center justify-between">
+            <span className="text-sm text-slate-600">Risk Monitor</span>
+            <span className="bg-yellow-100 text-yellow-800 px-2 py-1 rounded text-xs">Monitoring</span>
+          </div>
+        </CardContent>
+      </Card>
 
       {/* Onboarding Section for New Users */}
       <Card className="bg-blue-50 border-blue-200">
