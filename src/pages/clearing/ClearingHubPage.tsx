@@ -18,15 +18,15 @@ const ClearingHubPage = () => {
           <TabsTrigger value="dashboard">CCP Dashboard</TabsTrigger>
         </TabsList>
 
-        <TabsContent value="manager" className="space-y-6">
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-            <Card className="bg-white">
+        <TabsContent value="manager" className="space-y-0">
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-0">
+            <Card className="bg-white border-r border-slate-200">
               <CardHeader>
                 <CardTitle>Multilateral Netting</CardTitle>
               </CardHeader>
               <CardContent className="space-y-4">
                 <Button className="w-full">Start Netting Process</Button>
-                <Button variant="outline" className="w-full">View Netting Results</Button>
+                <Button className="w-full">View Netting Results</Button>
               </CardContent>
             </Card>
 
@@ -36,13 +36,13 @@ const ClearingHubPage = () => {
               </CardHeader>
               <CardContent className="space-y-4">
                 <Button className="w-full">Configure Cycles</Button>
-                <Button variant="outline" className="w-full">Cycle History</Button>
+                <Button className="w-full">Cycle History</Button>
               </CardContent>
             </Card>
           </div>
 
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-            <Card className="bg-white">
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-0">
+            <Card className="bg-white border-r border-slate-200">
               <CardHeader>
                 <CardTitle>Default Waterfall Simulation</CardTitle>
               </CardHeader>
@@ -62,15 +62,15 @@ const ClearingHubPage = () => {
           </div>
         </TabsContent>
 
-        <TabsContent value="margin" className="space-y-6">
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-            <Card className="bg-white">
+        <TabsContent value="margin" className="space-y-0">
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-0">
+            <Card className="bg-white border-r border-slate-200">
               <CardHeader>
                 <CardTitle>Real-time Exposure Monitoring</CardTitle>
               </CardHeader>
               <CardContent className="space-y-4">
                 <Button className="w-full">Monitor Exposures</Button>
-                <Button variant="outline" className="w-full">Exposure Reports</Button>
+                <Button className="w-full">Exposure Reports</Button>
               </CardContent>
             </Card>
 
@@ -80,7 +80,7 @@ const ClearingHubPage = () => {
               </CardHeader>
               <CardContent className="space-y-4">
                 <Button className="w-full">Generate Margin Calls</Button>
-                <Button variant="outline" className="w-full">Call History</Button>
+                <Button className="w-full">Call History</Button>
               </CardContent>
             </Card>
           </div>
@@ -95,7 +95,7 @@ const ClearingHubPage = () => {
           </Card>
         </TabsContent>
 
-        <TabsContent value="default" className="space-y-6">
+        <TabsContent value="default" className="space-y-0">
           <Card className="bg-white">
             <CardHeader>
               <CardTitle>Default Management</CardTitle>
@@ -104,13 +104,13 @@ const ClearingHubPage = () => {
               <p className="text-slate-600">Auction protocols for defaulted positions and liquidity waterfall</p>
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                 <Button>Auction Protocols</Button>
-                <Button variant="outline">Liquidity Waterfall</Button>
+                <Button>Liquidity Waterfall</Button>
               </div>
             </CardContent>
           </Card>
         </TabsContent>
 
-        <TabsContent value="dashboard" className="space-y-6">
+        <TabsContent value="dashboard" className="space-y-0">
           <Card className="bg-white">
             <CardHeader>
               <CardTitle>Central Counterparty Dashboard</CardTitle>
