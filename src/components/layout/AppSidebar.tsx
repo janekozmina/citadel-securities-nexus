@@ -1,4 +1,3 @@
-
 import { NavLink } from 'react-router-dom';
 import { useAuth } from '@/contexts/AuthContext';
 import {
@@ -103,11 +102,7 @@ export function AppSidebar() {
             className="text-slate-300 hover:text-white p-2 rounded-md hover:bg-slate-700 transition-colors"
             aria-label={state === 'expanded' ? 'Collapse sidebar' : 'Expand sidebar'}
           >
-            {state === 'expanded' ? (
-              <X className="h-5 w-5" />
-            ) : (
-              <Menu className="h-5 w-5" />
-            )}
+            <Menu className="h-5 w-5" />
           </button>
         </div>
         
