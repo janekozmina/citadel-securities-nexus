@@ -29,10 +29,10 @@ const LoginPage = () => {
 
     // Extract role from email
     const emailParts = email.split('@');
-    if (emailParts.length !== 2 || emailParts[1] !== 'test.com') {
+    if (emailParts.length !== 2 || emailParts[1] !== 'demo.com') {
       toast({
         title: 'Invalid Email',
-        description: 'Email must be in format <role>@test.com',
+        description: 'Email must be in format <role>@demo.com',
         variant: 'destructive',
       });
       return;
@@ -54,13 +54,16 @@ const LoginPage = () => {
       case 'broker':
         role = 'Broker';
         break;
+      case 'participant':
+        role = 'Participant';
+        break;
       case 'regulator':
         role = 'Regulator';
         break;
       default:
         toast({
           title: 'Invalid Role',
-          description: 'Valid roles: admin, issuer, custodian, broker, regulator',
+          description: 'Valid roles: admin, issuer, custodian, broker, participant, regulator',
           variant: 'destructive',
         });
         return;
@@ -112,7 +115,7 @@ const LoginPage = () => {
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
                   className="bg-slate-700 border-slate-600 text-white"
-                  placeholder="role@test.com"
+                  placeholder="role@demo.com"
                 />
               </div>
               
@@ -139,7 +142,7 @@ const LoginPage = () => {
             
             <div className="mt-4 p-3 bg-slate-700 rounded text-sm text-slate-300">
               <p><strong>Demo Credentials:</strong></p>
-              <p>Email: admin@test.com, issuer@test.com, etc.</p>
+              <p>Email: admin@demo.com, issuer@demo.com, etc.</p>
               <p>Password: CMA!@#$</p>
               <p>MFA Code: 123456</p>
             </div>

@@ -32,7 +32,7 @@ const navigationItems = [
     title: 'Dashboard',
     url: '/',
     icon: Home,
-    roles: ['Admin', 'Issuer', 'Custodian', 'Broker', 'Regulator']
+    roles: ['Admin', 'Issuer', 'Custodian', 'Broker', 'Participant', 'Regulator']
   },
   {
     title: 'Securities Lifecycle',
@@ -44,25 +44,25 @@ const navigationItems = [
     title: 'Trading',
     url: '/trading',
     icon: TrendingUp,
-    roles: ['Admin', 'Custodian', 'Broker']
+    roles: ['Admin', 'Custodian', 'Broker', 'Participant']
   },
   {
     title: 'Clearing Hub',
     url: '/clearing',
     icon: RefreshCw,
-    roles: ['Admin', 'Custodian', 'Broker']
+    roles: ['Admin', 'Custodian', 'Broker', 'Participant']
   },
   {
     title: 'Settlement Hub',
     url: '/settlement',
     icon: CheckCircle,
-    roles: ['Admin', 'Custodian', 'Broker']
+    roles: ['Admin', 'Custodian', 'Broker', 'Participant']
   },
   {
     title: 'Custody Hub',
     url: '/custody',
     icon: Shield,
-    roles: ['Admin', 'Custodian', 'Broker']
+    roles: ['Admin', 'Custodian', 'Broker', 'Participant']
   },
   {
     title: 'Liquidity Hub',
@@ -74,7 +74,7 @@ const navigationItems = [
     title: 'Risk Management',
     url: '/risk',
     icon: AlertTriangle,
-    roles: ['Admin', 'Custodian', 'Broker']
+    roles: ['Admin', 'Custodian', 'Broker', 'Participant', 'Issuer']
   },
   {
     title: 'Auction Management',
@@ -86,13 +86,13 @@ const navigationItems = [
     title: 'Reporting & Compliance',
     url: '/reporting',
     icon: FileText,
-    roles: ['Admin', 'Custodian', 'Broker', 'Issuer', 'Regulator']
+    roles: ['Admin', 'Custodian', 'Broker', 'Participant', 'Issuer']
   },
   {
     title: 'Master Data',
     url: '/masterdata',
     icon: Database,
-    roles: ['Admin']
+    roles: ['Admin', 'Regulator']
   },
   {
     title: 'System Administration',

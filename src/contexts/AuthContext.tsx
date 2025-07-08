@@ -1,8 +1,7 @@
-
 import React, { createContext, useContext, useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 
-export type UserRole = 'Admin' | 'Issuer' | 'Custodian' | 'Broker' | 'Regulator';
+export type UserRole = 'Admin' | 'Issuer' | 'Custodian' | 'Broker' | 'Participant' | 'Regulator';
 
 interface User {
   id: string;
