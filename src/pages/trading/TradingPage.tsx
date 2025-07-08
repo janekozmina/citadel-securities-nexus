@@ -18,16 +18,16 @@ const TradingPage = () => {
           <TabsTrigger value="monitoring">Trading Monitors</TabsTrigger>
         </TabsList>
 
-        <TabsContent value="instructions" className="space-y-6">
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-            <Card className="bg-white">
+        <TabsContent value="instructions" className="space-y-0">
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-0">
+            <Card className="bg-white border-r border-slate-200">
               <CardHeader>
                 <CardTitle>DvP/RvP Instructions</CardTitle>
               </CardHeader>
               <CardContent className="space-y-4">
                 <Button className="w-full">Create DvP Instruction</Button>
-                <Button variant="outline" className="w-full">Create RvP Instruction</Button>
-                <Button variant="outline" className="w-full">View Instructions</Button>
+                <Button className="w-full">Create RvP Instruction</Button>
+                <Button className="w-full">View Instructions</Button>
               </CardContent>
             </Card>
 
@@ -37,14 +37,14 @@ const TradingPage = () => {
               </CardHeader>
               <CardContent className="space-y-4">
                 <Button className="w-full">Create DvF Instruction</Button>
-                <Button variant="outline" className="w-full">Create RvF Instruction</Button>
-                <Button variant="outline" className="w-full">Transfer History</Button>
+                <Button className="w-full">Create RvF Instruction</Button>
+                <Button className="w-full">Transfer History</Button>
               </CardContent>
             </Card>
           </div>
         </TabsContent>
 
-        <TabsContent value="matching" className="space-y-6">
+        <TabsContent value="matching" className="space-y-0">
           <Card className="bg-white">
             <CardHeader>
               <CardTitle>Trade Matching from Exchange</CardTitle>
@@ -53,16 +53,16 @@ const TradingPage = () => {
               <p className="text-slate-600">Real-time matching of buy/sell orders with FIX protocol integration</p>
               <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
                 <Button>T+0 Settlement</Button>
-                <Button variant="outline">T+1 Settlement</Button>
-                <Button variant="outline">T+2 Settlement</Button>
+                <Button>T+1 Settlement</Button>
+                <Button>T+2 Settlement</Button>
               </div>
             </CardContent>
           </Card>
         </TabsContent>
 
-        <TabsContent value="orders" className="space-y-6">
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-            <Card className="bg-white">
+        <TabsContent value="orders" className="space-y-0">
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-0">
+            <Card className="bg-white border-r border-slate-200">
               <CardHeader>
                 <CardTitle>Quote Orders</CardTitle>
               </CardHeader>
@@ -82,9 +82,9 @@ const TradingPage = () => {
           </div>
         </TabsContent>
 
-        <TabsContent value="monitoring" className="space-y-6">
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-            <Card className="bg-white">
+        <TabsContent value="monitoring" className="space-y-0">
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-0">
+            <Card className="bg-white border-r border-slate-200">
               <CardHeader>
                 <CardTitle>Auctions Trading Monitor</CardTitle>
               </CardHeader>
