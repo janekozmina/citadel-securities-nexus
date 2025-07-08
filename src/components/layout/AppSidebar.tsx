@@ -1,5 +1,4 @@
 
-
 import { NavLink } from 'react-router-dom';
 import { useAuth } from '@/contexts/AuthContext';
 import {
@@ -12,8 +11,6 @@ import {
   SidebarMenuButton,
   SidebarMenuItem,
 } from '@/components/ui/sidebar';
-import { Menu } from 'lucide-react';
-import { useSidebar } from '@/components/ui/sidebar';
 
 const navigationItems = [
   {
@@ -85,31 +82,21 @@ const navigationItems = [
 
 export function AppSidebar() {
   const { user } = useAuth();
-  const { state, toggleSidebar } = useSidebar();
 
   const filteredItems = navigationItems.filter(item => 
     user?.role && item.roles.includes(user.role)
   );
 
   return (
-    <Sidebar className="border-r border-slate-700" style={{ backgroundColor: '#0F172A' }}>
+    <Sidebar className="border-r border-slate-700" style={{ backgroundColor: '#0F172A' }} collapsible="none">
       <SidebarContent>
-        <div className="p-4 border-b border-slate-700 flex items-center justify-between">
-          <div className={state === 'collapsed' ? 'hidden' : ''}>
-            <h2 className="text-white font-semibold text-lg">CSD Portal</h2>
-            <p className="text-slate-300 text-sm">Central Securities Depository</p>
-          </div>
-          <button
-            onClick={toggleSidebar}
-            className="text-slate-300 hover:text-white p-2 rounded-md hover:bg-slate-700 transition-colors"
-            aria-label={state === 'expanded' ? 'Collapse sidebar' : 'Expand sidebar'}
-          >
-            <Menu className="h-5 w-5" />
-          </button>
+        <div className="p-4 border-b border-slate-700">
+          <h2 className="text-white font-semibold text-lg">CSD Portal</h2>
+          <p className="text-slate-300 text-sm">Central Securities Depository</p>
         </div>
         
         <SidebarGroup>
-          <SidebarGroupLabel className={`text-slate-300 ${state === 'collapsed' ? 'hidden' : ''}`}>
+          <SidebarGroupLabel className="text-slate-300">
             Navigation
           </SidebarGroupLabel>
           <SidebarGroupContent>
@@ -129,7 +116,7 @@ export function AppSidebar() {
                       }
                       title={item.title}
                     >
-                      <span className={state === 'collapsed' ? 'hidden' : ''}>{item.title}</span>
+                      <span>{item.title}</span>
                     </NavLink>
                   </SidebarMenuButton>
                 </SidebarMenuItem>
@@ -141,4 +128,3 @@ export function AppSidebar() {
     </Sidebar>
   );
 }
-
