@@ -1,3 +1,4 @@
+
 import { NavLink } from 'react-router-dom';
 import { useAuth } from '@/contexts/AuthContext';
 import {
@@ -10,7 +11,7 @@ import {
   SidebarMenuButton,
   SidebarMenuItem,
 } from '@/components/ui/sidebar';
-import { Menu, X } from 'lucide-react';
+import { Menu } from 'lucide-react';
 import { useSidebar } from '@/components/ui/sidebar';
 
 const navigationItems = [
@@ -97,6 +98,10 @@ export function AppSidebar() {
             <h2 className="text-white font-semibold text-lg">CSD Portal</h2>
             <p className="text-slate-300 text-sm">Central Securities Depository</p>
           </div>
+        </div>
+        
+        {/* Always visible hamburger menu button */}
+        <div className="p-2 flex justify-end">
           <button
             onClick={toggleSidebar}
             className="text-slate-300 hover:text-white p-2 rounded-md hover:bg-slate-700 transition-colors"
