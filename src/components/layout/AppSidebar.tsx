@@ -1,4 +1,3 @@
-
 import { NavLink } from 'react-router-dom';
 import { useAuth } from '@/contexts/AuthContext';
 import {
@@ -99,16 +98,14 @@ export function AppSidebar() {
               <h2 className="text-white font-semibold text-lg">CSD Portal</h2>
               <p className="text-slate-300 text-sm">Central Securities Depository</p>
             </div>
-            <button
-              onClick={toggleSidebar}
-              className="text-slate-300 hover:text-white p-1 rounded"
-            >
-              {state === 'expanded' ? (
+            {state === 'expanded' && (
+              <button
+                onClick={toggleSidebar}
+                className="text-slate-300 hover:text-white p-1 rounded"
+              >
                 <ChevronLeft className="h-4 w-4" />
-              ) : (
-                <ChevronRight className="h-4 w-4" />
-              )}
-            </button>
+              </button>
+            )}
           </div>
           
           <SidebarGroup>
@@ -147,7 +144,7 @@ export function AppSidebar() {
       {state === 'collapsed' && (
         <button
           onClick={toggleSidebar}
-          className="fixed left-4 top-4 z-50 bg-slate-800 text-white p-2 rounded-md shadow-lg hover:bg-slate-700 transition-colors"
+          className="fixed left-2 top-2 z-50 bg-slate-800 text-white p-2 rounded-md shadow-lg hover:bg-slate-700 transition-colors"
         >
           <ChevronRight className="h-4 w-4" />
         </button>

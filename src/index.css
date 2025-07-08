@@ -98,21 +98,21 @@ All colors MUST be HSL.
   }
 }
 
-/* Custom styles for blue theme - ensuring white text on #1E3A8A backgrounds */
+/* Custom styles for blue theme - ensuring white text on blue backgrounds */
 .btn-primary, button:not(.btn-secondary):not(.btn-outline):not(.btn-ghost) {
-  background-color: #1E3A8A !important;
-  border-color: #1E3A8A !important;
+  background-color: hsl(217 91% 30%) !important;
+  border-color: hsl(217 91% 30%) !important;
   color: white !important;
 }
 
 .btn-primary:hover, button:not(.btn-secondary):not(.btn-outline):not(.btn-ghost):hover {
-  background-color: #1D4ED8 !important;
-  border-color: #1D4ED8 !important;
+  background-color: hsl(217 91% 35%) !important;
+  border-color: hsl(217 91% 35%) !important;
   color: white !important;
 }
 
 [data-state="active"] {
-  background-color: #1E3A8A !important;
+  background-color: hsl(217 91% 30%) !important;
   color: white !important;
 }
 
@@ -124,4 +124,9 @@ All colors MUST be HSL.
 /* Button text color override */
 button[class*="bg-primary"], button[class*="bg-blue"] {
   color: white !important;
+}
+
+/* Remove any remaining blue backgrounds from cards and containers */
+.bg-blue-50, .bg-blue-100 {
+  background-color: white !important;
 }
