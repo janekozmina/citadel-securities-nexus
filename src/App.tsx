@@ -20,6 +20,7 @@ import AuctionManagementPage from "./pages/auction/AuctionManagementPage";
 import ReportingPage from "./pages/reporting/ReportingPage";
 import MasterDataPage from "./pages/masterdata/MasterDataPage";
 import SystemAdminPage from "./pages/admin/SystemAdminPage";
+import SystemMonitoringPage from "./pages/admin/SystemMonitoringPage";
 import UserManagementPage from "./pages/admin/UserManagementPage";
 import ProtectedRoute from "./components/auth/ProtectedRoute";
 
@@ -52,6 +53,7 @@ const App = () => (
               <Route path="reporting" element={<ReportingPage />} />
               <Route path="masterdata" element={<MasterDataPage />} />
               <Route path="admin" element={<SystemAdminPage />} />
+              <Route path="monitoring" element={<SystemMonitoringPage />} />
               <Route path="users" element={<UserManagementPage />} />
             </Route>
           </Routes>

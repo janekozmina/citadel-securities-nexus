@@ -15,7 +15,7 @@ export const DashboardHeader = () => {
   return (
     <header className="h-16 bg-white border-b border-slate-200 flex items-center justify-between px-6">
       <div className="flex items-center gap-4">
-        <h1 className="text-xl font-semibold text-slate-800">CSD Portal</h1>
+        <h1 className="text-xl font-semibold text-slate-800">CSD Unified Portal</h1>
       </div>
       
       <div className="flex items-center gap-4">

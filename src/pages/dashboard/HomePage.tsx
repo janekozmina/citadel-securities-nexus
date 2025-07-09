@@ -91,31 +91,6 @@ const HomePage = () => {
         ))}
       </div>
 
-      {/* System Status */}
-      <Card>
-        <CardHeader>
-          <CardTitle>System Status</CardTitle>
-        </CardHeader>
-        <CardContent className="space-y-4">
-          <div className="flex items-center justify-between">
-            <span className="text-sm text-slate-600">Trading System</span>
-            <span className="bg-green-100 text-green-800 px-2 py-1 rounded text-xs">Online</span>
-          </div>
-          <div className="flex items-center justify-between">
-            <span className="text-sm text-slate-600">Settlement System</span>
-            <span className="bg-green-100 text-green-800 px-2 py-1 rounded text-xs">Online</span>
-          </div>
-          <div className="flex items-center justify-between">
-            <span className="text-sm text-slate-600">Clearing System</span>
-            <span className="bg-green-100 text-green-800 px-2 py-1 rounded text-xs">Online</span>
-          </div>
-          <div className="flex items-center justify-between">
-            <span className="text-sm text-slate-600">Risk Monitor</span>
-            <span className="bg-yellow-100 text-yellow-800 px-2 py-1 rounded text-xs">Monitoring</span>
-          </div>
-        </CardContent>
-      </Card>
-
       {/* Onboarding Section for New Users */}
       <Card className="bg-blue-50 border-blue-200">
         <CardHeader>
