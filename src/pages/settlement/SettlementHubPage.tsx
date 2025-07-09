@@ -7,7 +7,8 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table';
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from '@/components/ui/dropdown-menu';
 import { Badge } from '@/components/ui/badge';
-import { Search, Filter, ArrowUpDown, Plus, CheckCircle, MoreVertical } from 'lucide-react';
+import { Checkbox } from '@/components/ui/checkbox';
+import { Search, Filter, ArrowUpDown, Plus, CheckCircle } from 'lucide-react';
 
 interface Transaction {
   transactionId: string;
@@ -140,6 +141,7 @@ const SettlementHubPage = () => {
   const [statusFilter, setStatusFilter] = useState<string>('all');
   const [sortField, setSortField] = useState<keyof Transaction>('transactionId');
   const [sortDirection, setSortDirection] = useState<'asc' | 'desc'>('asc');
+  const [selectedTransactions, setSelectedTransactions] = useState<string[]>([]);
 
   const handleSort = (field: keyof Transaction) => {
     if (sortField === field) {
@@ -200,12 +202,20 @@ const SettlementHubPage = () => {
     console.log('Authorize transaction:', transactionId);
   };
 
-  const handleEdit = (transactionId: string) => {
-    console.log('Edit transaction:', transactionId);
+  const handleSelectTransaction = (transactionId: string) => {
+    setSelectedTransactions(prev => 
+      prev.includes(transactionId) 
+        ? prev.filter(id => id !== transactionId)
+        : [...prev, transactionId]
+    );
   };
 
-  const handleDelete = (transactionId: string) => {
-    console.log('Delete transaction:', transactionId);
+  const handleSelectAll = () => {
+    if (selectedTransactions.length === filteredAndSortedTransactions.length) {
+      setSelectedTransactions([]);
+    } else {
+      setSelectedTransactions(filteredAndSortedTransactions.map(t => t.transactionId));
+    }
   };
 
   return (
@@ -238,7 +248,6 @@ const SettlementHubPage = () => {
 
       <Card>
         <CardHeader>
-          <CardTitle>Transaction Records</CardTitle>
           <div className="flex flex-col sm:flex-row gap-4 items-start sm:items-center">
             <div className="relative flex-1">
               <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 h-4 w-4" />
@@ -273,6 +282,12 @@ const SettlementHubPage = () => {
             <Table>
               <TableHeader>
                 <TableRow>
+                  <TableHead className="w-12">
+                    <Checkbox
+                      checked={selectedTransactions.length === filteredAndSortedTransactions.length && filteredAndSortedTransactions.length > 0}
+                      onCheckedChange={handleSelectAll}
+                    />
+                  </TableHead>
                   <TableHead 
                     className="cursor-pointer hover:bg-gray-50"
                     onClick={() => handleSort('transactionId')}
@@ -354,12 +369,17 @@ const SettlementHubPage = () => {
                       <ArrowUpDown className="h-4 w-4" />
                     </div>
                   </TableHead>
-                  <TableHead className="w-12">Actions</TableHead>
                 </TableRow>
               </TableHeader>
               <TableBody>
                 {filteredAndSortedTransactions.map((transaction) => (
                   <TableRow key={transaction.transactionId}>
+                    <TableCell>
+                      <Checkbox
+                        checked={selectedTransactions.includes(transaction.transactionId)}
+                        onCheckedChange={() => handleSelectTransaction(transaction.transactionId)}
+                      />
+                    </TableCell>
                     <TableCell className="font-medium">
                       {transaction.transactionId}
                     </TableCell>
@@ -375,29 +395,6 @@ const SettlementHubPage = () => {
                         {transaction.status}
                       </Badge>
                     </TableCell>
-                    <TableCell>
-                      <DropdownMenu>
-                        <DropdownMenuTrigger asChild>
-                          <Button variant="ghost" size="sm">
-                            <MoreVertical className="h-4 w-4" />
-                          </Button>
-                        </DropdownMenuTrigger>
-                        <DropdownMenuContent align="end">
-                          <DropdownMenuItem onClick={() => handleEdit(transaction.transactionId)}>
-                            Edit
-                          </DropdownMenuItem>
-                          <DropdownMenuItem onClick={() => handleAuthorize(transaction.transactionId)}>
-                            Authorize
-                          </DropdownMenuItem>
-                          <DropdownMenuItem 
-                            onClick={() => handleDelete(transaction.transactionId)}
-                            className="text-red-600"
-                          >
-                            Delete
-                          </DropdownMenuItem>
-                        </DropdownMenuContent>
-                      </DropdownMenu>
-                    </TableCell>
                   </TableRow>
                 ))}
               </TableBody>
@@ -405,6 +402,11 @@ const SettlementHubPage = () => {
           </div>
           <div className="mt-4 text-sm text-gray-500">
             Showing {filteredAndSortedTransactions.length} of {transactions.length} transactions
+            {selectedTransactions.length > 0 && (
+              <span className="ml-4 font-medium">
+                {selectedTransactions.length} selected
+              </span>
+            )}
           </div>
         </CardContent>
       </Card>
