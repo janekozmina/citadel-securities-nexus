@@ -1,6 +1,7 @@
+
 import { useAuth } from '@/contexts/AuthContext';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
-import { TrendingUp, Users, Building, AlertCircle } from 'lucide-react';
+import { TrendingUp, Users, Building, AlertCircle, Clock, Banknote, FileText } from 'lucide-react';
 
 const HomePage = () => {
   const { user } = useAuth();
@@ -8,31 +9,53 @@ const HomePage = () => {
   const stats = [
     {
       title: 'Total Transactions Today',
-      value: '109k',
-      change: '+5.2% from yesterday',
+      value: '1,000,000',
+      change: '',
       icon: TrendingUp,
       color: 'text-green-600'
     },
     {
       title: 'Average Processing Time',
-      value: '8.56 seconds',
-      change: 'average time',
-      icon: Building,
+      value: '35 ms',
+      change: '',
+      icon: Clock,
       color: 'text-blue-600'
     },
     {
-      title: 'Active Participants',
-      value: '196',
-      change: 'registered participants',
-      icon: Users,
+      title: 'Total Securities Held',
+      value: '20,500,000',
+      change: 'Equities, Bonds, ETFs',
+      icon: Building,
       color: 'text-purple-600'
     },
     {
-      title: 'Processing Delay Share',
-      value: '1.1%',
-      change: 'last hour',
-      icon: AlertCircle,
+      title: 'Total MBills Held',
+      value: '10,000,000',
+      change: 'Equities, Bonds, ETFs',
+      icon: FileText,
       color: 'text-orange-600'
+    },
+    {
+      title: 'Daily Settled',
+      value: 'AED 45M',
+      change: "Today's settled transactions",
+      icon: Banknote,
+      color: 'text-green-600'
+    },
+    {
+      title: 'Pending Settlements',
+      value: 'AED 55M',
+      change: "Today's and tomorrow planned",
+      icon: AlertCircle,
+      color: 'text-yellow-600'
+    },
+    {
+      title: 'Corporate Actions',
+      value: 'AED 55M',
+      change: 'This week: Maturity',
+      icon: Users,
+      color: 'text-indigo-600',
+      subtitle: 'ISIN: ABC1234'
     }
   ];
 
@@ -46,17 +69,22 @@ const HomePage = () => {
       </div>
 
       {/* Stats Grid */}
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
         {stats.map((stat, index) => (
           <Card key={index} className="bg-white">
             <CardContent className="p-6">
               <div className="flex items-center justify-between">
-                <div>
+                <div className="flex-1">
                   <p className="text-sm font-medium text-slate-600">{stat.title}</p>
-                  <p className="text-2xl font-bold text-slate-900">{stat.value}</p>
-                  <p className="text-sm text-slate-500">{stat.change}</p>
+                  {stat.subtitle && (
+                    <p className="text-xs text-slate-500 mt-1">{stat.subtitle}</p>
+                  )}
+                  <p className="text-2xl font-bold text-slate-900 mt-2">{stat.value}</p>
+                  {stat.change && (
+                    <p className="text-sm text-slate-500 mt-1">{stat.change}</p>
+                  )}
                 </div>
-                <stat.icon className={`h-8 w-8 ${stat.color}`} />
+                <stat.icon className={`h-8 w-8 ${stat.color} flex-shrink-0 ml-4`} />
               </div>
             </CardContent>
           </Card>
