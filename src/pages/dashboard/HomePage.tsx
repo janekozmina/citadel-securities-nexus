@@ -1,10 +1,13 @@
 
+import { useState } from 'react';
 import { useAuth } from '@/contexts/AuthContext';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
-import { TrendingUp, Users, Building, AlertCircle, Clock, Banknote, FileText } from 'lucide-react';
+import { Button } from '@/components/ui/button';
+import { TrendingUp, Users, Building, AlertCircle, Clock, Banknote, FileText, X } from 'lucide-react';
 
 const HomePage = () => {
   const { user } = useAuth();
+  const [showGettingStarted, setShowGettingStarted] = useState(true);
 
   const stats = [
     {
@@ -91,31 +94,41 @@ const HomePage = () => {
         ))}
       </div>
 
-      {/* Onboarding Section for New Users */}
-      <Card className="bg-blue-50 border-blue-200">
-        <CardHeader>
-          <CardTitle className="text-blue-900">Getting Started</CardTitle>
-        </CardHeader>
-        <CardContent>
-          <p className="text-blue-800 mb-4">
-            Welcome to the CSD Portal. Here are some quick steps to get you started:
-          </p>
-          <div className="space-y-2 text-sm text-blue-700">
-            <div className="flex items-center gap-2">
-              <div className="w-2 h-2 bg-blue-600 rounded-full"></div>
-              <span>Explore the navigation menu to access different modules</span>
+      {/* Getting Started Section - Closeable */}
+      {showGettingStarted && (
+        <Card className="bg-blue-50 border-blue-200">
+          <CardHeader className="flex flex-row items-center justify-between">
+            <CardTitle className="text-blue-900">Getting Started</CardTitle>
+            <Button
+              variant="ghost"
+              size="sm"
+              onClick={() => setShowGettingStarted(false)}
+              className="text-blue-700 hover:text-blue-900 hover:bg-blue-100"
+            >
+              <X className="h-4 w-4" />
+            </Button>
+          </CardHeader>
+          <CardContent>
+            <p className="text-blue-800 mb-4">
+              Welcome to the CSD Portal. Here are some quick steps to get you started:
+            </p>
+            <div className="space-y-2 text-sm text-blue-700">
+              <div className="flex items-center gap-2">
+                <div className="w-2 h-2 bg-blue-600 rounded-full"></div>
+                <span>Explore the navigation menu to access different modules</span>
+              </div>
+              <div className="flex items-center gap-2">
+                <div className="w-2 h-2 bg-blue-600 rounded-full"></div>
+                <span>Check system status and recent activities</span>
+              </div>
+              <div className="flex items-center gap-2">
+                <div className="w-2 h-2 bg-blue-600 rounded-full"></div>
+                <span>Access role-specific functionalities based on your permissions</span>
+              </div>
             </div>
-            <div className="flex items-center gap-2">
-              <div className="w-2 h-2 bg-blue-600 rounded-full"></div>
-              <span>Check system status and recent activities</span>
-            </div>
-            <div className="flex items-center gap-2">
-              <div className="w-2 h-2 bg-blue-600 rounded-full"></div>
-              <span>Access role-specific functionalities based on your permissions</span>
-            </div>
-          </div>
-        </CardContent>
-      </Card>
+          </CardContent>
+        </Card>
+      )}
     </div>
   );
 };

@@ -5,12 +5,8 @@ import { Progress } from '@/components/ui/progress';
 import { Badge } from '@/components/ui/badge';
 import { 
   TrendingUp, 
-  TrendingDown, 
-  DollarSign, 
-  Calendar,
-  BarChart3,
   Building,
-  Clock,
+  Calendar,
   RefreshCw
 } from 'lucide-react';
 
@@ -59,172 +55,176 @@ const CustodyHubPage = () => {
   ];
 
   return (
-    <div className="space-y-6">
-      <div className="flex items-center justify-between">
-        <div>
-          <h1 className="text-3xl font-bold text-slate-900">Custody Hub</h1>
-          <p className="text-slate-600">Real-time custody operations dashboard</p>
-        </div>
-        <div className="flex flex-col gap-2">
-          <Button className="w-full">View Holdings</Button>
-          <Button variant="outline" className="w-full">Holdings History</Button>
-          <Button variant="outline" className="w-full">Manage Pledges</Button>
-          <Button variant="outline" className="w-full">Collateral Locks</Button>
-          <Button variant="outline" className="w-full">Lending Operations</Button>
-          <Button variant="outline" className="w-full">Manage Sub-Balances</Button>
-          <Button variant="outline" className="w-full">Beneficial Ownership</Button>
-        </div>
-      </div>
-
-      <div className="grid grid-cols-1 lg:grid-cols-2 xl:grid-cols-3 gap-6">
-        {/* Securities Settled Today */}
-        <Card>
-          <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-            <CardTitle className="text-sm font-medium">🔄 Securities Settled Today</CardTitle>
-            <RefreshCw className="h-4 w-4 text-muted-foreground" />
-          </CardHeader>
-          <CardContent>
-            <div className="space-y-2">
-              <div className="text-2xl font-bold">{todaySettlements.volume.toLocaleString()}</div>
-              <p className="text-xs text-muted-foreground">Volume (securities)</p>
-              <div className="text-xl font-semibold text-green-600">
-                AED {(todaySettlements.value / 1000000).toFixed(1)}M
-              </div>
-              <p className="text-xs text-muted-foreground">Market Value</p>
-            </div>
-          </CardContent>
-        </Card>
-
-        {/* Settlement Rate */}
-        <Card>
-          <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-            <CardTitle className="text-sm font-medium">📊 Settlement Rate</CardTitle>
-            <BarChart3 className="h-4 w-4 text-muted-foreground" />
-          </CardHeader>
-          <CardContent>
-            <div className="space-y-3">
-              <div className="flex justify-between items-center">
-                <span className="text-sm">DvP Success</span>
-                <span className="text-sm font-semibold text-green-600">{settlementRate.dvp}%</span>
-              </div>
-              <Progress value={settlementRate.dvp} className="h-2" />
-              
-              <div className="flex justify-between items-center">
-                <span className="text-sm">Fails</span>
-                <span className="text-sm font-semibold text-red-600">{settlementRate.fails}%</span>
-              </div>
-              <Progress value={settlementRate.fails} className="h-2" />
-              
-              <div className="flex justify-between items-center">
-                <span className="text-sm">Partial</span>
-                <span className="text-sm font-semibold text-yellow-600">{settlementRate.partial}%</span>
-              </div>
-              <Progress value={settlementRate.partial} className="h-2" />
-            </div>
-          </CardContent>
-        </Card>
-
-        {/* Daily Trend */}
-        <Card className="lg:col-span-2 xl:col-span-1">
-          <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-            <CardTitle className="text-sm font-medium">📈 Daily Trend</CardTitle>
-            <TrendingUp className="h-4 w-4 text-muted-foreground" />
-          </CardHeader>
-          <CardContent>
-            <div className="space-y-2">
-              {dailyTrend.slice(-3).map((day, index) => (
-                <div key={day.date} className="flex justify-between items-center text-sm">
-                  <span>{day.date}</span>
-                  <div className="flex gap-2">
-                    <Badge variant="outline" className="text-xs">
-                      S: {day.submitted}
-                    </Badge>
-                    <Badge variant="default" className="text-xs">
-                      C: {day.settled}
-                    </Badge>
-                  </div>
-                </div>
-              ))}
-            </div>
-          </CardContent>
-        </Card>
-      </div>
-
-      <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-        {/* Top 5 Asset Classes */}
-        <Card>
-          <CardHeader>
-            <CardTitle className="text-lg">🧾 Top 5 Asset Classes by Volume</CardTitle>
-          </CardHeader>
-          <CardContent>
-            <div className="space-y-3">
-              {topAssetClasses.map((asset, index) => (
-                <div key={asset.isin} className="flex items-center justify-between">
-                  <div className="flex-1">
-                    <div className="font-medium text-sm">{asset.name}</div>
-                    <div className="text-xs text-muted-foreground">ISIN: {asset.isin}</div>
-                  </div>
-                  <div className="text-right">
-                    <div className="font-semibold">AED {(asset.volume / 1000000).toFixed(1)}M</div>
-                    <Badge variant="outline" className="text-xs">#{index + 1}</Badge>
-                  </div>
-                </div>
-              ))}
-            </div>
-          </CardContent>
-        </Card>
-
-        {/* Top 5 Participants */}
-        <Card>
-          <CardHeader>
-            <CardTitle className="text-lg">🏦 Top 5 Participants by Volume</CardTitle>
-          </CardHeader>
-          <CardContent>
-            <div className="space-y-3">
-              {topParticipants.map((participant, index) => (
-                <div key={participant.name} className="flex items-center justify-between">
-                  <div className="flex items-center gap-3">
-                    <div className="w-8 h-8 bg-blue-100 rounded-full flex items-center justify-center">
-                      <Building className="h-4 w-4 text-blue-600" />
-                    </div>
-                    <span className="font-medium">{participant.name}</span>
-                  </div>
-                  <div className="text-right">
-                    <div className="font-semibold">AED {(participant.volume / 1000000).toFixed(1)}M</div>
-                    <Badge variant="outline" className="text-xs">#{index + 1}</Badge>
-                  </div>
-                </div>
-              ))}
-            </div>
-          </CardContent>
-        </Card>
-      </div>
-
-      {/* Corporate Actions Timeline */}
-      <Card>
-        <CardHeader>
-          <CardTitle className="text-lg">🕒 Upcoming Corporate Actions Timeline</CardTitle>
-        </CardHeader>
-        <CardContent>
-          <div className="space-y-4">
-            {corporateActions.map((action, index) => (
-              <div key={index} className="flex items-center gap-4 p-3 border rounded-lg">
-                <div className="w-12 h-12 bg-slate-100 rounded-full flex items-center justify-center">
-                  <Calendar className="h-5 w-5 text-slate-600" />
-                </div>
-                <div className="flex-1">
-                  <div className="font-medium">{action.company}</div>
-                  <div className="text-sm text-muted-foreground">{action.action}</div>
-                </div>
-                <div className="text-right">
-                  <div className="font-medium text-sm">{action.date}</div>
-                  <div className="text-xs text-muted-foreground">{action.amount}</div>
-                </div>
-              </div>
-            ))}
+    <div className="flex gap-6">
+      {/* Main Content Area */}
+      <div className="flex-1 space-y-6">
+        <div className="flex items-center justify-between">
+          <div>
+            <h1 className="text-3xl font-bold text-slate-900">Custody Hub</h1>
+            <p className="text-slate-600">Real-time custody operations dashboard</p>
           </div>
-        </CardContent>
-      </Card>
+        </div>
+
+        <div className="grid grid-cols-1 lg:grid-cols-2 xl:grid-cols-3 gap-6">
+          {/* Securities Settled Today */}
+          <Card>
+            <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
+              <CardTitle className="text-sm font-medium">🔄 Securities Settled Today</CardTitle>
+              <RefreshCw className="h-4 w-4 text-muted-foreground" />
+            </CardHeader>
+            <CardContent>
+              <div className="space-y-2">
+                <div className="text-2xl font-bold">{todaySettlements.volume.toLocaleString()}</div>
+                <p className="text-xs text-muted-foreground">Volume (securities)</p>
+                <div className="text-xl font-semibold text-green-600">
+                  AED {(todaySettlements.value / 1000000).toFixed(1)}M
+                </div>
+                <p className="text-xs text-muted-foreground">Market Value</p>
+              </div>
+            </CardContent>
+          </Card>
+
+          {/* Settlement Rate */}
+          <Card>
+            <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
+              <CardTitle className="text-sm font-medium">📊 Settlement Rate</CardTitle>
+            </CardHeader>
+            <CardContent>
+              <div className="space-y-3">
+                <div className="flex justify-between items-center">
+                  <span className="text-sm">DvP Success</span>
+                  <span className="text-sm font-semibold text-green-600">{settlementRate.dvp}%</span>
+                </div>
+                <Progress value={settlementRate.dvp} className="h-2" />
+                
+                <div className="flex justify-between items-center">
+                  <span className="text-sm">Fails</span>
+                  <span className="text-sm font-semibold text-red-600">{settlementRate.fails}%</span>
+                </div>
+                <Progress value={settlementRate.fails} className="h-2" />
+                
+                <div className="flex justify-between items-center">
+                  <span className="text-sm">Partial</span>
+                  <span className="text-sm font-semibold text-yellow-600">{settlementRate.partial}%</span>
+                </div>
+                <Progress value={settlementRate.partial} className="h-2" />
+              </div>
+            </CardContent>
+          </Card>
+
+          {/* Daily Trend */}
+          <Card className="lg:col-span-2 xl:col-span-1">
+            <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
+              <CardTitle className="text-sm font-medium">📈 Daily Trend</CardTitle>
+              <TrendingUp className="h-4 w-4 text-muted-foreground" />
+            </CardHeader>
+            <CardContent>
+              <div className="space-y-2">
+                {dailyTrend.slice(-3).map((day, index) => (
+                  <div key={day.date} className="flex justify-between items-center text-sm">
+                    <span>{day.date}</span>
+                    <div className="flex gap-2">
+                      <Badge variant="outline" className="text-xs">
+                        S: {day.submitted}
+                      </Badge>
+                      <Badge variant="default" className="text-xs">
+                        C: {day.settled}
+                      </Badge>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </CardContent>
+          </Card>
+        </div>
+
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+          {/* Top 5 Asset Classes */}
+          <Card>
+            <CardHeader>
+              <CardTitle className="text-lg">🧾 Top 5 Asset Classes by Volume</CardTitle>
+            </CardHeader>
+            <CardContent>
+              <div className="space-y-3">
+                {topAssetClasses.map((asset, index) => (
+                  <div key={asset.isin} className="flex items-center justify-between">
+                    <div className="flex-1">
+                      <div className="font-medium text-sm">{asset.name}</div>
+                      <div className="text-xs text-muted-foreground">ISIN: {asset.isin}</div>
+                    </div>
+                    <div className="text-right">
+                      <div className="font-semibold">AED {(asset.volume / 1000000).toFixed(1)}M</div>
+                      <Badge variant="outline" className="text-xs">#{index + 1}</Badge>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </CardContent>
+          </Card>
+
+          {/* Top 5 Participants */}
+          <Card>
+            <CardHeader>
+              <CardTitle className="text-lg">🏦 Top 5 Participants by Volume</CardTitle>
+            </CardHeader>
+            <CardContent>
+              <div className="space-y-3">
+                {topParticipants.map((participant, index) => (
+                  <div key={participant.name} className="flex items-center justify-between">
+                    <div className="flex items-center gap-3">
+                      <div className="w-8 h-8 bg-blue-100 rounded-full flex items-center justify-center">
+                        <Building className="h-4 w-4 text-blue-600" />
+                      </div>
+                      <span className="font-medium">{participant.name}</span>
+                    </div>
+                    <div className="text-right">
+                      <div className="font-semibold">AED {(participant.volume / 1000000).toFixed(1)}M</div>
+                      <Badge variant="outline" className="text-xs">#{index + 1}</Badge>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </CardContent>
+          </Card>
+        </div>
+
+        {/* Corporate Actions Timeline */}
+        <Card>
+          <CardHeader>
+            <CardTitle className="text-lg">🕒 Upcoming Corporate Actions Timeline</CardTitle>
+          </CardHeader>
+          <CardContent>
+            <div className="space-y-4">
+              {corporateActions.map((action, index) => (
+                <div key={index} className="flex items-center gap-4 p-3 border rounded-lg">
+                  <div className="w-12 h-12 bg-slate-100 rounded-full flex items-center justify-center">
+                    <Calendar className="h-5 w-5 text-slate-600" />
+                  </div>
+                  <div className="flex-1">
+                    <div className="font-medium">{action.company}</div>
+                    <div className="text-sm text-muted-foreground">{action.action}</div>
+                  </div>
+                  <div className="text-right">
+                    <div className="font-medium text-sm">{action.date}</div>
+                    <div className="text-xs text-muted-foreground">{action.amount}</div>
+                  </div>
+                </div>
+              ))}
+            </div>
+          </CardContent>
+        </Card>
+      </div>
+
+      {/* Right Side Controls */}
+      <div className="w-64 space-y-3">
+        <Button className="w-full">View Holdings</Button>
+        <Button variant="outline" className="w-full">Holdings History</Button>
+        <Button variant="outline" className="w-full">Manage Pledges</Button>
+        <Button variant="outline" className="w-full">Collateral Locks</Button>
+        <Button variant="outline" className="w-full">Lending Operations</Button>
+        <Button variant="outline" className="w-full">Manage Sub-Balances</Button>
+        <Button variant="outline" className="w-full">Beneficial Ownership</Button>
+      </div>
     </div>
   );
 };

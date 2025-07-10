@@ -1,4 +1,3 @@
-
 import { useState } from 'react';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
@@ -326,8 +325,8 @@ const SettlementHubPage = () => {
             </div>
           )}
 
-          <div className="border rounded-lg overflow-auto max-w-full">
-            <Table>
+          <div className="w-full overflow-x-auto">
+            <Table className="min-w-[1200px]">
               <TableHeader>
                 <TableRow>
                   <TableHead className="w-12">
@@ -336,22 +335,22 @@ const SettlementHubPage = () => {
                       onCheckedChange={handleSelectAll}
                     />
                   </TableHead>
-                  <TableHead className="min-w-[100px]">Reference</TableHead>
-                  <TableHead className="min-w-[80px]">Operation</TableHead>
-                  <TableHead className="min-w-[80px]">Instrument</TableHead>
-                  <TableHead className="min-w-[80px] text-right">Quantity</TableHead>
-                  <TableHead className="min-w-[100px] text-right">Face Amount</TableHead>
-                  <TableHead className="min-w-[100px]">Value Date</TableHead>
-                  <TableHead className="min-w-[120px]">Settlement Date</TableHead>
-                  <TableHead className="min-w-[80px]">Currency</TableHead>
-                  <TableHead className="min-w-[100px]">Seller</TableHead>
-                  <TableHead className="min-w-[120px]">Deliver Account</TableHead>
-                  <TableHead className="min-w-[100px]">Buyer</TableHead>
-                  <TableHead className="min-w-[120px]">Receive Account</TableHead>
-                  <TableHead className="min-w-[100px]">Custodian</TableHead>
-                  <TableHead className="min-w-[100px]">Creditor</TableHead>
-                  <TableHead className="min-w-[100px]">Debtor</TableHead>
-                  <TableHead className="min-w-[120px]">Status</TableHead>
+                  <TableHead className="w-24">Reference</TableHead>
+                  <TableHead className="w-20">Operation</TableHead>
+                  <TableHead className="w-20">Instrument</TableHead>
+                  <TableHead className="w-20 text-right">Quantity</TableHead>
+                  <TableHead className="w-24 text-right">Face Amount</TableHead>
+                  <TableHead className="w-24">Value Date</TableHead>
+                  <TableHead className="w-28">Settlement Date</TableHead>
+                  <TableHead className="w-16">Currency</TableHead>
+                  <TableHead className="w-20">Seller</TableHead>
+                  <TableHead className="w-24">Deliver Account</TableHead>
+                  <TableHead className="w-20">Buyer</TableHead>
+                  <TableHead className="w-24">Receive Account</TableHead>
+                  <TableHead className="w-20">Custodian</TableHead>
+                  <TableHead className="w-20">Creditor</TableHead>
+                  <TableHead className="w-20">Debtor</TableHead>
+                  <TableHead className="w-28">Status</TableHead>
                 </TableRow>
               </TableHeader>
               <TableBody>

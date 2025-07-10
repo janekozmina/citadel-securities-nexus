@@ -1,4 +1,5 @@
 
+import { useState } from 'react';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
@@ -8,14 +9,61 @@ import { BarChart, Bar, XAxis, YAxis, ResponsiveContainer, PieChart, Pie, Cell, 
 import { CheckCircle, Clock, XCircle, AlertTriangle } from 'lucide-react';
 
 const ClearingHubPage = () => {
-  // Sample data for charts
-  const netObligationsData = [
-    { participant: 'Bank A', cash: 2500000, securities: 1800000 },
-    { participant: 'Bank B', cash: 1200000, securities: 2100000 },
-    { participant: 'Bank C', cash: 3100000, securities: 900000 },
-    { participant: 'Bank D', cash: 1800000, securities: 2800000 },
-    { participant: 'Bank E', cash: 2200000, securities: 1600000 },
-  ];
+  const [timePeriod, setTimePeriod] = useState('today');
+
+  // Data based on selected time period
+  const getDataForPeriod = (period: string) => {
+    const baseData = {
+      today: {
+        netObligations: [
+          { participant: 'Bank A', cash: 2500000, securities: 1800000 },
+          { participant: 'Bank B', cash: 1200000, securities: 2100000 },
+          { participant: 'Bank C', cash: 3100000, securities: 900000 },
+          { participant: 'Bank D', cash: 1800000, securities: 2800000 },
+          { participant: 'Bank E', cash: 2200000, securities: 1600000 },
+        ],
+        statusFlags: [
+          { status: 'Confirmed', count: 847 },
+          { status: 'Pending', count: 123 },
+          { status: 'Rejected', count: 34 },
+          { status: 'Under Review', count: 56 },
+        ]
+      },
+      week: {
+        netObligations: [
+          { participant: 'Bank A', cash: 12500000, securities: 9800000 },
+          { participant: 'Bank B', cash: 8200000, securities: 11100000 },
+          { participant: 'Bank C', cash: 15100000, securities: 6900000 },
+          { participant: 'Bank D', cash: 10800000, securities: 14800000 },
+          { participant: 'Bank E', cash: 11200000, securities: 8600000 },
+        ],
+        statusFlags: [
+          { status: 'Confirmed', count: 4235 },
+          { status: 'Pending', count: 615 },
+          { status: 'Rejected', count: 170 },
+          { status: 'Under Review', count: 280 },
+        ]
+      },
+      month: {
+        netObligations: [
+          { participant: 'Bank A', cash: 52500000, securities: 38800000 },
+          { participant: 'Bank B', cash: 38200000, securities: 41100000 },
+          { participant: 'Bank C', cash: 65100000, securities: 26900000 },
+          { participant: 'Bank D', cash: 48800000, securities: 54800000 },
+          { participant: 'Bank E', cash: 41200000, securities: 36600000 },
+        ],
+        statusFlags: [
+          { status: 'Confirmed', count: 18235 },
+          { status: 'Pending', count: 2615 },
+          { status: 'Rejected', count: 720 },
+          { status: 'Under Review', count: 1180 },
+        ]
+      }
+    };
+    return baseData[period as keyof typeof baseData] || baseData.today;
+  };
+
+  const currentData = getDataForPeriod(timePeriod);
 
   const participantExposureData = [
     { name: 'Bank A', value: 4300000, color: '#3b82f6' },
@@ -35,12 +83,11 @@ const ClearingHubPage = () => {
     { date: 'Sun', value: -600000 },
   ];
 
-  const statusFlags = [
-    { status: 'Confirmed', count: 847, icon: CheckCircle, color: 'bg-green-500' },
-    { status: 'Pending', count: 123, icon: Clock, color: 'bg-yellow-500' },
-    { status: 'Rejected', count: 34, icon: XCircle, color: 'bg-red-500' },
-    { status: 'Under Review', count: 56, icon: AlertTriangle, color: 'bg-orange-500' },
-  ];
+  const statusFlags = currentData.statusFlags.map((flag, index) => ({
+    ...flag,
+    icon: [CheckCircle, Clock, XCircle, AlertTriangle][index],
+    color: ['bg-green-500', 'bg-yellow-500', 'bg-red-500', 'bg-orange-500'][index]
+  }));
 
   const chartConfig = {
     cash: { label: 'Cash', color: '#3b82f6' },
@@ -53,7 +100,7 @@ const ClearingHubPage = () => {
       <div className="flex items-center justify-between">
         <h1 className="text-3xl font-bold text-slate-900">Clearing Hub</h1>
         <div className="flex gap-2">
-          <Select defaultValue="today">
+          <Select value={timePeriod} onValueChange={setTimePeriod}>
             <SelectTrigger className="w-32">
               <SelectValue />
             </SelectTrigger>
@@ -96,7 +143,7 @@ const ClearingHubPage = () => {
           <CardContent>
             <ChartContainer config={chartConfig} className="h-80">
               <ResponsiveContainer width="100%" height="100%">
-                <BarChart data={netObligationsData}>
+                <BarChart data={currentData.netObligations}>
                   <XAxis dataKey="participant" />
                   <YAxis tickFormatter={(value) => `$${(value / 1000000).toFixed(1)}M`} />
                   <ChartTooltip 
