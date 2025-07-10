@@ -1,13 +1,13 @@
 
 import { useState } from 'react';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
-import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table';
-import { Checkbox } from '@/components/ui/checkbox';
-import { Search, Plus, Edit, Trash2, Settings, Database, Mail, Network, Shield, Users } from 'lucide-react';
+import { RadioGroup, RadioGroupItem } from '@/components/ui/radio-group';
+import { Label } from '@/components/ui/label';
+import { Search, Plus, Settings, Database, Mail, Network, Shield, Users } from 'lucide-react';
 
 interface ConfigParameter {
   code: string;
@@ -21,7 +21,7 @@ interface ConfigParameter {
 const SystemMonitoringPage = () => {
   const [searchTerm, setSearchTerm] = useState('');
   const [selectedGroup, setSelectedGroup] = useState('all');
-  const [selectedParameters, setSelectedParameters] = useState<string[]>([]);
+  const [editingValues, setEditingValues] = useState<Record<string, string>>({});
 
   const configParameters: ConfigParameter[] = [
     {
@@ -31,6 +31,22 @@ const SystemMonitoringPage = () => {
       externalCode: '',
       externalSynchronization: false,
       description: 'List of available cash account servicer type codes'
+    },
+    {
+      code: 'portal.general.menu_home_label',
+      value: 'Portal',
+      group: 'General',
+      externalCode: '',
+      externalSynchronization: false,
+      description: 'Menu home label'
+    },
+    {
+      code: 'portal.use_extended_investor_participant_types',
+      value: 'Yes',
+      group: 'General',
+      externalCode: '',
+      externalSynchronization: false,
+      description: 'Use extended investor participant types'
     },
     {
       code: 'portal.central_node_params.allow_sdf_slf_both',
@@ -57,6 +73,14 @@ const SystemMonitoringPage = () => {
       description: 'Boards with not editable market price'
     },
     {
+      code: 'portal.central_node_params.collateral.board_not_editable_mtm',
+      value: '',
+      group: 'Central node parameters',
+      externalCode: 'BoardNotMtmEditable',
+      externalSynchronization: true,
+      description: 'Boards with not editable market price and haircut'
+    },
+    {
       code: 'portal.central_node_params.cross_trades_flag',
       value: 'N',
       group: 'Central node parameters',
@@ -79,6 +103,22 @@ const SystemMonitoringPage = () => {
       externalCode: 'DEFAULT_PRIORITY',
       externalSynchronization: true,
       description: 'Default priority'
+    },
+    {
+      code: 'portal.central_node_params.national_currency',
+      value: 'AED',
+      group: 'Central node parameters',
+      externalCode: 'NATIONAL_CURRENCY',
+      externalSynchronization: true,
+      description: 'National currency'
+    },
+    {
+      code: 'portal.central_node_params.sys_use_acc_hierarchy',
+      value: 'Yes',
+      group: 'Central node parameters',
+      externalCode: 'SYS_USE_ACC_HIERARCHY',
+      externalSynchronization: true,
+      description: 'Use account hierarchy'
     },
     {
       code: 'portal.email.from',
@@ -105,6 +145,14 @@ const SystemMonitoringPage = () => {
       description: 'Email server port'
     },
     {
+      code: 'portal.email.protocol',
+      value: 'smtp',
+      group: 'Email',
+      externalCode: '',
+      externalSynchronization: false,
+      description: 'Email server protocol'
+    },
+    {
       code: 'portal.gateway.http_url',
       value: 'http://192.168.72.85:5088/SSYSGw/gw',
       group: 'Gateway connection',
@@ -121,12 +169,28 @@ const SystemMonitoringPage = () => {
       description: 'Ignore server certificate for HTTPS connections'
     },
     {
+      code: 'portal.gateway.username',
+      value: 'WEBSHAREDPG1',
+      group: 'Gateway connection',
+      externalCode: '',
+      externalSynchronization: false,
+      description: 'Gateway user name'
+    },
+    {
       code: 'portal.integration.balance_report_sms.url',
       value: 'https://localhost:8934/emulator/webservices/rwSms',
       group: 'Integration',
       externalCode: '',
       externalSynchronization: false,
       description: 'URL to balance report web service (SMS)'
+    },
+    {
+      code: 'portal.integration.balance_report_sms.user',
+      value: 'CSD',
+      group: 'Integration',
+      externalCode: '',
+      externalSynchronization: false,
+      description: 'Username for sending SMS with balance report'
     },
     {
       code: 'portal.interface.check_dvf_dvp_instrument_availability',
@@ -137,12 +201,52 @@ const SystemMonitoringPage = () => {
       description: 'Check instrument availability on dvf dvp forms'
     },
     {
+      code: 'portal.interface.check_mmts_cash_bilateral_limit',
+      value: 'Yes',
+      group: 'Interface',
+      externalCode: '',
+      externalSynchronization: false,
+      description: 'Check MMTS cash bilateral limit'
+    },
+    {
+      code: 'portal.interface.show_recommended_price_non_competitive_bid',
+      value: 'Yes',
+      group: 'Interface',
+      externalCode: '',
+      externalSynchronization: false,
+      description: 'Show recommended price for non-competitive bid if enabled'
+    },
+    {
       code: 'portal.rim.debug_mode.enabled',
       value: 'Yes',
       group: 'RIM parameters',
       externalCode: '',
       externalSynchronization: false,
       description: 'Allows enable additional message audit events for more convenient testing'
+    },
+    {
+      code: 'portal.rim.investor_profile_confirm_email.enabled',
+      value: 'Yes',
+      group: 'RIM parameters',
+      externalCode: '',
+      externalSynchronization: false,
+      description: 'Enables investor profile email confirmation'
+    },
+    {
+      code: 'portal.rim.investor_profile_confirm_phone.enabled',
+      value: 'No',
+      group: 'RIM parameters',
+      externalCode: '',
+      externalSynchronization: false,
+      description: 'Enables investor profile phone number confirmation'
+    },
+    {
+      code: 'portal.rim.two_factor_authentication.enabled',
+      value: 'No',
+      group: 'RIM parameters',
+      externalCode: '',
+      externalSynchronization: false,
+      description: 'Enables two factor authentication'
     }
   ];
 
@@ -156,20 +260,28 @@ const SystemMonitoringPage = () => {
     return matchesSearch && matchesGroup;
   });
 
-  const handleSelectAll = (checked: boolean) => {
-    if (checked) {
-      setSelectedParameters(filteredParameters.map(param => param.code));
-    } else {
-      setSelectedParameters([]);
+  // Group parameters by group
+  const groupedParameters = filteredParameters.reduce((acc, param) => {
+    if (!acc[param.group]) {
+      acc[param.group] = [];
     }
+    acc[param.group].push(param);
+    return acc;
+  }, {} as Record<string, ConfigParameter[]>);
+
+  const handleValueChange = (code: string, newValue: string) => {
+    setEditingValues(prev => ({
+      ...prev,
+      [code]: newValue
+    }));
   };
 
-  const handleSelectParameter = (code: string, checked: boolean) => {
-    if (checked) {
-      setSelectedParameters(prev => [...prev, code]);
-    } else {
-      setSelectedParameters(prev => prev.filter(id => id !== code));
-    }
+  const getCurrentValue = (param: ConfigParameter) => {
+    return editingValues[param.code] !== undefined ? editingValues[param.code] : param.value;
+  };
+
+  const isYesNoValue = (value: string) => {
+    return value.toLowerCase() === 'yes' || value.toLowerCase() === 'no';
   };
 
   const getGroupIcon = (group: string) => {
@@ -191,15 +303,6 @@ const SystemMonitoringPage = () => {
     }
   };
 
-  const getGroupStats = () => {
-    const stats = groups.slice(1).map(group => {
-      const count = configParameters.filter(param => param.group === group).length;
-      const syncCount = configParameters.filter(param => param.group === group && param.externalSynchronization).length;
-      return { group, count, syncCount };
-    });
-    return stats;
-  };
-
   return (
     <div className="space-y-6 bg-slate-50 min-h-screen p-6">
       <div className="flex items-center justify-between">
@@ -216,24 +319,6 @@ const SystemMonitoringPage = () => {
             Export Configuration
           </Button>
         </div>
-      </div>
-
-      {/* Configuration Overview Cards */}
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
-        {getGroupStats().slice(0, 4).map((stat, index) => (
-          <Card key={stat.group}>
-            <CardContent className="p-4">
-              <div className="flex items-center justify-between">
-                <div>
-                  <p className="text-sm font-medium text-slate-600">{stat.group}</p>
-                  <p className="text-2xl font-bold text-slate-800">{stat.count}</p>
-                  <p className="text-xs text-slate-500">{stat.syncCount} synchronized</p>
-                </div>
-                {getGroupIcon(stat.group)}
-              </div>
-            </CardContent>
-          </Card>
-        ))}
       </div>
 
       {/* Filters and Controls */}
@@ -265,94 +350,80 @@ const SystemMonitoringPage = () => {
             </Select>
           </div>
 
-          {selectedParameters.length > 0 && (
-            <div className="mb-4 p-3 bg-blue-50 rounded-lg">
-              <p className="text-sm text-blue-800">
-                {selectedParameters.length} parameter(s) selected
-              </p>
-              <div className="flex gap-2 mt-2">
-                <Button size="sm" variant="outline">
-                  <Edit className="h-4 w-4 mr-1" />
-                  Bulk Edit
-                </Button>
-                <Button size="sm" variant="outline">
-                  Export Selected
-                </Button>
-                <Button size="sm" variant="outline">
-                  <Trash2 className="h-4 w-4 mr-1" />
-                  Delete Selected
-                </Button>
+          {/* Grouped Parameters Tables */}
+          <div className="space-y-8">
+            {Object.entries(groupedParameters).map(([groupName, parameters]) => (
+              <div key={groupName} className="space-y-4">
+                <div className="flex items-center gap-2 border-b pb-2">
+                  {getGroupIcon(groupName)}
+                  <h3 className="text-lg font-semibold text-slate-800">{groupName}</h3>
+                  <span className="text-sm text-slate-500">({parameters.length} parameters)</span>
+                </div>
+                
+                <div className="border rounded-lg overflow-hidden">
+                  <Table>
+                    <TableHeader>
+                      <TableRow>
+                        <TableHead className="w-80">Code</TableHead>
+                        <TableHead className="w-48">Value</TableHead>
+                        <TableHead className="w-32">External Code</TableHead>
+                        <TableHead className="w-24">Sync</TableHead>
+                        <TableHead>Description</TableHead>
+                      </TableRow>
+                    </TableHeader>
+                    <TableBody>
+                      {parameters.map((param) => (
+                        <TableRow key={param.code}>
+                          <TableCell className="font-mono text-xs break-all">{param.code}</TableCell>
+                          <TableCell>
+                            {isYesNoValue(param.value) ? (
+                              <RadioGroup
+                                value={getCurrentValue(param)}
+                                onValueChange={(value) => handleValueChange(param.code, value)}
+                                className="flex flex-row space-x-4"
+                              >
+                                <div className="flex items-center space-x-2">
+                                  <RadioGroupItem value="Yes" id={`${param.code}-yes`} />
+                                  <Label htmlFor={`${param.code}-yes`} className="text-sm">Yes</Label>
+                                </div>
+                                <div className="flex items-center space-x-2">
+                                  <RadioGroupItem value="No" id={`${param.code}-no`} />
+                                  <Label htmlFor={`${param.code}-no`} className="text-sm">No</Label>
+                                </div>
+                              </RadioGroup>
+                            ) : (
+                              <Input
+                                value={getCurrentValue(param)}
+                                onChange={(e) => handleValueChange(param.code, e.target.value)}
+                                className="w-full text-sm"
+                                placeholder={param.value || "—"}
+                              />
+                            )}
+                          </TableCell>
+                          <TableCell className="font-mono text-xs">
+                            {param.externalCode || <span className="text-slate-400">—</span>}
+                          </TableCell>
+                          <TableCell>
+                            <span className={`inline-flex items-center px-2 py-1 rounded-full text-xs font-medium ${
+                              param.externalSynchronization 
+                                ? 'bg-green-100 text-green-800' 
+                                : 'bg-gray-100 text-gray-800'
+                            }`}>
+                              {param.externalSynchronization ? 'Yes' : 'No'}
+                            </span>
+                          </TableCell>
+                          <TableCell>
+                            <div className="text-sm text-slate-700 break-words whitespace-normal leading-relaxed">
+                              {param.description}
+                            </div>
+                          </TableCell>
+                        </TableRow>
+                      ))}
+                    </TableBody>
+                  </Table>
+                </div>
               </div>
-            </div>
-          )}
-
-          <div className="border rounded-lg">
-            <Table>
-              <TableHeader>
-                <TableRow>
-                  <TableHead className="w-12">
-                    <Checkbox
-                      checked={selectedParameters.length === filteredParameters.length && filteredParameters.length > 0}
-                      onCheckedChange={handleSelectAll}
-                    />
-                  </TableHead>
-                  <TableHead>Code</TableHead>
-                  <TableHead>Value</TableHead>
-                  <TableHead>Group</TableHead>
-                  <TableHead>External Code</TableHead>
-                  <TableHead>Sync</TableHead>
-                  <TableHead>Description</TableHead>
-                  <TableHead className="w-24">Actions</TableHead>
-                </TableRow>
-              </TableHeader>
-              <TableBody>
-                {filteredParameters.map((param) => (
-                  <TableRow key={param.code}>
-                    <TableCell>
-                      <Checkbox
-                        checked={selectedParameters.includes(param.code)}
-                        onCheckedChange={(checked) => handleSelectParameter(param.code, checked as boolean)}
-                      />
-                    </TableCell>
-                    <TableCell className="font-mono text-sm">{param.code}</TableCell>
-                    <TableCell>
-                      <div className="max-w-32 truncate" title={param.value}>
-                        {param.value || <span className="text-slate-400">—</span>}
-                      </div>
-                    </TableCell>
-                    <TableCell>
-                      <div className="flex items-center gap-2">
-                        {getGroupIcon(param.group)}
-                        <span className="text-sm">{param.group}</span>
-                      </div>
-                    </TableCell>
-                    <TableCell className="font-mono text-sm">
-                      {param.externalCode || <span className="text-slate-400">—</span>}
-                    </TableCell>
-                    <TableCell>
-                      <Badge variant={param.externalSynchronization ? "default" : "secondary"}>
-                        {param.externalSynchronization ? 'Yes' : 'No'}
-                      </Badge>
-                    </TableCell>
-                    <TableCell>
-                      <div className="max-w-64 truncate" title={param.description}>
-                        {param.description}
-                      </div>
-                    </TableCell>
-                    <TableCell>
-                      <div className="flex gap-1">
-                        <Button size="sm" variant="ghost">
-                          <Edit className="h-4 w-4" />
-                        </Button>
-                        <Button size="sm" variant="ghost">
-                          <Trash2 className="h-4 w-4" />
-                        </Button>
-                      </div>
-                    </TableCell>
-                  </TableRow>
-                ))}
-              </TableBody>
-            </Table>
+            ))}
           </div>
 
           {filteredParameters.length === 0 && (
@@ -364,32 +435,6 @@ const SystemMonitoringPage = () => {
           )}
         </CardContent>
       </Card>
-
-      {/* Group Summary */}
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-        {getGroupStats().map((stat) => (
-          <Card key={stat.group}>
-            <CardHeader className="pb-3">
-              <CardTitle className="flex items-center gap-2 text-sm">
-                {getGroupIcon(stat.group)}
-                {stat.group}
-              </CardTitle>
-            </CardHeader>
-            <CardContent>
-              <div className="flex justify-between items-center">
-                <div>
-                  <p className="text-2xl font-bold text-slate-800">{stat.count}</p>
-                  <p className="text-sm text-slate-600">Parameters</p>
-                </div>
-                <div className="text-right">
-                  <p className="text-lg font-semibold text-blue-600">{stat.syncCount}</p>
-                  <p className="text-xs text-slate-500">Synchronized</p>
-                </div>
-              </div>
-            </CardContent>
-          </Card>
-        ))}
-      </div>
     </div>
   );
 };
