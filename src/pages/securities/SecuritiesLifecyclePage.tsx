@@ -5,10 +5,13 @@ import { Button } from '@/components/ui/button';
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from '@/components/ui/tooltip';
 import { Info, ChevronRight, ChevronDown, FileText, TrendingUp, Calendar, Edit, Settings, Mail } from 'lucide-react';
 import { Collapsible, CollapsibleContent, CollapsibleTrigger } from '@/components/ui/collapsible';
+import { useSidebar } from '@/components/ui/sidebar';
 
 const SecuritiesLifecyclePage = () => {
   const [activeSection, setActiveSection] = useState<string>('instrument-reference');
   const [expandedMenus, setExpandedMenus] = useState<Set<string>>(new Set(['corporate-actions']));
+  const { state } = useSidebar();
+  const isCollapsed = state === 'collapsed';
 
   const toggleMenu = (menuId: string) => {
     const newExpanded = new Set(expandedMenus);
@@ -57,10 +60,7 @@ const SecuritiesLifecyclePage = () => {
       </div>
       
       <Card>
-        <CardHeader>
-          <CardTitle>Securities Registry</CardTitle>
-        </CardHeader>
-        <CardContent>
+        <CardContent className="p-6">
           <div className="overflow-x-auto">
             <table className="w-full border-collapse">
               <thead>
@@ -284,86 +284,109 @@ const SecuritiesLifecyclePage = () => {
     </div>
   );
 
+  const getSidebarWidth = () => {
+    if (isCollapsed) return 'w-12';
+    return 'w-80';
+  };
+
+  const getSecondLevelWidth = () => {
+    if (isCollapsed) return 'w-0 opacity-0';
+    return 'w-60'; // 75% of 80 (320px -> 240px)
+  };
+
   return (
     <TooltipProvider>
       <div className="flex h-screen bg-white">
         {/* Left Sidebar Menu */}
-        <div className="w-80 border-r border-slate-200 bg-white">
-          <div className="p-4 border-b border-slate-200">
-            <h1 className="text-xl font-bold text-slate-900">Securities Lifecycle</h1>
+        <div className={`${getSidebarWidth()} transition-all duration-200 border-r border-slate-200 bg-white flex`}>
+          {/* Main Menu */}
+          <div className={`${isCollapsed ? 'w-12' : 'w-20'} transition-all duration-200`}>
+            <div className="p-2 border-b border-slate-200">
+              {!isCollapsed && (
+                <h1 className="text-sm font-bold text-slate-900">Securities</h1>
+              )}
+            </div>
+            
+            <div className="p-2 space-y-1">
+              {/* Instrument Reference */}
+              <Button
+                variant={activeSection === 'instrument-reference' ? 'default' : 'ghost'}
+                className={`${isCollapsed ? 'w-8 h-8 p-0' : 'w-full'} justify-start`}
+                onClick={() => setActiveSection('instrument-reference')}
+              >
+                <FileText className="h-4 w-4" />
+                {!isCollapsed && <span className="ml-2 text-xs">Instrument</span>}
+              </Button>
+
+              {/* Issuance */}
+              <Button
+                variant={activeSection === 'issuance' ? 'default' : 'ghost'}
+                className={`${isCollapsed ? 'w-8 h-8 p-0' : 'w-full'} justify-start`}
+                onClick={() => setActiveSection('issuance')}
+              >
+                <TrendingUp className="h-4 w-4" />
+                {!isCollapsed && <span className="ml-2 text-xs">Issuance</span>}
+              </Button>
+
+              {/* Corporate Actions */}
+              <Button
+                variant={activeSection.startsWith('corporate-actions') ? 'default' : 'ghost'}
+                className={`${isCollapsed ? 'w-8 h-8 p-0' : 'w-full'} justify-start`}
+                onClick={() => setActiveSection('corporate-actions')}
+              >
+                <Calendar className="h-4 w-4" />
+                {!isCollapsed && <span className="ml-2 text-xs">Corporate</span>}
+              </Button>
+            </div>
           </div>
-          
-          <div className="p-4 space-y-2">
-            {/* Instrument Reference */}
-            <Button
-              variant={activeSection === 'instrument-reference' ? 'default' : 'ghost'}
-              className="w-full justify-start"
-              onClick={() => setActiveSection('instrument-reference')}
-            >
-              <FileText className="h-4 w-4 mr-2" />
-              Instrument Reference
-            </Button>
 
-            {/* Issuance */}
-            <Button
-              variant={activeSection === 'issuance' ? 'default' : 'ghost'}
-              className="w-full justify-start"
-              onClick={() => setActiveSection('issuance')}
-            >
-              <TrendingUp className="h-4 w-4 mr-2" />
-              Issuance
-            </Button>
-
-            {/* Corporate Actions with submenu */}
-            <Collapsible 
-              open={expandedMenus.has('corporate-actions')} 
-              onOpenChange={() => toggleMenu('corporate-actions')}
-            >
-              <CollapsibleTrigger asChild>
-                <Button
-                  variant={activeSection.startsWith('corporate-actions') ? 'default' : 'ghost'}
-                  className="w-full justify-between"
-                >
-                  <div className="flex items-center">
-                    <Calendar className="h-4 w-4 mr-2" />
-                    Corporate Actions
-                  </div>
-                  {expandedMenus.has('corporate-actions') ? 
-                    <ChevronDown className="h-4 w-4" /> : 
-                    <ChevronRight className="h-4 w-4" />
-                  }
-                </Button>
-              </CollapsibleTrigger>
-              <CollapsibleContent className="space-y-1 ml-4 mt-1">
-                <Button
-                  variant={activeSection === 'corporate-actions-create' ? 'default' : 'ghost'}
-                  size="sm"
-                  className="w-full justify-start"
-                  onClick={() => setActiveSection('corporate-actions')}
-                >
-                  <Edit className="h-3 w-3 mr-2" />
-                  Create/Edit Actions
-                </Button>
-                <Button
-                  variant={activeSection === 'corporate-actions-automate' ? 'default' : 'ghost'}
-                  size="sm"
-                  className="w-full justify-start"
-                  onClick={() => setActiveSection('corporate-actions')}
-                >
-                  <Settings className="h-3 w-3 mr-2" />
-                  Automate Processing
-                </Button>
-                <Button
-                  variant={activeSection === 'corporate-actions-notify' ? 'default' : 'ghost'}
-                  size="sm"
-                  className="w-full justify-start"
-                  onClick={() => setActiveSection('corporate-actions')}
-                >
-                  <Mail className="h-3 w-3 mr-2" />
-                  Notifications
-                </Button>
-              </CollapsibleContent>
-            </Collapsible>
+          {/* Second Level Menu */}
+          <div className={`${getSecondLevelWidth()} transition-all duration-200 border-l border-slate-200 bg-slate-50`}>
+            {!isCollapsed && (
+              <>
+                <div className="p-3 border-b border-slate-200">
+                  <h2 className="text-sm font-semibold text-slate-800">
+                    {activeSection === 'instrument-reference' && 'Instrument Reference'}
+                    {activeSection === 'issuance' && 'Issuance'}
+                    {activeSection.startsWith('corporate-actions') && 'Corporate Actions'}
+                  </h2>
+                </div>
+                
+                <div className="p-2 space-y-1">
+                  {activeSection === 'corporate-actions' && (
+                    <>
+                      <Button
+                        variant="ghost"
+                        size="sm"
+                        className="w-full justify-start text-xs"
+                        onClick={() => setActiveSection('corporate-actions')}
+                      >
+                        <Edit className="h-3 w-3 mr-2" />
+                        Create/Edit Actions
+                      </Button>
+                      <Button
+                        variant="ghost"
+                        size="sm"
+                        className="w-full justify-start text-xs"
+                        onClick={() => setActiveSection('corporate-actions')}
+                      >
+                        <Settings className="h-3 w-3 mr-2" />
+                        Automate Processing
+                      </Button>
+                      <Button
+                        variant="ghost"
+                        size="sm"
+                        className="w-full justify-start text-xs"
+                        onClick={() => setActiveSection('corporate-actions')}
+                      >
+                        <Mail className="h-3 w-3 mr-2" />
+                        Notifications
+                      </Button>
+                    </>
+                  )}
+                </div>
+              </>
+            )}
           </div>
         </div>
 
