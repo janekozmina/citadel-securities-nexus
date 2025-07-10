@@ -11,127 +11,227 @@ import { Checkbox } from '@/components/ui/checkbox';
 import { Search, Filter, ArrowUpDown, Plus, CheckCircle } from 'lucide-react';
 
 interface Transaction {
-  transactionId: string;
-  isinCode: string;
-  securityName: string;
-  tradeDate: string;
-  settlementDate: string;
-  buyer: string;
-  seller: string;
+  reference: string;
+  operation: string;
+  instrument: string;
   quantity: number;
-  status: 'Settled' | 'Pending' | 'Failed' | 'In Progress' | 'Authorized' | 'Created';
+  faceAmount: number;
+  valueDate: string;
+  settlementDate: string;
+  currency: string;
+  seller: string;
+  deliveryCsdAccount: string;
+  buyer: string;
+  receiveCsdAccount: string;
+  local: string;
+  remote: string;
+  priority: number;
+  ttc: string;
+  via: string;
+  debtor: string;
+  status: 'Not for send' | 'Wait for send' | 'Sent' | 'Not matched' | 'Confirmed';
 }
 
 const mockTransactions: Transaction[] = [
   {
-    transactionId: 'TXN-20250701-001',
-    isinCode: 'AE0001234567',
-    securityName: 'ABC Corp Bonds 2029',
-    tradeDate: '2025-07-01',
-    settlementDate: '2025-07-03',
-    buyer: 'Bank A',
-    seller: 'Bank B',
-    quantity: 10000,
-    status: 'Settled'
+    reference: '11100XXXX80205001',
+    operation: 'DvP',
+    instrument: 'TESTQTY002',
+    quantity: 2000000,
+    faceAmount: 0,
+    valueDate: '20.08.2024',
+    settlementDate: '20.08.2024',
+    currency: 'MNT',
+    seller: '1100052',
+    deliveryCsdAccount: '1100062C1T100',
+    buyer: 'CITIPHKK',
+    receiveCsdAccount: 'CITIDEPO',
+    local: 'Not for send',
+    remote: '',
+    priority: 1000,
+    ttc: 'RIM',
+    via: '',
+    debtor: ''
   },
   {
-    transactionId: 'TXN-20250702-005',
-    isinCode: 'AE0009876543',
-    securityName: 'DEF Equity',
-    tradeDate: '2025-07-02',
-    settlementDate: '2025-07-02',
-    buyer: 'Broker X',
-    seller: 'Custodian Y',
+    reference: '11100XXXX80185002',
+    operation: 'DvP',
+    instrument: 'TESTBOND004',
+    quantity: 1,
+    faceAmount: 100000,
+    valueDate: '15.08.2024',
+    settlementDate: '16.08.2024',
+    currency: 'MNT',
+    seller: '1100052',
+    deliveryCsdAccount: '1100062C1T100',
+    buyer: 'CITIPHKK',
+    receiveCsdAccount: 'CITIDEPO',
+    local: 'Wait for send',
+    remote: '',
+    priority: 1000,
+    ttc: 'RIM',
+    via: '',
+    debtor: ''
+  },
+  {
+    reference: '01100XXXX80206001',
+    operation: 'RvP',
+    instrument: 'TESTBILL001',
+    quantity: 100,
+    faceAmount: 100,
+    valueDate: '21.08.2024',
+    settlementDate: '21.08.2024',
+    currency: '',
+    seller: 'BARBSCSG',
+    deliveryCsdAccount: 'BARBDEPO',
+    buyer: 'CITIPHKK',
+    receiveCsdAccount: 'CITIDEPO',
+    local: 'Sent',
+    remote: 'Not matched',
+    priority: 1000,
+    ttc: 'UNFP - Undefined',
+    via: 'WEB',
+    debtor: ''
+  },
+  {
+    reference: '11100XXXX80155003',
+    operation: 'RvP',
+    instrument: 'TESTQTY002',
+    quantity: 200000,
+    faceAmount: 0,
+    valueDate: '15.08.2024',
+    settlementDate: '15.08.2024',
+    currency: 'MNT',
+    seller: 'CITIPHKK',
+    deliveryCsdAccount: 'CITIDEPO',
+    buyer: '1100052',
+    receiveCsdAccount: '1100062C1T100',
+    local: 'Wait for send',
+    remote: '',
+    priority: 1000,
+    ttc: 'RIM',
+    via: '',
+    debtor: ''
+  },
+  {
+    reference: '22200XXXX90305004',
+    operation: 'DvP',
+    instrument: 'TESTEQUITY003',
     quantity: 5000,
-    status: 'Pending'
+    faceAmount: 250000,
+    valueDate: '22.08.2024',
+    settlementDate: '22.08.2024',
+    currency: 'USD',
+    seller: '2200073',
+    deliveryCsdAccount: '2200073A2B200',
+    buyer: 'JPMORGAN',
+    receiveCsdAccount: 'JPMODEPO',
+    local: 'Confirmed',
+    remote: 'Confirmed',
+    priority: 2000,
+    ttc: 'USD',
+    via: 'API',
+    debtor: 'CLIENT_A'
   },
   {
-    transactionId: 'TXN-20250703-012',
-    isinCode: 'AE0001928374',
-    securityName: 'GHI Gov Bond 2035',
-    tradeDate: '2025-07-03',
-    settlementDate: '2025-07-05',
-    buyer: 'Bank Z',
-    seller: 'Broker A',
-    quantity: 1000,
-    status: 'Failed'
+    reference: '33300XXXX70405005',
+    operation: 'DvP',
+    instrument: 'TESTGOV005',
+    quantity: 1500,
+    faceAmount: 1500000,
+    valueDate: '25.08.2024',
+    settlementDate: '25.08.2024',
+    currency: 'EUR',
+    seller: '3300084',
+    deliveryCsdAccount: '3300084E3C300',
+    buyer: 'DEUTDEDB',
+    receiveCsdAccount: 'DEUTDEPO',
+    local: 'Not for send',
+    remote: '',
+    priority: 1500,
+    ttc: 'EUR',
+    via: 'SWIFT',
+    debtor: 'FUND_B'
   },
   {
-    transactionId: 'TXN-20250704-018',
-    isinCode: 'AE0008765432',
-    securityName: 'JKL Sukuk 2030',
-    tradeDate: '2025-07-04',
-    settlementDate: '2025-07-06',
-    buyer: 'Custodian C',
-    seller: 'Broker B',
-    quantity: 7500,
-    status: 'In Progress'
+    reference: '44400XXXX60505006',
+    operation: 'RvP',
+    instrument: 'TESTCORP007',
+    quantity: 750,
+    faceAmount: 75000,
+    valueDate: '28.08.2024',
+    settlementDate: '28.08.2024',
+    currency: 'GBP',
+    seller: 'BAMLGB2L',
+    deliveryCsdAccount: 'BAMLDEPO',
+    buyer: '4400095',
+    receiveCsdAccount: '4400095G4D400',
+    local: 'Sent',
+    remote: 'Confirmed',
+    priority: 3000,
+    ttc: 'GBP',
+    via: 'WEB',
+    debtor: 'INST_C'
   },
   {
-    transactionId: 'TXN-20250705-025',
-    isinCode: 'AE0005432167',
-    securityName: 'MNO Real Estate Fund',
-    tradeDate: '2025-07-05',
-    settlementDate: '2025-07-07',
-    buyer: 'Fund Manager A',
-    seller: 'Bank C',
-    quantity: 2500,
-    status: 'Authorized'
+    reference: '55500XXXX50605007',
+    operation: 'DvP',
+    instrument: 'TESTMUNI008',
+    quantity: 300,
+    faceAmount: 300000,
+    valueDate: '30.08.2024',
+    settlementDate: '30.08.2024',
+    currency: 'CAD',
+    seller: '5500106',
+    deliveryCsdAccount: '5500106C5E500',
+    buyer: 'RBCCATT2',
+    receiveCsdAccount: 'RBCADEPO',
+    local: 'Wait for send',
+    remote: '',
+    priority: 2500,
+    ttc: 'CAD',
+    via: 'API',
+    debtor: 'PENSION_D'
   },
   {
-    transactionId: 'TXN-20250706-032',
-    isinCode: 'AE0003456789',
-    securityName: 'PQR Islamic Bond',
-    tradeDate: '2025-07-06',
-    settlementDate: '2025-07-08',
-    buyer: 'Islamic Bank A',
-    seller: 'Investment Co B',
-    quantity: 15000,
-    status: 'Created'
+    reference: '66600XXXX40705008',
+    operation: 'RvP',
+    instrument: 'TESTPRIV009',
+    quantity: 1200,
+    faceAmount: 1200000,
+    valueDate: '02.09.2024',
+    settlementDate: '02.09.2024',
+    currency: 'JPY',
+    seller: 'MHCBJPJT',
+    deliveryCsdAccount: 'MHCBDEPO',
+    buyer: '6600117',
+    receiveCsdAccount: '6600117J6F600',
+    local: 'Not matched',
+    remote: 'Sent',
+    priority: 4000,
+    ttc: 'JPY',
+    via: 'SWIFT',
+    debtor: 'HEDGE_E'
   },
   {
-    transactionId: 'TXN-20250707-039',
-    isinCode: 'AE0007891234',
-    securityName: 'STU Tech Stock',
-    tradeDate: '2025-07-07',
-    settlementDate: '2025-07-09',
-    buyer: 'Tech Fund X',
-    seller: 'Pension Fund Y',
-    quantity: 3000,
-    status: 'Pending'
-  },
-  {
-    transactionId: 'TXN-20250708-046',
-    isinCode: 'AE0002468135',
-    securityName: 'VWX Energy Bond',
-    tradeDate: '2025-07-08',
-    settlementDate: '2025-07-10',
-    buyer: 'Energy Fund A',
-    seller: 'Sovereign Fund B',
-    quantity: 8000,
-    status: 'Settled'
-  },
-  {
-    transactionId: 'TXN-20250709-053',
-    isinCode: 'AE0008642097',
-    securityName: 'YZA Infrastructure Fund',
-    tradeDate: '2025-07-09',
-    settlementDate: '2025-07-11',
-    buyer: 'Infrastructure Co',
-    seller: 'Private Bank C',
-    quantity: 4500,
-    status: 'In Progress'
-  },
-  {
-    transactionId: 'TXN-20250710-060',
-    isinCode: 'AE0001357924',
-    securityName: 'BCD Healthcare ETF',
-    tradeDate: '2025-07-10',
-    settlementDate: '2025-07-12',
-    buyer: 'Healthcare Fund',
-    seller: 'Retail Broker D',
-    quantity: 6000,
-    status: 'Failed'
+    reference: '77700XXXX30805009',
+    operation: 'DvP',
+    instrument: 'TESTINFRA010',
+    quantity: 800,
+    faceAmount: 800000,
+    valueDate: '05.09.2024',
+    settlementDate: '05.09.2024',
+    currency: 'AUD',
+    seller: '7700128',
+    deliveryCsdAccount: '7700128A7G700',
+    buyer: 'ANZBAU3M',
+    receiveCsdAccount: 'ANZBDEPO',
+    local: 'Confirmed',
+    remote: 'Confirmed',
+    priority: 1800,
+    ttc: 'AUD',
+    via: 'WEB',
+    debtor: 'SUPER_F'
   }
 ];
 
@@ -139,7 +239,7 @@ const SettlementHubPage = () => {
   const [transactions, setTransactions] = useState<Transaction[]>(mockTransactions);
   const [searchTerm, setSearchTerm] = useState('');
   const [statusFilter, setStatusFilter] = useState<string>('all');
-  const [sortField, setSortField] = useState<keyof Transaction>('transactionId');
+  const [sortField, setSortField] = useState<keyof Transaction>('reference');
   const [sortDirection, setSortDirection] = useState<'asc' | 'desc'>('asc');
   const [selectedTransactions, setSelectedTransactions] = useState<string[]>([]);
 
@@ -155,9 +255,9 @@ const SettlementHubPage = () => {
   const filteredAndSortedTransactions = transactions
     .filter(transaction => {
       const matchesSearch = 
-        transaction.transactionId.toLowerCase().includes(searchTerm.toLowerCase()) ||
-        transaction.isinCode.toLowerCase().includes(searchTerm.toLowerCase()) ||
-        transaction.securityName.toLowerCase().includes(searchTerm.toLowerCase()) ||
+        transaction.reference.toLowerCase().includes(searchTerm.toLowerCase()) ||
+        transaction.operation.toLowerCase().includes(searchTerm.toLowerCase()) ||
+        transaction.instrument.toLowerCase().includes(searchTerm.toLowerCase()) ||
         transaction.buyer.toLowerCase().includes(searchTerm.toLowerCase()) ||
         transaction.seller.toLowerCase().includes(searchTerm.toLowerCase());
       
@@ -184,12 +284,11 @@ const SettlementHubPage = () => {
 
   const getStatusBadgeVariant = (status: string) => {
     switch (status) {
-      case 'Settled': return 'default';
-      case 'Pending': return 'secondary';
-      case 'Failed': return 'destructive';
-      case 'In Progress': return 'outline';
-      case 'Authorized': return 'default';
-      case 'Created': return 'secondary';
+      case 'Confirmed': return 'default';
+      case 'Wait for send': return 'secondary';
+      case 'Not for send': return 'outline';
+      case 'Sent': return 'default';
+      case 'Not matched': return 'destructive';
       default: return 'outline';
     }
   };
@@ -202,11 +301,11 @@ const SettlementHubPage = () => {
     console.log('Authorize transaction:', transactionId);
   };
 
-  const handleSelectTransaction = (transactionId: string) => {
+  const handleSelectTransaction = (reference: string) => {
     setSelectedTransactions(prev => 
-      prev.includes(transactionId) 
-        ? prev.filter(id => id !== transactionId)
-        : [...prev, transactionId]
+      prev.includes(reference) 
+        ? prev.filter(id => id !== reference)
+        : [...prev, reference]
     );
   };
 
@@ -214,7 +313,7 @@ const SettlementHubPage = () => {
     if (selectedTransactions.length === filteredAndSortedTransactions.length) {
       setSelectedTransactions([]);
     } else {
-      setSelectedTransactions(filteredAndSortedTransactions.map(t => t.transactionId));
+      setSelectedTransactions(filteredAndSortedTransactions.map(t => t.reference));
     }
   };
 
@@ -252,7 +351,7 @@ const SettlementHubPage = () => {
             <div className="relative flex-1">
               <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 h-4 w-4" />
               <Input
-                placeholder="Search transactions, ISIN, security name..."
+                placeholder="Search transactions, instruments, participants..."
                 value={searchTerm}
                 onChange={(e) => setSearchTerm(e.target.value)}
                 className="pl-10"
@@ -266,19 +365,18 @@ const SettlementHubPage = () => {
                 </SelectTrigger>
                 <SelectContent>
                   <SelectItem value="all">All Status</SelectItem>
-                  <SelectItem value="Settled">Settled</SelectItem>
-                  <SelectItem value="Pending">Pending</SelectItem>
-                  <SelectItem value="Failed">Failed</SelectItem>
-                  <SelectItem value="In Progress">In Progress</SelectItem>
-                  <SelectItem value="Authorized">Authorized</SelectItem>
-                  <SelectItem value="Created">Created</SelectItem>
+                  <SelectItem value="Confirmed">Confirmed</SelectItem>
+                  <SelectItem value="Wait for send">Wait for send</SelectItem>
+                  <SelectItem value="Not for send">Not for send</SelectItem>
+                  <SelectItem value="Sent">Sent</SelectItem>
+                  <SelectItem value="Not matched">Not matched</SelectItem>
                 </SelectContent>
               </Select>
             </div>
           </div>
         </CardHeader>
         <CardContent>
-          <div className="rounded-md border">
+          <div className="rounded-md border overflow-x-auto">
             <Table>
               <TableHeader>
                 <TableRow>
@@ -289,65 +387,29 @@ const SettlementHubPage = () => {
                     />
                   </TableHead>
                   <TableHead 
-                    className="cursor-pointer hover:bg-gray-50"
-                    onClick={() => handleSort('transactionId')}
+                    className="cursor-pointer hover:bg-gray-50 min-w-[140px]"
+                    onClick={() => handleSort('reference')}
                   >
                     <div className="flex items-center gap-1">
-                      Transaction ID
+                      Reference
                       <ArrowUpDown className="h-4 w-4" />
                     </div>
                   </TableHead>
                   <TableHead 
                     className="cursor-pointer hover:bg-gray-50"
-                    onClick={() => handleSort('isinCode')}
+                    onClick={() => handleSort('operation')}
                   >
                     <div className="flex items-center gap-1">
-                      ISIN Code
+                      Operation
                       <ArrowUpDown className="h-4 w-4" />
                     </div>
                   </TableHead>
                   <TableHead 
                     className="cursor-pointer hover:bg-gray-50"
-                    onClick={() => handleSort('securityName')}
+                    onClick={() => handleSort('instrument')}
                   >
                     <div className="flex items-center gap-1">
-                      Security Name
-                      <ArrowUpDown className="h-4 w-4" />
-                    </div>
-                  </TableHead>
-                  <TableHead 
-                    className="cursor-pointer hover:bg-gray-50"
-                    onClick={() => handleSort('tradeDate')}
-                  >
-                    <div className="flex items-center gap-1">
-                      Trade Date
-                      <ArrowUpDown className="h-4 w-4" />
-                    </div>
-                  </TableHead>
-                  <TableHead 
-                    className="cursor-pointer hover:bg-gray-50"
-                    onClick={() => handleSort('settlementDate')}
-                  >
-                    <div className="flex items-center gap-1">
-                      Settlement Date
-                      <ArrowUpDown className="h-4 w-4" />
-                    </div>
-                  </TableHead>
-                  <TableHead 
-                    className="cursor-pointer hover:bg-gray-50"
-                    onClick={() => handleSort('buyer')}
-                  >
-                    <div className="flex items-center gap-1">
-                      Buyer
-                      <ArrowUpDown className="h-4 w-4" />
-                    </div>
-                  </TableHead>
-                  <TableHead 
-                    className="cursor-pointer hover:bg-gray-50"
-                    onClick={() => handleSort('seller')}
-                  >
-                    <div className="flex items-center gap-1">
-                      Seller
+                      Instrument
                       <ArrowUpDown className="h-4 w-4" />
                     </div>
                   </TableHead>
@@ -362,39 +424,117 @@ const SettlementHubPage = () => {
                   </TableHead>
                   <TableHead 
                     className="cursor-pointer hover:bg-gray-50"
-                    onClick={() => handleSort('status')}
+                    onClick={() => handleSort('faceAmount')}
                   >
                     <div className="flex items-center gap-1">
-                      Status
+                      Face amount
                       <ArrowUpDown className="h-4 w-4" />
                     </div>
                   </TableHead>
+                  <TableHead 
+                    className="cursor-pointer hover:bg-gray-50"
+                    onClick={() => handleSort('valueDate')}
+                  >
+                    <div className="flex items-center gap-1">
+                      Value Date
+                      <ArrowUpDown className="h-4 w-4" />
+                    </div>
+                  </TableHead>
+                  <TableHead 
+                    className="cursor-pointer hover:bg-gray-50"
+                    onClick={() => handleSort('settlementDate')}
+                  >
+                    <div className="flex items-center gap-1">
+                      Settlement date
+                      <ArrowUpDown className="h-4 w-4" />
+                    </div>
+                  </TableHead>
+                  <TableHead 
+                    className="cursor-pointer hover:bg-gray-50"
+                    onClick={() => handleSort('currency')}
+                  >
+                    <div className="flex items-center gap-1">
+                      Currency
+                      <ArrowUpDown className="h-4 w-4" />
+                    </div>
+                  </TableHead>
+                  <TableHead 
+                    className="cursor-pointer hover:bg-gray-50"
+                    onClick={() => handleSort('seller')}
+                  >
+                    <div className="flex items-center gap-1">
+                      Seller
+                      <ArrowUpDown className="h-4 w-4" />
+                    </div>
+                  </TableHead>
+                  <TableHead className="min-w-[120px]">Delivery CSD acc.</TableHead>
+                  <TableHead 
+                    className="cursor-pointer hover:bg-gray-50"
+                    onClick={() => handleSort('buyer')}
+                  >
+                    <div className="flex items-center gap-1">
+                      Buyer
+                      <ArrowUpDown className="h-4 w-4" />
+                    </div>
+                  </TableHead>
+                  <TableHead className="min-w-[120px]">Receive CSD acc.</TableHead>
+                  <TableHead>Local</TableHead>
+                  <TableHead>Remote</TableHead>
+                  <TableHead 
+                    className="cursor-pointer hover:bg-gray-50"
+                    onClick={() => handleSort('priority')}
+                  >
+                    <div className="flex items-center gap-1">
+                      Priority
+                      <ArrowUpDown className="h-4 w-4" />
+                    </div>
+                  </TableHead>
+                  <TableHead>TTC</TableHead>
+                  <TableHead>Via</TableHead>
+                  <TableHead>Debtor</TableHead>
                 </TableRow>
               </TableHeader>
               <TableBody>
                 {filteredAndSortedTransactions.map((transaction) => (
-                  <TableRow key={transaction.transactionId}>
+                  <TableRow key={transaction.reference}>
                     <TableCell>
                       <Checkbox
-                        checked={selectedTransactions.includes(transaction.transactionId)}
-                        onCheckedChange={() => handleSelectTransaction(transaction.transactionId)}
+                        checked={selectedTransactions.includes(transaction.reference)}
+                        onCheckedChange={() => handleSelectTransaction(transaction.reference)}
                       />
                     </TableCell>
-                    <TableCell className="font-medium">
-                      {transaction.transactionId}
+                    <TableCell className="font-medium text-xs">
+                      {transaction.reference}
                     </TableCell>
-                    <TableCell>{transaction.isinCode}</TableCell>
-                    <TableCell>{transaction.securityName}</TableCell>
-                    <TableCell>{transaction.tradeDate}</TableCell>
-                    <TableCell>{transaction.settlementDate}</TableCell>
-                    <TableCell>{transaction.buyer}</TableCell>
-                    <TableCell>{transaction.seller}</TableCell>
-                    <TableCell>{transaction.quantity.toLocaleString()}</TableCell>
+                    <TableCell className="text-xs">{transaction.operation}</TableCell>
+                    <TableCell className="text-xs">{transaction.instrument}</TableCell>
+                    <TableCell className="text-xs text-right">{transaction.quantity.toLocaleString()}</TableCell>
+                    <TableCell className="text-xs text-right">{transaction.faceAmount.toLocaleString()}</TableCell>
+                    <TableCell className="text-xs">{transaction.valueDate}</TableCell>
+                    <TableCell className="text-xs">{transaction.settlementDate}</TableCell>
+                    <TableCell className="text-xs">{transaction.currency}</TableCell>
+                    <TableCell className="text-xs">{transaction.seller}</TableCell>
+                    <TableCell className="text-xs">{transaction.deliveryCsdAccount}</TableCell>
+                    <TableCell className="text-xs">{transaction.buyer}</TableCell>
+                    <TableCell className="text-xs">{transaction.receiveCsdAccount}</TableCell>
                     <TableCell>
-                      <Badge variant={getStatusBadgeVariant(transaction.status)}>
-                        {transaction.status}
-                      </Badge>
+                      {transaction.local && (
+                        <Badge variant={getStatusBadgeVariant(transaction.local)} className="text-xs">
+                          {transaction.local}
+                        </Badge>
+                      )}
                     </TableCell>
+                    <TableCell>
+                      {transaction.remote && (
+                        <Badge variant={getStatusBadgeVariant(transaction.remote)} className="text-xs">
+                          {transaction.remote}
+                        </Badge>
+                      )}
+                    </TableCell>
+                    <TableCell className="text-xs">{transaction.priority}</TableCell>
+                    <TableCell className="text-xs">{transaction.ttc}</TableCell>
+                    <TableCell className="text-xs">{transaction.via}</TableCell>
+                    <TableCell className="text-xs">{transaction.debtor}</TableCell>
                   </TableRow>
                 ))}
               </TableBody>
