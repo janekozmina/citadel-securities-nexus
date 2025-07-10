@@ -272,7 +272,7 @@ const SettlementHubPage = () => {
   };
 
   return (
-    <div className="space-y-6 bg-slate-50 min-h-screen p-6">
+    <div className="space-y-6 min-h-screen">
       <div className="flex items-center justify-between">
         <div>
           <h1 className="text-3xl font-bold text-slate-800">Settlement Hub</h1>
@@ -326,7 +326,7 @@ const SettlementHubPage = () => {
             </div>
           )}
 
-          <div className="border rounded-lg overflow-x-auto">
+          <div className="border rounded-lg overflow-auto max-w-full">
             <Table>
               <TableHeader>
                 <TableRow>
@@ -336,22 +336,22 @@ const SettlementHubPage = () => {
                       onCheckedChange={handleSelectAll}
                     />
                   </TableHead>
-                  <TableHead>Reference</TableHead>
-                  <TableHead>Operation</TableHead>
-                  <TableHead>Instrument</TableHead>
-                  <TableHead>Quantity</TableHead>
-                  <TableHead>Face Amount</TableHead>
-                  <TableHead>Value Date</TableHead>
-                  <TableHead>Settlement Date</TableHead>
-                  <TableHead>Currency</TableHead>
-                  <TableHead>Seller</TableHead>
-                  <TableHead>Deliver CSD Account</TableHead>
-                  <TableHead>Buyer</TableHead>
-                  <TableHead>Receive CSD Account</TableHead>
-                  <TableHead>Custodian</TableHead>
-                  <TableHead>Creditor</TableHead>
-                  <TableHead>Debtor</TableHead>
-                  <TableHead>Status</TableHead>
+                  <TableHead className="min-w-[100px]">Reference</TableHead>
+                  <TableHead className="min-w-[80px]">Operation</TableHead>
+                  <TableHead className="min-w-[80px]">Instrument</TableHead>
+                  <TableHead className="min-w-[80px] text-right">Quantity</TableHead>
+                  <TableHead className="min-w-[100px] text-right">Face Amount</TableHead>
+                  <TableHead className="min-w-[100px]">Value Date</TableHead>
+                  <TableHead className="min-w-[120px]">Settlement Date</TableHead>
+                  <TableHead className="min-w-[80px]">Currency</TableHead>
+                  <TableHead className="min-w-[100px]">Seller</TableHead>
+                  <TableHead className="min-w-[120px]">Deliver Account</TableHead>
+                  <TableHead className="min-w-[100px]">Buyer</TableHead>
+                  <TableHead className="min-w-[120px]">Receive Account</TableHead>
+                  <TableHead className="min-w-[100px]">Custodian</TableHead>
+                  <TableHead className="min-w-[100px]">Creditor</TableHead>
+                  <TableHead className="min-w-[100px]">Debtor</TableHead>
+                  <TableHead className="min-w-[120px]">Status</TableHead>
                 </TableRow>
               </TableHeader>
               <TableBody>

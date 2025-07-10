@@ -10,6 +10,7 @@ import {
   SidebarMenu,
   SidebarMenuButton,
   SidebarMenuItem,
+  useSidebar,
 } from '@/components/ui/sidebar';
 import { 
   Home, 
@@ -117,28 +118,40 @@ const navigationItems = [
 
 export function AppSidebar() {
   const { user } = useAuth();
+  const { state } = useSidebar();
+  const isCollapsed = state === 'collapsed';
 
   const filteredItems = navigationItems.filter(item => 
     user?.role && item.roles.includes(user.role)
   );
 
   return (
-    <Sidebar className="border-r border-slate-700 w-60" style={{ backgroundColor: '#0F172A' }}>
+    <Sidebar 
+      className="border-r border-slate-700" 
+      style={{ backgroundColor: '#0F172A' }}
+      collapsible="icon"
+    >
       <SidebarContent>
         <div className="p-4 border-b border-slate-700">
-          <h2 className="text-white font-semibold text-lg">CSD Unified Portal</h2>
-          <p className="text-slate-300 text-sm">Central Securities Depository</p>
+          {!isCollapsed && (
+            <>
+              <h2 className="text-white font-semibold text-lg">CSD Unified Portal</h2>
+              <p className="text-slate-300 text-sm">Central Securities Depository</p>
+            </>
+          )}
         </div>
         
         <SidebarGroup>
-          <SidebarGroupLabel className="text-slate-300">
-            Navigation
-          </SidebarGroupLabel>
+          {!isCollapsed && (
+            <SidebarGroupLabel className="text-slate-300">
+              Navigation
+            </SidebarGroupLabel>
+          )}
           <SidebarGroupContent>
             <SidebarMenu>
               {filteredItems.map((item) => (
                 <SidebarMenuItem key={item.title}>
-                  <SidebarMenuButton asChild>
+                  <SidebarMenuButton asChild tooltip={isCollapsed ? item.title : undefined}>
                     <NavLink 
                       to={item.url} 
                       end={item.url === '/'}
@@ -151,8 +164,8 @@ export function AppSidebar() {
                       }
                       title={item.title}
                     >
-                      <item.icon className="h-4 w-4" />
-                      <span>{item.title}</span>
+                      <item.icon className="h-4 w-4 flex-shrink-0" />
+                      {!isCollapsed && <span>{item.title}</span>}
                     </NavLink>
                   </SidebarMenuButton>
                 </SidebarMenuItem>
