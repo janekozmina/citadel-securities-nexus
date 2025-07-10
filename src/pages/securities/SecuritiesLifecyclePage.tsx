@@ -1,7 +1,7 @@
-
 import { useState } from 'react';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
+import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from '@/components/ui/tooltip';
 import { Info, ChevronRight, ChevronDown, FileText, TrendingUp, Calendar, Edit, Settings, Mail } from 'lucide-react';
 import { Collapsible, CollapsibleContent, CollapsibleTrigger } from '@/components/ui/collapsible';
@@ -9,19 +9,8 @@ import { useSidebar } from '@/components/ui/sidebar';
 
 const SecuritiesLifecyclePage = () => {
   const [activeSection, setActiveSection] = useState<string>('instrument-reference');
-  const [expandedMenus, setExpandedMenus] = useState<Set<string>>(new Set(['corporate-actions']));
   const { state } = useSidebar();
   const isCollapsed = state === 'collapsed';
-
-  const toggleMenu = (menuId: string) => {
-    const newExpanded = new Set(expandedMenus);
-    if (newExpanded.has(menuId)) {
-      newExpanded.delete(menuId);
-    } else {
-      newExpanded.add(menuId);
-    }
-    setExpandedMenus(newExpanded);
-  };
 
   const instrumentData = [
     { isin: "US0378331005", name: "Apple Inc.", issuer: "Apple Inc.", assetType: "Equity", currency: "USD", status: "Active", cfi: "ESVUFR", fisn: "APPLE", issueDate: "1980-12-12", maturity: "N/A", exCoupon: "N/A" },
@@ -184,217 +173,183 @@ const SecuritiesLifecyclePage = () => {
   );
 
   const renderCorporateActions = () => (
-    <div className="space-y-6">
-      <div className="flex items-center justify-between">
+    <div className="p-6">
+      <div className="flex items-center justify-between mb-6">
         <h2 className="text-2xl font-bold text-slate-900">Corporate Actions</h2>
       </div>
       
-      <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-        <Card>
-          <CardHeader>
-            <CardTitle className="flex items-center gap-2">
-              <Edit className="h-5 w-5" />
-              Create/Edit Corporate Actions
-            </CardTitle>
-          </CardHeader>
-          <CardContent className="space-y-4">
-            <Button className="w-full justify-start" variant="outline">
-              <Calendar className="h-4 w-4 mr-2" />
-              Create Dividend Action
-            </Button>
-            <Button className="w-full justify-start" variant="outline">
-              <TrendingUp className="h-4 w-4 mr-2" />
-              Create Stock Split
-            </Button>
-            <Button className="w-full justify-start" variant="outline">
-              <FileText className="h-4 w-4 mr-2" />
-              Create Rights Issue
-            </Button>
-            <Button className="w-full justify-start" variant="outline">
-              <Settings className="h-4 w-4 mr-2" />
-              Edit Existing Action
-            </Button>
-          </CardContent>
-        </Card>
-
-        <Card>
-          <CardHeader>
-            <CardTitle className="flex items-center gap-2">
-              <Settings className="h-5 w-5" />
-              Automation & Processing
-            </CardTitle>
-          </CardHeader>
-          <CardContent className="space-y-4">
-            <div className="p-4 bg-blue-50 rounded-lg">
-              <h4 className="font-semibold text-blue-900">Automated Calculations</h4>
-              <p className="text-sm text-blue-700 mt-1">
-                Entitlement calculations for coupons, dividends, splits, and mergers
-              </p>
-            </div>
-            <div className="p-4 bg-green-50 rounded-lg">
-              <h4 className="font-semibold text-green-900">Processing Status</h4>
-              <p className="text-sm text-green-700 mt-1">
-                Real-time processing of corporate actions
-              </p>
-            </div>
-            <Button className="w-full">Configure Automation Rules</Button>
-          </CardContent>
-        </Card>
-
-        <Card className="lg:col-span-2">
-          <CardHeader>
-            <CardTitle className="flex items-center gap-2">
-              <Mail className="h-5 w-5" />
-              Notifications & Communications
-            </CardTitle>
-          </CardHeader>
-          <CardContent>
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-              <div className="space-y-3">
-                <h4 className="font-semibold">Dashboard Notifications</h4>
-                <div className="space-y-2">
-                  <div className="flex items-center justify-between p-2 bg-yellow-50 rounded">
-                    <span className="text-sm">AAPL Dividend - Ex-Date Tomorrow</span>
-                    <span className="text-xs text-yellow-600">Pending</span>
+      <Tabs defaultValue="create-edit" className="w-full">
+        <TabsList className="grid w-full grid-cols-3">
+          <TabsTrigger value="create-edit" className="flex items-center gap-2">
+            <Edit className="h-4 w-4" />
+            Create/Edit
+          </TabsTrigger>
+          <TabsTrigger value="automation" className="flex items-center gap-2">
+            <Settings className="h-4 w-4" />
+            Automation
+          </TabsTrigger>
+          <TabsTrigger value="notifications" className="flex items-center gap-2">
+            <Mail className="h-4 w-4" />
+            Notifications
+          </TabsTrigger>
+        </TabsList>
+        
+        <TabsContent value="create-edit" className="mt-6">
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+            <Card>
+              <CardHeader>
+                <CardTitle className="flex items-center gap-2">
+                  <Edit className="h-5 w-5" />
+                  Create/Edit Corporate Actions
+                </CardTitle>
+              </CardHeader>
+              <CardContent className="space-y-4">
+                <Button className="w-full justify-start" variant="outline">
+                  <Calendar className="h-4 w-4 mr-2" />
+                  Create Dividend Action
+                </Button>
+                <Button className="w-full justify-start" variant="outline">
+                  <TrendingUp className="h-4 w-4 mr-2" />
+                  Create Stock Split
+                </Button>
+                <Button className="w-full justify-start" variant="outline">
+                  <FileText className="h-4 w-4 mr-2" />
+                  Create Rights Issue
+                </Button>
+                <Button className="w-full justify-start" variant="outline">
+                  <Settings className="h-4 w-4 mr-2" />
+                  Edit Existing Action
+                </Button>
+              </CardContent>
+            </Card>
+          </div>
+        </TabsContent>
+        
+        <TabsContent value="automation" className="mt-6">
+          <Card>
+            <CardHeader>
+              <CardTitle className="flex items-center gap-2">
+                <Settings className="h-5 w-5" />
+                Automation & Processing
+              </CardTitle>
+            </CardHeader>
+            <CardContent className="space-y-4">
+              <div className="p-4 bg-blue-50 rounded-lg">
+                <h4 className="font-semibold text-blue-900">Automated Calculations</h4>
+                <p className="text-sm text-blue-700 mt-1">
+                  Entitlement calculations for coupons, dividends, splits, and mergers
+                </p>
+              </div>
+              <div className="p-4 bg-green-50 rounded-lg">
+                <h4 className="font-semibold text-green-900">Processing Status</h4>
+                <p className="text-sm text-green-700 mt-1">
+                  Real-time processing of corporate actions
+                </p>
+              </div>
+              <Button className="w-full">Configure Automation Rules</Button>
+            </CardContent>
+          </Card>
+        </TabsContent>
+        
+        <TabsContent value="notifications" className="mt-6">
+          <Card>
+            <CardHeader>
+              <CardTitle className="flex items-center gap-2">
+                <Mail className="h-5 w-5" />
+                Notifications & Communications
+              </CardTitle>
+            </CardHeader>
+            <CardContent>
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <div className="space-y-3">
+                  <h4 className="font-semibold">Dashboard Notifications</h4>
+                  <div className="space-y-2">
+                    <div className="flex items-center justify-between p-2 bg-yellow-50 rounded">
+                      <span className="text-sm">AAPL Dividend - Ex-Date Tomorrow</span>
+                      <span className="text-xs text-yellow-600">Pending</span>
+                    </div>
+                    <div className="flex items-center justify-between p-2 bg-green-50 rounded">
+                      <span className="text-sm">TSLA Stock Split - Processed</span>
+                      <span className="text-xs text-green-600">Complete</span>
+                    </div>
                   </div>
-                  <div className="flex items-center justify-between p-2 bg-green-50 rounded">
-                    <span className="text-sm">TSLA Stock Split - Processed</span>
-                    <span className="text-xs text-green-600">Complete</span>
+                </div>
+                <div className="space-y-3">
+                  <h4 className="font-semibold">Email Notifications</h4>
+                  <div className="space-y-2">
+                    <Button variant="outline" size="sm" className="w-full">
+                      Configure Email Templates
+                    </Button>
+                    <Button variant="outline" size="sm" className="w-full">
+                      Manage Recipient Lists
+                    </Button>
+                    <Button variant="outline" size="sm" className="w-full">
+                      Send Test Notifications
+                    </Button>
                   </div>
                 </div>
               </div>
-              <div className="space-y-3">
-                <h4 className="font-semibold">Email Notifications</h4>
-                <div className="space-y-2">
-                  <Button variant="outline" size="sm" className="w-full">
-                    Configure Email Templates
-                  </Button>
-                  <Button variant="outline" size="sm" className="w-full">
-                    Manage Recipient Lists
-                  </Button>
-                  <Button variant="outline" size="sm" className="w-full">
-                    Send Test Notifications
-                  </Button>
-                </div>
-              </div>
-            </div>
-          </CardContent>
-        </Card>
-      </div>
+            </CardContent>
+          </Card>
+        </TabsContent>
+      </Tabs>
     </div>
   );
 
   const getSidebarWidth = () => {
     if (isCollapsed) return 'w-12';
-    return 'w-80';
-  };
-
-  const getSecondLevelWidth = () => {
-    if (isCollapsed) return 'w-0 opacity-0';
-    return 'w-60'; // 75% of 80 (320px -> 240px)
+    return 'w-64';
   };
 
   return (
     <TooltipProvider>
       <div className="flex h-screen bg-white">
         {/* Left Sidebar Menu */}
-        <div className={`${getSidebarWidth()} transition-all duration-200 border-r border-slate-200 bg-white flex`}>
-          {/* Main Menu */}
-          <div className={`${isCollapsed ? 'w-12' : 'w-20'} transition-all duration-200`}>
-            <div className="p-2 border-b border-slate-200">
-              {!isCollapsed && (
-                <h1 className="text-sm font-bold text-slate-900">Securities</h1>
-              )}
-            </div>
-            
-            <div className="p-2 space-y-1">
-              {/* Instrument Reference */}
-              <Button
-                variant={activeSection === 'instrument-reference' ? 'default' : 'ghost'}
-                className={`${isCollapsed ? 'w-8 h-8 p-0' : 'w-full'} justify-start`}
-                onClick={() => setActiveSection('instrument-reference')}
-              >
-                <FileText className="h-4 w-4" />
-                {!isCollapsed && <span className="ml-2 text-xs">Instrument</span>}
-              </Button>
-
-              {/* Issuance */}
-              <Button
-                variant={activeSection === 'issuance' ? 'default' : 'ghost'}
-                className={`${isCollapsed ? 'w-8 h-8 p-0' : 'w-full'} justify-start`}
-                onClick={() => setActiveSection('issuance')}
-              >
-                <TrendingUp className="h-4 w-4" />
-                {!isCollapsed && <span className="ml-2 text-xs">Issuance</span>}
-              </Button>
-
-              {/* Corporate Actions */}
-              <Button
-                variant={activeSection.startsWith('corporate-actions') ? 'default' : 'ghost'}
-                className={`${isCollapsed ? 'w-8 h-8 p-0' : 'w-full'} justify-start`}
-                onClick={() => setActiveSection('corporate-actions')}
-              >
-                <Calendar className="h-4 w-4" />
-                {!isCollapsed && <span className="ml-2 text-xs">Corporate</span>}
-              </Button>
-            </div>
-          </div>
-
-          {/* Second Level Menu */}
-          <div className={`${getSecondLevelWidth()} transition-all duration-200 border-l border-slate-200 bg-slate-50`}>
+        <div className={`${getSidebarWidth()} transition-all duration-200 border-r border-slate-200 bg-white`}>
+          <div className="p-2 border-b border-slate-200">
             {!isCollapsed && (
-              <>
-                <div className="p-3 border-b border-slate-200">
-                  <h2 className="text-sm font-semibold text-slate-800">
-                    {activeSection === 'instrument-reference' && 'Instrument Reference'}
-                    {activeSection === 'issuance' && 'Issuance'}
-                    {activeSection.startsWith('corporate-actions') && 'Corporate Actions'}
-                  </h2>
-                </div>
-                
-                <div className="p-2 space-y-1">
-                  {activeSection === 'corporate-actions' && (
-                    <>
-                      <Button
-                        variant="ghost"
-                        size="sm"
-                        className="w-full justify-start text-xs"
-                        onClick={() => setActiveSection('corporate-actions')}
-                      >
-                        <Edit className="h-3 w-3 mr-2" />
-                        Create/Edit Actions
-                      </Button>
-                      <Button
-                        variant="ghost"
-                        size="sm"
-                        className="w-full justify-start text-xs"
-                        onClick={() => setActiveSection('corporate-actions')}
-                      >
-                        <Settings className="h-3 w-3 mr-2" />
-                        Automate Processing
-                      </Button>
-                      <Button
-                        variant="ghost"
-                        size="sm"
-                        className="w-full justify-start text-xs"
-                        onClick={() => setActiveSection('corporate-actions')}
-                      >
-                        <Mail className="h-3 w-3 mr-2" />
-                        Notifications
-                      </Button>
-                    </>
-                  )}
-                </div>
-              </>
+              <h1 className="text-sm font-bold text-slate-900">Securities</h1>
             )}
+          </div>
+          
+          <div className="p-2 space-y-1">
+            {/* Instrument Reference */}
+            <Button
+              variant={activeSection === 'instrument-reference' ? 'default' : 'ghost'}
+              className={`${isCollapsed ? 'w-8 h-8 p-0' : 'w-full'} justify-start`}
+              onClick={() => setActiveSection('instrument-reference')}
+            >
+              <FileText className="h-4 w-4" />
+              {!isCollapsed && <span className="ml-2 text-xs">Instrument</span>}
+            </Button>
+
+            {/* Issuance */}
+            <Button
+              variant={activeSection === 'issuance' ? 'default' : 'ghost'}
+              className={`${isCollapsed ? 'w-8 h-8 p-0' : 'w-full'} justify-start`}
+              onClick={() => setActiveSection('issuance')}
+            >
+              <TrendingUp className="h-4 w-4" />
+              {!isCollapsed && <span className="ml-2 text-xs">Issuance</span>}
+            </Button>
+
+            {/* Corporate Actions */}
+            <Button
+              variant={activeSection === 'corporate-actions' ? 'default' : 'ghost'}
+              className={`${isCollapsed ? 'w-8 h-8 p-0' : 'w-full'} justify-start`}
+              onClick={() => setActiveSection('corporate-actions')}
+            >
+              <Calendar className="h-4 w-4" />
+              {!isCollapsed && <span className="ml-2 text-xs">Corporate</span>}
+            </Button>
           </div>
         </div>
 
         {/* Main Content */}
-        <div className="flex-1 overflow-auto p-6">
+        <div className="flex-1 overflow-auto">
           {activeSection === 'instrument-reference' && renderInstrumentReference()}
           {activeSection === 'issuance' && renderIssuance()}
-          {activeSection.startsWith('corporate-actions') && renderCorporateActions()}
+          {activeSection === 'corporate-actions' && renderCorporateActions()}
         </div>
       </div>
     </TooltipProvider>

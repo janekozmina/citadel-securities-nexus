@@ -49,10 +49,10 @@ const AlertsPanel = ({ alerts }: AlertsPanelProps) => {
   const urgentAlerts = alerts.filter(alert => alert.urgent);
 
   return (
-    <div className={`fixed right-0 top-0 h-full transition-all duration-300 z-50 ${isExpanded ? 'w-80' : 'w-12'}`}>
+    <div className={`fixed right-0 top-16 h-[calc(100vh-4rem)] transition-all duration-300 z-40 ${isExpanded ? 'w-64' : 'w-10'}`}>
       <div className="h-full flex">
         {/* Toggle Button */}
-        <div className="w-12 h-full flex items-center justify-center" style={{ backgroundColor: '#5435E1' }}>
+        <div className="w-10 h-full flex items-center justify-center" style={{ backgroundColor: '#5435E1' }}>
           <Button
             variant="ghost"
             size="icon"
@@ -72,13 +72,13 @@ const AlertsPanel = ({ alerts }: AlertsPanelProps) => {
         {isExpanded && (
           <Card className="flex-1 h-full rounded-none border-l-0">
             <CardHeader className="pb-3" style={{ backgroundColor: '#5435E1' }}>
-              <CardTitle className="text-white text-lg">Alerts & Tasks</CardTitle>
+              <CardTitle className="text-white text-base">Alerts & Tasks</CardTitle>
               <div className="text-white/80 text-sm">
                 {alerts.length} active item{alerts.length !== 1 ? 's' : ''}
               </div>
             </CardHeader>
             <CardContent className="p-0 h-full overflow-y-auto">
-              <div className="space-y-1 p-4">
+              <div className="space-y-1 p-3">
                 {alerts.length === 0 ? (
                   <div className="text-center text-slate-500 py-8">
                     <CheckCircle className="h-8 w-8 mx-auto mb-2 text-green-500" />
@@ -88,17 +88,17 @@ const AlertsPanel = ({ alerts }: AlertsPanelProps) => {
                   alerts.map((alert) => (
                     <div
                       key={alert.id}
-                      className={`p-3 rounded-lg border transition-colors hover:bg-slate-50 ${
+                      className={`p-2 rounded-lg border transition-colors hover:bg-slate-50 ${
                         alert.urgent ? 'border-red-200 bg-red-50' : 'border-slate-200'
                       }`}
                     >
-                      <div className="flex items-start gap-3">
+                      <div className="flex items-start gap-2">
                         {getAlertIcon(alert.type)}
                         <div className="flex-1 min-w-0">
-                          <p className="text-sm font-medium text-slate-900 leading-tight">
+                          <p className="text-xs font-medium text-slate-900 leading-tight">
                             {alert.message}
                           </p>
-                          <div className="flex items-center justify-between mt-2">
+                          <div className="flex items-center justify-between mt-1">
                             <span className="text-xs text-slate-500">{alert.time}</span>
                             <Badge className={`text-xs ${getAlertBadgeColor(alert.type)}`}>
                               {alert.type}
