@@ -3,15 +3,10 @@ import { useState } from 'react';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from '@/components/ui/tooltip';
-import { FileText, TrendingUp, Calendar, Edit, Settings, Mail, ChevronRight, ChevronDown } from 'lucide-react';
-import { Collapsible, CollapsibleContent, CollapsibleTrigger } from '@/components/ui/collapsible';
-import { useSidebar } from '@/components/ui/sidebar';
+import { FileText, TrendingUp, Calendar, Edit, Settings, Mail } from 'lucide-react';
 
 const SecuritiesLifecyclePage = () => {
   const [activeSection, setActiveSection] = useState<string>('instrument-reference');
-  const { state, toggleSidebar } = useSidebar();
-  const isCollapsed = state === 'collapsed';
-  const [isMenuExpanded, setIsMenuExpanded] = useState(true);
 
   const instrumentData = [
     { isin: "US0378331005", name: "Apple Inc.", issuer: "Apple Inc.", assetType: "Equity", currency: "USD", status: "Active", cfi: "ESVUFR", fisn: "APPLE", issueDate: "1980-12-12", maturity: "N/A", exCoupon: "N/A" },
@@ -94,7 +89,7 @@ const SecuritiesLifecyclePage = () => {
         </Card>
       </div>
 
-      {/* Right Sidebar with Options Buttons */}
+      {/* Right Sidebar with Options */}
       <div className="w-64 space-y-4">
         <div className="bg-white border border-slate-200 rounded-lg p-4">
           <h3 className="font-semibold text-slate-900 mb-4">Options</h3>
@@ -266,124 +261,43 @@ const SecuritiesLifecyclePage = () => {
     </div>
   );
 
-  const getSidebarWidth = () => {
-    if (isCollapsed) return 'w-12';
-    return 'w-48';
-  };
-
   return (
     <TooltipProvider>
       <div className="flex h-screen bg-white">
         {/* Left Sidebar Menu */}
-        <div className={`${getSidebarWidth()} transition-all duration-200 border-r border-slate-200 bg-white`}>
-          <div className="p-2 border-b border-slate-200">
-            <div className="flex items-center justify-between">
-              {!isCollapsed && (
-                <h1 className="text-sm font-bold text-slate-900">Securities</h1>
-              )}
-              <Button
-                variant="ghost"
-                size="sm"
-                onClick={toggleSidebar}
-                className="p-1 h-6 w-6"
-              >
-                {isCollapsed ? <ChevronRight className="h-4 w-4" /> : <ChevronDown className="h-4 w-4" />}
-              </Button>
-            </div>
+        <div className="w-56 border-r border-slate-200 bg-white">
+          <div className="p-4 border-b border-slate-200">
+            <h1 className="text-lg font-bold text-slate-900">Securities</h1>
           </div>
           
-          {!isCollapsed && (
-            <Collapsible open={isMenuExpanded} onOpenChange={setIsMenuExpanded}>
-              <CollapsibleTrigger asChild>
-                <Button
-                  variant="ghost"
-                  className="w-full justify-between p-2 text-sm font-medium"
-                >
-                  <span>Navigation</span>
-                  {isMenuExpanded ? <ChevronDown className="h-4 w-4" /> : <ChevronRight className="h-4 w-4" />}
-                </Button>
-              </CollapsibleTrigger>
-              <CollapsibleContent>
-                <div className="p-2 space-y-1">
-                  <Button
-                    variant={activeSection === 'instrument-reference' ? 'default' : 'ghost'}
-                    className="w-full justify-start text-sm"
-                    onClick={() => setActiveSection('instrument-reference')}
-                  >
-                    <FileText className="h-4 w-4 mr-2" />
-                    Instrument Reference
-                  </Button>
+          <div className="p-2 space-y-1">
+            <Button
+              variant={activeSection === 'instrument-reference' ? 'default' : 'ghost'}
+              className="w-full justify-start text-sm h-auto py-3 px-3"
+              onClick={() => setActiveSection('instrument-reference')}
+            >
+              <FileText className="h-4 w-4 mr-2 flex-shrink-0" />
+              <span className="break-words">Instrument Reference</span>
+            </Button>
 
-                  <Button
-                    variant={activeSection === 'issuance' ? 'default' : 'ghost'}
-                    className="w-full justify-start text-sm"
-                    onClick={() => setActiveSection('issuance')}
-                  >
-                    <TrendingUp className="h-4 w-4 mr-2" />
-                    Issuance
-                  </Button>
+            <Button
+              variant={activeSection === 'issuance' ? 'default' : 'ghost'}
+              className="w-full justify-start text-sm h-auto py-3 px-3"
+              onClick={() => setActiveSection('issuance')}
+            >
+              <TrendingUp className="h-4 w-4 mr-2 flex-shrink-0" />
+              <span className="break-words">Issuance</span>
+            </Button>
 
-                  <Button
-                    variant={activeSection === 'corporate-actions' ? 'default' : 'ghost'}
-                    className="w-full justify-start text-sm"
-                    onClick={() => setActiveSection('corporate-actions')}
-                  >
-                    <Calendar className="h-4 w-4 mr-2" />
-                    Corporate Actions
-                  </Button>
-                </div>
-              </CollapsibleContent>
-            </Collapsible>
-          )}
-
-          {isCollapsed && (
-            <div className="p-2 space-y-1">
-              <Tooltip>
-                <TooltipTrigger asChild>
-                  <Button
-                    variant={activeSection === 'instrument-reference' ? 'default' : 'ghost'}
-                    className="w-8 h-8 p-0"
-                    onClick={() => setActiveSection('instrument-reference')}
-                  >
-                    <FileText className="h-4 w-4" />
-                  </Button>
-                </TooltipTrigger>
-                <TooltipContent side="right">
-                  <p>Instrument Reference</p>
-                </TooltipContent>
-              </Tooltip>
-
-              <Tooltip>
-                <TooltipTrigger asChild>
-                  <Button
-                    variant={activeSection === 'issuance' ? 'default' : 'ghost'}
-                    className="w-8 h-8 p-0"
-                    onClick={() => setActiveSection('issuance')}
-                  >
-                    <TrendingUp className="h-4 w-4" />
-                  </Button>
-                </TooltipTrigger>
-                <TooltipContent side="right">
-                  <p>Issuance</p>
-                </TooltipContent>
-              </Tooltip>
-
-              <Tooltip>
-                <TooltipTrigger asChild>
-                  <Button
-                    variant={activeSection === 'corporate-actions' ? 'default' : 'ghost'}
-                    className="w-8 h-8 p-0"
-                    onClick={() => setActiveSection('corporate-actions')}
-                  >
-                    <Calendar className="h-4 w-4" />
-                  </Button>
-                </TooltipTrigger>
-                <TooltipContent side="right">
-                  <p>Corporate Actions</p>
-                </TooltipContent>
-              </Tooltip>
-            </div>
-          )}
+            <Button
+              variant={activeSection === 'corporate-actions' ? 'default' : 'ghost'}
+              className="w-full justify-start text-sm h-auto py-3 px-3"
+              onClick={() => setActiveSection('corporate-actions')}
+            >
+              <Calendar className="h-4 w-4 mr-2 flex-shrink-0" />
+              <span className="break-words">Corporate Actions</span>
+            </Button>
+          </div>
         </div>
 
         {/* Main Content */}
