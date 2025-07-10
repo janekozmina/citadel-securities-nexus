@@ -2,44 +2,44 @@
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import { ChartContainer, ChartTooltip, ChartTooltipContent } from '@/components/ui/chart';
-import { LineChart, Line, XAxis, YAxis, ResponsiveContainer, AreaChart, Area, PieChart, Pie, Cell } from 'recharts';
-import { Cpu, HardDrive, Database, Activity, Clock, Gauge } from 'lucide-react';
+import { LineChart, Line, XAxis, YAxis, ResponsiveContainer, AreaChart, Area, PieChart, Pie, Cell, BarChart, Bar } from 'recharts';
+import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table';
 
 const SystemMonitoringPage = () => {
-  // System uptime and basic metrics
+  // System metrics matching Grafana display
   const systemMetrics = {
-    uptime: '3.5 hours',
+    uptime: '3.5 hour',
     totalMemory: '986 MiB',
     cpuUsage: 11.60,
-    cpuLowait: 0.07,
+    cpuIowait: 0.07,
     memoryUsage: 70,
-    openFileDescriptors: 1150,
+    openFileDescriptor: '1.15K',
     rootPartitionUsage: 9.4,
     maxPartitionUsage: 9.4
   };
 
-  // Chart data
+  // Chart data for system load
   const systemLoadData = [
-    { time: '08:50', load1m: 0.15, load5m: 0.12, load15m: 0.10 },
-    { time: '09:00', load1m: 0.18, load5m: 0.14, load15m: 0.11 },
-    { time: '09:10', load1m: 0.22, load5m: 0.16, load15m: 0.12 },
-    { time: '09:20', load1m: 0.19, load5m: 0.15, load15m: 0.11 },
-    { time: '09:30', load1m: 0.16, load5m: 0.13, load15m: 0.10 },
-    { time: '09:40', load1m: 0.14, load5m: 0.12, load15m: 0.09 },
+    { time: '08:50', localhost_9100_1m: 0.0100, localhost_9100_5m: 0.0100, localhost_9100_15m: 0 },
+    { time: '09:00', localhost_9100_1m: 0.0120, localhost_9100_5m: 0.0110, localhost_9100_15m: 0 },
+    { time: '09:10', localhost_9100_1m: 0.0140, localhost_9100_5m: 0.0120, localhost_9100_15m: 0 },
+    { time: '09:20', localhost_9100_1m: 0.0110, localhost_9100_5m: 0.0115, localhost_9100_15m: 0 },
+    { time: '09:30', localhost_9100_1m: 0.0100, localhost_9100_5m: 0.0105, localhost_9100_15m: 0 },
+    { time: '09:40', localhost_9100_1m: 0.0090, localhost_9100_5m: 0.0100, localhost_9100_15m: 0 },
   ];
 
   const diskSpaceData = [
     { name: 'Used', value: 24.1, color: '#f59e0b' },
-    { name: 'Free', value: 75.9, color: '#10b981' }
+    { name: 'Free', value: 75.9, color: 'transparent' }
   ];
 
   const cpuUsageData = [
-    { time: '08:50', system: 1.2, user: 8.2, iowait: 0.5 },
-    { time: '09:00', system: 1.8, user: 7.8, iowait: 0.3 },
-    { time: '09:10', system: 2.1, user: 9.2, iowait: 0.4 },
-    { time: '09:20', system: 1.5, user: 8.5, iowait: 0.2 },
-    { time: '09:30', system: 1.3, user: 7.9, iowait: 0.3 },
-    { time: '09:40', system: 1.1, user: 7.2, iowait: 0.1 },
+    { time: '08:50', localhost_9100_System: 1.52, localhost_9100_User: 8.67, localhost_9100_Iowait: 0.73, localhost_9100_idle_per_second: 1.20 },
+    { time: '09:00', localhost_9100_System: 1.36, localhost_9100_User: 2.98, localhost_9100_Iowait: 0.07, localhost_9100_idle_per_second: 0.03 },
+    { time: '09:10', localhost_9100_System: 1.20, localhost_9100_User: 4.53, localhost_9100_Iowait: 0.07, localhost_9100_idle_per_second: 0 },
+    { time: '09:20', localhost_9100_System: 1.15, localhost_9100_User: 3.45, localhost_9100_Iowait: 0.05, localhost_9100_idle_per_second: 0 },
+    { time: '09:30', localhost_9100_System: 1.10, localhost_9100_User: 2.87, localhost_9100_Iowait: 0.03, localhost_9100_idle_per_second: 0 },
+    { time: '09:40', localhost_9100_System: 1.05, localhost_9100_User: 2.15, localhost_9100_Iowait: 0.02, localhost_9100_idle_per_second: 0 },
   ];
 
   const diskIOData = [
@@ -52,364 +52,419 @@ const SystemMonitoringPage = () => {
   ];
 
   const memoryData = [
-    { time: '08:50', total: 985.52, used: 689.87 },
-    { time: '09:00', total: 985.52, used: 695.23 },
-    { time: '09:10', total: 985.52, used: 702.15 },
-    { time: '09:20', total: 985.52, used: 698.45 },
-    { time: '09:30', total: 985.52, used: 692.30 },
-    { time: '09:40', total: 985.52, used: 688.75 },
+    { time: '08:50', localhost_9100_Total_memory: 985.52, localhost_9100_Used: 689.87 },
+    { time: '09:00', localhost_9100_Total_memory: 985.52, localhost_9100_Used: 695.23 },
+    { time: '09:10', localhost_9100_Total_memory: 985.52, localhost_9100_Used: 702.15 },
+    { time: '09:20', localhost_9100_Total_memory: 985.52, localhost_9100_Used: 698.45 },
+    { time: '09:30', localhost_9100_Total_memory: 985.52, localhost_9100_Used: 692.30 },
+    { time: '09:40', localhost_9100_Total_memory: 985.52, localhost_9100_Used: 688.75 },
+  ];
+
+  const partitionData = [
+    { filesystem: 'ext4', ip: 'localhost:9100', partition: '/', availableSpace: '21.80 GiB', usage: '9.32%' }
   ];
 
   const chartConfig = {
-    load1m: { label: '1m', color: '#3b82f6' },
-    load5m: { label: '5m', color: '#10b981' },
-    load15m: { label: '15m', color: '#f59e0b' },
-    system: { label: 'System', color: '#ef4444' },
-    user: { label: 'User', color: '#3b82f6' },
-    iowait: { label: 'IO Wait', color: '#f59e0b' },
-    read: { label: 'Read', color: '#10b981' },
-    write: { label: 'Write', color: '#3b82f6' },
-    total: { label: 'Total', color: '#6b7280' },
-    used: { label: 'Used', color: '#3b82f6' },
+    localhost_9100_1m: { label: 'localhost:9100_1m', color: '#22c55e' },
+    localhost_9100_5m: { label: 'localhost:9100_5m', color: '#3b82f6' },
+    localhost_9100_15m: { label: 'localhost:9100_15m', color: '#f59e0b' },
+    localhost_9100_System: { label: 'localhost:9100_System', color: '#ef4444' },
+    localhost_9100_User: { label: 'localhost:9100_User', color: '#3b82f6' },
+    localhost_9100_Iowait: { label: 'localhost:9100_Iowait', color: '#f59e0b' },
+    localhost_9100_idle_per_second: { label: 'localhost:9100_idle_per_second (%)', color: '#f97316' },
+    localhost_9100_Total_memory: { label: 'localhost:9100_Total memory', color: '#6b7280' },
+    localhost_9100_Used: { label: 'localhost:9100_Used', color: '#3b82f6' },
   };
 
+  const StatCard = ({ title, value, unit, color = 'text-green-400', subtitle }: { 
+    title: string; 
+    value: string | number; 
+    unit?: string; 
+    color?: string;
+    subtitle?: string;
+  }) => (
+    <Card className="bg-gray-800 border-gray-700">
+      <CardContent className="p-3">
+        <div className="text-xs text-gray-400 mb-1">{title}</div>
+        <div className={`text-lg font-bold ${color}`}>
+          {value}{unit && <span className="text-sm ml-1">{unit}</span>}
+        </div>
+        {subtitle && <div className="text-xs text-gray-500">{subtitle}</div>}
+      </CardContent>
+    </Card>
+  );
+
+  const GaugeCard = ({ title, value, max = 100, color = '#22c55e' }: {
+    title: string;
+    value: number;
+    max?: number;
+    color?: string;
+  }) => (
+    <Card className="bg-gray-800 border-gray-700">
+      <CardContent className="p-3">
+        <div className="text-xs text-gray-400 mb-1">{title}</div>
+        <div className="relative w-16 h-16 mx-auto">
+          <svg className="w-16 h-16 transform -rotate-90">
+            <circle
+              cx="32"
+              cy="32"
+              r="28"
+              stroke="#374151"
+              strokeWidth="4"
+              fill="transparent"
+            />
+            <circle
+              cx="32"
+              cy="32"
+              r="28"
+              stroke={color}
+              strokeWidth="4"
+              fill="transparent"
+              strokeDasharray={`${2 * Math.PI * 28}`}
+              strokeDashoffset={`${2 * Math.PI * 28 * (1 - value / max)}`}
+            />
+          </svg>
+          <div className="absolute inset-0 flex items-center justify-center">
+            <span className="text-sm font-bold" style={{ color }}>{value}%</span>
+          </div>
+        </div>
+      </CardContent>
+    </Card>
+  );
+
   return (
-    <div className="space-y-6 bg-slate-900 min-h-screen p-6 text-white">
-      <div className="flex items-center justify-between">
-        <div>
-          <h1 className="text-3xl font-bold text-white">System Monitoring</h1>
-          <p className="text-slate-300">Node Exporter 0.16+ for Prometheus Monitoring</p>
+    <div className="min-h-screen bg-gray-900 text-white p-4">
+      {/* Header */}
+      <div className="flex items-center justify-between mb-4">
+        <div className="flex items-center gap-2">
+          <div className="w-6 h-6 bg-orange-500 rounded flex items-center justify-center">
+            <span className="text-xs font-bold">G</span>
+          </div>
+          <span className="text-sm text-gray-300">Node Exporter 0.16+ for Prometheus Monitoring display board</span>
         </div>
-        <div className="text-sm text-slate-300">
-          Last 1 hour • localhost:9100
-        </div>
+        <div className="text-xs text-gray-400">localhost:9100</div>
       </div>
 
-      {/* Top Row - Key Metrics */}
-      <div className="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-7 gap-4">
-        <Card className="bg-slate-800 border-slate-700">
-          <CardContent className="p-4 text-center">
-            <div className="text-green-400 text-2xl font-bold">3.5</div>
-            <div className="text-green-400 text-sm">hour</div>
-            <div className="text-xs text-slate-400 mt-1">System runtime</div>
-          </CardContent>
-        </Card>
-
-        <Card className="bg-slate-800 border-slate-700">
-          <CardContent className="p-4 text-center">
-            <div className="text-orange-400 text-lg font-bold">1</div>
-            <div className="text-green-400 text-2xl font-bold">986 MiB</div>
-            <div className="text-xs text-slate-400 mt-1">Total memory</div>
-          </CardContent>
-        </Card>
-
-        <Card className="bg-slate-800 border-slate-700 relative">
-          <CardContent className="p-4">
-            <div className="relative w-20 h-20 mx-auto">
-              <svg className="w-20 h-20 transform -rotate-90">
-                <circle
-                  cx="40"
-                  cy="40"
-                  r="32"
-                  stroke="currentColor"
-                  strokeWidth="6"
-                  fill="transparent"
-                  className="text-slate-600"
-                />
-                <circle
-                  cx="40"
-                  cy="40"
-                  r="32"
-                  stroke="currentColor"
-                  strokeWidth="6"
-                  fill="transparent"
-                  strokeDasharray={`${2 * Math.PI * 32}`}
-                  strokeDashoffset={`${2 * Math.PI * 32 * (1 - systemMetrics.cpuUsage / 100)}`}
-                  className="text-orange-400"
-                />
-              </svg>
-              <div className="absolute inset-0 flex items-center justify-center">
-                <span className="text-orange-400 font-bold">{systemMetrics.cpuUsage}%</span>
-              </div>
-            </div>
-            <div className="text-xs text-slate-400 text-center mt-2">CPU Usage rate (5m)</div>
-          </CardContent>
-        </Card>
-
-        <Card className="bg-slate-800 border-slate-700 relative">
-          <CardContent className="p-4">
-            <div className="relative w-20 h-20 mx-auto">
-              <svg className="w-20 h-20 transform -rotate-90">
-                <circle
-                  cx="40"
-                  cy="40"
-                  r="32"
-                  stroke="currentColor"
-                  strokeWidth="6"
-                  fill="transparent"
-                  className="text-slate-600"
-                />
-                <circle
-                  cx="40"
-                  cy="40"
-                  r="32"
-                  stroke="currentColor"
-                  strokeWidth="6"
-                  fill="transparent"
-                  strokeDasharray={`${2 * Math.PI * 32}`}
-                  strokeDashoffset={`${2 * Math.PI * 32 * (1 - systemMetrics.cpuLowait / 100)}`}
-                  className="text-red-400"
-                />
-              </svg>
-              <div className="absolute inset-0 flex items-center justify-center">
-                <span className="text-red-400 font-bold">{systemMetrics.cpuLowait}%</span>
-              </div>
-            </div>
-            <div className="text-xs text-slate-400 text-center mt-2">CPU Iowait (5m)</div>
-          </CardContent>
-        </Card>
-
-        <Card className="bg-slate-800 border-slate-700 relative">
-          <CardContent className="p-4">
-            <div className="relative w-20 h-20 mx-auto">
-              <svg className="w-20 h-20 transform -rotate-90">
-                <circle
-                  cx="40"
-                  cy="40"
-                  r="32"
-                  stroke="currentColor"
-                  strokeWidth="6"
-                  fill="transparent"
-                  className="text-slate-600"
-                />
-                <circle
-                  cx="40"
-                  cy="40"
-                  r="32"
-                  stroke="currentColor"
-                  strokeWidth="6"
-                  fill="transparent"
-                  strokeDasharray={`${2 * Math.PI * 32}`}
-                  strokeDashoffset={`${2 * Math.PI * 32 * (1 - systemMetrics.memoryUsage / 100)}`}
-                  className="text-green-400"
-                />
-              </svg>
-              <div className="absolute inset-0 flex items-center justify-center">
-                <span className="text-green-400 font-bold">{systemMetrics.memoryUsage}%</span>
-              </div>
-            </div>
-            <div className="text-xs text-slate-400 text-center mt-2">Memory usage</div>
-          </CardContent>
-        </Card>
-
-        <Card className="bg-slate-800 border-slate-700 relative">
-          <CardContent className="p-4">
-            <div className="relative w-20 h-20 mx-auto">
-              <svg className="w-20 h-20 transform -rotate-90">
-                <circle
-                  cx="40"
-                  cy="40"
-                  r="32"
-                  stroke="currentColor"
-                  strokeWidth="6"
-                  fill="transparent"
-                  className="text-slate-600"
-                />
-                <circle
-                  cx="40"
-                  cy="40"
-                  r="32"
-                  stroke="currentColor"
-                  strokeWidth="6"
-                  fill="transparent"
-                  strokeDasharray={`${2 * Math.PI * 32}`}
-                  strokeDashoffset={`${2 * Math.PI * 32 * (1 - (systemMetrics.openFileDescriptors / 2000))}`}
-                  className="text-green-400"
-                />
-              </svg>
-              <div className="absolute inset-0 flex items-center justify-center">
-                <span className="text-green-400 font-bold text-xs">{systemMetrics.openFileDescriptors}</span>
-              </div>
-            </div>
-            <div className="text-xs text-slate-400 text-center mt-2">Currently open file descriptor</div>
-          </CardContent>
-        </Card>
-
-        <Card className="bg-slate-800 border-slate-700 relative">
-          <CardContent className="p-4">
-            <div className="relative w-20 h-20 mx-auto">
-              <svg className="w-20 h-20 transform -rotate-90">
-                <circle
-                  cx="40"
-                  cy="40"
-                  r="32"
-                  stroke="currentColor"
-                  strokeWidth="6"
-                  fill="transparent"
-                  className="text-slate-600"
-                />
-                <circle
-                  cx="40"
-                  cy="40"
-                  r="32"
-                  stroke="currentColor"
-                  strokeWidth="6"
-                  fill="transparent"
-                  strokeDasharray={`${2 * Math.PI * 32}`}
-                  strokeDashoffset={`${2 * Math.PI * 32 * (1 - systemMetrics.rootPartitionUsage / 100)}`}
-                  className="text-green-400"
-                />
-              </svg>
-              <div className="absolute inset-0 flex items-center justify-center">
-                <span className="text-green-400 font-bold">{systemMetrics.rootPartitionUsage}%</span>
-              </div>
-            </div>
-            <div className="text-xs text-slate-400 text-center mt-2">Root partition usage</div>
-          </CardContent>
-        </Card>
+      {/* Top metrics row */}
+      <div className="grid grid-cols-7 gap-3 mb-4">
+        <StatCard title="System runtime" value="3.5" unit="hour" color="text-green-400" />
+        <div className="space-y-1">
+          <StatCard title="CPU Audit numb..." value="1" color="text-orange-400" />
+          <StatCard title="Total memory" value="986 MiB" color="text-green-400" />
+        </div>
+        <GaugeCard title="CPU Usage rate (5m)" value={11.60} color="#f59e0b" />
+        <GaugeCard title="CPU Iowait (5m)" value={0.07} color="#ef4444" />
+        <GaugeCard title="Memory usage" value={70} color="#22c55e" />
+        <GaugeCard title="Currently open file descriptor" value={57.5} max={100} color="#22c55e" />
+        <GaugeCard title="Root partition usage" value={9.4} color="#22c55e" />
       </div>
 
-      {/* Charts Grid */}
-      <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-        {/* System Load */}
-        <Card className="bg-slate-800 border-slate-700">
-          <CardHeader>
-            <CardTitle className="text-white">System average load</CardTitle>
+      {/* Charts grid */}
+      <div className="grid grid-cols-3 gap-4 mb-4">
+        {/* System Load Chart */}
+        <Card className="bg-gray-800 border-gray-700">
+          <CardHeader className="pb-2">
+            <CardTitle className="text-sm text-white">System average load</CardTitle>
           </CardHeader>
-          <CardContent>
-            <ChartContainer config={chartConfig} className="h-64">
+          <CardContent className="p-2">
+            <div className="h-48">
               <ResponsiveContainer width="100%" height="100%">
                 <LineChart data={systemLoadData}>
-                  <XAxis dataKey="time" stroke="#94a3b8" />
-                  <YAxis stroke="#94a3b8" />
-                  <ChartTooltip content={<ChartTooltipContent />} />
-                  <Line type="monotone" dataKey="load1m" stroke="var(--color-load1m)" strokeWidth={2} />
-                  <Line type="monotone" dataKey="load5m" stroke="var(--color-load5m)" strokeWidth={2} />
-                  <Line type="monotone" dataKey="load15m" stroke="var(--color-load15m)" strokeWidth={2} />
+                  <XAxis 
+                    dataKey="time" 
+                    stroke="#9ca3af" 
+                    fontSize={10}
+                    tickLine={false}
+                    axisLine={false}
+                  />
+                  <YAxis 
+                    stroke="#9ca3af" 
+                    fontSize={10}
+                    tickLine={false}
+                    axisLine={false}
+                  />
+                  <Line 
+                    type="monotone" 
+                    dataKey="localhost_9100_1m" 
+                    stroke="#22c55e" 
+                    strokeWidth={1}
+                    dot={false}
+                  />
+                  <Line 
+                    type="monotone" 
+                    dataKey="localhost_9100_5m" 
+                    stroke="#3b82f6" 
+                    strokeWidth={1}
+                    dot={false}
+                  />
+                  <Line 
+                    type="monotone" 
+                    dataKey="localhost_9100_15m" 
+                    stroke="#f59e0b" 
+                    strokeWidth={1}
+                    dot={false}
+                  />
                 </LineChart>
               </ResponsiveContainer>
-            </ChartContainer>
-          </CardContent>
-        </Card>
-
-        {/* Disk Space */}
-        <Card className="bg-slate-800 border-slate-700">
-          <CardHeader>
-            <CardTitle className="text-white">Total disk space</CardTitle>
-            <div className="text-blue-400">24.1 GiB</div>
-          </CardHeader>
-          <CardContent>
-            <ChartContainer config={chartConfig} className="h-64">
-              <ResponsiveContainer width="100%" height="100%">
-                <PieChart>
-                  <Pie
-                    data={diskSpaceData}
-                    cx="50%"
-                    cy="50%"
-                    outerRadius={80}
-                    dataKey="value"
-                    startAngle={90}
-                    endAngle={-270}
-                  >
-                    {diskSpaceData.map((entry, index) => (
-                      <Cell key={`cell-${index}`} fill={entry.color} />
-                    ))}
-                  </Pie>
-                  <ChartTooltip formatter={(value) => [`${value}%`, '']} />
-                </PieChart>
-              </ResponsiveContainer>
-            </ChartContainer>
-          </CardContent>
-        </Card>
-
-        {/* CPU Usage */}
-        <Card className="bg-slate-800 border-slate-700">
-          <CardHeader>
-            <CardTitle className="text-white">CPU usage, disk I/O operations per second (%)</CardTitle>
-          </CardHeader>
-          <CardContent>
-            <ChartContainer config={chartConfig} className="h-64">
-              <ResponsiveContainer width="100%" height="100%">
-                <AreaChart data={cpuUsageData}>
-                  <XAxis dataKey="time" stroke="#94a3b8" />
-                  <YAxis stroke="#94a3b8" />
-                  <ChartTooltip content={<ChartTooltipContent />} />
-                  <Area type="monotone" dataKey="system" stackId="1" stroke="var(--color-system)" fill="var(--color-system)" />
-                  <Area type="monotone" dataKey="user" stackId="1" stroke="var(--color-user)" fill="var(--color-user)" />
-                  <Area type="monotone" dataKey="iowait" stackId="1" stroke="var(--color-iowait)" fill="var(--color-iowait)" />
-                </AreaChart>
-              </ResponsiveContainer>
-            </ChartContainer>
-          </CardContent>
-        </Card>
-
-        {/* Memory Information */}
-        <Card className="bg-slate-800 border-slate-700">
-          <CardHeader>
-            <CardTitle className="text-white">Memory information</CardTitle>
-          </CardHeader>
-          <CardContent>
-            <ChartContainer config={chartConfig} className="h-64">
-              <ResponsiveContainer width="100%" height="100%">
-                <AreaChart data={memoryData}>
-                  <XAxis dataKey="time" stroke="#94a3b8" />
-                  <YAxis stroke="#94a3b8" />
-                  <ChartTooltip content={<ChartTooltipContent />} formatter={(value) => [`${value} MiB`, '']} />
-                  <Area type="monotone" dataKey="used" stroke="var(--color-used)" fill="var(--color-used)" fillOpacity={0.6} />
-                  <Area type="monotone" dataKey="total" stroke="var(--color-total)" fill="transparent" strokeDasharray="5,5" />
-                </AreaChart>
-              </ResponsiveContainer>
-            </ChartContainer>
-          </CardContent>
-        </Card>
-      </div>
-
-      {/* Bottom Row - Disk I/O and Free Space */}
-      <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
-        <Card className="bg-slate-800 border-slate-700">
-          <CardHeader>
-            <CardTitle className="text-white">Disk read and write rate (IOPS)</CardTitle>
-          </CardHeader>
-          <CardContent>
-            <ChartContainer config={chartConfig} className="h-64">
-              <ResponsiveContainer width="100%" height="100%">
-                <LineChart data={diskIOData}>
-                  <XAxis dataKey="time" stroke="#94a3b8" />
-                  <YAxis stroke="#94a3b8" />
-                  <ChartTooltip content={<ChartTooltipContent />} />
-                  <Line type="monotone" dataKey="read" stroke="var(--color-read)" strokeWidth={2} />
-                  <Line type="monotone" dataKey="write" stroke="var(--color-write)" strokeWidth={2} />
-                </LineChart>
-              </ResponsiveContainer>
-            </ChartContainer>
-          </CardContent>
-        </Card>
-
-        <Card className="bg-slate-800 border-slate-700">
-          <CardHeader>
-            <CardTitle className="text-white">Free space for each partition</CardTitle>
-          </CardHeader>
-          <CardContent className="space-y-4">
-            <div className="space-y-2">
-              <div className="flex justify-between items-center text-sm">
-                <span className="text-slate-300">ext4</span>
-                <span className="text-blue-400">localhost:9100</span>
-                <span className="text-slate-300">/</span>
-                <span className="text-green-400">21.80 GiB</span>
-                <Badge className="bg-green-600 text-white">9.32%</Badge>
+            </div>
+            <div className="flex gap-4 text-xs mt-2">
+              <div className="flex items-center gap-1">
+                <div className="w-2 h-2 bg-green-400"></div>
+                <span className="text-blue-400">current</span>
+                <span className="text-white">0.0100</span>
               </div>
             </div>
           </CardContent>
         </Card>
 
-        <Card className="bg-slate-800 border-slate-700">
-          <CardHeader>
-            <CardTitle className="text-white">Disk I/O read and write time</CardTitle>
+        {/* Disk Space Chart */}
+        <Card className="bg-gray-800 border-gray-700">
+          <CardHeader className="pb-2">
+            <CardTitle className="text-sm text-white">Total disk space</CardTitle>
+            <div className="text-blue-400 text-sm">24.1 GiB</div>
           </CardHeader>
-          <CardContent>
-            <div className="text-center py-8">
-              <div className="text-4xl text-slate-500">100 ms</div>
-              <div className="text-slate-400 text-sm mt-2">Average I/O time</div>
+          <CardContent className="p-2">
+            <div className="h-48 flex items-center justify-center">
+              <div className="relative w-32 h-32">
+                <svg className="w-32 h-32">
+                  <circle
+                    cx="64"
+                    cy="64"
+                    r="60"
+                    fill="#f59e0b"
+                  />
+                </svg>
+                <div className="absolute inset-0 flex flex-col items-center justify-center">
+                  <span className="text-blue-400 text-xs">current</span>
+                  <span className="text-white text-sm font-bold">24.1 GiB</span>
+                </div>
+              </div>
+            </div>
+          </CardContent>
+        </Card>
+
+        {/* Partition Space Table */}
+        <Card className="bg-gray-800 border-gray-700">
+          <CardHeader className="pb-2">
+            <CardTitle className="text-sm text-white">Free space for each partition</CardTitle>
+          </CardHeader>
+          <CardContent className="p-2">
+            <Table>
+              <TableHeader>
+                <TableRow className="border-gray-700">
+                  <TableHead className="text-xs text-blue-400 p-1">File system</TableHead>
+                  <TableHead className="text-xs text-blue-400 p-1">IP</TableHead>
+                  <TableHead className="text-xs text-blue-400 p-1">Partition</TableHead>
+                  <TableHead className="text-xs text-blue-400 p-1">Available space</TableHead>
+                  <TableHead className="text-xs text-blue-400 p-1">Usage rate</TableHead>
+                </TableRow>
+              </TableHeader>
+              <TableBody>
+                <TableRow className="border-gray-700">
+                  <TableCell className="text-xs text-white p-1">ext4</TableCell>
+                  <TableCell className="text-xs text-white p-1">localhost:9100</TableCell>
+                  <TableCell className="text-xs text-white p-1">/</TableCell>
+                  <TableCell className="text-xs text-white p-1">21.80 GiB</TableCell>
+                  <TableCell className="text-xs p-1">
+                    <Badge className="bg-green-600 text-white text-xs">9.32%</Badge>
+                  </TableCell>
+                </TableRow>
+              </TableBody>
+            </Table>
+          </CardContent>
+        </Card>
+      </div>
+
+      {/* CPU and Memory Charts */}
+      <div className="grid grid-cols-2 gap-4 mb-4">
+        {/* CPU Usage Chart */}
+        <Card className="bg-gray-800 border-gray-700">
+          <CardHeader className="pb-2">
+            <CardTitle className="text-sm text-white">CPU usage, disk I/O operations per second (%)</CardTitle>
+          </CardHeader>
+          <CardContent className="p-2">
+            <div className="h-48">
+              <ResponsiveContainer width="100%" height="100%">
+                <AreaChart data={cpuUsageData}>
+                  <XAxis 
+                    dataKey="time" 
+                    stroke="#9ca3af" 
+                    fontSize={10}
+                    tickLine={false}
+                    axisLine={false}
+                  />
+                  <YAxis 
+                    stroke="#9ca3af" 
+                    fontSize={10}
+                    tickLine={false}
+                    axisLine={false}
+                  />
+                  <Area 
+                    type="monotone" 
+                    dataKey="localhost_9100_System" 
+                    stackId="1" 
+                    stroke="#ef4444" 
+                    fill="#ef4444" 
+                    fillOpacity={0.3}
+                  />
+                  <Area 
+                    type="monotone" 
+                    dataKey="localhost_9100_User" 
+                    stackId="1" 
+                    stroke="#3b82f6" 
+                    fill="#3b82f6" 
+                    fillOpacity={0.3}
+                  />
+                  <Area 
+                    type="monotone" 
+                    dataKey="localhost_9100_Iowait" 
+                    stackId="1" 
+                    stroke="#f59e0b" 
+                    fill="#f59e0b" 
+                    fillOpacity={0.3}
+                  />
+                </AreaChart>
+              </ResponsiveContainer>
+            </div>
+            <div className="grid grid-cols-4 gap-2 text-xs mt-2">
+              <div>
+                <div className="text-blue-400">max</div>
+                <div className="text-gray-300">7.52%</div>
+              </div>
+              <div>
+                <div className="text-blue-400">avg</div>
+                <div className="text-gray-300">1.36%</div>
+              </div>
+              <div>
+                <div className="text-blue-400">current</div>
+                <div className="text-gray-300">1.20%</div>
+              </div>
+            </div>
+          </CardContent>
+        </Card>
+
+        {/* Memory Information Chart */}
+        <Card className="bg-gray-800 border-gray-700">
+          <CardHeader className="pb-2">
+            <CardTitle className="text-sm text-white">Memory information</CardTitle>
+          </CardHeader>
+          <CardContent className="p-2">
+            <div className="h-48">
+              <ResponsiveContainer width="100%" height="100%">
+                <AreaChart data={memoryData}>
+                  <XAxis 
+                    dataKey="time" 
+                    stroke="#9ca3af" 
+                    fontSize={10}
+                    tickLine={false}
+                    axisLine={false}
+                  />
+                  <YAxis 
+                    stroke="#9ca3af" 
+                    fontSize={10}
+                    tickLine={false}
+                    axisLine={false}
+                  />
+                  <Area 
+                    type="monotone" 
+                    dataKey="localhost_9100_Used" 
+                    stroke="#3b82f6" 
+                    fill="#3b82f6" 
+                    fillOpacity={0.6}
+                  />
+                  <Area 
+                    type="monotone" 
+                    dataKey="localhost_9100_Total_memory" 
+                    stroke="#f59e0b" 
+                    fill="transparent" 
+                    strokeDasharray="2,2"
+                  />
+                </AreaChart>
+              </ResponsiveContainer>
+            </div>
+            <div className="text-xs mt-2">
+              <div className="text-blue-400">current</div>
+              <div className="flex gap-4">
+                <span className="text-white">localhost:9100_Total memory: 985.52 MiB</span>
+                <span className="text-white">localhost:9100_Used: 689.87 MiB</span>
+              </div>
+            </div>
+          </CardContent>
+        </Card>
+      </div>
+
+      {/* Bottom Charts */}
+      <div className="grid grid-cols-3 gap-4">
+        {/* Disk I/O Rate */}
+        <Card className="bg-gray-800 border-gray-700">
+          <CardHeader className="pb-2">
+            <CardTitle className="text-sm text-white">Disk read and write rate (IOPS)</CardTitle>
+          </CardHeader>
+          <CardContent className="p-2">
+            <div className="h-32">
+              <ResponsiveContainer width="100%" height="100%">
+                <BarChart data={diskIOData}>
+                  <XAxis 
+                    dataKey="time" 
+                    stroke="#9ca3af" 
+                    fontSize={10}
+                    tickLine={false}
+                    axisLine={false}
+                  />
+                  <YAxis 
+                    stroke="#9ca3af" 
+                    fontSize={10}
+                    tickLine={false}
+                    axisLine={false}
+                  />
+                  <Bar dataKey="read" fill="#22c55e" />
+                  <Bar dataKey="write" fill="#3b82f6" />
+                </BarChart>
+              </ResponsiveContainer>
+            </div>
+          </CardContent>
+        </Card>
+
+        {/* Disk Capacity */}
+        <Card className="bg-gray-800 border-gray-700">
+          <CardHeader className="pb-2">
+            <CardTitle className="text-sm text-white">Disk read and write capacity</CardTitle>
+          </CardHeader>
+          <CardContent className="p-2">
+            <div className="h-32">
+              <ResponsiveContainer width="100%" height="100%">
+                <BarChart data={diskIOData}>
+                  <XAxis 
+                    dataKey="time" 
+                    stroke="#9ca3af" 
+                    fontSize={10}
+                    tickLine={false}
+                    axisLine={false}
+                  />
+                  <YAxis 
+                    stroke="#9ca3af" 
+                    fontSize={10}
+                    tickLine={false}
+                    axisLine={false}
+                  />
+                  <Bar dataKey="read" fill="#f59e0b" />
+                </BarChart>
+              </ResponsiveContainer>
+            </div>
+          </CardContent>
+        </Card>
+
+        {/* Disk I/O Time */}
+        <Card className="bg-gray-800 border-gray-700">
+          <CardHeader className="pb-2">
+            <CardTitle className="text-sm text-white">Disk I/O read and write time</CardTitle>
+          </CardHeader>
+          <CardContent className="p-2">
+            <div className="h-32 flex items-center justify-center">
+              <div className="text-center">
+                <div className="text-2xl text-gray-300">100 ms</div>
+                <div className="text-xs text-gray-500">分钟磁盘使用率</div>
+              </div>
             </div>
           </CardContent>
         </Card>
