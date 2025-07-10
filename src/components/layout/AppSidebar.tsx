@@ -1,4 +1,5 @@
 
+import { useState } from 'react';
 import { NavLink } from 'react-router-dom';
 import { useAuth } from '@/contexts/AuthContext';
 import {
@@ -26,8 +27,11 @@ import {
   Database, 
   Settings, 
   Users,
-  Monitor
+  Monitor,
+  ChevronRight,
+  ChevronDown
 } from 'lucide-react';
+import { Collapsible, CollapsibleContent, CollapsibleTrigger } from '@/components/ui/collapsible';
 
 const navigationItems = [
   {
@@ -120,9 +124,55 @@ export function AppSidebar() {
   const { user } = useAuth();
   const { state } = useSidebar();
   const isCollapsed = state === 'collapsed';
+  const [openGroups, setOpenGroups] = useState<{ [key: string]: boolean }>({
+    'main': true,
+    'admin': true
+  });
 
   const filteredItems = navigationItems.filter(item => 
     user?.role && item.roles.includes(user.role)
+  );
+
+  // Group items
+  const mainItems = filteredItems.filter(item => 
+    !['System Monitoring', 'System Administration', 'User Management'].includes(item.title)
+  );
+  
+  const adminItems = filteredItems.filter(item => 
+    ['System Monitoring', 'System Administration', 'User Management'].includes(item.title)
+  );
+
+  const toggleGroup = (groupKey: string) => {
+    setOpenGroups(prev => ({
+      ...prev,
+      [groupKey]: !prev[groupKey]
+    }));
+  };
+
+  const renderMenuItems = (items: typeof navigationItems) => (
+    <SidebarMenu>
+      {items.map((item) => (
+        <SidebarMenuItem key={item.title}>
+          <SidebarMenuButton asChild tooltip={isCollapsed ? item.title : undefined}>
+            <NavLink 
+              to={item.url} 
+              end={item.url === '/'}
+              className={({ isActive }) => 
+                `flex items-center gap-3 px-3 py-2 rounded-lg transition-colors ${
+                  isActive 
+                    ? 'bg-blue-700 text-white' 
+                    : 'text-slate-300 hover:bg-slate-700 hover:text-white'
+                }`
+              }
+              title={item.title}
+            >
+              <item.icon className="h-4 w-4 flex-shrink-0" />
+              {!isCollapsed && <span>{item.title}</span>}
+            </NavLink>
+          </SidebarMenuButton>
+        </SidebarMenuItem>
+      ))}
+    </SidebarMenu>
   );
 
   return (
@@ -141,38 +191,69 @@ export function AppSidebar() {
           )}
         </div>
         
+        {/* Main Navigation Group */}
         <SidebarGroup>
           {!isCollapsed && (
-            <SidebarGroupLabel className="text-slate-300">
-              Navigation
-            </SidebarGroupLabel>
+            <Collapsible 
+              open={openGroups['main']} 
+              onOpenChange={() => toggleGroup('main')}
+            >
+              <CollapsibleTrigger asChild>
+                <SidebarGroupLabel className="text-slate-300 hover:text-white cursor-pointer flex items-center justify-between">
+                  <span>Navigation</span>
+                  {openGroups['main'] ? (
+                    <ChevronDown className="h-4 w-4" />
+                  ) : (
+                    <ChevronRight className="h-4 w-4" />
+                  )}
+                </SidebarGroupLabel>
+              </CollapsibleTrigger>
+              <CollapsibleContent>
+                <SidebarGroupContent>
+                  {renderMenuItems(mainItems)}
+                </SidebarGroupContent>
+              </CollapsibleContent>
+            </Collapsible>
           )}
-          <SidebarGroupContent>
-            <SidebarMenu>
-              {filteredItems.map((item) => (
-                <SidebarMenuItem key={item.title}>
-                  <SidebarMenuButton asChild tooltip={isCollapsed ? item.title : undefined}>
-                    <NavLink 
-                      to={item.url} 
-                      end={item.url === '/'}
-                      className={({ isActive }) => 
-                        `flex items-center gap-3 px-3 py-2 rounded-lg transition-colors ${
-                          isActive 
-                            ? 'bg-blue-700 text-white' 
-                            : 'text-slate-300 hover:bg-slate-700 hover:text-white'
-                        }`
-                      }
-                      title={item.title}
-                    >
-                      <item.icon className="h-4 w-4 flex-shrink-0" />
-                      {!isCollapsed && <span>{item.title}</span>}
-                    </NavLink>
-                  </SidebarMenuButton>
-                </SidebarMenuItem>
-              ))}
-            </SidebarMenu>
-          </SidebarGroupContent>
+          {isCollapsed && (
+            <SidebarGroupContent>
+              {renderMenuItems(mainItems)}
+            </SidebarGroupContent>
+          )}
         </SidebarGroup>
+
+        {/* Admin Group (if user has admin items) */}
+        {adminItems.length > 0 && (
+          <SidebarGroup>
+            {!isCollapsed && (
+              <Collapsible 
+                open={openGroups['admin']} 
+                onOpenChange={() => toggleGroup('admin')}
+              >
+                <CollapsibleTrigger asChild>
+                  <SidebarGroupLabel className="text-slate-300 hover:text-white cursor-pointer flex items-center justify-between">
+                    <span>Administration</span>
+                    {openGroups['admin'] ? (
+                      <ChevronDown className="h-4 w-4" />
+                    ) : (
+                      <ChevronRight className="h-4 w-4" />
+                    )}
+                  </SidebarGroupLabel>
+                </CollapsibleTrigger>
+                <CollapsibleContent>
+                  <SidebarGroupContent>
+                    {renderMenuItems(adminItems)}
+                  </SidebarGroupContent>
+                </CollapsibleContent>
+              </Collapsible>
+            )}
+            {isCollapsed && (
+              <SidebarGroupContent>
+                {renderMenuItems(adminItems)}
+              </SidebarGroupContent>
+            )}
+          </SidebarGroup>
+        )}
       </SidebarContent>
     </Sidebar>
   );
