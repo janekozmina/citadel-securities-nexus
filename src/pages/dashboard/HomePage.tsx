@@ -1,13 +1,10 @@
 
-import { useState } from 'react';
 import { useAuth } from '@/contexts/AuthContext';
-import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
-import { Button } from '@/components/ui/button';
-import { TrendingUp, Users, Building, AlertCircle, Clock, Banknote, FileText, X } from 'lucide-react';
+import { Card, CardContent } from '@/components/ui/card';
+import { TrendingUp, Users, Building, AlertCircle, Clock, Banknote, FileText } from 'lucide-react';
 
 const HomePage = () => {
   const { user } = useAuth();
-  const [showGettingStarted, setShowGettingStarted] = useState(true);
 
   const stats = [
     {
@@ -66,69 +63,74 @@ const HomePage = () => {
     <div className="space-y-6">
       <div className="flex items-center justify-between">
         <div>
-          <h1 className="text-3xl font-bold text-slate-900">Home Page</h1>
+          <h1 className="text-2xl font-bold text-slate-900">Home Page</h1>
           <p className="text-slate-600">Welcome back, {user?.name}</p>
         </div>
       </div>
 
-      {/* Stats Grid */}
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
+      {/* Stats Grid - Smaller cards in one row */}
+      <div className="grid grid-cols-7 gap-3">
         {stats.map((stat, index) => (
           <Card key={index} className="bg-white">
-            <CardContent className="p-6">
+            <CardContent className="p-4">
               <div className="flex items-center justify-between">
-                <div className="flex-1">
-                  <p className="text-sm font-medium text-slate-600">{stat.title}</p>
+                <div className="flex-1 min-w-0">
+                  <p className="text-xs font-medium text-slate-600 truncate">{stat.title}</p>
                   {stat.subtitle && (
                     <p className="text-xs text-slate-500 mt-1">{stat.subtitle}</p>
                   )}
-                  <p className="text-2xl font-bold text-slate-900 mt-2">{stat.value}</p>
+                  <p className="text-lg font-bold text-slate-900 mt-1">{stat.value}</p>
                   {stat.change && (
-                    <p className="text-sm text-slate-500 mt-1">{stat.change}</p>
+                    <p className="text-xs text-slate-500 mt-1 truncate">{stat.change}</p>
                   )}
                 </div>
-                <stat.icon className={`h-8 w-8 ${stat.color} flex-shrink-0 ml-4`} />
+                <stat.icon className={`h-6 w-6 ${stat.color} flex-shrink-0 ml-2`} />
               </div>
             </CardContent>
           </Card>
         ))}
       </div>
 
-      {/* Getting Started Section - Closeable */}
-      {showGettingStarted && (
-        <Card className="bg-blue-50 border-blue-200">
-          <CardHeader className="flex flex-row items-center justify-between">
-            <CardTitle className="text-blue-900">Getting Started</CardTitle>
-            <Button
-              variant="ghost"
-              size="sm"
-              onClick={() => setShowGettingStarted(false)}
-              className="text-blue-700 hover:text-blue-900 hover:bg-blue-100"
-            >
-              <X className="h-4 w-4" />
-            </Button>
-          </CardHeader>
-          <CardContent>
-            <p className="text-blue-800 mb-4">
-              Welcome to the CSD Portal. Here are some quick steps to get you started:
-            </p>
-            <div className="space-y-2 text-sm text-blue-700">
-              <div className="flex items-center gap-2">
-                <div className="w-2 h-2 bg-blue-600 rounded-full"></div>
-                <span>Explore the navigation menu to access different modules</span>
-              </div>
-              <div className="flex items-center gap-2">
-                <div className="w-2 h-2 bg-blue-600 rounded-full"></div>
-                <span>Check system status and recent activities</span>
-              </div>
-              <div className="flex items-center gap-2">
-                <div className="w-2 h-2 bg-blue-600 rounded-full"></div>
-                <span>Access role-specific functionalities based on your permissions</span>
-              </div>
+      {/* Dashboard Placeholders */}
+      <div className="grid grid-cols-2 gap-6">
+        {/* First Row */}
+        <Card className="bg-white border-2 border-dashed border-slate-300 h-64">
+          <CardContent className="p-6 h-full flex items-center justify-center">
+            <div className="text-center text-slate-500">
+              <div className="text-lg font-medium">Dashboard Placeholder 1</div>
+              <div className="text-sm">Content to be added</div>
             </div>
           </CardContent>
         </Card>
-      )}
+
+        <Card className="bg-white border-2 border-dashed border-slate-300 h-64">
+          <CardContent className="p-6 h-full flex items-center justify-center">
+            <div className="text-center text-slate-500">
+              <div className="text-lg font-medium">Dashboard Placeholder 2</div>
+              <div className="text-sm">Content to be added</div>
+            </div>
+          </CardContent>
+        </Card>
+
+        {/* Second Row */}
+        <Card className="bg-white border-2 border-dashed border-slate-300 h-64">
+          <CardContent className="p-6 h-full flex items-center justify-center">
+            <div className="text-center text-slate-500">
+              <div className="text-lg font-medium">Dashboard Placeholder 3</div>
+              <div className="text-sm">Content to be added</div>
+            </div>
+          </CardContent>
+        </Card>
+
+        <Card className="bg-white border-2 border-dashed border-slate-300 h-64">
+          <CardContent className="p-6 h-full flex items-center justify-center">
+            <div className="text-center text-slate-500">
+              <div className="text-lg font-medium">Dashboard Placeholder 4</div>
+              <div className="text-sm">Content to be added</div>
+            </div>
+          </CardContent>
+        </Card>
+      </div>
     </div>
   );
 };

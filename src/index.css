@@ -47,6 +47,9 @@ All colors MUST be HSL.
     --sidebar-accent-foreground: 210 40% 98%;
     --sidebar-border: 247 45% 45%;
     --sidebar-ring: 247 58% 70%;
+
+    /* Gradient variables for sidebars */
+    --sidebar-gradient: linear-gradient(135deg, #5335E1 0%, #8749F7 100%);
   }
 
   .dark {
@@ -85,6 +88,9 @@ All colors MUST be HSL.
     --sidebar-accent-foreground: 210 40% 98%;
     --sidebar-border: 247 45% 45%;
     --sidebar-ring: 247 58% 70%;
+
+    /* Gradient variables for sidebars */
+    --sidebar-gradient: linear-gradient(135deg, #5335E1 0%, #8749F7 100%);
   }
 }
 
@@ -124,4 +130,14 @@ All colors MUST be HSL.
 /* Button text color override */
 button[class*="bg-primary"], button[class*="bg-blue"] {
   color: white !important;
+}
+
+/* Sidebar gradient styles */
+.sidebar-gradient {
+  background: var(--sidebar-gradient);
+}
+
+/* Alerts panel gradient */
+.alerts-panel-gradient {
+  background: var(--sidebar-gradient);
 }

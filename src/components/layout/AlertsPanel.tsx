@@ -52,7 +52,7 @@ const AlertsPanel = ({ alerts }: AlertsPanelProps) => {
     <div className={`fixed right-0 top-16 h-[calc(100vh-4rem)] transition-all duration-300 z-40 ${isExpanded ? 'w-64' : 'w-10'}`}>
       <div className="h-full flex">
         {/* Toggle Button */}
-        <div className="w-10 h-full flex items-center justify-center" style={{ backgroundColor: '#5435E1' }}>
+        <div className="w-10 h-full flex items-center justify-center alerts-panel-gradient">
           <Button
             variant="ghost"
             size="icon"
@@ -71,7 +71,7 @@ const AlertsPanel = ({ alerts }: AlertsPanelProps) => {
         {/* Panel Content */}
         {isExpanded && (
           <Card className="flex-1 h-full rounded-none border-l-0">
-            <CardHeader className="pb-3" style={{ backgroundColor: '#5435E1' }}>
+            <CardHeader className="pb-3 alerts-panel-gradient">
               <CardTitle className="text-white text-base">Alerts & Tasks</CardTitle>
               <div className="text-white/80 text-sm">
                 {alerts.length} active item{alerts.length !== 1 ? 's' : ''}

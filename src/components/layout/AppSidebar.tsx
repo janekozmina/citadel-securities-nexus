@@ -1,4 +1,3 @@
-
 import { useState } from 'react';
 import { NavLink } from 'react-router-dom';
 import { useAuth } from '@/contexts/AuthContext';
@@ -177,12 +176,11 @@ export function AppSidebar() {
 
   return (
     <Sidebar 
-      className="border-r border-slate-700" 
-      style={{ backgroundColor: '#0F172A' }}
+      className="border-r border-slate-700 sidebar-gradient" 
       collapsible="icon"
     >
       <SidebarContent>
-        <div className="p-4 border-b border-slate-700">
+        <div className="p-4 border-b border-slate-700/50">
           {!isCollapsed && (
             <>
               <h2 className="text-white font-semibold text-lg">CSD Unified Portal</h2>
