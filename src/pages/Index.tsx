@@ -2,6 +2,7 @@
 import { useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useAuth } from '@/contexts/AuthContext';
+import HomePage from './dashboard/HomePage';
 
 const Index = () => {
   const navigate = useNavigate();
@@ -15,7 +16,9 @@ const Index = () => {
     }
   }, [isAuthenticated, isMFAVerified, navigate]);
 
-  return null;
-};
+  // If user is authenticated and MFA verified, show the home page
+  if (isAuthenticated && isMFAVerified) {
+    return <HomePage />;
+  }
 
-export default Index;
+  return null;
