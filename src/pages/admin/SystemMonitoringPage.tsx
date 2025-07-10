@@ -1,614 +1,419 @@
-import { useState } from 'react';
+
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
-import { Button } from '@/components/ui/button';
-import { Input } from '@/components/ui/input';
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
-import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table';
-import { RadioGroup, RadioGroupItem } from '@/components/ui/radio-group';
-import { Label } from '@/components/ui/label';
 import { Badge } from '@/components/ui/badge';
 import { ChartContainer, ChartTooltip, ChartTooltipContent } from '@/components/ui/chart';
-import { LineChart, Line, XAxis, YAxis, ResponsiveContainer, AreaChart, Area } from 'recharts';
-import { Search, Settings, Database, Mail, Network, Shield, Users, Activity, Cpu, HardDrive, Zap } from 'lucide-react';
-
-interface ConfigParameter {
-  code: string;
-  value: string;
-  group: string;
-  externalCode: string;
-  externalSynchronization: boolean;
-  description: string;
-}
+import { LineChart, Line, XAxis, YAxis, ResponsiveContainer, AreaChart, Area, PieChart, Pie, Cell } from 'recharts';
+import { Cpu, HardDrive, Database, Activity, Clock, Gauge } from 'lucide-react';
 
 const SystemMonitoringPage = () => {
-  const [searchTerm, setSearchTerm] = useState('');
-  const [selectedGroup, setSelectedGroup] = useState('all');
-  const [editingValues, setEditingValues] = useState<Record<string, string>>({});
-  const [activeTab, setActiveTab] = useState('config');
+  // System uptime and basic metrics
+  const systemMetrics = {
+    uptime: '3.5 hours',
+    totalMemory: '986 MiB',
+    cpuUsage: 11.60,
+    cpuLowait: 0.07,
+    memoryUsage: 70,
+    openFileDescriptors: 1150,
+    rootPartitionUsage: 9.4,
+    maxPartitionUsage: 9.4
+  };
 
-  // System metrics data
-  const cpuData = [
-    { time: '00:00', value: 45 },
-    { time: '04:00', value: 52 },
-    { time: '08:00', value: 78 },
-    { time: '12:00', value: 85 },
-    { time: '16:00', value: 72 },
-    { time: '20:00', value: 58 },
+  // Chart data
+  const systemLoadData = [
+    { time: '08:50', load1m: 0.15, load5m: 0.12, load15m: 0.10 },
+    { time: '09:00', load1m: 0.18, load5m: 0.14, load15m: 0.11 },
+    { time: '09:10', load1m: 0.22, load5m: 0.16, load15m: 0.12 },
+    { time: '09:20', load1m: 0.19, load5m: 0.15, load15m: 0.11 },
+    { time: '09:30', load1m: 0.16, load5m: 0.13, load15m: 0.10 },
+    { time: '09:40', load1m: 0.14, load5m: 0.12, load15m: 0.09 },
+  ];
+
+  const diskSpaceData = [
+    { name: 'Used', value: 24.1, color: '#f59e0b' },
+    { name: 'Free', value: 75.9, color: '#10b981' }
+  ];
+
+  const cpuUsageData = [
+    { time: '08:50', system: 1.2, user: 8.2, iowait: 0.5 },
+    { time: '09:00', system: 1.8, user: 7.8, iowait: 0.3 },
+    { time: '09:10', system: 2.1, user: 9.2, iowait: 0.4 },
+    { time: '09:20', system: 1.5, user: 8.5, iowait: 0.2 },
+    { time: '09:30', system: 1.3, user: 7.9, iowait: 0.3 },
+    { time: '09:40', system: 1.1, user: 7.2, iowait: 0.1 },
+  ];
+
+  const diskIOData = [
+    { time: '08:50', read: 8, write: 12 },
+    { time: '09:00', read: 15, write: 18 },
+    { time: '09:10', read: 22, write: 25 },
+    { time: '09:20', read: 18, write: 20 },
+    { time: '09:30', read: 12, write: 15 },
+    { time: '09:40', read: 10, write: 13 },
   ];
 
   const memoryData = [
-    { time: '00:00', value: 65 },
-    { time: '04:00', value: 68 },
-    { time: '08:00', value: 82 },
-    { time: '12:00', value: 88 },
-    { time: '16:00', value: 75 },
-    { time: '20:00', value: 70 },
+    { time: '08:50', total: 985.52, used: 689.87 },
+    { time: '09:00', total: 985.52, used: 695.23 },
+    { time: '09:10', total: 985.52, used: 702.15 },
+    { time: '09:20', total: 985.52, used: 698.45 },
+    { time: '09:30', total: 985.52, used: 692.30 },
+    { time: '09:40', total: 985.52, used: 688.75 },
   ];
-
-  const diskData = [
-    { time: '00:00', value: 35 },
-    { time: '04:00', value: 38 },
-    { time: '08:00', value: 42 },
-    { time: '12:00', value: 45 },
-    { time: '16:00', value: 43 },
-    { time: '20:00', value: 40 },
-  ];
-
-  const dbConnectionsData = [
-    { time: '00:00', active: 120, idle: 45 },
-    { time: '04:00', active: 145, idle: 35 },
-    { time: '08:00', active: 280, idle: 25 },
-    { time: '12:00', active: 320, idle: 15 },
-    { time: '16:00', active: 245, idle: 30 },
-    { time: '20:00', active: 180, idle: 40 },
-  ];
-
-  const configParameters: ConfigParameter[] = [
-    {
-      code: 'portal.cash_account_servicer_type_codes',
-      value: 'RTGS',
-      group: 'General',
-      externalCode: '',
-      externalSynchronization: false,
-      description: 'List of available cash account servicer type codes'
-    },
-    {
-      code: 'portal.general.menu_home_label',
-      value: 'Portal',
-      group: 'General',
-      externalCode: '',
-      externalSynchronization: false,
-      description: 'Menu home label'
-    },
-    {
-      code: 'portal.use_extended_investor_participant_types',
-      value: 'Yes',
-      group: 'General',
-      externalCode: '',
-      externalSynchronization: false,
-      description: 'Use extended investor participant types'
-    },
-    {
-      code: 'portal.central_node_params.allow_sdf_slf_both',
-      value: 'No',
-      group: 'Central node parameters',
-      externalCode: 'AllowSDFSLFBoth',
-      externalSynchronization: true,
-      description: 'Both SDF and SLF are allowed to be active simultaneously'
-    },
-    {
-      code: 'portal.central_node_params.collateral.board_not_editable_haircut',
-      value: '',
-      group: 'Central node parameters',
-      externalCode: 'BoardNotEditableHaircut',
-      externalSynchronization: true,
-      description: 'Boards with not editable haircut'
-    },
-    {
-      code: 'portal.central_node_params.collateral.board_not_editable_market_price',
-      value: '',
-      group: 'Central node parameters',
-      externalCode: 'BoardNotEditableMPrice',
-      externalSynchronization: true,
-      description: 'Boards with not editable market price'
-    },
-    {
-      code: 'portal.central_node_params.collateral.board_not_editable_mtm',
-      value: '',
-      group: 'Central node parameters',
-      externalCode: 'BoardNotMtmEditable',
-      externalSynchronization: true,
-      description: 'Boards with not editable market price and haircut'
-    },
-    {
-      code: 'portal.central_node_params.cross_trades_flag',
-      value: 'N',
-      group: 'Central node parameters',
-      externalCode: 'CROSS_TRADES_FLAG',
-      externalSynchronization: true,
-      description: 'Cross trades flag'
-    },
-    {
-      code: 'portal.central_node_params.default_cash_acctype',
-      value: 'CASH',
-      group: 'Central node parameters',
-      externalCode: 'DEFAULT_CASH_ACCTYPE',
-      externalSynchronization: true,
-      description: 'Default cash account type'
-    },
-    {
-      code: 'portal.central_node_params.default_priority',
-      value: '1050',
-      group: 'Central node parameters',
-      externalCode: 'DEFAULT_PRIORITY',
-      externalSynchronization: true,
-      description: 'Default priority'
-    },
-    {
-      code: 'portal.central_node_params.national_currency',
-      value: 'AED',
-      group: 'Central node parameters',
-      externalCode: 'NATIONAL_CURRENCY',
-      externalSynchronization: true,
-      description: 'National currency'
-    },
-    {
-      code: 'portal.central_node_params.sys_use_acc_hierarchy',
-      value: 'Yes',
-      group: 'Central node parameters',
-      externalCode: 'SYS_USE_ACC_HIERARCHY',
-      externalSynchronization: true,
-      description: 'Use account hierarchy'
-    },
-    {
-      code: 'portal.email.from',
-      value: 'demo-csd@rim.com',
-      group: 'Email',
-      externalCode: '',
-      externalSynchronization: false,
-      description: 'Email field "From"'
-    },
-    {
-      code: 'portal.email.host',
-      value: 'localhost',
-      group: 'Email',
-      externalCode: '',
-      externalSynchronization: false,
-      description: 'Email server host'
-    },
-    {
-      code: 'portal.email.port',
-      value: '1024',
-      group: 'Email',
-      externalCode: '',
-      externalSynchronization: false,
-      description: 'Email server port'
-    },
-    {
-      code: 'portal.email.protocol',
-      value: 'smtp',
-      group: 'Email',
-      externalCode: '',
-      externalSynchronization: false,
-      description: 'Email server protocol'
-    },
-    {
-      code: 'portal.gateway.http_url',
-      value: 'http://192.168.72.85:5088/SSYSGw/gw',
-      group: 'Gateway connection',
-      externalCode: '',
-      externalSynchronization: false,
-      description: 'Comma-separated list of gateway URLs'
-    },
-    {
-      code: 'portal.gateway.ignore_certificate',
-      value: 'No',
-      group: 'Gateway connection',
-      externalCode: '',
-      externalSynchronization: false,
-      description: 'Ignore server certificate for HTTPS connections'
-    },
-    {
-      code: 'portal.gateway.username',
-      value: 'WEBSHAREDPG1',
-      group: 'Gateway connection',
-      externalCode: '',
-      externalSynchronization: false,
-      description: 'Gateway user name'
-    },
-    {
-      code: 'portal.integration.balance_report_sms.url',
-      value: 'https://localhost:8934/emulator/webservices/rwSms',
-      group: 'Integration',
-      externalCode: '',
-      externalSynchronization: false,
-      description: 'URL to balance report web service (SMS)'
-    },
-    {
-      code: 'portal.integration.balance_report_sms.user',
-      value: 'CSD',
-      group: 'Integration',
-      externalCode: '',
-      externalSynchronization: false,
-      description: 'Username for sending SMS with balance report'
-    },
-    {
-      code: 'portal.interface.check_dvf_dvp_instrument_availability',
-      value: 'Yes',
-      group: 'Interface',
-      externalCode: '',
-      externalSynchronization: false,
-      description: 'Check instrument availability on dvf dvp forms'
-    },
-    {
-      code: 'portal.interface.check_mmts_cash_bilateral_limit',
-      value: 'Yes',
-      group: 'Interface',
-      externalCode: '',
-      externalSynchronization: false,
-      description: 'Check MMTS cash bilateral limit'
-    },
-    {
-      code: 'portal.interface.show_recommended_price_non_competitive_bid',
-      value: 'Yes',
-      group: 'Interface',
-      externalCode: '',
-      externalSynchronization: false,
-      description: 'Show recommended price for non-competitive bid if enabled'
-    },
-    {
-      code: 'portal.rim.debug_mode.enabled',
-      value: 'Yes',
-      group: 'RIM parameters',
-      externalCode: '',
-      externalSynchronization: false,
-      description: 'Allows enable additional message audit events for more convenient testing'
-    },
-    {
-      code: 'portal.rim.investor_profile_confirm_email.enabled',
-      value: 'Yes',
-      group: 'RIM parameters',
-      externalCode: '',
-      externalSynchronization: false,
-      description: 'Enables investor profile email confirmation'
-    },
-    {
-      code: 'portal.rim.investor_profile_confirm_phone.enabled',
-      value: 'No',
-      group: 'RIM parameters',
-      externalCode: '',
-      externalSynchronization: false,
-      description: 'Enables investor profile phone number confirmation'
-    },
-    {
-      code: 'portal.rim.two_factor_authentication.enabled',
-      value: 'No',
-      group: 'RIM parameters',
-      externalCode: '',
-      externalSynchronization: false,
-      description: 'Enables two factor authentication'
-    }
-  ];
-
-  const groups = ['all', ...Array.from(new Set(configParameters.map(param => param.group)))];
-
-  const filteredParameters = configParameters.filter(param => {
-    const matchesSearch = param.code.toLowerCase().includes(searchTerm.toLowerCase()) ||
-                         param.description.toLowerCase().includes(searchTerm.toLowerCase());
-    const matchesGroup = selectedGroup === 'all' || param.group === selectedGroup;
-    return matchesSearch && matchesGroup;
-  });
-
-  const groupedParameters = filteredParameters.reduce((acc, param) => {
-    if (!acc[param.group]) {
-      acc[param.group] = [];
-    }
-    acc[param.group].push(param);
-    return acc;
-  }, {} as Record<string, ConfigParameter[]>);
-
-  const handleValueChange = (code: string, newValue: string) => {
-    setEditingValues(prev => ({
-      ...prev,
-      [code]: newValue
-    }));
-  };
-
-  const getCurrentValue = (param: ConfigParameter) => {
-    return editingValues[param.code] !== undefined ? editingValues[param.code] : param.value;
-  };
-
-  const isYesNoValue = (value: string) => {
-    return value.toLowerCase() === 'yes' || value.toLowerCase() === 'no';
-  };
-
-  const getGroupIcon = (group: string) => {
-    switch (group) {
-      case 'Central node parameters':
-        return <Settings className="h-4 w-4" />;
-      case 'Email':
-        return <Mail className="h-4 w-4" />;
-      case 'Gateway connection':
-        return <Network className="h-4 w-4" />;
-      case 'Integration':
-        return <Database className="h-4 w-4" />;
-      case 'Interface':
-        return <Shield className="h-4 w-4" />;
-      case 'RIM parameters':
-        return <Users className="h-4 w-4" />;
-      default:
-        return <Settings className="h-4 w-4" />;
-    }
-  };
 
   const chartConfig = {
-    value: { label: 'Value', color: '#3b82f6' },
-    active: { label: 'Active', color: '#10b981' },
-    idle: { label: 'Idle', color: '#f59e0b' },
+    load1m: { label: '1m', color: '#3b82f6' },
+    load5m: { label: '5m', color: '#10b981' },
+    load15m: { label: '15m', color: '#f59e0b' },
+    system: { label: 'System', color: '#ef4444' },
+    user: { label: 'User', color: '#3b82f6' },
+    iowait: { label: 'IO Wait', color: '#f59e0b' },
+    read: { label: 'Read', color: '#10b981' },
+    write: { label: 'Write', color: '#3b82f6' },
+    total: { label: 'Total', color: '#6b7280' },
+    used: { label: 'Used', color: '#3b82f6' },
   };
 
   return (
-    <div className="space-y-6 bg-slate-50 min-h-screen p-6">
+    <div className="space-y-6 bg-slate-900 min-h-screen p-6 text-white">
       <div className="flex items-center justify-between">
         <div>
-          <h1 className="text-3xl font-bold text-slate-800">System Monitoring</h1>
-          <p className="text-slate-600">Monitor system performance and configuration</p>
+          <h1 className="text-3xl font-bold text-white">System Monitoring</h1>
+          <p className="text-slate-300">Node Exporter 0.16+ for Prometheus Monitoring</p>
         </div>
-        <div className="flex gap-2">
-          <Button 
-            variant={activeTab === 'dashboard' ? 'default' : 'outline'}
-            onClick={() => setActiveTab('dashboard')}
-          >
-            <Activity className="h-4 w-4 mr-2" />
-            Dashboard
-          </Button>
-          <Button 
-            variant={activeTab === 'config' ? 'default' : 'outline'}
-            onClick={() => setActiveTab('config')}
-          >
-            <Settings className="h-4 w-4 mr-2" />
-            Configuration
-          </Button>
+        <div className="text-sm text-slate-300">
+          Last 1 hour • localhost:9100
         </div>
       </div>
 
-      {activeTab === 'dashboard' && (
-        <div className="space-y-6">
-          {/* System Health Overview */}
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
-            <Card>
-              <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-                <CardTitle className="text-sm font-medium">CPU Usage</CardTitle>
-                <Cpu className="h-4 w-4 text-muted-foreground" />
-              </CardHeader>
-              <CardContent>
-                <div className="text-2xl font-bold text-blue-600">72%</div>
-                <Badge variant="outline" className="mt-2">Normal</Badge>
-              </CardContent>
-            </Card>
-
-            <Card>
-              <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-                <CardTitle className="text-sm font-medium">Memory Usage</CardTitle>
-                <HardDrive className="h-4 w-4 text-muted-foreground" />
-              </CardHeader>
-              <CardContent>
-                <div className="text-2xl font-bold text-green-600">75%</div>
-                <Badge variant="outline" className="mt-2">Normal</Badge>
-              </CardContent>
-            </Card>
-
-            <Card>
-              <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-                <CardTitle className="text-sm font-medium">Disk Usage</CardTitle>
-                <Database className="h-4 w-4 text-muted-foreground" />
-              </CardHeader>
-              <CardContent>
-                <div className="text-2xl font-bold text-orange-600">43%</div>
-                <Badge variant="outline" className="mt-2">Normal</Badge>
-              </CardContent>
-            </Card>
-
-            <Card>
-              <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-                <CardTitle className="text-sm font-medium">System Status</CardTitle>
-                <Zap className="h-4 w-4 text-muted-foreground" />
-              </CardHeader>
-              <CardContent>
-                <div className="text-2xl font-bold text-green-600">Online</div>
-                <Badge className="mt-2 bg-green-100 text-green-800">Healthy</Badge>
-              </CardContent>
-            </Card>
-          </div>
-
-          {/* Performance Charts */}
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-            <Card>
-              <CardHeader>
-                <CardTitle>CPU Usage (24h)</CardTitle>
-              </CardHeader>
-              <CardContent>
-                <ChartContainer config={chartConfig} className="h-64">
-                  <ResponsiveContainer width="100%" height="100%">
-                    <LineChart data={cpuData}>
-                      <XAxis dataKey="time" />
-                      <YAxis />
-                      <ChartTooltip content={<ChartTooltipContent />} />
-                      <Line type="monotone" dataKey="value" stroke="var(--color-value)" strokeWidth={2} />
-                    </LineChart>
-                  </ResponsiveContainer>
-                </ChartContainer>
-              </CardContent>
-            </Card>
-
-            <Card>
-              <CardHeader>
-                <CardTitle>Memory Usage (24h)</CardTitle>
-              </CardHeader>
-              <CardContent>
-                <ChartContainer config={chartConfig} className="h-64">
-                  <ResponsiveContainer width="100%" height="100%">
-                    <AreaChart data={memoryData}>
-                      <XAxis dataKey="time" />
-                      <YAxis />
-                      <ChartTooltip content={<ChartTooltipContent />} />
-                      <Area type="monotone" dataKey="value" stroke="var(--color-value)" fill="var(--color-value)" fillOpacity={0.3} />
-                    </AreaChart>
-                  </ResponsiveContainer>
-                </ChartContainer>
-              </CardContent>
-            </Card>
-
-            <Card>
-              <CardHeader>
-                <CardTitle>Disk I/O (24h)</CardTitle>
-              </CardHeader>
-              <CardContent>
-                <ChartContainer config={chartConfig} className="h-64">
-                  <ResponsiveContainer width="100%" height="100%">
-                    <LineChart data={diskData}>
-                      <XAxis dataKey="time" />
-                      <YAxis />
-                      <ChartTooltip content={<ChartTooltipContent />} />
-                      <Line type="monotone" dataKey="value" stroke="var(--color-value)" strokeWidth={2} />
-                    </LineChart>
-                  </ResponsiveContainer>
-                </ChartContainer>
-              </CardContent>
-            </Card>
-
-            <Card>
-              <CardHeader>
-                <CardTitle>Database Connections</CardTitle>
-              </CardHeader>
-              <CardContent>
-                <ChartContainer config={chartConfig} className="h-64">
-                  <ResponsiveContainer width="100%" height="100%">
-                    <AreaChart data={dbConnectionsData}>
-                      <XAxis dataKey="time" />
-                      <YAxis />
-                      <ChartTooltip content={<ChartTooltipContent />} />
-                      <Area type="monotone" dataKey="active" stackId="1" stroke="var(--color-active)" fill="var(--color-active)" />
-                      <Area type="monotone" dataKey="idle" stackId="1" stroke="var(--color-idle)" fill="var(--color-idle)" />
-                    </AreaChart>
-                  </ResponsiveContainer>
-                </ChartContainer>
-              </CardContent>
-            </Card>
-          </div>
-        </div>
-      )}
-
-      {activeTab === 'config' && (
-        <Card>
-          <CardHeader>
-            <CardTitle>Configuration Parameters</CardTitle>
-          </CardHeader>
-          <CardContent>
-            <div className="flex flex-col md:flex-row gap-4 mb-6">
-              <div className="relative flex-1">
-                <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 h-4 w-4 text-slate-400" />
-                <Input
-                  placeholder="Search parameters..."
-                  value={searchTerm}
-                  onChange={(e) => setSearchTerm(e.target.value)}
-                  className="pl-10"
-                />
-              </div>
-              <Select value={selectedGroup} onValueChange={setSelectedGroup}>
-                <SelectTrigger className="w-full md:w-64">
-                  <SelectValue placeholder="Filter by group" />
-                </SelectTrigger>
-                <SelectContent>
-                  <SelectItem value="all">All Groups</SelectItem>
-                  {groups.slice(1).map(group => (
-                    <SelectItem key={group} value={group}>{group}</SelectItem>
-                  ))}
-                </SelectContent>
-              </Select>
-            </div>
-
-            <div className="space-y-8">
-              {Object.entries(groupedParameters).map(([groupName, parameters]) => (
-                <div key={groupName} className="space-y-4">
-                  <div className="flex items-center gap-2 border-b pb-2">
-                    {getGroupIcon(groupName)}
-                    <h3 className="text-lg font-semibold text-slate-800">{groupName}</h3>
-                    <span className="text-sm text-slate-500">({parameters.length} parameters)</span>
-                  </div>
-                  
-                  <div className="overflow-x-auto">
-                    <Table className="w-full">
-                      <TableHeader>
-                        <TableRow>
-                          <TableHead className="min-w-[300px]">Code</TableHead>
-                          <TableHead className="min-w-[150px]">Value</TableHead>
-                          <TableHead className="min-w-[120px]">External Code</TableHead>
-                          <TableHead className="w-20">Sync</TableHead>
-                          <TableHead className="min-w-[200px]">Description</TableHead>
-                        </TableRow>
-                      </TableHeader>
-                      <TableBody>
-                        {parameters.map((param) => (
-                          <TableRow key={param.code}>
-                            <TableCell className="font-mono text-xs">{param.code}</TableCell>
-                            <TableCell>
-                              {isYesNoValue(param.value) ? (
-                                <RadioGroup
-                                  value={getCurrentValue(param)}
-                                  onValueChange={(value) => handleValueChange(param.code, value)}
-                                  className="flex flex-row space-x-4"
-                                >
-                                  <div className="flex items-center space-x-2">
-                                    <RadioGroupItem value="Yes" id={`${param.code}-yes`} />
-                                    <Label htmlFor={`${param.code}-yes`} className="text-sm">Yes</Label>
-                                  </div>
-                                  <div className="flex items-center space-x-2">
-                                    <RadioGroupItem value="No" id={`${param.code}-no`} />
-                                    <Label htmlFor={`${param.code}-no`} className="text-sm">No</Label>
-                                  </div>
-                                </RadioGroup>
-                              ) : (
-                                <Input
-                                  value={getCurrentValue(param)}
-                                  onChange={(e) => handleValueChange(param.code, e.target.value)}
-                                  className="w-full text-sm"
-                                  placeholder={param.value || "—"}
-                                />
-                              )}
-                            </TableCell>
-                            <TableCell className="font-mono text-xs">
-                              {param.externalCode || <span className="text-slate-400">—</span>}
-                            </TableCell>
-                            <TableCell>
-                              <Badge variant={param.externalSynchronization ? 'default' : 'secondary'} className="text-xs">
-                                {param.externalSynchronization ? 'Yes' : 'No'}
-                              </Badge>
-                            </TableCell>
-                            <TableCell>
-                              <div className="text-sm text-slate-700 whitespace-normal break-words max-w-xs">
-                                {param.description}
-                              </div>
-                            </TableCell>
-                          </TableRow>
-                        ))}
-                      </TableBody>
-                    </Table>
-                  </div>
-                </div>
-              ))}
-            </div>
-
-            {filteredParameters.length === 0 && (
-              <div className="text-center py-12">
-                <Settings className="h-12 w-12 text-slate-300 mx-auto mb-4" />
-                <h3 className="text-lg font-medium text-slate-600 mb-2">No parameters found</h3>
-                <p className="text-slate-500">Try adjusting your search or filter criteria</p>
-              </div>
-            )}
+      {/* Top Row - Key Metrics */}
+      <div className="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-7 gap-4">
+        <Card className="bg-slate-800 border-slate-700">
+          <CardContent className="p-4 text-center">
+            <div className="text-green-400 text-2xl font-bold">3.5</div>
+            <div className="text-green-400 text-sm">hour</div>
+            <div className="text-xs text-slate-400 mt-1">System runtime</div>
           </CardContent>
         </Card>
-      )}
+
+        <Card className="bg-slate-800 border-slate-700">
+          <CardContent className="p-4 text-center">
+            <div className="text-orange-400 text-lg font-bold">1</div>
+            <div className="text-green-400 text-2xl font-bold">986 MiB</div>
+            <div className="text-xs text-slate-400 mt-1">Total memory</div>
+          </CardContent>
+        </Card>
+
+        <Card className="bg-slate-800 border-slate-700 relative">
+          <CardContent className="p-4">
+            <div className="relative w-20 h-20 mx-auto">
+              <svg className="w-20 h-20 transform -rotate-90">
+                <circle
+                  cx="40"
+                  cy="40"
+                  r="32"
+                  stroke="currentColor"
+                  strokeWidth="6"
+                  fill="transparent"
+                  className="text-slate-600"
+                />
+                <circle
+                  cx="40"
+                  cy="40"
+                  r="32"
+                  stroke="currentColor"
+                  strokeWidth="6"
+                  fill="transparent"
+                  strokeDasharray={`${2 * Math.PI * 32}`}
+                  strokeDashoffset={`${2 * Math.PI * 32 * (1 - systemMetrics.cpuUsage / 100)}`}
+                  className="text-orange-400"
+                />
+              </svg>
+              <div className="absolute inset-0 flex items-center justify-center">
+                <span className="text-orange-400 font-bold">{systemMetrics.cpuUsage}%</span>
+              </div>
+            </div>
+            <div className="text-xs text-slate-400 text-center mt-2">CPU Usage rate (5m)</div>
+          </CardContent>
+        </Card>
+
+        <Card className="bg-slate-800 border-slate-700 relative">
+          <CardContent className="p-4">
+            <div className="relative w-20 h-20 mx-auto">
+              <svg className="w-20 h-20 transform -rotate-90">
+                <circle
+                  cx="40"
+                  cy="40"
+                  r="32"
+                  stroke="currentColor"
+                  strokeWidth="6"
+                  fill="transparent"
+                  className="text-slate-600"
+                />
+                <circle
+                  cx="40"
+                  cy="40"
+                  r="32"
+                  stroke="currentColor"
+                  strokeWidth="6"
+                  fill="transparent"
+                  strokeDasharray={`${2 * Math.PI * 32}`}
+                  strokeDashoffset={`${2 * Math.PI * 32 * (1 - systemMetrics.cpuLowait / 100)}`}
+                  className="text-red-400"
+                />
+              </svg>
+              <div className="absolute inset-0 flex items-center justify-center">
+                <span className="text-red-400 font-bold">{systemMetrics.cpuLowait}%</span>
+              </div>
+            </div>
+            <div className="text-xs text-slate-400 text-center mt-2">CPU Iowait (5m)</div>
+          </CardContent>
+        </Card>
+
+        <Card className="bg-slate-800 border-slate-700 relative">
+          <CardContent className="p-4">
+            <div className="relative w-20 h-20 mx-auto">
+              <svg className="w-20 h-20 transform -rotate-90">
+                <circle
+                  cx="40"
+                  cy="40"
+                  r="32"
+                  stroke="currentColor"
+                  strokeWidth="6"
+                  fill="transparent"
+                  className="text-slate-600"
+                />
+                <circle
+                  cx="40"
+                  cy="40"
+                  r="32"
+                  stroke="currentColor"
+                  strokeWidth="6"
+                  fill="transparent"
+                  strokeDasharray={`${2 * Math.PI * 32}`}
+                  strokeDashoffset={`${2 * Math.PI * 32 * (1 - systemMetrics.memoryUsage / 100)}`}
+                  className="text-green-400"
+                />
+              </svg>
+              <div className="absolute inset-0 flex items-center justify-center">
+                <span className="text-green-400 font-bold">{systemMetrics.memoryUsage}%</span>
+              </div>
+            </div>
+            <div className="text-xs text-slate-400 text-center mt-2">Memory usage</div>
+          </CardContent>
+        </Card>
+
+        <Card className="bg-slate-800 border-slate-700 relative">
+          <CardContent className="p-4">
+            <div className="relative w-20 h-20 mx-auto">
+              <svg className="w-20 h-20 transform -rotate-90">
+                <circle
+                  cx="40"
+                  cy="40"
+                  r="32"
+                  stroke="currentColor"
+                  strokeWidth="6"
+                  fill="transparent"
+                  className="text-slate-600"
+                />
+                <circle
+                  cx="40"
+                  cy="40"
+                  r="32"
+                  stroke="currentColor"
+                  strokeWidth="6"
+                  fill="transparent"
+                  strokeDasharray={`${2 * Math.PI * 32}`}
+                  strokeDashoffset={`${2 * Math.PI * 32 * (1 - (systemMetrics.openFileDescriptors / 2000))}`}
+                  className="text-green-400"
+                />
+              </svg>
+              <div className="absolute inset-0 flex items-center justify-center">
+                <span className="text-green-400 font-bold text-xs">{systemMetrics.openFileDescriptors}</span>
+              </div>
+            </div>
+            <div className="text-xs text-slate-400 text-center mt-2">Currently open file descriptor</div>
+          </CardContent>
+        </Card>
+
+        <Card className="bg-slate-800 border-slate-700 relative">
+          <CardContent className="p-4">
+            <div className="relative w-20 h-20 mx-auto">
+              <svg className="w-20 h-20 transform -rotate-90">
+                <circle
+                  cx="40"
+                  cy="40"
+                  r="32"
+                  stroke="currentColor"
+                  strokeWidth="6"
+                  fill="transparent"
+                  className="text-slate-600"
+                />
+                <circle
+                  cx="40"
+                  cy="40"
+                  r="32"
+                  stroke="currentColor"
+                  strokeWidth="6"
+                  fill="transparent"
+                  strokeDasharray={`${2 * Math.PI * 32}`}
+                  strokeDashoffset={`${2 * Math.PI * 32 * (1 - systemMetrics.rootPartitionUsage / 100)}`}
+                  className="text-green-400"
+                />
+              </svg>
+              <div className="absolute inset-0 flex items-center justify-center">
+                <span className="text-green-400 font-bold">{systemMetrics.rootPartitionUsage}%</span>
+              </div>
+            </div>
+            <div className="text-xs text-slate-400 text-center mt-2">Root partition usage</div>
+          </CardContent>
+        </Card>
+      </div>
+
+      {/* Charts Grid */}
+      <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+        {/* System Load */}
+        <Card className="bg-slate-800 border-slate-700">
+          <CardHeader>
+            <CardTitle className="text-white">System average load</CardTitle>
+          </CardHeader>
+          <CardContent>
+            <ChartContainer config={chartConfig} className="h-64">
+              <ResponsiveContainer width="100%" height="100%">
+                <LineChart data={systemLoadData}>
+                  <XAxis dataKey="time" stroke="#94a3b8" />
+                  <YAxis stroke="#94a3b8" />
+                  <ChartTooltip content={<ChartTooltipContent />} />
+                  <Line type="monotone" dataKey="load1m" stroke="var(--color-load1m)" strokeWidth={2} />
+                  <Line type="monotone" dataKey="load5m" stroke="var(--color-load5m)" strokeWidth={2} />
+                  <Line type="monotone" dataKey="load15m" stroke="var(--color-load15m)" strokeWidth={2} />
+                </LineChart>
+              </ResponsiveContainer>
+            </ChartContainer>
+          </CardContent>
+        </Card>
+
+        {/* Disk Space */}
+        <Card className="bg-slate-800 border-slate-700">
+          <CardHeader>
+            <CardTitle className="text-white">Total disk space</CardTitle>
+            <div className="text-blue-400">24.1 GiB</div>
+          </CardHeader>
+          <CardContent>
+            <ChartContainer config={chartConfig} className="h-64">
+              <ResponsiveContainer width="100%" height="100%">
+                <PieChart>
+                  <Pie
+                    data={diskSpaceData}
+                    cx="50%"
+                    cy="50%"
+                    outerRadius={80}
+                    dataKey="value"
+                    startAngle={90}
+                    endAngle={-270}
+                  >
+                    {diskSpaceData.map((entry, index) => (
+                      <Cell key={`cell-${index}`} fill={entry.color} />
+                    ))}
+                  </Pie>
+                  <ChartTooltip formatter={(value) => [`${value}%`, '']} />
+                </PieChart>
+              </ResponsiveContainer>
+            </ChartContainer>
+          </CardContent>
+        </Card>
+
+        {/* CPU Usage */}
+        <Card className="bg-slate-800 border-slate-700">
+          <CardHeader>
+            <CardTitle className="text-white">CPU usage, disk I/O operations per second (%)</CardTitle>
+          </CardHeader>
+          <CardContent>
+            <ChartContainer config={chartConfig} className="h-64">
+              <ResponsiveContainer width="100%" height="100%">
+                <AreaChart data={cpuUsageData}>
+                  <XAxis dataKey="time" stroke="#94a3b8" />
+                  <YAxis stroke="#94a3b8" />
+                  <ChartTooltip content={<ChartTooltipContent />} />
+                  <Area type="monotone" dataKey="system" stackId="1" stroke="var(--color-system)" fill="var(--color-system)" />
+                  <Area type="monotone" dataKey="user" stackId="1" stroke="var(--color-user)" fill="var(--color-user)" />
+                  <Area type="monotone" dataKey="iowait" stackId="1" stroke="var(--color-iowait)" fill="var(--color-iowait)" />
+                </AreaChart>
+              </ResponsiveContainer>
+            </ChartContainer>
+          </CardContent>
+        </Card>
+
+        {/* Memory Information */}
+        <Card className="bg-slate-800 border-slate-700">
+          <CardHeader>
+            <CardTitle className="text-white">Memory information</CardTitle>
+          </CardHeader>
+          <CardContent>
+            <ChartContainer config={chartConfig} className="h-64">
+              <ResponsiveContainer width="100%" height="100%">
+                <AreaChart data={memoryData}>
+                  <XAxis dataKey="time" stroke="#94a3b8" />
+                  <YAxis stroke="#94a3b8" />
+                  <ChartTooltip content={<ChartTooltipContent />} formatter={(value) => [`${value} MiB`, '']} />
+                  <Area type="monotone" dataKey="used" stroke="var(--color-used)" fill="var(--color-used)" fillOpacity={0.6} />
+                  <Area type="monotone" dataKey="total" stroke="var(--color-total)" fill="transparent" strokeDasharray="5,5" />
+                </AreaChart>
+              </ResponsiveContainer>
+            </ChartContainer>
+          </CardContent>
+        </Card>
+      </div>
+
+      {/* Bottom Row - Disk I/O and Free Space */}
+      <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
+        <Card className="bg-slate-800 border-slate-700">
+          <CardHeader>
+            <CardTitle className="text-white">Disk read and write rate (IOPS)</CardTitle>
+          </CardHeader>
+          <CardContent>
+            <ChartContainer config={chartConfig} className="h-64">
+              <ResponsiveContainer width="100%" height="100%">
+                <LineChart data={diskIOData}>
+                  <XAxis dataKey="time" stroke="#94a3b8" />
+                  <YAxis stroke="#94a3b8" />
+                  <ChartTooltip content={<ChartTooltipContent />} />
+                  <Line type="monotone" dataKey="read" stroke="var(--color-read)" strokeWidth={2} />
+                  <Line type="monotone" dataKey="write" stroke="var(--color-write)" strokeWidth={2} />
+                </LineChart>
+              </ResponsiveContainer>
+            </ChartContainer>
+          </CardContent>
+        </Card>
+
+        <Card className="bg-slate-800 border-slate-700">
+          <CardHeader>
+            <CardTitle className="text-white">Free space for each partition</CardTitle>
+          </CardHeader>
+          <CardContent className="space-y-4">
+            <div className="space-y-2">
+              <div className="flex justify-between items-center text-sm">
+                <span className="text-slate-300">ext4</span>
+                <span className="text-blue-400">localhost:9100</span>
+                <span className="text-slate-300">/</span>
+                <span className="text-green-400">21.80 GiB</span>
+                <Badge className="bg-green-600 text-white">9.32%</Badge>
+              </div>
+            </div>
+          </CardContent>
+        </Card>
+
+        <Card className="bg-slate-800 border-slate-700">
+          <CardHeader>
+            <CardTitle className="text-white">Disk I/O read and write time</CardTitle>
+          </CardHeader>
+          <CardContent>
+            <div className="text-center py-8">
+              <div className="text-4xl text-slate-500">100 ms</div>
+              <div className="text-slate-400 text-sm mt-2">Average I/O time</div>
+            </div>
+          </CardContent>
+        </Card>
+      </div>
     </div>
   );
 };

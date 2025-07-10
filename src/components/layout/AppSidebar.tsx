@@ -97,13 +97,13 @@ const navigationItems = [
     icon: Database
   },
   {
-    title: 'System Administration',
+    title: 'System Monitoring',
     url: '/admin',
     roles: ['Admin'],
     icon: Settings
   },
   {
-    title: 'System Monitoring',
+    title: 'System Administration',
     url: '/monitoring',
     roles: ['Admin'],
     icon: Monitor

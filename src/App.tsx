@@ -52,8 +52,8 @@ const App = () => (
               <Route path="auction" element={<AuctionManagementPage />} />
               <Route path="reporting" element={<ReportingPage />} />
               <Route path="masterdata" element={<MasterDataPage />} />
-              <Route path="admin" element={<SystemAdminPage />} />
-              <Route path="monitoring" element={<SystemMonitoringPage />} />
+              <Route path="admin" element={<SystemMonitoringPage />} />
+              <Route path="monitoring" element={<SystemAdminPage />} />
               <Route path="users" element={<UserManagementPage />} />
             </Route>
           </Routes>
