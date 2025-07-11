@@ -18,14 +18,16 @@ const OrderManagementPage = () => {
 
   return (
     <TooltipProvider>
-      <div className="flex h-full">
-        <div className="flex-1 space-y-6 p-6">
-          <div className="flex items-center justify-between">
-            <div>
-              <h1 className="text-2xl font-bold text-slate-900">Order Management</h1>
-              <p className="text-slate-600">Manage and monitor quote and offer orders</p>
-            </div>
+      <div className="space-y-6">
+        <div className="flex items-center justify-between">
+          <div>
+            <h1 className="text-2xl font-bold text-slate-900">Order Management</h1>
+            <p className="text-slate-600">Manage and monitor quote and offer orders</p>
           </div>
+        </div>
+
+        <div className="flex h-full">
+          <div className="flex-1 space-y-6 pr-6">
           
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
             <Card>
@@ -109,22 +111,21 @@ const OrderManagementPage = () => {
             </Card>
           </div>
 
-        </div>
+          </div>
 
-        <div className="w-80 border-l bg-slate-50/50 p-6">
-          <Card>
-            <CardHeader>
-              <CardTitle>Quick Actions</CardTitle>
-            </CardHeader>
-            <CardContent className="space-y-3">
-              <Button className="w-full justify-start">Create Quote Order</Button>
-              <Button variant="outline" className="w-full justify-start">Create Offer Order</Button>
-              <Button variant="outline" className="w-full justify-start">Modify Orders</Button>
-              <Button variant="outline" className="w-full justify-start">Cancel Orders</Button>
-              <Button variant="outline" className="w-full justify-start">Order History</Button>
-              <Button variant="outline" className="w-full justify-start">Export Report</Button>
-            </CardContent>
-          </Card>
+          <div className="w-64 space-y-4">
+            <div className="bg-white border border-slate-200 rounded-lg p-4">
+              <h3 className="font-semibold text-slate-900 mb-4">Quick Actions</h3>
+              <div className="space-y-2">
+                <Button className="w-full justify-start">Create Quote Order</Button>
+                <Button variant="outline" className="w-full justify-start">Create Offer Order</Button>
+                <Button variant="outline" className="w-full justify-start">Modify Orders</Button>
+                <Button variant="outline" className="w-full justify-start">Cancel Orders</Button>
+                <Button variant="outline" className="w-full justify-start">Order History</Button>
+                <Button variant="outline" className="w-full justify-start">Export Report</Button>
+              </div>
+            </div>
+          </div>
         </div>
       </div>
     </TooltipProvider>

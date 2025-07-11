@@ -96,12 +96,7 @@ const navigationItems = [
     title: 'Custody Hub',
     url: '/custody',
     roles: ['Admin', 'Custodian', 'Broker', 'Participant'],
-    icon: Vault,
-    subItems: [
-      { title: 'Asset Holdings', url: '/custody/holdings' },
-      { title: 'Safekeeping', url: '/custody/safekeeping' },
-      { title: 'Corporate Actions', url: '/custody/corporate-actions' }
-    ]
+    icon: Vault
   },
   {
     title: 'Liquidity Hub',
@@ -195,7 +190,7 @@ export function AppSidebar() {
     'Trading': false,
     'Clearing Hub': false,
     'Settlement Hub': false,
-    'Custody Hub': false,
+    
     'Liquidity Hub': false,
     'Risk Management': false,
     'Auction Management': false,

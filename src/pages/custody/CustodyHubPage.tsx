@@ -70,7 +70,7 @@ const CustodyHubPage = () => {
             {/* Securities Settled Today */}
             <Card>
               <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-                <CardTitle className="text-sm font-medium">🔄 Securities Settled Today</CardTitle>
+                <CardTitle className="text-sm font-medium">📄 Securities Settled Today</CardTitle>
                 <RefreshCw className="h-4 w-4 text-muted-foreground" />
               </CardHeader>
               <CardContent>
@@ -143,7 +143,7 @@ const CustodyHubPage = () => {
             {/* Top 5 Asset Classes */}
             <Card>
               <CardHeader>
-                <CardTitle className="text-lg">🧾 Top 5 Asset Classes by Volume</CardTitle>
+                <CardTitle className="text-lg">📄 Top 5 Asset Classes by Volume</CardTitle>
               </CardHeader>
               <CardContent>
                 <div className="space-y-3">
@@ -188,32 +188,6 @@ const CustodyHubPage = () => {
               </CardContent>
             </Card>
           </div>
-
-          {/* Corporate Actions Timeline */}
-          <Card>
-            <CardHeader>
-              <CardTitle className="text-lg">🕒 Upcoming Corporate Actions Timeline</CardTitle>
-            </CardHeader>
-            <CardContent>
-              <div className="space-y-4">
-                {corporateActions.map((action, index) => (
-                  <div key={index} className="flex items-center gap-4 p-3 border rounded-lg">
-                    <div className="w-12 h-12 bg-slate-100 rounded-full flex items-center justify-center">
-                      <Calendar className="h-5 w-5 text-slate-600" />
-                    </div>
-                    <div className="flex-1">
-                      <div className="font-medium">{action.company}</div>
-                      <div className="text-sm text-muted-foreground">{action.action}</div>
-                    </div>
-                    <div className="text-right">
-                      <div className="font-medium text-sm">{action.date}</div>
-                      <div className="text-xs text-muted-foreground">{action.amount}</div>
-                    </div>
-                  </div>
-                ))}
-              </div>
-            </CardContent>
-          </Card>
         </div>
 
         {/* Right Side Options */}
