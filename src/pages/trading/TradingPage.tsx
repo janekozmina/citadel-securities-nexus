@@ -69,102 +69,111 @@ const TradingPage = () => {
   ];
 
   const renderTradeMatching = () => (
-    <div className="flex h-full">
-      <div className="flex-1 space-y-6 pr-6">
-        <h2 className="text-2xl font-bold text-slate-900">Trade Matching</h2>
-        
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-          <Card>
-            <CardHeader>
-              <CardTitle>Live Trade Feed (FIX Protocol)</CardTitle>
-            </CardHeader>
-            <CardContent>
-              <div className="space-y-3 max-h-64 overflow-y-auto">
-                {tradeMatchingData.liveMessages.map((msg) => (
-                  <div key={msg.id} className="flex justify-between items-center p-3 bg-slate-50 rounded">
-                    <div className="flex-1">
-                      <div className="font-semibold text-sm">{msg.time} - {msg.type}</div>
-                      <div className="text-sm text-slate-600">{msg.instrument} {msg.side} {msg.qty} @ ${msg.price}</div>
+    <div className="space-y-6">
+      <div className="flex items-center justify-between">
+        <div>
+          <h1 className="text-2xl font-bold text-slate-900">Trade Matching</h1>
+          <p className="text-slate-600">Real-time trade processing and matching engine</p>
+        </div>
+      </div>
+
+      <div className="flex h-full">
+        {/* Center Content */}
+        <div className="flex-1 space-y-6 pr-6">
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+            <Card>
+              <CardHeader>
+                <CardTitle>Live Trade Feed (FIX Protocol)</CardTitle>
+              </CardHeader>
+              <CardContent>
+                <div className="space-y-3 max-h-64 overflow-y-auto">
+                  {tradeMatchingData.liveMessages.map((msg) => (
+                    <div key={msg.id} className="flex justify-between items-center p-3 bg-slate-50 rounded">
+                      <div className="flex-1">
+                        <div className="font-semibold text-sm">{msg.time} - {msg.type}</div>
+                        <div className="text-sm text-slate-600">{msg.instrument} {msg.side} {msg.qty} @ ${msg.price}</div>
+                      </div>
+                      <div className="text-sm font-medium">{msg.status}</div>
                     </div>
-                    <div className="text-sm font-medium">{msg.status}</div>
-                  </div>
-                ))}
-              </div>
-            </CardContent>
-          </Card>
+                  ))}
+                </div>
+              </CardContent>
+            </Card>
+
+            <Card>
+              <CardHeader>
+                <CardTitle>Match Cycle Breakdown</CardTitle>
+              </CardHeader>
+              <CardContent>
+                <div className="space-y-4">
+                  {tradeMatchingData.matchCycles.map((cycle) => (
+                    <div key={cycle.cycle} className="space-y-2">
+                      <div className="flex justify-between">
+                        <span className="font-semibold">{cycle.cycle}</span>
+                        <span>{cycle.percentage}%</span>
+                      </div>
+                      <div className="w-full bg-slate-200 rounded-full h-2">
+                        <div 
+                          className="bg-green-600 h-2 rounded-full" 
+                          style={{ width: `${cycle.percentage}%` }}
+                        ></div>
+                      </div>
+                      <div className="text-xs text-slate-600">
+                        {cycle.matched.toLocaleString()} / {cycle.total.toLocaleString()} matched
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              </CardContent>
+            </Card>
+          </div>
 
           <Card>
             <CardHeader>
-              <CardTitle>Match Cycle Breakdown</CardTitle>
+              <CardTitle>Volume & Value by Asset Class</CardTitle>
             </CardHeader>
             <CardContent>
-              <div className="space-y-4">
-                {tradeMatchingData.matchCycles.map((cycle) => (
-                  <div key={cycle.cycle} className="space-y-2">
-                    <div className="flex justify-between">
-                      <span className="font-semibold">{cycle.cycle}</span>
-                      <span>{cycle.percentage}%</span>
-                    </div>
-                    <div className="w-full bg-slate-200 rounded-full h-2">
-                      <div 
-                        className="bg-green-600 h-2 rounded-full" 
-                        style={{ width: `${cycle.percentage}%` }}
-                      ></div>
-                    </div>
-                    <div className="text-xs text-slate-600">
-                      {cycle.matched.toLocaleString()} / {cycle.total.toLocaleString()} matched
-                    </div>
-                  </div>
-                ))}
+              <div className="overflow-x-auto">
+                <table className="w-full border-collapse">
+                  <thead>
+                    <tr className="border-b">
+                      <th className="text-left p-3 font-semibold">Asset Class</th>
+                      <th className="text-left p-3 font-semibold">Volume</th>
+                      <th className="text-left p-3 font-semibold">Value ($)</th>
+                      <th className="text-left p-3 font-semibold">Matched</th>
+                      <th className="text-left p-3 font-semibold">Match Rate</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {tradeMatchingData.volumeByAsset.map((asset, index) => (
+                      <tr key={index} className="border-b hover:bg-slate-50">
+                        <td className="p-3 font-medium">{asset.asset}</td>
+                        <td className="p-3">{asset.volume.toLocaleString()}</td>
+                        <td className="p-3">${asset.value.toLocaleString()}</td>
+                        <td className="p-3">{asset.matched.toLocaleString()}</td>
+                        <td className="p-3">{((asset.matched / asset.volume) * 100).toFixed(1)}%</td>
+                      </tr>
+                    ))}
+                  </tbody>
+                </table>
               </div>
             </CardContent>
           </Card>
         </div>
 
-        <Card>
-          <CardHeader>
-            <CardTitle>Volume & Value by Asset Class</CardTitle>
-          </CardHeader>
-          <CardContent>
-            <div className="overflow-x-auto">
-              <table className="w-full border-collapse">
-                <thead>
-                  <tr className="border-b">
-                    <th className="text-left p-3 font-semibold">Asset Class</th>
-                    <th className="text-left p-3 font-semibold">Volume</th>
-                    <th className="text-left p-3 font-semibold">Value ($)</th>
-                    <th className="text-left p-3 font-semibold">Matched</th>
-                    <th className="text-left p-3 font-semibold">Match Rate</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  {tradeMatchingData.volumeByAsset.map((asset, index) => (
-                    <tr key={index} className="border-b hover:bg-slate-50">
-                      <td className="p-3 font-medium">{asset.asset}</td>
-                      <td className="p-3">{asset.volume.toLocaleString()}</td>
-                      <td className="p-3">${asset.value.toLocaleString()}</td>
-                      <td className="p-3">{asset.matched.toLocaleString()}</td>
-                      <td className="p-3">{((asset.matched / asset.volume) * 100).toFixed(1)}%</td>
-                    </tr>
-                  ))}
-                </tbody>
-              </table>
-            </div>
-          </CardContent>
-        </Card>
-      </div>
-
-          <div className="w-64 space-y-4">
-            <div className="bg-white border border-slate-200 rounded-lg p-4">
-              <h3 className="font-semibold text-slate-900 mb-4">Quick Actions</h3>
-              <div className="space-y-2">
-                <Button className="w-full justify-start">Configure Matching Rules</Button>
-                <Button variant="outline" className="w-full justify-start">Export Match Report</Button>
-                <Button variant="outline" className="w-full justify-start">View Exception Details</Button>
-                <Button variant="outline" className="w-full justify-start">FIX Session Status</Button>
-              </div>
+        {/* Right Sidebar with Quick Actions */}
+        <div className="w-64 space-y-4">
+          <div className="bg-white border border-slate-200 rounded-lg p-4">
+            <h3 className="font-semibold text-slate-900 mb-4">Quick Actions</h3>
+            <div className="space-y-2">
+              <Button className="w-full justify-start">Configure Matching Rules</Button>
+              <Button variant="outline" className="w-full justify-start">Export Match Report</Button>
+              <Button variant="outline" className="w-full justify-start">View Exception Details</Button>
+              <Button variant="outline" className="w-full justify-start">FIX Session Status</Button>
             </div>
           </div>
+        </div>
+      </div>
     </div>
   );
 
