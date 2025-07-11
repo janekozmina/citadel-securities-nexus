@@ -1,5 +1,5 @@
 
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { NavLink, useLocation } from 'react-router-dom';
 import { useAuth } from '@/contexts/AuthContext';
 import {
@@ -191,8 +191,8 @@ export function AppSidebar() {
     'admin': true
   });
   const [expandedItems, setExpandedItems] = useState<{ [key: string]: boolean }>({
-    'Securities Lifecycle': true,
-    'Trading': true,
+    'Securities Lifecycle': false,
+    'Trading': false,
     'Clearing Hub': false,
     'Settlement Hub': false,
     'Custody Hub': false,
@@ -232,6 +232,17 @@ export function AppSidebar() {
     }
     return false;
   };
+
+  // Auto-expand items that contain active routes
+  useEffect(() => {
+    const activeItem = navigationItems.find(item => isItemActive(item));
+    if (activeItem && activeItem.subItems) {
+      setExpandedItems(prev => ({
+        ...prev,
+        [activeItem.title]: true
+      }));
+    }
+  }, [location.pathname]);
 
   const renderMenuItems = (items: typeof navigationItems) => (
     <SidebarMenu>
@@ -318,7 +329,7 @@ export function AppSidebar() {
 
   return (
     <Sidebar 
-      className="border-r border-slate-700 sidebar-gradient w-[300px]" 
+      className="border-r border-slate-700 sidebar-gradient w-[330px]" 
       collapsible="icon"
     >
       <SidebarContent>
