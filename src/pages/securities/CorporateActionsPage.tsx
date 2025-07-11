@@ -15,8 +15,7 @@ const CorporateActionsPage = () => {
   return (
     <TooltipProvider>
       <div className="flex h-full">
-        {/* Center Content */}
-        <div className="flex-1 space-y-6 pr-6 p-6">
+        <div className="space-y-6 p-6">
           <div className="flex items-center justify-between">
             <div>
               <h1 className="text-2xl font-bold text-slate-900">Corporate Actions</h1>
@@ -24,88 +23,101 @@ const CorporateActionsPage = () => {
             </div>
           </div>
 
-          {/* Upcoming Events Timeline */}
-          <Card>
-            <CardHeader>
-              <CardTitle className="flex items-center gap-2">
-                <Calendar className="h-5 w-5" />
-                Upcoming Events Timeline
-              </CardTitle>
-              <div className="flex gap-2 mt-4">
-                <Button variant="outline" size="sm">
-                  <Filter className="h-4 w-4 mr-2" />
-                  Date Range
-                </Button>
-                <Button variant="outline" size="sm">
-                  <Filter className="h-4 w-4 mr-2" />
-                  Security
-                </Button>
-                <Button variant="outline" size="sm">
-                  <Filter className="h-4 w-4 mr-2" />
-                  Event Type
-                </Button>
-                <Button variant="outline" size="sm">
-                  <Filter className="h-4 w-4 mr-2" />
-                  Issuer
-                </Button>
-              </div>
-            </CardHeader>
-            <CardContent>
-              <div className="overflow-x-auto">
-                <table className="w-full border-collapse">
-                  <thead>
-                    <tr className="border-b">
-                      <th className="text-left p-3 font-semibold">Type</th>
-                      <th className="text-left p-3 font-semibold">Security</th>
-                      <th className="text-left p-3 font-semibold">Event</th>
-                      <th className="text-left p-3 font-semibold">Date</th>
-                      <th className="text-left p-3 font-semibold">Issuer</th>
-                      <th className="text-left p-3 font-semibold">Details</th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    {upcomingEvents.map((event) => (
-                      <tr key={event.id} className="border-b hover:bg-slate-50">
-                        <td className="p-3 text-lg">{event.type}</td>
-                        <td className="p-3 font-mono text-sm">{event.security}</td>
-                        <td className="p-3">{event.event}</td>
-                        <td className="p-3">{event.date}</td>
-                        <td className="p-3">{event.issuer}</td>
-                        <td className="p-3">{event.amount || event.ratio || event.details}</td>
-                      </tr>
-                    ))}
-                  </tbody>
-                </table>
-              </div>
-            </CardContent>
-          </Card>
-        </div>
+          <div className="grid grid-cols-1 lg:grid-cols-4 gap-6">
+            {/* Upcoming Events Timeline */}
+            <div className="lg:col-span-3">
+              <Card>
+                <CardHeader>
+                  <CardTitle className="flex items-center gap-2">
+                    <Calendar className="h-5 w-5" />
+                    Upcoming Events Timeline
+                  </CardTitle>
+                </CardHeader>
+                <CardContent>
+                  {/* Legend */}
+                  <div className="mb-6 p-4 bg-slate-50 rounded-lg">
+                    <h4 className="font-semibold text-sm mb-3">Event Types Legend:</h4>
+                    <div className="grid grid-cols-2 lg:grid-cols-4 gap-4 text-sm">
+                      <div className="flex items-center gap-2">
+                        <span className="text-lg">🟡</span>
+                        <span>Dividend</span>
+                      </div>
+                      <div className="flex items-center gap-2">
+                        <span className="text-lg">🔵</span>
+                        <span>Stock Split</span>
+                      </div>
+                      <div className="flex items-center gap-2">
+                        <span className="text-lg">🟠</span>
+                        <span>Rights Issue</span>
+                      </div>
+                      <div className="flex items-center gap-2">
+                        <span className="text-lg">🔴</span>
+                        <span>Merger</span>
+                      </div>
+                    </div>
+                  </div>
 
-        {/* Right Sidebar with Quick Actions */}
-        <div className="w-64 space-y-4 p-6">
-          <div className="bg-white border border-slate-200 rounded-lg p-4">
-            <h3 className="font-semibold text-slate-900 mb-4">Quick Actions</h3>
-            <div className="space-y-2">
-              <Button className="w-full justify-start">
-                <Calendar className="h-4 w-4 mr-2" />
-                Create Dividend Action
-              </Button>
-              <Button variant="outline" className="w-full justify-start">
-                <TrendingUp className="h-4 w-4 mr-2" />
-                Create Stock Split
-              </Button>
-              <Button variant="outline" className="w-full justify-start">
-                <FileText className="h-4 w-4 mr-2" />
-                Create Rights Issue
-              </Button>
-              <Button variant="outline" className="w-full justify-start">
-                <Settings className="h-4 w-4 mr-2" />
-                Edit Existing Action
-              </Button>
-              <Button variant="outline" className="w-full justify-start">Configure Automation Rules</Button>
-              <Button variant="outline" className="w-full justify-start">View Processing Status</Button>
-              <Button variant="outline" className="w-full justify-start">Configure Notifications</Button>
-              <Button variant="outline" className="w-full justify-start">Send Test Alert</Button>
+                  <div className="overflow-x-auto">
+                    <table className="w-full border-collapse">
+                      <thead>
+                        <tr className="border-b">
+                          <th className="text-left p-3 font-semibold">Type</th>
+                          <th className="text-left p-3 font-semibold">Security</th>
+                          <th className="text-left p-3 font-semibold">Event</th>
+                          <th className="text-left p-3 font-semibold">Date</th>
+                          <th className="text-left p-3 font-semibold">Issuer</th>
+                          <th className="text-left p-3 font-semibold">Details</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        {upcomingEvents.map((event) => (
+                          <tr key={event.id} className="border-b hover:bg-slate-50">
+                            <td className="p-3 text-lg">{event.type}</td>
+                            <td className="p-3 font-mono text-sm">{event.security}</td>
+                            <td className="p-3">{event.event}</td>
+                            <td className="p-3">{event.date}</td>
+                            <td className="p-3">{event.issuer}</td>
+                            <td className="p-3">{event.amount || event.ratio || event.details}</td>
+                          </tr>
+                        ))}
+                      </tbody>
+                    </table>
+                  </div>
+                </CardContent>
+              </Card>
+            </div>
+
+            {/* Quick Actions */}
+            <div className="lg:col-span-1">
+              <Card>
+                <CardHeader>
+                  <CardTitle>Quick Actions</CardTitle>
+                </CardHeader>
+                <CardContent>
+                  <div className="space-y-2">
+                    <Button className="w-full justify-start">
+                      <Calendar className="h-4 w-4 mr-2" />
+                      Create Dividend Action
+                    </Button>
+                    <Button variant="outline" className="w-full justify-start">
+                      <TrendingUp className="h-4 w-4 mr-2" />
+                      Create Stock Split
+                    </Button>
+                    <Button variant="outline" className="w-full justify-start">
+                      <FileText className="h-4 w-4 mr-2" />
+                      Create Rights Issue
+                    </Button>
+                    <Button variant="outline" className="w-full justify-start">
+                      <Settings className="h-4 w-4 mr-2" />
+                      Edit Existing Action
+                    </Button>
+                    <Button variant="outline" className="w-full justify-start">Configure Automation Rules</Button>
+                    <Button variant="outline" className="w-full justify-start">View Processing Status</Button>
+                    <Button variant="outline" className="w-full justify-start">Configure Notifications</Button>
+                    <Button variant="outline" className="w-full justify-start">Send Test Alert</Button>
+                  </div>
+                </CardContent>
+              </Card>
             </div>
           </div>
         </div>

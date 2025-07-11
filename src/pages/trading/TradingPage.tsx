@@ -2,6 +2,7 @@
 import { useState } from 'react';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
+import { TooltipProvider } from '@/components/ui/tooltip';
 import { TrendingUp, RefreshCw, FileText, Gavel, Users } from 'lucide-react';
 
 const TradingPage = () => {
@@ -471,70 +472,116 @@ const TradingPage = () => {
   );
 
   return (
-    <div className="flex h-screen bg-white">
-      {/* Left Sidebar Menu */}
-      <div className="w-56 border-r border-slate-200 bg-white">
-        <div className="p-4 border-b border-slate-200">
-          <h1 className="text-lg font-bold text-slate-900">Trading</h1>
+    <TooltipProvider>
+      <div className="space-y-6 p-6">
+        <div className="flex items-center justify-between">
+          <div>
+            <h1 className="text-2xl font-bold text-slate-900">Trade Matching</h1>
+            <p className="text-slate-600">Monitor and manage trade matching operations</p>
+          </div>
         </div>
         
-        <div className="p-2 space-y-1">
-          <Button
-            variant={activeSection === 'trade-matching' ? 'default' : 'ghost'}
-            className="w-full justify-start text-sm h-auto py-3 px-3"
-            onClick={() => setActiveSection('trade-matching')}
-          >
-            <TrendingUp className="h-4 w-4 mr-2 flex-shrink-0" />
-            <span className="break-words">Trade Matching</span>
-          </Button>
+        <div className="grid grid-cols-1 lg:grid-cols-4 gap-6">
+          <div className="lg:col-span-2">
+            <Card>
+              <CardHeader>
+                <CardTitle>Live Trade Feed (FIX Protocol)</CardTitle>
+              </CardHeader>
+              <CardContent>
+                <div className="space-y-3 max-h-64 overflow-y-auto">
+                  {tradeMatchingData.liveMessages.map((msg) => (
+                    <div key={msg.id} className="flex justify-between items-center p-3 bg-slate-50 rounded">
+                      <div className="flex-1">
+                        <div className="font-semibold text-sm">{msg.time} - {msg.type}</div>
+                        <div className="text-sm text-slate-600">{msg.instrument} {msg.side} {msg.qty} @ ${msg.price}</div>
+                      </div>
+                      <div className="text-sm font-medium">{msg.status}</div>
+                    </div>
+                  ))}
+                </div>
+              </CardContent>
+            </Card>
+          </div>
 
-          <Button
-            variant={activeSection === 'transfer-instruction' ? 'default' : 'ghost'}
-            className="w-full justify-start text-sm h-auto py-3 px-3"
-            onClick={() => setActiveSection('transfer-instruction')}
-          >
-            <RefreshCw className="h-4 w-4 mr-2 flex-shrink-0" />
-            <span className="break-words">Transfer Instruction</span>
-          </Button>
+          <div className="lg:col-span-1">
+            <Card>
+              <CardHeader>
+                <CardTitle>Match Cycle Breakdown</CardTitle>
+              </CardHeader>
+              <CardContent>
+                <div className="space-y-4">
+                  {tradeMatchingData.matchCycles.map((cycle) => (
+                    <div key={cycle.cycle} className="space-y-2">
+                      <div className="flex justify-between">
+                        <span className="font-semibold">{cycle.cycle}</span>
+                        <span>{cycle.percentage}%</span>
+                      </div>
+                      <div className="w-full bg-slate-200 rounded-full h-2">
+                        <div 
+                          className="bg-green-600 h-2 rounded-full" 
+                          style={{ width: `${cycle.percentage}%` }}
+                        ></div>
+                      </div>
+                      <div className="text-xs text-slate-600">
+                        {cycle.matched.toLocaleString()} / {cycle.total.toLocaleString()} matched
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              </CardContent>
+            </Card>
+          </div>
 
-          <Button
-            variant={activeSection === 'order-management' ? 'default' : 'ghost'}
-            className="w-full justify-start text-sm h-auto py-3 px-3"
-            onClick={() => setActiveSection('order-management')}
-          >
-            <FileText className="h-4 w-4 mr-2 flex-shrink-0" />
-            <span className="break-words">Order Management</span>
-          </Button>
-
-          <Button
-            variant={activeSection === 'auctions-monitor' ? 'default' : 'ghost'}
-            className="w-full justify-start text-sm h-auto py-3 px-3"
-            onClick={() => setActiveSection('auctions-monitor')}
-          >
-            <Gavel className="h-4 w-4 mr-2 flex-shrink-0" />
-            <span className="break-words">Auctions Trading Monitor</span>
-          </Button>
-
-          <Button
-            variant={activeSection === 'bilateral-monitor' ? 'default' : 'ghost'}
-            className="w-full justify-start text-sm h-auto py-3 px-3"
-            onClick={() => setActiveSection('bilateral-monitor')}
-          >
-            <Users className="h-4 w-4 mr-2 flex-shrink-0" />
-            <span className="break-words">Bilateral Trading Monitor</span>
-          </Button>
+          <div className="lg:col-span-1">
+            <Card>
+              <CardHeader>
+                <CardTitle>Quick Actions</CardTitle>
+              </CardHeader>
+              <CardContent>
+                <div className="space-y-2">
+                  <Button className="w-full justify-start">Configure Matching Rules</Button>
+                  <Button variant="outline" className="w-full justify-start">Export Match Report</Button>
+                  <Button variant="outline" className="w-full justify-start">View Exception Details</Button>
+                  <Button variant="outline" className="w-full justify-start">FIX Session Status</Button>
+                </div>
+              </CardContent>
+            </Card>
+          </div>
         </div>
-      </div>
 
-      {/* Main Content */}
-      <div className="flex-1 overflow-auto p-6">
-        {activeSection === 'trade-matching' && renderTradeMatching()}
-        {activeSection === 'transfer-instruction' && renderTransferInstruction()}
-        {activeSection === 'order-management' && renderOrderManagement()}
-        {activeSection === 'auctions-monitor' && renderAuctionsMonitor()}
-        {activeSection === 'bilateral-monitor' && renderBilateralMonitor()}
+        <Card>
+          <CardHeader>
+            <CardTitle>Volume & Value by Asset Class</CardTitle>
+          </CardHeader>
+          <CardContent>
+            <div className="overflow-x-auto">
+              <table className="w-full border-collapse">
+                <thead>
+                  <tr className="border-b">
+                    <th className="text-left p-3 font-semibold">Asset Class</th>
+                    <th className="text-left p-3 font-semibold">Volume</th>
+                    <th className="text-left p-3 font-semibold">Value ($)</th>
+                    <th className="text-left p-3 font-semibold">Matched</th>
+                    <th className="text-left p-3 font-semibold">Match Rate</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {tradeMatchingData.volumeByAsset.map((asset, index) => (
+                    <tr key={index} className="border-b hover:bg-slate-50">
+                      <td className="p-3 font-medium">{asset.asset}</td>
+                      <td className="p-3">{asset.volume.toLocaleString()}</td>
+                      <td className="p-3">${asset.value.toLocaleString()}</td>
+                      <td className="p-3">{asset.matched.toLocaleString()}</td>
+                      <td className="p-3">{((asset.matched / asset.volume) * 100).toFixed(1)}%</td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </div>
+          </CardContent>
+        </Card>
       </div>
-    </div>
+    </TooltipProvider>
   );
 };
 

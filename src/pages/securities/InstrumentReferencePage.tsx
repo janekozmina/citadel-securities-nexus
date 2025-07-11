@@ -70,7 +70,7 @@ const InstrumentReferencePage = () => {
             </Card>
           </div>
 
-          {/* Right Sidebar with Options */}
+          {/* Right Sidebar with Quick Actions */}
           <div className="w-64 space-y-4">
             <div className="bg-white border border-slate-200 rounded-lg p-4">
               <h3 className="font-semibold text-slate-900 mb-4">Quick Actions</h3>

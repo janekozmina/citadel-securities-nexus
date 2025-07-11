@@ -194,7 +194,18 @@ export function AppSidebar() {
     'main': true,
     'admin': true
   });
-  const [expandedItems, setExpandedItems] = useState<{ [key: string]: boolean }>({});
+  const [expandedItems, setExpandedItems] = useState<{ [key: string]: boolean }>({
+    'Securities Lifecycle': true,
+    'Trading': true,
+    'Clearing Hub': false,
+    'Settlement Hub': false,
+    'Custody Hub': false,
+    'Liquidity Hub': false,
+    'Risk Management': false,
+    'Auction Management': false,
+    'Reporting & Compliance': false,
+    'Master Data': false
+  });
 
   const filteredItems = navigationItems.filter(item => 
     user?.role && item.roles.includes(user.role)

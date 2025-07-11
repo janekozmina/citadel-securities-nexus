@@ -13,6 +13,10 @@ import InstrumentReferencePage from "./pages/securities/InstrumentReferencePage"
 import IssuancePage from "./pages/securities/IssuancePage";
 import CorporateActionsPage from "./pages/securities/CorporateActionsPage";
 import TradingPage from "./pages/trading/TradingPage";
+import TransferInstructionPage from "./pages/trading/TransferInstructionPage";
+import OrderManagementPage from "./pages/trading/OrderManagementPage";
+import AuctionsTradingMonitorPage from "./pages/trading/AuctionsTradingMonitorPage";
+import BilateralTradingMonitorPage from "./pages/trading/BilateralTradingMonitorPage";
 import ClearingHubPage from "./pages/clearing/ClearingHubPage";
 import SettlementHubPage from "./pages/settlement/SettlementHubPage";
 import CustodyHubPage from "./pages/custody/CustodyHubPage";
@@ -51,10 +55,10 @@ const App = () => (
               <Route path="securities/issuance" element={<IssuancePage />} />
               <Route path="securities/corporate-actions" element={<CorporateActionsPage />} />
               <Route path="trading" element={<TradingPage />} />
-              <Route path="trading/transfer-instruction" element={<TradingPage />} />
-              <Route path="trading/order-management" element={<TradingPage />} />
-              <Route path="trading/auctions" element={<TradingPage />} />
-              <Route path="trading/bilateral" element={<TradingPage />} />
+              <Route path="trading/transfer-instruction" element={<TransferInstructionPage />} />
+              <Route path="trading/order-management" element={<OrderManagementPage />} />
+              <Route path="trading/auctions" element={<AuctionsTradingMonitorPage />} />
+              <Route path="trading/bilateral" element={<BilateralTradingMonitorPage />} />
               <Route path="clearing" element={<ClearingHubPage />} />
               <Route path="settlement" element={<SettlementHubPage />} />
               <Route path="custody" element={<CustodyHubPage />} />
