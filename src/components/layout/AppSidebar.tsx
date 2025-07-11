@@ -67,9 +67,11 @@ const navigationItems = [
     roles: ['Admin', 'Custodian', 'Broker', 'Participant'],
     icon: TrendingUp,
     subItems: [
-      { title: 'Order Management', url: '/trading/orders' },
-      { title: 'Trade Execution', url: '/trading/execution' },
-      { title: 'Market Data', url: '/trading/market-data' }
+      { title: 'Trade Matching', url: '/trading' },
+      { title: 'Transfer Instruction', url: '/trading/transfer-instruction' },
+      { title: 'Order Management', url: '/trading/order-management' },
+      { title: 'Auctions Trading Monitor', url: '/trading/auctions' },
+      { title: 'Bilateral Trading Monitor', url: '/trading/bilateral' }
     ]
   },
   {
