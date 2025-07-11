@@ -4,43 +4,53 @@ import { Badge } from '@/components/ui/badge';
 import { Progress } from '@/components/ui/progress';
 import { TooltipProvider } from '@/components/ui/tooltip';
 import { ChartContainer, ChartTooltip, ChartTooltipContent } from '@/components/ui/chart';
-import { PieChart, Pie, Cell, BarChart, Bar, XAxis, YAxis, ResponsiveContainer } from 'recharts';
+import { PieChart, Pie, Cell, BarChart, Bar, XAxis, YAxis, ResponsiveContainer, LineChart, Line } from 'recharts';
 import { Star, TrendingUp, Clock, Shield, Building } from 'lucide-react';
 
 const IslamicRepoPage = () => {
   const islamicData = {
-    totalAssets: 28600000000,
-    activeContracts: 156,
-    avgProfitRate: 3.25,
-    complianceRatio: 99.7,
-    contracts: [
-      { type: 'Murabaha', outstanding: 12400000000, contracts: 68, avgRate: 3.15, status: 'Active' },
-      { type: 'Ijarah', outstanding: 8900000000, contracts: 42, avgRate: 3.35, status: 'Active' },
-      { type: 'Wakala', outstanding: 4800000000, contracts: 28, avgRate: 3.05, status: 'Active' },
-      { type: 'Musharaka', outstanding: 2500000000, contracts: 18, avgRate: 3.45, status: 'Active' }
+    totalAssets: 38600000000,
+    activeContracts: 186,
+    avgProfitRate: 3.45,
+    complianceRatio: 99.8,
+    sharihTransactions: [
+      { id: 'MUR001', type: 'Murabaha', participant: 'Emirates Islamic Bank', asset: 'Sukuk Gov UAE 2027', purchasePrice: 85000000, resalePrice: 87400000, status: 'Executed', cycle: 'Complete' },
+      { id: 'TAW002', type: 'Tawarruq', participant: 'Dubai Islamic Bank', asset: 'Islamic Corp Bond', purchasePrice: 65000000, resalePrice: 66950000, status: 'Pending Delivery', cycle: 'Asset Purchase' },
+      { id: 'MUR003', type: 'Murabaha', participant: 'Sharjah Islamic Bank', asset: 'Commodity Murabaha', purchasePrice: 42000000, resalePrice: 43470000, status: 'In Progress', cycle: 'Re-sale' },
+      { id: 'TAW004', type: 'Tawarruq', participant: 'Al Hilal Bank', asset: 'Sukuk Corporate', purchasePrice: 28000000, resalePrice: 28840000, status: 'Executed', cycle: 'Complete' }
     ],
-    assetTypes: [
-      { type: 'Sukuk Government', value: 15200000000, compliance: 100, color: '#3b82f6' },
-      { type: 'Sukuk Corporate', value: 8400000000, compliance: 99.8, color: '#10b981' },
-      { type: 'Islamic Bonds', value: 3600000000, compliance: 99.5, color: '#f59e0b' },
-      { type: 'Shariah Equities', value: 1400000000, compliance: 99.2, color: '#ef4444' }
+    profitRates: [
+      { maturity: 'Overnight', offered: 2.85, agreed: 2.75, benchmark: 2.65, volume: 8400000000 },
+      { maturity: '1 Week', offered: 3.15, agreed: 3.05, benchmark: 2.95, volume: 12600000000 },
+      { maturity: '1 Month', offered: 3.45, agreed: 3.35, benchmark: 3.25, volume: 9800000000 },
+      { maturity: '3 Month', offered: 3.75, agreed: 3.65, benchmark: 3.55, volume: 7800000000 }
+    ],
+    assetInventory: [
+      { asset: 'UAE Government Sukuk', totalValue: 22400000000, utilized: 18200000000, available: 4200000000, utilizationPct: 81.3, status: 'Active', compliance: 100 },
+      { asset: 'Islamic Corporate Bonds', totalValue: 8600000000, utilized: 6800000000, available: 1800000000, utilizationPct: 79.1, status: 'Active', compliance: 99.8 },
+      { asset: 'Commodity Murabaha Assets', totalValue: 5400000000, utilized: 4200000000, available: 1200000000, utilizationPct: 77.8, status: 'Active', compliance: 100 },
+      { asset: 'Real Estate Sukuk', totalValue: 2200000000, utilized: 1400000000, available: 800000000, utilizationPct: 63.6, status: 'Review', compliance: 99.5 }
+    ],
+    profitTrends: [
+      { date: '07-06', murabaha: 3.25, tawarruq: 3.45, benchmark: 3.15 },
+      { date: '07-07', murabaha: 3.30, tawarruq: 3.50, benchmark: 3.20 },
+      { date: '07-08', murabaha: 3.35, tawarruq: 3.55, benchmark: 3.25 },
+      { date: '07-09', murabaha: 3.40, tawarruq: 3.60, benchmark: 3.30 },
+      { date: '07-10', murabaha: 3.45, tawarruq: 3.65, benchmark: 3.35 }
     ],
     participants: [
-      { bank: 'Emirates Islamic Bank', outstanding: 5800000000, compliance: 100, contracts: 34 },
-      { bank: 'Dubai Islamic Bank', outstanding: 4200000000, compliance: 99.9, contracts: 28 },
-      { bank: 'Sharjah Islamic Bank', outstanding: 3600000000, compliance: 99.8, contracts: 22 },
-      { bank: 'Ajman Bank', outstanding: 2400000000, compliance: 99.7, contracts: 18 },
-      { bank: 'Al Hilal Bank', outstanding: 1800000000, compliance: 99.5, contracts: 14 }
-    ],
-    complianceMetrics: [
-      { metric: 'Shariah Compliance', score: 99.7, target: 99.5, status: 'Excellent' },
-      { metric: 'Asset Screening', score: 100, target: 99.8, status: 'Excellent' },
-      { metric: 'Contract Review', score: 99.4, target: 99.0, status: 'Good' },
-      { metric: 'Profit Distribution', score: 99.8, target: 99.5, status: 'Excellent' }
+      { bank: 'Emirates Islamic Bank', activeTrades: 45, totalValue: 12400000000, avgProfitRate: 3.35, compliance: 100 },
+      { bank: 'Dubai Islamic Bank', activeTrades: 38, totalValue: 9800000000, avgProfitRate: 3.42, compliance: 99.9 },
+      { bank: 'Sharjah Islamic Bank', activeTrades: 32, totalValue: 7600000000, avgProfitRate: 3.48, compliance: 99.8 },
+      { bank: 'Al Hilal Bank', activeTrades: 28, totalValue: 5400000000, avgProfitRate: 3.52, compliance: 99.7 },
+      { bank: 'Ajman Bank', activeTrades: 24, totalValue: 3400000000, avgProfitRate: 3.58, compliance: 99.6 }
     ]
   };
 
   const chartConfig = {
+    murabaha: { label: 'Murabaha', color: '#3b82f6' },
+    tawarruq: { label: 'Tawarruq', color: '#10b981' },
+    benchmark: { label: 'Benchmark', color: '#f59e0b' },
     value: { label: 'Value', color: '#3b82f6' },
     compliance: { label: 'Compliance', color: '#10b981' }
   };
@@ -53,9 +63,11 @@ const IslamicRepoPage = () => {
 
   const getStatusBadge = (status: string) => {
     switch (status) {
-      case 'Excellent': return <Badge className="bg-green-100 text-green-800">Excellent</Badge>;
-      case 'Good': return <Badge className="bg-blue-100 text-blue-800">Good</Badge>;
-      case 'Warning': return <Badge variant="destructive">Warning</Badge>;
+      case 'Executed': return <Badge className="bg-green-100 text-green-800">Executed</Badge>;
+      case 'In Progress': return <Badge className="bg-blue-100 text-blue-800">In Progress</Badge>;
+      case 'Pending Delivery': return <Badge className="bg-yellow-100 text-yellow-800">Pending Delivery</Badge>;
+      case 'Active': return <Badge className="bg-green-100 text-green-800">Active</Badge>;
+      case 'Review': return <Badge className="bg-yellow-100 text-yellow-800">Review</Badge>;
       default: return <Badge variant="secondary">Unknown</Badge>;
     }
   };
@@ -113,85 +125,171 @@ const IslamicRepoPage = () => {
                     <p className="text-sm font-medium text-slate-600">Shariah Compliance</p>
                     <p className="text-2xl font-bold text-green-600">{islamicData.complianceRatio}%</p>
                   </div>
-                  <Star className="h-8 w-8 text-gold-600" />
+                  <Star className="h-8 w-8 text-yellow-500" />
                 </div>
               </CardContent>
             </Card>
           </div>
 
-          {/* Charts */}
+          {/* Shariah-Compliant Transaction Tracker */}
+          <Card>
+            <CardHeader>
+              <CardTitle>Shariah-Compliant Transaction Tracker</CardTitle>
+            </CardHeader>
+            <CardContent>
+              <div className="overflow-x-auto">
+                <table className="w-full border-collapse">
+                  <thead>
+                    <tr className="border-b">
+                      <th className="text-left p-3 font-semibold">Trade ID</th>
+                      <th className="text-left p-3 font-semibold">Type</th>
+                      <th className="text-left p-3 font-semibold">Participant</th>
+                      <th className="text-left p-3 font-semibold">Asset</th>
+                      <th className="text-left p-3 font-semibold">Purchase Price</th>
+                      <th className="text-left p-3 font-semibold">Re-sale Price</th>
+                      <th className="text-left p-3 font-semibold">Cycle</th>
+                      <th className="text-left p-3 font-semibold">Status</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {islamicData.sharihTransactions.map((transaction, index) => (
+                      <tr key={index} className="border-b hover:bg-slate-50">
+                        <td className="p-3 font-mono text-sm">{transaction.id}</td>
+                        <td className="p-3">{transaction.type}</td>
+                        <td className="p-3">{transaction.participant}</td>
+                        <td className="p-3 text-sm">{transaction.asset}</td>
+                        <td className="p-3">${(transaction.purchasePrice / 1000000).toFixed(1)}M</td>
+                        <td className="p-3">${(transaction.resalePrice / 1000000).toFixed(1)}M</td>
+                        <td className="p-3 text-sm">{transaction.cycle}</td>
+                        <td className="p-3">{getStatusBadge(transaction.status)}</td>
+                      </tr>
+                    ))}
+                  </tbody>
+                </table>
+              </div>
+            </CardContent>
+          </Card>
+
+          {/* Profit Rate Monitor & Asset Inventory Dashboard */}
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
             <Card>
               <CardHeader>
-                <CardTitle>Asset Type Distribution</CardTitle>
+                <CardTitle>Profit Rate Monitor</CardTitle>
               </CardHeader>
               <CardContent>
-                <ChartContainer config={chartConfig} className="h-80">
-                  <ResponsiveContainer width="100%" height="100%">
-                    <PieChart>
-                      <Pie
-                        data={islamicData.assetTypes}
-                        cx="50%"
-                        cy="50%"
-                        labelLine={false}
-                        label={({ type, percent }) => `${type} ${(percent * 100).toFixed(0)}%`}
-                        outerRadius={80}
-                        fill="#8884d8"
-                        dataKey="value"
-                      >
-                        {islamicData.assetTypes.map((entry, index) => (
-                          <Cell key={`cell-${index}`} fill={entry.color} />
-                        ))}
-                      </Pie>
-                      <ChartTooltip content={<ChartTooltipContent />} />
-                    </PieChart>
-                  </ResponsiveContainer>
-                </ChartContainer>
+                <div className="space-y-4">
+                  <div className="grid grid-cols-1 gap-4">
+                    {islamicData.profitRates.map((rate, index) => (
+                      <div key={index} className="p-3 border rounded-lg">
+                        <div className="flex justify-between items-center mb-2">
+                          <span className="font-medium">{rate.maturity}</span>
+                          <span className="text-sm text-slate-600">${(rate.volume / 1000000000).toFixed(1)}B</span>
+                        </div>
+                        <div className="grid grid-cols-3 gap-2 text-sm">
+                          <div>
+                            <span className="text-slate-600">Offered: </span>
+                            <span className="font-medium text-blue-600">{rate.offered}%</span>
+                          </div>
+                          <div>
+                            <span className="text-slate-600">Agreed: </span>
+                            <span className="font-medium text-green-600">{rate.agreed}%</span>
+                          </div>
+                          <div>
+                            <span className="text-slate-600">Benchmark: </span>
+                            <span className="font-medium text-slate-600">{rate.benchmark}%</span>
+                          </div>
+                        </div>
+                      </div>
+                    ))}
+                  </div>
+                </div>
               </CardContent>
             </Card>
 
             <Card>
               <CardHeader>
-                <CardTitle>Contract Types Overview</CardTitle>
+                <CardTitle>Profit Rate Trends</CardTitle>
               </CardHeader>
               <CardContent>
                 <ChartContainer config={chartConfig} className="h-80">
                   <ResponsiveContainer width="100%" height="100%">
-                    <BarChart data={islamicData.contracts}>
-                      <XAxis dataKey="type" />
-                      <YAxis tickFormatter={(value) => `$${(value / 1000000000).toFixed(1)}B`} />
+                    <LineChart data={islamicData.profitTrends}>
+                      <XAxis dataKey="date" />
+                      <YAxis domain={[3.0, 3.8]} tickFormatter={(value) => `${value}%`} />
                       <ChartTooltip content={<ChartTooltipContent />} />
-                      <Bar dataKey="outstanding" fill="#3b82f6" />
-                    </BarChart>
+                      <Line 
+                        type="monotone" 
+                        dataKey="murabaha" 
+                        stroke="var(--color-murabaha)" 
+                        strokeWidth={2}
+                      />
+                      <Line 
+                        type="monotone" 
+                        dataKey="tawarruq" 
+                        stroke="var(--color-tawarruq)" 
+                        strokeWidth={2}
+                      />
+                      <Line 
+                        type="monotone" 
+                        dataKey="benchmark" 
+                        stroke="var(--color-benchmark)" 
+                        strokeWidth={2}
+                        strokeDasharray="5 5"
+                      />
+                    </LineChart>
                   </ResponsiveContainer>
                 </ChartContainer>
               </CardContent>
             </Card>
           </div>
 
-          {/* Compliance Metrics */}
+          {/* Asset Inventory Dashboard */}
           <Card>
             <CardHeader>
-              <CardTitle>Shariah Compliance Metrics</CardTitle>
+              <CardTitle>Asset Inventory Dashboard</CardTitle>
             </CardHeader>
             <CardContent>
-              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
-                {islamicData.complianceMetrics.map((metric, index) => (
-                  <div key={index} className="p-4 border rounded-lg">
-                    <div className="flex items-center justify-between mb-2">
-                      <span className="text-sm font-medium text-slate-600">{metric.metric}</span>
-                      <Star className="h-4 w-4 text-gold-500" />
-                    </div>
-                    <div className="text-2xl font-bold mb-1">{metric.score}%</div>
-                    <div className="text-xs text-slate-500 mb-2">Target: {metric.target}%</div>
-                    {getStatusBadge(metric.status)}
-                  </div>
-                ))}
+              <div className="overflow-x-auto">
+                <table className="w-full border-collapse">
+                  <thead>
+                    <tr className="border-b">
+                      <th className="text-left p-3 font-semibold">Asset Type</th>
+                      <th className="text-left p-3 font-semibold">Total Value</th>
+                      <th className="text-left p-3 font-semibold">Utilized</th>
+                      <th className="text-left p-3 font-semibold">Available</th>
+                      <th className="text-left p-3 font-semibold">Utilization %</th>
+                      <th className="text-left p-3 font-semibold">Compliance</th>
+                      <th className="text-left p-3 font-semibold">Status</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {islamicData.assetInventory.map((asset, index) => (
+                      <tr key={index} className="border-b hover:bg-slate-50">
+                        <td className="p-3 font-medium">{asset.asset}</td>
+                        <td className="p-3">${(asset.totalValue / 1000000000).toFixed(1)}B</td>
+                        <td className="p-3">${(asset.utilized / 1000000000).toFixed(1)}B</td>
+                        <td className="p-3">${(asset.available / 1000000000).toFixed(1)}B</td>
+                        <td className="p-3">
+                          <div className="flex items-center gap-2">
+                            <Progress value={asset.utilizationPct} className="w-16 h-2" />
+                            <span className="font-medium">{asset.utilizationPct.toFixed(1)}%</span>
+                          </div>
+                        </td>
+                        <td className="p-3">
+                          <span className={`font-medium ${getComplianceColor(asset.compliance)}`}>
+                            {asset.compliance}%
+                          </span>
+                        </td>
+                        <td className="p-3">{getStatusBadge(asset.status)}</td>
+                      </tr>
+                    ))}
+                  </tbody>
+                </table>
               </div>
             </CardContent>
           </Card>
 
-          {/* Participants Table */}
+          {/* Islamic Banking Participants */}
           <Card>
             <CardHeader>
               <CardTitle>Islamic Banking Participants</CardTitle>
@@ -202,8 +300,9 @@ const IslamicRepoPage = () => {
                   <thead>
                     <tr className="border-b">
                       <th className="text-left p-3 font-semibold">Bank</th>
-                      <th className="text-left p-3 font-semibold">Outstanding</th>
-                      <th className="text-left p-3 font-semibold">Contracts</th>
+                      <th className="text-left p-3 font-semibold">Active Trades</th>
+                      <th className="text-left p-3 font-semibold">Total Value</th>
+                      <th className="text-left p-3 font-semibold">Avg Profit Rate</th>
                       <th className="text-left p-3 font-semibold">Compliance Score</th>
                     </tr>
                   </thead>
@@ -211,8 +310,9 @@ const IslamicRepoPage = () => {
                     {islamicData.participants.map((participant, index) => (
                       <tr key={index} className="border-b hover:bg-slate-50">
                         <td className="p-3 font-medium">{participant.bank}</td>
-                        <td className="p-3">${(participant.outstanding / 1000000000).toFixed(1)}B</td>
-                        <td className="p-3">{participant.contracts}</td>
+                        <td className="p-3">{participant.activeTrades}</td>
+                        <td className="p-3">${(participant.totalValue / 1000000000).toFixed(1)}B</td>
+                        <td className="p-3">{participant.avgProfitRate.toFixed(2)}%</td>
                         <td className="p-3">
                           <span className={`font-medium ${getComplianceColor(participant.compliance)}`}>
                             {participant.compliance}%
@@ -232,10 +332,10 @@ const IslamicRepoPage = () => {
           <div className="bg-white border border-slate-200 rounded-lg p-4">
             <h3 className="font-semibold text-slate-900 mb-4">Quick Actions</h3>
             <div className="space-y-2">
-              <Button className="w-full justify-start">New Shariah Contract</Button>
-              <Button variant="outline" className="w-full justify-start">Compliance Review</Button>
-              <Button variant="outline" className="w-full justify-start">Asset Screening</Button>
-              <Button variant="outline" className="w-full justify-start">Profit Distribution</Button>
+              <Button className="w-full justify-start">Initiate New Murabaha</Button>
+              <Button variant="outline" className="w-full justify-start">Submit Profit Rate Offer</Button>
+              <Button variant="outline" className="w-full justify-start">Approve Asset Substitution</Button>
+              <Button variant="outline" className="w-full justify-start">Validate Shariah Compliance</Button>
               <Button variant="outline" className="w-full justify-start">Shariah Board Report</Button>
             </div>
           </div>
