@@ -252,21 +252,21 @@ export function AppSidebar() {
               <Collapsible open={isExpanded} onOpenChange={() => toggleExpandedItem(item.title)}>
                 <CollapsibleTrigger asChild>
                   <SidebarMenuButton
-                    className={`flex items-center gap-3 px-3 py-2 rounded-lg transition-colors ${
+                    className={`flex items-center gap-3 px-3 py-2.5 rounded-lg transition-all duration-200 ${
                       isActive 
-                        ? 'bg-blue-700 text-white' 
-                        : 'text-slate-300 hover:bg-slate-700 hover:text-white'
-                    }`}
+                        ? 'bg-gradient-to-r from-blue-600 to-blue-700 text-white shadow-lg shadow-blue-500/25' 
+                        : 'text-slate-300 hover:bg-slate-700/50 hover:text-white'
+                    } ${!isCollapsed ? 'mx-1' : 'mx-auto w-10 h-10 justify-center'}`}
                     tooltip={isCollapsed ? item.title : undefined}
                   >
-                    <item.icon className="h-4 w-4 flex-shrink-0" />
+                    <item.icon className={`flex-shrink-0 ${!isCollapsed ? 'h-4 w-4' : 'h-5 w-5'}`} />
                     {!isCollapsed && (
                       <>
-                        <span>{item.title}</span>
+                        <span className="font-medium">{item.title}</span>
                         {isExpanded ? (
-                          <ChevronDown className="h-4 w-4 ml-auto" />
+                          <ChevronDown className="h-3 w-3 ml-auto transition-transform duration-200" />
                         ) : (
-                          <ChevronRight className="h-4 w-4 ml-auto" />
+                          <ChevronRight className="h-3 w-3 ml-auto transition-transform duration-200" />
                         )}
                       </>
                     )}
@@ -281,14 +281,15 @@ export function AppSidebar() {
                             <NavLink 
                               to={subItem.url}
                               className={({ isActive }) => 
-                                `flex items-center gap-3 px-6 py-2 rounded-lg transition-colors ${
+                                `flex items-center gap-3 px-6 py-2 rounded-lg transition-all duration-200 ml-2 ${
                                   isActive 
-                                    ? 'bg-blue-600 text-white' 
-                                    : 'text-slate-400 hover:bg-slate-700 hover:text-white'
+                                    ? 'bg-blue-600/80 text-white shadow-md' 
+                                    : 'text-slate-400 hover:bg-slate-700/50 hover:text-white'
                                 }`
                               }
                             >
-                              {subItem.title}
+                              <div className="w-1.5 h-1.5 rounded-full bg-current opacity-60"></div>
+                              <span className="text-sm font-medium">{subItem.title}</span>
                             </NavLink>
                           </SidebarMenuSubButton>
                         </SidebarMenuSubItem>
@@ -303,16 +304,16 @@ export function AppSidebar() {
                   to={item.url} 
                   end={item.url === '/'}
                   className={({ isActive }) => 
-                    `flex items-center gap-3 px-3 py-2 rounded-lg transition-colors ${
+                    `flex items-center gap-3 px-3 py-2.5 rounded-lg transition-all duration-200 ${
                       isActive 
-                        ? 'bg-blue-700 text-white' 
-                        : 'text-slate-300 hover:bg-slate-700 hover:text-white'
-                    }`
+                        ? 'bg-gradient-to-r from-blue-600 to-blue-700 text-white shadow-lg shadow-blue-500/25' 
+                        : 'text-slate-300 hover:bg-slate-700/50 hover:text-white'
+                    } ${!isCollapsed ? 'mx-1' : 'mx-auto w-10 h-10 justify-center'}`
                   }
                   title={item.title}
                 >
-                  <item.icon className="h-4 w-4 flex-shrink-0" />
-                  {!isCollapsed && <span>{item.title}</span>}
+                  <item.icon className={`flex-shrink-0 ${!isCollapsed ? 'h-4 w-4' : 'h-5 w-5'}`} />
+                  {!isCollapsed && <span className="font-medium">{item.title}</span>}
                 </NavLink>
               </SidebarMenuButton>
             )}
@@ -324,33 +325,42 @@ export function AppSidebar() {
 
   return (
     <Sidebar 
-      className="border-r border-slate-700 sidebar-gradient w-[330px]" 
+      className="border-r border-slate-700 sidebar-gradient" 
       collapsible="icon"
     >
-      <SidebarContent>
+      <SidebarContent className="bg-gradient-to-b from-slate-800 to-slate-900">
         <div className="p-4 border-b border-slate-700/50">
           {!isCollapsed && (
-            <>
-              <h2 className="text-white font-semibold text-lg">CSD Unified Portal</h2>
-              <p className="text-slate-300 text-sm">Central Securities Depository</p>
-            </>
+            <div className="space-y-1">
+              <h2 className="text-white font-bold text-lg bg-gradient-to-r from-blue-400 to-purple-400 bg-clip-text text-transparent">
+                CSD Portal
+              </h2>
+              <p className="text-slate-300 text-xs">Central Securities Depository</p>
+            </div>
+          )}
+          {isCollapsed && (
+            <div className="flex justify-center">
+              <div className="w-8 h-8 bg-gradient-to-br from-blue-500 to-purple-600 rounded-lg flex items-center justify-center">
+                <span className="text-white font-bold text-sm">C</span>
+              </div>
+            </div>
           )}
         </div>
         
         {/* Main Navigation Group */}
-        <SidebarGroup>
+        <SidebarGroup className="px-3">
           {!isCollapsed && (
             <Collapsible 
               open={openGroups['main']} 
               onOpenChange={() => toggleGroup('main')}
             >
               <CollapsibleTrigger asChild>
-                <SidebarGroupLabel className="text-slate-300 hover:text-white cursor-pointer flex items-center justify-between">
-                  <span>Navigation</span>
+                <SidebarGroupLabel className="text-slate-300 hover:text-white cursor-pointer flex items-center justify-between px-3 py-2 rounded-lg transition-colors hover:bg-slate-700/50">
+                  <span className="text-xs font-medium tracking-wide">NAVIGATION</span>
                   {openGroups['main'] ? (
-                    <ChevronDown className="h-4 w-4" />
+                    <ChevronDown className="h-3 w-3" />
                   ) : (
-                    <ChevronRight className="h-4 w-4" />
+                    <ChevronRight className="h-3 w-3" />
                   )}
                 </SidebarGroupLabel>
               </CollapsibleTrigger>
@@ -370,19 +380,19 @@ export function AppSidebar() {
 
         {/* Admin Group */}
         {filteredAdminItems.length > 0 && (
-          <SidebarGroup>
+          <SidebarGroup className="px-3 mt-4">
             {!isCollapsed && (
               <Collapsible 
                 open={openGroups['admin']} 
                 onOpenChange={() => toggleGroup('admin')}
               >
                 <CollapsibleTrigger asChild>
-                  <SidebarGroupLabel className="text-slate-300 hover:text-white cursor-pointer flex items-center justify-between">
-                    <span>Administration</span>
+                  <SidebarGroupLabel className="text-slate-300 hover:text-white cursor-pointer flex items-center justify-between px-3 py-2 rounded-lg transition-colors hover:bg-slate-700/50">
+                    <span className="text-xs font-medium tracking-wide">ADMINISTRATION</span>
                     {openGroups['admin'] ? (
-                      <ChevronDown className="h-4 w-4" />
+                      <ChevronDown className="h-3 w-3" />
                     ) : (
-                      <ChevronRight className="h-4 w-4" />
+                      <ChevronRight className="h-3 w-3" />
                     )}
                   </SidebarGroupLabel>
                 </CollapsibleTrigger>

@@ -50,8 +50,8 @@ const DashboardLayout = () => {
         <AppSidebar />
         <div className="flex flex-col flex-1 min-w-0">
           <DashboardHeader />
-          <main className="flex-1 overflow-auto p-6">
-            <div className="max-w-full mr-80">
+          <main className="flex-1 overflow-auto">
+            <div className="p-6 pr-80">
               <Outlet />
             </div>
           </main>
