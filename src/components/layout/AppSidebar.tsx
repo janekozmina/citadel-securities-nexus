@@ -104,10 +104,10 @@ const navigationItems = [
     roles: ['Admin', 'Custodian'],
     icon: Droplets,
     subItems: [
-      { title: 'Tri-Party REPO Services', url: '/liquidity/triparty-repo' },
-      { title: 'Central Bank Liquidity Management', url: '/liquidity/central-bank' },
+      { title: 'Tri-Party REPO Services', url: '/liquidity/tri-party-repo' },
+      { title: 'Central Bank Liquidity Management', url: '/liquidity/central-bank-liquidity' },
       { title: 'Islamic REPO', url: '/liquidity/islamic-repo' },
-      { title: 'Collateral Optimization AI', url: '/liquidity/collateral-ai' }
+      { title: 'Collateral Optimization AI', url: '/liquidity/collateral-optimization' }
     ]
   },
   {
