@@ -54,7 +54,12 @@ const navigationItems = [
     title: 'Securities Lifecycle',
     url: '/securities',
     roles: ['Admin', 'Issuer'],
-    icon: Building2
+    icon: Building2,
+    subItems: [
+      { title: 'Instrument Reference', url: '/securities/instrument-reference' },
+      { title: 'Issuance', url: '/securities/issuance' },
+      { title: 'Corporate Actions', url: '/securities/corporate-actions' }
+    ]
   },
   {
     title: 'Trading',

@@ -263,49 +263,18 @@ const SecuritiesLifecyclePage = () => {
 
   return (
     <TooltipProvider>
-      <div className="flex h-screen bg-white">
-        {/* Left Sidebar Menu */}
-        <div className="w-56 border-r border-slate-200 bg-white">
-          <div className="p-4 border-b border-slate-200">
-            <h1 className="text-lg font-bold text-slate-900">Securities</h1>
-          </div>
-          
-          <div className="p-2 space-y-1">
-            <Button
-              variant={activeSection === 'instrument-reference' ? 'default' : 'ghost'}
-              className="w-full justify-start text-sm h-auto py-3 px-3"
-              onClick={() => setActiveSection('instrument-reference')}
-            >
-              <FileText className="h-4 w-4 mr-2 flex-shrink-0" />
-              <span className="break-words">Instrument Reference</span>
-            </Button>
-
-            <Button
-              variant={activeSection === 'issuance' ? 'default' : 'ghost'}
-              className="w-full justify-start text-sm h-auto py-3 px-3"
-              onClick={() => setActiveSection('issuance')}
-            >
-              <TrendingUp className="h-4 w-4 mr-2 flex-shrink-0" />
-              <span className="break-words">Issuance</span>
-            </Button>
-
-            <Button
-              variant={activeSection === 'corporate-actions' ? 'default' : 'ghost'}
-              className="w-full justify-start text-sm h-auto py-3 px-3"
-              onClick={() => setActiveSection('corporate-actions')}
-            >
-              <Calendar className="h-4 w-4 mr-2 flex-shrink-0" />
-              <span className="break-words">Corporate Actions</span>
-            </Button>
+      <div className="space-y-6 p-6">
+        <div className="flex items-center justify-between">
+          <div>
+            <h1 className="text-2xl font-bold text-slate-900">Securities Lifecycle</h1>
+            <p className="text-slate-600">Manage instruments, issuance, and corporate actions</p>
           </div>
         </div>
 
         {/* Main Content */}
-        <div className="flex-1 overflow-auto p-6">
-          {activeSection === 'instrument-reference' && renderInstrumentReference()}
-          {activeSection === 'issuance' && renderIssuance()}
-          {activeSection === 'corporate-actions' && renderCorporateActions()}
-        </div>
+        {activeSection === 'instrument-reference' && renderInstrumentReference()}
+        {activeSection === 'issuance' && renderIssuance()}
+        {activeSection === 'corporate-actions' && renderCorporateActions()}
       </div>
     </TooltipProvider>
   );

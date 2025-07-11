@@ -9,6 +9,9 @@ import MFAPage from "./pages/auth/MFAPage";
 import DashboardLayout from "./components/layout/DashboardLayout";
 import HomePage from "./pages/dashboard/HomePage";
 import SecuritiesLifecyclePage from "./pages/securities/SecuritiesLifecyclePage";
+import InstrumentReferencePage from "./pages/securities/InstrumentReferencePage";
+import IssuancePage from "./pages/securities/IssuancePage";
+import CorporateActionsPage from "./pages/securities/CorporateActionsPage";
 import TradingPage from "./pages/trading/TradingPage";
 import ClearingHubPage from "./pages/clearing/ClearingHubPage";
 import SettlementHubPage from "./pages/settlement/SettlementHubPage";
@@ -44,6 +47,9 @@ const App = () => (
               <Route index element={<HomePage />} />
               <Route path="operations" element={<OperationsPage />} />
               <Route path="securities" element={<SecuritiesLifecyclePage />} />
+              <Route path="securities/instrument-reference" element={<InstrumentReferencePage />} />
+              <Route path="securities/issuance" element={<IssuancePage />} />
+              <Route path="securities/corporate-actions" element={<CorporateActionsPage />} />
               <Route path="trading" element={<TradingPage />} />
               <Route path="clearing" element={<ClearingHubPage />} />
               <Route path="settlement" element={<SettlementHubPage />} />

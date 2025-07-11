@@ -127,13 +127,13 @@ const OperationsPage = () => {
             </CardHeader>
             <CardContent className="space-y-2">
               {section.operations.map((operation, opIndex) => (
-                <Button
+                  <Button
                   key={opIndex}
                   variant="outline"
-                  className="w-full justify-start text-left h-auto py-3 px-4 hover:bg-blue-50 hover:border-blue-300"
+                  className="w-full justify-start text-left h-auto py-3 px-4 hover:bg-blue-50 hover:border-blue-300 text-white border-white/20 hover:text-slate-700"
                 >
-                  <operation.icon className="h-4 w-4 mr-3 text-slate-600" />
-                  <span className="text-sm font-medium text-slate-700">
+                  <operation.icon className="h-4 w-4 mr-3 text-white" />
+                  <span className="text-sm font-medium text-white hover:text-slate-700">
                     {operation.name}
                   </span>
                 </Button>
