@@ -80,9 +80,10 @@ const navigationItems = [
     roles: ['Admin', 'Custodian', 'Broker', 'Participant'],
     icon: RefreshCw,
     subItems: [
-      { title: 'Trade Matching', url: '/clearing/matching' },
-      { title: 'Netting', url: '/clearing/netting' },
-      { title: 'Risk Assessment', url: '/clearing/risk' }
+      { title: 'Clearing Manager', url: '/clearing/manager' },
+      { title: 'Margin Calculation', url: '/clearing/margin' },
+      { title: 'Default Management', url: '/clearing/default' },
+      { title: 'CCP Dashboard', url: '/clearing/ccp' }
     ]
   },
   {
@@ -322,7 +323,7 @@ export function AppSidebar() {
 
   return (
     <Sidebar 
-      className="border-r border-slate-700 sidebar-gradient" 
+      className="border-r border-slate-700 sidebar-gradient w-[275px]" 
       collapsible="icon"
     >
       <SidebarContent>

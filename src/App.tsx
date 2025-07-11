@@ -18,6 +18,10 @@ import OrderManagementPage from "./pages/trading/OrderManagementPage";
 import AuctionsTradingMonitorPage from "./pages/trading/AuctionsTradingMonitorPage";
 import BilateralTradingMonitorPage from "./pages/trading/BilateralTradingMonitorPage";
 import ClearingHubPage from "./pages/clearing/ClearingHubPage";
+import ClearingManagerPage from "./pages/clearing/ClearingManagerPage";
+import MarginCalculationPage from "./pages/clearing/MarginCalculationPage";
+import DefaultManagementPage from "./pages/clearing/DefaultManagementPage";
+import CCPDashboardPage from "./pages/clearing/CCPDashboardPage";
 import SettlementHubPage from "./pages/settlement/SettlementHubPage";
 import CustodyHubPage from "./pages/custody/CustodyHubPage";
 import LiquidityHubPage from "./pages/liquidity/LiquidityHubPage";
@@ -60,6 +64,10 @@ const App = () => (
               <Route path="trading/auctions" element={<AuctionsTradingMonitorPage />} />
               <Route path="trading/bilateral" element={<BilateralTradingMonitorPage />} />
               <Route path="clearing" element={<ClearingHubPage />} />
+              <Route path="clearing/manager" element={<ClearingManagerPage />} />
+              <Route path="clearing/margin" element={<MarginCalculationPage />} />
+              <Route path="clearing/default" element={<DefaultManagementPage />} />
+              <Route path="clearing/ccp" element={<CCPDashboardPage />} />
               <Route path="settlement" element={<SettlementHubPage />} />
               <Route path="custody" element={<CustodyHubPage />} />
               <Route path="liquidity" element={<LiquidityHubPage />} />

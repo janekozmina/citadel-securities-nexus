@@ -18,16 +18,16 @@ const OrderManagementPage = () => {
 
   return (
     <TooltipProvider>
-      <div className="space-y-6 p-6">
-        <div className="flex items-center justify-between">
-          <div>
-            <h1 className="text-2xl font-bold text-slate-900">Order Management</h1>
-            <p className="text-slate-600">Manage and monitor quote and offer orders</p>
+      <div className="flex h-full">
+        <div className="flex-1 space-y-6 p-6">
+          <div className="flex items-center justify-between">
+            <div>
+              <h1 className="text-2xl font-bold text-slate-900">Order Management</h1>
+              <p className="text-slate-600">Manage and monitor quote and offer orders</p>
+            </div>
           </div>
-        </div>
-        
-        <div className="grid grid-cols-1 lg:grid-cols-4 gap-6">
-          <div className="lg:col-span-1">
+          
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
             <Card>
               <CardHeader>
                 <CardTitle>Open Quote Orders</CardTitle>
@@ -67,9 +67,7 @@ const OrderManagementPage = () => {
                 </div>
               </CardContent>
             </Card>
-          </div>
 
-          <div className="lg:col-span-1">
             <Card>
               <CardHeader>
                 <CardTitle>Open Offer Orders</CardTitle>
@@ -111,23 +109,22 @@ const OrderManagementPage = () => {
             </Card>
           </div>
 
-          <div className="lg:col-span-2">
-            <Card>
-              <CardHeader>
-                <CardTitle>Quick Actions</CardTitle>
-              </CardHeader>
-              <CardContent>
-                <div className="grid grid-cols-2 gap-2">
-                  <Button className="w-full justify-start">Create Quote Order</Button>
-                  <Button variant="outline" className="w-full justify-start">Create Offer Order</Button>
-                  <Button variant="outline" className="w-full justify-start">Modify Orders</Button>
-                  <Button variant="outline" className="w-full justify-start">Cancel Orders</Button>
-                  <Button variant="outline" className="w-full justify-start">Order History</Button>
-                  <Button variant="outline" className="w-full justify-start">Export Report</Button>
-                </div>
-              </CardContent>
-            </Card>
-          </div>
+        </div>
+
+        <div className="w-80 border-l bg-slate-50/50 p-6">
+          <Card>
+            <CardHeader>
+              <CardTitle>Quick Actions</CardTitle>
+            </CardHeader>
+            <CardContent className="space-y-3">
+              <Button className="w-full justify-start">Create Quote Order</Button>
+              <Button variant="outline" className="w-full justify-start">Create Offer Order</Button>
+              <Button variant="outline" className="w-full justify-start">Modify Orders</Button>
+              <Button variant="outline" className="w-full justify-start">Cancel Orders</Button>
+              <Button variant="outline" className="w-full justify-start">Order History</Button>
+              <Button variant="outline" className="w-full justify-start">Export Report</Button>
+            </CardContent>
+          </Card>
         </div>
       </div>
     </TooltipProvider>
