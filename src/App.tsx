@@ -80,6 +80,7 @@ const App = () => (
               <Route path="liquidity/islamic-repo" element={<IslamicRepoPage />} />
               <Route path="liquidity/collateral-optimization" element={<CollateralOptimizationPage />} />
               <Route path="risk" element={<RiskManagementPage />} />
+              <Route path="risk/monitoring" element={<RiskManagementPage />} />
               <Route path="auction" element={<AuctionManagementPage />} />
               <Route path="reporting" element={<ReportingPage />} />
               <Route path="masterdata" element={<MasterDataPage />} />
