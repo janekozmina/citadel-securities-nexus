@@ -201,19 +201,19 @@ const CCPDashboardPage = () => {
           </Card>
         </div>
 
-        {/* Right Sidebar with Quick Actions */}
-        <div className="w-64 space-y-4">
-          <div className="bg-white border border-slate-200 rounded-lg p-4">
-            <h3 className="font-semibold text-slate-900 mb-4">Quick Actions</h3>
-            <div className="space-y-2">
-              <Button className="w-full justify-start">System Health Check</Button>
-              <Button variant="outline" className="w-full justify-start">Generate Daily Report</Button>
-              <Button variant="outline" className="w-full justify-start">Risk Assessment</Button>
-              <Button variant="outline" className="w-full justify-start">Participant Review</Button>
-              <Button variant="outline" className="w-full justify-start">Emergency Procedures</Button>
-            </div>
+      {/* Right Sidebar with Quick Actions */}
+      <div className="w-64 space-y-4">
+        <div className="bg-white border border-slate-200 rounded-lg p-4">
+          <h3 className="font-semibold text-slate-900 mb-4">Quick Actions</h3>
+          <div className="space-y-2">
+            <Button className="w-full justify-start">System Health Check</Button>
+            <Button variant="outline" className="w-full justify-start">Generate Daily Report</Button>
+            <Button variant="outline" className="w-full justify-start">Risk Assessment</Button>
+            <Button variant="outline" className="w-full justify-start">Participant Review</Button>
+            <Button variant="outline" className="w-full justify-start">Emergency Procedures</Button>
           </div>
         </div>
+      </div>
       </div>
     </TooltipProvider>
   );

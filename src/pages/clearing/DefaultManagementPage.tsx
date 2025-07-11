@@ -118,19 +118,19 @@ const DefaultManagementPage = () => {
           </Card>
         </div>
 
-        {/* Right Sidebar with Quick Actions */}
-        <div className="w-64 space-y-4">
-          <div className="bg-white border border-slate-200 rounded-lg p-4">
-            <h3 className="font-semibold text-slate-900 mb-4">Quick Actions</h3>
-            <div className="space-y-2">
-              <Button className="w-full justify-start">Initiate Default Process</Button>
-              <Button variant="outline" className="w-full justify-start">Review Default Fund</Button>
-              <Button variant="outline" className="w-full justify-start">Configure Auction Rules</Button>
-              <Button variant="outline" className="w-full justify-start">Generate Default Report</Button>
-              <Button variant="outline" className="w-full justify-start">Monitor Auction Status</Button>
-            </div>
+      {/* Right Sidebar with Quick Actions */}
+      <div className="w-64 space-y-4">
+        <div className="bg-white border border-slate-200 rounded-lg p-4">
+          <h3 className="font-semibold text-slate-900 mb-4">Quick Actions</h3>
+          <div className="space-y-2">
+            <Button className="w-full justify-start">Initiate Default Process</Button>
+            <Button variant="outline" className="w-full justify-start">Review Default Fund</Button>
+            <Button variant="outline" className="w-full justify-start">Configure Auction Rules</Button>
+            <Button variant="outline" className="w-full justify-start">Generate Default Report</Button>
+            <Button variant="outline" className="w-full justify-start">Monitor Auction Status</Button>
           </div>
         </div>
+      </div>
     </div>
   );
 };

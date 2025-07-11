@@ -164,7 +164,7 @@ const TradingPage = () => {
         {/* Right Sidebar with Quick Actions */}
         <div className="w-64 space-y-4">
           <div className="bg-white border border-slate-200 rounded-lg p-4">
-            <h3 className="text-lg font-semibold text-slate-900 mb-4">Quick Actions</h3>
+            <h3 className="font-semibold text-slate-900 mb-4">Quick Actions</h3>
             <div className="space-y-2">
               <Button className="w-full justify-start">Configure Matching Rules</Button>
               <Button variant="outline" className="w-full justify-start">Export Match Report</Button>
@@ -248,7 +248,7 @@ const TradingPage = () => {
 
       <div className="w-64 space-y-4">
         <div className="bg-white border border-slate-200 rounded-lg p-4">
-          <h3 className="text-lg font-semibold text-slate-900 mb-4">Quick Actions</h3>
+          <h3 className="font-semibold text-slate-900 mb-4">Quick Actions</h3>
           <div className="space-y-2">
             <Button className="w-full justify-start">Create New Instruction</Button>
             <Button variant="outline" className="w-full justify-start">Batch Upload</Button>
@@ -350,7 +350,7 @@ const TradingPage = () => {
 
       <div className="w-64 space-y-4">
         <div className="bg-white border border-slate-200 rounded-lg p-4">
-          <h3 className="text-lg font-semibold text-slate-900 mb-4">Quick Actions</h3>
+          <h3 className="font-semibold text-slate-900 mb-4">Quick Actions</h3>
           <div className="space-y-2">
             <Button className="w-full justify-start">Create Quote Order</Button>
             <Button variant="outline" className="w-full justify-start">Create Offer Order</Button>

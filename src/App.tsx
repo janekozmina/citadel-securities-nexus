@@ -25,6 +25,10 @@ import CCPDashboardPage from "./pages/clearing/CCPDashboardPage";
 import SettlementHubPage from "./pages/settlement/SettlementHubPage";
 import CustodyHubPage from "./pages/custody/CustodyHubPage";
 import LiquidityHubPage from "./pages/liquidity/LiquidityHubPage";
+import TriPartyRepoPage from "./pages/liquidity/TriPartyRepoPage";
+import CentralBankLiquidityPage from "./pages/liquidity/CentralBankLiquidityPage";
+import IslamicRepoPage from "./pages/liquidity/IslamicRepoPage";
+import CollateralOptimizationPage from "./pages/liquidity/CollateralOptimizationPage";
 import RiskManagementPage from "./pages/risk/RiskManagementPage";
 import AuctionManagementPage from "./pages/auction/AuctionManagementPage";
 import ReportingPage from "./pages/reporting/ReportingPage";
@@ -71,6 +75,10 @@ const App = () => (
               <Route path="settlement" element={<SettlementHubPage />} />
               <Route path="custody" element={<CustodyHubPage />} />
               <Route path="liquidity" element={<LiquidityHubPage />} />
+              <Route path="liquidity/tri-party-repo" element={<TriPartyRepoPage />} />
+              <Route path="liquidity/central-bank-liquidity" element={<CentralBankLiquidityPage />} />
+              <Route path="liquidity/islamic-repo" element={<IslamicRepoPage />} />
+              <Route path="liquidity/collateral-optimization" element={<CollateralOptimizationPage />} />
               <Route path="risk" element={<RiskManagementPage />} />
               <Route path="auction" element={<AuctionManagementPage />} />
               <Route path="reporting" element={<ReportingPage />} />

@@ -190,10 +190,10 @@ const CustodyHubPage = () => {
           </div>
         </div>
 
-        {/* Right Side Options */}
+        {/* Right Side Quick Actions */}
         <div className="w-64 space-y-4">
           <div className="bg-white border border-slate-200 rounded-lg p-4">
-            <h3 className="font-semibold text-slate-900 mb-4">Options</h3>
+            <h3 className="font-semibold text-slate-900 mb-4">Quick Actions</h3>
             <div className="space-y-2">
               <Button className="w-full justify-start">View Holdings</Button>
               <Button variant="outline" className="w-full justify-start">Holdings History</Button>
