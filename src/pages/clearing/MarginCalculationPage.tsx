@@ -243,20 +243,18 @@ const MarginCalculationPage = () => {
           </Card>
         </div>
 
-        <div className="w-80 border-l bg-slate-50/50 p-6">
-          <Card>
-            <CardHeader>
-              <CardTitle>Quick Actions</CardTitle>
-            </CardHeader>
-            <CardContent className="space-y-3">
+        {/* Right Sidebar with Quick Actions */}
+        <div className="w-64 space-y-4">
+          <div className="bg-white border border-slate-200 rounded-lg p-4">
+            <h3 className="font-semibold text-slate-900 mb-4">Quick Actions</h3>
+            <div className="space-y-2">
               <Button className="w-full justify-start">Calculate Initial Margin</Button>
               <Button variant="outline" className="w-full justify-start">Update Risk Parameters</Button>
               <Button variant="outline" className="w-full justify-start">Generate Margin Call</Button>
               <Button variant="outline" className="w-full justify-start">Review Collateral</Button>
               <Button variant="outline" className="w-full justify-start">Stress Test Scenarios</Button>
-              <Button variant="outline" className="w-full justify-start">Export Margin Report</Button>
-            </CardContent>
-          </Card>
+            </div>
+          </div>
         </div>
       </div>
     </TooltipProvider>

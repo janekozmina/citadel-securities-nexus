@@ -88,54 +88,49 @@ const DefaultManagementPage = () => {
         </div>
 
         {/* Default Process Stages Table */}
-        <Card>
-          <CardHeader>
-            <CardTitle>Default Resolution Process</CardTitle>
-          </CardHeader>
-          <CardContent>
-            <div className="overflow-x-auto">
-              <table className="w-full border-collapse">
-                <thead>
-                  <tr className="border-b">
-                    <th className="text-left p-3 font-semibold">Stage</th>
-                    <th className="text-left p-3 font-semibold">Description</th>
-                    <th className="text-left p-3 font-semibold">Key Participants</th>
-                    <th className="text-left p-3 font-semibold">Timeframe</th>
-                    <th className="text-left p-3 font-semibold">System Actions / Notes</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  {defaultProcessStages.map((stage, index) => (
-                    <tr key={index} className="border-b hover:bg-slate-50">
-                      <td className="p-3 font-medium text-blue-600">{stage.stage}</td>
-                      <td className="p-3">{stage.description}</td>
-                      <td className="p-3 text-sm">{stage.keyParticipants}</td>
-                      <td className="p-3">{getTimeframeBadge(stage.timeframe)}</td>
-                      <td className="p-3 text-sm text-slate-600">{stage.systemActions}</td>
+          <Card>
+            <CardContent className="p-6">
+              <div className="overflow-x-auto">
+                <table className="w-full border-collapse">
+                  <thead>
+                    <tr className="border-b">
+                      <th className="text-left p-3 font-semibold">Stage</th>
+                      <th className="text-left p-3 font-semibold">Description</th>
+                      <th className="text-left p-3 font-semibold">Key Participants</th>
+                      <th className="text-left p-3 font-semibold">Timeframe</th>
+                      <th className="text-left p-3 font-semibold">System Actions / Notes</th>
                     </tr>
-                  ))}
-                </tbody>
-              </table>
-            </div>
-          </CardContent>
-        </Card>
-      </div>
+                  </thead>
+                  <tbody>
+                    {defaultProcessStages.map((stage, index) => (
+                      <tr key={index} className="border-b hover:bg-slate-50">
+                        <td className="p-3">{stage.stage}</td>
+                        <td className="p-3">{stage.description}</td>
+                        <td className="p-3">{stage.keyParticipants}</td>
+                        <td className="p-3">{stage.timeframe}</td>
+                        <td className="p-3">{stage.systemActions}</td>
+                      </tr>
+                    ))}
+                  </tbody>
+                </table>
+              </div>
+            </CardContent>
+          </Card>
+        </div>
 
-      <div className="w-80 border-l bg-slate-50/50 p-6">
-        <Card>
-          <CardHeader>
-            <CardTitle>Quick Actions</CardTitle>
-          </CardHeader>
-          <CardContent className="space-y-3">
-            <Button className="w-full justify-start">Initiate Default Process</Button>
-            <Button variant="outline" className="w-full justify-start">Review Default Fund</Button>
-            <Button variant="outline" className="w-full justify-start">Configure Auction Rules</Button>
-            <Button variant="outline" className="w-full justify-start">Generate Default Report</Button>
-            <Button variant="outline" className="w-full justify-start">Monitor Auction Status</Button>
-            <Button variant="outline" className="w-full justify-start">Settlement Instructions</Button>
-          </CardContent>
-        </Card>
-      </div>
+        {/* Right Sidebar with Quick Actions */}
+        <div className="w-64 space-y-4">
+          <div className="bg-white border border-slate-200 rounded-lg p-4">
+            <h3 className="font-semibold text-slate-900 mb-4">Quick Actions</h3>
+            <div className="space-y-2">
+              <Button className="w-full justify-start">Initiate Default Process</Button>
+              <Button variant="outline" className="w-full justify-start">Review Default Fund</Button>
+              <Button variant="outline" className="w-full justify-start">Configure Auction Rules</Button>
+              <Button variant="outline" className="w-full justify-start">Generate Default Report</Button>
+              <Button variant="outline" className="w-full justify-start">Monitor Auction Status</Button>
+            </div>
+          </div>
+        </div>
     </div>
   );
 };

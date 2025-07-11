@@ -14,19 +14,17 @@ const CorporateActionsPage = () => {
 
   return (
     <TooltipProvider>
-      <div className="flex h-full">
-        <div className="space-y-6 p-6">
-          <div className="flex items-center justify-between">
-            <div>
-              <h1 className="text-2xl font-bold text-slate-900">Corporate Actions</h1>
-              <p className="text-slate-600">Manage corporate actions and automated processing</p>
-            </div>
+      <div className="space-y-6">
+        <div className="flex items-center justify-between">
+          <div>
+            <h1 className="text-2xl font-bold text-slate-900">Corporate Actions</h1>
+            <p className="text-slate-600">Manage corporate actions and automated processing</p>
           </div>
+        </div>
 
-          <div className="grid grid-cols-1 lg:grid-cols-4 gap-6">
-            {/* Upcoming Events Timeline */}
-            <div className="lg:col-span-3">
-              <Card>
+        <div className="flex h-full">
+          <div className="flex-1 space-y-6 pr-6">
+            <Card>
                 <CardHeader>
                   <CardTitle className="flex items-center gap-2">
                     <Calendar className="h-5 w-5" />
@@ -85,39 +83,19 @@ const CorporateActionsPage = () => {
                   </div>
                 </CardContent>
               </Card>
-            </div>
+          </div>
 
-            {/* Quick Actions */}
-            <div className="lg:col-span-1">
-              <Card>
-                <CardHeader>
-                  <CardTitle>Quick Actions</CardTitle>
-                </CardHeader>
-                <CardContent>
-                  <div className="space-y-2">
-                    <Button className="w-full justify-start">
-                      <Calendar className="h-4 w-4 mr-2" />
-                      Create Dividend Action
-                    </Button>
-                    <Button variant="outline" className="w-full justify-start">
-                      <TrendingUp className="h-4 w-4 mr-2" />
-                      Create Stock Split
-                    </Button>
-                    <Button variant="outline" className="w-full justify-start">
-                      <FileText className="h-4 w-4 mr-2" />
-                      Create Rights Issue
-                    </Button>
-                    <Button variant="outline" className="w-full justify-start">
-                      <Settings className="h-4 w-4 mr-2" />
-                      Edit Existing Action
-                    </Button>
-                    <Button variant="outline" className="w-full justify-start">Configure Automation Rules</Button>
-                    <Button variant="outline" className="w-full justify-start">View Processing Status</Button>
-                    <Button variant="outline" className="w-full justify-start">Configure Notifications</Button>
-                    <Button variant="outline" className="w-full justify-start">Send Test Alert</Button>
-                  </div>
-                </CardContent>
-              </Card>
+          {/* Right Sidebar with Quick Actions */}
+          <div className="w-64 space-y-4">
+            <div className="bg-white border border-slate-200 rounded-lg p-4">
+              <h3 className="font-semibold text-slate-900 mb-4">Quick Actions</h3>
+              <div className="space-y-2">
+                <Button className="w-full justify-start">Create Dividend Action</Button>
+                <Button variant="outline" className="w-full justify-start">Create Stock Split</Button>
+                <Button variant="outline" className="w-full justify-start">Create Rights Issue</Button>
+                <Button variant="outline" className="w-full justify-start">Edit Existing Action</Button>
+                <Button variant="outline" className="w-full justify-start">Configure Automation Rules</Button>
+              </div>
             </div>
           </div>
         </div>

@@ -78,7 +78,7 @@ const CCPDashboardPage = () => {
           </div>
 
           {/* Key Metrics */}
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
             <Card>
               <CardContent className="p-4">
                 <div className="flex items-center justify-between">
@@ -87,17 +87,6 @@ const CCPDashboardPage = () => {
                     <p className="text-2xl font-bold">{ccpData.summary.totalTrades.toLocaleString()}</p>
                   </div>
                   <Activity className="h-8 w-8 text-blue-600" />
-                </div>
-              </CardContent>
-            </Card>
-            <Card>
-              <CardContent className="p-4">
-                <div className="flex items-center justify-between">
-                  <div>
-                    <p className="text-sm font-medium text-slate-600">Total Volume</p>
-                    <p className="text-2xl font-bold">${(ccpData.summary.totalVolume / 1000000000).toFixed(1)}B</p>
-                  </div>
-                  <TrendingUp className="h-8 w-8 text-green-600" />
                 </div>
               </CardContent>
             </Card>
@@ -212,20 +201,18 @@ const CCPDashboardPage = () => {
           </Card>
         </div>
 
-        <div className="w-80 border-l bg-slate-50/50 p-6">
-          <Card>
-            <CardHeader>
-              <CardTitle>Quick Actions</CardTitle>
-            </CardHeader>
-            <CardContent className="space-y-3">
+        {/* Right Sidebar with Quick Actions */}
+        <div className="w-64 space-y-4">
+          <div className="bg-white border border-slate-200 rounded-lg p-4">
+            <h3 className="font-semibold text-slate-900 mb-4">Quick Actions</h3>
+            <div className="space-y-2">
               <Button className="w-full justify-start">System Health Check</Button>
               <Button variant="outline" className="w-full justify-start">Generate Daily Report</Button>
               <Button variant="outline" className="w-full justify-start">Risk Assessment</Button>
               <Button variant="outline" className="w-full justify-start">Participant Review</Button>
               <Button variant="outline" className="w-full justify-start">Emergency Procedures</Button>
-              <Button variant="outline" className="w-full justify-start">Export Dashboard</Button>
-            </CardContent>
-          </Card>
+            </div>
+          </div>
         </div>
       </div>
     </TooltipProvider>

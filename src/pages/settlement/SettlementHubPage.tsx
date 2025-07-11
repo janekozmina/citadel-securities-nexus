@@ -128,10 +128,6 @@ const SettlementHubPage = () => {
     <div className="space-y-6 bg-white">
       <div className="flex items-center justify-between">
         <h1 className="text-3xl font-bold text-slate-900">Settlement Hub</h1>
-        <div className="flex gap-2">
-          <Button>New Settlement</Button>
-          <Button variant="outline">Import Instructions</Button>
-        </div>
       </div>
 
       {/* Status Overview Cards */}
@@ -152,13 +148,37 @@ const SettlementHubPage = () => {
         ))}
       </div>
 
-      {/* Main Content Grid */}
-      <div className="grid grid-cols-1 lg:grid-cols-4 gap-6">
+      <div className="flex h-full">
         {/* Settlement Instructions Table */}
-        <div className="lg:col-span-3">
+        <div className="flex-1 space-y-6 pr-6">
           <Card className="bg-white">
             <CardHeader>
               <CardTitle>Settlement Instructions</CardTitle>
+              <div className="flex gap-2 mt-2">
+                <Select defaultValue="all" onValueChange={setStatus}>
+                  <SelectTrigger className="w-32">
+                    <SelectValue />
+                  </SelectTrigger>
+                  <SelectContent>
+                    <SelectItem value="all">All Status</SelectItem>
+                    <SelectItem value="pending">Pending</SelectItem>
+                    <SelectItem value="settled">Settled</SelectItem>
+                    <SelectItem value="failed">Failed</SelectItem>
+                  </SelectContent>
+                </Select>
+                <Select defaultValue="all" onValueChange={setPriority}>
+                  <SelectTrigger className="w-32">
+                    <SelectValue />
+                  </SelectTrigger>
+                  <SelectContent>
+                    <SelectItem value="all">All Priorities</SelectItem>
+                    <SelectItem value="high">High</SelectItem>
+                    <SelectItem value="medium">Medium</SelectItem>
+                    <SelectItem value="low">Low</SelectItem>
+                  </SelectContent>
+                </Select>
+                <Input placeholder="Search..." className="w-48" />
+              </div>
             </CardHeader>
             <CardContent>
               <div className="w-full">
@@ -207,59 +227,17 @@ const SettlementHubPage = () => {
           </Card>
         </div>
 
-        {/* Right Side Controls */}
-        <div className="space-y-4">
-          <Card className="bg-white">
-            <CardHeader>
-              <CardTitle className="text-sm">Quick Actions</CardTitle>
-            </CardHeader>
-            <CardContent className="space-y-2">
-              <Button className="w-full" size="sm">Process Settlements</Button>
-              <Button variant="outline" className="w-full" size="sm">Generate Report</Button>
-              <Button variant="outline" className="w-full" size="sm">Export Data</Button>
-              <Button variant="outline" className="w-full" size="sm">Reconcile</Button>
-            </CardContent>
-          </Card>
-
-          <Card className="bg-white">
-            <CardHeader>
-              <CardTitle className="text-sm">Filters</CardTitle>
-            </CardHeader>
-            <CardContent className="space-y-3">
-              <div>
-                <label className="text-xs font-medium text-slate-600">Status</label>
-                <Select defaultValue="all" onValueChange={setStatus}>
-                  <SelectTrigger className="w-full h-8">
-                    <SelectValue />
-                  </SelectTrigger>
-                  <SelectContent>
-                    <SelectItem value="all">All Status</SelectItem>
-                    <SelectItem value="pending">Pending</SelectItem>
-                    <SelectItem value="settled">Settled</SelectItem>
-                    <SelectItem value="failed">Failed</SelectItem>
-                  </SelectContent>
-                </Select>
-              </div>
-              <div>
-                <label className="text-xs font-medium text-slate-600">Priority</label>
-                <Select defaultValue="all" onValueChange={setPriority}>
-                  <SelectTrigger className="w-full h-8">
-                    <SelectValue />
-                  </SelectTrigger>
-                  <SelectContent>
-                    <SelectItem value="all">All Priorities</SelectItem>
-                    <SelectItem value="high">High</SelectItem>
-                    <SelectItem value="medium">Medium</SelectItem>
-                    <SelectItem value="low">Low</SelectItem>
-                  </SelectContent>
-                </Select>
-              </div>
-              <div>
-                <label className="text-xs font-medium text-slate-600">Date Range</label>
-                <Input placeholder="Select date" className="h-8" />
-              </div>
-            </CardContent>
-          </Card>
+        {/* Right Sidebar with Quick Actions */}
+        <div className="w-64 space-y-4">
+          <div className="bg-white border border-slate-200 rounded-lg p-4">
+            <h3 className="font-semibold text-slate-900 mb-4">Quick Actions</h3>
+            <div className="space-y-2">
+              <Button className="w-full justify-start">Process Settlements</Button>
+              <Button variant="outline" className="w-full justify-start">Generate Report</Button>
+              <Button variant="outline" className="w-full justify-start">Export Data</Button>
+              <Button variant="outline" className="w-full justify-start">Reconcile</Button>
+            </div>
+          </div>
         </div>
       </div>
     </div>

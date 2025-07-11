@@ -48,10 +48,12 @@ const DashboardLayout = () => {
     <SidebarProvider>
       <div className="min-h-screen flex w-full bg-slate-50">
         <AppSidebar />
-        <div className="flex flex-col flex-1">
+        <div className="flex flex-col flex-1 min-w-0">
           <DashboardHeader />
-          <main className="flex-1 overflow-auto p-6 pr-16">
-            <Outlet />
+          <main className="flex-1 overflow-auto p-6">
+            <div className="max-w-full mr-80">
+              <Outlet />
+            </div>
           </main>
         </div>
         <AlertsPanel alerts={getPageAlerts()} />

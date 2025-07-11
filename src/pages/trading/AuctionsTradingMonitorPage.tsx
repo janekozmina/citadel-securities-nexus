@@ -12,16 +12,16 @@ const AuctionsTradingMonitorPage = () => {
 
   return (
     <TooltipProvider>
-      <div className="space-y-6 p-6">
+      <div className="space-y-6">
         <div className="flex items-center justify-between">
           <div>
             <h1 className="text-2xl font-bold text-slate-900">Auctions Trading Monitor</h1>
             <p className="text-slate-600">Monitor live auction activities and participate</p>
           </div>
         </div>
-        
-        <div className="grid grid-cols-1 lg:grid-cols-4 gap-6">
-          <div className="lg:col-span-3">
+
+        <div className="flex h-full">
+          <div className="flex-1 space-y-6 pr-6">
             <Card>
               <CardHeader>
                 <CardTitle>Live Auctions</CardTitle>
@@ -59,25 +59,21 @@ const AuctionsTradingMonitorPage = () => {
                   </table>
                 </div>
               </CardContent>
-            </Card>
+              </Card>
           </div>
 
-          <div className="lg:col-span-1">
-            <Card>
-              <CardHeader>
-                <CardTitle>Quick Actions</CardTitle>
-              </CardHeader>
-              <CardContent>
-                <div className="space-y-2">
-                  <Button className="w-full justify-start">Place Bid</Button>
-                  <Button variant="outline" className="w-full justify-start">Place Offer</Button>
-                  <Button variant="outline" className="w-full justify-start">Monitor Positions</Button>
-                  <Button variant="outline" className="w-full justify-start">Auction History</Button>
-                  <Button variant="outline" className="w-full justify-start">Set Price Alerts</Button>
-                  <Button variant="outline" className="w-full justify-start">Export Data</Button>
-                </div>
-              </CardContent>
-            </Card>
+          {/* Right Sidebar with Quick Actions */}
+          <div className="w-64 space-y-4">
+            <div className="bg-white border border-slate-200 rounded-lg p-4">
+              <h3 className="font-semibold text-slate-900 mb-4">Quick Actions</h3>
+              <div className="space-y-2">
+                <Button className="w-full justify-start">Place Bid</Button>
+                <Button variant="outline" className="w-full justify-start">Place Offer</Button>
+                <Button variant="outline" className="w-full justify-start">Monitor Positions</Button>
+                <Button variant="outline" className="w-full justify-start">Auction History</Button>
+                <Button variant="outline" className="w-full justify-start">Set Price Alerts</Button>
+              </div>
+            </div>
           </div>
         </div>
       </div>

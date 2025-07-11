@@ -19,17 +19,18 @@ const TransferInstructionPage = () => {
 
   return (
     <TooltipProvider>
-      <div className="space-y-6 p-6">
+      <div className="space-y-6">
         <div className="flex items-center justify-between">
           <div>
             <h1 className="text-2xl font-bold text-slate-900">Transfer Instruction</h1>
             <p className="text-slate-600">Manage and monitor transfer instructions</p>
           </div>
         </div>
-        
-        <div className="grid grid-cols-1 lg:grid-cols-4 gap-6">
-          <div className="lg:col-span-2">
-            <Card>
+
+        <div className="flex h-full">
+          <div className="flex-1 space-y-6 pr-6">
+            <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+              <Card>
               <CardHeader>
                 <CardTitle>Instruction Pipeline Status</CardTitle>
               </CardHeader>
@@ -56,57 +57,53 @@ const TransferInstructionPage = () => {
                   ))}
                 </div>
               </CardContent>
-            </Card>
-          </div>
+              </Card>
 
-          <div className="lg:col-span-1">
-            <Card>
-              <CardHeader>
-                <CardTitle>Recent Instructions</CardTitle>
-              </CardHeader>
-              <CardContent>
-                <div className="space-y-3">
-                  {transferInstructionData.recentInstructions.map((instruction) => (
-                    <div key={instruction.id} className="p-3 bg-slate-50 rounded">
-                      <div className="flex justify-between items-start">
-                        <div>
-                          <div className="font-semibold">{instruction.id} - {instruction.type}</div>
-                          <div className="text-sm text-slate-600">
-                            {instruction.instrument} • {instruction.qty} shares • ${instruction.value.toLocaleString()}
+              <Card>
+                <CardHeader>
+                  <CardTitle>Recent Instructions</CardTitle>
+                </CardHeader>
+                <CardContent>
+                  <div className="space-y-3">
+                    {transferInstructionData.recentInstructions.map((instruction) => (
+                      <div key={instruction.id} className="p-3 bg-slate-50 rounded">
+                        <div className="flex justify-between items-start">
+                          <div>
+                            <div className="font-semibold">{instruction.id} - {instruction.type}</div>
+                            <div className="text-sm text-slate-600">
+                              {instruction.instrument} • {instruction.qty} shares • ${instruction.value.toLocaleString()}
+                            </div>
                           </div>
-                        </div>
-                        <div className="text-right">
-                          <div className={`text-sm font-medium ${
-                            instruction.status === 'Settled' ? 'text-green-600' :
-                            instruction.status === 'Pending' ? 'text-yellow-600' :
-                            'text-red-600'
-                          }`}>
-                            {instruction.status}
+                          <div className="text-right">
+                            <div className={`text-sm font-medium ${
+                              instruction.status === 'Settled' ? 'text-green-600' :
+                              instruction.status === 'Pending' ? 'text-yellow-600' :
+                              'text-red-600'
+                            }`}>
+                              {instruction.status}
+                            </div>
+                            <div className="text-xs text-slate-500">{instruction.time}</div>
                           </div>
-                          <div className="text-xs text-slate-500">{instruction.time}</div>
                         </div>
                       </div>
-                    </div>
-                  ))}
-                </div>
-              </CardContent>
-            </Card>
+                    ))}
+                  </div>
+                </CardContent>
+              </Card>
+            </div>
           </div>
 
-          <div className="lg:col-span-1">
-            <Card>
-              <CardHeader>
-                <CardTitle>Quick Actions</CardTitle>
-              </CardHeader>
-              <CardContent>
-                <div className="space-y-2">
-                  <Button className="w-full justify-start">Create New Instruction</Button>
-                  <Button variant="outline" className="w-full justify-start">Batch Upload</Button>
-                  <Button variant="outline" className="w-full justify-start">Settlement Report</Button>
-                  <Button variant="outline" className="w-full justify-start">Exception Management</Button>
-                </div>
-              </CardContent>
-            </Card>
+          {/* Right Sidebar with Quick Actions */}
+          <div className="w-64 space-y-4">
+            <div className="bg-white border border-slate-200 rounded-lg p-4">
+              <h3 className="font-semibold text-slate-900 mb-4">Quick Actions</h3>
+              <div className="space-y-2">
+                <Button className="w-full justify-start">Create New Instruction</Button>
+                <Button variant="outline" className="w-full justify-start">Batch Upload</Button>
+                <Button variant="outline" className="w-full justify-start">Settlement Report</Button>
+                <Button variant="outline" className="w-full justify-start">Exception Management</Button>
+              </div>
+            </div>
           </div>
         </div>
       </div>

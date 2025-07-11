@@ -22,16 +22,16 @@ const BilateralTradingMonitorPage = () => {
 
   return (
     <TooltipProvider>
-      <div className="space-y-6 p-6">
+      <div className="space-y-6">
         <div className="flex items-center justify-between">
           <div>
             <h1 className="text-2xl font-bold text-slate-900">Bilateral Trading Monitor</h1>
             <p className="text-slate-600">Monitor and manage bilateral trading agreements</p>
           </div>
         </div>
-        
-        <div className="grid grid-cols-1 lg:grid-cols-4 gap-6">
-          <div className="lg:col-span-3">
+
+        <div className="flex h-full">
+          <div className="flex-1 space-y-6 pr-6">
             <Card>
               <CardHeader>
                 <CardTitle>Active Bilateral Trades</CardTitle>
@@ -75,25 +75,21 @@ const BilateralTradingMonitorPage = () => {
                   </table>
                 </div>
               </CardContent>
-            </Card>
+              </Card>
           </div>
 
-          <div className="lg:col-span-1">
-            <Card>
-              <CardHeader>
-                <CardTitle>Quick Actions</CardTitle>
-              </CardHeader>
-              <CardContent>
-                <div className="space-y-2">
-                  <Button className="w-full justify-start">Initiate Trade</Button>
-                  <Button variant="outline" className="w-full justify-start">Negotiate Terms</Button>
-                  <Button variant="outline" className="w-full justify-start">Execute Agreement</Button>
-                  <Button variant="outline" className="w-full justify-start">Trade History</Button>
-                  <Button variant="outline" className="w-full justify-start">Counterparty Search</Button>
-                  <Button variant="outline" className="w-full justify-start">Export Report</Button>
-                </div>
-              </CardContent>
-            </Card>
+          {/* Right Sidebar with Quick Actions */}
+          <div className="w-64 space-y-4">
+            <div className="bg-white border border-slate-200 rounded-lg p-4">
+              <h3 className="font-semibold text-slate-900 mb-4">Quick Actions</h3>
+              <div className="space-y-2">
+                <Button className="w-full justify-start">Initiate Trade</Button>
+                <Button variant="outline" className="w-full justify-start">Negotiate Terms</Button>
+                <Button variant="outline" className="w-full justify-start">Execute Agreement</Button>
+                <Button variant="outline" className="w-full justify-start">Trade History</Button>
+                <Button variant="outline" className="w-full justify-start">Counterparty Search</Button>
+              </div>
+            </div>
           </div>
         </div>
       </div>
