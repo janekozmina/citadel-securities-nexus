@@ -49,7 +49,7 @@ const ClearingManagerPage = () => {
       <div className="space-y-6">
         <div className="flex items-center justify-between">
           <div>
-            <h1 className="text-2xl font-bold text-slate-900">Clearing Manager</h1>
+            <h1 className="text-xl font-semibold text-slate-900">Clearing Manager</h1>
             <p className="text-slate-600">Monitor and manage clearing operations</p>
           </div>
         </div>
@@ -125,7 +125,7 @@ const ClearingManagerPage = () => {
         {/* Right Sidebar with Quick Actions */}
         <div className="w-64 space-y-4">
           <div className="bg-white border border-slate-200 rounded-lg p-4">
-            <h3 className="font-semibold text-slate-900 mb-4">Quick Actions</h3>
+            <h3 className="text-lg font-semibold text-slate-900 mb-4">Quick Actions</h3>
             <div className="space-y-2">
               <Button className="w-full justify-start">Process Pending Trades</Button>
               <Button variant="outline" className="w-full justify-start">Generate Clearing Report</Button>

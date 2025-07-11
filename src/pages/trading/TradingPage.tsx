@@ -72,7 +72,7 @@ const TradingPage = () => {
     <div className="space-y-6">
       <div className="flex items-center justify-between">
         <div>
-          <h1 className="text-2xl font-bold text-slate-900">Trade Matching</h1>
+          <h1 className="text-xl font-semibold text-slate-900">Trade Matching</h1>
           <p className="text-slate-600">Real-time trade processing and matching engine</p>
         </div>
       </div>
@@ -164,7 +164,7 @@ const TradingPage = () => {
         {/* Right Sidebar with Quick Actions */}
         <div className="w-64 space-y-4">
           <div className="bg-white border border-slate-200 rounded-lg p-4">
-            <h3 className="font-semibold text-slate-900 mb-4">Quick Actions</h3>
+            <h3 className="text-lg font-semibold text-slate-900 mb-4">Quick Actions</h3>
             <div className="space-y-2">
               <Button className="w-full justify-start">Configure Matching Rules</Button>
               <Button variant="outline" className="w-full justify-start">Export Match Report</Button>
@@ -180,7 +180,7 @@ const TradingPage = () => {
   const renderTransferInstruction = () => (
     <div className="flex h-full">
       <div className="flex-1 space-y-6 pr-6">
-        <h2 className="text-2xl font-bold text-slate-900">Transfer Instruction</h2>
+        <h2 className="text-xl font-semibold text-slate-900">Transfer Instruction</h2>
         
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
           <Card>
@@ -248,7 +248,7 @@ const TradingPage = () => {
 
       <div className="w-64 space-y-4">
         <div className="bg-white border border-slate-200 rounded-lg p-4">
-          <h3 className="font-semibold text-slate-900 mb-4">Quick Actions</h3>
+          <h3 className="text-lg font-semibold text-slate-900 mb-4">Quick Actions</h3>
           <div className="space-y-2">
             <Button className="w-full justify-start">Create New Instruction</Button>
             <Button variant="outline" className="w-full justify-start">Batch Upload</Button>
@@ -263,7 +263,7 @@ const TradingPage = () => {
   const renderOrderManagement = () => (
     <div className="flex h-full">
       <div className="flex-1 space-y-6 pr-6">
-        <h2 className="text-2xl font-bold text-slate-900">Order Management</h2>
+        <h2 className="text-xl font-semibold text-slate-900">Order Management</h2>
         
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
           <Card>
@@ -350,7 +350,7 @@ const TradingPage = () => {
 
       <div className="w-64 space-y-4">
         <div className="bg-white border border-slate-200 rounded-lg p-4">
-          <h3 className="font-semibold text-slate-900 mb-4">Quick Actions</h3>
+          <h3 className="text-lg font-semibold text-slate-900 mb-4">Quick Actions</h3>
           <div className="space-y-2">
             <Button className="w-full justify-start">Create Quote Order</Button>
             <Button variant="outline" className="w-full justify-start">Create Offer Order</Button>
@@ -366,7 +366,7 @@ const TradingPage = () => {
   const renderAuctionsMonitor = () => (
     <div className="flex h-full">
       <div className="flex-1 space-y-6 pr-6">
-        <h2 className="text-2xl font-bold text-slate-900">Auctions Trading Monitor</h2>
+        <h2 className="text-xl font-semibold text-slate-900">Auctions Trading Monitor</h2>
         
         <Card>
           <CardHeader>
