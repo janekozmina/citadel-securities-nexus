@@ -90,12 +90,7 @@ const navigationItems = [
     title: 'Settlement Hub',
     url: '/settlement',
     roles: ['Admin', 'Custodian', 'Broker', 'Participant'],
-    icon: CreditCard,
-    subItems: [
-      { title: 'Payment Processing', url: '/settlement/payments' },
-      { title: 'Delivery vs Payment', url: '/settlement/dvp' },
-      { title: 'Settlement Status', url: '/settlement/status' }
-    ]
+    icon: CreditCard
   },
   {
     title: 'Custody Hub',
@@ -323,7 +318,7 @@ export function AppSidebar() {
 
   return (
     <Sidebar 
-      className="border-r border-slate-700 sidebar-gradient w-[275px]" 
+      className="border-r border-slate-700 sidebar-gradient w-[300px]" 
       collapsible="icon"
     >
       <SidebarContent>

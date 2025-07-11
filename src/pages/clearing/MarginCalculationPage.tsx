@@ -110,54 +110,87 @@ const MarginCalculationPage = () => {
             </Card>
           </div>
 
-          {/* Charts */}
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+          {/* Dashboards */}
+          <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
             <Card>
               <CardHeader>
-                <CardTitle>Margin by Asset Class</CardTitle>
+                <CardTitle>Real-time Exposure Monitoring</CardTitle>
               </CardHeader>
               <CardContent>
-                <ChartContainer config={chartConfig} className="h-80">
-                  <ResponsiveContainer width="100%" height="100%">
-                    <PieChart>
-                      <Pie
-                        data={marginData.marginByAsset}
-                        cx="50%"
-                        cy="50%"
-                        outerRadius={100}
-                        dataKey="margin"
-                        label={({ asset, percent }) => `${asset} ${(percent * 100).toFixed(0)}%`}
-                      >
-                        {marginData.marginByAsset.map((entry, index) => (
-                          <Cell key={`cell-${index}`} fill={entry.color} />
-                        ))}
-                      </Pie>
-                      <ChartTooltip 
-                        formatter={(value) => [`$${(Number(value) / 1000000).toFixed(1)}M`, 'Margin']}
-                      />
-                    </PieChart>
-                  </ResponsiveContainer>
-                </ChartContainer>
+                <div className="space-y-4">
+                  <div className="flex justify-between items-center">
+                    <span className="text-sm text-slate-600">Current Exposure</span>
+                    <span className="font-bold text-lg">$85.2M</span>
+                  </div>
+                  <div className="flex justify-between items-center">
+                    <span className="text-sm text-slate-600">Intraday Peak</span>
+                    <span className="font-bold text-red-600">$92.4M</span>
+                  </div>
+                  <div className="flex justify-between items-center">
+                    <span className="text-sm text-slate-600">Threshold</span>
+                    <span className="font-bold text-yellow-600">$100M</span>
+                  </div>
+                  <Progress value={85.2} className="w-full" />
+                  <div className="text-xs text-slate-500">Updated 2 minutes ago</div>
+                </div>
               </CardContent>
             </Card>
 
             <Card>
               <CardHeader>
-                <CardTitle>Risk Factor Weights</CardTitle>
+                <CardTitle>Margin Call Automation</CardTitle>
               </CardHeader>
               <CardContent>
-                <ChartContainer config={chartConfig} className="h-80">
-                  <ResponsiveContainer width="100%" height="100%">
-                    <BarChart data={marginData.riskFactors} layout="horizontal">
-                      <XAxis type="number" domain={[0, 40]} />
-                      <YAxis dataKey="factor" type="category" width={100} fontSize={12} />
-                      <ChartTooltip 
-                        formatter={(value) => [`${value}%`, 'Weight']}
-                      />
-                      <Bar dataKey="weight" fill="var(--color-margin)" />
-                    </BarChart>
-                  </ResponsiveContainer>
-                </ChartContainer>
+                <div className="space-y-4">
+                  <div className="flex justify-between items-center">
+                    <span className="text-sm text-slate-600">Active Calls</span>
+                    <Badge variant="destructive">3</Badge>
+                  </div>
+                  <div className="flex justify-between items-center">
+                    <span className="text-sm text-slate-600">Pending Response</span>
+                    <Badge className="bg-yellow-100 text-yellow-800">7</Badge>
+                  </div>
+                  <div className="flex justify-between items-center">
+                    <span className="text-sm text-slate-600">Auto-Resolved</span>
+                    <Badge className="bg-green-100 text-green-800">12</Badge>
+                  </div>
+                  <div className="text-xs text-slate-500">
+                    Next call cycle: 15:30 UTC
+                  </div>
+                </div>
+              </CardContent>
+            </Card>
+
+            <Card>
+              <CardHeader>
+                <CardTitle>Haircut Matrix Valuation</CardTitle>
+              </CardHeader>
+              <CardContent>
+                <div className="space-y-3">
+                  <div className="flex justify-between text-sm">
+                    <span>Gov Bonds (AAA)</span>
+                    <span className="font-medium">2.0%</span>
+                  </div>
+                  <div className="flex justify-between text-sm">
+                    <span>Corp Bonds (AA)</span>
+                    <span className="font-medium">5.5%</span>
+                  </div>
+                  <div className="flex justify-between text-sm">
+                    <span>Equities (Large Cap)</span>
+                    <span className="font-medium">15.0%</span>
+                  </div>
+                  <div className="flex justify-between text-sm">
+                    <span>Equities (Small Cap)</span>
+                    <span className="font-medium">25.0%</span>
+                  </div>
+                  <div className="flex justify-between text-sm">
+                    <span>Derivatives</span>
+                    <span className="font-medium">30.0%</span>
+                  </div>
+                  <div className="text-xs text-slate-500 mt-3">
+                    Last updated: Today 09:00
+                  </div>
+                </div>
               </CardContent>
             </Card>
           </div>

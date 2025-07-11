@@ -219,33 +219,69 @@ const DefaultManagementPage = () => {
             </CardContent>
           </Card>
 
-          {/* Stress Scenarios Table */}
+          {/* Auction Protocols Table */}
           <Card>
             <CardHeader>
-              <CardTitle>Stress Test Scenarios</CardTitle>
+              <CardTitle>Auction Protocols for Defaulted Positions</CardTitle>
             </CardHeader>
             <CardContent>
               <div className="overflow-x-auto">
                 <table className="w-full border-collapse">
                   <thead>
                     <tr className="border-b">
-                      <th className="text-left p-3 font-semibold">Scenario</th>
-                      <th className="text-left p-3 font-semibold">Potential Impact</th>
-                      <th className="text-left p-3 font-semibold">Coverage Ratio</th>
+                      <th className="text-left p-3 font-semibold">Asset Class</th>
+                      <th className="text-left p-3 font-semibold">Auction Type</th>
+                      <th className="text-left p-3 font-semibold">Notice Period</th>
+                      <th className="text-left p-3 font-semibold">Min Participants</th>
+                      <th className="text-left p-3 font-semibold">Status</th>
                     </tr>
                   </thead>
                   <tbody>
-                    {defaultData.stressScenarios.map((scenario, index) => (
-                      <tr key={index} className="border-b hover:bg-slate-50">
-                        <td className="p-3 font-medium">{scenario.scenario}</td>
-                        <td className="p-3">${(scenario.impact / 1000000).toFixed(0)}M</td>
-                        <td className="p-3">
-                          <span className={`font-medium ${getCoverageColor(scenario.coverage)}`}>
-                            {scenario.coverage}%
-                          </span>
-                        </td>
-                      </tr>
-                    ))}
+                    <tr className="border-b hover:bg-slate-50">
+                      <td className="p-3 font-medium">Government Bonds</td>
+                      <td className="p-3">Dutch Auction</td>
+                      <td className="p-3">2 Hours</td>
+                      <td className="p-3">5</td>
+                      <td className="p-3">
+                        <Badge className="bg-green-100 text-green-800">Active</Badge>
+                      </td>
+                    </tr>
+                    <tr className="border-b hover:bg-slate-50">
+                      <td className="p-3 font-medium">Corporate Bonds</td>
+                      <td className="p-3">Sealed Bid</td>
+                      <td className="p-3">4 Hours</td>
+                      <td className="p-3">3</td>
+                      <td className="p-3">
+                        <Badge className="bg-green-100 text-green-800">Active</Badge>
+                      </td>
+                    </tr>
+                    <tr className="border-b hover:bg-slate-50">
+                      <td className="p-3 font-medium">Equities</td>
+                      <td className="p-3">Open Outcry</td>
+                      <td className="p-3">1 Hour</td>
+                      <td className="p-3">7</td>
+                      <td className="p-3">
+                        <Badge className="bg-green-100 text-green-800">Active</Badge>
+                      </td>
+                    </tr>
+                    <tr className="border-b hover:bg-slate-50">
+                      <td className="p-3 font-medium">Derivatives</td>
+                      <td className="p-3">Electronic</td>
+                      <td className="p-3">30 Minutes</td>
+                      <td className="p-3">4</td>
+                      <td className="p-3">
+                        <Badge className="bg-yellow-100 text-yellow-800">Testing</Badge>
+                      </td>
+                    </tr>
+                    <tr className="border-b hover:bg-slate-50">
+                      <td className="p-3 font-medium">Money Market</td>
+                      <td className="p-3">Request for Quote</td>
+                      <td className="p-3">15 Minutes</td>
+                      <td className="p-3">3</td>
+                      <td className="p-3">
+                        <Badge className="bg-green-100 text-green-800">Active</Badge>
+                      </td>
+                    </tr>
                   </tbody>
                 </table>
               </div>

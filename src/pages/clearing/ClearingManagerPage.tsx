@@ -80,56 +80,6 @@ const ClearingManagerPage = () => {
             ))}
           </div>
 
-          {/* Charts */}
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-            <Card>
-              <CardHeader>
-                <CardTitle>Daily Clearing Volume</CardTitle>
-              </CardHeader>
-              <CardContent>
-                <ChartContainer config={chartConfig} className="h-80">
-                  <ResponsiveContainer width="100%" height="100%">
-                    <BarChart data={clearingData.clearingVolume}>
-                      <XAxis dataKey="date" />
-                      <YAxis tickFormatter={(value) => `$${(value / 1000000).toFixed(1)}M`} />
-                      <ChartTooltip 
-                        content={<ChartTooltipContent />}
-                        formatter={(value) => [`$${(Number(value) / 1000000).toFixed(2)}M`, 'Volume']}
-                      />
-                      <Bar dataKey="volume" fill="var(--color-volume)" />
-                    </BarChart>
-                  </ResponsiveContainer>
-                </ChartContainer>
-              </CardContent>
-            </Card>
-
-            <Card>
-              <CardHeader>
-                <CardTitle>Trade Count Trend</CardTitle>
-              </CardHeader>
-              <CardContent>
-                <ChartContainer config={chartConfig} className="h-80">
-                  <ResponsiveContainer width="100%" height="100%">
-                    <LineChart data={clearingData.clearingVolume}>
-                      <XAxis dataKey="date" />
-                      <YAxis />
-                      <ChartTooltip 
-                        content={<ChartTooltipContent />}
-                        formatter={(value) => [value, 'Trades']}
-                      />
-                      <Line 
-                        type="monotone" 
-                        dataKey="trades" 
-                        stroke="var(--color-trades)" 
-                        strokeWidth={2}
-                        dot={{ fill: 'var(--color-trades)', strokeWidth: 2, r: 4 }}
-                      />
-                    </LineChart>
-                  </ResponsiveContainer>
-                </ChartContainer>
-              </CardContent>
-            </Card>
-          </div>
 
           {/* Participants Table */}
           <Card>
