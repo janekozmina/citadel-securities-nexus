@@ -1,5 +1,6 @@
+
 import { useState } from 'react';
-import { NavLink } from 'react-router-dom';
+import { NavLink, useLocation } from 'react-router-dom';
 import { useAuth } from '@/contexts/AuthContext';
 import {
   Sidebar,
@@ -10,6 +11,9 @@ import {
   SidebarMenu,
   SidebarMenuButton,
   SidebarMenuItem,
+  SidebarMenuSub,
+  SidebarMenuSubItem,
+  SidebarMenuSubButton,
   useSidebar,
 } from '@/components/ui/sidebar';
 import { 
@@ -28,7 +32,8 @@ import {
   Users,
   Monitor,
   ChevronRight,
-  ChevronDown
+  ChevronDown,
+  Wrench
 } from 'lucide-react';
 import { Collapsible, CollapsibleContent, CollapsibleTrigger } from '@/components/ui/collapsible';
 
@@ -40,6 +45,12 @@ const navigationItems = [
     icon: Home
   },
   {
+    title: 'Operations',
+    url: '/operations',
+    roles: ['Admin', 'Issuer', 'Custodian', 'Broker', 'Participant'],
+    icon: Wrench
+  },
+  {
     title: 'Securities Lifecycle',
     url: '/securities',
     roles: ['Admin', 'Issuer'],
@@ -49,56 +60,104 @@ const navigationItems = [
     title: 'Trading',
     url: '/trading',
     roles: ['Admin', 'Custodian', 'Broker', 'Participant'],
-    icon: TrendingUp
+    icon: TrendingUp,
+    subItems: [
+      { title: 'Order Management', url: '/trading/orders' },
+      { title: 'Trade Execution', url: '/trading/execution' },
+      { title: 'Market Data', url: '/trading/market-data' }
+    ]
   },
   {
     title: 'Clearing Hub',
     url: '/clearing',
     roles: ['Admin', 'Custodian', 'Broker', 'Participant'],
-    icon: RefreshCw
+    icon: RefreshCw,
+    subItems: [
+      { title: 'Trade Matching', url: '/clearing/matching' },
+      { title: 'Netting', url: '/clearing/netting' },
+      { title: 'Risk Assessment', url: '/clearing/risk' }
+    ]
   },
   {
     title: 'Settlement Hub',
     url: '/settlement',
     roles: ['Admin', 'Custodian', 'Broker', 'Participant'],
-    icon: CreditCard
+    icon: CreditCard,
+    subItems: [
+      { title: 'Payment Processing', url: '/settlement/payments' },
+      { title: 'Delivery vs Payment', url: '/settlement/dvp' },
+      { title: 'Settlement Status', url: '/settlement/status' }
+    ]
   },
   {
     title: 'Custody Hub',
     url: '/custody',
     roles: ['Admin', 'Custodian', 'Broker', 'Participant'],
-    icon: Vault
+    icon: Vault,
+    subItems: [
+      { title: 'Asset Holdings', url: '/custody/holdings' },
+      { title: 'Safekeeping', url: '/custody/safekeeping' },
+      { title: 'Corporate Actions', url: '/custody/corporate-actions' }
+    ]
   },
   {
     title: 'Liquidity Hub',
     url: '/liquidity',
     roles: ['Admin', 'Custodian'],
-    icon: Droplets
+    icon: Droplets,
+    subItems: [
+      { title: 'Cash Management', url: '/liquidity/cash' },
+      { title: 'Repo Operations', url: '/liquidity/repo' },
+      { title: 'Collateral Management', url: '/liquidity/collateral' }
+    ]
   },
   {
     title: 'Risk Management',
     url: '/risk',
     roles: ['Admin', 'Custodian', 'Broker', 'Participant', 'Issuer'],
-    icon: Shield
+    icon: Shield,
+    subItems: [
+      { title: 'Risk Monitoring', url: '/risk/monitoring' },
+      { title: 'Stress Testing', url: '/risk/stress-testing' },
+      { title: 'Compliance Check', url: '/risk/compliance' }
+    ]
   },
   {
     title: 'Auction Management',
     url: '/auction',
     roles: ['Admin', 'Custodian', 'Issuer'],
-    icon: Gavel
+    icon: Gavel,
+    subItems: [
+      { title: 'Primary Auctions', url: '/auction/primary' },
+      { title: 'Secondary Market', url: '/auction/secondary' },
+      { title: 'Bidding System', url: '/auction/bidding' }
+    ]
   },
   {
     title: 'Reporting & Compliance',
     url: '/reporting',
     roles: ['Admin', 'Custodian', 'Broker', 'Participant', 'Issuer'],
-    icon: FileText
+    icon: FileText,
+    subItems: [
+      { title: 'Regulatory Reports', url: '/reporting/regulatory' },
+      { title: 'Financial Statements', url: '/reporting/financial' },
+      { title: 'Audit Trail', url: '/reporting/audit' }
+    ]
   },
   {
     title: 'Master Data',
     url: '/masterdata',
     roles: ['Admin', 'Regulator'],
-    icon: Database
-  },
+    icon: Database,
+    subItems: [
+      { title: 'Securities Master', url: '/masterdata/securities' },
+      { title: 'Participant Registry', url: '/masterdata/participants' },
+      { title: 'Reference Data', url: '/masterdata/reference' }
+    ]
+  }
+];
+
+const adminItems = [
   {
     title: 'System Monitoring',
     url: '/admin',
@@ -122,23 +181,20 @@ const navigationItems = [
 export function AppSidebar() {
   const { user } = useAuth();
   const { state } = useSidebar();
+  const location = useLocation();
   const isCollapsed = state === 'collapsed';
   const [openGroups, setOpenGroups] = useState<{ [key: string]: boolean }>({
     'main': true,
     'admin': true
   });
+  const [expandedItems, setExpandedItems] = useState<{ [key: string]: boolean }>({});
 
   const filteredItems = navigationItems.filter(item => 
     user?.role && item.roles.includes(user.role)
   );
-
-  // Group items
-  const mainItems = filteredItems.filter(item => 
-    !['System Monitoring', 'System Administration', 'User Management'].includes(item.title)
-  );
   
-  const adminItems = filteredItems.filter(item => 
-    ['System Monitoring', 'System Administration', 'User Management'].includes(item.title)
+  const filteredAdminItems = adminItems.filter(item => 
+    user?.role && item.roles.includes(user.role)
   );
 
   const toggleGroup = (groupKey: string) => {
@@ -148,29 +204,101 @@ export function AppSidebar() {
     }));
   };
 
+  const toggleExpandedItem = (itemTitle: string) => {
+    setExpandedItems(prev => ({
+      ...prev,
+      [itemTitle]: !prev[itemTitle]
+    }));
+  };
+
+  const isItemActive = (item: any) => {
+    if (location.pathname === item.url) return true;
+    if (item.subItems) {
+      return item.subItems.some((subItem: any) => location.pathname === subItem.url);
+    }
+    return false;
+  };
+
   const renderMenuItems = (items: typeof navigationItems) => (
     <SidebarMenu>
-      {items.map((item) => (
-        <SidebarMenuItem key={item.title}>
-          <SidebarMenuButton asChild tooltip={isCollapsed ? item.title : undefined}>
-            <NavLink 
-              to={item.url} 
-              end={item.url === '/'}
-              className={({ isActive }) => 
-                `flex items-center gap-3 px-3 py-2 rounded-lg transition-colors ${
-                  isActive 
-                    ? 'bg-blue-700 text-white' 
-                    : 'text-slate-300 hover:bg-slate-700 hover:text-white'
-                }`
-              }
-              title={item.title}
-            >
-              <item.icon className="h-4 w-4 flex-shrink-0" />
-              {!isCollapsed && <span>{item.title}</span>}
-            </NavLink>
-          </SidebarMenuButton>
-        </SidebarMenuItem>
-      ))}
+      {items.map((item) => {
+        const hasSubItems = item.subItems && item.subItems.length > 0;
+        const isActive = isItemActive(item);
+        const isExpanded = expandedItems[item.title] || isActive;
+
+        return (
+          <SidebarMenuItem key={item.title}>
+            {hasSubItems ? (
+              <Collapsible open={isExpanded} onOpenChange={() => toggleExpandedItem(item.title)}>
+                <CollapsibleTrigger asChild>
+                  <SidebarMenuButton
+                    className={`flex items-center gap-3 px-3 py-2 rounded-lg transition-colors ${
+                      isActive 
+                        ? 'bg-blue-700 text-white' 
+                        : 'text-slate-300 hover:bg-slate-700 hover:text-white'
+                    }`}
+                    tooltip={isCollapsed ? item.title : undefined}
+                  >
+                    <item.icon className="h-4 w-4 flex-shrink-0" />
+                    {!isCollapsed && (
+                      <>
+                        <span>{item.title}</span>
+                        {isExpanded ? (
+                          <ChevronDown className="h-4 w-4 ml-auto" />
+                        ) : (
+                          <ChevronRight className="h-4 w-4 ml-auto" />
+                        )}
+                      </>
+                    )}
+                  </SidebarMenuButton>
+                </CollapsibleTrigger>
+                {!isCollapsed && (
+                  <CollapsibleContent>
+                    <SidebarMenuSub>
+                      {item.subItems?.map((subItem) => (
+                        <SidebarMenuSubItem key={subItem.title}>
+                          <SidebarMenuSubButton asChild>
+                            <NavLink 
+                              to={subItem.url}
+                              className={({ isActive }) => 
+                                `flex items-center gap-3 px-6 py-2 rounded-lg transition-colors ${
+                                  isActive 
+                                    ? 'bg-blue-600 text-white' 
+                                    : 'text-slate-400 hover:bg-slate-700 hover:text-white'
+                                }`
+                              }
+                            >
+                              {subItem.title}
+                            </NavLink>
+                          </SidebarMenuSubButton>
+                        </SidebarMenuSubItem>
+                      ))}
+                    </SidebarMenuSub>
+                  </CollapsibleContent>
+                )}
+              </Collapsible>
+            ) : (
+              <SidebarMenuButton asChild tooltip={isCollapsed ? item.title : undefined}>
+                <NavLink 
+                  to={item.url} 
+                  end={item.url === '/'}
+                  className={({ isActive }) => 
+                    `flex items-center gap-3 px-3 py-2 rounded-lg transition-colors ${
+                      isActive 
+                        ? 'bg-blue-700 text-white' 
+                        : 'text-slate-300 hover:bg-slate-700 hover:text-white'
+                    }`
+                  }
+                  title={item.title}
+                >
+                  <item.icon className="h-4 w-4 flex-shrink-0" />
+                  {!isCollapsed && <span>{item.title}</span>}
+                </NavLink>
+              </SidebarMenuButton>
+            )}
+          </SidebarMenuItem>
+        );
+      })}
     </SidebarMenu>
   );
 
@@ -208,20 +336,20 @@ export function AppSidebar() {
               </CollapsibleTrigger>
               <CollapsibleContent>
                 <SidebarGroupContent>
-                  {renderMenuItems(mainItems)}
+                  {renderMenuItems(filteredItems)}
                 </SidebarGroupContent>
               </CollapsibleContent>
             </Collapsible>
           )}
           {isCollapsed && (
             <SidebarGroupContent>
-              {renderMenuItems(mainItems)}
+              {renderMenuItems(filteredItems)}
             </SidebarGroupContent>
           )}
         </SidebarGroup>
 
-        {/* Admin Group (if user has admin items) */}
-        {adminItems.length > 0 && (
+        {/* Admin Group */}
+        {filteredAdminItems.length > 0 && (
           <SidebarGroup>
             {!isCollapsed && (
               <Collapsible 
@@ -240,14 +368,14 @@ export function AppSidebar() {
                 </CollapsibleTrigger>
                 <CollapsibleContent>
                   <SidebarGroupContent>
-                    {renderMenuItems(adminItems)}
+                    {renderMenuItems(filteredAdminItems)}
                   </SidebarGroupContent>
                 </CollapsibleContent>
               </Collapsible>
             )}
             {isCollapsed && (
               <SidebarGroupContent>
-                {renderMenuItems(adminItems)}
+                {renderMenuItems(filteredAdminItems)}
               </SidebarGroupContent>
             )}
           </SidebarGroup>

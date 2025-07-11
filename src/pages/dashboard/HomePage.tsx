@@ -59,41 +59,67 @@ const HomePage = () => {
     }
   ];
 
+  // Split stats into two rows
+  const firstRowStats = stats.slice(0, 4);
+  const secondRowStats = stats.slice(4);
+
   return (
     <div className="space-y-6">
       <div className="flex items-center justify-between">
         <div>
-          <h1 className="text-2xl font-bold text-slate-900">Home Page</h1>
+          <h1 className="text-xl font-semibold text-slate-900">Home Page</h1>
           <p className="text-slate-600">Welcome back, {user?.name}</p>
         </div>
       </div>
 
-      {/* Stats Grid - Smaller cards in one row */}
-      <div className="grid grid-cols-7 gap-3">
-        {stats.map((stat, index) => (
+      {/* Stats Grid - First Row */}
+      <div className="grid grid-cols-4 gap-4">
+        {firstRowStats.map((stat, index) => (
           <Card key={index} className="bg-white">
-            <CardContent className="p-4">
+            <CardContent className="p-5">
               <div className="flex items-center justify-between">
                 <div className="flex-1 min-w-0">
-                  <p className="text-xs font-medium text-slate-600 truncate">{stat.title}</p>
+                  <p className="text-sm font-medium text-slate-600 truncate">{stat.title}</p>
                   {stat.subtitle && (
                     <p className="text-xs text-slate-500 mt-1">{stat.subtitle}</p>
                   )}
-                  <p className="text-lg font-bold text-slate-900 mt-1">{stat.value}</p>
+                  <p className="text-xl font-bold text-slate-900 mt-2">{stat.value}</p>
                   {stat.change && (
                     <p className="text-xs text-slate-500 mt-1 truncate">{stat.change}</p>
                   )}
                 </div>
-                <stat.icon className={`h-6 w-6 ${stat.color} flex-shrink-0 ml-2`} />
+                <stat.icon className={`h-7 w-7 ${stat.color} flex-shrink-0 ml-3`} />
               </div>
             </CardContent>
           </Card>
         ))}
       </div>
 
-      {/* Dashboard Placeholders */}
+      {/* Stats Grid - Second Row */}
+      <div className="grid grid-cols-3 gap-4">
+        {secondRowStats.map((stat, index) => (
+          <Card key={index + 4} className="bg-white">
+            <CardContent className="p-5">
+              <div className="flex items-center justify-between">
+                <div className="flex-1 min-w-0">
+                  <p className="text-sm font-medium text-slate-600 truncate">{stat.title}</p>
+                  {stat.subtitle && (
+                    <p className="text-xs text-slate-500 mt-1">{stat.subtitle}</p>
+                  )}
+                  <p className="text-xl font-bold text-slate-900 mt-2">{stat.value}</p>
+                  {stat.change && (
+                    <p className="text-xs text-slate-500 mt-1 truncate">{stat.change}</p>
+                  )}
+                </div>
+                <stat.icon className={`h-7 w-7 ${stat.color} flex-shrink-0 ml-3`} />
+              </div>
+            </CardContent>
+          </Card>
+        ))}
+      </div>
+
+      {/* Dashboard Placeholders - 2 rows, 2 columns */}
       <div className="grid grid-cols-2 gap-6">
-        {/* First Row */}
         <Card className="bg-white border-2 border-dashed border-slate-300 h-64">
           <CardContent className="p-6 h-full flex items-center justify-center">
             <div className="text-center text-slate-500">
@@ -112,7 +138,6 @@ const HomePage = () => {
           </CardContent>
         </Card>
 
-        {/* Second Row */}
         <Card className="bg-white border-2 border-dashed border-slate-300 h-64">
           <CardContent className="p-6 h-full flex items-center justify-center">
             <div className="text-center text-slate-500">

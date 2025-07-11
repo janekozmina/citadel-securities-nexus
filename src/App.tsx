@@ -1,4 +1,3 @@
-
 import { Toaster } from "@/components/ui/toaster";
 import { Toaster as Sonner } from "@/components/ui/sonner";
 import { TooltipProvider } from "@/components/ui/tooltip";
@@ -23,6 +22,7 @@ import SystemAdminPage from "./pages/admin/SystemAdminPage";
 import SystemMonitoringPage from "./pages/admin/SystemMonitoringPage";
 import UserManagementPage from "./pages/admin/UserManagementPage";
 import ProtectedRoute from "./components/auth/ProtectedRoute";
+import OperationsPage from "./pages/operations/OperationsPage";
 
 const queryClient = new QueryClient();
 
@@ -42,6 +42,7 @@ const App = () => (
               </ProtectedRoute>
             }>
               <Route index element={<HomePage />} />
+              <Route path="operations" element={<OperationsPage />} />
               <Route path="securities" element={<SecuritiesLifecyclePage />} />
               <Route path="trading" element={<TradingPage />} />
               <Route path="clearing" element={<ClearingHubPage />} />
