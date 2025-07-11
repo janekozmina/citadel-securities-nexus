@@ -46,14 +46,16 @@ const ClearingManagerPage = () => {
 
   return (
     <TooltipProvider>
-      <div className="flex h-full">
-        <div className="flex-1 space-y-6 p-6">
-          <div className="flex items-center justify-between">
-            <div>
-              <h1 className="text-2xl font-bold text-slate-900">Clearing Manager</h1>
-              <p className="text-slate-600">Monitor and manage clearing operations</p>
-            </div>
+      <div className="space-y-6">
+        <div className="flex items-center justify-between">
+          <div>
+            <h1 className="text-2xl font-bold text-slate-900">Clearing Manager</h1>
+            <p className="text-slate-600">Monitor and manage clearing operations</p>
           </div>
+        </div>
+
+        <div className="flex h-full">
+          <div className="flex-1 space-y-6 pr-6">
 
           {/* Workflow Status Cards */}
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
@@ -133,6 +135,7 @@ const ClearingManagerPage = () => {
             </div>
           </div>
         </div>
+      </div>
       </div>
     </TooltipProvider>
   );

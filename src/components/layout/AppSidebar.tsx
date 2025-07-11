@@ -254,8 +254,8 @@ export function AppSidebar() {
                   <SidebarMenuButton
                     className={`flex items-center gap-3 px-3 py-2.5 rounded-lg transition-all duration-200 ${
                       isActive 
-                        ? 'bg-gradient-to-r from-blue-600 to-blue-700 text-white shadow-lg shadow-blue-500/25' 
-                        : 'text-slate-300 hover:bg-slate-700/50 hover:text-white'
+                        ? 'bg-white/20 text-white shadow-lg backdrop-blur-sm' 
+                        : 'text-white/80 hover:bg-white/10 hover:text-white'
                     } ${!isCollapsed ? 'mx-1' : 'mx-auto w-10 h-10 justify-center'}`}
                     tooltip={isCollapsed ? item.title : undefined}
                   >
@@ -283,8 +283,8 @@ export function AppSidebar() {
                               className={({ isActive }) => 
                                 `flex items-center gap-3 px-6 py-2 rounded-lg transition-all duration-200 ml-2 ${
                                   isActive 
-                                    ? 'bg-blue-600/80 text-white shadow-md' 
-                                    : 'text-slate-400 hover:bg-slate-700/50 hover:text-white'
+                                    ? 'bg-white/15 text-white shadow-md backdrop-blur-sm' 
+                                    : 'text-white/70 hover:bg-white/10 hover:text-white'
                                 }`
                               }
                             >
@@ -306,8 +306,8 @@ export function AppSidebar() {
                   className={({ isActive }) => 
                     `flex items-center gap-3 px-3 py-2.5 rounded-lg transition-all duration-200 ${
                       isActive 
-                        ? 'bg-gradient-to-r from-blue-600 to-blue-700 text-white shadow-lg shadow-blue-500/25' 
-                        : 'text-slate-300 hover:bg-slate-700/50 hover:text-white'
+                        ? 'bg-white/20 text-white shadow-lg backdrop-blur-sm' 
+                        : 'text-white/80 hover:bg-white/10 hover:text-white'
                     } ${!isCollapsed ? 'mx-1' : 'mx-auto w-10 h-10 justify-center'}`
                   }
                   title={item.title}
@@ -325,22 +325,23 @@ export function AppSidebar() {
 
   return (
     <Sidebar 
-      className="border-r border-slate-700 sidebar-gradient" 
+      className="border-r border-slate-700 w-[280px]" 
       collapsible="icon"
+      style={{ background: 'linear-gradient(135deg, #5335E1 0%, #8749F7 100%)' }}
     >
-      <SidebarContent className="bg-gradient-to-b from-slate-800 to-slate-900">
-        <div className="p-4 border-b border-slate-700/50">
+      <SidebarContent className="bg-transparent">
+        <div className="p-4 border-b border-white/20">
           {!isCollapsed && (
             <div className="space-y-1">
-              <h2 className="text-white font-bold text-lg bg-gradient-to-r from-blue-400 to-purple-400 bg-clip-text text-transparent">
+              <h2 className="text-white font-bold text-lg">
                 CSD Portal
               </h2>
-              <p className="text-slate-300 text-xs">Central Securities Depository</p>
+              <p className="text-white/80 text-xs">Central Securities Depository</p>
             </div>
           )}
           {isCollapsed && (
             <div className="flex justify-center">
-              <div className="w-8 h-8 bg-gradient-to-br from-blue-500 to-purple-600 rounded-lg flex items-center justify-center">
+              <div className="w-8 h-8 bg-white/20 rounded-lg flex items-center justify-center backdrop-blur-sm">
                 <span className="text-white font-bold text-sm">C</span>
               </div>
             </div>
@@ -355,7 +356,7 @@ export function AppSidebar() {
               onOpenChange={() => toggleGroup('main')}
             >
               <CollapsibleTrigger asChild>
-                <SidebarGroupLabel className="text-slate-300 hover:text-white cursor-pointer flex items-center justify-between px-3 py-2 rounded-lg transition-colors hover:bg-slate-700/50">
+                <SidebarGroupLabel className="text-white/70 hover:text-white cursor-pointer flex items-center justify-between px-3 py-2 rounded-lg transition-colors hover:bg-white/10">
                   <span className="text-xs font-medium tracking-wide">NAVIGATION</span>
                   {openGroups['main'] ? (
                     <ChevronDown className="h-3 w-3" />
@@ -387,7 +388,7 @@ export function AppSidebar() {
                 onOpenChange={() => toggleGroup('admin')}
               >
                 <CollapsibleTrigger asChild>
-                  <SidebarGroupLabel className="text-slate-300 hover:text-white cursor-pointer flex items-center justify-between px-3 py-2 rounded-lg transition-colors hover:bg-slate-700/50">
+                  <SidebarGroupLabel className="text-white/70 hover:text-white cursor-pointer flex items-center justify-between px-3 py-2 rounded-lg transition-colors hover:bg-white/10">
                     <span className="text-xs font-medium tracking-wide">ADMINISTRATION</span>
                     {openGroups['admin'] ? (
                       <ChevronDown className="h-3 w-3" />
