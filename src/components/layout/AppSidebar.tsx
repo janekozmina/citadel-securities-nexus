@@ -47,7 +47,7 @@ const navigationItems = [
   {
     title: 'Operations',
     url: '/operations',
-    roles: ['Admin', 'Issuer', 'Custodian', 'Broker', 'Participant'],
+    roles: ['Admin'],
     icon: Wrench
   },
   {
@@ -64,7 +64,7 @@ const navigationItems = [
   {
     title: 'Trading',
     url: '/trading',
-    roles: ['Admin', 'Custodian', 'Broker', 'Participant'],
+    roles: ['Admin', 'Custodian', 'Broker'],
     icon: TrendingUp,
     subItems: [
       { title: 'Trade Matching', url: '/trading' },
@@ -77,7 +77,7 @@ const navigationItems = [
   {
     title: 'Clearing Hub',
     url: '/clearing',
-    roles: ['Admin', 'Custodian', 'Broker', 'Participant'],
+    roles: ['Admin', 'Custodian', 'Broker'],
     icon: RefreshCw,
     subItems: [
       { title: 'Clearing Manager', url: '/clearing/manager' },
@@ -89,19 +89,19 @@ const navigationItems = [
   {
     title: 'Settlement Hub',
     url: '/settlement',
-    roles: ['Admin', 'Custodian', 'Broker', 'Participant'],
+    roles: ['Admin', 'Custodian', 'Broker'],
     icon: CreditCard
   },
   {
     title: 'Custody Hub',
     url: '/custody',
-    roles: ['Admin', 'Custodian', 'Broker', 'Participant'],
+    roles: ['Admin', 'Custodian', 'Broker'],
     icon: Vault
   },
   {
     title: 'Liquidity Hub',
     url: '/liquidity',
-    roles: ['Admin', 'Custodian'],
+    roles: ['Admin'],
     icon: Droplets,
     subItems: [
       { title: 'Tri-Party REPO Services', url: '/liquidity/tri-party-repo' },
@@ -113,19 +113,19 @@ const navigationItems = [
   {
     title: 'Risk Management',
     url: '/risk',
-    roles: ['Admin', 'Custodian', 'Broker', 'Participant', 'Issuer'],
+    roles: ['Admin'],
     icon: Shield
   },
   {
     title: 'Auction Management',
     url: '/auction',
-    roles: ['Admin', 'Custodian', 'Issuer'],
+    roles: ['Admin', 'Issuer'],
     icon: Gavel
   },
   {
     title: 'Reporting & Compliance',
     url: '/reporting',
-    roles: ['Admin', 'Custodian', 'Broker', 'Participant', 'Issuer'],
+    roles: ['Admin'],
     icon: FileText
   },
 ];
@@ -146,7 +146,7 @@ const adminItems = [
   {
     title: 'User Management',
     url: '/users',
-    roles: ['Admin', 'Regulator'],
+    roles: ['Admin'],
     icon: Users
   }
 ];
