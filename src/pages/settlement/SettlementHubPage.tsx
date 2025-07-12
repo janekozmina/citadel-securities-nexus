@@ -5,6 +5,7 @@ import { Badge } from '@/components/ui/badge';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { Input } from '@/components/ui/input';
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table';
+import { TooltipProvider } from '@/components/ui/tooltip';
 import { TrendingUp, Users, Clock, AlertCircle, Banknote, FileText, CheckCircle2, CircleSlash, ChevronsUpDown } from 'lucide-react';
 
 const SettlementHubPage = () => {
@@ -125,123 +126,133 @@ const SettlementHubPage = () => {
   };
 
   return (
-    <div className="space-y-6 bg-white">
-      <div className="flex items-center justify-between">
-        <div>
-          <h1 className="text-xl font-semibold text-slate-900">Settlement Hub</h1>
-          <p className="text-slate-600">Comprehensive settlement management and monitoring</p>
-        </div>
-      </div>
-
-      <div className="flex h-full">
-        <div className="flex-1 space-y-6 pr-6">
-          {/* Status Overview Cards */}
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
-            {statusCards.map((card) => (
-              <Card key={card.title} className="bg-white">
-                <CardContent className="p-6">
-                  <div className="flex items-center justify-between">
-                    <div>
-                      <p className="text-sm font-medium text-slate-600">{card.title}</p>
-                      <p className="text-2xl font-bold text-slate-900">{card.value}</p>
-                      <p className="text-sm text-slate-500 mt-1">{card.change}</p>
-                    </div>
-                    <card.icon className={`h-8 w-8 ${card.color}`} />
-                  </div>
-                </CardContent>
-              </Card>
-            ))}
+    <TooltipProvider>
+      <div className="space-y-6">
+        <div className="flex items-center justify-between">
+          <div>
+            <h1 className="text-2xl font-bold text-slate-900">Settlement Hub</h1>
+            <p className="text-slate-600">Comprehensive settlement management and monitoring</p>
           </div>
-          <Card className="bg-white">
-            <CardHeader>
-              <CardTitle>Settlement Instructions</CardTitle>
-              <div className="flex gap-2 mt-2">
-                <Select defaultValue="all" onValueChange={setStatus}>
-                  <SelectTrigger className="w-32">
-                    <SelectValue />
-                  </SelectTrigger>
-                  <SelectContent>
-                    <SelectItem value="all">All Status</SelectItem>
-                    <SelectItem value="pending">Pending</SelectItem>
-                    <SelectItem value="settled">Settled</SelectItem>
-                    <SelectItem value="failed">Failed</SelectItem>
-                  </SelectContent>
-                </Select>
-                <Select defaultValue="all" onValueChange={setPriority}>
-                  <SelectTrigger className="w-32">
-                    <SelectValue />
-                  </SelectTrigger>
-                  <SelectContent>
-                    <SelectItem value="all">All Priorities</SelectItem>
-                    <SelectItem value="high">High</SelectItem>
-                    <SelectItem value="medium">Medium</SelectItem>
-                    <SelectItem value="low">Low</SelectItem>
-                  </SelectContent>
-                </Select>
-                <Input placeholder="Search..." className="w-48" />
-              </div>
-            </CardHeader>
-            <CardContent>
-              <div className="w-full">
-                <Table>
-                  <TableHeader>
-                    <TableRow>
-                      <TableHead className="w-28">ID</TableHead>
-                      <TableHead className="w-32">Instruction</TableHead>
-                      <TableHead className="w-28">Counterparty</TableHead>
-                      <TableHead className="w-28">Security</TableHead>
-                      <TableHead className="w-20 text-right">Qty</TableHead>
-                      <TableHead className="w-24 text-right">Amount</TableHead>
-                      <TableHead className="w-16">Curr</TableHead>
-                      <TableHead className="w-20">Status</TableHead>
-                      <TableHead className="w-20">Priority</TableHead>
-                      <TableHead className="w-24">Settlement</TableHead>
-                    </TableRow>
-                  </TableHeader>
-                  <TableBody>
-                    {settlements.map((settlement) => (
-                      <TableRow key={settlement.id}>
-                        <TableCell className="font-mono text-xs">{settlement.id}</TableCell>
-                        <TableCell className="text-sm">{settlement.instruction}</TableCell>
-                        <TableCell className="text-sm">{settlement.counterparty}</TableCell>
-                        <TableCell className="font-mono text-xs">{settlement.security}</TableCell>
-                        <TableCell className="text-right text-sm">{settlement.quantity.toLocaleString()}</TableCell>
-                        <TableCell className="text-right text-sm">{settlement.amount.toLocaleString()}</TableCell>
-                        <TableCell className="text-sm">{settlement.currency}</TableCell>
-                        <TableCell>
-                          <Badge className={getStatusColor(settlement.status)}>
-                            {settlement.status}
-                          </Badge>
-                        </TableCell>
-                        <TableCell>
-                          <Badge className={getPriorityColor(settlement.priority)}>
-                            {settlement.priority}
-                          </Badge>
-                        </TableCell>
-                        <TableCell className="text-sm">{settlement.settlement_date}</TableCell>
-                      </TableRow>
-                    ))}
-                  </TableBody>
-                </Table>
-              </div>
-            </CardContent>
-          </Card>
         </div>
 
-        {/* Right Sidebar with Quick Actions */}
-        <div className="w-64 space-y-4">
-          <div className="bg-white border border-slate-200 rounded-lg p-4">
-            <h3 className="text-lg font-semibold text-slate-900 mb-4">Quick Actions</h3>
-            <div className="space-y-2">
-              <Button className="w-full justify-start">Process Settlements</Button>
-              <Button variant="outline" className="w-full justify-start">Generate Report</Button>
-              <Button variant="outline" className="w-full justify-start">Export Data</Button>
-              <Button variant="outline" className="w-full justify-start">Reconcile</Button>
+        <div className="flex h-full">
+          <div className="flex-1 space-y-6 pr-6">
+            {/* Status Overview Cards */}
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
+              {statusCards.map((card) => (
+                <Card key={card.title}>
+                  <CardContent className="p-4">
+                    <div className="text-sm font-medium text-slate-600 mb-2">{card.title}</div>
+                    <div className="space-y-1">
+                      <div className="flex justify-between text-sm">
+                        <span className="text-green-600">Value:</span>
+                        <span className="font-medium">{card.value}</span>
+                      </div>
+                      <div className="flex justify-between text-sm">
+                        <span className="text-slate-600">Change:</span>
+                        <span className="font-medium">{card.change}</span>
+                      </div>
+                      <div className="flex justify-between text-sm">
+                        <span className="text-blue-600">Status:</span>
+                        <card.icon className={`h-4 w-4 ${card.color}`} />
+                      </div>
+                    </div>
+                  </CardContent>
+                </Card>
+              ))}
+            </div>
+            {/* Settlement Instructions */}
+            <Card>
+              <CardHeader>
+                <CardTitle>Settlement Instructions</CardTitle>
+                <div className="flex gap-2 mt-2">
+                  <Select defaultValue="all" onValueChange={setStatus}>
+                    <SelectTrigger className="w-32">
+                      <SelectValue />
+                    </SelectTrigger>
+                    <SelectContent>
+                      <SelectItem value="all">All Status</SelectItem>
+                      <SelectItem value="pending">Pending</SelectItem>
+                      <SelectItem value="settled">Settled</SelectItem>
+                      <SelectItem value="failed">Failed</SelectItem>
+                    </SelectContent>
+                  </Select>
+                  <Select defaultValue="all" onValueChange={setPriority}>
+                    <SelectTrigger className="w-32">
+                      <SelectValue />
+                    </SelectTrigger>
+                    <SelectContent>
+                      <SelectItem value="all">All Priorities</SelectItem>
+                      <SelectItem value="high">High</SelectItem>
+                      <SelectItem value="medium">Medium</SelectItem>
+                      <SelectItem value="low">Low</SelectItem>
+                    </SelectContent>
+                  </Select>
+                  <Input placeholder="Search..." className="w-48" />
+                </div>
+              </CardHeader>
+              <CardContent>
+                <div className="overflow-x-auto">
+                  <table className="w-full border-collapse">
+                    <thead>
+                      <tr className="border-b">
+                        <th className="text-left p-3 font-semibold">ID</th>
+                        <th className="text-left p-3 font-semibold">Instruction</th>
+                        <th className="text-left p-3 font-semibold">Counterparty</th>
+                        <th className="text-left p-3 font-semibold">Security</th>
+                        <th className="text-left p-3 font-semibold">Qty</th>
+                        <th className="text-left p-3 font-semibold">Amount</th>
+                        <th className="text-left p-3 font-semibold">Curr</th>
+                        <th className="text-left p-3 font-semibold">Status</th>
+                        <th className="text-left p-3 font-semibold">Priority</th>
+                        <th className="text-left p-3 font-semibold">Settlement</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      {settlements.map((settlement) => (
+                        <tr key={settlement.id} className="border-b hover:bg-slate-50">
+                          <td className="p-3 font-mono text-xs">{settlement.id}</td>
+                          <td className="p-3 text-sm">{settlement.instruction}</td>
+                          <td className="p-3 text-sm">{settlement.counterparty}</td>
+                          <td className="p-3 font-mono text-xs">{settlement.security}</td>
+                          <td className="p-3 text-right text-sm">{settlement.quantity.toLocaleString()}</td>
+                          <td className="p-3 text-right text-sm">{settlement.amount.toLocaleString()}</td>
+                          <td className="p-3 text-sm">{settlement.currency}</td>
+                          <td className="p-3">
+                            <Badge className={getStatusColor(settlement.status)}>
+                              {settlement.status}
+                            </Badge>
+                          </td>
+                          <td className="p-3">
+                            <Badge className={getPriorityColor(settlement.priority)}>
+                              {settlement.priority}
+                            </Badge>
+                          </td>
+                          <td className="p-3 text-sm">{settlement.settlement_date}</td>
+                        </tr>
+                      ))}
+                    </tbody>
+                  </table>
+                </div>
+              </CardContent>
+            </Card>
+        </div>
+
+          {/* Right Sidebar with Quick Actions */}
+          <div className="w-64 space-y-4">
+            <div className="bg-white border border-slate-200 rounded-lg p-4">
+              <h3 className="font-semibold text-slate-900 mb-4">Quick Actions</h3>
+              <div className="space-y-2">
+                <Button className="w-full justify-start">Process Settlements</Button>
+                <Button variant="outline" className="w-full justify-start">Generate Report</Button>
+                <Button variant="outline" className="w-full justify-start">Export Data</Button>
+                <Button variant="outline" className="w-full justify-start">Reconcile</Button>
+              </div>
             </div>
           </div>
         </div>
       </div>
-    </div>
+    </TooltipProvider>
   );
 };
 

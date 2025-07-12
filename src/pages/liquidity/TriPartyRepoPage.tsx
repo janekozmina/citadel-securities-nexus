@@ -84,62 +84,95 @@ const TriPartyRepoPage = () => {
 
   return (
     <TooltipProvider>
-      <div className="flex h-full">
-        <div className="flex-1 space-y-6 p-6">
-          <div className="flex items-center justify-between">
-            <div>
-              <h1 className="text-xl font-semibold text-slate-900">Tri-Party REPO Services</h1>
-              <p className="text-slate-600">Comprehensive collateral management and repo operations</p>
-            </div>
+      <div className="space-y-6">
+        <div className="flex items-center justify-between">
+          <div>
+            <h1 className="text-2xl font-bold text-slate-900">Tri-Party REPO Services</h1>
+            <p className="text-slate-600">Comprehensive collateral management and repo operations</p>
           </div>
+        </div>
 
-          {/* Summary Cards */}
-          <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
-            <Card>
-              <CardContent className="p-4">
-                <div className="flex items-center justify-between">
-                  <div>
-                    <p className="text-sm font-medium text-slate-600">Total Exposure</p>
-                    <p className="text-2xl font-bold">${(repoData.totalExposure / 1000000000).toFixed(1)}B</p>
+        <div className="flex h-full">
+          <div className="flex-1 space-y-6 pr-6">
+            {/* Summary Cards */}
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
+              <Card>
+                <CardContent className="p-4">
+                  <div className="text-sm font-medium text-slate-600 mb-2">Total Exposure</div>
+                  <div className="space-y-1">
+                    <div className="flex justify-between text-sm">
+                      <span className="text-green-600">Value:</span>
+                      <span className="font-medium">${(repoData.totalExposure / 1000000000).toFixed(1)}B</span>
+                    </div>
+                    <div className="flex justify-between text-sm">
+                      <span className="text-slate-600">Active REPOs:</span>
+                      <span className="font-medium">{repoData.activeRepos}</span>
+                    </div>
+                    <div className="flex justify-between text-sm">
+                      <span className="text-blue-600">Status:</span>
+                      <Shield className="h-4 w-4 text-blue-600" />
+                    </div>
                   </div>
-                  <Shield className="h-8 w-8 text-blue-600" />
-                </div>
-              </CardContent>
-            </Card>
-            <Card>
-              <CardContent className="p-4">
-                <div className="flex items-center justify-between">
-                  <div>
-                    <p className="text-sm font-medium text-slate-600">Active REPOs</p>
-                    <p className="text-2xl font-bold">{repoData.activeRepos}</p>
+                </CardContent>
+              </Card>
+              <Card>
+                <CardContent className="p-4">
+                  <div className="text-sm font-medium text-slate-600 mb-2">Active REPOs</div>
+                  <div className="space-y-1">
+                    <div className="flex justify-between text-sm">
+                      <span className="text-green-600">Count:</span>
+                      <span className="font-medium">{repoData.activeRepos}</span>
+                    </div>
+                    <div className="flex justify-between text-sm">
+                      <span className="text-slate-600">Avg Maturity:</span>
+                      <span className="font-medium">{repoData.avgMaturity} days</span>
+                    </div>
+                    <div className="flex justify-between text-sm">
+                      <span className="text-blue-600">Status:</span>
+                      <TrendingUp className="h-4 w-4 text-green-600" />
+                    </div>
                   </div>
-                  <TrendingUp className="h-8 w-8 text-green-600" />
-                </div>
-              </CardContent>
-            </Card>
-            <Card>
-              <CardContent className="p-4">
-                <div className="flex items-center justify-between">
-                  <div>
-                    <p className="text-sm font-medium text-slate-600">Active Margin Calls</p>
-                    <p className="text-2xl font-bold text-red-600">{repoData.marginCallsActive}</p>
+                </CardContent>
+              </Card>
+              <Card>
+                <CardContent className="p-4">
+                  <div className="text-sm font-medium text-slate-600 mb-2">Active Margin Calls</div>
+                  <div className="space-y-1">
+                    <div className="flex justify-between text-sm">
+                      <span className="text-red-600">Count:</span>
+                      <span className="font-medium">{repoData.marginCallsActive}</span>
+                    </div>
+                    <div className="flex justify-between text-sm">
+                      <span className="text-slate-600">Status:</span>
+                      <span className="font-medium">Active</span>
+                    </div>
+                    <div className="flex justify-between text-sm">
+                      <span className="text-blue-600">Alert:</span>
+                      <AlertTriangle className="h-4 w-4 text-red-600" />
+                    </div>
                   </div>
-                  <AlertTriangle className="h-8 w-8 text-red-600" />
-                </div>
-              </CardContent>
-            </Card>
-            <Card>
-              <CardContent className="p-4">
-                <div className="flex items-center justify-between">
-                  <div>
-                    <p className="text-sm font-medium text-slate-600">Avg Maturity</p>
-                    <p className="text-2xl font-bold">{repoData.avgMaturity} days</p>
+                </CardContent>
+              </Card>
+              <Card>
+                <CardContent className="p-4">
+                  <div className="text-sm font-medium text-slate-600 mb-2">Avg Maturity</div>
+                  <div className="space-y-1">
+                    <div className="flex justify-between text-sm">
+                      <span className="text-green-600">Days:</span>
+                      <span className="font-medium">{repoData.avgMaturity}</span>
+                    </div>
+                    <div className="flex justify-between text-sm">
+                      <span className="text-slate-600">Exposure:</span>
+                      <span className="font-medium">${(repoData.totalExposure / 1000000000).toFixed(1)}B</span>
+                    </div>
+                    <div className="flex justify-between text-sm">
+                      <span className="text-blue-600">Monitor:</span>
+                      <Clock className="h-4 w-4 text-purple-600" />
+                    </div>
                   </div>
-                  <Clock className="h-8 w-8 text-purple-600" />
-                </div>
-              </CardContent>
-            </Card>
-          </div>
+                </CardContent>
+              </Card>
+            </div>
 
           {/* Repo Exposure Monitor & Margin Call Dashboard */}
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
@@ -317,16 +350,17 @@ const TriPartyRepoPage = () => {
           </Card>
         </div>
 
-        {/* Right Sidebar with Quick Actions */}
-        <div className="w-64 space-y-4">
-          <div className="bg-white border border-slate-200 rounded-lg p-4">
-            <h3 className="font-semibold text-slate-900 mb-4">Quick Actions</h3>
-            <div className="space-y-2">
-              <Button className="w-full justify-start">Initiate New Tri-Party Repo</Button>
-              <Button variant="outline" className="w-full justify-start">Accept/Reject Collateral Sub</Button>
-              <Button variant="outline" className="w-full justify-start">Trigger Margin Call</Button>
-              <Button variant="outline" className="w-full justify-start">Download Exposure Reconciliation</Button>
-              <Button variant="outline" className="w-full justify-start">Risk Limit Monitoring</Button>
+          {/* Right Sidebar with Quick Actions */}
+          <div className="w-64 space-y-4">
+            <div className="bg-white border border-slate-200 rounded-lg p-4">
+              <h3 className="font-semibold text-slate-900 mb-4">Quick Actions</h3>
+              <div className="space-y-2">
+                <Button className="w-full justify-start">Initiate New Tri-Party Repo</Button>
+                <Button variant="outline" className="w-full justify-start">Accept/Reject Collateral Sub</Button>
+                <Button variant="outline" className="w-full justify-start">Trigger Margin Call</Button>
+                <Button variant="outline" className="w-full justify-start">Download Exposure Reconciliation</Button>
+                <Button variant="outline" className="w-full justify-start">Risk Limit Monitoring</Button>
+              </div>
             </div>
           </div>
         </div>

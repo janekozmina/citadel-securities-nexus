@@ -3,6 +3,7 @@ import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Progress } from '@/components/ui/progress';
 import { Badge } from '@/components/ui/badge';
+import { TooltipProvider } from '@/components/ui/tooltip';
 import { 
   TrendingUp, 
   Building,
@@ -55,158 +56,159 @@ const CustodyHubPage = () => {
   ];
 
   return (
-    <div className="space-y-6">
-      <div className="flex items-center justify-between">
-        <div>
-          <h1 className="text-3xl font-bold text-slate-900">Custody Hub</h1>
-          <p className="text-slate-600">Real-time custody operations dashboard</p>
-        </div>
-      </div>
-
-      <div className="flex gap-6">
-        {/* Main Content Area */}
-        <div className="flex-1 space-y-6">
-          <div className="grid grid-cols-1 lg:grid-cols-2 xl:grid-cols-3 gap-6">
-            {/* Securities Settled Today */}
-            <Card>
-              <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-                <CardTitle className="text-sm font-medium">📄 Securities Settled Today</CardTitle>
-                <RefreshCw className="h-4 w-4 text-muted-foreground" />
-              </CardHeader>
-              <CardContent>
-                <div className="space-y-2">
-                  <div className="text-2xl font-bold">{todaySettlements.volume.toLocaleString()}</div>
-                  <p className="text-xs text-muted-foreground">Volume (securities)</p>
-                  <div className="text-xl font-semibold text-green-600">
-                    AED {(todaySettlements.value / 1000000).toFixed(1)}M
-                  </div>
-                  <p className="text-xs text-muted-foreground">Market Value</p>
-                </div>
-              </CardContent>
-            </Card>
-
-            {/* Settlement Rate */}
-            <Card>
-              <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-                <CardTitle className="text-sm font-medium">📊 Settlement Rate</CardTitle>
-              </CardHeader>
-              <CardContent>
-                <div className="space-y-3">
-                  <div className="flex justify-between items-center">
-                    <span className="text-sm">DvP Success</span>
-                    <span className="text-sm font-semibold text-green-600">{settlementRate.dvp}%</span>
-                  </div>
-                  <Progress value={settlementRate.dvp} className="h-2" />
-                  
-                  <div className="flex justify-between items-center">
-                    <span className="text-sm">Fails</span>
-                    <span className="text-sm font-semibold text-red-600">{settlementRate.fails}%</span>
-                  </div>
-                  <Progress value={settlementRate.fails} className="h-2" />
-                  
-                  <div className="flex justify-between items-center">
-                    <span className="text-sm">Partial</span>
-                    <span className="text-sm font-semibold text-yellow-600">{settlementRate.partial}%</span>
-                  </div>
-                  <Progress value={settlementRate.partial} className="h-2" />
-                </div>
-              </CardContent>
-            </Card>
-
-            {/* Daily Trend */}
-            <Card className="lg:col-span-2 xl:col-span-1">
-              <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-                <CardTitle className="text-sm font-medium">📈 Daily Trend</CardTitle>
-                <TrendingUp className="h-4 w-4 text-muted-foreground" />
-              </CardHeader>
-              <CardContent>
-                <div className="space-y-2">
-                  {dailyTrend.slice(-3).map((day, index) => (
-                    <div key={day.date} className="flex justify-between items-center text-sm">
-                      <span>{day.date}</span>
-                      <div className="flex gap-2">
-                        <Badge variant="outline" className="text-xs">
-                          S: {day.submitted}
-                        </Badge>
-                        <Badge variant="default" className="text-xs">
-                          C: {day.settled}
-                        </Badge>
-                      </div>
-                    </div>
-                  ))}
-                </div>
-              </CardContent>
-            </Card>
-          </div>
-
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-            {/* Top 5 Asset Classes */}
-            <Card>
-              <CardHeader>
-                <CardTitle className="text-lg">📄 Top 5 Asset Classes by Volume</CardTitle>
-              </CardHeader>
-              <CardContent>
-                <div className="space-y-3">
-                  {topAssetClasses.map((asset, index) => (
-                    <div key={asset.isin} className="flex items-center justify-between">
-                      <div className="flex-1">
-                        <div className="font-medium text-sm">{asset.name}</div>
-                        <div className="text-xs text-muted-foreground">ISIN: {asset.isin}</div>
-                      </div>
-                      <div className="text-right">
-                        <div className="font-semibold">AED {(asset.volume / 1000000).toFixed(1)}M</div>
-                        <Badge variant="outline" className="text-xs">#{index + 1}</Badge>
-                      </div>
-                    </div>
-                  ))}
-                </div>
-              </CardContent>
-            </Card>
-
-            {/* Top 5 Participants */}
-            <Card>
-              <CardHeader>
-                <CardTitle className="text-lg">🏦 Top 5 Participants by Volume</CardTitle>
-              </CardHeader>
-              <CardContent>
-                <div className="space-y-3">
-                  {topParticipants.map((participant, index) => (
-                    <div key={participant.name} className="flex items-center justify-between">
-                      <div className="flex items-center gap-3">
-                        <div className="w-8 h-8 bg-blue-100 rounded-full flex items-center justify-center">
-                          <Building className="h-4 w-4 text-blue-600" />
-                        </div>
-                        <span className="font-medium">{participant.name}</span>
-                      </div>
-                      <div className="text-right">
-                        <div className="font-semibold">AED {(participant.volume / 1000000).toFixed(1)}M</div>
-                        <Badge variant="outline" className="text-xs">#{index + 1}</Badge>
-                      </div>
-                    </div>
-                  ))}
-                </div>
-              </CardContent>
-            </Card>
+    <TooltipProvider>
+      <div className="space-y-6">
+        <div className="flex items-center justify-between">
+          <div>
+            <h1 className="text-2xl font-bold text-slate-900">Custody Hub</h1>
+            <p className="text-slate-600">Real-time custody operations dashboard</p>
           </div>
         </div>
 
-        {/* Right Side Quick Actions */}
-        <div className="w-64 space-y-4">
-          <div className="bg-white border border-slate-200 rounded-lg p-4">
-            <h3 className="font-semibold text-slate-900 mb-4">Quick Actions</h3>
-            <div className="space-y-2">
-              <Button className="w-full justify-start">View Holdings</Button>
-              <Button variant="outline" className="w-full justify-start">Holdings History</Button>
-              <Button variant="outline" className="w-full justify-start">Manage Pledges</Button>
-              <Button variant="outline" className="w-full justify-start">Collateral Locks</Button>
-              <Button variant="outline" className="w-full justify-start">Lending Operations</Button>
-              <Button variant="outline" className="w-full justify-start">Manage Sub-Balances</Button>
-              <Button variant="outline" className="w-full justify-start">Beneficial Ownership</Button>
+        <div className="flex h-full">
+          <div className="flex-1 space-y-6 pr-6">
+            {/* Dashboard Cards */}
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+              {/* Securities Settled Today */}
+              <Card>
+                <CardContent className="p-4">
+                  <div className="text-sm font-medium text-slate-600 mb-2">Securities Settled Today</div>
+                  <div className="space-y-1">
+                    <div className="flex justify-between text-sm">
+                      <span className="text-green-600">Volume:</span>
+                      <span className="font-medium">{todaySettlements.volume.toLocaleString()}</span>
+                    </div>
+                    <div className="flex justify-between text-sm">
+                      <span className="text-slate-600">Market Value:</span>
+                      <span className="font-medium">AED {(todaySettlements.value / 1000000).toFixed(1)}M</span>
+                    </div>
+                    <div className="flex justify-between text-sm">
+                      <span className="text-blue-600">Status:</span>
+                      <RefreshCw className="h-4 w-4 text-blue-600" />
+                    </div>
+                  </div>
+                </CardContent>
+              </Card>
+
+              {/* Settlement Rate */}
+              <Card>
+                <CardContent className="p-4">
+                  <div className="text-sm font-medium text-slate-600 mb-2">Settlement Rate</div>
+                  <div className="space-y-1">
+                    <div className="flex justify-between text-sm">
+                      <span className="text-green-600">DvP Success:</span>
+                      <span className="font-medium">{settlementRate.dvp}%</span>
+                    </div>
+                    <div className="flex justify-between text-sm">
+                      <span className="text-red-600">Fails:</span>
+                      <span className="font-medium">{settlementRate.fails}%</span>
+                    </div>
+                    <div className="flex justify-between text-sm">
+                      <span className="text-yellow-600">Partial:</span>
+                      <span className="font-medium">{settlementRate.partial}%</span>
+                    </div>
+                  </div>
+                </CardContent>
+              </Card>
+
+              {/* Daily Trend */}
+              <Card>
+                <CardContent className="p-4">
+                  <div className="text-sm font-medium text-slate-600 mb-2">Daily Trend</div>
+                  <div className="space-y-1">
+                    {dailyTrend.slice(-3).map((day, index) => (
+                      <div key={day.date} className="flex justify-between text-sm">
+                        <span className="text-slate-600">{day.date}:</span>
+                        <span className="font-medium">{day.settled}</span>
+                      </div>
+                    ))}
+                  </div>
+                </CardContent>
+              </Card>
+            </div>
+
+            {/* Dashboard Tables */}
+            <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+              {/* Top 5 Asset Classes */}
+              <Card>
+                <CardHeader>
+                  <CardTitle>Top 5 Asset Classes by Volume</CardTitle>
+                </CardHeader>
+                <CardContent>
+                  <div className="overflow-x-auto">
+                    <table className="w-full border-collapse">
+                      <thead>
+                        <tr className="border-b">
+                          <th className="text-left p-3 font-semibold">Asset</th>
+                          <th className="text-left p-3 font-semibold">ISIN</th>
+                          <th className="text-left p-3 font-semibold">Volume</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        {topAssetClasses.map((asset, index) => (
+                          <tr key={asset.isin} className="border-b hover:bg-slate-50">
+                            <td className="p-3 font-medium">{asset.name}</td>
+                            <td className="p-3 text-sm">{asset.isin}</td>
+                            <td className="p-3">AED {(asset.volume / 1000000).toFixed(1)}M</td>
+                          </tr>
+                        ))}
+                      </tbody>
+                    </table>
+                  </div>
+                </CardContent>
+              </Card>
+
+              {/* Top 5 Participants */}
+              <Card>
+                <CardHeader>
+                  <CardTitle>Top 5 Participants by Volume</CardTitle>
+                </CardHeader>
+                <CardContent>
+                  <div className="overflow-x-auto">
+                    <table className="w-full border-collapse">
+                      <thead>
+                        <tr className="border-b">
+                          <th className="text-left p-3 font-semibold">Participant</th>
+                          <th className="text-left p-3 font-semibold">Volume</th>
+                          <th className="text-left p-3 font-semibold">Rank</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        {topParticipants.map((participant, index) => (
+                          <tr key={participant.name} className="border-b hover:bg-slate-50">
+                            <td className="p-3 font-medium">{participant.name}</td>
+                            <td className="p-3">AED {(participant.volume / 1000000).toFixed(1)}M</td>
+                            <td className="p-3">
+                              <Badge variant="outline">#{index + 1}</Badge>
+                            </td>
+                          </tr>
+                        ))}
+                      </tbody>
+                    </table>
+                  </div>
+                </CardContent>
+              </Card>
+            </div>
+          </div>
+
+          {/* Right Sidebar with Quick Actions */}
+          <div className="w-64 space-y-4">
+            <div className="bg-white border border-slate-200 rounded-lg p-4">
+              <h3 className="font-semibold text-slate-900 mb-4">Quick Actions</h3>
+              <div className="space-y-2">
+                <Button className="w-full justify-start">View Holdings</Button>
+                <Button variant="outline" className="w-full justify-start">Holdings History</Button>
+                <Button variant="outline" className="w-full justify-start">Manage Pledges</Button>
+                <Button variant="outline" className="w-full justify-start">Collateral Locks</Button>
+                <Button variant="outline" className="w-full justify-start">Lending Operations</Button>
+                <Button variant="outline" className="w-full justify-start">Manage Sub-Balances</Button>
+                <Button variant="outline" className="w-full justify-start">Beneficial Ownership</Button>
+              </div>
             </div>
           </div>
         </div>
       </div>
-    </div>
+    </TooltipProvider>
   );
 };
 
