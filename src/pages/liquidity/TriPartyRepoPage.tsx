@@ -306,7 +306,7 @@ const TriPartyRepoPage = () => {
                 <Button className="w-full justify-start">Initiate New Tri-Party Repo</Button>
                 <Button variant="outline" className="w-full justify-start">Accept/Reject Collateral Sub</Button>
                 <Button variant="outline" className="w-full justify-start">Trigger Margin Call</Button>
-                <Button variant="outline" className="w-full justify-start">Download Exposure Reconciliation</Button>
+                
                 <Button variant="outline" className="w-full justify-start">Risk Limit Monitoring</Button>
               </div>
             </div>

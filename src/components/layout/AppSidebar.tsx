@@ -114,12 +114,7 @@ const navigationItems = [
     title: 'Risk Management',
     url: '/risk',
     roles: ['Admin', 'Custodian', 'Broker', 'Participant', 'Issuer'],
-    icon: Shield,
-    subItems: [
-      { title: 'Risk Monitoring', url: '/risk/monitoring' },
-      { title: 'Stress Testing', url: '/risk/stress-testing' },
-      { title: 'Compliance Check', url: '/risk/compliance' }
-    ]
+    icon: Shield
   },
   {
     title: 'Auction Management',

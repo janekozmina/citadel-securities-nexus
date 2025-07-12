@@ -40,20 +40,6 @@ const CollateralOptimizationPage = () => {
       { asset: 'Covered Bonds', ccp1: 'Restricted', ccp2: 'Eligible', ccp3: 'Eligible', haircut1: 8.0, haircut2: 6.5, haircut3: 7.0, recommendation: 'Diversify Usage' },
       { asset: 'Agency MBS', ccp1: 'Eligible', ccp2: 'Ineligible', ccp3: 'Restricted', haircut1: 12.0, haircut2: 0.0, haircut3: 15.0, recommendation: 'Limited Use' }
     ],
-    efficiencyTrends: [
-      { date: '07-06', efficiency: 87.2, target: 90.0, savings: 28500000 },
-      { date: '07-07', efficiency: 88.9, target: 90.0, savings: 32100000 },
-      { date: '07-08', efficiency: 90.1, target: 90.0, savings: 35800000 },
-      { date: '07-09', efficiency: 92.7, target: 90.0, savings: 36900000 },
-      { date: '07-10', efficiency: 94.7, target: 90.0, savings: 38500000 }
-    ],
-    reuseMetrics: [
-      { date: '07-06', currentReuse: 3.2, optimalReuse: 4.1, improvement: 28.1 },
-      { date: '07-07', currentReuse: 3.4, optimalReuse: 4.2, improvement: 23.5 },
-      { date: '07-08', currentReuse: 3.7, optimalReuse: 4.3, improvement: 16.2 },
-      { date: '07-09', currentReuse: 3.9, optimalReuse: 4.4, improvement: 12.8 },
-      { date: '07-10', currentReuse: 4.1, optimalReuse: 4.5, improvement: 9.8 }
-    ],
     scenarioAnalysis: [
       { scenario: 'Stress Test - Market Shock', currentCost: 245000, optimizedCost: 198000, savings: 47000, riskIncrease: 15.2 },
       { scenario: 'Rate Hike - 200bp', currentCost: 298000, optimizedCost: 242000, savings: 56000, riskIncrease: 8.7 },
@@ -88,13 +74,6 @@ const CollateralOptimizationPage = () => {
     return 'text-blue-600';
   };
 
-  const getUtilizationStatus = (utilization: number) => {
-    if (utilization >= 90) return 'Overused';
-    if (utilization >= 80) return 'High';
-    if (utilization >= 40) return 'Optimal';
-    return 'Underused';
-  };
-
   const getEligibilityBadge = (status: string) => {
     switch (status) {
       case 'Eligible': return <Badge className="bg-green-100 text-green-800">Eligible</Badge>;
@@ -112,361 +91,347 @@ const CollateralOptimizationPage = () => {
 
   return (
     <TooltipProvider>
-      <div className="flex h-full">
-        <div className="flex-1 space-y-6 p-6">
-          <div className="flex items-center justify-between">
-            <div>
-              <h1 className="text-xl font-semibold text-slate-900">Collateral Optimization AI</h1>
-              <p className="text-slate-600">AI-powered collateral management and optimization</p>
-            </div>
+      <div className="space-y-6">
+        <div className="flex items-center justify-between">
+          <div>
+            <h1 className="text-2xl font-bold text-slate-900">Collateral Optimization AI</h1>
+            <p className="text-slate-600">AI-powered collateral management and optimization</p>
           </div>
-
-          {/* Summary Cards */}
-          <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
-            <Card>
-              <CardContent className="p-4">
-                <div className="flex items-center justify-between">
-                  <div>
-                    <p className="text-sm font-medium text-slate-600">Total Collateral</p>
-                    <p className="text-2xl font-bold">${(optimizationData.totalCollateral / 1000000000).toFixed(1)}B</p>
-                  </div>
-                  <BarChart3 className="h-8 w-8 text-blue-600" />
-                </div>
-              </CardContent>
-            </Card>
-            <Card>
-              <CardContent className="p-4">
-                <div className="flex items-center justify-between">
-                  <div>
-                    <p className="text-sm font-medium text-slate-600">Optimization Score</p>
-                    <p className="text-2xl font-bold text-green-600">{optimizationData.optimizationScore}</p>
-                  </div>
-                  <Target className="h-8 w-8 text-green-600" />
-                </div>
-              </CardContent>
-            </Card>
-            <Card>
-              <CardContent className="p-4">
-                <div className="flex items-center justify-between">
-                  <div>
-                    <p className="text-sm font-medium text-slate-600">Cost Savings</p>
-                    <p className="text-2xl font-bold">${(optimizationData.costSavings / 1000000).toFixed(1)}M</p>
-                  </div>
-                  <TrendingUp className="h-8 w-8 text-purple-600" />
-                </div>
-              </CardContent>
-            </Card>
-            <Card>
-              <CardContent className="p-4">
-                <div className="flex items-center justify-between">
-                  <div>
-                    <p className="text-sm font-medium text-slate-600">AI Efficiency</p>
-                    <p className="text-2xl font-bold">{optimizationData.efficiency}%</p>
-                  </div>
-                  <Brain className="h-8 w-8 text-orange-600" />
-                </div>
-              </CardContent>
-            </Card>
-          </div>
-
-          {/* Optimization Efficiency Score & Collateral Reuse Rate */}
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-            <Card>
-              <CardHeader>
-                <CardTitle>Optimization Efficiency Trends</CardTitle>
-              </CardHeader>
-              <CardContent>
-                <ChartContainer config={chartConfig} className="h-80">
-                  <ResponsiveContainer width="100%" height="100%">
-                    <LineChart data={optimizationData.efficiencyTrends}>
-                      <XAxis dataKey="date" />
-                      <YAxis domain={[80, 100]} tickFormatter={(value) => `${value}%`} />
-                      <ChartTooltip content={<ChartTooltipContent />} />
-                      <Line 
-                        type="monotone" 
-                        dataKey="efficiency" 
-                        stroke="var(--color-efficiency)" 
-                        strokeWidth={3}
-                      />
-                      <Line 
-                        type="monotone" 
-                        dataKey="target" 
-                        stroke="var(--color-target)" 
-                        strokeWidth={2}
-                        strokeDasharray="5 5"
-                      />
-                    </LineChart>
-                  </ResponsiveContainer>
-                </ChartContainer>
-              </CardContent>
-            </Card>
-
-            <Card>
-              <CardHeader>
-                <CardTitle>Collateral Reuse Rate Improvement</CardTitle>
-              </CardHeader>
-              <CardContent>
-                <ChartContainer config={chartConfig} className="h-80">
-                  <ResponsiveContainer width="100%" height="100%">
-                    <LineChart data={optimizationData.reuseMetrics}>
-                      <XAxis dataKey="date" />
-                      <YAxis domain={[3.0, 4.6]} tickFormatter={(value) => `${value}x`} />
-                      <ChartTooltip content={<ChartTooltipContent />} />
-                      <Line 
-                        type="monotone" 
-                        dataKey="currentReuse" 
-                        stroke="var(--color-currentReuse)" 
-                        strokeWidth={2}
-                      />
-                      <Line 
-                        type="monotone" 
-                        dataKey="optimalReuse" 
-                        stroke="var(--color-optimalReuse)" 
-                        strokeWidth={2}
-                        strokeDasharray="5 5"
-                      />
-                    </LineChart>
-                  </ResponsiveContainer>
-                </ChartContainer>
-              </CardContent>
-            </Card>
-          </div>
-
-          {/* Current vs Optimal Collateral Distribution */}
-          <Card>
-            <CardHeader>
-              <CardTitle>Current vs Optimal Collateral Distribution</CardTitle>
-            </CardHeader>
-            <CardContent>
-              <div className="overflow-x-auto">
-                <table className="w-full border-collapse">
-                  <thead>
-                    <tr className="border-b">
-                      <th className="text-left p-3 font-semibold">Asset Type</th>
-                      <th className="text-left p-3 font-semibold">Current</th>
-                      <th className="text-left p-3 font-semibold">Optimal</th>
-                      <th className="text-left p-3 font-semibold">Cost/Day</th>
-                      <th className="text-left p-3 font-semibold">Eligibility</th>
-                      <th className="text-left p-3 font-semibold">Liquidity</th>
-                      <th className="text-left p-3 font-semibold">Predicted Savings</th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    {optimizationData.collateralDistribution.map((item, index) => (
-                      <tr key={index} className="border-b hover:bg-slate-50">
-                        <td className="p-3 font-medium">{item.type}</td>
-                        <td className="p-3">${(item.current / 1000000000).toFixed(1)}B</td>
-                        <td className="p-3">${(item.optimal / 1000000000).toFixed(1)}B</td>
-                        <td className="p-3">${item.cost.toLocaleString()}</td>
-                        <td className="p-3">
-                          <Badge className={item.eligibility === 'High' ? 'bg-green-100 text-green-800' : 'bg-yellow-100 text-yellow-800'}>
-                            {item.eligibility}
-                          </Badge>
-                        </td>
-                        <td className="p-3">
-                          <Badge className={item.liquidity === 'High' ? 'bg-green-100 text-green-800' : 'bg-yellow-100 text-yellow-800'}>
-                            {item.liquidity}
-                          </Badge>
-                        </td>
-                        <td className="p-3 font-medium text-green-600">
-                          ${(item.savings / 1000000).toFixed(1)}M
-                        </td>
-                      </tr>
-                    ))}
-                  </tbody>
-                </table>
-              </div>
-            </CardContent>
-          </Card>
-
-          {/* Asset Utilization Heatmap */}
-          <Card>
-            <CardHeader>
-              <CardTitle className="flex items-center gap-2">
-                <Target className="h-5 w-5" />
-                Asset Utilization Heatmap
-              </CardTitle>
-            </CardHeader>
-            <CardContent>
-              <div className="overflow-x-auto">
-                <table className="w-full border-collapse">
-                  <thead>
-                    <tr className="border-b">
-                      <th className="text-left p-3 font-semibold">Asset</th>
-                      <th className="text-left p-3 font-semibold">Utilization</th>
-                      <th className="text-left p-3 font-semibold">Absorbing Counterparties</th>
-                      <th className="text-left p-3 font-semibold">HQLA Status</th>
-                      <th className="text-left p-3 font-semibold">Status</th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    {optimizationData.assetUtilization.map((asset, index) => (
-                      <tr key={index} className="border-b hover:bg-slate-50">
-                        <td className="p-3 font-medium">{asset.asset}</td>
-                        <td className="p-3">
-                          <div className="flex items-center gap-2">
-                            <Progress value={asset.utilization} className="w-20 h-2" />
-                            <span className={`font-medium ${getUtilizationColor(asset.utilization)}`}>
-                              {asset.utilization.toFixed(1)}%
-                            </span>
-                          </div>
-                        </td>
-                        <td className="p-3 text-sm">
-                          {asset.counterparties.slice(0, 2).join(', ')}
-                          {asset.counterparties.length > 2 && ' +' + (asset.counterparties.length - 2)}
-                        </td>
-                        <td className="p-3">
-                          <Badge variant="outline">{asset.hqlaStatus}</Badge>
-                        </td>
-                        <td className="p-3">
-                          <Badge className={
-                            asset.status === 'Overused' ? 'bg-red-100 text-red-800' :
-                            asset.status === 'High' ? 'bg-yellow-100 text-yellow-800' :
-                            asset.status === 'Optimal' ? 'bg-green-100 text-green-800' :
-                            'bg-blue-100 text-blue-800'
-                          }>
-                            {asset.status}
-                          </Badge>
-                        </td>
-                      </tr>
-                    ))}
-                  </tbody>
-                </table>
-              </div>
-            </CardContent>
-          </Card>
-
-          {/* Eligibility & Haircut Analyzer */}
-          <Card>
-            <CardHeader>
-              <CardTitle>Eligibility & Haircut Analyzer Matrix</CardTitle>
-            </CardHeader>
-            <CardContent>
-              <div className="overflow-x-auto">
-                <table className="w-full border-collapse">
-                  <thead>
-                    <tr className="border-b">
-                      <th className="text-left p-3 font-semibold">Asset Type</th>
-                      <th className="text-left p-3 font-semibold">CCP 1</th>
-                      <th className="text-left p-3 font-semibold">CCP 2</th>
-                      <th className="text-left p-3 font-semibold">CCP 3</th>
-                      <th className="text-left p-3 font-semibold">Haircuts</th>
-                      <th className="text-left p-3 font-semibold">AI Recommendation</th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    {optimizationData.eligibilityMatrix.map((item, index) => (
-                      <tr key={index} className="border-b hover:bg-slate-50">
-                        <td className="p-3 font-medium">{item.asset}</td>
-                        <td className="p-3">{getEligibilityBadge(item.ccp1)}</td>
-                        <td className="p-3">{getEligibilityBadge(item.ccp2)}</td>
-                        <td className="p-3">{getEligibilityBadge(item.ccp3)}</td>
-                        <td className="p-3 text-sm">
-                          {item.haircut1}% / {item.haircut2}% / {item.haircut3}%
-                        </td>
-                        <td className="p-3">
-                          <span className={`font-medium ${getRecommendationColor(item.recommendation)}`}>
-                            {item.recommendation}
-                          </span>
-                        </td>
-                      </tr>
-                    ))}
-                  </tbody>
-                </table>
-              </div>
-            </CardContent>
-          </Card>
-
-          {/* Enhanced AI Recommendations */}
-          <Card>
-            <CardHeader>
-              <CardTitle className="flex items-center gap-2">
-                <Brain className="h-5 w-5" />
-                AI Optimization Recommendations
-              </CardTitle>
-            </CardHeader>
-            <CardContent>
-              <div className="space-y-4">
-                {optimizationData.aiRecommendations.map((rec, index) => (
-                  <div key={index} className="p-4 border rounded-lg bg-gradient-to-r from-blue-50 to-purple-50">
-                    <div className="flex items-center justify-between mb-2">
-                      <div className="flex items-center gap-3">
-                        {getPriorityBadge(rec.priority)}
-                        <span className="font-medium">{rec.action}</span>
-                      </div>
-                      <div className="flex items-center gap-2">
-                        <Zap className="h-4 w-4 text-orange-500" />
-                        <span className="text-sm font-medium">Impact: ${rec.impact}M</span>
-                      </div>
-                    </div>
-                    <div className="grid grid-cols-3 gap-4 mt-3 text-sm">
-                      <div>
-                        <span className="text-slate-600">Cost Reduction: </span>
-                        <span className="font-medium text-green-600">${rec.costReduction.toLocaleString()}</span>
-                      </div>
-                      <div>
-                        <span className="text-slate-600">Risk Impact: </span>
-                        <span className="font-medium">{rec.riskImpact}</span>
-                      </div>
-                      <div className="flex items-center gap-2">
-                        <Progress value={rec.confidence} className="w-16 h-2" />
-                        <span className="text-slate-600">Confidence: {rec.confidence}%</span>
-                      </div>
-                    </div>
-                  </div>
-                ))}
-              </div>
-            </CardContent>
-          </Card>
-
-          {/* Scenario Analysis */}
-          <Card>
-            <CardHeader>
-              <CardTitle>What-If Scenario Analysis</CardTitle>
-            </CardHeader>
-            <CardContent>
-              <div className="overflow-x-auto">
-                <table className="w-full border-collapse">
-                  <thead>
-                    <tr className="border-b">
-                      <th className="text-left p-3 font-semibold">Scenario</th>
-                      <th className="text-left p-3 font-semibold">Current Cost</th>
-                      <th className="text-left p-3 font-semibold">Optimized Cost</th>
-                      <th className="text-left p-3 font-semibold">Savings</th>
-                      <th className="text-left p-3 font-semibold">Risk Increase</th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    {optimizationData.scenarioAnalysis.map((scenario, index) => (
-                      <tr key={index} className="border-b hover:bg-slate-50">
-                        <td className="p-3 font-medium">{scenario.scenario}</td>
-                        <td className="p-3">${scenario.currentCost.toLocaleString()}</td>
-                        <td className="p-3">${scenario.optimizedCost.toLocaleString()}</td>
-                        <td className="p-3 font-medium text-green-600">${scenario.savings.toLocaleString()}</td>
-                        <td className="p-3">
-                          <span className={scenario.riskIncrease > 20 ? 'text-red-600' : scenario.riskIncrease > 10 ? 'text-yellow-600' : 'text-green-600'}>
-                            +{scenario.riskIncrease.toFixed(1)}%
-                          </span>
-                        </td>
-                      </tr>
-                    ))}
-                  </tbody>
-                </table>
-              </div>
-            </CardContent>
-          </Card>
         </div>
 
-        {/* Right Sidebar with Quick Actions */}
-        <div className="w-64 space-y-4">
-          <div className="bg-white border border-slate-200 rounded-lg p-4">
-            <h3 className="font-semibold text-slate-900 mb-4">Quick Actions</h3>
-            <div className="space-y-2">
-              <Button className="w-full justify-start">Apply AI Recommendation</Button>
-              <Button variant="outline" className="w-full justify-start">Run What-If Scenario</Button>
-              <Button variant="outline" className="w-full justify-start">Lock High-Grade Assets</Button>
-              <Button variant="outline" className="w-full justify-start">Flag Asset Ineligibility</Button>
-              <Button variant="outline" className="w-full justify-start">Generate Optimization Report</Button>
+        <div className="flex h-full">
+          <div className="flex-1 space-y-6 pr-6">
+            {/* Summary Cards */}
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
+              <Card>
+                <CardContent className="p-4">
+                  <div className="text-sm font-medium text-slate-600 mb-2">Total Collateral</div>
+                  <div className="space-y-1">
+                    <div className="flex justify-between text-sm">
+                      <span className="text-green-600">Value:</span>
+                      <span className="font-medium">${(optimizationData.totalCollateral / 1000000000).toFixed(1)}B</span>
+                    </div>
+                    <div className="flex justify-between text-sm">
+                      <span className="text-slate-600">Score:</span>
+                      <span className="font-medium">{optimizationData.optimizationScore}</span>
+                    </div>
+                    <div className="flex justify-between text-sm">
+                      <span className="text-blue-600">Status:</span>
+                      <BarChart3 className="h-4 w-4 text-blue-600" />
+                    </div>
+                  </div>
+                </CardContent>
+              </Card>
+              <Card>
+                <CardContent className="p-4">
+                  <div className="text-sm font-medium text-slate-600 mb-2">Optimization Score</div>
+                  <div className="space-y-1">
+                    <div className="flex justify-between text-sm">
+                      <span className="text-green-600">Score:</span>
+                      <span className="font-medium">{optimizationData.optimizationScore}</span>
+                    </div>
+                    <div className="flex justify-between text-sm">
+                      <span className="text-slate-600">Efficiency:</span>
+                      <span className="font-medium">{optimizationData.efficiency}%</span>
+                    </div>
+                    <div className="flex justify-between text-sm">
+                      <span className="text-blue-600">AI:</span>
+                      <Target className="h-4 w-4 text-green-600" />
+                    </div>
+                  </div>
+                </CardContent>
+              </Card>
+              <Card>
+                <CardContent className="p-4">
+                  <div className="text-sm font-medium text-slate-600 mb-2">Cost Savings</div>
+                  <div className="space-y-1">
+                    <div className="flex justify-between text-sm">
+                      <span className="text-green-600">Amount:</span>
+                      <span className="font-medium">${(optimizationData.costSavings / 1000000).toFixed(1)}M</span>
+                    </div>
+                    <div className="flex justify-between text-sm">
+                      <span className="text-slate-600">Status:</span>
+                      <span className="font-medium">Active</span>
+                    </div>
+                    <div className="flex justify-between text-sm">
+                      <span className="text-blue-600">Trend:</span>
+                      <TrendingUp className="h-4 w-4 text-purple-600" />
+                    </div>
+                  </div>
+                </CardContent>
+              </Card>
+              <Card>
+                <CardContent className="p-4">
+                  <div className="text-sm font-medium text-slate-600 mb-2">AI Efficiency</div>
+                  <div className="space-y-1">
+                    <div className="flex justify-between text-sm">
+                      <span className="text-green-600">Rate:</span>
+                      <span className="font-medium">{optimizationData.efficiency}%</span>
+                    </div>
+                    <div className="flex justify-between text-sm">
+                      <span className="text-slate-600">Savings:</span>
+                      <span className="font-medium">${(optimizationData.costSavings / 1000000).toFixed(1)}M</span>
+                    </div>
+                    <div className="flex justify-between text-sm">
+                      <span className="text-blue-600">AI:</span>
+                      <Brain className="h-4 w-4 text-orange-600" />
+                    </div>
+                  </div>
+                </CardContent>
+              </Card>
+            </div>
+
+            {/* Current vs Optimal Collateral Distribution */}
+            <Card>
+              <CardHeader>
+                <CardTitle>Current vs Optimal Collateral Distribution</CardTitle>
+              </CardHeader>
+              <CardContent>
+                <div className="overflow-x-auto">
+                  <table className="w-full border-collapse">
+                    <thead>
+                      <tr className="border-b">
+                        <th className="text-left p-3 font-semibold">Asset Type</th>
+                        <th className="text-left p-3 font-semibold">Current</th>
+                        <th className="text-left p-3 font-semibold">Optimal</th>
+                        <th className="text-left p-3 font-semibold">Cost/Day</th>
+                        <th className="text-left p-3 font-semibold">Eligibility</th>
+                        <th className="text-left p-3 font-semibold">Liquidity</th>
+                        <th className="text-left p-3 font-semibold">Predicted Savings</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      {optimizationData.collateralDistribution.map((item, index) => (
+                        <tr key={index} className="border-b hover:bg-slate-50">
+                          <td className="p-3 font-medium">{item.type}</td>
+                          <td className="p-3">${(item.current / 1000000000).toFixed(1)}B</td>
+                          <td className="p-3">${(item.optimal / 1000000000).toFixed(1)}B</td>
+                          <td className="p-3">${item.cost.toLocaleString()}</td>
+                          <td className="p-3">
+                            <Badge className={item.eligibility === 'High' ? 'bg-green-100 text-green-800' : 'bg-yellow-100 text-yellow-800'}>
+                              {item.eligibility}
+                            </Badge>
+                          </td>
+                          <td className="p-3">
+                            <Badge className={item.liquidity === 'High' ? 'bg-green-100 text-green-800' : 'bg-yellow-100 text-yellow-800'}>
+                              {item.liquidity}
+                            </Badge>
+                          </td>
+                          <td className="p-3 font-medium text-green-600">
+                            ${(item.savings / 1000000).toFixed(1)}M
+                          </td>
+                        </tr>
+                      ))}
+                    </tbody>
+                  </table>
+                </div>
+              </CardContent>
+            </Card>
+
+            {/* Asset Utilization Heatmap */}
+            <Card>
+              <CardHeader>
+                <CardTitle className="flex items-center gap-2">
+                  <Target className="h-5 w-5" />
+                  Asset Utilization Heatmap
+                </CardTitle>
+              </CardHeader>
+              <CardContent>
+                <div className="overflow-x-auto">
+                  <table className="w-full border-collapse">
+                    <thead>
+                      <tr className="border-b">
+                        <th className="text-left p-3 font-semibold">Asset</th>
+                        <th className="text-left p-3 font-semibold">Utilization</th>
+                        <th className="text-left p-3 font-semibold">Absorbing Counterparties</th>
+                        <th className="text-left p-3 font-semibold">HQLA Status</th>
+                        <th className="text-left p-3 font-semibold">Status</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      {optimizationData.assetUtilization.map((asset, index) => (
+                        <tr key={index} className="border-b hover:bg-slate-50">
+                          <td className="p-3 font-medium">{asset.asset}</td>
+                          <td className="p-3">
+                            <div className="flex items-center gap-2">
+                              <Progress value={asset.utilization} className="w-20 h-2" />
+                              <span className={`font-medium ${getUtilizationColor(asset.utilization)}`}>
+                                {asset.utilization.toFixed(1)}%
+                              </span>
+                            </div>
+                          </td>
+                          <td className="p-3 text-sm">
+                            {asset.counterparties.slice(0, 2).join(', ')}
+                            {asset.counterparties.length > 2 && ' +' + (asset.counterparties.length - 2)}
+                          </td>
+                          <td className="p-3">
+                            <Badge variant="outline">{asset.hqlaStatus}</Badge>
+                          </td>
+                          <td className="p-3">
+                            <Badge className={
+                              asset.status === 'Overused' ? 'bg-red-100 text-red-800' :
+                              asset.status === 'High' ? 'bg-yellow-100 text-yellow-800' :
+                              asset.status === 'Optimal' ? 'bg-green-100 text-green-800' :
+                              'bg-blue-100 text-blue-800'
+                            }>
+                              {asset.status}
+                            </Badge>
+                          </td>
+                        </tr>
+                      ))}
+                    </tbody>
+                  </table>
+                </div>
+              </CardContent>
+            </Card>
+
+            {/* AI Recommendations Engine */}
+            <Card>
+              <CardHeader>
+                <CardTitle className="flex items-center gap-2">
+                  <Brain className="h-5 w-5" />
+                  AI Recommendations Engine
+                </CardTitle>
+              </CardHeader>
+              <CardContent>
+                <div className="space-y-4">
+                  {optimizationData.aiRecommendations.map((rec, index) => (
+                    <div key={index} className="p-4 border rounded-lg hover:bg-slate-50">
+                      <div className="flex justify-between items-start mb-2">
+                        <div className="flex items-center gap-2">
+                          {getPriorityBadge(rec.priority)}
+                          <span className="font-semibold">{rec.action}</span>
+                        </div>
+                        <div className="text-right">
+                          <div className="text-sm text-green-600 font-medium">
+                            ${rec.costReduction.toLocaleString()}/day savings
+                          </div>
+                          <div className="text-xs text-slate-500">
+                            {rec.confidence}% confidence
+                          </div>
+                        </div>
+                      </div>
+                      <div className="flex justify-between text-sm">
+                        <span className="text-slate-600">Impact: {rec.impact}%</span>
+                        <span className="text-slate-600">Risk: {rec.riskImpact}</span>
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              </CardContent>
+            </Card>
+
+            {/* Eligibility & Haircut Analyzer */}
+            <Card>
+              <CardHeader>
+                <CardTitle>Eligibility & Haircut Analyzer Matrix</CardTitle>
+              </CardHeader>
+              <CardContent>
+                <div className="overflow-x-auto">
+                  <table className="w-full border-collapse">
+                    <thead>
+                      <tr className="border-b">
+                        <th className="text-left p-3 font-semibold">Asset Type</th>
+                        <th className="text-left p-3 font-semibold">CCP 1</th>
+                        <th className="text-left p-3 font-semibold">CCP 2</th>
+                        <th className="text-left p-3 font-semibold">CCP 3</th>
+                        <th className="text-left p-3 font-semibold">Avg Haircut</th>
+                        <th className="text-left p-3 font-semibold">AI Recommendation</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      {optimizationData.eligibilityMatrix.map((item, index) => (
+                        <tr key={index} className="border-b hover:bg-slate-50">
+                          <td className="p-3 font-medium">{item.asset}</td>
+                          <td className="p-3">
+                            <div className="space-y-1">
+                              {getEligibilityBadge(item.ccp1)}
+                              <div className="text-xs text-slate-500">{item.haircut1}%</div>
+                            </div>
+                          </td>
+                          <td className="p-3">
+                            <div className="space-y-1">
+                              {getEligibilityBadge(item.ccp2)}
+                              <div className="text-xs text-slate-500">{item.haircut2}%</div>
+                            </div>
+                          </td>
+                          <td className="p-3">
+                            <div className="space-y-1">
+                              {getEligibilityBadge(item.ccp3)}
+                              <div className="text-xs text-slate-500">{item.haircut3}%</div>
+                            </div>
+                          </td>
+                          <td className="p-3 font-medium">
+                            {((item.haircut1 + item.haircut2 + item.haircut3) / 3).toFixed(1)}%
+                          </td>
+                          <td className="p-3">
+                            <span className={`text-sm font-medium ${getRecommendationColor(item.recommendation)}`}>
+                              {item.recommendation}
+                            </span>
+                          </td>
+                        </tr>
+                      ))}
+                    </tbody>
+                  </table>
+                </div>
+              </CardContent>
+            </Card>
+
+            {/* Scenario Analysis & Stress Testing */}
+            <Card>
+              <CardHeader>
+                <CardTitle>Scenario Analysis & Stress Testing</CardTitle>
+              </CardHeader>
+              <CardContent>
+                <div className="overflow-x-auto">
+                  <table className="w-full border-collapse">
+                    <thead>
+                      <tr className="border-b">
+                        <th className="text-left p-3 font-semibold">Scenario</th>
+                        <th className="text-left p-3 font-semibold">Current Cost</th>
+                        <th className="text-left p-3 font-semibold">Optimized Cost</th>
+                        <th className="text-left p-3 font-semibold">Savings</th>
+                        <th className="text-left p-3 font-semibold">Risk Increase</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      {optimizationData.scenarioAnalysis.map((scenario, index) => (
+                        <tr key={index} className="border-b hover:bg-slate-50">
+                          <td className="p-3 font-medium">{scenario.scenario}</td>
+                          <td className="p-3">${scenario.currentCost.toLocaleString()}</td>
+                          <td className="p-3">${scenario.optimizedCost.toLocaleString()}</td>
+                          <td className="p-3 text-green-600 font-medium">
+                            ${scenario.savings.toLocaleString()}
+                          </td>
+                          <td className="p-3">
+                            <span className={
+                              scenario.riskIncrease > 20 ? 'text-red-600' :
+                              scenario.riskIncrease > 15 ? 'text-yellow-600' :
+                              'text-green-600'
+                            }>
+                              +{scenario.riskIncrease}%
+                            </span>
+                          </td>
+                        </tr>
+                      ))}
+                    </tbody>
+                  </table>
+                </div>
+              </CardContent>
+            </Card>
+          </div>
+
+          {/* Right Sidebar with Quick Actions */}
+          <div className="w-64 space-y-4">
+            <div className="bg-white border border-slate-200 rounded-lg p-4">
+              <h3 className="font-semibold text-slate-900 mb-4">Quick Actions</h3>
+              <div className="space-y-2">
+                <Button className="w-full justify-start">Run AI Optimization</Button>
+                <Button variant="outline" className="w-full justify-start">Apply Recommendations</Button>
+                <Button variant="outline" className="w-full justify-start">Generate Scenario Analysis</Button>
+                <Button variant="outline" className="w-full justify-start">Export Optimization Report</Button>
+                <Button variant="outline" className="w-full justify-start">Configure AI Parameters</Button>
+              </div>
             </div>
           </div>
         </div>
