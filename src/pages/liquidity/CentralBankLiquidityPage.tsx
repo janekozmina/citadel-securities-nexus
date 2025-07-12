@@ -76,170 +76,135 @@ const CentralBankLiquidityPage = () => {
 
   return (
     <TooltipProvider>
-      <div className="flex h-full">
-        <div className="flex-1 space-y-6 p-6">
-          <div className="flex items-center justify-between">
-            <div>
-              <h1 className="text-xl font-semibold text-slate-900">Central Bank Liquidity Management</h1>
-              <p className="text-slate-600">Monitor and manage central bank liquidity facilities</p>
+      <div className="space-y-6">
+        <div className="flex items-center justify-between">
+          <div>
+            <h1 className="text-2xl font-bold text-slate-900">Central Bank Liquidity Management</h1>
+            <p className="text-slate-600">Monitor and manage central bank liquidity facilities</p>
+          </div>
+        </div>
+
+        <div className="flex h-full">
+          <div className="flex-1 space-y-6 pr-6">
+            {/* Summary Cards */}
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
+              <Card>
+                <CardContent className="p-4">
+                  <div className="text-sm font-medium text-slate-600 mb-2">Total Liquidity</div>
+                  <div className="space-y-1">
+                    <div className="flex justify-between text-sm">
+                      <span className="text-green-600">Value:</span>
+                      <span className="font-medium">${(liquidityData.totalLiquidity / 1000000000).toFixed(1)}B</span>
+                    </div>
+                    <div className="flex justify-between text-sm">
+                      <span className="text-slate-600">Utilization:</span>
+                      <span className="font-medium">{liquidityData.utilizationRate}%</span>
+                    </div>
+                    <div className="flex justify-between text-sm">
+                      <span className="text-blue-600">Status:</span>
+                      <Droplets className="h-4 w-4 text-blue-600" />
+                    </div>
+                  </div>
+                </CardContent>
+              </Card>
+              <Card>
+                <CardContent className="p-4">
+                  <div className="text-sm font-medium text-slate-600 mb-2">Utilization Rate</div>
+                  <div className="space-y-1">
+                    <div className="flex justify-between text-sm">
+                      <span className="text-green-600">Rate:</span>
+                      <span className="font-medium">{liquidityData.utilizationRate}%</span>
+                    </div>
+                    <div className="flex justify-between text-sm">
+                      <span className="text-slate-600">Facilities:</span>
+                      <span className="font-medium">{liquidityData.activeFacilities}</span>
+                    </div>
+                    <div className="flex justify-between text-sm">
+                      <span className="text-blue-600">Trend:</span>
+                      <TrendingUp className="h-4 w-4 text-green-600" />
+                    </div>
+                  </div>
+                </CardContent>
+              </Card>
+              <Card>
+                <CardContent className="p-4">
+                  <div className="text-sm font-medium text-slate-600 mb-2">Active Facilities</div>
+                  <div className="space-y-1">
+                    <div className="flex justify-between text-sm">
+                      <span className="text-green-600">Count:</span>
+                      <span className="font-medium">{liquidityData.activeFacilities}</span>
+                    </div>
+                    <div className="flex justify-between text-sm">
+                      <span className="text-slate-600">Avg Rate:</span>
+                      <span className="font-medium">{liquidityData.avgRate}%</span>
+                    </div>
+                    <div className="flex justify-between text-sm">
+                      <span className="text-blue-600">Status:</span>
+                      <Building2 className="h-4 w-4 text-purple-600" />
+                    </div>
+                  </div>
+                </CardContent>
+              </Card>
+              <Card>
+                <CardContent className="p-4">
+                  <div className="text-sm font-medium text-slate-600 mb-2">Average Rate</div>
+                  <div className="space-y-1">
+                    <div className="flex justify-between text-sm">
+                      <span className="text-green-600">Rate:</span>
+                      <span className="font-medium">{liquidityData.avgRate}%</span>
+                    </div>
+                    <div className="flex justify-between text-sm">
+                      <span className="text-slate-600">Liquidity:</span>
+                      <span className="font-medium">${(liquidityData.totalLiquidity / 1000000000).toFixed(1)}B</span>
+                    </div>
+                    <div className="flex justify-between text-sm">
+                      <span className="text-blue-600">Monitor:</span>
+                      <Clock className="h-4 w-4 text-orange-600" />
+                    </div>
+                  </div>
+                </CardContent>
+              </Card>
             </div>
-          </div>
 
-          {/* Summary Cards */}
-          <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
-            <Card>
-              <CardContent className="p-4">
-                <div className="flex items-center justify-between">
-                  <div>
-                    <p className="text-sm font-medium text-slate-600">Total Liquidity</p>
-                    <p className="text-2xl font-bold">${(liquidityData.totalLiquidity / 1000000000).toFixed(1)}B</p>
-                  </div>
-                  <Droplets className="h-8 w-8 text-blue-600" />
-                </div>
-              </CardContent>
-            </Card>
-            <Card>
-              <CardContent className="p-4">
-                <div className="flex items-center justify-between">
-                  <div>
-                    <p className="text-sm font-medium text-slate-600">Utilization Rate</p>
-                    <p className="text-2xl font-bold">{liquidityData.utilizationRate}%</p>
-                  </div>
-                  <TrendingUp className="h-8 w-8 text-green-600" />
-                </div>
-              </CardContent>
-            </Card>
-            <Card>
-              <CardContent className="p-4">
-                <div className="flex items-center justify-between">
-                  <div>
-                    <p className="text-sm font-medium text-slate-600">Active Facilities</p>
-                    <p className="text-2xl font-bold">{liquidityData.activeFacilities}</p>
-                  </div>
-                  <Building2 className="h-8 w-8 text-purple-600" />
-                </div>
-              </CardContent>
-            </Card>
-            <Card>
-              <CardContent className="p-4">
-                <div className="flex items-center justify-between">
-                  <div>
-                    <p className="text-sm font-medium text-slate-600">Average Rate</p>
-                    <p className="text-2xl font-bold">{liquidityData.avgRate}%</p>
-                  </div>
-                  <Clock className="h-8 w-8 text-orange-600" />
-                </div>
-              </CardContent>
-            </Card>
-          </div>
-
-          {/* Liquidity Position Dashboard & Lending Facility Monitor */}
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+            {/* Participant Liquidity Position Dashboard */}
             <Card>
               <CardHeader>
-                <CardTitle>Liquidity Usage Trends by Session</CardTitle>
+                <CardTitle>Participant Liquidity Position Dashboard</CardTitle>
               </CardHeader>
               <CardContent>
-                <ChartContainer config={chartConfig} className="h-80">
-                  <ResponsiveContainer width="100%" height="100%">
-                    <AreaChart data={liquidityData.usageTrends}>
-                      <XAxis dataKey="date" />
-                      <YAxis tickFormatter={(value) => `$${(value / 1000000000).toFixed(1)}B`} />
-                      <ChartTooltip 
-                        content={<ChartTooltipContent />}
-                        formatter={(value, name) => [`$${(Number(value) / 1000000000).toFixed(1)}B`, name]}
-                      />
-                      <Area 
-                        type="monotone" 
-                        dataKey="am" 
-                        stackId="1"
-                        stroke="var(--color-am)" 
-                        fill="var(--color-am)"
-                        fillOpacity={0.6}
-                      />
-                      <Area 
-                        type="monotone" 
-                        dataKey="pm" 
-                        stackId="1"
-                        stroke="var(--color-pm)" 
-                        fill="var(--color-pm)"
-                        fillOpacity={0.6}
-                      />
-                    </AreaChart>
-                  </ResponsiveContainer>
-                </ChartContainer>
-              </CardContent>
-            </Card>
-
-            <Card>
-              <CardHeader>
-                <CardTitle>Facility Disbursement Breakdown</CardTitle>
-              </CardHeader>
-              <CardContent>
-                <ChartContainer config={chartConfig} className="h-80">
-                  <ResponsiveContainer width="100%" height="100%">
-                    <PieChart>
-                      <Pie
-                        data={liquidityData.facilityDisbursement}
-                        cx="50%"
-                        cy="50%"
-                        labelLine={false}
-                        label={({ type, percent }) => `${type} ${(percent * 100).toFixed(0)}%`}
-                        outerRadius={80}
-                        fill="#8884d8"
-                        dataKey="amount"
-                      >
-                        {liquidityData.facilityDisbursement.map((entry, index) => (
-                          <Cell key={`cell-${index}`} fill={entry.color} />
-                        ))}
-                      </Pie>
-                      <ChartTooltip content={<ChartTooltipContent />} />
-                    </PieChart>
-                  </ResponsiveContainer>
-                </ChartContainer>
-              </CardContent>
-            </Card>
-          </div>
-
-          {/* Participant Liquidity Position Dashboard */}
-          <Card>
-            <CardHeader>
-              <CardTitle>Participant Liquidity Position Dashboard</CardTitle>
-            </CardHeader>
-            <CardContent>
-              <div className="overflow-x-auto">
-                <table className="w-full border-collapse">
-                  <thead>
-                    <tr className="border-b">
-                      <th className="text-left p-3 font-semibold">Participant</th>
-                      <th className="text-left p-3 font-semibold">Current Position</th>
-                      <th className="text-left p-3 font-semibold">Allocated Limit</th>
-                      <th className="text-left p-3 font-semibold">Utilization</th>
-                      <th className="text-left p-3 font-semibold">Intraday Usage</th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    {liquidityData.participants.map((participant, index) => (
-                      <tr key={index} className="border-b hover:bg-slate-50">
-                        <td className="p-3 font-medium">{participant.name}</td>
-                        <td className="p-3">${(participant.currentPosition / 1000000000).toFixed(1)}B</td>
-                        <td className="p-3">${(participant.allocatedLimit / 1000000000).toFixed(1)}B</td>
-                        <td className="p-3">
-                          <div className="flex items-center gap-2">
-                            <Progress value={participant.utilizationPct} className="w-16 h-2" />
-                            <span className={`font-medium ${getUtilizationColor(participant.utilizationPct)}`}>
-                              {participant.utilizationPct.toFixed(1)}%
-                            </span>
-                          </div>
-                        </td>
-                        <td className="p-3">${(participant.intradayUsage / 1000000000).toFixed(1)}B</td>
+                <div className="overflow-x-auto">
+                  <table className="w-full border-collapse">
+                    <thead>
+                      <tr className="border-b">
+                        <th className="text-left p-3 font-semibold">Participant</th>
+                        <th className="text-left p-3 font-semibold">Current Position</th>
+                        <th className="text-left p-3 font-semibold">Allocated Limit</th>
+                        <th className="text-left p-3 font-semibold">Utilization</th>
+                        <th className="text-left p-3 font-semibold">Intraday Usage</th>
                       </tr>
-                    ))}
-                  </tbody>
-                </table>
-              </div>
-            </CardContent>
-          </Card>
+                    </thead>
+                    <tbody>
+                      {liquidityData.participants.map((participant, index) => (
+                        <tr key={index} className="border-b hover:bg-slate-50">
+                          <td className="p-3 font-medium">{participant.name}</td>
+                          <td className="p-3">${(participant.currentPosition / 1000000000).toFixed(1)}B</td>
+                          <td className="p-3">${(participant.allocatedLimit / 1000000000).toFixed(1)}B</td>
+                          <td className="p-3">
+                            <div className="flex items-center gap-2">
+                              <Progress value={participant.utilizationPct} className="w-16 h-2" />
+                              <span className={`font-medium ${getUtilizationColor(participant.utilizationPct)}`}>
+                                {participant.utilizationPct.toFixed(1)}%
+                              </span>
+                            </div>
+                          </td>
+                          <td className="p-3">${(participant.intradayUsage / 1000000000).toFixed(1)}B</td>
+                        </tr>
+                      ))}
+                    </tbody>
+                  </table>
+                </div>
+              </CardContent>
+            </Card>
 
           {/* Lending Facility Monitor */}
           <Card>
@@ -279,71 +244,20 @@ const CentralBankLiquidityPage = () => {
                 </table>
               </div>
             </CardContent>
-          </Card>
+            </Card>
+          </div>
 
-          {/* Settlement Impact Analyzer */}
-          <Card>
-            <CardHeader>
-              <CardTitle>Settlement Impact Analyzer</CardTitle>
-            </CardHeader>
-            <CardContent>
-              <div className="space-y-4">
-                {liquidityData.settlementImpact.map((impact, index) => (
-                  <div key={index} className="p-4 border rounded-lg">
-                    <div className="flex justify-between items-center mb-2">
-                      <span className="font-semibold text-lg">{impact.date}</span>
-                      {impact.criticalAlerts && (
-                        <Badge variant="destructive">
-                          {impact.criticalAlerts} Critical Alerts
-                        </Badge>
-                      )}
-                    </div>
-                    <div className="grid grid-cols-1 md:grid-cols-3 gap-4 text-sm">
-                      {impact.failedAmount && (
-                        <div>
-                          <span className="text-red-600">Failed Settlements: ${(impact.failedAmount / 1000000).toFixed(0)}M</span>
-                        </div>
-                      )}
-                      {impact.liquidityShortfall && (
-                        <div>
-                          <span className="text-red-600">Liquidity Shortfall: ${(impact.liquidityShortfall / 1000000).toFixed(0)}M</span>
-                        </div>
-                      )}
-                      {impact.forecastNeeds && (
-                        <div>
-                          <span className="text-blue-600">Forecast Needs: ${(impact.forecastNeeds / 1000000).toFixed(0)}M</span>
-                        </div>
-                      )}
-                      {impact.availableLiquidity && (
-                        <div>
-                          <span className="text-green-600">Available: ${(impact.availableLiquidity / 1000000).toFixed(0)}M</span>
-                        </div>
-                      )}
-                      {impact.gap && (
-                        <div>
-                          <span className={getGapColor(impact.gap)}>
-                            Gap: {impact.gap > 0 ? '+' : ''}${(impact.gap / 1000000).toFixed(0)}M
-                          </span>
-                        </div>
-                      )}
-                    </div>
-                  </div>
-                ))}
+          {/* Right Sidebar with Quick Actions */}
+          <div className="w-64 space-y-4">
+            <div className="bg-white border border-slate-200 rounded-lg p-4">
+              <h3 className="font-semibold text-slate-900 mb-4">Quick Actions</h3>
+              <div className="space-y-2">
+                <Button className="w-full justify-start">Inject Liquidity Manually</Button>
+                <Button variant="outline" className="w-full justify-start">Approve/Decline Draw Requests</Button>
+                <Button variant="outline" className="w-full justify-start">Adjust Participant Limits</Button>
+                <Button variant="outline" className="w-full justify-start">Run Stress Scenario</Button>
+                <Button variant="outline" className="w-full justify-start">Emergency Protocols</Button>
               </div>
-            </CardContent>
-          </Card>
-        </div>
-
-        {/* Right Sidebar with Quick Actions */}
-        <div className="w-64 space-y-4">
-          <div className="bg-white border border-slate-200 rounded-lg p-4">
-            <h3 className="font-semibold text-slate-900 mb-4">Quick Actions</h3>
-            <div className="space-y-2">
-              <Button className="w-full justify-start">Inject Liquidity Manually</Button>
-              <Button variant="outline" className="w-full justify-start">Approve/Decline Draw Requests</Button>
-              <Button variant="outline" className="w-full justify-start">Adjust Participant Limits</Button>
-              <Button variant="outline" className="w-full justify-start">Run Stress Scenario</Button>
-              <Button variant="outline" className="w-full justify-start">Emergency Protocols</Button>
             </div>
           </div>
         </div>

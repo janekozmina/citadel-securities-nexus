@@ -174,90 +174,38 @@ const TriPartyRepoPage = () => {
               </Card>
             </div>
 
-          {/* Repo Exposure Monitor & Margin Call Dashboard */}
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+            {/* Repo Exposure Monitor */}
             <Card>
               <CardHeader>
-                <CardTitle>Collateral Types Distribution</CardTitle>
+                <CardTitle>Repo Exposure Monitor</CardTitle>
               </CardHeader>
               <CardContent>
-                <ChartContainer config={chartConfig} className="h-80">
-                  <ResponsiveContainer width="100%" height="100%">
-                    <PieChart>
-                      <Pie
-                        data={repoData.collateralTypes}
-                        cx="50%"
-                        cy="50%"
-                        labelLine={false}
-                        label={({ type, percentage }) => `${type} ${percentage}%`}
-                        outerRadius={80}
-                        fill="#8884d8"
-                        dataKey="value"
-                      >
-                        {repoData.collateralTypes.map((entry, index) => (
-                          <Cell key={`cell-${index}`} fill={entry.color} />
-                        ))}
-                      </Pie>
-                      <ChartTooltip content={<ChartTooltipContent />} />
-                    </PieChart>
-                  </ResponsiveContainer>
-                </ChartContainer>
-              </CardContent>
-            </Card>
-
-            <Card>
-              <CardHeader>
-                <CardTitle>Collateral Substitution Activity</CardTitle>
-              </CardHeader>
-              <CardContent>
-                <ChartContainer config={chartConfig} className="h-80">
-                  <ResponsiveContainer width="100%" height="100%">
-                    <BarChart data={repoData.collateralSubstitution}>
-                      <XAxis dataKey="date" />
-                      <YAxis />
-                      <ChartTooltip content={<ChartTooltipContent />} />
-                      <Bar dataKey="accepted" fill="var(--color-accepted)" stackId="a" />
-                      <Bar dataKey="rejected" fill="var(--color-rejected)" stackId="a" />
-                      <Bar dataKey="pending" fill="var(--color-pending)" stackId="a" />
-                    </BarChart>
-                  </ResponsiveContainer>
-                </ChartContainer>
-              </CardContent>
-            </Card>
-          </div>
-
-          {/* Repo Exposure by Counterparty */}
-          <Card>
-            <CardHeader>
-              <CardTitle>Repo Exposure Monitor</CardTitle>
-            </CardHeader>
-            <CardContent>
-              <div className="overflow-x-auto">
-                <table className="w-full border-collapse">
-                  <thead>
-                    <tr className="border-b">
-                      <th className="text-left p-3 font-semibold">Counterparty</th>
-                      <th className="text-left p-3 font-semibold">Exposure</th>
-                      <th className="text-left p-3 font-semibold">Asset Class</th>
-                      <th className="text-left p-3 font-semibold">Maturity</th>
-                      <th className="text-left p-3 font-semibold">Status</th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    {repoData.repoExposure.map((repo, index) => (
-                      <tr key={index} className="border-b hover:bg-slate-50">
-                        <td className="p-3 font-medium">{repo.counterparty}</td>
-                        <td className="p-3">${(repo.exposure / 1000000000).toFixed(1)}B</td>
-                        <td className="p-3">{repo.assetClass}</td>
-                        <td className="p-3">{repo.maturity}</td>
-                        <td className="p-3">{getStatusBadge(repo.status)}</td>
+                <div className="overflow-x-auto">
+                  <table className="w-full border-collapse">
+                    <thead>
+                      <tr className="border-b">
+                        <th className="text-left p-3 font-semibold">Counterparty</th>
+                        <th className="text-left p-3 font-semibold">Exposure</th>
+                        <th className="text-left p-3 font-semibold">Asset Class</th>
+                        <th className="text-left p-3 font-semibold">Maturity</th>
+                        <th className="text-left p-3 font-semibold">Status</th>
                       </tr>
-                    ))}
-                  </tbody>
-                </table>
-              </div>
-            </CardContent>
-          </Card>
+                    </thead>
+                    <tbody>
+                      {repoData.repoExposure.map((repo, index) => (
+                        <tr key={index} className="border-b hover:bg-slate-50">
+                          <td className="p-3 font-medium">{repo.counterparty}</td>
+                          <td className="p-3">${(repo.exposure / 1000000000).toFixed(1)}B</td>
+                          <td className="p-3">{repo.assetClass}</td>
+                          <td className="p-3">{repo.maturity}</td>
+                          <td className="p-3">{getStatusBadge(repo.status)}</td>
+                        </tr>
+                      ))}
+                    </tbody>
+                  </table>
+                </div>
+              </CardContent>
+            </Card>
 
           {/* Margin Call Dashboard */}
           <Card>

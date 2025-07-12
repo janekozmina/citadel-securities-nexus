@@ -74,62 +74,95 @@ const IslamicRepoPage = () => {
 
   return (
     <TooltipProvider>
-      <div className="flex h-full">
-        <div className="flex-1 space-y-6 p-6">
-          <div className="flex items-center justify-between">
-            <div>
-              <h1 className="text-xl font-semibold text-slate-900">Islamic REPO</h1>
-              <p className="text-slate-600">Shariah-compliant repo operations and asset management</p>
-            </div>
+      <div className="space-y-6">
+        <div className="flex items-center justify-between">
+          <div>
+            <h1 className="text-2xl font-bold text-slate-900">Islamic REPO</h1>
+            <p className="text-slate-600">Shariah-compliant repo operations and asset management</p>
           </div>
+        </div>
 
-          {/* Summary Cards */}
-          <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
-            <Card>
-              <CardContent className="p-4">
-                <div className="flex items-center justify-between">
-                  <div>
-                    <p className="text-sm font-medium text-slate-600">Total Assets</p>
-                    <p className="text-2xl font-bold">${(islamicData.totalAssets / 1000000000).toFixed(1)}B</p>
+        <div className="flex h-full">
+          <div className="flex-1 space-y-6 pr-6">
+            {/* Summary Cards */}
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
+              <Card>
+                <CardContent className="p-4">
+                  <div className="text-sm font-medium text-slate-600 mb-2">Total Assets</div>
+                  <div className="space-y-1">
+                    <div className="flex justify-between text-sm">
+                      <span className="text-green-600">Value:</span>
+                      <span className="font-medium">${(islamicData.totalAssets / 1000000000).toFixed(1)}B</span>
+                    </div>
+                    <div className="flex justify-between text-sm">
+                      <span className="text-slate-600">Contracts:</span>
+                      <span className="font-medium">{islamicData.activeContracts}</span>
+                    </div>
+                    <div className="flex justify-between text-sm">
+                      <span className="text-blue-600">Status:</span>
+                      <Shield className="h-4 w-4 text-blue-600" />
+                    </div>
                   </div>
-                  <Shield className="h-8 w-8 text-blue-600" />
-                </div>
-              </CardContent>
-            </Card>
-            <Card>
-              <CardContent className="p-4">
-                <div className="flex items-center justify-between">
-                  <div>
-                    <p className="text-sm font-medium text-slate-600">Active Contracts</p>
-                    <p className="text-2xl font-bold">{islamicData.activeContracts}</p>
+                </CardContent>
+              </Card>
+              <Card>
+                <CardContent className="p-4">
+                  <div className="text-sm font-medium text-slate-600 mb-2">Active Contracts</div>
+                  <div className="space-y-1">
+                    <div className="flex justify-between text-sm">
+                      <span className="text-green-600">Count:</span>
+                      <span className="font-medium">{islamicData.activeContracts}</span>
+                    </div>
+                    <div className="flex justify-between text-sm">
+                      <span className="text-slate-600">Assets:</span>
+                      <span className="font-medium">${(islamicData.totalAssets / 1000000000).toFixed(1)}B</span>
+                    </div>
+                    <div className="flex justify-between text-sm">
+                      <span className="text-blue-600">Trend:</span>
+                      <TrendingUp className="h-4 w-4 text-green-600" />
+                    </div>
                   </div>
-                  <TrendingUp className="h-8 w-8 text-green-600" />
-                </div>
-              </CardContent>
-            </Card>
-            <Card>
-              <CardContent className="p-4">
-                <div className="flex items-center justify-between">
-                  <div>
-                    <p className="text-sm font-medium text-slate-600">Avg Profit Rate</p>
-                    <p className="text-2xl font-bold">{islamicData.avgProfitRate}%</p>
+                </CardContent>
+              </Card>
+              <Card>
+                <CardContent className="p-4">
+                  <div className="text-sm font-medium text-slate-600 mb-2">Avg Profit Rate</div>
+                  <div className="space-y-1">
+                    <div className="flex justify-between text-sm">
+                      <span className="text-green-600">Rate:</span>
+                      <span className="font-medium">{islamicData.avgProfitRate}%</span>
+                    </div>
+                    <div className="flex justify-between text-sm">
+                      <span className="text-slate-600">Compliance:</span>
+                      <span className="font-medium">{islamicData.complianceRatio}%</span>
+                    </div>
+                    <div className="flex justify-between text-sm">
+                      <span className="text-blue-600">Monitor:</span>
+                      <Clock className="h-4 w-4 text-purple-600" />
+                    </div>
                   </div>
-                  <Clock className="h-8 w-8 text-purple-600" />
-                </div>
-              </CardContent>
-            </Card>
-            <Card>
-              <CardContent className="p-4">
-                <div className="flex items-center justify-between">
-                  <div>
-                    <p className="text-sm font-medium text-slate-600">Shariah Compliance</p>
-                    <p className="text-2xl font-bold text-green-600">{islamicData.complianceRatio}%</p>
+                </CardContent>
+              </Card>
+              <Card>
+                <CardContent className="p-4">
+                  <div className="text-sm font-medium text-slate-600 mb-2">Shariah Compliance</div>
+                  <div className="space-y-1">
+                    <div className="flex justify-between text-sm">
+                      <span className="text-green-600">Rate:</span>
+                      <span className="font-medium text-green-600">{islamicData.complianceRatio}%</span>
+                    </div>
+                    <div className="flex justify-between text-sm">
+                      <span className="text-slate-600">Profit Rate:</span>
+                      <span className="font-medium">{islamicData.avgProfitRate}%</span>
+                    </div>
+                    <div className="flex justify-between text-sm">
+                      <span className="text-blue-600">Certified:</span>
+                      <Star className="h-4 w-4 text-yellow-500" />
+                    </div>
                   </div>
-                  <Star className="h-8 w-8 text-yellow-500" />
-                </div>
-              </CardContent>
-            </Card>
-          </div>
+                </CardContent>
+              </Card>
+            </div>
 
           {/* Shariah-Compliant Transaction Tracker */}
           <Card>
@@ -170,8 +203,7 @@ const IslamicRepoPage = () => {
             </CardContent>
           </Card>
 
-          {/* Profit Rate Monitor & Asset Inventory Dashboard */}
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+            {/* Profit Rate Monitor */}
             <Card>
               <CardHeader>
                 <CardTitle>Profit Rate Monitor</CardTitle>
@@ -205,43 +237,6 @@ const IslamicRepoPage = () => {
                 </div>
               </CardContent>
             </Card>
-
-            <Card>
-              <CardHeader>
-                <CardTitle>Profit Rate Trends</CardTitle>
-              </CardHeader>
-              <CardContent>
-                <ChartContainer config={chartConfig} className="h-80">
-                  <ResponsiveContainer width="100%" height="100%">
-                    <LineChart data={islamicData.profitTrends}>
-                      <XAxis dataKey="date" />
-                      <YAxis domain={[3.0, 3.8]} tickFormatter={(value) => `${value}%`} />
-                      <ChartTooltip content={<ChartTooltipContent />} />
-                      <Line 
-                        type="monotone" 
-                        dataKey="murabaha" 
-                        stroke="var(--color-murabaha)" 
-                        strokeWidth={2}
-                      />
-                      <Line 
-                        type="monotone" 
-                        dataKey="tawarruq" 
-                        stroke="var(--color-tawarruq)" 
-                        strokeWidth={2}
-                      />
-                      <Line 
-                        type="monotone" 
-                        dataKey="benchmark" 
-                        stroke="var(--color-benchmark)" 
-                        strokeWidth={2}
-                        strokeDasharray="5 5"
-                      />
-                    </LineChart>
-                  </ResponsiveContainer>
-                </ChartContainer>
-              </CardContent>
-            </Card>
-          </div>
 
           {/* Asset Inventory Dashboard */}
           <Card>
@@ -324,19 +319,20 @@ const IslamicRepoPage = () => {
                 </table>
               </div>
             </CardContent>
-          </Card>
-        </div>
+            </Card>
+          </div>
 
-        {/* Right Sidebar with Quick Actions */}
-        <div className="w-64 space-y-4">
-          <div className="bg-white border border-slate-200 rounded-lg p-4">
-            <h3 className="font-semibold text-slate-900 mb-4">Quick Actions</h3>
-            <div className="space-y-2">
-              <Button className="w-full justify-start">Initiate New Murabaha</Button>
-              <Button variant="outline" className="w-full justify-start">Submit Profit Rate Offer</Button>
-              <Button variant="outline" className="w-full justify-start">Approve Asset Substitution</Button>
-              <Button variant="outline" className="w-full justify-start">Validate Shariah Compliance</Button>
-              <Button variant="outline" className="w-full justify-start">Shariah Board Report</Button>
+          {/* Right Sidebar with Quick Actions */}
+          <div className="w-64 space-y-4">
+            <div className="bg-white border border-slate-200 rounded-lg p-4">
+              <h3 className="font-semibold text-slate-900 mb-4">Quick Actions</h3>
+              <div className="space-y-2">
+                <Button className="w-full justify-start">Initiate New Murabaha</Button>
+                <Button variant="outline" className="w-full justify-start">Submit Profit Rate Offer</Button>
+                <Button variant="outline" className="w-full justify-start">Approve Asset Substitution</Button>
+                <Button variant="outline" className="w-full justify-start">Validate Shariah Compliance</Button>
+                <Button variant="outline" className="w-full justify-start">Shariah Board Report</Button>
+              </div>
             </div>
           </div>
         </div>
