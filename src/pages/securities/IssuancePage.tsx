@@ -1,5 +1,7 @@
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
+import { Button } from '@/components/ui/button';
 import { TooltipProvider } from '@/components/ui/tooltip';
+import { PlusCircle, Upload, FileText, Calendar } from 'lucide-react';
 
 const IssuancePage = () => {
   const issuanceData = {
@@ -23,16 +25,45 @@ const IssuancePage = () => {
     ]
   };
 
+  const quickActions = [
+    { title: "Initiate New Issuance Request", icon: PlusCircle, variant: "default" as const },
+    { title: "Upload Term Sheet / Prospectus", icon: Upload, variant: "outline" as const },
+    { title: "Select Issuance Type (Equity, Debt, Sukuk, etc.)", icon: FileText, variant: "outline" as const },
+    { title: "Define Corporate Action Schedule", icon: Calendar, variant: "outline" as const },
+  ];
+
   return (
     <TooltipProvider>
       <div className="space-y-6 p-6">
         <div className="flex items-center justify-between">
           <div>
-            <h1 className="text-2xl font-bold text-slate-900">Issuance Dashboard</h1>
-            <p className="text-slate-600">Track securities issuance trends and statistics</p>
+            <h1 className="text-3xl font-bold">Issuance</h1>
+            <p className="text-muted-foreground">Track securities issuance trends and statistics</p>
           </div>
         </div>
+
+        {/* Quick Actions */}
+        <Card>
+          <CardHeader>
+            <CardTitle>Quick Actions</CardTitle>
+          </CardHeader>
+          <CardContent>
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
+              {quickActions.map((action, index) => (
+                <Button
+                  key={index}
+                  variant={action.variant}
+                  className="h-auto p-4 flex flex-col items-center gap-2 text-center"
+                >
+                  <action.icon className="h-5 w-5" />
+                  <span className="text-sm">{action.title}</span>
+                </Button>
+              ))}
+            </div>
+          </CardContent>
+        </Card>
         
+        {/* Dashboards */}
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
           <Card>
             <CardHeader>
@@ -44,7 +75,7 @@ const IssuancePage = () => {
                   <div key={index} className="flex justify-between items-center">
                     <span className="font-semibold">{item.period}</span>
                     <div className="text-right">
-                      <div className="text-sm text-slate-600">{item.volume} issues</div>
+                      <div className="text-sm text-muted-foreground">{item.volume} issues</div>
                       <div className="text-lg font-bold">${item.value}B</div>
                     </div>
                   </div>
@@ -65,9 +96,9 @@ const IssuancePage = () => {
                       <span>{issuer.type}</span>
                       <span className="font-semibold">{issuer.count}</span>
                     </div>
-                    <div className="w-full bg-slate-200 rounded-full h-2">
+                    <div className="w-full bg-secondary rounded-full h-2">
                       <div 
-                        className="bg-blue-600 h-2 rounded-full" 
+                        className="bg-primary h-2 rounded-full" 
                         style={{ width: `${issuer.percentage}%` }}
                       ></div>
                     </div>
@@ -79,7 +110,7 @@ const IssuancePage = () => {
 
           <Card>
             <CardHeader>
-              <CardTitle>Asset Classes Distribution</CardTitle>
+              <CardTitle>Asset Classes</CardTitle>
             </CardHeader>
             <CardContent>
               <div className="space-y-3">
@@ -89,9 +120,9 @@ const IssuancePage = () => {
                       <span>{asset.class}</span>
                       <span className="font-semibold">{asset.volume}</span>
                     </div>
-                    <div className="w-full bg-slate-200 rounded-full h-2">
+                    <div className="w-full bg-secondary rounded-full h-2">
                       <div 
-                        className="bg-green-600 h-2 rounded-full" 
+                        className="bg-accent h-2 rounded-full" 
                         style={{ width: `${asset.percentage}%` }}
                       ></div>
                     </div>
