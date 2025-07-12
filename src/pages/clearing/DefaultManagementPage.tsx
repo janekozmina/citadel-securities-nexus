@@ -1,6 +1,7 @@
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
+import { TooltipProvider } from '@/components/ui/tooltip';
 
 const DefaultManagementPage = () => {
   const defaultProcessStages = [
@@ -78,8 +79,8 @@ const DefaultManagementPage = () => {
   };
 
   return (
-    <div className="flex h-full">
-      <div className="flex-1 space-y-6 p-6">
+    <TooltipProvider>
+      <div className="space-y-6">
         <div className="flex items-center justify-between">
           <div>
             <h1 className="text-2xl font-bold text-slate-900">Default Management</h1>
@@ -87,51 +88,138 @@ const DefaultManagementPage = () => {
           </div>
         </div>
 
-        {/* Default Process Stages Table */}
-          <Card>
-            <CardContent className="p-6">
-              <div className="overflow-x-auto">
-                <table className="w-full border-collapse">
-                  <thead>
-                    <tr className="border-b">
-                      <th className="text-left p-3 font-semibold">Stage</th>
-                      <th className="text-left p-3 font-semibold">Description</th>
-                      <th className="text-left p-3 font-semibold">Key Participants</th>
-                      <th className="text-left p-3 font-semibold">Timeframe</th>
-                      <th className="text-left p-3 font-semibold">System Actions / Notes</th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    {defaultProcessStages.map((stage, index) => (
-                      <tr key={index} className="border-b hover:bg-slate-50">
-                        <td className="p-3">{stage.stage}</td>
-                        <td className="p-3">{stage.description}</td>
-                        <td className="p-3">{stage.keyParticipants}</td>
-                        <td className="p-3">{stage.timeframe}</td>
-                        <td className="p-3">{stage.systemActions}</td>
-                      </tr>
-                    ))}
-                  </tbody>
-                </table>
-              </div>
-            </CardContent>
-          </Card>
-        </div>
+        <div className="flex h-full">
+          <div className="flex-1 space-y-6 pr-6">
+            {/* Workflow Status Cards */}
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
+              <Card>
+                <CardContent className="p-4">
+                  <div className="text-sm font-medium text-slate-600 mb-2">Default Declaration</div>
+                  <div className="space-y-1">
+                    <div className="flex justify-between text-sm">
+                      <span className="text-slate-600">Active Cases:</span>
+                      <span className="font-medium">2</span>
+                    </div>
+                    <div className="flex justify-between text-sm">
+                      <span className="text-yellow-600">Under Review:</span>
+                      <span className="font-medium">1</span>
+                    </div>
+                    <div className="flex justify-between text-sm">
+                      <span className="text-green-600">Resolved:</span>
+                      <span className="font-medium">15</span>
+                    </div>
+                  </div>
+                </CardContent>
+              </Card>
+              <Card>
+                <CardContent className="p-4">
+                  <div className="text-sm font-medium text-slate-600 mb-2">Position Segmentation</div>
+                  <div className="space-y-1">
+                    <div className="flex justify-between text-sm">
+                      <span className="text-green-600">Eligible:</span>
+                      <span className="font-medium">$2.4B</span>
+                    </div>
+                    <div className="flex justify-between text-sm">
+                      <span className="text-red-600">Ineligible:</span>
+                      <span className="font-medium">$0.3B</span>
+                    </div>
+                    <div className="flex justify-between text-sm">
+                      <span className="text-slate-600">Total:</span>
+                      <span className="font-medium">$2.7B</span>
+                    </div>
+                  </div>
+                </CardContent>
+              </Card>
+              <Card>
+                <CardContent className="p-4">
+                  <div className="text-sm font-medium text-slate-600 mb-2">Auction Setup</div>
+                  <div className="space-y-1">
+                    <div className="flex justify-between text-sm">
+                      <span className="text-blue-600">Scheduled:</span>
+                      <span className="font-medium">3</span>
+                    </div>
+                    <div className="flex justify-between text-sm">
+                      <span className="text-green-600">Completed:</span>
+                      <span className="font-medium">8</span>
+                    </div>
+                    <div className="flex justify-between text-sm">
+                      <span className="text-yellow-600">In Progress:</span>
+                      <span className="font-medium">1</span>
+                    </div>
+                  </div>
+                </CardContent>
+              </Card>
+              <Card>
+                <CardContent className="p-4">
+                  <div className="text-sm font-medium text-slate-600 mb-2">Settlement Status</div>
+                  <div className="space-y-1">
+                    <div className="flex justify-between text-sm">
+                      <span className="text-green-600">Completed:</span>
+                      <span className="font-medium">95%</span>
+                    </div>
+                    <div className="flex justify-between text-sm">
+                      <span className="text-yellow-600">Pending:</span>
+                      <span className="font-medium">4%</span>
+                    </div>
+                    <div className="flex justify-between text-sm">
+                      <span className="text-red-600">Failed:</span>
+                      <span className="font-medium">1%</span>
+                    </div>
+                  </div>
+                </CardContent>
+              </Card>
+            </div>
 
-      {/* Right Sidebar with Quick Actions */}
-      <div className="w-64 space-y-4">
-        <div className="bg-white border border-slate-200 rounded-lg p-4">
-          <h3 className="font-semibold text-slate-900 mb-4">Quick Actions</h3>
-          <div className="space-y-2">
-            <Button className="w-full justify-start">Initiate Default Process</Button>
-            <Button variant="outline" className="w-full justify-start">Review Default Fund</Button>
-            <Button variant="outline" className="w-full justify-start">Configure Auction Rules</Button>
-            <Button variant="outline" className="w-full justify-start">Generate Default Report</Button>
-            <Button variant="outline" className="w-full justify-start">Monitor Auction Status</Button>
+            {/* Default Process Stages Table */}
+            <Card>
+              <CardHeader>
+                <CardTitle>Default Process Stages</CardTitle>
+              </CardHeader>
+              <CardContent>
+                <div className="overflow-x-auto">
+                  <table className="w-full border-collapse">
+                    <thead>
+                      <tr className="border-b">
+                        <th className="text-left p-3 font-semibold">Stage</th>
+                        <th className="text-left p-3 font-semibold">Description</th>
+                        <th className="text-left p-3 font-semibold">Key Participants</th>
+                        <th className="text-left p-3 font-semibold">Timeframe</th>
+                        <th className="text-left p-3 font-semibold">System Actions / Notes</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      {defaultProcessStages.map((stage, index) => (
+                        <tr key={index} className="border-b hover:bg-slate-50">
+                          <td className="p-3">{stage.stage}</td>
+                          <td className="p-3">{stage.description}</td>
+                          <td className="p-3">{stage.keyParticipants}</td>
+                          <td className="p-3">{getTimeframeBadge(stage.timeframe)}</td>
+                          <td className="p-3">{stage.systemActions}</td>
+                        </tr>
+                      ))}
+                    </tbody>
+                  </table>
+                </div>
+              </CardContent>
+            </Card>
+          </div>
+
+          {/* Right Sidebar with Quick Actions */}
+          <div className="w-64 space-y-4">
+            <div className="bg-white border border-slate-200 rounded-lg p-4">
+              <h3 className="font-semibold text-slate-900 mb-4">Quick Actions</h3>
+              <div className="space-y-2">
+                <Button className="w-full justify-start">Initiate Default Process</Button>
+                <Button variant="outline" className="w-full justify-start">Review Default Fund</Button>
+                <Button variant="outline" className="w-full justify-start">Configure Auction Rules</Button>
+                <Button variant="outline" className="w-full justify-start">Generate Default Report</Button>
+                <Button variant="outline" className="w-full justify-start">Monitor Auction Status</Button>
+              </div>
+            </div>
           </div>
         </div>
       </div>
-    </div>
+    </TooltipProvider>
   );
 };
 

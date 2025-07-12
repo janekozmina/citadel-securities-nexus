@@ -68,152 +68,144 @@ const CCPDashboardPage = () => {
 
   return (
     <TooltipProvider>
-      <div className="flex h-full">
-        <div className="flex-1 space-y-6 p-6">
-          <div className="flex items-center justify-between">
-            <div>
-              <h1 className="text-2xl font-bold text-slate-900">CCP Dashboard</h1>
-              <p className="text-slate-600">Central Counterparty oversight and monitoring</p>
-            </div>
+      <div className="space-y-6">
+        <div className="flex items-center justify-between">
+          <div>
+            <h1 className="text-2xl font-bold text-slate-900">CCP Dashboard</h1>
+            <p className="text-slate-600">Central Counterparty oversight and monitoring</p>
           </div>
+        </div>
 
-          {/* Key Metrics */}
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-            <Card>
-              <CardContent className="p-4">
-                <div className="flex items-center justify-between">
-                  <div>
-                    <p className="text-sm font-medium text-slate-600">Total Trades</p>
-                    <p className="text-2xl font-bold">{ccpData.summary.totalTrades.toLocaleString()}</p>
-                  </div>
-                  <Activity className="h-8 w-8 text-blue-600" />
-                </div>
-              </CardContent>
-            </Card>
-            <Card>
-              <CardContent className="p-4">
-                <div className="flex items-center justify-between">
-                  <div>
-                    <p className="text-sm font-medium text-slate-600">Active Participants</p>
-                    <p className="text-2xl font-bold">{ccpData.summary.activeParticipants}</p>
-                  </div>
-                  <Users className="h-8 w-8 text-purple-600" />
-                </div>
-              </CardContent>
-            </Card>
-          </div>
-
-          {/* Operational Metrics */}
-          <Card>
-            <CardHeader>
-              <CardTitle>Operational Performance</CardTitle>
-            </CardHeader>
-            <CardContent>
-              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
-                {ccpData.operationalMetrics.map((metric, index) => (
-                  <div key={index} className="p-4 border rounded-lg">
-                    <div className="flex items-center justify-between mb-2">
-                      <span className="text-sm font-medium text-slate-600">{metric.metric}</span>
-                      {getStatusIcon(metric.status)}
+        <div className="flex h-full">
+          <div className="flex-1 space-y-6 pr-6">
+            {/* Workflow Status Cards */}
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
+              <Card>
+                <CardContent className="p-4">
+                  <div className="text-sm font-medium text-slate-600 mb-2">Trade Processing</div>
+                  <div className="space-y-1">
+                    <div className="flex justify-between text-sm">
+                      <span className="text-green-600">Success Rate:</span>
+                      <span className="font-medium">98.7%</span>
                     </div>
-                    <div className="text-2xl font-bold mb-1">{metric.value}%</div>
-                    <Badge variant={metric.status === 'Excellent' ? 'default' : 'secondary'}>
-                      {metric.status}
-                    </Badge>
+                    <div className="flex justify-between text-sm">
+                      <span className="text-slate-600">Total Trades:</span>
+                      <span className="font-medium">15,847</span>
+                    </div>
+                    <div className="flex justify-between text-sm">
+                      <span className="text-blue-600">Volume:</span>
+                      <span className="font-medium">$8.5B</span>
+                    </div>
                   </div>
-                ))}
-              </div>
-            </CardContent>
-          </Card>
+                </CardContent>
+              </Card>
+              <Card>
+                <CardContent className="p-4">
+                  <div className="text-sm font-medium text-slate-600 mb-2">Settlement Rate</div>
+                  <div className="space-y-1">
+                    <div className="flex justify-between text-sm">
+                      <span className="text-green-600">Settled:</span>
+                      <span className="font-medium">99.2%</span>
+                    </div>
+                    <div className="flex justify-between text-sm">
+                      <span className="text-yellow-600">Pending:</span>
+                      <span className="font-medium">0.7%</span>
+                    </div>
+                    <div className="flex justify-between text-sm">
+                      <span className="text-red-600">Failed:</span>
+                      <span className="font-medium">0.1%</span>
+                    </div>
+                  </div>
+                </CardContent>
+              </Card>
+              <Card>
+                <CardContent className="p-4">
+                  <div className="text-sm font-medium text-slate-600 mb-2">Risk Coverage</div>
+                  <div className="space-y-1">
+                    <div className="flex justify-between text-sm">
+                      <span className="text-green-600">Coverage Ratio:</span>
+                      <span className="font-medium">96.8%</span>
+                    </div>
+                    <div className="flex justify-between text-sm">
+                      <span className="text-slate-600">Participants:</span>
+                      <span className="font-medium">47</span>
+                    </div>
+                    <div className="flex justify-between text-sm">
+                      <span className="text-blue-600">Uptime:</span>
+                      <span className="font-medium">99.97%</span>
+                    </div>
+                  </div>
+                </CardContent>
+              </Card>
+              <Card>
+                <CardContent className="p-4">
+                  <div className="text-sm font-medium text-slate-600 mb-2">System Performance</div>
+                  <div className="space-y-1">
+                    <div className="flex justify-between text-sm">
+                      <span className="text-green-600">Performance:</span>
+                      <span className="font-medium">97.5%</span>
+                    </div>
+                    <div className="flex justify-between text-sm">
+                      <span className="text-slate-600">Response Time:</span>
+                      <span className="font-medium">&lt;50ms</span>
+                    </div>
+                    <div className="flex justify-between text-sm">
+                      <span className="text-blue-600">Throughput:</span>
+                      <span className="font-medium">15K/sec</span>
+                    </div>
+                  </div>
+                </CardContent>
+              </Card>
+            </div>
 
-          {/* Charts */}
-          <div className="grid grid-cols-1 gap-6">
+            {/* Participant Activity */}
             <Card>
               <CardHeader>
-                <CardTitle>Risk Exposure Trends</CardTitle>
+                <CardTitle>Top Participants Activity</CardTitle>
               </CardHeader>
               <CardContent>
-                <ChartContainer config={chartConfig} className="h-80">
-                  <ResponsiveContainer width="100%" height="100%">
-                    <LineChart data={ccpData.riskExposure}>
-                      <XAxis dataKey="date" />
-                      <YAxis tickFormatter={(value) => `$${(value / 1000000000).toFixed(1)}B`} />
-                      <ChartTooltip 
-                        content={<ChartTooltipContent />}
-                        formatter={(value, name) => [`$${(Number(value) / 1000000000).toFixed(1)}B`, name]}
-                      />
-                      <Line 
-                        type="monotone" 
-                        dataKey="credit" 
-                        stroke="var(--color-credit)" 
-                        strokeWidth={2}
-                      />
-                      <Line 
-                        type="monotone" 
-                        dataKey="market" 
-                        stroke="var(--color-market)" 
-                        strokeWidth={2}
-                      />
-                      <Line 
-                        type="monotone" 
-                        dataKey="operational" 
-                        stroke="var(--color-operational)" 
-                        strokeWidth={2}
-                      />
-                    </LineChart>
-                  </ResponsiveContainer>
-                </ChartContainer>
+                <div className="overflow-x-auto">
+                  <table className="w-full border-collapse">
+                    <thead>
+                      <tr className="border-b">
+                        <th className="text-left p-3 font-semibold">Participant</th>
+                        <th className="text-left p-3 font-semibold">Trades</th>
+                        <th className="text-left p-3 font-semibold">Volume</th>
+                        <th className="text-left p-3 font-semibold">Status</th>
+                        <th className="text-left p-3 font-semibold">Last Activity</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      {ccpData.participants.map((participant, index) => (
+                        <tr key={index} className="border-b hover:bg-slate-50">
+                          <td className="p-3 font-medium">{participant.name}</td>
+                          <td className="p-3">{participant.trades.toLocaleString()}</td>
+                          <td className="p-3">${(participant.volume / 1000000000).toFixed(1)}B</td>
+                          <td className="p-3">{getStatusBadge(participant.status)}</td>
+                          <td className="p-3 text-sm text-slate-600">{participant.lastActivity}</td>
+                        </tr>
+                      ))}
+                    </tbody>
+                  </table>
+                </div>
               </CardContent>
             </Card>
           </div>
 
-          {/* Participant Activity */}
-          <Card>
-            <CardHeader>
-              <CardTitle>Top Participants Activity</CardTitle>
-            </CardHeader>
-            <CardContent>
-              <div className="overflow-x-auto">
-                <table className="w-full border-collapse">
-                  <thead>
-                    <tr className="border-b">
-                      <th className="text-left p-3 font-semibold">Participant</th>
-                      <th className="text-left p-3 font-semibold">Trades</th>
-                      <th className="text-left p-3 font-semibold">Volume</th>
-                      <th className="text-left p-3 font-semibold">Status</th>
-                      <th className="text-left p-3 font-semibold">Last Activity</th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    {ccpData.participants.map((participant, index) => (
-                      <tr key={index} className="border-b hover:bg-slate-50">
-                        <td className="p-3 font-medium">{participant.name}</td>
-                        <td className="p-3">{participant.trades.toLocaleString()}</td>
-                        <td className="p-3">${(participant.volume / 1000000000).toFixed(1)}B</td>
-                        <td className="p-3">{getStatusBadge(participant.status)}</td>
-                        <td className="p-3 text-sm text-slate-600">{participant.lastActivity}</td>
-                      </tr>
-                    ))}
-                  </tbody>
-                </table>
+          {/* Right Sidebar with Quick Actions */}
+          <div className="w-64 space-y-4">
+            <div className="bg-white border border-slate-200 rounded-lg p-4">
+              <h3 className="font-semibold text-slate-900 mb-4">Quick Actions</h3>
+              <div className="space-y-2">
+                <Button className="w-full justify-start">System Health Check</Button>
+                <Button variant="outline" className="w-full justify-start">Generate Daily Report</Button>
+                <Button variant="outline" className="w-full justify-start">Risk Assessment</Button>
+                <Button variant="outline" className="w-full justify-start">Participant Review</Button>
+                <Button variant="outline" className="w-full justify-start">Emergency Procedures</Button>
               </div>
-            </CardContent>
-          </Card>
-        </div>
-
-      {/* Right Sidebar with Quick Actions */}
-      <div className="w-64 space-y-4">
-        <div className="bg-white border border-slate-200 rounded-lg p-4">
-          <h3 className="font-semibold text-slate-900 mb-4">Quick Actions</h3>
-          <div className="space-y-2">
-            <Button className="w-full justify-start">System Health Check</Button>
-            <Button variant="outline" className="w-full justify-start">Generate Daily Report</Button>
-            <Button variant="outline" className="w-full justify-start">Risk Assessment</Button>
-            <Button variant="outline" className="w-full justify-start">Participant Review</Button>
-            <Button variant="outline" className="w-full justify-start">Emergency Procedures</Button>
+            </div>
           </div>
         </div>
-      </div>
       </div>
     </TooltipProvider>
   );

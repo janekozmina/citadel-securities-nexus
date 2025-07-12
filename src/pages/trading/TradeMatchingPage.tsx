@@ -4,11 +4,11 @@ import { TooltipProvider } from '@/components/ui/tooltip';
 
 const TradeMatchingPage = () => {
   const volumeValueData = [
-    { assetClass: 'Equities', volume: 4250000, value: 2.8 },
-    { assetClass: 'Bonds', volume: 1850000, value: 5.2 },
-    { assetClass: 'Commodities', volume: 950000, value: 1.1 },
-    { assetClass: 'FX', volume: 3200000, value: 4.7 },
-    { assetClass: 'Derivatives', volume: 1400000, value: 3.9 },
+    { assetClass: 'Equities', volume: 4250000, value: 2.8, matchRate: 98.7, status: 'Active' },
+    { assetClass: 'Bonds', volume: 1850000, value: 5.2, matchRate: 99.2, status: 'Active' },
+    { assetClass: 'Commodities', volume: 950000, value: 1.1, matchRate: 97.4, status: 'Warning' },
+    { assetClass: 'FX', volume: 3200000, value: 4.7, matchRate: 99.8, status: 'Active' },
+    { assetClass: 'Derivatives', volume: 1400000, value: 3.9, matchRate: 98.1, status: 'Active' },
   ];
 
   return (
@@ -45,10 +45,12 @@ const TradeMatchingPage = () => {
                           <td className="p-3 font-medium">{item.assetClass}</td>
                           <td className="p-3">{item.volume.toLocaleString()}</td>
                           <td className="p-3 text-green-600 font-medium">${item.value}B</td>
-                          <td className="p-3">98.{Math.floor(Math.random() * 9) + 1}%</td>
+                          <td className="p-3 font-medium">{item.matchRate}%</td>
                           <td className="p-3">
-                            <span className="inline-flex items-center px-2 py-1 rounded-full text-xs font-medium bg-green-100 text-green-800">
-                              Active
+                            <span className={`inline-flex items-center px-2 py-1 rounded-full text-xs font-medium ${
+                              item.status === 'Active' ? 'bg-green-100 text-green-800' : 'bg-yellow-100 text-yellow-800'
+                            }`}>
+                              {item.status}
                             </span>
                           </td>
                         </tr>
