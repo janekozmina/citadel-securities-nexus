@@ -126,12 +126,7 @@ const navigationItems = [
     title: 'Reporting & Compliance',
     url: '/reporting',
     roles: ['Admin', 'Custodian', 'Broker', 'Participant', 'Issuer'],
-    icon: FileText,
-    subItems: [
-      { title: 'Regulatory Reports', url: '/reporting/regulatory' },
-      { title: 'Financial Statements', url: '/reporting/financial' },
-      { title: 'Audit Trail', url: '/reporting/audit' }
-    ]
+    icon: FileText
   },
   {
     title: 'Master Data',
