@@ -3,6 +3,7 @@ import { useState } from 'react';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import DvPTransferForm from '@/components/forms/DvPTransferForm';
+import RepoPledgeForm from '@/components/forms/RepoPledgeForm';
 import { 
   Building2, 
   Gavel, 
@@ -21,6 +22,7 @@ import {
 
 const OperationsPage = () => {
   const [isDvPFormOpen, setIsDvPFormOpen] = useState(false);
+  const [isRepoPledgeFormOpen, setIsRepoPledgeFormOpen] = useState(false);
   const operationSections = [
     {
       title: "Structural Operations",
@@ -137,6 +139,8 @@ const OperationsPage = () => {
                   onClick={() => {
                     if (operation.name === 'DvP Transfer') {
                       setIsDvPFormOpen(true);
+                    } else if (operation.name === 'Repo Pledge') {
+                      setIsRepoPledgeFormOpen(true);
                     }
                   }}
                 >
@@ -154,6 +158,11 @@ const OperationsPage = () => {
       <DvPTransferForm 
         open={isDvPFormOpen} 
         onOpenChange={setIsDvPFormOpen} 
+      />
+      
+      <RepoPledgeForm 
+        open={isRepoPledgeFormOpen} 
+        onOpenChange={setIsRepoPledgeFormOpen} 
       />
     </div>
   );
