@@ -332,8 +332,8 @@ const RiskManagementPage = () => {
             <div className="bg-white border border-slate-200 rounded-lg p-4">
               <h3 className="font-semibold text-slate-900 mb-4">Quick Actions</h3>
               <div className="space-y-2">
-                <Button className="w-full justify-start">Trigger Liquidity Injection Request</Button>
-                <Button variant="outline" className="w-full justify-start">Run Intraday Liquidity Simulation</Button>
+                <Button className="w-full justify-start">Liquidity Injection Request</Button>
+                <Button variant="outline" className="w-full justify-start">Intraday Liquidity Simulation</Button>
                 <Button variant="outline" className="w-full justify-start">Run On-Demand Stress Test</Button>
                 <Button variant="outline" className="w-full justify-start">Export Risk Report</Button>
               </div>

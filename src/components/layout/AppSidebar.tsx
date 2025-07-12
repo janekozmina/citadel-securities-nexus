@@ -120,12 +120,7 @@ const navigationItems = [
     title: 'Auction Management',
     url: '/auction',
     roles: ['Admin', 'Custodian', 'Issuer'],
-    icon: Gavel,
-    subItems: [
-      { title: 'Primary Auctions', url: '/auction/primary' },
-      { title: 'Secondary Market', url: '/auction/secondary' },
-      { title: 'Bidding System', url: '/auction/bidding' }
-    ]
+    icon: Gavel
   },
   {
     title: 'Reporting & Compliance',
