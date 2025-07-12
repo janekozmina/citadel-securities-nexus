@@ -5,9 +5,12 @@ import { Badge } from '@/components/ui/badge';
 
 const UserManagementPage = () => {
   return (
-    <div className="space-y-6">
+    <div className="space-y-6 bg-slate-50 min-h-screen p-6">
       <div className="flex items-center justify-between">
-        <h1 className="text-3xl font-bold text-slate-900">User & Access Management</h1>
+        <div>
+          <h1 className="text-3xl font-bold text-slate-800">User & Access Management</h1>
+          <p className="text-slate-600">Configure user access and authentication settings</p>
+        </div>
         <Badge variant="outline">Admin, Regulator Access</Badge>
       </div>
 

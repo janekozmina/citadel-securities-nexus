@@ -136,13 +136,10 @@ const SystemMonitoringPage = () => {
     <div className="min-h-screen bg-gray-900 text-white p-4">
       {/* Header */}
       <div className="flex items-center justify-between mb-4">
-        <div className="flex items-center gap-2">
-          <div className="w-6 h-6 bg-orange-500 rounded flex items-center justify-center">
-            <span className="text-xs font-bold">G</span>
-          </div>
-          <span className="text-sm text-gray-300">Node Exporter 0.16+ for Prometheus Monitoring display board</span>
+        <div>
+          <h1 className="text-3xl font-bold text-white">System Monitoring</h1>
+          <p className="text-gray-400">Real-time system performance metrics</p>
         </div>
-        <div className="text-xs text-gray-400">localhost:9100</div>
       </div>
 
       {/* Top metrics row */}
@@ -463,7 +460,7 @@ const SystemMonitoringPage = () => {
             <div className="h-32 flex items-center justify-center">
               <div className="text-center">
                 <div className="text-2xl text-gray-300">100 ms</div>
-                <div className="text-xs text-gray-500">分钟磁盘使用率</div>
+                <div className="text-xs text-gray-500">Disk usage rate</div>
               </div>
             </div>
           </CardContent>

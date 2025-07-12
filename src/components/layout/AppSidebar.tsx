@@ -128,17 +128,6 @@ const navigationItems = [
     roles: ['Admin', 'Custodian', 'Broker', 'Participant', 'Issuer'],
     icon: FileText
   },
-  {
-    title: 'Master Data',
-    url: '/masterdata',
-    roles: ['Admin', 'Regulator'],
-    icon: Database,
-    subItems: [
-      { title: 'Securities Master', url: '/masterdata/securities' },
-      { title: 'Participant Registry', url: '/masterdata/participants' },
-      { title: 'Reference Data', url: '/masterdata/reference' }
-    ]
-  }
 ];
 
 const adminItems = [
@@ -181,7 +170,7 @@ export function AppSidebar() {
     'Risk Management': false,
     'Auction Management': false,
     'Reporting & Compliance': false,
-    'Master Data': false
+    
   });
 
   const filteredItems = navigationItems.filter(item => 
