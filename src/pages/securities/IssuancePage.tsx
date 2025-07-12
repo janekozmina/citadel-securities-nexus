@@ -114,9 +114,9 @@ const IssuancePage = () => {
               <h3 className="font-semibold text-slate-900 mb-4">Quick Actions</h3>
               <div className="space-y-2">
                 <Button className="w-full justify-start">Initiate New Issuance Request</Button>
-                <Button variant="outline" className="w-full justify-start">Upload Term Sheet / Prospectus</Button>
-                <Button variant="outline" className="w-full justify-start">Select Issuance Type (Equity, Debt, Sukuk, etc.)</Button>
-                <Button variant="outline" className="w-full justify-start">Define Corporate Action Schedule</Button>
+                <Button variant="outline" className="w-full justify-start">Upload Term Sheet</Button>
+                <Button variant="outline" className="w-full justify-start">Select Issuance Type</Button>
+                <Button variant="outline" className="w-full justify-start">Define Schedule</Button>
               </div>
             </div>
           </div>

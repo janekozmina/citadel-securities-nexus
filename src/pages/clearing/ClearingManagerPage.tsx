@@ -49,93 +49,90 @@ const ClearingManagerPage = () => {
       <div className="space-y-6">
         <div className="flex items-center justify-between">
           <div>
-            <h1 className="text-xl font-semibold text-slate-900">Clearing Manager</h1>
+            <h1 className="text-2xl font-bold text-slate-900">Clearing Manager</h1>
             <p className="text-slate-600">Monitor and manage clearing operations</p>
           </div>
         </div>
 
         <div className="flex h-full">
           <div className="flex-1 space-y-6 pr-6">
+            {/* Workflow Status Cards */}
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
+              {clearingData.workflowStatus.map((stage) => (
+                <Card key={stage.stage}>
+                  <CardContent className="p-4">
+                    <div className="text-sm font-medium text-slate-600 mb-2">{stage.stage}</div>
+                    <div className="space-y-1">
+                      <div className="flex justify-between text-sm">
+                        <span className="text-green-600">Processed:</span>
+                        <span className="font-medium">{stage.processed.toLocaleString()}</span>
+                      </div>
+                      <div className="flex justify-between text-sm">
+                        <span className="text-yellow-600">Pending:</span>
+                        <span className="font-medium">{stage.pending}</span>
+                      </div>
+                      <div className="flex justify-between text-sm">
+                        <span className="text-red-600">Failed:</span>
+                        <span className="font-medium">{stage.failed}</span>
+                      </div>
+                    </div>
+                  </CardContent>
+                </Card>
+              ))}
+            </div>
 
-          {/* Workflow Status Cards */}
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
-            {clearingData.workflowStatus.map((stage) => (
-              <Card key={stage.stage}>
-                <CardContent className="p-4">
-                  <div className="text-sm font-medium text-slate-600 mb-2">{stage.stage}</div>
-                  <div className="space-y-1">
-                    <div className="flex justify-between text-sm">
-                      <span className="text-green-600">Processed:</span>
-                      <span className="font-medium">{stage.processed.toLocaleString()}</span>
-                    </div>
-                    <div className="flex justify-between text-sm">
-                      <span className="text-yellow-600">Pending:</span>
-                      <span className="font-medium">{stage.pending}</span>
-                    </div>
-                    <div className="flex justify-between text-sm">
-                      <span className="text-red-600">Failed:</span>
-                      <span className="font-medium">{stage.failed}</span>
-                    </div>
-                  </div>
-                </CardContent>
-              </Card>
-            ))}
+            {/* Participants Table */}
+            <Card>
+              <CardHeader>
+                <CardTitle>Clearing Participants Status</CardTitle>
+              </CardHeader>
+              <CardContent>
+                <div className="overflow-x-auto">
+                  <table className="w-full border-collapse">
+                    <thead>
+                      <tr className="border-b">
+                        <th className="text-left p-3 font-semibold">Participant</th>
+                        <th className="text-left p-3 font-semibold">Trades</th>
+                        <th className="text-left p-3 font-semibold">Volume</th>
+                        <th className="text-left p-3 font-semibold">Status</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      {clearingData.participants.map((participant, index) => (
+                        <tr key={index} className="border-b hover:bg-slate-50">
+                          <td className="p-3 font-medium">{participant.name}</td>
+                          <td className="p-3">{participant.trades.toLocaleString()}</td>
+                          <td className="p-3">${(participant.volume / 1000000).toFixed(1)}M</td>
+                          <td className="p-3">
+                            <div className="flex items-center gap-2">
+                              {getStatusIcon(participant.status)}
+                              <Badge variant={participant.status === 'Warning' ? 'destructive' : 'default'}>
+                                {participant.status}
+                              </Badge>
+                            </div>
+                          </td>
+                        </tr>
+                      ))}
+                    </tbody>
+                  </table>
+                </div>
+              </CardContent>
+            </Card>
           </div>
 
-
-          {/* Participants Table */}
-          <Card>
-            <CardHeader>
-              <CardTitle>Clearing Participants Status</CardTitle>
-            </CardHeader>
-            <CardContent>
-              <div className="overflow-x-auto">
-                <table className="w-full border-collapse">
-                  <thead>
-                    <tr className="border-b">
-                      <th className="text-left p-3 font-semibold">Participant</th>
-                      <th className="text-left p-3 font-semibold">Trades</th>
-                      <th className="text-left p-3 font-semibold">Volume</th>
-                      <th className="text-left p-3 font-semibold">Status</th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    {clearingData.participants.map((participant, index) => (
-                      <tr key={index} className="border-b hover:bg-slate-50">
-                        <td className="p-3 font-medium">{participant.name}</td>
-                        <td className="p-3">{participant.trades.toLocaleString()}</td>
-                        <td className="p-3">${(participant.volume / 1000000).toFixed(1)}M</td>
-                        <td className="p-3">
-                          <div className="flex items-center gap-2">
-                            {getStatusIcon(participant.status)}
-                            <Badge variant={participant.status === 'Warning' ? 'destructive' : 'default'}>
-                              {participant.status}
-                            </Badge>
-                          </div>
-                        </td>
-                      </tr>
-                    ))}
-                  </tbody>
-                </table>
+          {/* Right Sidebar with Quick Actions */}
+          <div className="w-64 space-y-4">
+            <div className="bg-white border border-slate-200 rounded-lg p-4">
+              <h3 className="font-semibold text-slate-900 mb-4">Quick Actions</h3>
+              <div className="space-y-2">
+                <Button className="w-full justify-start">Process Pending Trades</Button>
+                <Button variant="outline" className="w-full justify-start">Generate Cleaning Report</Button>
+                <Button variant="outline" className="w-full justify-start">View Failed Transactions</Button>
+                <Button variant="outline" className="w-full justify-start">Workflow Configuration</Button>
               </div>
-            </CardContent>
-          </Card>
-        </div>
-
-        {/* Right Sidebar with Quick Actions */}
-        <div className="w-64 space-y-4">
-          <div className="bg-white border border-slate-200 rounded-lg p-4">
-            <h3 className="text-lg font-semibold text-slate-900 mb-4">Quick Actions</h3>
-            <div className="space-y-2">
-              <Button className="w-full justify-start">Process Pending Trades</Button>
-              <Button variant="outline" className="w-full justify-start">Generate Clearing Report</Button>
-              <Button variant="outline" className="w-full justify-start">View Failed Transactions</Button>
-              <Button variant="outline" className="w-full justify-start">Participant Management</Button>
-              <Button variant="outline" className="w-full justify-start">Workflow Configuration</Button>
             </div>
           </div>
         </div>
-      </div>
       </div>
     </TooltipProvider>
   );
