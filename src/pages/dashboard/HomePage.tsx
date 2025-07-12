@@ -118,44 +118,16 @@ const HomePage = () => {
         ))}
       </div>
 
-      {/* Dashboard Placeholders - 2 rows, 2 columns */}
-      <div className="grid grid-cols-2 gap-6">
-        <Card className="bg-white border-2 border-dashed border-slate-300 h-64">
-          <CardContent className="p-6 h-full flex items-center justify-center">
-            <div className="text-center text-slate-500">
-              <div className="text-lg font-medium">Dashboard Placeholder 1</div>
-              <div className="text-sm">Content to be added</div>
-            </div>
-          </CardContent>
-        </Card>
-
-        <Card className="bg-white border-2 border-dashed border-slate-300 h-64">
-          <CardContent className="p-6 h-full flex items-center justify-center">
-            <div className="text-center text-slate-500">
-              <div className="text-lg font-medium">Dashboard Placeholder 2</div>
-              <div className="text-sm">Content to be added</div>
-            </div>
-          </CardContent>
-        </Card>
-
-        <Card className="bg-white border-2 border-dashed border-slate-300 h-64">
-          <CardContent className="p-6 h-full flex items-center justify-center">
-            <div className="text-center text-slate-500">
-              <div className="text-lg font-medium">Dashboard Placeholder 3</div>
-              <div className="text-sm">Content to be added</div>
-            </div>
-          </CardContent>
-        </Card>
-
-        <Card className="bg-white border-2 border-dashed border-slate-300 h-64">
-          <CardContent className="p-6 h-full flex items-center justify-center">
-            <div className="text-center text-slate-500">
-              <div className="text-lg font-medium">Dashboard Placeholder 4</div>
-              <div className="text-sm">Content to be added</div>
-            </div>
-          </CardContent>
-        </Card>
-      </div>
+      {/* Superset Dashboard */}
+      <Card className="bg-white">
+        <CardContent className="p-0">
+          <iframe
+            src="http://superset.k8s1.moscow.cma.ru/superset/dashboard/32/?native_filters_key=rCC7YOoWqe8QNgh2IgP5bmX-goAr5GUvP7XCnGRhCPE0locjSbQT3YWfUSq7LZBX"
+            className="w-full h-[800px] border-0 rounded-lg"
+            title="Superset Dashboard"
+          />
+        </CardContent>
+      </Card>
     </div>
   );
 };

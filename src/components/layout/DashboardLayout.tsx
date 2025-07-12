@@ -4,6 +4,7 @@ import { SidebarProvider } from '@/components/ui/sidebar';
 import { AppSidebar } from './AppSidebar';
 import { DashboardHeader } from './DashboardHeader';
 import { AlertsPanel } from './AlertsPanel';
+import Chatbot from './Chatbot';
 
 const DashboardLayout = () => {
   const location = useLocation();
@@ -57,6 +58,7 @@ const DashboardLayout = () => {
           </main>
         </div>
         <AlertsPanel alerts={getPageAlerts()} />
+        <Chatbot />
       </div>
     </SidebarProvider>
   );
