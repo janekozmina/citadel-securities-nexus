@@ -1,6 +1,8 @@
 
+import { useState } from 'react';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
+import DvPTransferForm from '@/components/forms/DvPTransferForm';
 import { 
   Building2, 
   Gavel, 
@@ -18,6 +20,7 @@ import {
 } from 'lucide-react';
 
 const OperationsPage = () => {
+  const [isDvPFormOpen, setIsDvPFormOpen] = useState(false);
   const operationSections = [
     {
       title: "Structural Operations",
@@ -131,6 +134,11 @@ const OperationsPage = () => {
                   key={opIndex}
                   variant="outline"
                   className="w-full justify-start text-left h-auto py-3 px-4 hover:bg-blue-50 hover:border-blue-300 text-white border-white/20 hover:text-slate-700"
+                  onClick={() => {
+                    if (operation.name === 'DvP Transfer') {
+                      setIsDvPFormOpen(true);
+                    }
+                  }}
                 >
                   <operation.icon className="h-4 w-4 mr-3 text-white" />
                   <span className="text-sm font-medium text-white hover:text-slate-700">
@@ -142,6 +150,11 @@ const OperationsPage = () => {
           </Card>
         ))}
       </div>
+
+      <DvPTransferForm 
+        open={isDvPFormOpen} 
+        onOpenChange={setIsDvPFormOpen} 
+      />
     </div>
   );
 };
