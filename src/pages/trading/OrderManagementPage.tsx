@@ -1,8 +1,11 @@
+import { useState } from 'react';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { TooltipProvider } from '@/components/ui/tooltip';
+import NewBuyOrderForm from '@/components/forms/NewBuyOrderForm';
 
 const OrderManagementPage = () => {
+  const [isNewBuyOrderOpen, setIsNewBuyOrderOpen] = useState(false);
   const orderManagementData = {
     quoteOrders: [
       { id: 'Q001', instrument: 'AAPL', price: 175.25, quantity: 1500, validity: '2024-07-15', side: 'BUY' },
@@ -118,7 +121,13 @@ const OrderManagementPage = () => {
               <h3 className="font-semibold text-slate-900 mb-4">Quick Actions</h3>
               <div className="space-y-2">
                 <Button className="w-full justify-start">Create Quote Order</Button>
-                <Button variant="outline" className="w-full justify-start">Create Offer Order</Button>
+                <Button 
+                  variant="outline" 
+                  className="w-full justify-start"
+                  onClick={() => setIsNewBuyOrderOpen(true)}
+                >
+                  Create Offer Order
+                </Button>
                 <Button variant="outline" className="w-full justify-start">Modify Orders</Button>
                 <Button variant="outline" className="w-full justify-start">Cancel Orders</Button>
                 <Button variant="outline" className="w-full justify-start">Order History</Button>
@@ -127,6 +136,11 @@ const OrderManagementPage = () => {
             </div>
           </div>
         </div>
+
+        <NewBuyOrderForm 
+          open={isNewBuyOrderOpen} 
+          onOpenChange={setIsNewBuyOrderOpen} 
+        />
       </div>
     </TooltipProvider>
   );
