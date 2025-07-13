@@ -5,11 +5,11 @@ import { Edit, Settings, Mail, Calendar, TrendingUp, FileText, Filter } from 'lu
 
 const CorporateActionsPage = () => {
   const upcomingEvents = [
-    { id: 1, security: "AAPL", event: "Dividend", date: "2024-08-15", issuer: "Apple Inc.", type: "🟡", amount: "$0.25" },
+    { id: 1, security: "AAPL", event: "Dividend", date: "2024-08-15", issuer: "Apple Inc.", type: "🟡", amount: "AED 0.25" },
     { id: 2, security: "GOOGL", event: "Stock Split", date: "2024-08-20", issuer: "Alphabet Inc.", type: "🔵", ratio: "20:1" },
     { id: 3, security: "TSLA", event: "Rights Issue", date: "2024-08-25", issuer: "Tesla Inc.", type: "🟠", ratio: "1:10" },
     { id: 4, security: "MSFT", event: "Merger", date: "2024-09-01", issuer: "Microsoft Corp.", type: "🔴", details: "Acquisition" },
-    { id: 5, security: "META", event: "Dividend", date: "2024-09-10", issuer: "Meta Platforms", type: "🟡", amount: "$0.50" },
+    { id: 5, security: "META", event: "Dividend", date: "2024-09-10", issuer: "Meta Platforms", type: "🟡", amount: "AED 0.50" },
   ];
 
   return (
@@ -93,6 +93,8 @@ const CorporateActionsPage = () => {
                 <Button className="w-full justify-start">Create Dividend Action</Button>
                 <Button variant="outline" className="w-full justify-start">Create Stock Split</Button>
                 <Button variant="outline" className="w-full justify-start">Create Rights Issue</Button>
+                <Button variant="outline" className="w-full justify-start">Coupon (MBond1)</Button>
+                <Button variant="outline" className="w-full justify-start">Redemption (MBill1)</Button>
                 <Button variant="outline" className="w-full justify-start">Edit Existing Action</Button>
                 <Button variant="outline" className="w-full justify-start">Configure Automation Rules</Button>
               </div>

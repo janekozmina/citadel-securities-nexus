@@ -139,7 +139,7 @@ const TradingPage = () => {
                     <tr className="border-b">
                       <th className="text-left p-3 font-semibold">Asset Class</th>
                       <th className="text-left p-3 font-semibold">Volume</th>
-                      <th className="text-left p-3 font-semibold">Value ($)</th>
+                      <th className="text-left p-3 font-semibold">Value (AED)</th>
                       <th className="text-left p-3 font-semibold">Matched</th>
                       <th className="text-left p-3 font-semibold">Match Rate</th>
                     </tr>
@@ -569,7 +569,7 @@ const TradingPage = () => {
                   <tr className="border-b">
                     <th className="text-left p-3 font-semibold">Asset Class</th>
                     <th className="text-left p-3 font-semibold">Volume</th>
-                    <th className="text-left p-3 font-semibold">Value ($)</th>
+                    <th className="text-left p-3 font-semibold">Value (AED)</th>
                     <th className="text-left p-3 font-semibold">Matched</th>
                     <th className="text-left p-3 font-semibold">Match Rate</th>
                   </tr>

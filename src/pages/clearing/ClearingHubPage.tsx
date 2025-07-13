@@ -145,10 +145,10 @@ const ClearingHubPage = () => {
               <ResponsiveContainer width="100%" height="100%">
                 <BarChart data={currentData.netObligations}>
                   <XAxis dataKey="participant" />
-                  <YAxis tickFormatter={(value) => `$${(value / 1000000).toFixed(1)}M`} />
+                  <YAxis tickFormatter={(value) => `AED ${(value / 1000000).toFixed(1)}M`} />
                   <ChartTooltip 
                     content={<ChartTooltipContent />}
-                    formatter={(value) => [`$${(Number(value) / 1000000).toFixed(2)}M`, '']}
+                    formatter={(value) => [`AED ${(Number(value) / 1000000).toFixed(2)}M`, '']}
                   />
                   <Bar dataKey="cash" stackId="a" fill="var(--color-cash)" name="Cash" />
                   <Bar dataKey="securities" stackId="a" fill="var(--color-securities)" name="Securities" />
@@ -180,7 +180,7 @@ const ClearingHubPage = () => {
                     ))}
                   </Pie>
                   <ChartTooltip 
-                    formatter={(value) => [`$${(Number(value) / 1000000).toFixed(2)}M`, 'Exposure']}
+                    formatter={(value) => [`AED ${(Number(value) / 1000000).toFixed(2)}M`, 'Exposure']}
                   />
                 </PieChart>
               </ResponsiveContainer>
@@ -201,10 +201,10 @@ const ClearingHubPage = () => {
               <ResponsiveContainer width="100%" height="100%">
                 <LineChart data={positionChangesData}>
                   <XAxis dataKey="date" />
-                  <YAxis tickFormatter={(value) => `$${(value / 1000000).toFixed(1)}M`} />
+                  <YAxis tickFormatter={(value) => `AED ${(value / 1000000).toFixed(1)}M`} />
                   <ChartTooltip 
                     content={<ChartTooltipContent />}
-                    formatter={(value) => [`$${(Number(value) / 1000000).toFixed(2)}M`, 'Change']}
+                    formatter={(value) => [`AED ${(Number(value) / 1000000).toFixed(2)}M`, 'Change']}
                   />
                   <Line 
                     type="monotone" 

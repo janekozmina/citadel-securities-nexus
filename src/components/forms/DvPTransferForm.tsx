@@ -262,7 +262,7 @@ const DvPTransferForm: React.FC<DvPTransferFormProps> = ({ open, onOpenChange })
                     </SelectTrigger>
                     <SelectContent className="bg-white border shadow-lg z-50">
                       <SelectItem value="PHP">PHP</SelectItem>
-                      <SelectItem value="USD">USD</SelectItem>
+                      <SelectItem value="AED">AED</SelectItem>
                     </SelectContent>
                   </Select>
                 </div>
