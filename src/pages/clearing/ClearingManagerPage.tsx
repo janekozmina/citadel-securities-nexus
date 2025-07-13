@@ -126,7 +126,9 @@ const ClearingManagerPage = () => {
               <h3 className="font-semibold text-slate-900 mb-4">Quick Actions</h3>
               <div className="space-y-2">
                 <Button className="w-full justify-start">Process Pending Trades</Button>
-                <Button variant="outline" className="w-full justify-start">Generate Cleaning Report</Button>
+                <Button variant="outline" className="w-full justify-start">Pre-clearing Results</Button>
+                <Button variant="outline" className="w-full justify-start">Pre-Clearing DvP2</Button>
+                <Button variant="outline" className="w-full justify-start">Pre-Clearing DvP3</Button>
                 <Button variant="outline" className="w-full justify-start">View Failed Transactions</Button>
                 <Button variant="outline" className="w-full justify-start">Workflow Configuration</Button>
               </div>
