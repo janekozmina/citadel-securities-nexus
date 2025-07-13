@@ -10,6 +10,7 @@ const CorporateActionsPage = () => {
     { id: 3, security: "TSLA", event: "Rights Issue", date: "2024-08-25", issuer: "Tesla Inc.", type: "🟠", ratio: "1:10" },
     { id: 4, security: "MSFT", event: "Merger", date: "2024-09-01", issuer: "Microsoft Corp.", type: "🔴", details: "Acquisition" },
     { id: 5, security: "META", event: "Dividend", date: "2024-09-10", issuer: "Meta Platforms", type: "🟡", amount: "AED 0.50" },
+    { id: 6, security: "BOND1", event: "Coupon", date: "2024-09-15", issuer: "Corporate Bond", type: "🟢", amount: "AED 12.50" },
   ];
 
   return (
@@ -35,7 +36,7 @@ const CorporateActionsPage = () => {
                   {/* Legend */}
                   <div className="mb-6 p-4 bg-slate-50 rounded-lg">
                     <h4 className="font-semibold text-sm mb-3">Event Types Legend:</h4>
-                    <div className="grid grid-cols-2 lg:grid-cols-4 gap-4 text-sm">
+                    <div className="grid grid-cols-2 lg:grid-cols-5 gap-4 text-sm">
                       <div className="flex items-center gap-2">
                         <span className="text-lg">🟡</span>
                         <span>Dividend</span>
@@ -51,6 +52,10 @@ const CorporateActionsPage = () => {
                       <div className="flex items-center gap-2">
                         <span className="text-lg">🔴</span>
                         <span>Merger</span>
+                      </div>
+                      <div className="flex items-center gap-2">
+                        <span className="text-lg">🟢</span>
+                        <span>Coupon</span>
                       </div>
                     </div>
                   </div>

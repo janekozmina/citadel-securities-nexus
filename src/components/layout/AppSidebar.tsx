@@ -132,6 +132,12 @@ const navigationItems = [
     icon: Gavel
   },
   {
+    title: 'Investor Services Hub',
+    url: '/investor-services',
+    roles: ['Admin', 'Custodian'],
+    icon: Users
+  },
+  {
     title: 'Reporting & Compliance',
     url: '/reporting',
     roles: ['Admin'],

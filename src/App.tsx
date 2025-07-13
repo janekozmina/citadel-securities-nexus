@@ -32,6 +32,7 @@ import CollateralOptimizationPage from "./pages/collateral/CollateralOptimizatio
 import CollateralManagerPage from "./pages/collateral/CollateralManagerPage";
 import RiskManagementPage from "./pages/risk/RiskManagementPage";
 import AuctionManagementPage from "./pages/auction/AuctionManagementPage";
+import InvestorServicesHubPage from "./pages/investor/InvestorServicesHubPage";
 import ReportingPage from "./pages/reporting/ReportingPage";
 import MasterDataPage from "./pages/masterdata/MasterDataPage";
 import SystemAdminPage from "./pages/admin/SystemAdminPage";
@@ -87,6 +88,7 @@ const App = () => (
               <Route path="risk" element={<RiskManagementPage />} />
               <Route path="risk/monitoring" element={<RiskManagementPage />} />
               <Route path="auction" element={<AuctionManagementPage />} />
+              <Route path="investor-services" element={<InvestorServicesHubPage />} />
               <Route path="reporting" element={<ReportingPage />} />
               <Route path="masterdata" element={<MasterDataPage />} />
               <Route path="admin/integrations" element={<IntegrationsManagementPage />} />

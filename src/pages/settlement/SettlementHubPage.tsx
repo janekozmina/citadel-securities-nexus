@@ -243,15 +243,15 @@ const SettlementHubPage = () => {
             <div className="bg-white border border-slate-200 rounded-lg p-4">
               <h3 className="font-semibold text-slate-900 mb-4">Quick Actions</h3>
               <div className="space-y-2">
-                <Button className="w-full justify-start text-left whitespace-normal h-auto py-2">Process Settlements</Button>
-                <Button variant="outline" className="w-full justify-start text-left whitespace-normal h-auto py-2">Regenerate Cash leg</Button>
-                <Button variant="outline" className="w-full justify-start text-left whitespace-normal h-auto py-2">Manage failed transactions</Button>
-                <Button variant="outline" className="w-full justify-start text-left whitespace-normal h-auto py-2">Fails manage via Buy-in</Button>
-                <Button variant="outline" className="w-full justify-start text-left whitespace-normal h-auto py-2">Fails manage via Cash Settlement</Button>
-                <Button variant="outline" className="w-full justify-start text-left whitespace-normal h-auto py-2">Fails manage via Roll-over</Button>
-                <Button variant="outline" className="w-full justify-start text-left whitespace-normal h-auto py-2">Fails manage via SBL</Button>
-                <Button variant="outline" className="w-full justify-start text-left whitespace-normal h-auto py-2">Fails manage via Partial Settlement</Button>
-                <Button variant="outline" className="w-full justify-start text-left whitespace-normal h-auto py-2">Fails manage via Chaining</Button>
+                <Button className="w-full justify-start">Process Settlements</Button>
+                <Button variant="outline" className="w-full justify-start">Regenerate Cash leg</Button>
+                <Button variant="outline" className="w-full justify-start">Manage failed transactions</Button>
+                <Button variant="outline" className="w-full justify-start">Fails via Buy-in</Button>
+                <Button variant="outline" className="w-full justify-start">Fails via Cash Settlement</Button>
+                <Button variant="outline" className="w-full justify-start">Fails via Roll-over</Button>
+                <Button variant="outline" className="w-full justify-start">Fails via SBL</Button>
+                <Button variant="outline" className="w-full justify-start">Fails via Partial Settlement</Button>
+                <Button variant="outline" className="w-full justify-start">Fails via Chaining</Button>
               </div>
             </div>
           </div>
