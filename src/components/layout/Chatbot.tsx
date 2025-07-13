@@ -17,7 +17,7 @@ const Chatbot = () => {
   };
 
   const handleOpenKnowledgeHub = () => {
-    window.open('https://knowledge-hub.fly.dev/', '_blank');
+    window.open('https://knowledge-h.fly.dev/', '_blank');
     setIsOpen(false);
     setMessage('');
     setShowSuggestion(false);
