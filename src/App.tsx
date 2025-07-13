@@ -37,6 +37,9 @@ import MasterDataPage from "./pages/masterdata/MasterDataPage";
 import SystemAdminPage from "./pages/admin/SystemAdminPage";
 import SystemMonitoringPage from "./pages/admin/SystemMonitoringPage";
 import UserManagementPage from "./pages/admin/UserManagementPage";
+import IntegrationsManagementPage from "./pages/admin/IntegrationsManagementPage";
+import MarketDataPage from "./pages/admin/MarketDataPage";
+import StaticDataManagementPage from "./pages/admin/StaticDataManagementPage";
 import ProtectedRoute from "./components/auth/ProtectedRoute";
 import OperationsPage from "./pages/operations/OperationsPage";
 
@@ -86,6 +89,9 @@ const App = () => (
               <Route path="auction" element={<AuctionManagementPage />} />
               <Route path="reporting" element={<ReportingPage />} />
               <Route path="masterdata" element={<MasterDataPage />} />
+              <Route path="admin/integrations" element={<IntegrationsManagementPage />} />
+              <Route path="admin/market-data" element={<MarketDataPage />} />
+              <Route path="admin/static-data" element={<StaticDataManagementPage />} />
               <Route path="admin" element={<SystemMonitoringPage />} />
               <Route path="monitoring" element={<SystemAdminPage />} />
               <Route path="users" element={<UserManagementPage />} />

@@ -141,6 +141,24 @@ const navigationItems = [
 
 const adminItems = [
   {
+    title: 'Integrations Management',
+    url: '/admin/integrations',
+    roles: ['Admin'],
+    icon: Settings
+  },
+  {
+    title: 'Market Data',
+    url: '/admin/market-data',
+    roles: ['Admin'],
+    icon: TrendingUp
+  },
+  {
+    title: 'Static Data Management',
+    url: '/admin/static-data',
+    roles: ['Admin'],
+    icon: Database
+  },
+  {
     title: 'System Monitoring',
     url: '/admin',
     roles: ['Admin'],
