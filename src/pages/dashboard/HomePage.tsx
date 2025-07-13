@@ -118,16 +118,68 @@ const HomePage = () => {
         ))}
       </div>
 
-      {/* Superset Dashboard */}
-      <Card className="bg-white">
-        <CardContent className="p-0">
-          <iframe
-            src="http://superset.k8s1.moscow.cma.ru/superset/dashboard/32/?native_filters_key=rCC7YOoWqe8QNgh2IgP5bmX-goAr5GUvP7XCnGRhCPE0locjSbQT3YWfUSq7LZBX"
-            className="w-full h-[800px] border-0 rounded-lg"
-            title="Superset Dashboard"
-          />
-        </CardContent>
-      </Card>
+      {/* Superset Dashboards Grid */}
+      <div className="grid grid-cols-2 gap-4">
+        <Card className="bg-white">
+          <CardContent className="p-0">
+            <iframe
+              width="100%"
+              height="400"
+              seamless
+              frameBorder="0"
+              scrolling="no"
+              src="http://superset.k8s1.moscow.cma.ru/superset/explore/p/y3Q46MP9OLo/?standalone=1&height=400"
+              className="w-full border-0 rounded-lg"
+              title="Superset Dashboard 1"
+            />
+          </CardContent>
+        </Card>
+        
+        <Card className="bg-white">
+          <CardContent className="p-0">
+            <iframe
+              width="100%"
+              height="400"
+              seamless
+              frameBorder="0"
+              scrolling="no"
+              src="http://superset.k8s1.moscow.cma.ru/superset/explore/p/MknwLxJnw7z/?standalone=1&height=400"
+              className="w-full border-0 rounded-lg"
+              title="Superset Dashboard 2"
+            />
+          </CardContent>
+        </Card>
+        
+        <Card className="bg-white">
+          <CardContent className="p-0">
+            <iframe
+              width="100%"
+              height="400"
+              seamless
+              frameBorder="0"
+              scrolling="no"
+              src="http://superset.k8s1.moscow.cma.ru/superset/explore/p/onR4pVbAZVl/?standalone=1&height=400"
+              className="w-full border-0 rounded-lg"
+              title="Superset Dashboard 3"
+            />
+          </CardContent>
+        </Card>
+        
+        <Card className="bg-white">
+          <CardContent className="p-0">
+            <iframe
+              width="100%"
+              height="400"
+              seamless
+              frameBorder="0"
+              scrolling="no"
+              src="http://superset.k8s1.moscow.cma.ru/superset/explore/p/0z24Mxv9ONX/?standalone=1&height=400"
+              className="w-full border-0 rounded-lg"
+              title="Superset Dashboard 4"
+            />
+          </CardContent>
+        </Card>
+      </div>
     </div>
   );
 };
