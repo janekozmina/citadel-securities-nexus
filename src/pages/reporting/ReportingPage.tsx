@@ -216,7 +216,18 @@ const ReportingPage = () => {
             <div className="bg-white border border-slate-200 rounded-lg p-4">
               <h3 className="font-semibold text-slate-900 mb-4">Quick Actions</h3>
               <div className="space-y-2">
-                <Button className="w-full justify-start" variant="default">
+                <Button 
+                  className="w-full justify-start" 
+                  variant="default"
+                  onClick={() => {
+                    const link = document.createElement('a');
+                    link.href = '/StatementsOfAccounts.pdf';
+                    link.download = 'StatementsOfAccounts.pdf';
+                    document.body.appendChild(link);
+                    link.click();
+                    document.body.removeChild(link);
+                  }}
+                >
                   <FileText className="mr-2 h-4 w-4" />
                   Account Statement
                 </Button>
