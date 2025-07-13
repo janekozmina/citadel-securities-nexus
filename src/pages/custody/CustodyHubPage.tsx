@@ -68,60 +68,74 @@ const CustodyHubPage = () => {
         <div className="flex h-full">
           <div className="flex-1 space-y-6 pr-6">
             {/* Dashboard Cards */}
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-              {/* Securities Settled Today */}
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+              {/* Total Government Bond Holdings as of Today */}
               <Card>
                 <CardContent className="p-4">
-                  <div className="text-sm font-medium text-slate-600 mb-2">Securities Settled Today</div>
+                  <div className="text-sm font-medium text-slate-600 mb-2">Total Government Bond Holdings as of Today</div>
                   <div className="space-y-1">
                     <div className="flex justify-between text-sm">
-                      <span className="text-green-600">Volume:</span>
-                      <span className="font-medium">{todaySettlements.volume.toLocaleString()}</span>
+                      <span className="text-green-600">Total Value:</span>
+                      <span className="font-medium">AED 125.5M</span>
                     </div>
                     <div className="flex justify-between text-sm">
-                      <span className="text-slate-600">Market Value:</span>
-                      <span className="font-medium">AED {(todaySettlements.value / 1000000).toFixed(1)}M</span>
+                      <span className="text-slate-600">Instruments:</span>
+                      <span className="font-medium">18</span>
                     </div>
                     <div className="flex justify-between text-sm">
                       <span className="text-blue-600">Status:</span>
-                      <RefreshCw className="h-4 w-4 text-blue-600" />
+                      <Building className="h-4 w-4 text-blue-600" />
                     </div>
                   </div>
                 </CardContent>
               </Card>
 
-              {/* Settlement Rate */}
+              {/* Planned Auctions */}
               <Card>
                 <CardContent className="p-4">
-                  <div className="text-sm font-medium text-slate-600 mb-2">Settlement Rate</div>
+                  <div className="text-sm font-medium text-slate-600 mb-2">Planned Auctions</div>
                   <div className="space-y-1">
                     <div className="flex justify-between text-sm">
-                      <span className="text-green-600">DvP Success:</span>
-                      <span className="font-medium">{settlementRate.dvp}%</span>
+                      <span className="text-green-600">Next Auction:</span>
+                      <span className="font-medium">MBill5</span>
                     </div>
                     <div className="flex justify-between text-sm">
-                      <span className="text-red-600">Fails:</span>
-                      <span className="font-medium">{settlementRate.fails}%</span>
+                      <span className="text-slate-600">Date:</span>
+                      <span className="font-medium">2024-07-16</span>
                     </div>
                     <div className="flex justify-between text-sm">
-                      <span className="text-yellow-600">Partial:</span>
-                      <span className="font-medium">{settlementRate.partial}%</span>
+                      <span className="text-blue-600">Amount:</span>
+                      <span className="font-medium">AED 50M</span>
                     </div>
                   </div>
                 </CardContent>
               </Card>
 
-              {/* Daily Trend */}
+              {/* Total balances by sub-balances */}
               <Card>
                 <CardContent className="p-4">
-                  <div className="text-sm font-medium text-slate-600 mb-2">Daily Trend</div>
+                  <div className="text-sm font-medium text-slate-600 mb-2">Total balances by sub-balances</div>
                   <div className="space-y-1">
-                    {dailyTrend.slice(-3).map((day, index) => (
-                      <div key={day.date} className="flex justify-between text-sm">
-                        <span className="text-slate-600">{day.date}:</span>
-                        <span className="font-medium">{day.settled}</span>
-                      </div>
-                    ))}
+                    <div className="flex justify-between text-sm">
+                      <span className="text-green-600">AVAI:</span>
+                      <span className="font-medium">AED 45.2M</span>
+                    </div>
+                    <div className="flex justify-between text-sm">
+                      <span className="text-blue-600">BLOK:</span>
+                      <span className="font-medium">AED 15.8M</span>
+                    </div>
+                    <div className="flex justify-between text-sm">
+                      <span className="text-purple-600">PLED:</span>
+                      <span className="font-medium">AED 28.5M</span>
+                    </div>
+                    <div className="flex justify-between text-sm">
+                      <span className="text-orange-600">RSTR:</span>
+                      <span className="font-medium">AED 8.2M</span>
+                    </div>
+                    <div className="flex justify-between text-sm">
+                      <span className="text-red-600">NAVL:</span>
+                      <span className="font-medium">AED 27.8M</span>
+                    </div>
                   </div>
                 </CardContent>
               </Card>

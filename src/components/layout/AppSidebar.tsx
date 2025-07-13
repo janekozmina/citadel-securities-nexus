@@ -106,8 +106,17 @@ const navigationItems = [
     subItems: [
       { title: 'Tri-Party REPO Services', url: '/liquidity/tri-party-repo' },
       { title: 'Central Bank Liquidity Management', url: '/liquidity/central-bank-liquidity' },
-      { title: 'Islamic REPO', url: '/liquidity/islamic-repo' },
-      { title: 'Collateral Optimization AI', url: '/liquidity/collateral-optimization' }
+      { title: 'Islamic REPO', url: '/liquidity/islamic-repo' }
+    ]
+  },
+  {
+    title: 'Collateral Management',
+    url: '/collateral',
+    roles: ['Admin'],
+    icon: Shield,
+    subItems: [
+      { title: 'Collateral Manager', url: '/collateral/manager' },
+      { title: 'Collateral Optimization AI', url: '/collateral/optimization' }
     ]
   },
   {
