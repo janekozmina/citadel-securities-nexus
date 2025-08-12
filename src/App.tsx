@@ -43,6 +43,15 @@ import MarketDataPage from "./pages/admin/MarketDataPage";
 import StaticDataManagementPage from "./pages/admin/StaticDataManagementPage";
 import ProtectedRoute from "./components/auth/ProtectedRoute";
 import OperationsPage from "./pages/operations/OperationsPage";
+import RTGSHomePage from "./pages/rtgs/RTGSHomePage";
+import FinancialMonitoringPage from "./pages/rtgs/FinancialMonitoringPage";
+import CentralBankOperationsPage from "./pages/rtgs/CentralBankOperationsPage";
+import AnomalyDetectionPage from "./pages/rtgs/AnomalyDetectionPage";
+import DisputeManagementPage from "./pages/rtgs/DisputeManagementPage";
+import KnowledgeHubPage from "./pages/knowledge/KnowledgeHubPage";
+import KnowledgeSearchPage from "./pages/knowledge/KnowledgeSearchPage";
+import KnowledgeFindingsPage from "./pages/knowledge/KnowledgeFindingsPage";
+import RTGSConfigurationPage from "./pages/admin/RTGSConfigurationPage";
 
 const queryClient = new QueryClient();
 
@@ -87,6 +96,18 @@ const App = () => (
               <Route path="collateral/optimization" element={<CollateralOptimizationPage />} />
               <Route path="risk" element={<RiskManagementPage />} />
               <Route path="risk/monitoring" element={<RiskManagementPage />} />
+              {/* RTGS */}
+              <Route path="rtgs" element={<RTGSHomePage />} />
+              <Route path="rtgs/financial-monitoring" element={<FinancialMonitoringPage />} />
+              <Route path="rtgs/central-bank-operations" element={<CentralBankOperationsPage />} />
+              <Route path="rtgs/anomaly-detection" element={<AnomalyDetectionPage />} />
+              <Route path="rtgs/dispute-management" element={<DisputeManagementPage />} />
+              {/* Knowledge Hub */}
+              <Route path="knowledge" element={<KnowledgeHubPage />} />
+              <Route path="knowledge/search" element={<KnowledgeSearchPage />} />
+              <Route path="knowledge/findings" element={<KnowledgeFindingsPage />} />
+              {/* Administration */}
+              <Route path="admin/rtgs-config" element={<RTGSConfigurationPage />} />
               <Route path="auction" element={<AuctionManagementPage />} />
               <Route path="investor-services" element={<InvestorServicesHubPage />} />
               <Route path="reporting" element={<ReportingPage />} />
