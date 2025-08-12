@@ -1,4 +1,3 @@
-
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useAuth, UserRole } from '@/contexts/AuthContext';
@@ -100,46 +99,46 @@ const LoginPage = () => {
           <h1 className="text-3xl font-bold text-white mb-2">Unified Portal</h1>
         </div>
         
-        <Card className="auth-card-bg border-slate-600">
+        <Card className="auth-card-bg border-gray-600">
           <CardHeader>
             <CardTitle className="text-white text-center">Sign In</CardTitle>
           </CardHeader>
           <CardContent>
             <form onSubmit={handleSubmit} className="space-y-6">
               <div className="space-y-2">
-                <Label htmlFor="email" className="text-slate-200">Email</Label>
+                <Label htmlFor="email" className="text-gray-200">Email</Label>
                 <Input
                   id="email"
                   type="email"
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
-                  className="bg-slate-700 border-slate-600 text-white"
+                  className="bg-gray-700 border-gray-600 text-white placeholder-gray-400"
                   placeholder="role@demo.com"
                 />
               </div>
               
               <div className="space-y-2">
-                <Label htmlFor="password" className="text-slate-200">Password</Label>
+                <Label htmlFor="password" className="text-gray-200">Password</Label>
                 <Input
                   id="password"
                   type="password"
                   value={password}
                   onChange={(e) => setPassword(e.target.value)}
-                  className="bg-slate-700 border-slate-600 text-white"
+                  className="bg-gray-700 border-gray-600 text-white placeholder-gray-400"
                   placeholder="Enter your password"
                 />
               </div>
               
               <Button 
                 type="submit" 
-                className="w-full bg-blue-600 hover:bg-blue-700"
+                className="w-full"
                 disabled={isLoading}
               >
                 {isLoading ? 'Signing In...' : 'Sign In'}
               </Button>
             </form>
             
-            <div className="mt-4 p-3 bg-slate-700 rounded text-sm text-slate-300">
+            <div className="mt-4 p-3 bg-gray-700 rounded text-sm text-gray-300">
               <p><strong>Demo Credentials:</strong></p>
               <p>Email: admin@demo.com, issuer@demo.com, etc.</p>
               <p>Password: CMA!@#$</p>
