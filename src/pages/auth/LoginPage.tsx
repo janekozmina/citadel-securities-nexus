@@ -94,14 +94,14 @@ const LoginPage = () => {
   };
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-slate-900 via-slate-800 to-slate-900">
+    <div className="min-h-screen flex items-center justify-center auth-page-bg">
       <div className="w-full max-w-md space-y-8 p-6">
         <div className="text-center">
           <h1 className="text-3xl font-bold text-white mb-2">CSD Portal</h1>
           <p className="text-slate-400">Central Securities Depository & Registry</p>
         </div>
         
-        <Card className="bg-slate-800 border-slate-700">
+        <Card className="auth-card-bg border-slate-600">
           <CardHeader>
             <CardTitle className="text-white text-center">Sign In</CardTitle>
           </CardHeader>

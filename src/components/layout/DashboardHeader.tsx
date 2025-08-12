@@ -9,19 +9,20 @@ import {
   DropdownMenuItem,
   DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu';
+import cbbLogo from '@/assets/cbb-logo.png';
 
 export const DashboardHeader = () => {
   const { user, logout } = useAuth();
 
   return (
-    <header className="h-16 bg-white border-b border-slate-200 flex items-center justify-between px-6">
+    <header className="h-16 dashboard-header-bg border-b border-slate-600 flex items-center justify-between px-6">
       <div className="flex items-center gap-4">
-        <SidebarTrigger />
-        <h1 className="text-xl font-semibold text-slate-800">Unified Portal</h1>
+        <SidebarTrigger className="text-white" />
+        <img src={cbbLogo} alt="Central Bank of Bahrain" className="h-10" />
       </div>
       
       <div className="flex items-center gap-4">
-        <span className="text-sm text-slate-600">Welcome, {user?.name}</span>
+        <span className="text-sm text-slate-300">Welcome, {user?.name}</span>
         <DropdownMenu>
           <DropdownMenuTrigger asChild>
             <Button variant="ghost" className="relative h-8 w-8 rounded-full">

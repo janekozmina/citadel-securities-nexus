@@ -18,7 +18,7 @@ All colors MUST be HSL.
     --popover: 0 0% 100%;
     --popover-foreground: 0 0% 15%;
 
-    --primary: 28 100% 50%;
+    --primary: 38 29% 44%;
     --primary-foreground: 0 0% 98%;
 
     --secondary: 0 0% 96%;
@@ -27,7 +27,7 @@ All colors MUST be HSL.
     --muted: 0 0% 96%;
     --muted-foreground: 0 0% 45%;
 
-    --accent: 28 100% 50%;
+    --accent: 38 29% 44%;
     --accent-foreground: 0 0% 98%;
 
     --destructive: 0 84.2% 60.2%;
@@ -35,21 +35,26 @@ All colors MUST be HSL.
 
     --border: 0 0% 90%;
     --input: 0 0% 90%;
-    --ring: 28 100% 50%;
+    --ring: 38 29% 44%;
 
     --radius: 0.5rem;
 
-    --sidebar-background: 0 0% 12%;
+    --sidebar-background: 0 0% 23%;
     --sidebar-foreground: 0 0% 85%;
-    --sidebar-primary: 28 100% 50%;
+    --sidebar-primary: 38 29% 44%;
     --sidebar-primary-foreground: 0 0% 98%;
-    --sidebar-accent: 28 80% 45%;
+    --sidebar-accent: 38 29% 44%;
     --sidebar-accent-foreground: 0 0% 98%;
     --sidebar-border: 0 0% 20%;
-    --sidebar-ring: 28 100% 60%;
+    --sidebar-ring: 38 29% 44%;
+
+    /* Custom colors for the app */
+    --auth-background: 0 0% 16%;
+    --auth-card: 0 0% 23%;
+    --dashboard-header: 0 0% 16%;
 
     /* Gradient variables for sidebars */
-    --sidebar-gradient: linear-gradient(135deg, #1a1a1a 0%, #2a2a2a 100%);
+    --sidebar-gradient: linear-gradient(135deg, #3A3A3A 0%, #2a2a2a 100%);
   }
 
   .dark {
@@ -104,32 +109,46 @@ All colors MUST be HSL.
   }
 }
 
-/* Custom styles for orange theme - ensuring white text on orange backgrounds */
+/* Custom styles for new color theme */
 .btn-primary, button:not(.btn-secondary):not(.btn-outline):not(.btn-ghost) {
-  background-color: hsl(28 100% 50%) !important;
-  border-color: hsl(28 100% 50%) !important;
+  background-color: hsl(38 29% 44%) !important;
+  border-color: hsl(38 29% 44%) !important;
   color: white !important;
 }
 
 .btn-primary:hover, button:not(.btn-secondary):not(.btn-outline):not(.btn-ghost):hover {
-  background-color: hsl(28 100% 45%) !important;
-  border-color: hsl(28 100% 45%) !important;
+  background-color: hsl(38 29% 40%) !important;
+  border-color: hsl(38 29% 40%) !important;
   color: white !important;
 }
 
 [data-state="active"] {
-  background-color: hsl(28 100% 50%) !important;
+  background-color: hsl(38 29% 44%) !important;
   color: white !important;
 }
 
-/* Ensure tabs have white text on orange background */
+/* Ensure tabs have white text on background */
 [data-state="active"], .bg-primary {
   color: white !important;
 }
 
 /* Button text color override */
-button[class*="bg-primary"], button[class*="bg-orange"] {
+button[class*="bg-primary"] {
   color: white !important;
+}
+
+/* Auth page backgrounds */
+.auth-page-bg {
+  background-color: hsl(0 0% 16%) !important;
+}
+
+.auth-card-bg {
+  background-color: hsl(0 0% 23%) !important;
+}
+
+/* Dashboard header background */
+.dashboard-header-bg {
+  background-color: hsl(0 0% 16%) !important;
 }
 
 /* Sidebar gradient styles */
