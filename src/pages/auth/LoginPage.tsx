@@ -1,3 +1,4 @@
+
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useAuth, UserRole } from '@/contexts/AuthContext';
@@ -26,7 +27,6 @@ const LoginPage = () => {
       return;
     }
 
-    // Extract role from email
     const emailParts = email.split('@');
     if (emailParts.length !== 2 || emailParts[1] !== 'demo.com') {
       toast({
@@ -93,13 +93,13 @@ const LoginPage = () => {
   };
 
   return (
-    <div className="min-h-screen flex items-center justify-center auth-page-bg">
+    <div className="min-h-screen flex items-center justify-center" style={{ backgroundColor: '#0a0a0a' }}>
       <div className="w-full max-w-md space-y-8 p-6">
         <div className="text-center">
           <h1 className="text-3xl font-bold text-white mb-2">Unified Portal</h1>
         </div>
         
-        <Card className="auth-card-bg border-gray-600">
+        <Card style={{ backgroundColor: '#3B3B3B' }} className="border-gray-600">
           <CardHeader>
             <CardTitle className="text-white text-center">Sign In</CardTitle>
           </CardHeader>
@@ -112,7 +112,8 @@ const LoginPage = () => {
                   type="email"
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
-                  className="bg-gray-700 border-gray-600 text-white placeholder-gray-400"
+                  style={{ backgroundColor: '#2d2d2d' }}
+                  className="border-gray-600 text-white placeholder-gray-400"
                   placeholder="role@demo.com"
                 />
               </div>
@@ -124,7 +125,8 @@ const LoginPage = () => {
                   type="password"
                   value={password}
                   onChange={(e) => setPassword(e.target.value)}
-                  className="bg-gray-700 border-gray-600 text-white placeholder-gray-400"
+                  style={{ backgroundColor: '#2d2d2d' }}
+                  className="border-gray-600 text-white placeholder-gray-400"
                   placeholder="Enter your password"
                 />
               </div>
@@ -138,7 +140,7 @@ const LoginPage = () => {
               </Button>
             </form>
             
-            <div className="mt-4 p-3 bg-gray-700 rounded text-sm text-gray-300">
+            <div className="mt-4 p-3 rounded text-sm text-gray-300" style={{ backgroundColor: '#2d2d2d' }}>
               <p><strong>Demo Credentials:</strong></p>
               <p>Email: admin@demo.com, issuer@demo.com, etc.</p>
               <p>Password: CMA!@#$</p>

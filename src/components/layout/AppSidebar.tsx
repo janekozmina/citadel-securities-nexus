@@ -33,7 +33,9 @@ import {
   Monitor,
   ChevronRight,
   ChevronDown,
-  Wrench
+  Wrench,
+  DollarSign,
+  Banknote
 } from 'lucide-react';
 import { Collapsible, CollapsibleContent, CollapsibleTrigger } from '@/components/ui/collapsible';
 
@@ -45,104 +47,75 @@ const navigationItems = [
     icon: Home
   },
   {
-    title: 'Operations',
-    url: '/operations',
+    title: 'RTGS',
+    url: '/rtgs',
     roles: ['Admin'],
-    icon: Wrench
+    icon: Banknote
   },
   {
-    title: 'Securities Lifecycle',
-    url: '/securities',
-    roles: ['Admin', 'Issuer'],
+    title: 'CSD',
+    url: '/csd',
+    roles: ['Admin', 'Issuer', 'Custodian', 'Broker'],
     icon: Building2,
     subItems: [
-      { title: 'Instrument Reference', url: '/securities/instrument-reference' },
-      { title: 'Issuance', url: '/securities/issuance' },
-      { title: 'Corporate Actions', url: '/securities/corporate-actions' }
+      { title: 'Operations', url: '/operations' },
+      { 
+        title: 'Securities Lifecycle', 
+        url: '/securities',
+        subItems: [
+          { title: 'Instrument Reference', url: '/securities/instrument-reference' },
+          { title: 'Issuance', url: '/securities/issuance' },
+          { title: 'Corporate Actions', url: '/securities/corporate-actions' }
+        ]
+      },
+      { 
+        title: 'Trading', 
+        url: '/trading',
+        subItems: [
+          { title: 'Trade Matching', url: '/trading' },
+          { title: 'Transfer Instruction', url: '/trading/transfer-instruction' },
+          { title: 'Order Management', url: '/trading/order-management' },
+          { title: 'Auctions Trading Monitor', url: '/trading/auctions' },
+          { title: 'Bilateral Trading Monitor', url: '/trading/bilateral' }
+        ]
+      },
+      { 
+        title: 'Clearing Hub', 
+        url: '/clearing',
+        subItems: [
+          { title: 'Clearing Manager', url: '/clearing/manager' },
+          { title: 'Margin Calculation', url: '/clearing/margin' },
+          { title: 'Default Management', url: '/clearing/default' },
+          { title: 'CCP Dashboard', url: '/clearing/ccp' }
+        ]
+      },
+      { title: 'Settlement Hub', url: '/settlement' },
+      { title: 'Custody Hub', url: '/custody' },
+      { 
+        title: 'Liquidity Hub', 
+        url: '/liquidity',
+        subItems: [
+          { title: 'Tri-Party REPO Services', url: '/liquidity/tri-party-repo' },
+          { title: 'Central Bank Liquidity Management', url: '/liquidity/central-bank-liquidity' },
+          { title: 'Islamic REPO', url: '/liquidity/islamic-repo' }
+        ]
+      },
+      { title: 'Risk Management', url: '/risk' },
+      { title: 'Auction Management', url: '/auction' },
+      { title: 'Investor Services Hub', url: '/investor-services' },
+      { title: 'Reporting & Compliance', url: '/reporting' }
     ]
   },
   {
-    title: 'Trading',
-    url: '/trading',
-    roles: ['Admin', 'Custodian', 'Broker'],
-    icon: TrendingUp,
-    subItems: [
-      { title: 'Trade Matching', url: '/trading' },
-      { title: 'Transfer Instruction', url: '/trading/transfer-instruction' },
-      { title: 'Order Management', url: '/trading/order-management' },
-      { title: 'Auctions Trading Monitor', url: '/trading/auctions' },
-      { title: 'Bilateral Trading Monitor', url: '/trading/bilateral' }
-    ]
-  },
-  {
-    title: 'Clearing Hub',
-    url: '/clearing',
-    roles: ['Admin', 'Custodian', 'Broker'],
-    icon: RefreshCw,
-    subItems: [
-      { title: 'Clearing Manager', url: '/clearing/manager' },
-      { title: 'Margin Calculation', url: '/clearing/margin' },
-      { title: 'Default Management', url: '/clearing/default' },
-      { title: 'CCP Dashboard', url: '/clearing/ccp' }
-    ]
-  },
-  {
-    title: 'Settlement Hub',
-    url: '/settlement',
-    roles: ['Admin', 'Custodian', 'Broker'],
-    icon: CreditCard
-  },
-  {
-    title: 'Custody Hub',
-    url: '/custody',
-    roles: ['Admin', 'Custodian', 'Broker'],
-    icon: Vault
-  },
-  {
-    title: 'Liquidity Hub',
-    url: '/liquidity',
-    roles: ['Admin'],
-    icon: Droplets,
-    subItems: [
-      { title: 'Tri-Party REPO Services', url: '/liquidity/tri-party-repo' },
-      { title: 'Central Bank Liquidity Management', url: '/liquidity/central-bank-liquidity' },
-      { title: 'Islamic REPO', url: '/liquidity/islamic-repo' }
-    ]
-  },
-  {
-    title: 'Collateral Management',
-    url: '/collateral',
+    title: 'CMS',
+    url: '/cms',
     roles: ['Admin'],
     icon: Shield,
     subItems: [
       { title: 'Collateral Manager', url: '/collateral/manager' },
       { title: 'Collateral Optimization AI', url: '/collateral/optimization' }
     ]
-  },
-  {
-    title: 'Risk Management',
-    url: '/risk',
-    roles: ['Admin'],
-    icon: Shield
-  },
-  {
-    title: 'Auction Management',
-    url: '/auction',
-    roles: ['Admin', 'Issuer'],
-    icon: Gavel
-  },
-  {
-    title: 'Investor Services Hub',
-    url: '/investor-services',
-    roles: ['Admin', 'Custodian'],
-    icon: Users
-  },
-  {
-    title: 'Reporting & Compliance',
-    url: '/reporting',
-    roles: ['Admin'],
-    icon: FileText
-  },
+  }
 ];
 
 const adminItems = [
@@ -194,16 +167,12 @@ export function AppSidebar() {
     'admin': true
   });
   const [expandedItems, setExpandedItems] = useState<{ [key: string]: boolean }>({
+    'CSD': false,
+    'CMS': false,
     'Securities Lifecycle': false,
     'Trading': false,
     'Clearing Hub': false,
-    'Settlement Hub': false,
-    
-    'Liquidity Hub': false,
-    'Risk Management': false,
-    'Auction Management': false,
-    'Reporting & Compliance': false,
-    
+    'Liquidity Hub': false
   });
 
   const filteredItems = navigationItems.filter(item => 
@@ -231,7 +200,13 @@ export function AppSidebar() {
   const isItemActive = (item: any) => {
     if (location.pathname === item.url) return true;
     if (item.subItems) {
-      return item.subItems.some((subItem: any) => location.pathname === subItem.url);
+      return item.subItems.some((subItem: any) => {
+        if (location.pathname === subItem.url) return true;
+        if (subItem.subItems) {
+          return subItem.subItems.some((nestedItem: any) => location.pathname === nestedItem.url);
+        }
+        return false;
+      });
     }
     return false;
   };
@@ -247,7 +222,7 @@ export function AppSidebar() {
     }
   }, [location.pathname]);
 
-  const renderMenuItems = (items: typeof navigationItems) => (
+  const renderNestedMenuItems = (items: any[], level: number = 0) => (
     <SidebarMenu>
       {items.map((item) => {
         const hasSubItems = item.subItems && item.subItems.length > 0;
@@ -266,8 +241,9 @@ export function AppSidebar() {
                         : 'text-white/80 hover:bg-white/10 hover:text-white'
                     } ${!isCollapsed ? 'mx-1' : 'mx-auto w-10 h-10 justify-center'}`}
                     tooltip={isCollapsed ? item.title : undefined}
+                    style={{ marginLeft: `${level * 12}px` }}
                   >
-                    <item.icon className={`flex-shrink-0 ${!isCollapsed ? 'h-4 w-4' : 'h-5 w-5'}`} />
+                    {item.icon && <item.icon className={`flex-shrink-0 ${!isCollapsed ? 'h-4 w-4' : 'h-5 w-5'}`} />}
                     {!isCollapsed && (
                       <>
                         <span className="font-medium">{item.title}</span>
@@ -283,23 +259,29 @@ export function AppSidebar() {
                 {!isCollapsed && (
                   <CollapsibleContent>
                     <SidebarMenuSub>
-                      {item.subItems?.map((subItem) => (
+                      {item.subItems?.map((subItem: any) => (
                         <SidebarMenuSubItem key={subItem.title}>
-                          <SidebarMenuSubButton asChild>
-                            <NavLink 
-                              to={subItem.url}
-                              className={({ isActive }) => 
-                                `flex items-center gap-3 px-6 py-2 rounded-lg transition-all duration-200 ml-2 ${
-                                  isActive 
-                                    ? 'bg-white/15 text-white shadow-md backdrop-blur-sm' 
-                                    : 'text-white/70 hover:bg-white/10 hover:text-white'
-                                }`
-                              }
-                            >
-                              <div className="w-1.5 h-1.5 rounded-full bg-current opacity-60"></div>
-                              <span className="text-sm font-medium">{subItem.title}</span>
-                            </NavLink>
-                          </SidebarMenuSubButton>
+                          {subItem.subItems ? (
+                            <div className="ml-4">
+                              {renderNestedMenuItems([subItem], level + 1)}
+                            </div>
+                          ) : (
+                            <SidebarMenuSubButton asChild>
+                              <NavLink 
+                                to={subItem.url}
+                                className={({ isActive }) => 
+                                  `flex items-center gap-3 px-6 py-2 rounded-lg transition-all duration-200 ml-2 ${
+                                    isActive 
+                                      ? 'bg-white/15 text-white shadow-md backdrop-blur-sm' 
+                                      : 'text-white/70 hover:bg-white/10 hover:text-white'
+                                  }`
+                                }
+                              >
+                                <div className="w-1.5 h-1.5 rounded-full bg-current opacity-60"></div>
+                                <span className="text-sm font-medium">{subItem.title}</span>
+                              </NavLink>
+                            </SidebarMenuSubButton>
+                          )}
                         </SidebarMenuSubItem>
                       ))}
                     </SidebarMenuSub>
@@ -319,8 +301,9 @@ export function AppSidebar() {
                     } ${!isCollapsed ? 'mx-1' : 'mx-auto w-10 h-10 justify-center'}`
                   }
                   title={item.title}
+                  style={{ marginLeft: level > 0 ? `${level * 12}px` : '0' }}
                 >
-                  <item.icon className={`flex-shrink-0 ${!isCollapsed ? 'h-4 w-4' : 'h-5 w-5'}`} />
+                  {item.icon && <item.icon className={`flex-shrink-0 ${!isCollapsed ? 'h-4 w-4' : 'h-5 w-5'}`} />}
                   {!isCollapsed && <span className="font-medium">{item.title}</span>}
                 </NavLink>
               </SidebarMenuButton>
@@ -349,7 +332,7 @@ export function AppSidebar() {
           {isCollapsed && (
             <div className="flex justify-center">
               <div className="w-8 h-8 bg-white/20 rounded-lg flex items-center justify-center backdrop-blur-sm">
-                <span className="text-white font-bold text-sm">C</span>
+                <span className="text-white font-bold text-sm">U</span>
               </div>
             </div>
           )}
@@ -374,14 +357,14 @@ export function AppSidebar() {
               </CollapsibleTrigger>
               <CollapsibleContent>
                 <SidebarGroupContent>
-                  {renderMenuItems(filteredItems)}
+                  {renderNestedMenuItems(filteredItems)}
                 </SidebarGroupContent>
               </CollapsibleContent>
             </Collapsible>
           )}
           {isCollapsed && (
             <SidebarGroupContent>
-              {renderMenuItems(filteredItems)}
+              {renderNestedMenuItems(filteredItems)}
             </SidebarGroupContent>
           )}
         </SidebarGroup>
@@ -406,14 +389,14 @@ export function AppSidebar() {
                 </CollapsibleTrigger>
                 <CollapsibleContent>
                   <SidebarGroupContent>
-                    {renderMenuItems(filteredAdminItems)}
+                    {renderNestedMenuItems(filteredAdminItems)}
                   </SidebarGroupContent>
                 </CollapsibleContent>
               </Collapsible>
             )}
             {isCollapsed && (
               <SidebarGroupContent>
-                {renderMenuItems(filteredAdminItems)}
+                {renderNestedMenuItems(filteredAdminItems)}
               </SidebarGroupContent>
             )}
           </SidebarGroup>

@@ -9,7 +9,6 @@ import {
   DropdownMenuItem,
   DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu';
-import cbbLogo from '@/assets/cbb-logo.png';
 
 export const DashboardHeader = () => {
   const { user, logout } = useAuth();
@@ -18,7 +17,6 @@ export const DashboardHeader = () => {
     <header className="h-16 dashboard-header-bg border-b border-slate-600 flex items-center justify-between px-6">
       <div className="flex items-center gap-4">
         <SidebarTrigger className="text-white" />
-        <img src={cbbLogo} alt="Central Bank of Bahrain" className="h-10" />
       </div>
       
       <div className="flex items-center gap-4">

@@ -1,3 +1,4 @@
+
 import { useState } from 'react';
 import { useAuth } from '@/contexts/AuthContext';
 import { Button } from '@/components/ui/button';
@@ -46,14 +47,14 @@ const MFAPage = () => {
   };
 
   return (
-    <div className="min-h-screen flex items-center justify-center auth-page-bg">
+    <div className="min-h-screen flex items-center justify-center" style={{ backgroundColor: '#0a0a0a' }}>
       <div className="w-full max-w-md space-y-8 p-6">
         <div className="text-center">
           <h1 className="text-3xl font-bold text-white mb-2">Multi-Factor Authentication</h1>
           <p className="text-gray-400">Welcome, {user?.name}</p>
         </div>
         
-        <Card className="auth-card-bg border-gray-600">
+        <Card style={{ backgroundColor: '#3B3B3B' }} className="border-gray-600">
           <CardHeader>
             <CardTitle className="text-white text-center">Enter Verification Code</CardTitle>
           </CardHeader>
@@ -67,7 +68,8 @@ const MFAPage = () => {
                   maxLength={6}
                   value={code}
                   onChange={(e) => setCode(e.target.value.replace(/\D/g, ''))}
-                  className="bg-gray-700 border-gray-600 text-white text-center text-lg tracking-widest placeholder-gray-400"
+                  style={{ backgroundColor: '#2d2d2d' }}
+                  className="border-gray-600 text-white text-center text-lg tracking-widest placeholder-gray-400"
                   placeholder="000000"
                 />
               </div>
@@ -81,7 +83,7 @@ const MFAPage = () => {
               </Button>
             </form>
             
-            <div className="mt-4 p-3 bg-gray-700 rounded text-sm text-gray-300 text-center">
+            <div className="mt-4 p-3 rounded text-sm text-gray-300 text-center" style={{ backgroundColor: '#2d2d2d' }}>
               <p><strong>Demo MFA Code:</strong> 123456</p>
             </div>
           </CardContent>
