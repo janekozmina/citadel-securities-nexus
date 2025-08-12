@@ -344,7 +344,6 @@ export function AppSidebar() {
               <h2 className="text-white font-bold text-lg">
                 Unified Portal
               </h2>
-              <p className="text-white/80 text-xs">Central Securities Depository</p>
             </div>
           )}
           {isCollapsed && (
