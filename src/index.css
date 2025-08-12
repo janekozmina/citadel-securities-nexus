@@ -9,47 +9,47 @@ All colors MUST be HSL.
 
 @layer base {
   :root {
-    --background: 0 0% 100%;
-    --foreground: 222.2 84% 4.9%;
+    --background: 0 0% 98%;
+    --foreground: 0 0% 15%;
 
     --card: 0 0% 100%;
-    --card-foreground: 222.2 84% 4.9%;
+    --card-foreground: 0 0% 15%;
 
     --popover: 0 0% 100%;
-    --popover-foreground: 222.2 84% 4.9%;
+    --popover-foreground: 0 0% 15%;
 
-    --primary: 217 91% 30%;
-    --primary-foreground: 210 40% 98%;
+    --primary: 28 100% 50%;
+    --primary-foreground: 0 0% 98%;
 
-    --secondary: 210 40% 96.1%;
-    --secondary-foreground: 222.2 47.4% 11.2%;
+    --secondary: 0 0% 96%;
+    --secondary-foreground: 0 0% 15%;
 
-    --muted: 210 40% 96.1%;
-    --muted-foreground: 215.4 16.3% 46.9%;
+    --muted: 0 0% 96%;
+    --muted-foreground: 0 0% 45%;
 
-    --accent: 210 40% 96.1%;
-    --accent-foreground: 222.2 47.4% 11.2%;
+    --accent: 28 100% 50%;
+    --accent-foreground: 0 0% 98%;
 
     --destructive: 0 84.2% 60.2%;
-    --destructive-foreground: 210 40% 98%;
+    --destructive-foreground: 0 0% 98%;
 
-    --border: 214.3 31.8% 91.4%;
-    --input: 214.3 31.8% 91.4%;
-    --ring: 217 91% 30%;
+    --border: 0 0% 90%;
+    --input: 0 0% 90%;
+    --ring: 28 100% 50%;
 
     --radius: 0.5rem;
 
-    --sidebar-background: 247 58% 55%;
-    --sidebar-foreground: 210 40% 98%;
-    --sidebar-primary: 247 58% 55%;
+    --sidebar-background: 0 0% 12%;
+    --sidebar-foreground: 0 0% 85%;
+    --sidebar-primary: 28 100% 50%;
     --sidebar-primary-foreground: 0 0% 98%;
-    --sidebar-accent: 247 45% 45%;
-    --sidebar-accent-foreground: 210 40% 98%;
-    --sidebar-border: 247 45% 45%;
-    --sidebar-ring: 247 58% 70%;
+    --sidebar-accent: 28 80% 45%;
+    --sidebar-accent-foreground: 0 0% 98%;
+    --sidebar-border: 0 0% 20%;
+    --sidebar-ring: 28 100% 60%;
 
     /* Gradient variables for sidebars */
-    --sidebar-gradient: linear-gradient(135deg, #5335E1 0%, #8749F7 100%);
+    --sidebar-gradient: linear-gradient(135deg, #1a1a1a 0%, #2a2a2a 100%);
   }
 
   .dark {
@@ -104,31 +104,31 @@ All colors MUST be HSL.
   }
 }
 
-/* Custom styles for blue theme - ensuring white text on blue backgrounds */
+/* Custom styles for orange theme - ensuring white text on orange backgrounds */
 .btn-primary, button:not(.btn-secondary):not(.btn-outline):not(.btn-ghost) {
-  background-color: hsl(217 91% 30%) !important;
-  border-color: hsl(217 91% 30%) !important;
+  background-color: hsl(28 100% 50%) !important;
+  border-color: hsl(28 100% 50%) !important;
   color: white !important;
 }
 
 .btn-primary:hover, button:not(.btn-secondary):not(.btn-outline):not(.btn-ghost):hover {
-  background-color: hsl(217 91% 35%) !important;
-  border-color: hsl(217 91% 35%) !important;
+  background-color: hsl(28 100% 45%) !important;
+  border-color: hsl(28 100% 45%) !important;
   color: white !important;
 }
 
 [data-state="active"] {
-  background-color: hsl(217 91% 30%) !important;
+  background-color: hsl(28 100% 50%) !important;
   color: white !important;
 }
 
-/* Ensure tabs have white text on blue background */
+/* Ensure tabs have white text on orange background */
 [data-state="active"], .bg-primary {
   color: white !important;
 }
 
 /* Button text color override */
-button[class*="bg-primary"], button[class*="bg-blue"] {
+button[class*="bg-primary"], button[class*="bg-orange"] {
   color: white !important;
 }
 
