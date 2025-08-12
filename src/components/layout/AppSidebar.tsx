@@ -31,7 +31,9 @@ import {
   FileText,
   Database,
   TrendingUp,
-  DollarSign
+  DollarSign,
+  BookOpen,
+  AlertTriangle
 } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 
@@ -54,7 +56,13 @@ const navigationItems: MenuItem[] = [
     title: 'RTGS',
     url: '/rtgs',
     roles: ['Admin'],
-    icon: Banknote
+    icon: Banknote,
+    subItems: [
+      { title: 'Financial Monitoring', url: '/rtgs/financial-monitoring', roles: ['Admin'], icon: Monitor },
+      { title: 'Central Bank Operations', url: '/rtgs/central-bank-operations', roles: ['Admin'], icon: Building2 },
+      { title: 'Anomaly Detection', url: '/rtgs/anomaly-detection', roles: ['Admin'], icon: AlertTriangle },
+      { title: 'Dispute Management', url: '/rtgs/dispute-management', roles: ['Admin'], icon: Gavel }
+    ]
   },
   {
     title: 'CSD',
@@ -177,7 +185,34 @@ export function AppSidebar() {
   const [searchQuery, setSearchQuery] = useState('');
   const [selectedMainItem, setSelectedMainItem] = useState<MenuItem | null>(null);
 
-  const allItems = [...navigationItems, ...adminItems];
+  const homeItem = navigationItems.find(i => i.title === 'Home')!;
+  const rtgsItem = navigationItems.find(i => i.title === 'RTGS')!;
+  const csdItem = navigationItems.find(i => i.title === 'CSD')!;
+  const cmsItem = navigationItems.find(i => i.title === 'CMS')!;
+
+  const administrationGroup: MenuItem = {
+    title: 'Administration',
+    url: '/administration',
+    roles: ['Admin'],
+    icon: Settings,
+    subItems: [
+      ...adminItems,
+      { title: 'RTGS Configuration', url: '/admin/rtgs-config', roles: ['Admin'], icon: Settings }
+    ]
+  };
+
+  const knowledgeHubGroup: MenuItem = {
+    title: 'Knowledge Hub',
+    url: '/knowledge',
+    roles: ['Admin'],
+    icon: BookOpen,
+    subItems: [
+      { title: 'Documentation Search', url: '/knowledge/search', roles: ['Admin'], icon: Search },
+      { title: 'Findings', url: '/knowledge/findings', roles: ['Admin'], icon: FileText }
+    ]
+  };
+
+  const allItems = [homeItem, rtgsItem, csdItem, knowledgeHubGroup, administrationGroup, cmsItem];
   
   const filteredMainItems = allItems.filter(item => 
     user?.role && item.roles.includes(user.role)
@@ -207,20 +242,43 @@ export function AppSidebar() {
     }
   }, [location.pathname]);
 
-  // Filter items based on search query
+  // Auto-expand first matched branch on search
+  useEffect(() => {
+    if (searchQuery) {
+      const first = filterItemsBySearch(filteredMainItems)[0];
+      if (first) setSelectedMainItem(first);
+    }
+  }, [searchQuery, filteredMainItems]);
+
+  // Highlight helper
+  const getHighlightedText = (text: string, query: string) => {
+    if (!query) return text;
+    const parts = text.split(new RegExp(`(${query})`, 'gi'));
+    return parts.map((part, i) =>
+      part.toLowerCase() === query.toLowerCase()
+        ? <span key={i} className="bg-white/20 rounded px-1">{part}</span>
+        : <span key={i}>{part}</span>
+    );
+  };
+
+  // Filter items based on search query (recursive, trims branches)
   const filterItemsBySearch = (items: MenuItem[]): MenuItem[] => {
     if (!searchQuery) return items;
-    
-    return items.filter(item => {
-      const matchesTitle = item.title.toLowerCase().includes(searchQuery.toLowerCase());
-      const hasMatchingSubItem = item.subItems?.some(subItem => 
-        subItem.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
-        subItem.subItems?.some(nestedItem => 
-          nestedItem.title.toLowerCase().includes(searchQuery.toLowerCase())
-        )
-      );
-      return matchesTitle || hasMatchingSubItem;
-    });
+    const q = searchQuery.toLowerCase();
+
+    const filterRecursive = (item: MenuItem): MenuItem | null => {
+      const titleMatches = item.title.toLowerCase().includes(q);
+      const filteredSubs = item.subItems
+        ?.map((si) => filterRecursive(si))
+        .filter((v): v is MenuItem => Boolean(v)) ?? [];
+
+      if (titleMatches || filteredSubs.length > 0) {
+        return { ...item, subItems: filteredSubs };
+      }
+      return null;
+    };
+
+    return items.map(filterRecursive).filter((v): v is MenuItem => Boolean(v));
   };
 
   const filteredSearchItems = filterItemsBySearch(filteredMainItems);
@@ -266,15 +324,15 @@ export function AppSidebar() {
                     <div className="flex items-center justify-between w-full">
                       <div className="flex items-center gap-3">
                         <item.icon className="h-5 w-5 flex-shrink-0" />
-                        <span className="font-medium">{item.title}</span>
+                        <span className="font-medium">{getHighlightedText(item.title, searchQuery)}</span>
                       </div>
                       <ChevronRight className="h-4 w-4" />
                     </div>
                   ) : (
-                    <NavLink to={item.url} className="flex items-center gap-3 w-full">
-                      <item.icon className="h-5 w-5 flex-shrink-0" />
-                      <span className="font-medium">{item.title}</span>
-                    </NavLink>
+                      <NavLink to={item.url} className="flex items-center gap-3 w-full">
+                        <item.icon className="h-5 w-5 flex-shrink-0" />
+                        <span className="font-medium">{getHighlightedText(item.title, searchQuery)}</span>
+                      </NavLink>
                   )}
                 </SidebarMenuButton>
               </SidebarMenuItem>
@@ -306,33 +364,47 @@ export function AppSidebar() {
           </div>
         </div>
 
-        {/* Sub Navigation */}
         <div className="flex-1 overflow-y-auto p-4">
           <SidebarMenu>
-            {selectedMainItem.subItems.map((subItem) => {
-              const isActive = location.pathname === subItem.url || 
-                (subItem.subItems && subItem.subItems.some(nested => location.pathname === nested.url));
-              
-              return (
-                <SidebarMenuItem key={subItem.title}>
-                  <SidebarMenuButton asChild>
-                    <NavLink
-                      to={subItem.url}
-                      className={({ isActive: linkActive }) => 
-                        `flex items-center gap-3 px-3 py-2.5 rounded-lg transition-all duration-200 ${
-                          linkActive || isActive
-                            ? 'bg-white/15 text-white shadow-md backdrop-blur-sm' 
-                            : 'text-white/70 hover:bg-white/10 hover:text-white'
-                        }`
-                      }
-                    >
-                      <subItem.icon className="h-4 w-4 flex-shrink-0" />
-                      <span className="text-sm font-medium">{subItem.title}</span>
-                    </NavLink>
-                  </SidebarMenuButton>
-                </SidebarMenuItem>
-              );
-            })}
+            {(() => {
+              let subItemsToRender = searchQuery
+                ? (filterItemsBySearch([selectedMainItem])[0]?.subItems ?? [])
+                : selectedMainItem.subItems;
+
+              // In search mode, flatten nested matches so deep items are visible
+              if (searchQuery) {
+                const flatten = (items: MenuItem[]): MenuItem[] =>
+                  items.flatMap((it) =>
+                    it.subItems && it.subItems.length > 0 ? flatten(it.subItems) : [it]
+                  );
+                subItemsToRender = flatten(subItemsToRender || []);
+              }
+
+              return subItemsToRender?.map((subItem) => {
+                const isActive = location.pathname === subItem.url || 
+                  (subItem.subItems && subItem.subItems.some(nested => location.pathname === nested.url));
+                
+                return (
+                  <SidebarMenuItem key={subItem.title}>
+                    <SidebarMenuButton asChild>
+                      <NavLink
+                        to={subItem.url}
+                        className={({ isActive: linkActive }) => 
+                          `flex items-center gap-3 px-3 py-2.5 rounded-lg transition-all duration-200 ${
+                            linkActive || isActive
+                              ? 'bg-white/15 text-white shadow-md backdrop-blur-sm' 
+                              : 'text-white/70 hover:bg-white/10 hover:text-white'
+                          }`
+                        }
+                      >
+                        <subItem.icon className="h-4 w-4 flex-shrink-0" />
+                        <span className="text-sm font-medium">{getHighlightedText(subItem.title, searchQuery)}</span>
+                      </NavLink>
+                    </SidebarMenuButton>
+                  </SidebarMenuItem>
+                );
+              })
+            })()}
           </SidebarMenu>
         </div>
       </div>

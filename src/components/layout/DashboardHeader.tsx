@@ -2,7 +2,7 @@
 import { useAuth } from '@/contexts/AuthContext';
 import { Button } from '@/components/ui/button';
 import { Avatar, AvatarFallback } from '@/components/ui/avatar';
-import { SidebarTrigger } from '@/components/ui/sidebar';
+
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -15,9 +15,6 @@ export const DashboardHeader = () => {
 
   return (
     <header className="h-16 dashboard-header-bg border-b border-slate-600 flex items-center justify-between px-6">
-      <div className="flex items-center gap-4">
-        <SidebarTrigger className="text-white" />
-      </div>
       
       <div className="flex items-center gap-4">
         <span className="text-sm text-slate-300">Welcome, {user?.name}</span>
