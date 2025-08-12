@@ -7,39 +7,43 @@ import {
   SidebarContent,
   SidebarGroup,
   SidebarGroupContent,
-  SidebarGroupLabel,
   SidebarMenu,
   SidebarMenuButton,
   SidebarMenuItem,
-  SidebarMenuSub,
-  SidebarMenuSubItem,
-  SidebarMenuSubButton,
   useSidebar,
 } from '@/components/ui/sidebar';
+import { Input } from '@/components/ui/input';
 import { 
   Home, 
   Building2, 
-  TrendingUp, 
-  RefreshCw, 
-  CreditCard, 
-  Vault, 
-  Droplets, 
   Shield, 
-  Gavel, 
-  FileText, 
-  Database, 
   Settings, 
   Users,
   Monitor,
   ChevronRight,
-  ChevronDown,
-  Wrench,
-  DollarSign,
-  Banknote
+  Search,
+  Banknote,
+  RefreshCw,
+  CreditCard,
+  Vault,
+  Droplets,
+  Gavel,
+  FileText,
+  Database,
+  TrendingUp,
+  DollarSign
 } from 'lucide-react';
-import { Collapsible, CollapsibleContent, CollapsibleTrigger } from '@/components/ui/collapsible';
+import { Button } from '@/components/ui/button';
 
-const navigationItems = [
+interface MenuItem {
+  title: string;
+  url: string;
+  roles: string[];
+  icon: any;
+  subItems?: MenuItem[];
+}
+
+const navigationItems: MenuItem[] = [
   {
     title: 'Home',
     url: '/',
@@ -58,52 +62,60 @@ const navigationItems = [
     roles: ['Admin', 'Issuer', 'Custodian', 'Broker'],
     icon: Building2,
     subItems: [
-      { title: 'Operations', url: '/operations' },
+      { title: 'Operations', url: '/operations', roles: ['Admin'], icon: RefreshCw },
       { 
         title: 'Securities Lifecycle', 
         url: '/securities',
+        roles: ['Admin'],
+        icon: CreditCard,
         subItems: [
-          { title: 'Instrument Reference', url: '/securities/instrument-reference' },
-          { title: 'Issuance', url: '/securities/issuance' },
-          { title: 'Corporate Actions', url: '/securities/corporate-actions' }
+          { title: 'Instrument Reference', url: '/securities/instrument-reference', roles: ['Admin'], icon: FileText },
+          { title: 'Issuance', url: '/securities/issuance', roles: ['Admin'], icon: FileText },
+          { title: 'Corporate Actions', url: '/securities/corporate-actions', roles: ['Admin'], icon: FileText }
         ]
       },
       { 
         title: 'Trading', 
         url: '/trading',
+        roles: ['Admin'],
+        icon: TrendingUp,
         subItems: [
-          { title: 'Trade Matching', url: '/trading' },
-          { title: 'Transfer Instruction', url: '/trading/transfer-instruction' },
-          { title: 'Order Management', url: '/trading/order-management' },
-          { title: 'Auctions Trading Monitor', url: '/trading/auctions' },
-          { title: 'Bilateral Trading Monitor', url: '/trading/bilateral' }
+          { title: 'Trade Matching', url: '/trading', roles: ['Admin'], icon: DollarSign },
+          { title: 'Transfer Instruction', url: '/trading/transfer-instruction', roles: ['Admin'], icon: DollarSign },
+          { title: 'Order Management', url: '/trading/order-management', roles: ['Admin'], icon: DollarSign },
+          { title: 'Auctions Trading Monitor', url: '/trading/auctions', roles: ['Admin'], icon: DollarSign },
+          { title: 'Bilateral Trading Monitor', url: '/trading/bilateral', roles: ['Admin'], icon: DollarSign }
         ]
       },
       { 
         title: 'Clearing Hub', 
         url: '/clearing',
+        roles: ['Admin'],
+        icon: Vault,
         subItems: [
-          { title: 'Clearing Manager', url: '/clearing/manager' },
-          { title: 'Margin Calculation', url: '/clearing/margin' },
-          { title: 'Default Management', url: '/clearing/default' },
-          { title: 'CCP Dashboard', url: '/clearing/ccp' }
+          { title: 'Clearing Manager', url: '/clearing/manager', roles: ['Admin'], icon: Settings },
+          { title: 'Margin Calculation', url: '/clearing/margin', roles: ['Admin'], icon: Settings },
+          { title: 'Default Management', url: '/clearing/default', roles: ['Admin'], icon: Settings },
+          { title: 'CCP Dashboard', url: '/clearing/ccp', roles: ['Admin'], icon: Settings }
         ]
       },
-      { title: 'Settlement Hub', url: '/settlement' },
-      { title: 'Custody Hub', url: '/custody' },
+      { title: 'Settlement Hub', url: '/settlement', roles: ['Admin'], icon: RefreshCw },
+      { title: 'Custody Hub', url: '/custody', roles: ['Admin'], icon: Vault },
       { 
         title: 'Liquidity Hub', 
         url: '/liquidity',
+        roles: ['Admin'],
+        icon: Droplets,
         subItems: [
-          { title: 'Tri-Party REPO Services', url: '/liquidity/tri-party-repo' },
-          { title: 'Central Bank Liquidity Management', url: '/liquidity/central-bank-liquidity' },
-          { title: 'Islamic REPO', url: '/liquidity/islamic-repo' }
+          { title: 'Tri-Party REPO Services', url: '/liquidity/tri-party-repo', roles: ['Admin'], icon: Droplets },
+          { title: 'Central Bank Liquidity Management', url: '/liquidity/central-bank-liquidity', roles: ['Admin'], icon: Droplets },
+          { title: 'Islamic REPO', url: '/liquidity/islamic-repo', roles: ['Admin'], icon: Droplets }
         ]
       },
-      { title: 'Risk Management', url: '/risk' },
-      { title: 'Auction Management', url: '/auction' },
-      { title: 'Investor Services Hub', url: '/investor-services' },
-      { title: 'Reporting & Compliance', url: '/reporting' }
+      { title: 'Risk Management', url: '/risk', roles: ['Admin'], icon: Shield },
+      { title: 'Auction Management', url: '/auction', roles: ['Admin'], icon: Gavel },
+      { title: 'Investor Services Hub', url: '/investor-services', roles: ['Admin'], icon: Users },
+      { title: 'Reporting & Compliance', url: '/reporting', roles: ['Admin'], icon: FileText }
     ]
   },
   {
@@ -112,13 +124,13 @@ const navigationItems = [
     roles: ['Admin'],
     icon: Shield,
     subItems: [
-      { title: 'Collateral Manager', url: '/collateral/manager' },
-      { title: 'Collateral Optimization AI', url: '/collateral/optimization' }
+      { title: 'Collateral Manager', url: '/collateral/manager', roles: ['Admin'], icon: Vault },
+      { title: 'Collateral Optimization AI', url: '/collateral/optimization', roles: ['Admin'], icon: Vault }
     ]
   }
 ];
 
-const adminItems = [
+const adminItems: MenuItem[] = [
   {
     title: 'Integrations Management',
     url: '/admin/integrations',
@@ -162,246 +174,212 @@ export function AppSidebar() {
   const { state } = useSidebar();
   const location = useLocation();
   const isCollapsed = state === 'collapsed';
-  const [openGroups, setOpenGroups] = useState<{ [key: string]: boolean }>({
-    'main': true,
-    'admin': true
-  });
-  const [expandedItems, setExpandedItems] = useState<{ [key: string]: boolean }>({
-    'CSD': false,
-    'CMS': false,
-    'Securities Lifecycle': false,
-    'Trading': false,
-    'Clearing Hub': false,
-    'Liquidity Hub': false
-  });
+  const [searchQuery, setSearchQuery] = useState('');
+  const [selectedMainItem, setSelectedMainItem] = useState<MenuItem | null>(null);
 
-  const filteredItems = navigationItems.filter(item => 
-    user?.role && item.roles.includes(user.role)
-  );
+  const allItems = [...navigationItems, ...adminItems];
   
-  const filteredAdminItems = adminItems.filter(item => 
+  const filteredMainItems = allItems.filter(item => 
     user?.role && item.roles.includes(user.role)
   );
 
-  const toggleGroup = (groupKey: string) => {
-    setOpenGroups(prev => ({
-      ...prev,
-      [groupKey]: !prev[groupKey]
-    }));
+  // Find active main item based on current route
+  const findActiveMainItem = () => {
+    return filteredMainItems.find(item => {
+      if (location.pathname === item.url) return true;
+      if (item.subItems) {
+        return item.subItems.some(subItem => {
+          if (location.pathname === subItem.url) return true;
+          if (subItem.subItems) {
+            return subItem.subItems.some(nestedItem => location.pathname === nestedItem.url);
+          }
+          return false;
+        });
+      }
+      return false;
+    });
   };
 
-  const toggleExpandedItem = (itemTitle: string) => {
-    setExpandedItems(prev => ({
-      ...prev,
-      [itemTitle]: !prev[itemTitle]
-    }));
-  };
-
-  const isItemActive = (item: any) => {
-    if (location.pathname === item.url) return true;
-    if (item.subItems) {
-      return item.subItems.some((subItem: any) => {
-        if (location.pathname === subItem.url) return true;
-        if (subItem.subItems) {
-          return subItem.subItems.some((nestedItem: any) => location.pathname === nestedItem.url);
-        }
-        return false;
-      });
-    }
-    return false;
-  };
-
-  // Auto-expand items that contain active routes
   useEffect(() => {
-    const activeItem = navigationItems.find(item => isItemActive(item));
+    const activeItem = findActiveMainItem();
     if (activeItem && activeItem.subItems) {
-      setExpandedItems(prev => ({
-        ...prev,
-        [activeItem.title]: true
-      }));
+      setSelectedMainItem(activeItem);
     }
   }, [location.pathname]);
 
-  const renderNestedMenuItems = (items: any[], level: number = 0) => (
-    <SidebarMenu>
-      {items.map((item) => {
-        const hasSubItems = item.subItems && item.subItems.length > 0;
-        const isActive = isItemActive(item);
-        const isExpanded = expandedItems[item.title] || isActive;
+  // Filter items based on search query
+  const filterItemsBySearch = (items: MenuItem[]): MenuItem[] => {
+    if (!searchQuery) return items;
+    
+    return items.filter(item => {
+      const matchesTitle = item.title.toLowerCase().includes(searchQuery.toLowerCase());
+      const hasMatchingSubItem = item.subItems?.some(subItem => 
+        subItem.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
+        subItem.subItems?.some(nestedItem => 
+          nestedItem.title.toLowerCase().includes(searchQuery.toLowerCase())
+        )
+      );
+      return matchesTitle || hasMatchingSubItem;
+    });
+  };
 
-        return (
-          <SidebarMenuItem key={item.title}>
-            {hasSubItems ? (
-              <Collapsible open={isExpanded} onOpenChange={() => toggleExpandedItem(item.title)}>
-                <CollapsibleTrigger asChild>
-                  <SidebarMenuButton
-                    className={`flex items-center gap-3 px-3 py-2.5 rounded-lg transition-all duration-200 ${
-                      isActive 
-                        ? 'bg-white/20 text-white shadow-lg backdrop-blur-sm' 
-                        : 'text-white/80 hover:bg-white/10 hover:text-white'
-                    } ${!isCollapsed ? 'mx-1' : 'mx-auto w-10 h-10 justify-center'}`}
-                    tooltip={isCollapsed ? item.title : undefined}
-                    style={{ marginLeft: `${level * 12}px` }}
-                  >
-                    {item.icon && <item.icon className={`flex-shrink-0 ${!isCollapsed ? 'h-4 w-4' : 'h-5 w-5'}`} />}
-                    {!isCollapsed && (
-                      <>
-                        <span className="font-medium">{item.title}</span>
-                        {isExpanded ? (
-                          <ChevronDown className="h-3 w-3 ml-auto transition-transform duration-200" />
-                        ) : (
-                          <ChevronRight className="h-3 w-3 ml-auto transition-transform duration-200" />
-                        )}
-                      </>
-                    )}
-                  </SidebarMenuButton>
-                </CollapsibleTrigger>
-                {!isCollapsed && (
-                  <CollapsibleContent>
-                    <SidebarMenuSub>
-                      {item.subItems?.map((subItem: any) => (
-                        <SidebarMenuSubItem key={subItem.title}>
-                          {subItem.subItems ? (
-                            <div className="ml-4">
-                              {renderNestedMenuItems([subItem], level + 1)}
-                            </div>
-                          ) : (
-                            <SidebarMenuSubButton asChild>
-                              <NavLink 
-                                to={subItem.url}
-                                className={({ isActive }) => 
-                                  `flex items-center gap-3 px-6 py-2 rounded-lg transition-all duration-200 ml-2 ${
-                                    isActive 
-                                      ? 'bg-white/15 text-white shadow-md backdrop-blur-sm' 
-                                      : 'text-white/70 hover:bg-white/10 hover:text-white'
-                                  }`
-                                }
-                              >
-                                <div className="w-1.5 h-1.5 rounded-full bg-current opacity-60"></div>
-                                <span className="text-sm font-medium">{subItem.title}</span>
-                              </NavLink>
-                            </SidebarMenuSubButton>
-                          )}
-                        </SidebarMenuSubItem>
-                      ))}
-                    </SidebarMenuSub>
-                  </CollapsibleContent>
-                )}
-              </Collapsible>
-            ) : (
-              <SidebarMenuButton asChild tooltip={isCollapsed ? item.title : undefined}>
-                <NavLink 
-                  to={item.url} 
-                  end={item.url === '/'}
-                  className={({ isActive }) => 
-                    `flex items-center gap-3 px-3 py-2.5 rounded-lg transition-all duration-200 ${
-                      isActive 
-                        ? 'bg-white/20 text-white shadow-lg backdrop-blur-sm' 
-                        : 'text-white/80 hover:bg-white/10 hover:text-white'
-                    } ${!isCollapsed ? 'mx-1' : 'mx-auto w-10 h-10 justify-center'}`
-                  }
-                  title={item.title}
-                  style={{ marginLeft: level > 0 ? `${level * 12}px` : '0' }}
+  const filteredSearchItems = filterItemsBySearch(filteredMainItems);
+
+  const renderMainPanel = () => (
+    <div className="h-full flex flex-col">
+      {/* Search */}
+      <div className="p-4 border-b border-white/20">
+        <div className="relative">
+          <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 h-4 w-4 text-white/60" />
+          <Input
+            placeholder="Search navigation..."
+            value={searchQuery}
+            onChange={(e) => setSearchQuery(e.target.value)}
+            className="pl-10 bg-white/10 border-white/20 text-white placeholder:text-white/60 focus:border-white/40"
+          />
+        </div>
+      </div>
+
+      {/* Main Navigation */}
+      <div className="flex-1 overflow-y-auto p-4">
+        <SidebarMenu>
+          {(searchQuery ? filteredSearchItems : filteredMainItems).map((item) => {
+            const isActive = findActiveMainItem()?.title === item.title;
+            const hasSubItems = item.subItems && item.subItems.length > 0;
+            
+            return (
+              <SidebarMenuItem key={item.title}>
+                <SidebarMenuButton
+                  onClick={() => {
+                    if (hasSubItems) {
+                      setSelectedMainItem(item);
+                    }
+                  }}
+                  asChild={!hasSubItems}
+                  className={`flex items-center justify-between gap-3 px-3 py-2.5 rounded-lg transition-all duration-200 ${
+                    isActive 
+                      ? 'bg-white/20 text-white shadow-lg backdrop-blur-sm' 
+                      : 'text-white/80 hover:bg-white/10 hover:text-white'
+                  }`}
                 >
-                  {item.icon && <item.icon className={`flex-shrink-0 ${!isCollapsed ? 'h-4 w-4' : 'h-5 w-5'}`} />}
-                  {!isCollapsed && <span className="font-medium">{item.title}</span>}
-                </NavLink>
-              </SidebarMenuButton>
-            )}
-          </SidebarMenuItem>
-        );
-      })}
-    </SidebarMenu>
+                  {hasSubItems ? (
+                    <div className="flex items-center justify-between w-full">
+                      <div className="flex items-center gap-3">
+                        <item.icon className="h-5 w-5 flex-shrink-0" />
+                        <span className="font-medium">{item.title}</span>
+                      </div>
+                      <ChevronRight className="h-4 w-4" />
+                    </div>
+                  ) : (
+                    <NavLink to={item.url} className="flex items-center gap-3 w-full">
+                      <item.icon className="h-5 w-5 flex-shrink-0" />
+                      <span className="font-medium">{item.title}</span>
+                    </NavLink>
+                  )}
+                </SidebarMenuButton>
+              </SidebarMenuItem>
+            );
+          })}
+        </SidebarMenu>
+      </div>
+    </div>
   );
 
-  return (
-    <Sidebar 
-      className="border-r border-slate-700 w-[280px]" 
-      collapsible="icon"
-      style={{ background: 'linear-gradient(135deg, #5335E1 0%, #8749F7 100%)' }}
-    >
-      <SidebarContent className="bg-transparent">
+  const renderSubPanel = () => {
+    if (!selectedMainItem?.subItems) return null;
+
+    return (
+      <div className="h-full flex flex-col bg-black/20">
+        {/* Sub Panel Header */}
         <div className="p-4 border-b border-white/20">
-          {!isCollapsed && (
+          <div className="flex items-center gap-3">
+            <Button
+              variant="ghost"
+              size="sm"
+              onClick={() => setSelectedMainItem(null)}
+              className="p-1 h-auto text-white/80 hover:text-white hover:bg-white/10"
+            >
+              <ChevronRight className="h-4 w-4 rotate-180" />
+            </Button>
+            <selectedMainItem.icon className="h-5 w-5 text-white" />
+            <span className="font-medium text-white">{selectedMainItem.title}</span>
+          </div>
+        </div>
+
+        {/* Sub Navigation */}
+        <div className="flex-1 overflow-y-auto p-4">
+          <SidebarMenu>
+            {selectedMainItem.subItems.map((subItem) => {
+              const isActive = location.pathname === subItem.url || 
+                (subItem.subItems && subItem.subItems.some(nested => location.pathname === nested.url));
+              
+              return (
+                <SidebarMenuItem key={subItem.title}>
+                  <SidebarMenuButton asChild>
+                    <NavLink
+                      to={subItem.url}
+                      className={({ isActive: linkActive }) => 
+                        `flex items-center gap-3 px-3 py-2.5 rounded-lg transition-all duration-200 ${
+                          linkActive || isActive
+                            ? 'bg-white/15 text-white shadow-md backdrop-blur-sm' 
+                            : 'text-white/70 hover:bg-white/10 hover:text-white'
+                        }`
+                      }
+                    >
+                      <subItem.icon className="h-4 w-4 flex-shrink-0" />
+                      <span className="text-sm font-medium">{subItem.title}</span>
+                    </NavLink>
+                  </SidebarMenuButton>
+                </SidebarMenuItem>
+              );
+            })}
+          </SidebarMenu>
+        </div>
+      </div>
+    );
+  };
+
+  return (
+    <div className="flex h-full">
+      {/* Main Panel */}
+      <Sidebar 
+        className="border-r border-white/20 w-[280px]" 
+        collapsible="none"
+        style={{ background: 'linear-gradient(135deg, #3A3A3A 0%, #2a2a2a 100%)' }}
+      >
+        <SidebarContent className="bg-transparent">
+          <div className="p-4 border-b border-white/20">
             <div className="space-y-1">
               <h2 className="text-white font-bold text-lg">
                 Unified Portal
               </h2>
             </div>
-          )}
-          {isCollapsed && (
-            <div className="flex justify-center">
-              <div className="w-8 h-8 bg-white/20 rounded-lg flex items-center justify-center backdrop-blur-sm">
-                <span className="text-white font-bold text-sm">U</span>
-              </div>
-            </div>
-          )}
-        </div>
-        
-        {/* Main Navigation Group */}
-        <SidebarGroup className="px-3">
-          {!isCollapsed && (
-            <Collapsible 
-              open={openGroups['main']} 
-              onOpenChange={() => toggleGroup('main')}
-            >
-              <CollapsibleTrigger asChild>
-                <SidebarGroupLabel className="text-white/70 hover:text-white cursor-pointer flex items-center justify-between px-3 py-2 rounded-lg transition-colors hover:bg-white/10">
-                  <span className="text-xs font-medium tracking-wide">NAVIGATION</span>
-                  {openGroups['main'] ? (
-                    <ChevronDown className="h-3 w-3" />
-                  ) : (
-                    <ChevronRight className="h-3 w-3" />
-                  )}
-                </SidebarGroupLabel>
-              </CollapsibleTrigger>
-              <CollapsibleContent>
-                <SidebarGroupContent>
-                  {renderNestedMenuItems(filteredItems)}
-                </SidebarGroupContent>
-              </CollapsibleContent>
-            </Collapsible>
-          )}
-          {isCollapsed && (
-            <SidebarGroupContent>
-              {renderNestedMenuItems(filteredItems)}
+          </div>
+          
+          <SidebarGroup className="px-0 flex-1">
+            <SidebarGroupContent className="h-full">
+              {renderMainPanel()}
             </SidebarGroupContent>
-          )}
-        </SidebarGroup>
-
-        {/* Admin Group */}
-        {filteredAdminItems.length > 0 && (
-          <SidebarGroup className="px-3 mt-4">
-            {!isCollapsed && (
-              <Collapsible 
-                open={openGroups['admin']} 
-                onOpenChange={() => toggleGroup('admin')}
-              >
-                <CollapsibleTrigger asChild>
-                  <SidebarGroupLabel className="text-white/70 hover:text-white cursor-pointer flex items-center justify-between px-3 py-2 rounded-lg transition-colors hover:bg-white/10">
-                    <span className="text-xs font-medium tracking-wide">ADMINISTRATION</span>
-                    {openGroups['admin'] ? (
-                      <ChevronDown className="h-3 w-3" />
-                    ) : (
-                      <ChevronRight className="h-3 w-3" />
-                    )}
-                  </SidebarGroupLabel>
-                </CollapsibleTrigger>
-                <CollapsibleContent>
-                  <SidebarGroupContent>
-                    {renderNestedMenuItems(filteredAdminItems)}
-                  </SidebarGroupContent>
-                </CollapsibleContent>
-              </Collapsible>
-            )}
-            {isCollapsed && (
-              <SidebarGroupContent>
-                {renderNestedMenuItems(filteredAdminItems)}
-              </SidebarGroupContent>
-            )}
           </SidebarGroup>
-        )}
-      </SidebarContent>
-    </Sidebar>
+        </SidebarContent>
+      </Sidebar>
+
+      {/* Sub Panel */}
+      {selectedMainItem?.subItems && (
+        <Sidebar 
+          className="border-r border-white/20 w-[280px]" 
+          collapsible="none"
+          style={{ background: 'linear-gradient(135deg, #2a2a2a 0%, #1a1a1a 100%)' }}
+        >
+          <SidebarContent className="bg-transparent">
+            <SidebarGroup className="px-0 flex-1">
+              <SidebarGroupContent className="h-full">
+                {renderSubPanel()}
+              </SidebarGroupContent>
+            </SidebarGroup>
+          </SidebarContent>
+        </Sidebar>
+      )}
+    </div>
   );
 }

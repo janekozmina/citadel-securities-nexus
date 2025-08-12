@@ -4,6 +4,7 @@ import { SidebarProvider } from '@/components/ui/sidebar';
 import { AppSidebar } from './AppSidebar';
 import { DashboardHeader } from './DashboardHeader';
 import { AlertsPanel } from './AlertsPanel';
+import { Breadcrumbs } from './Breadcrumbs';
 import Chatbot from './Chatbot';
 
 const DashboardLayout = () => {
@@ -53,6 +54,7 @@ const DashboardLayout = () => {
           <DashboardHeader />
           <main className="flex-1 overflow-auto">
             <div className="p-6">
+              <Breadcrumbs />
               <Outlet />
             </div>
           </main>
