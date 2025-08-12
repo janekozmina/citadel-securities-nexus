@@ -97,7 +97,7 @@ const LoginPage = () => {
     <div className="min-h-screen flex items-center justify-center auth-page-bg">
       <div className="w-full max-w-md space-y-8 p-6">
         <div className="text-center">
-          <h1 className="text-3xl font-bold text-white mb-2">CSD Portal</h1>
+          <h1 className="text-3xl font-bold text-white mb-2">Unified Portal</h1>
           <p className="text-slate-400">Central Securities Depository & Registry</p>
         </div>
         

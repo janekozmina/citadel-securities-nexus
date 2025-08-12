@@ -9,7 +9,7 @@ import {
   DropdownMenuItem,
   DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu';
-import cbbLogo from '@/assets/cbb-logo.png';
+import cbbLogo from '@/assets/cbb-logo-official.png';
 
 export const DashboardHeader = () => {
   const { user, logout } = useAuth();

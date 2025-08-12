@@ -342,7 +342,7 @@ export function AppSidebar() {
           {!isCollapsed && (
             <div className="space-y-1">
               <h2 className="text-white font-bold text-lg">
-                CSD Portal
+                Unified Portal
               </h2>
               <p className="text-white/80 text-xs">Central Securities Depository</p>
             </div>
