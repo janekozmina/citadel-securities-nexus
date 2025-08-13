@@ -65,7 +65,9 @@ const navigationItems: MenuItem[] = [
         subItems: [
           { title: 'Account Management', url: '/rtgs/financial-monitoring/account-management', roles: ['Admin'], icon: Users },
           { title: 'Balances & Liquidity', url: '/rtgs/financial-monitoring/balances-liquidity', roles: ['Admin'], icon: DollarSign },
-          { title: 'Transaction Status', url: '/rtgs/financial-monitoring/transaction-status', roles: ['Admin'], icon: TrendingUp }
+          { title: 'Transaction Status', url: '/rtgs/financial-monitoring/transaction-status', roles: ['Admin'], icon: TrendingUp },
+          { title: 'Business Day Management', url: '/rtgs/financial-monitoring/business-day-management', roles: ['Admin'], icon: RefreshCw },
+          { title: 'Billing', url: '/rtgs/financial-monitoring/billing', roles: ['Admin'], icon: DollarSign }
         ]
       },
       { title: 'Central Bank Operations', url: '/rtgs/central-bank-operations', roles: ['Admin'], icon: Building2 },
@@ -207,7 +209,30 @@ export function AppSidebar() {
     icon: Settings,
     subItems: [
       ...adminItems,
-      { title: 'RTGS Configuration', url: '/admin/rtgs-config', roles: ['Admin'], icon: Settings }
+      { 
+        title: 'RTGS Configuration', 
+        url: '/admin/rtgs-config', 
+        roles: ['Admin'], 
+        icon: Settings,
+        subItems: [
+          { title: 'Authorizations', url: '/admin/rtgs-config/authorizations', roles: ['Admin'], icon: Shield },
+          { title: 'DBD pending changes', url: '/admin/rtgs-config/dbd-changes', roles: ['Admin'], icon: FileText },
+          { title: 'API gateway', url: '/admin/rtgs-config/api-gateway', roles: ['Admin'], icon: Settings },
+          { title: 'Billing', url: '/admin/rtgs-config/billing', roles: ['Admin'], icon: DollarSign },
+          { title: 'Business days', url: '/admin/rtgs-config/business-days', roles: ['Admin'], icon: RefreshCw },
+          { title: 'Central addressing schema', url: '/admin/rtgs-config/addressing', roles: ['Admin'], icon: Database },
+          { title: 'Dictionaries', url: '/admin/rtgs-config/dictionaries', roles: ['Admin'], icon: BookOpen },
+          { title: 'Disputes', url: '/admin/rtgs-config/disputes', roles: ['Admin'], icon: Gavel },
+          { title: 'Maintenance', url: '/admin/rtgs-config/maintenance', roles: ['Admin'], icon: Settings },
+          { title: 'Messages', url: '/admin/rtgs-config/messages', roles: ['Admin'], icon: FileText },
+          { title: 'Participants', url: '/admin/rtgs-config/participants', roles: ['Admin'], icon: Users },
+          { title: 'Payments', url: '/admin/rtgs-config/payments', roles: ['Admin'], icon: CreditCard },
+          { title: 'Reports', url: '/admin/rtgs-config/reports', roles: ['Admin'], icon: FileText },
+          { title: 'Requests to pay', url: '/admin/rtgs-config/requests-to-pay', roles: ['Admin'], icon: DollarSign },
+          { title: 'Stand-in mode', url: '/admin/rtgs-config/stand-in-mode', roles: ['Admin'], icon: AlertTriangle },
+          { title: 'System tables', url: '/admin/rtgs-config/system-tables', roles: ['Admin'], icon: Database }
+        ]
+      }
     ]
   };
 
