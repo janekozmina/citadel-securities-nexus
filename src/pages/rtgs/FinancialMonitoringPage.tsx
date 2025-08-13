@@ -1,13 +1,12 @@
-import { useEffect, useState } from 'react';
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
+import { useEffect, useState, useMemo } from 'react';
+import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
-import { Progress } from '@/components/ui/progress';
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
+import { Input } from '@/components/ui/input';
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table';
-import { ChartContainer, ChartTooltip, ChartTooltipContent } from '@/components/ui/chart';
-import { AreaChart, Area, BarChart, Bar, LineChart, Line, XAxis, YAxis, ResponsiveContainer } from 'recharts';
-import { TrendingUp, AlertTriangle, Clock, DollarSign, Users, Activity, ArrowLeft, RefreshCw } from 'lucide-react';
-import { Breadcrumb, BreadcrumbItem, BreadcrumbLink, BreadcrumbList, BreadcrumbPage, BreadcrumbSeparator } from '@/components/ui/breadcrumb';
+import { TooltipProvider } from '@/components/ui/tooltip';
+import { TrendingUp, AlertTriangle, Clock, DollarSign, Users, Activity, RefreshCw, ArrowUpDown, Send, AlertCircle, FileText } from 'lucide-react';
 import { useBusinessDaySimulation } from '@/hooks/useBusinessDaySimulation';
 
 const participantBalances = [
@@ -17,25 +16,21 @@ const participantBalances = [
   { id: '0003800040120050', name: 'BTWNTINTVQM', queue: 0, payments: 52002, turnover: 2254300.00, current: 157.72, opening: 35445359, amount: 0.00, debt: 3500000.00 },
   { id: '0003800040120140', name: 'BHBINTINT', queue: 0, payments: 53178, turnover: -203250.00, current: 98.87, opening: 27932681, amount: 0.00, debt: 1500000.00 },
   { id: '0003800040120320', name: 'BEITINTNT', queue: 0, payments: 6, turnover: -663000.00, current: 87.28, opening: 35446750, amount: 0.00, debt: 550000.00 },
+  { id: '0003800040120410', name: 'CBBINTMN', queue: 2, payments: 8924, turnover: 125000.00, current: 112.45, opening: 42381726, amount: 0.00, debt: 0.00 },
+  { id: '0003800040120520', name: 'NBKINTBN', queue: 1, payments: 23456, turnover: -89000.00, current: 95.67, opening: 18495032, amount: 0.00, debt: 750000.00 },
+  { id: '0003800040120630', name: 'ABCINTAB', queue: 0, payments: 12789, turnover: 345000.00, current: 108.23, opening: 29836471, amount: 0.00, debt: 0.00 },
+  { id: '0003800040120740', name: 'GBRINTGB', queue: 3, payments: 7652, turnover: -156000.00, current: 89.12, opening: 33729548, amount: 0.00, debt: 1200000.00 },
 ];
-
-const queuedPayments = [
-  { id: 'PAY001', participant: 'BNTENTINT', amount: 15000000, age: '2h 15m', priority: 'High' },
-  { id: 'PAY002', participant: 'TUSOINTST', amount: 12500000, age: '1h 45m', priority: 'Normal' },
-  { id: 'PAY003', participant: 'BTWNTINTVQM', amount: 8750000, age: '3h 20m', priority: 'High' },
-  { id: 'PAY004', participant: 'BHBINTINT', amount: 6200000, age: '45m', priority: 'Low' },
-];
-
-const chartConfig = {
-  total: { label: 'Total Liquidity', color: 'hsl(var(--primary))' },
-  cash: { label: 'Cash', color: 'hsl(var(--chart-1))' },
-  collateral: { label: 'Collateral', color: 'hsl(var(--chart-2))' },
-  settled: { label: 'Settled', color: 'hsl(var(--chart-3))' },
-  queued: { label: 'Queued', color: 'hsl(var(--chart-4))' },
-};
 
 export default function FinancialMonitoringPage() {
-  const [showBalancesTable, setShowBalancesTable] = useState(false);
+  const [filterParticipant, setFilterParticipant] = useState('all');
+  const [filterStatus, setFilterStatus] = useState('all');
+  const [searchTerm, setSearchTerm] = useState('');
+  const [sortField, setSortField] = useState<string>('');
+  const [sortDirection, setSortDirection] = useState<'asc' | 'desc'>('asc');
+  const [currentPage, setCurrentPage] = useState(1);
+  const itemsPerPage = 10;
+
   const { rtgsMetrics, liquidityTrend, paymentFlow, lastUpdated, isBusinessHours } = useBusinessDaySimulation();
 
   useEffect(() => {
@@ -48,96 +43,71 @@ export default function FinancialMonitoringPage() {
     return 'text-green-600';
   };
 
-  const getPriorityBadge = (priority: string) => {
-    const variants = {
-      'High': 'destructive',
-      'Normal': 'default',
-      'Low': 'secondary'
-    } as const;
-    return <Badge variant={variants[priority as keyof typeof variants]}>{priority}</Badge>;
+  const getQueueStatusColor = (queue: number) => {
+    if (queue === 0) return 'bg-green-100 text-green-800 border-green-200';
+    if (queue <= 2) return 'bg-yellow-100 text-yellow-800 border-yellow-200';
+    return 'bg-red-100 text-red-800 border-red-200';
   };
 
-  if (showBalancesTable) {
-    return (
-      <main className="space-y-6">
-        <Breadcrumb className="mb-4">
-          <BreadcrumbList>
-            <BreadcrumbItem>
-              <BreadcrumbLink href="/rtgs/home">RTGS</BreadcrumbLink>
-            </BreadcrumbItem>
-            <BreadcrumbSeparator />
-            <BreadcrumbItem>
-              <BreadcrumbLink href="/rtgs/financial-monitoring">Financial Monitoring</BreadcrumbLink>
-            </BreadcrumbItem>
-            <BreadcrumbSeparator />
-            <BreadcrumbItem>
-              <BreadcrumbPage>Balances & Liquidity</BreadcrumbPage>
-            </BreadcrumbItem>
-          </BreadcrumbList>
-        </Breadcrumb>
+  // Filtering and sorting logic
+  const filteredAndSortedBalances = useMemo(() => {
+    let filtered = participantBalances.filter(participant => {
+      const matchesSearch = participant.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
+                          participant.id.includes(searchTerm);
+      const matchesParticipant = filterParticipant === 'all' || participant.name === filterParticipant;
+      const matchesStatus = filterStatus === 'all' || 
+                          (filterStatus === 'active' && participant.queue === 0) ||
+                          (filterStatus === 'queued' && participant.queue > 0);
+      
+      return matchesSearch && matchesParticipant && matchesStatus;
+    });
+
+    if (sortField) {
+      filtered.sort((a, b) => {
+        let aValue = a[sortField as keyof typeof a];
+        let bValue = b[sortField as keyof typeof b];
         
+        if (typeof aValue === 'string') {
+          aValue = aValue.toLowerCase();
+          bValue = (bValue as string).toLowerCase();
+        }
+        
+        if (sortDirection === 'asc') {
+          return aValue < bValue ? -1 : aValue > bValue ? 1 : 0;
+        } else {
+          return aValue > bValue ? -1 : aValue < bValue ? 1 : 0;
+        }
+      });
+    }
+
+    return filtered;
+  }, [searchTerm, filterParticipant, filterStatus, sortField, sortDirection]);
+
+  const paginatedBalances = useMemo(() => {
+    const startIndex = (currentPage - 1) * itemsPerPage;
+    return filteredAndSortedBalances.slice(startIndex, startIndex + itemsPerPage);
+  }, [filteredAndSortedBalances, currentPage]);
+
+  const totalPages = Math.ceil(filteredAndSortedBalances.length / itemsPerPage);
+
+  const handleSort = (field: string) => {
+    if (sortField === field) {
+      setSortDirection(sortDirection === 'asc' ? 'desc' : 'asc');
+    } else {
+      setSortField(field);
+      setSortDirection('asc');
+    }
+  };
+
+
+  return (
+    <TooltipProvider>
+      <div className="space-y-6">
+        {/* Header */}
         <div className="flex items-center justify-between">
           <div>
-            <h1 className="text-2xl font-bold">RTGS — Balances & Liquidity</h1>
-            <p className="text-muted-foreground">Real-time participant balances and liquidity positions</p>
-          </div>
-          <Button onClick={() => setShowBalancesTable(false)} variant="outline">
-            <ArrowLeft className="h-4 w-4 mr-2" />
-            Back to Overview
-          </Button>
-        </div>
-
-        <Card>
-          <CardHeader>
-            <CardTitle>Participant Balances & Liquidity</CardTitle>
-          </CardHeader>
-          <CardContent>
-            <Table>
-              <TableHeader>
-                <TableRow>
-                  <TableHead>Account Code</TableHead>
-                  <TableHead>Participant</TableHead>
-                  <TableHead>Payments in Queue</TableHead>
-                  <TableHead>Total Transactions</TableHead>
-                  <TableHead>Credit/Debit Turnover</TableHead>
-                  <TableHead>% Current to Opening</TableHead>
-                  <TableHead>Time Since Last Received</TableHead>
-                  <TableHead>ILF Debt Amount</TableHead>
-                  <TableHead>Intrabank Loans</TableHead>
-                </TableRow>
-              </TableHeader>
-              <TableBody>
-                {participantBalances.map((participant, index) => (
-                  <TableRow key={participant.id} className={index % 2 === 0 ? 'bg-green-50' : ''}>
-                    <TableCell className="font-mono text-sm">{participant.id}</TableCell>
-                    <TableCell className="font-medium">{participant.name}</TableCell>
-                    <TableCell className="text-center">{participant.queue}</TableCell>
-                    <TableCell className="text-right">{participant.payments.toLocaleString()}</TableCell>
-                    <TableCell className={`text-right ${participant.turnover < 0 ? 'text-red-600' : 'text-green-600'}`}>
-                      {participant.turnover.toLocaleString()}
-                    </TableCell>
-                    <TableCell className={`text-right ${getStatusColor(participant.current)}`}>
-                      {participant.current.toFixed(2)}%
-                    </TableCell>
-                    <TableCell className="text-right">{participant.opening.toLocaleString()}</TableCell>
-                    <TableCell className="text-right">{participant.amount.toFixed(2)}</TableCell>
-                    <TableCell className="text-right">{participant.debt.toFixed(2)}</TableCell>
-                  </TableRow>
-                ))}
-              </TableBody>
-            </Table>
-          </CardContent>
-        </Card>
-      </main>
-    );
-  }
-
-    return (
-      <main className="space-y-6">
-        <div className="flex items-center justify-between">
-          <div>
-            <h1 className="text-2xl font-bold">RTGS — Financial Monitoring</h1>
-            <div className="flex items-center gap-2 text-muted-foreground">
+            <h1 className="text-2xl font-bold text-slate-900">RTGS — Financial Monitoring</h1>
+            <div className="flex items-center gap-2 text-slate-600">
               <span>Real-time monitoring of financial flows and liquidity metrics</span>
               <div className="flex items-center gap-1 text-xs">
                 <RefreshCw className={`h-3 w-3 ${isBusinessHours ? 'animate-spin' : ''}`} />
@@ -147,157 +117,234 @@ export default function FinancialMonitoringPage() {
           </div>
         </div>
 
-
-      {/* Key Metrics */}
-      <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
-        <Card className="animate-fade-in">
-          <CardContent className="p-4">
-            <div className="flex items-center justify-between">
-              <div>
-                <p className="text-sm text-muted-foreground">Total Liquidity</p>
-                <p className="text-2xl font-bold transition-all duration-500">BD {rtgsMetrics.totalLiquidity / 1000}B</p>
-              </div>
-              <TrendingUp className={`h-8 w-8 transition-colors duration-300 ${rtgsMetrics.totalLiquidity > 7000 ? 'text-green-600' : 'text-orange-600'}`} />
-            </div>
-          </CardContent>
-        </Card>
-        
-        <Card className="animate-fade-in" style={{ animationDelay: '0.1s' }}>
-          <CardContent className="p-4">
-            <div className="flex items-center justify-between">
-              <div>
-                <p className="text-sm text-muted-foreground">Utilization Rate</p>
-                <p className="text-2xl font-bold transition-all duration-500">{rtgsMetrics.utilizationRate}%</p>
-              </div>
-              <Progress value={rtgsMetrics.utilizationRate} className="w-12 transition-all duration-500" />
-            </div>
-          </CardContent>
-        </Card>
-        
-        <Card className="animate-fade-in" style={{ animationDelay: '0.2s' }}>
-          <CardContent className="p-4">
-            <div className="flex items-center justify-between">
-              <div>
-                <p className="text-sm text-muted-foreground">Queued Payments</p>
-                <p className="text-2xl font-bold transition-all duration-500">{rtgsMetrics.queuedPayments}</p>
-              </div>
-              <Clock className={`h-8 w-8 transition-colors duration-300 ${rtgsMetrics.queuedPayments > 50 ? 'text-red-600' : 'text-orange-600'}`} />
-            </div>
-          </CardContent>
-        </Card>
-        
-        <Card className="animate-fade-in" style={{ animationDelay: '0.3s' }}>
-          <CardContent className="p-4">
-            <div className="flex items-center justify-between">
-              <div>
-                <p className="text-sm text-muted-foreground">Active Alerts</p>
-                <p className="text-2xl font-bold transition-all duration-500">{rtgsMetrics.activeAlerts}</p>
-              </div>
-              <AlertTriangle className={`h-8 w-8 transition-colors duration-300 ${rtgsMetrics.activeAlerts > 5 ? 'text-red-600' : 'text-red-600'}`} />
-            </div>
-          </CardContent>
-        </Card>
-      </div>
-
-      {/* Two Focused Dashboards Side-by-Side */}
-      <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-        {/* Left: Liquidity & Balances Overview */}
-        <Card className="relative">
-          <CardHeader>
-            <CardTitle>Liquidity & Balances Overview</CardTitle>
-            <CardDescription>Real-time liquidity composition and trends</CardDescription>
-          </CardHeader>
-          <CardContent>
-            <div className="space-y-4">
-              <div className="grid grid-cols-2 gap-4">
-                <div className="text-center p-4 bg-blue-50 rounded-lg transition-all duration-500">
-                  <p className="text-sm text-muted-foreground">Cash Liquidity</p>
-                  <p className="text-xl font-bold text-blue-600">BD {rtgsMetrics.cashLiquidity / 1000}B</p>
-                </div>
-                <div className="text-center p-4 bg-purple-50 rounded-lg transition-all duration-500">
-                  <p className="text-sm text-muted-foreground">Pledged Collateral</p>
-                  <p className="text-xl font-bold text-purple-600">BD {rtgsMetrics.pledgedCollateral / 1000}B</p>
-                </div>
-              </div>
-              
-              <ChartContainer config={chartConfig} className="h-[200px]">
-                <AreaChart data={liquidityTrend} key={JSON.stringify(liquidityTrend)}>
-                  <XAxis dataKey="time" />
-                  <YAxis />
-                  <ChartTooltip content={<ChartTooltipContent />} />
-                  <Area 
-                    type="monotone" 
-                    dataKey="cash" 
-                    stackId="1" 
-                    stroke="var(--color-cash)" 
-                    fill="var(--color-cash)" 
-                    className="transition-all duration-500"
-                  />
-                  <Area 
-                    type="monotone" 
-                    dataKey="collateral" 
-                    stackId="1" 
-                    stroke="var(--color-collateral)" 
-                    fill="var(--color-collateral)" 
-                    className="transition-all duration-500"
-                  />
-                </AreaChart>
-              </ChartContainer>
-            </div>
-          </CardContent>
-          <Button 
-            size="sm" 
-            variant="outline"
-            className="absolute bottom-4 right-4"
-            onClick={() => setShowBalancesTable(true)}
-          >
-            View Details
-          </Button>
-        </Card>
-
-        {/* Right: Payment Flow & Queue */}
-        <Card className="relative">
-          <CardHeader>
-            <CardTitle>Payment Flow & Queue</CardTitle>
-            <CardDescription>Hourly settlement patterns and queue analysis</CardDescription>
-          </CardHeader>
-          <CardContent>
-            <div className="space-y-4">
-              <ChartContainer config={chartConfig} className="h-[150px]">
-                <BarChart data={paymentFlow} key={JSON.stringify(paymentFlow)}>
-                  <XAxis dataKey="hour" />
-                  <YAxis />
-                  <ChartTooltip content={<ChartTooltipContent />} />
-                  <Bar dataKey="settled" fill="var(--color-settled)" className="transition-all duration-500" />
-                  <Bar dataKey="queued" fill="var(--color-queued)" className="transition-all duration-500" />
-                </BarChart>
-              </ChartContainer>
-              
-              <div>
-                <h4 className="font-medium mb-3">Top Queued Payments</h4>
-                <div className="space-y-2">
-                  {queuedPayments.slice(0, 3).map((payment) => (
-                    <div key={payment.id} className="flex items-center justify-between p-2 bg-gray-50 rounded">
-                      <div className="flex-1">
-                        <p className="font-medium text-sm">{payment.participant}</p>
-                        <p className="text-xs text-muted-foreground">BD {(payment.amount / 1000000).toFixed(1)}M • {payment.age}</p>
-                      </div>
-                      {getPriorityBadge(payment.priority)}
+        <div className="flex h-full">
+          <div className="flex-1 space-y-6 pr-6">
+            {/* Key Metrics Icons */}
+            <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
+              <Card className="animate-fade-in">
+                <CardContent className="p-4">
+                  <div className="flex items-center justify-between">
+                    <div>
+                      <p className="text-sm text-slate-600">Total Liquidity</p>
+                      <p className="text-2xl font-bold transition-all duration-500">BD {rtgsMetrics.totalLiquidity / 1000}B</p>
                     </div>
-                  ))}
+                    <TrendingUp className={`h-8 w-8 transition-colors duration-300 ${rtgsMetrics.totalLiquidity > 7000 ? 'text-green-600' : 'text-orange-600'}`} />
+                  </div>
+                </CardContent>
+              </Card>
+              
+              <Card className="animate-fade-in" style={{ animationDelay: '0.1s' }}>
+                <CardContent className="p-4">
+                  <div className="flex items-center justify-between">
+                    <div>
+                      <p className="text-sm text-slate-600">Utilization Rate</p>
+                      <p className="text-2xl font-bold transition-all duration-500">{rtgsMetrics.utilizationRate}%</p>
+                    </div>
+                    <Activity className="h-8 w-8 text-blue-600" />
+                  </div>
+                </CardContent>
+              </Card>
+              
+              <Card className="animate-fade-in" style={{ animationDelay: '0.2s' }}>
+                <CardContent className="p-4">
+                  <div className="flex items-center justify-between">
+                    <div>
+                      <p className="text-sm text-slate-600">Queued Payments</p>
+                      <p className="text-2xl font-bold transition-all duration-500">{rtgsMetrics.queuedPayments}</p>
+                    </div>
+                    <Clock className={`h-8 w-8 transition-colors duration-300 ${rtgsMetrics.queuedPayments > 50 ? 'text-red-600' : 'text-orange-600'}`} />
+                  </div>
+                </CardContent>
+              </Card>
+              
+              <Card className="animate-fade-in" style={{ animationDelay: '0.3s' }}>
+                <CardContent className="p-4">
+                  <div className="flex items-center justify-between">
+                    <div>
+                      <p className="text-sm text-slate-600">Active Alerts</p>
+                      <p className="text-2xl font-bold transition-all duration-500">{rtgsMetrics.activeAlerts}</p>
+                    </div>
+                    <AlertTriangle className={`h-8 w-8 transition-colors duration-300 ${rtgsMetrics.activeAlerts > 5 ? 'text-red-600' : 'text-red-600'}`} />
+                  </div>
+                </CardContent>
+              </Card>
+            </div>
+
+            {/* Balances & Liquidity Table */}
+            <Card>
+              <CardHeader>
+                <CardTitle>Participant Balances & Liquidity</CardTitle>
+                <div className="flex gap-2 mt-2">
+                  <Select defaultValue="all" onValueChange={setFilterParticipant}>
+                    <SelectTrigger className="w-40">
+                      <SelectValue />
+                    </SelectTrigger>
+                    <SelectContent>
+                      <SelectItem value="all">All Participants</SelectItem>
+                      {Array.from(new Set(participantBalances.map(p => p.name))).map(name => (
+                        <SelectItem key={name} value={name}>{name}</SelectItem>
+                      ))}
+                    </SelectContent>
+                  </Select>
+                  <Select defaultValue="all" onValueChange={setFilterStatus}>
+                    <SelectTrigger className="w-32">
+                      <SelectValue />
+                    </SelectTrigger>
+                    <SelectContent>
+                      <SelectItem value="all">All Status</SelectItem>
+                      <SelectItem value="active">Active</SelectItem>
+                      <SelectItem value="queued">Queued</SelectItem>
+                    </SelectContent>
+                  </Select>
+                  <Input 
+                    placeholder="Search participants..." 
+                    className="w-48" 
+                    value={searchTerm}
+                    onChange={(e) => setSearchTerm(e.target.value)}
+                  />
                 </div>
+              </CardHeader>
+              <CardContent>
+                <div className="overflow-x-auto">
+                  <Table>
+                    <TableHeader>
+                      <TableRow>
+                        <TableHead 
+                          className="cursor-pointer hover:bg-slate-50"
+                          onClick={() => handleSort('id')}
+                        >
+                          <div className="flex items-center gap-1">
+                            Account Code
+                            <ArrowUpDown className="h-3 w-3" />
+                          </div>
+                        </TableHead>
+                        <TableHead 
+                          className="cursor-pointer hover:bg-slate-50"
+                          onClick={() => handleSort('name')}
+                        >
+                          <div className="flex items-center gap-1">
+                            Participant
+                            <ArrowUpDown className="h-3 w-3" />
+                          </div>
+                        </TableHead>
+                        <TableHead 
+                          className="cursor-pointer hover:bg-slate-50"
+                          onClick={() => handleSort('queue')}
+                        >
+                          <div className="flex items-center gap-1">
+                            Queue
+                            <ArrowUpDown className="h-3 w-3" />
+                          </div>
+                        </TableHead>
+                        <TableHead 
+                          className="cursor-pointer hover:bg-slate-50"
+                          onClick={() => handleSort('payments')}
+                        >
+                          <div className="flex items-center gap-1">
+                            Total Transactions
+                            <ArrowUpDown className="h-3 w-3" />
+                          </div>
+                        </TableHead>
+                        <TableHead 
+                          className="cursor-pointer hover:bg-slate-50"
+                          onClick={() => handleSort('turnover')}
+                        >
+                          <div className="flex items-center gap-1">
+                            Turnover (BD)
+                            <ArrowUpDown className="h-3 w-3" />
+                          </div>
+                        </TableHead>
+                        <TableHead 
+                          className="cursor-pointer hover:bg-slate-50"
+                          onClick={() => handleSort('current')}
+                        >
+                          <div className="flex items-center gap-1">
+                            % Current to Opening
+                            <ArrowUpDown className="h-3 w-3" />
+                          </div>
+                        </TableHead>
+                        <TableHead>Opening Balance (BD)</TableHead>
+                        <TableHead>ILF Debt (BD)</TableHead>
+                      </TableRow>
+                    </TableHeader>
+                    <TableBody>
+                      {paginatedBalances.map((participant, index) => (
+                        <TableRow key={participant.id} className="hover:bg-slate-50">
+                          <TableCell className="font-mono text-sm">{participant.id}</TableCell>
+                          <TableCell className="font-medium">{participant.name}</TableCell>
+                          <TableCell>
+                            <Badge className={getQueueStatusColor(participant.queue)}>
+                              {participant.queue} queued
+                            </Badge>
+                          </TableCell>
+                          <TableCell className="text-right">{participant.payments.toLocaleString()}</TableCell>
+                          <TableCell className={`text-right ${participant.turnover < 0 ? 'text-red-600' : 'text-green-600'}`}>
+                            {participant.turnover.toLocaleString()}
+                          </TableCell>
+                          <TableCell className={`text-right ${getStatusColor(participant.current)}`}>
+                            {participant.current.toFixed(2)}%
+                          </TableCell>
+                          <TableCell className="text-right">{participant.opening.toLocaleString()}</TableCell>
+                          <TableCell className="text-right">{participant.debt.toLocaleString()}</TableCell>
+                        </TableRow>
+                      ))}
+                    </TableBody>
+                  </Table>
+                </div>
+                
+                {/* Pagination */}
+                <div className="flex items-center justify-between mt-4">
+                  <div className="text-sm text-slate-600">
+                    Showing {((currentPage - 1) * itemsPerPage) + 1} to {Math.min(currentPage * itemsPerPage, filteredAndSortedBalances.length)} of {filteredAndSortedBalances.length} participants
+                  </div>
+                  <div className="flex gap-2">
+                    <Button 
+                      variant="outline" 
+                      size="sm"
+                      disabled={currentPage === 1}
+                      onClick={() => setCurrentPage(currentPage - 1)}
+                    >
+                      Previous
+                    </Button>
+                    <span className="flex items-center px-3 text-sm">
+                      Page {currentPage} of {totalPages}
+                    </span>
+                    <Button 
+                      variant="outline" 
+                      size="sm"
+                      disabled={currentPage === totalPages}
+                      onClick={() => setCurrentPage(currentPage + 1)}
+                    >
+                      Next
+                    </Button>
+                  </div>
+                </div>
+              </CardContent>
+            </Card>
+          </div>
+
+          {/* Right Sidebar with Quick Actions */}
+          <div className="w-64 space-y-4">
+            <div className="bg-white border border-slate-200 rounded-lg p-4">
+              <h3 className="font-semibold text-slate-900 mb-4">Quick Actions</h3>
+              <div className="space-y-2">
+                <Button className="w-full justify-start">
+                  <Activity className="h-4 w-4 mr-2" />
+                  Queue Management
+                </Button>
+                <Button variant="outline" className="w-full justify-start">
+                  <Send className="h-4 w-4 mr-2" />
+                  Send Alert to Participant
+                </Button>
+                <Button variant="outline" className="w-full justify-start">
+                  <FileText className="h-4 w-4 mr-2" />
+                  Create Incident Ticket
+                </Button>
               </div>
             </div>
-          </CardContent>
-          <Button 
-            size="sm" 
-            variant="outline"
-            className="absolute bottom-4 right-4"
-          >
-            View Details
-          </Button>
-        </Card>
+          </div>
+        </div>
       </div>
-    </main>
+    </TooltipProvider>
   );
 }
