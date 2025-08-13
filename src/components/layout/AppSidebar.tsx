@@ -212,7 +212,7 @@ export function AppSidebar() {
     ]
   };
 
-  const allItems = [homeItem, rtgsItem, csdItem, knowledgeHubGroup, administrationGroup, cmsItem];
+  const allItems = [homeItem, rtgsItem, csdItem, cmsItem, knowledgeHubGroup, administrationGroup];
   
   const filteredMainItems = allItems.filter(item => 
     user?.role && item.roles.includes(user.role)

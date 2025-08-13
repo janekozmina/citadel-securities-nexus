@@ -1,7 +1,7 @@
 import { useAuth } from '@/contexts/AuthContext';
 import { Card, CardContent } from '@/components/ui/card';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
-import { TrendingUp, Users, Building, AlertCircle, Clock, Banknote, FileText, Activity, BarChart3, Shield, Settings, FileWarning, Timer } from 'lucide-react';
+import { TrendingUp, Users, Building, AlertCircle, Clock, Banknote, FileText, Activity, BarChart3, Shield, Settings, FileWarning, Timer, ArrowUpRight, ArrowDownRight, Minus } from 'lucide-react';
 
 const HomePage = () => {
   const { user } = useAuth();
@@ -139,24 +139,98 @@ const HomePage = () => {
       <Card className="bg-white">
         <CardContent className="p-6">
           <h3 className="text-lg font-semibold mb-4">Warehoused Payments</h3>
-          <div className="h-64 bg-slate-100 rounded-lg flex items-center justify-center text-slate-500">
-            Warehoused Payments Dashboard
+          <div className="h-64 bg-gradient-to-br from-blue-50 to-blue-100 rounded-lg p-4">
+            <div className="flex justify-between items-center mb-4">
+              <span className="text-2xl font-bold text-blue-800">127</span>
+              <ArrowUpRight className="h-5 w-5 text-green-600" />
+            </div>
+            <div className="space-y-2">
+              <div className="flex justify-between">
+                <span className="text-sm text-slate-600">High Priority</span>
+                <span className="text-sm font-medium">45</span>
+              </div>
+              <div className="w-full bg-blue-200 rounded-full h-2">
+                <div className="bg-blue-600 h-2 rounded-full" style={{width: '35%'}}></div>
+              </div>
+              <div className="flex justify-between">
+                <span className="text-sm text-slate-600">Normal Priority</span>
+                <span className="text-sm font-medium">82</span>
+              </div>
+              <div className="w-full bg-blue-200 rounded-full h-2">
+                <div className="bg-blue-400 h-2 rounded-full" style={{width: '65%'}}></div>
+              </div>
+            </div>
           </div>
         </CardContent>
       </Card>
       <Card className="bg-white">
         <CardContent className="p-6">
           <h3 className="text-lg font-semibold mb-4">Cross-Border Flow Today</h3>
-          <div className="h-64 bg-slate-100 rounded-lg flex items-center justify-center text-slate-500">
-            Cross-Border Flow Dashboard
+          <div className="h-64 bg-gradient-to-br from-green-50 to-green-100 rounded-lg p-4">
+            <div className="flex justify-between items-center mb-4">
+              <span className="text-2xl font-bold text-green-800">AED 1.2B</span>
+              <ArrowUpRight className="h-5 w-5 text-green-600" />
+            </div>
+            <div className="space-y-3">
+              <div className="flex items-center justify-between">
+                <span className="text-sm text-slate-600">Inbound</span>
+                <span className="text-sm font-medium text-green-700">AED 720M</span>
+              </div>
+              <div className="flex items-center justify-between">
+                <span className="text-sm text-slate-600">Outbound</span>
+                <span className="text-sm font-medium text-red-700">AED 480M</span>
+              </div>
+              <div className="mt-4 pt-4 border-t">
+                <div className="text-xs text-slate-500 mb-2">Volume Distribution</div>
+                <div className="flex space-x-1">
+                  <div className="flex-1 bg-green-500 h-2 rounded"></div>
+                  <div className="flex-1 bg-green-400 h-2 rounded"></div>
+                  <div className="flex-1 bg-green-300 h-2 rounded"></div>
+                  <div className="flex-1 bg-red-300 h-2 rounded"></div>
+                  <div className="flex-1 bg-red-400 h-2 rounded"></div>
+                </div>
+              </div>
+            </div>
           </div>
         </CardContent>
       </Card>
       <Card className="bg-white col-span-2">
         <CardContent className="p-6">
           <h3 className="text-lg font-semibold mb-4">Collateral Monitoring</h3>
-          <div className="h-64 bg-slate-100 rounded-lg flex items-center justify-center text-slate-500">
-            Collateral Monitoring Dashboard
+          <div className="h-64 bg-gradient-to-br from-purple-50 to-purple-100 rounded-lg p-4">
+            <div className="grid grid-cols-3 gap-4 h-full">
+              <div className="text-center">
+                <div className="text-2xl font-bold text-purple-800 mb-2">98.5%</div>
+                <div className="text-sm text-slate-600 mb-2">Collateral Ratio</div>
+                <div className="w-16 h-16 mx-auto bg-purple-200 rounded-full flex items-center justify-center">
+                  <div className="w-12 h-12 bg-purple-600 rounded-full flex items-center justify-center">
+                    <span className="text-white text-xs font-bold">✓</span>
+                  </div>
+                </div>
+              </div>
+              <div className="text-center">
+                <div className="text-2xl font-bold text-purple-800 mb-2">AED 2.1B</div>
+                <div className="text-sm text-slate-600 mb-2">Total Value</div>
+                <div className="space-y-1">
+                  <div className="w-full bg-purple-200 rounded h-1">
+                    <div className="bg-purple-600 h-1 rounded" style={{width: '70%'}}></div>
+                  </div>
+                  <div className="w-full bg-purple-200 rounded h-1">
+                    <div className="bg-purple-400 h-1 rounded" style={{width: '30%'}}></div>
+                  </div>
+                </div>
+              </div>
+              <div className="text-center">
+                <div className="text-2xl font-bold text-purple-800 mb-2">12</div>
+                <div className="text-sm text-slate-600 mb-2">Active Positions</div>
+                <div className="flex justify-center space-x-1">
+                  <div className="w-2 h-8 bg-purple-600 rounded"></div>
+                  <div className="w-2 h-6 bg-purple-500 rounded"></div>
+                  <div className="w-2 h-10 bg-purple-400 rounded"></div>
+                  <div className="w-2 h-4 bg-purple-300 rounded"></div>
+                </div>
+              </div>
+            </div>
           </div>
         </CardContent>
       </Card>
@@ -230,8 +304,35 @@ const HomePage = () => {
         <CardContent className="p-6">
           <h3 className="text-lg font-semibold mb-4">Combined Settlement Volume & Value</h3>
           <p className="text-sm text-slate-600 mb-4">Today vs. Yesterday</p>
-          <div className="h-64 bg-slate-100 rounded-lg flex items-center justify-center text-slate-500">
-            Combined Settlement Dashboard
+          <div className="h-64 bg-gradient-to-br from-orange-50 to-orange-100 rounded-lg p-4">
+            <div className="grid grid-cols-2 gap-4 h-full">
+              <div>
+                <div className="text-sm text-slate-600 mb-2">Today</div>
+                <div className="text-2xl font-bold text-orange-800 mb-1">AED 3.2B</div>
+                <div className="text-sm text-slate-600 mb-3">18,450 transactions</div>
+                <div className="space-y-2">
+                  <div className="flex items-center">
+                    <ArrowUpRight className="h-4 w-4 text-green-600 mr-1" />
+                    <span className="text-sm text-green-600">+12% volume</span>
+                  </div>
+                  <div className="flex items-center">
+                    <ArrowUpRight className="h-4 w-4 text-green-600 mr-1" />
+                    <span className="text-sm text-green-600">+8% value</span>
+                  </div>
+                </div>
+              </div>
+              <div>
+                <div className="text-sm text-slate-600 mb-2">Yesterday</div>
+                <div className="text-xl font-bold text-slate-700 mb-1">AED 2.9B</div>
+                <div className="text-sm text-slate-600 mb-3">16,890 transactions</div>
+                <div className="mt-4">
+                  <div className="w-full bg-orange-200 rounded-full h-3 mb-2">
+                    <div className="bg-orange-600 h-3 rounded-full" style={{width: '90%'}}></div>
+                  </div>
+                  <div className="text-xs text-slate-500">Comparison Ratio</div>
+                </div>
+              </div>
+            </div>
           </div>
         </CardContent>
       </Card>
@@ -239,16 +340,94 @@ const HomePage = () => {
         <CardContent className="p-6">
           <h3 className="text-lg font-semibold mb-4">Liquidity Position (Intraday)</h3>
           <p className="text-sm text-slate-600 mb-4">Cash + Eligible Securities</p>
-          <div className="h-64 bg-slate-100 rounded-lg flex items-center justify-center text-slate-500">
-            Liquidity Position Dashboard
+          <div className="h-64 bg-gradient-to-br from-teal-50 to-teal-100 rounded-lg p-4">
+            <div className="space-y-4">
+              <div className="flex justify-between items-center">
+                <span className="text-2xl font-bold text-teal-800">AED 5.4B</span>
+                <div className="text-right">
+                  <div className="text-sm text-slate-600">Available</div>
+                  <div className="text-lg font-semibold text-teal-700">92%</div>
+                </div>
+              </div>
+              <div className="space-y-3">
+                <div>
+                  <div className="flex justify-between text-sm mb-1">
+                    <span className="text-slate-600">Cash</span>
+                    <span className="font-medium">AED 2.1B</span>
+                  </div>
+                  <div className="w-full bg-teal-200 rounded-full h-2">
+                    <div className="bg-teal-600 h-2 rounded-full" style={{width: '40%'}}></div>
+                  </div>
+                </div>
+                <div>
+                  <div className="flex justify-between text-sm mb-1">
+                    <span className="text-slate-600">Eligible Securities</span>
+                    <span className="font-medium">AED 3.3B</span>
+                  </div>
+                  <div className="w-full bg-teal-200 rounded-full h-2">
+                    <div className="bg-teal-500 h-2 rounded-full" style={{width: '60%'}}></div>
+                  </div>
+                </div>
+                <div className="pt-2 border-t">
+                  <div className="flex justify-between items-center">
+                    <span className="text-sm text-slate-600">Utilization Rate</span>
+                    <div className="flex items-center">
+                      <div className="w-8 h-8 bg-teal-200 rounded-full flex items-center justify-center mr-2">
+                        <span className="text-xs font-bold text-teal-800">8%</span>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
           </div>
         </CardContent>
       </Card>
       <Card className="bg-white col-span-2">
         <CardContent className="p-6">
           <h3 className="text-lg font-semibold mb-4">Outstanding Settlements by Priority & Age</h3>
-          <div className="h-64 bg-slate-100 rounded-lg flex items-center justify-center text-slate-500">
-            Outstanding Settlements Dashboard
+          <div className="h-64 bg-gradient-to-br from-red-50 to-red-100 rounded-lg p-4">
+            <div className="grid grid-cols-4 gap-4 h-full">
+              <div className="text-center">
+                <div className="text-lg font-bold text-red-800 mb-2">High Priority</div>
+                <div className="text-3xl font-bold text-red-700 mb-2">23</div>
+                <div className="space-y-1">
+                  <div className="text-xs text-slate-600">0-2 hours: 15</div>
+                  <div className="text-xs text-slate-600">2-6 hours: 6</div>
+                  <div className="text-xs text-slate-600">6+ hours: 2</div>
+                </div>
+              </div>
+              <div className="text-center">
+                <div className="text-lg font-bold text-yellow-800 mb-2">Medium Priority</div>
+                <div className="text-3xl font-bold text-yellow-700 mb-2">47</div>
+                <div className="space-y-1">
+                  <div className="text-xs text-slate-600">0-4 hours: 28</div>
+                  <div className="text-xs text-slate-600">4-12 hours: 15</div>
+                  <div className="text-xs text-slate-600">12+ hours: 4</div>
+                </div>
+              </div>
+              <div className="text-center">
+                <div className="text-lg font-bold text-blue-800 mb-2">Low Priority</div>
+                <div className="text-3xl font-bold text-blue-700 mb-2">156</div>
+                <div className="space-y-1">
+                  <div className="text-xs text-slate-600">0-24 hours: 98</div>
+                  <div className="text-xs text-slate-600">1-3 days: 45</div>
+                  <div className="text-xs text-slate-600">3+ days: 13</div>
+                </div>
+              </div>
+              <div className="text-center">
+                <div className="text-lg font-bold text-slate-800 mb-2">Total Value</div>
+                <div className="text-2xl font-bold text-slate-700 mb-2">AED 890M</div>
+                <div className="mt-4">
+                  <div className="flex justify-center space-x-1">
+                    <div className="w-3 h-12 bg-red-500 rounded"></div>
+                    <div className="w-3 h-8 bg-yellow-500 rounded"></div>
+                    <div className="w-3 h-16 bg-blue-500 rounded"></div>
+                  </div>
+                  <div className="text-xs text-slate-500 mt-2">Distribution</div>
+                </div>
+              </div>
+            </div>
           </div>
         </CardContent>
       </Card>
@@ -268,11 +447,26 @@ const HomePage = () => {
         </div>
       </div>
 
-      <Tabs defaultValue="rtgs" className="w-full">
-        <TabsList className="grid w-full grid-cols-3">
-          <TabsTrigger value="rtgs">RTGS</TabsTrigger>
-          <TabsTrigger value="csd">CSD</TabsTrigger>
-          <TabsTrigger value="consolidated">Consolidated</TabsTrigger>
+      <Tabs defaultValue="consolidated" className="w-full">
+        <TabsList className="grid w-full grid-cols-3 bg-gray-100 p-1 rounded-lg">
+          <TabsTrigger 
+            value="rtgs" 
+            className="data-[state=active]:bg-white data-[state=active]:shadow-sm rounded-md px-6 py-2 text-sm font-medium transition-all"
+          >
+            RTGS
+          </TabsTrigger>
+          <TabsTrigger 
+            value="csd" 
+            className="data-[state=active]:bg-white data-[state=active]:shadow-sm rounded-md px-6 py-2 text-sm font-medium transition-all"
+          >
+            CSD
+          </TabsTrigger>
+          <TabsTrigger 
+            value="consolidated" 
+            className="data-[state=active]:bg-white data-[state=active]:shadow-sm rounded-md px-6 py-2 text-sm font-medium transition-all"
+          >
+            Consolidated
+          </TabsTrigger>
         </TabsList>
 
         <TabsContent value="rtgs" className="space-y-6">
