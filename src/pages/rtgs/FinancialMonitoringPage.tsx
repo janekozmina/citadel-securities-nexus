@@ -6,7 +6,8 @@ import { Progress } from '@/components/ui/progress';
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table';
 import { ChartContainer, ChartTooltip, ChartTooltipContent } from '@/components/ui/chart';
 import { AreaChart, Area, BarChart, Bar, LineChart, Line, XAxis, YAxis, ResponsiveContainer } from 'recharts';
-import { TrendingUp, AlertTriangle, Clock, DollarSign, Users, Activity } from 'lucide-react';
+import { TrendingUp, AlertTriangle, Clock, DollarSign, Users, Activity, ArrowLeft } from 'lucide-react';
+import { Breadcrumb, BreadcrumbItem, BreadcrumbLink, BreadcrumbList, BreadcrumbPage, BreadcrumbSeparator } from '@/components/ui/breadcrumb';
 
 const liquidityTrendData = [
   { time: '09:00', total: 12500, cash: 8500, collateral: 4000 },
@@ -77,12 +78,29 @@ export default function FinancialMonitoringPage() {
   if (showBalancesTable) {
     return (
       <main className="space-y-6">
+        <Breadcrumb className="mb-4">
+          <BreadcrumbList>
+            <BreadcrumbItem>
+              <BreadcrumbLink href="/rtgs/home">RTGS</BreadcrumbLink>
+            </BreadcrumbItem>
+            <BreadcrumbSeparator />
+            <BreadcrumbItem>
+              <BreadcrumbLink href="/rtgs/financial-monitoring">Financial Monitoring</BreadcrumbLink>
+            </BreadcrumbItem>
+            <BreadcrumbSeparator />
+            <BreadcrumbItem>
+              <BreadcrumbPage>Balances & Liquidity</BreadcrumbPage>
+            </BreadcrumbItem>
+          </BreadcrumbList>
+        </Breadcrumb>
+        
         <div className="flex items-center justify-between">
           <div>
             <h1 className="text-2xl font-bold">RTGS — Balances & Liquidity</h1>
             <p className="text-muted-foreground">Real-time participant balances and liquidity positions</p>
           </div>
           <Button onClick={() => setShowBalancesTable(false)} variant="outline">
+            <ArrowLeft className="h-4 w-4 mr-2" />
             Back to Overview
           </Button>
         </div>
@@ -139,50 +157,6 @@ export default function FinancialMonitoringPage() {
         <p className="text-muted-foreground">Real-time monitoring of financial flows and liquidity metrics</p>
       </div>
 
-      {/* Shortcuts */}
-      <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-4">
-        <Card className="cursor-pointer hover:shadow-md transition-shadow" onClick={() => setShowBalancesTable(true)}>
-          <CardContent className="p-4 text-center">
-            <Users className="h-6 w-6 mx-auto mb-2 text-blue-600" />
-            <h3 className="font-medium text-sm">Intraday Balances</h3>
-          </CardContent>
-        </Card>
-        
-        <Card className="cursor-pointer hover:shadow-md transition-shadow">
-          <CardContent className="p-4 text-center">
-            <TrendingUp className="h-6 w-6 mx-auto mb-2 text-green-600" />
-            <h3 className="font-medium text-sm">Liquidity Forecast</h3>
-          </CardContent>
-        </Card>
-        
-        <Card className="cursor-pointer hover:shadow-md transition-shadow">
-          <CardContent className="p-4 text-center">
-            <Clock className="h-6 w-6 mx-auto mb-2 text-orange-600" />
-            <h3 className="font-medium text-sm">Largest Payments Queue</h3>
-          </CardContent>
-        </Card>
-        
-        <Card className="cursor-pointer hover:shadow-md transition-shadow">
-          <CardContent className="p-4 text-center">
-            <DollarSign className="h-6 w-6 mx-auto mb-2 text-purple-600" />
-            <h3 className="font-medium text-sm">Cash Position by Participant</h3>
-          </CardContent>
-        </Card>
-        
-        <Card className="cursor-pointer hover:shadow-md transition-shadow">
-          <CardContent className="p-4 text-center">
-            <Activity className="h-6 w-6 mx-auto mb-2 text-indigo-600" />
-            <h3 className="font-medium text-sm">EoD Liquidity Summary</h3>
-          </CardContent>
-        </Card>
-        
-        <Card className="cursor-pointer hover:shadow-md transition-shadow">
-          <CardContent className="p-4 text-center">
-            <AlertTriangle className="h-6 w-6 mx-auto mb-2 text-red-600" />
-            <h3 className="font-medium text-sm">Alerts & Threshold Breaches</h3>
-          </CardContent>
-        </Card>
-      </div>
 
       {/* Key Metrics */}
       <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
@@ -191,7 +165,7 @@ export default function FinancialMonitoringPage() {
             <div className="flex items-center justify-between">
               <div>
                 <p className="text-sm text-muted-foreground">Total Liquidity</p>
-                <p className="text-2xl font-bold">£7.5B</p>
+                <p className="text-2xl font-bold">BD 7.5B</p>
               </div>
               <TrendingUp className="h-8 w-8 text-green-600" />
             </div>
@@ -238,18 +212,9 @@ export default function FinancialMonitoringPage() {
       {/* Two Focused Dashboards Side-by-Side */}
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
         {/* Left: Liquidity & Balances Overview */}
-        <Card>
+        <Card className="relative">
           <CardHeader>
-            <CardTitle className="flex items-center justify-between">
-              Liquidity & Balances Overview
-              <Button 
-                size="sm" 
-                variant="outline"
-                onClick={() => setShowBalancesTable(true)}
-              >
-                Drill Down
-              </Button>
-            </CardTitle>
+            <CardTitle>Liquidity & Balances Overview</CardTitle>
             <CardDescription>Real-time liquidity composition and trends</CardDescription>
           </CardHeader>
           <CardContent>
@@ -257,11 +222,11 @@ export default function FinancialMonitoringPage() {
               <div className="grid grid-cols-2 gap-4">
                 <div className="text-center p-4 bg-blue-50 rounded-lg">
                   <p className="text-sm text-muted-foreground">Cash Liquidity</p>
-                  <p className="text-xl font-bold text-blue-600">£3.5B</p>
+                  <p className="text-xl font-bold text-blue-600">BD 3.5B</p>
                 </div>
                 <div className="text-center p-4 bg-purple-50 rounded-lg">
                   <p className="text-sm text-muted-foreground">Pledged Collateral</p>
-                  <p className="text-xl font-bold text-purple-600">£4.0B</p>
+                  <p className="text-xl font-bold text-purple-600">BD 4.0B</p>
                 </div>
               </div>
               
@@ -288,10 +253,18 @@ export default function FinancialMonitoringPage() {
               </ChartContainer>
             </div>
           </CardContent>
+          <Button 
+            size="sm" 
+            variant="outline"
+            className="absolute bottom-4 right-4"
+            onClick={() => setShowBalancesTable(true)}
+          >
+            View Details
+          </Button>
         </Card>
 
         {/* Right: Payment Flow & Queue */}
-        <Card>
+        <Card className="relative">
           <CardHeader>
             <CardTitle>Payment Flow & Queue</CardTitle>
             <CardDescription>Hourly settlement patterns and queue analysis</CardDescription>
@@ -315,7 +288,7 @@ export default function FinancialMonitoringPage() {
                     <div key={payment.id} className="flex items-center justify-between p-2 bg-gray-50 rounded">
                       <div className="flex-1">
                         <p className="font-medium text-sm">{payment.participant}</p>
-                        <p className="text-xs text-muted-foreground">£{(payment.amount / 1000000).toFixed(1)}M • {payment.age}</p>
+                        <p className="text-xs text-muted-foreground">BD {(payment.amount / 1000000).toFixed(1)}M • {payment.age}</p>
                       </div>
                       {getPriorityBadge(payment.priority)}
                     </div>
@@ -324,6 +297,13 @@ export default function FinancialMonitoringPage() {
               </div>
             </div>
           </CardContent>
+          <Button 
+            size="sm" 
+            variant="outline"
+            className="absolute bottom-4 right-4"
+          >
+            View Details
+          </Button>
         </Card>
       </div>
     </main>
