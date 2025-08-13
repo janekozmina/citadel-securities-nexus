@@ -70,7 +70,11 @@ const navigationItems: MenuItem[] = [
           { title: 'Billing', url: '/rtgs/financial-monitoring/billing', roles: ['Admin'], icon: DollarSign }
         ]
       },
-      { title: 'Central Bank Operations', url: '/rtgs/central-bank-operations', roles: ['Admin'], icon: Building2 },
+      { title: 'Central Bank Operations', url: '/rtgs/central-bank-operations', roles: ['Admin'], icon: Building2,
+        subItems: [
+          { title: 'Real-Time Cash Flow Overview', url: '/rtgs/central-bank-operations/cash-flow-overview', roles: ['Admin'], icon: TrendingUp }
+        ]
+      },
       { title: 'Anomaly Detection', url: '/rtgs/anomaly-detection', roles: ['Admin'], icon: AlertTriangle },
       { title: 'Dispute Management', url: '/rtgs/dispute-management', roles: ['Admin'], icon: Gavel }
     ]
@@ -499,7 +503,7 @@ export function AppSidebar() {
     <div className="flex h-full">
       {/* Main Panel */}
       <Sidebar 
-        className="border-r border-white/20 w-[60px]"
+        className="border-r border-white/20 w-[70px]"
         collapsible="none"
         style={{ background: 'linear-gradient(135deg, #1e293b 0%, #0f172a 100%)' }}
       >

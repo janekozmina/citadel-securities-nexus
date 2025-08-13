@@ -57,6 +57,7 @@ import KnowledgeFindingsPage from "./pages/knowledge/KnowledgeFindingsPage";
 import RTGSConfigurationPage from "./pages/admin/RTGSConfigurationPage";
 import BusinessDayManagementPage from "./pages/rtgs/BusinessDayManagementPage";
 import BillingPage from "./pages/rtgs/BillingPage";
+import RealTimeCashFlowOverviewPage from "./pages/rtgs/RealTimeCashFlowOverviewPage";
 
 const queryClient = new QueryClient();
 
@@ -110,6 +111,7 @@ const App = () => (
               <Route path="rtgs/financial-monitoring/business-day-management" element={<BusinessDayManagementPage />} />
               <Route path="rtgs/financial-monitoring/billing" element={<BillingPage />} />
               <Route path="rtgs/central-bank-operations" element={<CentralBankOperationsPage />} />
+              <Route path="rtgs/central-bank-operations/cash-flow-overview" element={<RealTimeCashFlowOverviewPage />} />
               <Route path="rtgs/anomaly-detection" element={<AnomalyDetectionPage />} />
               <Route path="rtgs/dispute-management" element={<DisputeManagementPage />} />
               {/* Knowledge Hub */}
