@@ -372,14 +372,12 @@ export function AppSidebar() {
                   title={item.title}
                 >
                   {hasSubItems ? (
-                    <div className="flex items-center gap-2">
+                    <div className="flex items-center justify-center">
                       <item.icon className="h-5 w-5 flex-shrink-0" />
-                      <span className="text-sm font-medium">{item.title}</span>
                     </div>
                   ) : (
-                    <NavLink to={item.url} className="flex items-center gap-2 w-full">
+                    <NavLink to={item.url} className="flex items-center justify-center w-full">
                       <item.icon className="h-5 w-5 flex-shrink-0" />
-                      <span className="text-sm font-medium">{item.title}</span>
                     </NavLink>
                   )}
                 </SidebarMenuButton>
@@ -501,7 +499,7 @@ export function AppSidebar() {
     <div className="flex h-full">
       {/* Main Panel */}
       <Sidebar 
-        className="border-r border-white/20 w-[80px]" 
+        className="border-r border-white/20 w-[60px]"
         collapsible="none"
         style={{ background: 'linear-gradient(135deg, #1e293b 0%, #0f172a 100%)' }}
       >
