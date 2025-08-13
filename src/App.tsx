@@ -102,9 +102,9 @@ const App = () => (
               {/* RTGS */}
               <Route path="rtgs" element={<RTGSHomePage />} />
               <Route path="rtgs/financial-monitoring" element={<FinancialMonitoringPage />} />
-              <Route path="rtgs/account-management" element={<AccountManagementPage />} />
-              <Route path="rtgs/balances-liquidity" element={<BalancesLiquidityPage />} />
-              <Route path="rtgs/transaction-status" element={<TransactionStatusPage />} />
+              <Route path="rtgs/financial-monitoring/account-management" element={<AccountManagementPage />} />
+              <Route path="rtgs/financial-monitoring/balances-liquidity" element={<BalancesLiquidityPage />} />
+              <Route path="rtgs/financial-monitoring/transaction-status" element={<TransactionStatusPage />} />
               <Route path="rtgs/central-bank-operations" element={<CentralBankOperationsPage />} />
               <Route path="rtgs/anomaly-detection" element={<AnomalyDetectionPage />} />
               <Route path="rtgs/dispute-management" element={<DisputeManagementPage />} />
