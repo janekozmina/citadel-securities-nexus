@@ -173,101 +173,6 @@ const HomePage = () => {
     </div>
   );
 
-  const renderRTGSDashboards = () => (
-    <div className="grid grid-cols-1 gap-4">
-      <Card className="bg-white">
-        <CardContent className="p-6">
-          <h3 className="text-lg font-semibold mb-4">Warehoused Payments</h3>
-           <div className="h-64 bg-gradient-to-br from-blue-50 to-blue-100 rounded-lg p-4 transition-all duration-500">
-             <div className="flex justify-between items-center mb-4">
-               <span className="text-2xl font-bold text-blue-800 transition-all duration-500">{rtgsMetrics.queuedPayments + 80}</span>
-               <ArrowUpRight className="h-5 w-5 text-green-600" />
-             </div>
-            <div className="space-y-2">
-              <div className="flex justify-between">
-                <span className="text-sm text-slate-600">High Priority</span>
-                <span className="text-sm font-medium">45</span>
-              </div>
-              <div className="w-full bg-blue-200 rounded-full h-2">
-                <div className="bg-blue-600 h-2 rounded-full" style={{width: '35%'}}></div>
-              </div>
-              <div className="flex justify-between">
-                <span className="text-sm text-slate-600">Normal Priority</span>
-                <span className="text-sm font-medium">82</span>
-              </div>
-              <div className="w-full bg-blue-200 rounded-full h-2">
-                <div className="bg-blue-400 h-2 rounded-full" style={{width: '65%'}}></div>
-              </div>
-            </div>
-          </div>
-        </CardContent>
-      </Card>
-      <Card className="bg-white">
-        <CardContent className="p-6">
-          <h3 className="text-lg font-semibold mb-4">Cross-Border Flow Today</h3>
-           <div className="h-64 bg-gradient-to-br from-green-50 to-green-100 rounded-lg p-4 transition-all duration-500">
-             <div className="flex justify-between items-center mb-4">
-               <span className="text-2xl font-bold text-green-800 transition-all duration-500">BHD {(rtgsMetrics.totalLiquidity / 600).toFixed(1)}B</span>
-               <ArrowUpRight className="h-5 w-5 text-green-600" />
-             </div>
-             <div className="space-y-3">
-               <div className="flex items-center justify-between">
-                 <span className="text-sm text-slate-600">Inbound</span>
-                 <span className="text-sm font-medium text-green-700 transition-all duration-500">BHD {(rtgsMetrics.cashLiquidity / 487).toFixed(0)}M</span>
-               </div>
-               <div className="flex items-center justify-between">
-                 <span className="text-sm text-slate-600">Outbound</span>
-                 <span className="text-sm font-medium text-red-700 transition-all duration-500">BHD {(rtgsMetrics.pledgedCollateral / 833).toFixed(0)}M</span>
-               </div>
-              <div className="mt-4 pt-4 border-t">
-                <div className="text-xs text-slate-500 mb-2">Volume Distribution</div>
-                <div className="flex space-x-1">
-                  <div className="flex-1 bg-green-500 h-2 rounded"></div>
-                  <div className="flex-1 bg-green-400 h-2 rounded"></div>
-                  <div className="flex-1 bg-green-300 h-2 rounded"></div>
-                  <div className="flex-1 bg-red-300 h-2 rounded"></div>
-                  <div className="flex-1 bg-red-400 h-2 rounded"></div>
-                </div>
-              </div>
-            </div>
-          </div>
-        </CardContent>
-      </Card>
-    </div>
-  );
-
-  const renderCSDDashboards = () => (
-    <div className="grid grid-cols-1 gap-4">
-      <Card className="bg-white">
-        <CardContent className="p-0">
-          <iframe
-            width="100%"
-            height="400"
-            seamless
-            frameBorder="0"
-            scrolling="no"
-            src="http://superset.k8s1.moscow.cma.ru/superset/explore/p/y3Q46MP9OLo/?standalone=1&height=400"
-            className="w-full border-0 rounded-lg"
-            title="Superset Dashboard 1"
-          />
-        </CardContent>
-      </Card>
-      <Card className="bg-white">
-        <CardContent className="p-0">
-          <iframe
-            width="100%"
-            height="400"
-            seamless
-            frameBorder="0"
-            scrolling="no"
-            src="http://superset.k8s1.moscow.cma.ru/superset/explore/p/MknwLxJnw7z/?standalone=1&height=400"
-            className="w-full border-0 rounded-lg"
-            title="Superset Dashboard 2"
-          />
-        </CardContent>
-      </Card>
-    </div>
-  );
 
   return (
     <div className="space-y-6">
@@ -301,28 +206,12 @@ const HomePage = () => {
         <div className="grid grid-cols-1 xl:grid-cols-2 gap-8">
           {/* RTGS Section */}
           <div className="space-y-6">
-            <div className="space-y-4">
-              <h2 className="text-lg font-semibold text-slate-900">RTGS Shortcuts</h2>
-              {renderStatsGrid(rtgsStats, 1)}
-            </div>
-            
-            <div className="space-y-4">
-              <h2 className="text-lg font-semibold text-slate-900">RTGS Dashboards</h2>
-              {renderRTGSDashboards()}
-            </div>
+            {renderStatsGrid(rtgsStats, 1)}
           </div>
 
           {/* CSD Section */}
           <div className="space-y-6">
-            <div className="space-y-4">
-              <h2 className="text-lg font-semibold text-slate-900">CSD Shortcuts</h2>
-              {renderStatsGrid(csdStats, 1)}
-            </div>
-            
-            <div className="space-y-4">
-              <h2 className="text-lg font-semibold text-slate-900">CSD Dashboards</h2>
-              {renderCSDDashboards()}
-            </div>
+            {renderStatsGrid(csdStats, 1)}
           </div>
         </div>
       </div>
