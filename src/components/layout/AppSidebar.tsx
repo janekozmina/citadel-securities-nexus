@@ -339,7 +339,7 @@ export function AppSidebar() {
                     }
                   }}
                   asChild={!hasSubItems}
-                  className={`flex items-center justify-center p-3 rounded-lg transition-all duration-200 ${
+                  className={`flex items-center gap-2 p-3 rounded-lg transition-all duration-200 ${
                     isActive 
                       ? 'bg-white/20 text-white shadow-lg backdrop-blur-sm' 
                       : 'text-white/80 hover:bg-white/10 hover:text-white'
@@ -347,10 +347,14 @@ export function AppSidebar() {
                   title={item.title}
                 >
                   {hasSubItems ? (
-                    <item.icon className="h-5 w-5 flex-shrink-0" />
-                  ) : (
-                    <NavLink to={item.url} className="flex items-center justify-center w-full">
+                    <div className="flex items-center gap-2">
                       <item.icon className="h-5 w-5 flex-shrink-0" />
+                      <span className="text-sm font-medium">{item.title}</span>
+                    </div>
+                  ) : (
+                    <NavLink to={item.url} className="flex items-center gap-2 w-full">
+                      <item.icon className="h-5 w-5 flex-shrink-0" />
+                      <span className="text-sm font-medium">{item.title}</span>
                     </NavLink>
                   )}
                 </SidebarMenuButton>

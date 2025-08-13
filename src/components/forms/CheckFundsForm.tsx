@@ -140,9 +140,11 @@ export function CheckFundsForm({ onSubmit, onCancel }: CheckFundsFormProps) {
               <SelectValue placeholder="Select participant" />
             </SelectTrigger>
             <SelectContent>
-              <SelectItem value="bank1">Bank 1</SelectItem>
-              <SelectItem value="bank2">Bank 2</SelectItem>
-              <SelectItem value="bank3">Bank 3</SelectItem>
+              <SelectItem value="ahli">Ahli United Bank</SelectItem>
+              <SelectItem value="abc">Arab Banking Corporation (Bank ABC)</SelectItem>
+              <SelectItem value="gib">Gulf International Bank (GIB)</SelectItem>
+              <SelectItem value="nbb">National Bank of Bahrain (NBB)</SelectItem>
+              <SelectItem value="bbk">Bank of Bahrain and Kuwait (BBK)</SelectItem>
             </SelectContent>
           </Select>
         </div>

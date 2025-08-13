@@ -207,7 +207,7 @@ const DvPTransferForm: React.FC<DvPTransferFormProps> = ({ open, onOpenChange })
                       value={formData.transferFromParticipant}
                       onChange={(e) => handleInputChange('transferFromParticipant', e.target.value)}
                       className="bg-gray-100"
-                      placeholder="CITIPHMX – CITI BANK"
+                      placeholder="AHLIUNBH – AHLI UNITED BANK"
                     />
                     <Button variant="outline" size="icon" className="ml-2">
                       <Search className="h-4 w-4" />
@@ -262,7 +262,7 @@ const DvPTransferForm: React.FC<DvPTransferFormProps> = ({ open, onOpenChange })
                     </SelectTrigger>
                     <SelectContent className="bg-white border shadow-lg z-50">
                       <SelectItem value="PHP">PHP</SelectItem>
-                      <SelectItem value="AED">AED</SelectItem>
+                      <SelectItem value="BHD">BHD</SelectItem>
                     </SelectContent>
                   </Select>
                 </div>
@@ -301,7 +301,7 @@ const DvPTransferForm: React.FC<DvPTransferFormProps> = ({ open, onOpenChange })
                       value={formData.transferToParticipant}
                       onChange={(e) => handleInputChange('transferToParticipant', e.target.value)}
                       className="bg-gray-100"
-                      placeholder="HSBCOMLA – HSBC BANK"
+                      placeholder="GIBABHMX – GULF INTERNATIONAL BANK"
                     />
                     <Button variant="outline" size="icon" className="ml-2">
                       <Search className="h-4 w-4" />

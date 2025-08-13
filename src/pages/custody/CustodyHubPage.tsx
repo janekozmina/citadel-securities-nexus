@@ -33,18 +33,18 @@ const CustodyHubPage = () => {
   ];
 
   const topParticipants = [
-    { name: 'ABC Bank', volume: 65000000 },
-    { name: 'XYZ Securities', volume: 52000000 },
-    { name: 'Emirates NBD', volume: 48000000 },
-    { name: 'ADCB Securities', volume: 35000000 },
-    { name: 'FAB Securities', volume: 29000000 }
+    { name: 'Ahli United Bank', volume: 65000000 },
+    { name: 'Arab Banking Corporation (Bank ABC)', volume: 52000000 },
+    { name: 'Gulf International Bank (GIB)', volume: 48000000 },
+    { name: 'National Bank of Bahrain (NBB)', volume: 35000000 },
+    { name: 'Bank of Bahrain and Kuwait (BBK)', volume: 29000000 }
   ];
 
   const corporateActions = [
-    { company: 'Emaar Properties', action: 'Dividend Payment', date: '2025-07-15', amount: 'AED 0.15/share' },
-    { company: 'ADNOC Distribution', action: 'Rights Issue', date: '2025-07-20', amount: '1:10 ratio' },
-    { company: 'UAE Treasury Bond 26', action: 'Coupon Payment', date: '2025-07-25', amount: '4.5% p.a.' },
-    { company: 'First Abu Dhabi Bank', action: 'Stock Split', date: '2025-08-01', amount: '2:1 split' }
+    { company: 'Ahli United Bank', action: 'Dividend Payment', date: '2025-07-15', amount: 'BHD 0.15/share' },
+    { company: 'Ithmaar Bank', action: 'Rights Issue', date: '2025-07-20', amount: '1:10 ratio' },
+    { company: 'Bahrain Treasury Bond 26', action: 'Coupon Payment', date: '2025-07-25', amount: '4.5% p.a.' },
+    { company: 'National Bank of Bahrain (NBB)', action: 'Stock Split', date: '2025-08-01', amount: '2:1 split' }
   ];
 
   const dailyTrend = [
@@ -76,7 +76,7 @@ const CustodyHubPage = () => {
                   <div className="space-y-1">
                     <div className="flex justify-between text-sm">
                       <span className="text-green-600">Total Value:</span>
-                      <span className="font-medium">AED 125.5M</span>
+                      <span className="font-medium">BHD 125.5M</span>
                     </div>
                     <div className="flex justify-between text-sm">
                       <span className="text-slate-600">Instruments:</span>
@@ -105,7 +105,7 @@ const CustodyHubPage = () => {
                     </div>
                     <div className="flex justify-between text-sm">
                       <span className="text-blue-600">Amount:</span>
-                      <span className="font-medium">AED 50M</span>
+                      <span className="font-medium">BHD 50M</span>
                     </div>
                   </div>
                 </CardContent>
@@ -118,23 +118,23 @@ const CustodyHubPage = () => {
                   <div className="space-y-1">
                     <div className="flex justify-between text-sm">
                       <span className="text-green-600">AVAI:</span>
-                      <span className="font-medium">AED 45.2M</span>
+                      <span className="font-medium">BHD 45.2M</span>
                     </div>
                     <div className="flex justify-between text-sm">
                       <span className="text-blue-600">BLOK:</span>
-                      <span className="font-medium">AED 15.8M</span>
+                      <span className="font-medium">BHD 15.8M</span>
                     </div>
                     <div className="flex justify-between text-sm">
                       <span className="text-purple-600">PLED:</span>
-                      <span className="font-medium">AED 28.5M</span>
+                      <span className="font-medium">BHD 28.5M</span>
                     </div>
                     <div className="flex justify-between text-sm">
                       <span className="text-orange-600">RSTR:</span>
-                      <span className="font-medium">AED 8.2M</span>
+                      <span className="font-medium">BHD 8.2M</span>
                     </div>
                     <div className="flex justify-between text-sm">
                       <span className="text-red-600">NAVL:</span>
-                      <span className="font-medium">AED 27.8M</span>
+                      <span className="font-medium">BHD 27.8M</span>
                     </div>
                   </div>
                 </CardContent>
@@ -163,7 +163,7 @@ const CustodyHubPage = () => {
                           <tr key={asset.isin} className="border-b hover:bg-slate-50">
                             <td className="p-3 font-medium">{asset.name}</td>
                             <td className="p-3 text-sm">{asset.isin}</td>
-                            <td className="p-3">AED {(asset.volume / 1000000).toFixed(1)}M</td>
+                            <td className="p-3">BHD {(asset.volume / 1000000).toFixed(1)}M</td>
                           </tr>
                         ))}
                       </tbody>
@@ -191,7 +191,7 @@ const CustodyHubPage = () => {
                         {topParticipants.map((participant, index) => (
                           <tr key={participant.name} className="border-b hover:bg-slate-50">
                             <td className="p-3 font-medium">{participant.name}</td>
-                            <td className="p-3">AED {(participant.volume / 1000000).toFixed(1)}M</td>
+                            <td className="p-3">BHD {(participant.volume / 1000000).toFixed(1)}M</td>
                             <td className="p-3">
                               <Badge variant="outline">#{index + 1}</Badge>
                             </td>

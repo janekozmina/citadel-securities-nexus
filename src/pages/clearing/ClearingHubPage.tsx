@@ -16,11 +16,11 @@ const ClearingHubPage = () => {
     const baseData = {
       today: {
         netObligations: [
-          { participant: 'Bank A', cash: 2500000, securities: 1800000 },
-          { participant: 'Bank B', cash: 1200000, securities: 2100000 },
-          { participant: 'Bank C', cash: 3100000, securities: 900000 },
-          { participant: 'Bank D', cash: 1800000, securities: 2800000 },
-          { participant: 'Bank E', cash: 2200000, securities: 1600000 },
+          { participant: 'Ahli United Bank', cash: 2500000, securities: 1800000 },
+          { participant: 'Arab Banking Corporation (Bank ABC)', cash: 1200000, securities: 2100000 },
+          { participant: 'Gulf International Bank (GIB)', cash: 3100000, securities: 900000 },
+          { participant: 'National Bank of Bahrain (NBB)', cash: 1800000, securities: 2800000 },
+          { participant: 'Bank of Bahrain and Kuwait (BBK)', cash: 2200000, securities: 1600000 },
         ],
         statusFlags: [
           { status: 'Confirmed', count: 847 },
@@ -145,10 +145,10 @@ const ClearingHubPage = () => {
               <ResponsiveContainer width="100%" height="100%">
                 <BarChart data={currentData.netObligations}>
                   <XAxis dataKey="participant" />
-                  <YAxis tickFormatter={(value) => `AED ${(value / 1000000).toFixed(1)}M`} />
+                  <YAxis tickFormatter={(value) => `BHD ${(value / 1000000).toFixed(1)}M`} />
                   <ChartTooltip 
                     content={<ChartTooltipContent />}
-                    formatter={(value) => [`AED ${(Number(value) / 1000000).toFixed(2)}M`, '']}
+                    formatter={(value) => [`BHD ${(Number(value) / 1000000).toFixed(2)}M`, '']}
                   />
                   <Bar dataKey="cash" stackId="a" fill="var(--color-cash)" name="Cash" />
                   <Bar dataKey="securities" stackId="a" fill="var(--color-securities)" name="Securities" />
@@ -180,7 +180,7 @@ const ClearingHubPage = () => {
                     ))}
                   </Pie>
                   <ChartTooltip 
-                    formatter={(value) => [`AED ${(Number(value) / 1000000).toFixed(2)}M`, 'Exposure']}
+                    formatter={(value) => [`BHD ${(Number(value) / 1000000).toFixed(2)}M`, 'Exposure']}
                   />
                 </PieChart>
               </ResponsiveContainer>
@@ -201,10 +201,10 @@ const ClearingHubPage = () => {
               <ResponsiveContainer width="100%" height="100%">
                 <LineChart data={positionChangesData}>
                   <XAxis dataKey="date" />
-                  <YAxis tickFormatter={(value) => `AED ${(value / 1000000).toFixed(1)}M`} />
+                  <YAxis tickFormatter={(value) => `BHD ${(value / 1000000).toFixed(1)}M`} />
                   <ChartTooltip 
                     content={<ChartTooltipContent />}
-                    formatter={(value) => [`AED ${(Number(value) / 1000000).toFixed(2)}M`, 'Change']}
+                    formatter={(value) => [`BHD ${(Number(value) / 1000000).toFixed(2)}M`, 'Change']}
                   />
                   <Line 
                     type="monotone" 

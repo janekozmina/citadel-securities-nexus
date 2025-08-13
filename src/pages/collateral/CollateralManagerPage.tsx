@@ -123,7 +123,7 @@ const CollateralManagerPage = () => {
                       {operationsData.centralBankRepo.map((repo, index) => (
                         <tr key={index} className="border-b hover:bg-slate-50">
                           <td className="p-3 font-medium">{repo.operation}</td>
-                          <td className="p-3">AED {(repo.amount / 1000000000).toFixed(1)}B</td>
+                          <td className="p-3">BHD {(repo.amount / 1000000000).toFixed(1)}B</td>
                           <td className="p-3">{repo.rate}%</td>
                           <td className="p-3">{repo.maturity}</td>
                           <td className="p-3">
@@ -160,7 +160,7 @@ const CollateralManagerPage = () => {
                       {operationsData.interbankRepo.map((repo, index) => (
                         <tr key={index} className="border-b hover:bg-slate-50">
                           <td className="p-3 font-medium">{repo.counterparty}</td>
-                          <td className="p-3">AED {(repo.amount / 1000000000).toFixed(1)}B</td>
+                          <td className="p-3">BHD {(repo.amount / 1000000000).toFixed(1)}B</td>
                           <td className="p-3">{repo.rate}%</td>
                           <td className="p-3">{repo.maturity}</td>
                           <td className="p-3">
@@ -197,7 +197,7 @@ const CollateralManagerPage = () => {
                       {operationsData.ilfOperations.map((ilf, index) => (
                         <tr key={index} className="border-b hover:bg-slate-50">
                           <td className="p-3 font-medium">{ilf.facility}</td>
-                          <td className="p-3">AED {(ilf.amount / 1000000000).toFixed(1)}B</td>
+                          <td className="p-3">BHD {(ilf.amount / 1000000000).toFixed(1)}B</td>
                           <td className="p-3">{ilf.rate}%</td>
                           <td className="p-3">{ilf.term}</td>
                           <td className="p-3">
@@ -234,7 +234,7 @@ const CollateralManagerPage = () => {
                       {operationsData.islamicOperations.map((op, index) => (
                         <tr key={index} className="border-b hover:bg-slate-50">
                           <td className="p-3 font-medium">{op.instrument}</td>
-                          <td className="p-3">AED {(op.amount / 1000000000).toFixed(1)}B</td>
+                          <td className="p-3">BHD {(op.amount / 1000000000).toFixed(1)}B</td>
                           <td className="p-3">{op.profit}%</td>
                           <td className="p-3">{op.structure}</td>
                           <td className="p-3">
