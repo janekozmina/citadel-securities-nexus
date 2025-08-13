@@ -459,22 +459,22 @@ const HomePage = () => {
       <Tabs defaultValue="consolidated" className="w-full">
         <TabsList className="grid w-full grid-cols-3 bg-gray-100 p-1 rounded-lg">
           <TabsTrigger 
+            value="consolidated" 
+            className="data-[state=active]:bg-blue-600 data-[state=active]:text-white data-[state=active]:shadow-lg data-[state=active]:scale-105 rounded-md px-6 py-2 text-sm font-medium transition-all duration-200 hover:bg-blue-50"
+          >
+            Consolidated View
+          </TabsTrigger>
+          <TabsTrigger 
             value="rtgs" 
-            className="data-[state=active]:bg-white data-[state=active]:shadow-sm rounded-md px-6 py-2 text-sm font-medium transition-all"
+            className="data-[state=active]:bg-blue-600 data-[state=active]:text-white data-[state=active]:shadow-lg data-[state=active]:scale-105 rounded-md px-6 py-2 text-sm font-medium transition-all duration-200 hover:bg-blue-50"
           >
             RTGS
           </TabsTrigger>
           <TabsTrigger 
             value="csd" 
-            className="data-[state=active]:bg-white data-[state=active]:shadow-sm rounded-md px-6 py-2 text-sm font-medium transition-all"
+            className="data-[state=active]:bg-blue-600 data-[state=active]:text-white data-[state=active]:shadow-lg data-[state=active]:scale-105 rounded-md px-6 py-2 text-sm font-medium transition-all duration-200 hover:bg-blue-50"
           >
             CSD
-          </TabsTrigger>
-          <TabsTrigger 
-            value="consolidated" 
-            className="data-[state=active]:bg-white data-[state=active]:shadow-sm rounded-md px-6 py-2 text-sm font-medium transition-all"
-          >
-            Consolidated
           </TabsTrigger>
         </TabsList>
 
