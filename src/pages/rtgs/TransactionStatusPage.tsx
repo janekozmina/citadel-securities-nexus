@@ -2,11 +2,17 @@ import { useState } from 'react';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { TooltipProvider } from '@/components/ui/tooltip';
+import { Dialog, DialogContent, DialogHeader, DialogTitle } from '@/components/ui/dialog';
 import { useBusinessDaySimulation } from '@/hooks/useBusinessDaySimulation';
-import { TrendingUp, CheckCircle2, XCircle, Clock, DollarSign, Activity, BarChart3, RefreshCw } from 'lucide-react';
+import { TrendingUp, CheckCircle2, XCircle, Clock, DollarSign, Activity, BarChart3, RefreshCw, Send, Search, PieChart } from 'lucide-react';
+import { GeneralTransferForm } from '@/components/forms/GeneralTransferForm';
+import { CheckFundsForm } from '@/components/forms/CheckFundsForm';
+import { LiquiditySourceDashboard } from '@/components/dashboards/LiquiditySourceDashboard';
+import { toast } from 'sonner';
 
 export default function TransactionStatusPage() {
   const { rtgsMetrics, lastUpdated, isBusinessHours } = useBusinessDaySimulation();
+  const [activeDialog, setActiveDialog] = useState<'transfer' | 'checkFunds' | 'liquidity' | null>(null);
 
   // Simulated transaction data
   const transactionMetrics = {
@@ -204,17 +210,28 @@ export default function TransactionStatusPage() {
             <div className="bg-white border border-slate-200 rounded-lg p-4">
               <h3 className="font-semibold text-slate-900 mb-4">Quick Actions</h3>
               <div className="space-y-2">
-                <Button className="w-full justify-start">
-                  <Activity className="h-4 w-4 mr-2" />
-                  Transaction Monitor
+                <Button 
+                  className="w-full justify-start"
+                  onClick={() => setActiveDialog('transfer')}
+                >
+                  <Send className="h-4 w-4 mr-2" />
+                  General Transfer
                 </Button>
-                <Button variant="outline" className="w-full justify-start">
-                  <BarChart3 className="h-4 w-4 mr-2" />
-                  Generate Report
+                <Button 
+                  variant="outline" 
+                  className="w-full justify-start"
+                  onClick={() => setActiveDialog('checkFunds')}
+                >
+                  <Search className="h-4 w-4 mr-2" />
+                  Check Funds
                 </Button>
-                <Button variant="outline" className="w-full justify-start">
-                  <TrendingUp className="h-4 w-4 mr-2" />
-                  Performance Analysis
+                <Button 
+                  variant="outline" 
+                  className="w-full justify-start"
+                  onClick={() => setActiveDialog('liquidity')}
+                >
+                  <PieChart className="h-4 w-4 mr-2" />
+                  Liquidity Source
                 </Button>
               </div>
             </div>
@@ -238,6 +255,44 @@ export default function TransactionStatusPage() {
             </div>
           </div>
         </div>
+
+        {/* Dialogs */}
+        <Dialog open={activeDialog === 'transfer'} onOpenChange={() => setActiveDialog(null)}>
+          <DialogContent className="max-w-4xl max-h-[90vh] overflow-y-auto">
+            <DialogHeader>
+              <DialogTitle>General Transfer</DialogTitle>
+            </DialogHeader>
+            <GeneralTransferForm 
+              onSubmit={(data) => {
+                toast.success('Transfer submitted successfully');
+                setActiveDialog(null);
+              }}
+              onCancel={() => setActiveDialog(null)}
+            />
+          </DialogContent>
+        </Dialog>
+
+        <Dialog open={activeDialog === 'checkFunds'} onOpenChange={() => setActiveDialog(null)}>
+          <DialogContent className="max-w-6xl max-h-[90vh] overflow-y-auto">
+            <DialogHeader>
+              <DialogTitle>Check Funds</DialogTitle>
+            </DialogHeader>
+            <CheckFundsForm 
+              onSubmit={(data) => {
+                // Results are shown within the form component
+              }}
+              onCancel={() => setActiveDialog(null)}
+            />
+          </DialogContent>
+        </Dialog>
+
+        <Dialog open={activeDialog === 'liquidity'} onOpenChange={() => setActiveDialog(null)}>
+          <DialogContent className="max-w-7xl max-h-[90vh] overflow-y-auto">
+            <LiquiditySourceDashboard 
+              onClose={() => setActiveDialog(null)}
+            />
+          </DialogContent>
+        </Dialog>
       </div>
     </TooltipProvider>
   );
