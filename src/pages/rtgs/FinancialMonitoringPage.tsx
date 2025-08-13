@@ -6,28 +6,9 @@ import { Progress } from '@/components/ui/progress';
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table';
 import { ChartContainer, ChartTooltip, ChartTooltipContent } from '@/components/ui/chart';
 import { AreaChart, Area, BarChart, Bar, LineChart, Line, XAxis, YAxis, ResponsiveContainer } from 'recharts';
-import { TrendingUp, AlertTriangle, Clock, DollarSign, Users, Activity, ArrowLeft } from 'lucide-react';
+import { TrendingUp, AlertTriangle, Clock, DollarSign, Users, Activity, ArrowLeft, RefreshCw } from 'lucide-react';
 import { Breadcrumb, BreadcrumbItem, BreadcrumbLink, BreadcrumbList, BreadcrumbPage, BreadcrumbSeparator } from '@/components/ui/breadcrumb';
-
-const liquidityTrendData = [
-  { time: '09:00', total: 12500, cash: 8500, collateral: 4000 },
-  { time: '10:00', total: 11800, cash: 7800, collateral: 4000 },
-  { time: '11:00', total: 10200, cash: 6200, collateral: 4000 },
-  { time: '12:00', total: 9800, cash: 5800, collateral: 4000 },
-  { time: '13:00', total: 8900, cash: 4900, collateral: 4000 },
-  { time: '14:00', total: 8200, cash: 4200, collateral: 4000 },
-  { time: '15:00', total: 7500, cash: 3500, collateral: 4000 },
-];
-
-const paymentFlowData = [
-  { hour: '09:00', settled: 2800, queued: 450 },
-  { hour: '10:00', settled: 3200, queued: 520 },
-  { hour: '11:00', settled: 2900, queued: 380 },
-  { hour: '12:00', settled: 3500, queued: 680 },
-  { hour: '13:00', settled: 3100, queued: 420 },
-  { hour: '14:00', settled: 2700, queued: 590 },
-  { hour: '15:00', settled: 2400, queued: 720 },
-];
+import { useBusinessDaySimulation } from '@/hooks/useBusinessDaySimulation';
 
 const participantBalances = [
   { id: '0003800040120300', name: 'BNTENTINT', queue: 0, payments: 17316, turnover: -182000.00, current: 98.98, opening: 9572553, amount: 0.00, debt: 0.00 },
@@ -55,6 +36,7 @@ const chartConfig = {
 
 export default function FinancialMonitoringPage() {
   const [showBalancesTable, setShowBalancesTable] = useState(false);
+  const { rtgsMetrics, liquidityTrend, paymentFlow, lastUpdated, isBusinessHours } = useBusinessDaySimulation();
 
   useEffect(() => {
     document.title = 'RTGS Financial Monitoring | Unified Portal';
@@ -150,60 +132,68 @@ export default function FinancialMonitoringPage() {
     );
   }
 
-  return (
-    <main className="space-y-6">
-      <div>
-        <h1 className="text-2xl font-bold">RTGS — Financial Monitoring</h1>
-        <p className="text-muted-foreground">Real-time monitoring of financial flows and liquidity metrics</p>
-      </div>
+    return (
+      <main className="space-y-6">
+        <div className="flex items-center justify-between">
+          <div>
+            <h1 className="text-2xl font-bold">RTGS — Financial Monitoring</h1>
+            <div className="flex items-center gap-2 text-muted-foreground">
+              <span>Real-time monitoring of financial flows and liquidity metrics</span>
+              <div className="flex items-center gap-1 text-xs">
+                <RefreshCw className={`h-3 w-3 ${isBusinessHours ? 'animate-spin' : ''}`} />
+                <span>Last updated: {lastUpdated.toLocaleTimeString()}</span>
+              </div>
+            </div>
+          </div>
+        </div>
 
 
       {/* Key Metrics */}
       <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
-        <Card>
+        <Card className="animate-fade-in">
           <CardContent className="p-4">
             <div className="flex items-center justify-between">
               <div>
                 <p className="text-sm text-muted-foreground">Total Liquidity</p>
-                <p className="text-2xl font-bold">BD 7.5B</p>
+                <p className="text-2xl font-bold transition-all duration-500">BD {rtgsMetrics.totalLiquidity / 1000}B</p>
               </div>
-              <TrendingUp className="h-8 w-8 text-green-600" />
+              <TrendingUp className={`h-8 w-8 transition-colors duration-300 ${rtgsMetrics.totalLiquidity > 7000 ? 'text-green-600' : 'text-orange-600'}`} />
             </div>
           </CardContent>
         </Card>
         
-        <Card>
+        <Card className="animate-fade-in" style={{ animationDelay: '0.1s' }}>
           <CardContent className="p-4">
             <div className="flex items-center justify-between">
               <div>
                 <p className="text-sm text-muted-foreground">Utilization Rate</p>
-                <p className="text-2xl font-bold">68%</p>
+                <p className="text-2xl font-bold transition-all duration-500">{rtgsMetrics.utilizationRate}%</p>
               </div>
-              <Progress value={68} className="w-12" />
+              <Progress value={rtgsMetrics.utilizationRate} className="w-12 transition-all duration-500" />
             </div>
           </CardContent>
         </Card>
         
-        <Card>
+        <Card className="animate-fade-in" style={{ animationDelay: '0.2s' }}>
           <CardContent className="p-4">
             <div className="flex items-center justify-between">
               <div>
                 <p className="text-sm text-muted-foreground">Queued Payments</p>
-                <p className="text-2xl font-bold">47</p>
+                <p className="text-2xl font-bold transition-all duration-500">{rtgsMetrics.queuedPayments}</p>
               </div>
-              <Clock className="h-8 w-8 text-orange-600" />
+              <Clock className={`h-8 w-8 transition-colors duration-300 ${rtgsMetrics.queuedPayments > 50 ? 'text-red-600' : 'text-orange-600'}`} />
             </div>
           </CardContent>
         </Card>
         
-        <Card>
+        <Card className="animate-fade-in" style={{ animationDelay: '0.3s' }}>
           <CardContent className="p-4">
             <div className="flex items-center justify-between">
               <div>
                 <p className="text-sm text-muted-foreground">Active Alerts</p>
-                <p className="text-2xl font-bold">3</p>
+                <p className="text-2xl font-bold transition-all duration-500">{rtgsMetrics.activeAlerts}</p>
               </div>
-              <AlertTriangle className="h-8 w-8 text-red-600" />
+              <AlertTriangle className={`h-8 w-8 transition-colors duration-300 ${rtgsMetrics.activeAlerts > 5 ? 'text-red-600' : 'text-red-600'}`} />
             </div>
           </CardContent>
         </Card>
@@ -220,18 +210,18 @@ export default function FinancialMonitoringPage() {
           <CardContent>
             <div className="space-y-4">
               <div className="grid grid-cols-2 gap-4">
-                <div className="text-center p-4 bg-blue-50 rounded-lg">
+                <div className="text-center p-4 bg-blue-50 rounded-lg transition-all duration-500">
                   <p className="text-sm text-muted-foreground">Cash Liquidity</p>
-                  <p className="text-xl font-bold text-blue-600">BD 3.5B</p>
+                  <p className="text-xl font-bold text-blue-600">BD {rtgsMetrics.cashLiquidity / 1000}B</p>
                 </div>
-                <div className="text-center p-4 bg-purple-50 rounded-lg">
+                <div className="text-center p-4 bg-purple-50 rounded-lg transition-all duration-500">
                   <p className="text-sm text-muted-foreground">Pledged Collateral</p>
-                  <p className="text-xl font-bold text-purple-600">BD 4.0B</p>
+                  <p className="text-xl font-bold text-purple-600">BD {rtgsMetrics.pledgedCollateral / 1000}B</p>
                 </div>
               </div>
               
               <ChartContainer config={chartConfig} className="h-[200px]">
-                <AreaChart data={liquidityTrendData}>
+                <AreaChart data={liquidityTrend} key={JSON.stringify(liquidityTrend)}>
                   <XAxis dataKey="time" />
                   <YAxis />
                   <ChartTooltip content={<ChartTooltipContent />} />
@@ -241,6 +231,7 @@ export default function FinancialMonitoringPage() {
                     stackId="1" 
                     stroke="var(--color-cash)" 
                     fill="var(--color-cash)" 
+                    className="transition-all duration-500"
                   />
                   <Area 
                     type="monotone" 
@@ -248,6 +239,7 @@ export default function FinancialMonitoringPage() {
                     stackId="1" 
                     stroke="var(--color-collateral)" 
                     fill="var(--color-collateral)" 
+                    className="transition-all duration-500"
                   />
                 </AreaChart>
               </ChartContainer>
@@ -272,12 +264,12 @@ export default function FinancialMonitoringPage() {
           <CardContent>
             <div className="space-y-4">
               <ChartContainer config={chartConfig} className="h-[150px]">
-                <BarChart data={paymentFlowData}>
+                <BarChart data={paymentFlow} key={JSON.stringify(paymentFlow)}>
                   <XAxis dataKey="hour" />
                   <YAxis />
                   <ChartTooltip content={<ChartTooltipContent />} />
-                  <Bar dataKey="settled" fill="var(--color-settled)" />
-                  <Bar dataKey="queued" fill="var(--color-queued)" />
+                  <Bar dataKey="settled" fill="var(--color-settled)" className="transition-all duration-500" />
+                  <Bar dataKey="queued" fill="var(--color-queued)" className="transition-all duration-500" />
                 </BarChart>
               </ChartContainer>
               

@@ -1,37 +1,40 @@
+import { useState, useEffect } from 'react';
 import { useAuth } from '@/contexts/AuthContext';
 import { Card, CardContent } from '@/components/ui/card';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
-import { TrendingUp, Users, Building, AlertCircle, Clock, Banknote, FileText, Activity, BarChart3, Shield, Settings, FileWarning, Timer, ArrowUpRight, ArrowDownRight, Minus } from 'lucide-react';
+import { TrendingUp, Users, Building, AlertCircle, Clock, Banknote, FileText, Activity, BarChart3, Shield, Settings, FileWarning, Timer, ArrowUpRight, ArrowDownRight, Minus, RefreshCw } from 'lucide-react';
+import { useBusinessDaySimulation } from '@/hooks/useBusinessDaySimulation';
 
 const HomePage = () => {
   const { user } = useAuth();
+  const { rtgsMetrics, csdMetrics, lastUpdated, isBusinessHours } = useBusinessDaySimulation();
 
-  // RTGS View Stats
+  // RTGS View Stats - Dynamic
   const rtgsStats = [
     {
       title: 'Transactions in Queue',
-      value: '234',
+      value: rtgsMetrics.queuedPayments.toString(),
       change: 'Pending processing',
       icon: Clock,
       color: 'text-blue-600'
     },
     {
       title: 'Total Transactions Settled',
-      value: 'AED 2.4B / 12,450',
+      value: `BD ${(rtgsMetrics.totalLiquidity / 1000)}B / ${rtgsMetrics.settledTransactions.toLocaleString()}`,
       change: 'Amount / Volume',
       icon: TrendingUp,
       color: 'text-green-600'
     },
     {
       title: 'Average Transaction Value',
-      value: 'AED 192K',
+      value: `BD ${(rtgsMetrics.averageTransactionValue / 1000000).toFixed(1)}M`,
       change: 'Per transaction',
       icon: BarChart3,
       color: 'text-purple-600'
     }
   ];
 
-  // CSD View Stats (current stats)
+  // CSD View Stats - Dynamic
   const csdStats = [
     {
       title: 'Total Transactions Today',
@@ -63,21 +66,21 @@ const HomePage = () => {
     },
     {
       title: 'Daily Settled',
-      value: 'AED 45M',
+      value: `BD ${(csdMetrics.settlementValue / 1000000000).toFixed(1)}B`,
       change: "Today's settled transactions",
       icon: Banknote,
       color: 'text-green-600'
     },
     {
       title: 'Pending Settlements',
-      value: 'AED 55M',
+      value: `BD ${(csdMetrics.pendingInstructions * 5.5).toFixed(0)}M`,
       change: "Today's and tomorrow planned",
       icon: AlertCircle,
       color: 'text-yellow-600'
     },
     {
       title: 'Corporate Actions',
-      value: 'AED 55M',
+      value: csdMetrics.corporateActions.toString(),
       change: 'This week: Maturity',
       icon: Users,
       color: 'text-indigo-600',
@@ -85,25 +88,25 @@ const HomePage = () => {
     }
   ];
 
-  // Consolidated View Stats
+  // Consolidated View Stats - Dynamic
   const consolidatedStats = [
     {
       title: 'Compliance Alerts',
-      value: '3',
+      value: rtgsMetrics.activeAlerts.toString(),
       change: 'Active alerts',
       icon: Shield,
       color: 'text-red-600'
     },
     {
       title: 'End-of-Day Operations',
-      value: '85%',
+      value: `${rtgsMetrics.utilizationRate}%`,
       change: 'Completion status',
       icon: Settings,
       color: 'text-blue-600'
     },
     {
       title: 'Incident Log & Escalation',
-      value: '2',
+      value: Math.max(0, Math.floor(csdMetrics.failedSettlements / 6)).toString(),
       change: 'Open incidents',
       icon: FileWarning,
       color: 'text-yellow-600'
@@ -113,7 +116,7 @@ const HomePage = () => {
   const renderStatsGrid = (stats: any[], columns: number = 4) => (
     <div className={`grid grid-cols-${columns} gap-4`}>
       {stats.map((stat, index) => (
-        <Card key={index} className="bg-white">
+        <Card key={index} className="bg-white transition-all duration-300 animate-fade-in hover-scale" style={{ animationDelay: `${index * 0.1}s` }}>
           <CardContent className="p-5">
             <div className="flex items-center justify-between">
               <div className="flex-1 min-w-0">
@@ -121,12 +124,12 @@ const HomePage = () => {
                 {stat.subtitle && (
                   <p className="text-xs text-slate-500 mt-1">{stat.subtitle}</p>
                 )}
-                <p className="text-xl font-bold text-slate-900 mt-2">{stat.value}</p>
+                <p className="text-xl font-bold text-slate-900 mt-2 transition-all duration-500">{stat.value}</p>
                 {stat.change && (
                   <p className="text-xs text-slate-500 mt-1 truncate">{stat.change}</p>
                 )}
               </div>
-              <stat.icon className={`h-7 w-7 ${stat.color} flex-shrink-0 ml-3`} />
+              <stat.icon className={`h-7 w-7 ${stat.color} flex-shrink-0 ml-3 transition-colors duration-300`} />
             </div>
           </CardContent>
         </Card>
@@ -139,11 +142,11 @@ const HomePage = () => {
       <Card className="bg-white">
         <CardContent className="p-6">
           <h3 className="text-lg font-semibold mb-4">Warehoused Payments</h3>
-          <div className="h-64 bg-gradient-to-br from-blue-50 to-blue-100 rounded-lg p-4">
-            <div className="flex justify-between items-center mb-4">
-              <span className="text-2xl font-bold text-blue-800">127</span>
-              <ArrowUpRight className="h-5 w-5 text-green-600" />
-            </div>
+           <div className="h-64 bg-gradient-to-br from-blue-50 to-blue-100 rounded-lg p-4 transition-all duration-500">
+             <div className="flex justify-between items-center mb-4">
+               <span className="text-2xl font-bold text-blue-800 transition-all duration-500">{rtgsMetrics.queuedPayments + 80}</span>
+               <ArrowUpRight className="h-5 w-5 text-green-600" />
+             </div>
             <div className="space-y-2">
               <div className="flex justify-between">
                 <span className="text-sm text-slate-600">High Priority</span>
@@ -166,20 +169,20 @@ const HomePage = () => {
       <Card className="bg-white">
         <CardContent className="p-6">
           <h3 className="text-lg font-semibold mb-4">Cross-Border Flow Today</h3>
-          <div className="h-64 bg-gradient-to-br from-green-50 to-green-100 rounded-lg p-4">
-            <div className="flex justify-between items-center mb-4">
-              <span className="text-2xl font-bold text-green-800">AED 1.2B</span>
-              <ArrowUpRight className="h-5 w-5 text-green-600" />
-            </div>
-            <div className="space-y-3">
-              <div className="flex items-center justify-between">
-                <span className="text-sm text-slate-600">Inbound</span>
-                <span className="text-sm font-medium text-green-700">AED 720M</span>
-              </div>
-              <div className="flex items-center justify-between">
-                <span className="text-sm text-slate-600">Outbound</span>
-                <span className="text-sm font-medium text-red-700">AED 480M</span>
-              </div>
+           <div className="h-64 bg-gradient-to-br from-green-50 to-green-100 rounded-lg p-4 transition-all duration-500">
+             <div className="flex justify-between items-center mb-4">
+               <span className="text-2xl font-bold text-green-800 transition-all duration-500">BD {(rtgsMetrics.totalLiquidity / 600).toFixed(1)}B</span>
+               <ArrowUpRight className="h-5 w-5 text-green-600" />
+             </div>
+             <div className="space-y-3">
+               <div className="flex items-center justify-between">
+                 <span className="text-sm text-slate-600">Inbound</span>
+                 <span className="text-sm font-medium text-green-700 transition-all duration-500">BD {(rtgsMetrics.cashLiquidity / 487).toFixed(0)}M</span>
+               </div>
+               <div className="flex items-center justify-between">
+                 <span className="text-sm text-slate-600">Outbound</span>
+                 <span className="text-sm font-medium text-red-700 transition-all duration-500">BD {(rtgsMetrics.pledgedCollateral / 833).toFixed(0)}M</span>
+               </div>
               <div className="mt-4 pt-4 border-t">
                 <div className="text-xs text-slate-500 mb-2">Volume Distribution</div>
                 <div className="flex space-x-1">
@@ -199,18 +202,18 @@ const HomePage = () => {
           <h3 className="text-lg font-semibold mb-4">Collateral Monitoring</h3>
           <div className="h-64 bg-gradient-to-br from-purple-50 to-purple-100 rounded-lg p-4">
             <div className="grid grid-cols-3 gap-4 h-full">
-              <div className="text-center">
-                <div className="text-2xl font-bold text-purple-800 mb-2">98.5%</div>
-                <div className="text-sm text-slate-600 mb-2">Collateral Ratio</div>
+               <div className="text-center">
+                 <div className="text-2xl font-bold text-purple-800 mb-2 transition-all duration-500">{(rtgsMetrics.utilizationRate + 30).toFixed(1)}%</div>
+                 <div className="text-sm text-slate-600 mb-2">Collateral Ratio</div>
                 <div className="w-16 h-16 mx-auto bg-purple-200 rounded-full flex items-center justify-center">
                   <div className="w-12 h-12 bg-purple-600 rounded-full flex items-center justify-center">
                     <span className="text-white text-xs font-bold">✓</span>
                   </div>
                 </div>
               </div>
-              <div className="text-center">
-                <div className="text-2xl font-bold text-purple-800 mb-2">AED 2.1B</div>
-                <div className="text-sm text-slate-600 mb-2">Total Value</div>
+               <div className="text-center">
+                 <div className="text-2xl font-bold text-purple-800 mb-2 transition-all duration-500">BD {(rtgsMetrics.pledgedCollateral / 190).toFixed(1)}B</div>
+                 <div className="text-sm text-slate-600 mb-2">Total Value</div>
                 <div className="space-y-1">
                   <div className="w-full bg-purple-200 rounded h-1">
                     <div className="bg-purple-600 h-1 rounded" style={{width: '70%'}}></div>
@@ -443,7 +446,13 @@ const HomePage = () => {
       <div className="flex items-center justify-between">
         <div>
           <h1 className="text-xl font-semibold text-slate-900">Home Page</h1>
-          <p className="text-slate-600">Welcome back, {user?.name}</p>
+          <div className="flex items-center gap-2 text-slate-600">
+            <span>Welcome back, {user?.name}</span>
+            <div className="flex items-center gap-1 text-xs">
+              <RefreshCw className={`h-3 w-3 ${isBusinessHours ? 'animate-spin' : ''}`} />
+              <span>Last updated: {lastUpdated.toLocaleTimeString()}</span>
+            </div>
+          </div>
         </div>
       </div>
 
