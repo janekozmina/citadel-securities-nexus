@@ -59,6 +59,9 @@ const navigationItems: MenuItem[] = [
     icon: Banknote,
     subItems: [
       { title: 'Financial Monitoring', url: '/rtgs/financial-monitoring', roles: ['Admin'], icon: Monitor },
+      { title: 'Account Management', url: '/rtgs/account-management', roles: ['Admin'], icon: Users },
+      { title: 'Balances & Liquidity', url: '/rtgs/balances-liquidity', roles: ['Admin'], icon: DollarSign },
+      { title: 'Transaction Status', url: '/rtgs/transaction-status', roles: ['Admin'], icon: TrendingUp },
       { title: 'Central Bank Operations', url: '/rtgs/central-bank-operations', roles: ['Admin'], icon: Building2 },
       { title: 'Anomaly Detection', url: '/rtgs/anomaly-detection', roles: ['Admin'], icon: AlertTriangle },
       { title: 'Dispute Management', url: '/rtgs/dispute-management', roles: ['Admin'], icon: Gavel }

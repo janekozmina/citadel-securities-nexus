@@ -45,6 +45,9 @@ import ProtectedRoute from "./components/auth/ProtectedRoute";
 import OperationsPage from "./pages/operations/OperationsPage";
 import RTGSHomePage from "./pages/rtgs/RTGSHomePage";
 import FinancialMonitoringPage from "./pages/rtgs/FinancialMonitoringPage";
+import AccountManagementPage from "./pages/rtgs/AccountManagementPage";
+import BalancesLiquidityPage from "./pages/rtgs/BalancesLiquidityPage";
+import TransactionStatusPage from "./pages/rtgs/TransactionStatusPage";
 import CentralBankOperationsPage from "./pages/rtgs/CentralBankOperationsPage";
 import AnomalyDetectionPage from "./pages/rtgs/AnomalyDetectionPage";
 import DisputeManagementPage from "./pages/rtgs/DisputeManagementPage";
@@ -99,6 +102,9 @@ const App = () => (
               {/* RTGS */}
               <Route path="rtgs" element={<RTGSHomePage />} />
               <Route path="rtgs/financial-monitoring" element={<FinancialMonitoringPage />} />
+              <Route path="rtgs/account-management" element={<AccountManagementPage />} />
+              <Route path="rtgs/balances-liquidity" element={<BalancesLiquidityPage />} />
+              <Route path="rtgs/transaction-status" element={<TransactionStatusPage />} />
               <Route path="rtgs/central-bank-operations" element={<CentralBankOperationsPage />} />
               <Route path="rtgs/anomaly-detection" element={<AnomalyDetectionPage />} />
               <Route path="rtgs/dispute-management" element={<DisputeManagementPage />} />
