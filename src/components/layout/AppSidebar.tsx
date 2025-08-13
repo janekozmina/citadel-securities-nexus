@@ -193,7 +193,7 @@ export function AppSidebar() {
   const isCollapsed = state === 'collapsed';
   const [searchQuery, setSearchQuery] = useState('');
   const [selectedMainItem, setSelectedMainItem] = useState<MenuItem | null>(null);
-  const [selectedSubItem, setSelectedSubItem] = useState<MenuItem | null>(null);
+  const [expandedSubItems, setExpandedSubItems] = useState<Set<string>>(new Set());
 
   const homeItem = navigationItems.find(i => i.title === 'Home')!;
   const rtgsItem = navigationItems.find(i => i.title === 'RTGS')!;
@@ -256,15 +256,26 @@ export function AppSidebar() {
     });
   };
 
+  const toggleSubItemExpansion = (itemTitle: string) => {
+    setExpandedSubItems(prev => {
+      const newSet = new Set(prev);
+      if (newSet.has(itemTitle)) {
+        newSet.delete(itemTitle);
+      } else {
+        newSet.add(itemTitle);
+      }
+      return newSet;
+    });
+  };
+
   useEffect(() => {
     const activeItem = findActiveMainItem();
     if (activeItem && activeItem.subItems) {
       setSelectedMainItem(activeItem);
       const activeSubItem = findActiveSubItem(activeItem);
       if (activeSubItem && activeSubItem.subItems) {
-        setSelectedSubItem(activeSubItem);
-      } else {
-        setSelectedSubItem(null);
+        // Auto-expand the sub-item that contains the active route
+        setExpandedSubItems(prev => new Set([...prev, activeSubItem.title]));
       }
     }
   }, [location.pathname]);
@@ -383,7 +394,7 @@ export function AppSidebar() {
               size="sm"
               onClick={() => {
                 setSelectedMainItem(null);
-                setSelectedSubItem(null);
+                setExpandedSubItems(new Set());
               }}
               className="p-1 h-auto text-white/80 hover:text-white hover:bg-white/10"
             >
@@ -396,31 +407,19 @@ export function AppSidebar() {
 
         <div className="flex-1 overflow-y-auto p-4">
           <SidebarMenu>
-            {(() => {
-              let subItemsToRender = searchQuery
-                ? (filterItemsBySearch([selectedMainItem])[0]?.subItems ?? [])
-                : selectedMainItem.subItems;
-
-              // In search mode, flatten nested matches so deep items are visible
-              if (searchQuery) {
-                const flatten = (items: MenuItem[]): MenuItem[] =>
-                  items.flatMap((it) =>
-                    it.subItems && it.subItems.length > 0 ? flatten(it.subItems) : [it]
-                  );
-                subItemsToRender = flatten(subItemsToRender || []);
-              }
-
-              return subItemsToRender?.map((subItem) => {
-                const isActive = location.pathname === subItem.url || 
-                  (subItem.subItems && subItem.subItems.some(nested => location.pathname === nested.url));
-                const hasSubItems = subItem.subItems && subItem.subItems.length > 0;
-                
-                return (
-                  <SidebarMenuItem key={subItem.title}>
+            {selectedMainItem.subItems?.map((subItem) => {
+              const isActive = location.pathname === subItem.url || 
+                (subItem.subItems && subItem.subItems.some(nested => location.pathname === nested.url));
+              const hasSubItems = subItem.subItems && subItem.subItems.length > 0;
+              const isExpanded = expandedSubItems.has(subItem.title);
+              
+              return (
+                <div key={subItem.title}>
+                  <SidebarMenuItem>
                     <SidebarMenuButton
                       onClick={() => {
                         if (hasSubItems) {
-                          setSelectedSubItem(subItem);
+                          toggleSubItemExpansion(subItem.title);
                         }
                       }}
                       asChild={!hasSubItems}
@@ -436,7 +435,7 @@ export function AppSidebar() {
                             <subItem.icon className="h-4 w-4 flex-shrink-0" />
                             <span className="text-sm font-medium">{getHighlightedText(subItem.title, searchQuery)}</span>
                           </div>
-                          <ChevronRight className="h-3 w-3" />
+                          <ChevronRight className={`h-3 w-3 transition-transform duration-200 ${isExpanded ? 'rotate-90' : ''}`} />
                         </div>
                       ) : (
                         <NavLink
@@ -449,59 +448,36 @@ export function AppSidebar() {
                       )}
                     </SidebarMenuButton>
                   </SidebarMenuItem>
-                );
-              })
-            })()}
-          </SidebarMenu>
-        </div>
-      </div>
-    );
-  };
-
-  const renderThirdPanel = () => {
-    if (!selectedSubItem?.subItems) return null;
-
-    return (
-      <div className="h-full flex flex-col bg-black/30">
-        {/* Third Panel Header */}
-        <div className="p-4 border-b border-white/20">
-          <div className="flex items-center gap-3">
-            <Button
-              variant="ghost"
-              size="sm"
-              onClick={() => setSelectedSubItem(null)}
-              className="p-1 h-auto text-white/80 hover:text-white hover:bg-white/10"
-            >
-              <ChevronRight className="h-4 w-4 rotate-180" />
-            </Button>
-            <selectedSubItem.icon className="h-4 w-4 text-white" />
-            <span className="font-medium text-white text-sm">{selectedSubItem.title}</span>
-          </div>
-        </div>
-
-        <div className="flex-1 overflow-y-auto p-4">
-          <SidebarMenu>
-            {selectedSubItem.subItems?.map((thirdItem) => {
-              const isActive = location.pathname === thirdItem.url;
-              
-              return (
-                <SidebarMenuItem key={thirdItem.title}>
-                  <SidebarMenuButton asChild>
-                    <NavLink
-                      to={thirdItem.url}
-                      className={({ isActive: linkActive }) => 
-                        `flex items-center gap-3 px-3 py-2 rounded-lg transition-all duration-200 ${
-                          linkActive || isActive
-                            ? 'bg-white/20 text-white shadow-md backdrop-blur-sm' 
-                            : 'text-white/60 hover:bg-white/10 hover:text-white'
-                        }`
-                      }
-                    >
-                      <thirdItem.icon className="h-3 w-3 flex-shrink-0" />
-                      <span className="text-xs font-medium">{thirdItem.title}</span>
-                    </NavLink>
-                  </SidebarMenuButton>
-                </SidebarMenuItem>
+                  
+                  {/* Third Level Items - Collapsible */}
+                  {hasSubItems && isExpanded && (
+                    <div className="ml-4 mt-1 space-y-1">
+                      {subItem.subItems?.map((thirdItem) => {
+                        const isThirdActive = location.pathname === thirdItem.url;
+                        
+                        return (
+                          <SidebarMenuItem key={thirdItem.title}>
+                            <SidebarMenuButton asChild>
+                              <NavLink
+                                to={thirdItem.url}
+                                className={({ isActive: linkActive }) => 
+                                  `flex items-center gap-3 px-3 py-2 rounded-lg transition-all duration-200 ${
+                                    linkActive || isThirdActive
+                                      ? 'bg-white/20 text-white shadow-md backdrop-blur-sm' 
+                                      : 'text-white/60 hover:bg-white/10 hover:text-white'
+                                  }`
+                                }
+                              >
+                                <thirdItem.icon className="h-3 w-3 flex-shrink-0" />
+                                <span className="text-xs font-medium">{thirdItem.title}</span>
+                              </NavLink>
+                            </SidebarMenuButton>
+                          </SidebarMenuItem>
+                        );
+                      })}
+                    </div>
+                  )}
+                </div>
               );
             })}
           </SidebarMenu>
@@ -509,6 +485,7 @@ export function AppSidebar() {
       </div>
     );
   };
+
 
   return (
     <div className="flex h-full">
@@ -552,22 +529,6 @@ export function AppSidebar() {
         </Sidebar>
       )}
 
-      {/* Third Panel */}
-      {selectedSubItem?.subItems && (
-        <Sidebar 
-          className="border-r border-white/20 w-[260px]" 
-          collapsible="none"
-          style={{ background: 'linear-gradient(135deg, #1a1a1a 0%, #0a0a0a 100%)' }}
-        >
-          <SidebarContent className="bg-transparent">
-            <SidebarGroup className="px-0 flex-1">
-              <SidebarGroupContent className="h-full">
-                {renderThirdPanel()}
-              </SidebarGroupContent>
-            </SidebarGroup>
-          </SidebarContent>
-        </Sidebar>
-      )}
     </div>
   );
 }
