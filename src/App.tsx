@@ -58,6 +58,7 @@ import RTGSConfigurationPage from "./pages/admin/RTGSConfigurationPage";
 import BusinessDayManagementPage from "./pages/rtgs/BusinessDayManagementPage";
 import BillingPage from "./pages/rtgs/BillingPage";
 import RealTimeCashFlowOverviewPage from "./pages/rtgs/RealTimeCashFlowOverviewPage";
+import FormConfigurationPage from "./pages/admin/FormConfigurationPage";
 
 const queryClient = new QueryClient();
 
@@ -120,6 +121,7 @@ const App = () => (
               <Route path="knowledge/findings" element={<KnowledgeFindingsPage />} />
               {/* Administration */}
               <Route path="admin/rtgs-config" element={<RTGSConfigurationPage />} />
+              <Route path="admin/rtgs-config/forms" element={<FormConfigurationPage />} />
               <Route path="auction" element={<AuctionManagementPage />} />
               <Route path="investor-services" element={<InvestorServicesHubPage />} />
               <Route path="reporting" element={<ReportingPage />} />

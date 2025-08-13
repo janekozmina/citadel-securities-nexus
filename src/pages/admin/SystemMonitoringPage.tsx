@@ -1,473 +1,495 @@
-
-import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
+import { useEffect, useState } from 'react';
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
+import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { Badge } from '@/components/ui/badge';
-import { ChartContainer, ChartTooltip, ChartTooltipContent } from '@/components/ui/chart';
-import { LineChart, Line, XAxis, YAxis, ResponsiveContainer, AreaChart, Area, PieChart, Pie, Cell, BarChart, Bar } from 'recharts';
+import { Progress } from '@/components/ui/progress';
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table';
+import { Button } from '@/components/ui/button';
+import { 
+  Activity, 
+  Server, 
+  Database, 
+  Network, 
+  Cpu,
+  HardDrive,
+  MemoryStick,
+  Wifi,
+  AlertTriangle,
+  CheckCircle,
+  Clock,
+  Users,
+  TrendingUp,
+  Monitor,
+  Shield
+} from 'lucide-react';
 
-const SystemMonitoringPage = () => {
-  // System metrics matching Grafana display
-  const systemMetrics = {
-    uptime: '3.5 hour',
-    totalMemory: '986 MiB',
-    cpuUsage: 11.60,
-    cpuIowait: 0.07,
-    memoryUsage: 70,
-    openFileDescriptor: '1.15K',
-    rootPartitionUsage: 9.4,
-    maxPartitionUsage: 9.4
+interface SystemMetrics {
+  name: string;
+  status: 'healthy' | 'warning' | 'critical';
+  uptime: string;
+  cpu: number;
+  memory: number;
+  disk: number;
+  network: number;
+  transactions: {
+    total: number;
+    successful: number;
+    failed: number;
+    pending: number;
+  };
+  services: Array<{
+    name: string;
+    status: 'running' | 'stopped' | 'error';
+    port: number;
+    health: 'healthy' | 'degraded' | 'down';
+  }>;
+}
+
+const rtgsMetrics: SystemMetrics = {
+  name: 'RTGS System',
+  status: 'healthy',
+  uptime: '45 days, 12:34:56',
+  cpu: 23,
+  memory: 67,
+  disk: 45,
+  network: 89,
+  transactions: {
+    total: 15420,
+    successful: 15385,
+    failed: 12,
+    pending: 23
+  },
+  services: [
+    { name: 'Payment Processing Service', status: 'running', port: 8080, health: 'healthy' },
+    { name: 'Liquidity Management', status: 'running', port: 8081, health: 'healthy' },
+    { name: 'Settlement Engine', status: 'running', port: 8082, health: 'healthy' },
+    { name: 'Notification Service', status: 'running', port: 8083, health: 'degraded' },
+    { name: 'Audit Service', status: 'running', port: 8084, health: 'healthy' },
+    { name: 'Reporting Service', status: 'running', port: 8085, health: 'healthy' }
+  ]
+};
+
+const csdMetrics: SystemMetrics = {
+  name: 'CSD System',
+  status: 'warning',
+  uptime: '38 days, 08:15:42',
+  cpu: 45,
+  memory: 82,
+  disk: 67,
+  network: 76,
+  transactions: {
+    total: 8940,
+    successful: 8895,
+    failed: 8,
+    pending: 37
+  },
+  services: [
+    { name: 'Settlement Processing', status: 'running', port: 9080, health: 'healthy' },
+    { name: 'Securities Management', status: 'running', port: 9081, health: 'healthy' },
+    { name: 'Corporate Actions', status: 'running', port: 9082, health: 'degraded' },
+    { name: 'Custody Service', status: 'running', port: 9083, health: 'healthy' },
+    { name: 'Trade Matching', status: 'stopped', port: 9084, health: 'down' },
+    { name: 'Risk Management', status: 'running', port: 9085, health: 'healthy' }
+  ]
+};
+
+export default function SystemMonitoringPage() {
+  useEffect(() => {
+    document.title = 'System Monitoring | Unified Portal';
+  }, []);
+
+  const [activeSystem, setActiveSystem] = useState<'rtgs' | 'csd'>('rtgs');
+  const currentMetrics = activeSystem === 'rtgs' ? rtgsMetrics : csdMetrics;
+
+  const getStatusColor = (status: string) => {
+    switch (status) {
+      case 'healthy':
+      case 'running':
+        return 'text-green-600 bg-green-100';
+      case 'warning':
+      case 'degraded':
+        return 'text-yellow-600 bg-yellow-100';
+      case 'critical':
+      case 'error':
+      case 'down':
+        return 'text-red-600 bg-red-100';
+      case 'stopped':
+        return 'text-gray-600 bg-gray-100';
+      default:
+        return 'text-gray-600 bg-gray-100';
+    }
   };
 
-  // Chart data for system load
-  const systemLoadData = [
-    { time: '08:50', localhost_9100_1m: 0.0100, localhost_9100_5m: 0.0100, localhost_9100_15m: 0 },
-    { time: '09:00', localhost_9100_1m: 0.0120, localhost_9100_5m: 0.0110, localhost_9100_15m: 0 },
-    { time: '09:10', localhost_9100_1m: 0.0140, localhost_9100_5m: 0.0120, localhost_9100_15m: 0 },
-    { time: '09:20', localhost_9100_1m: 0.0110, localhost_9100_5m: 0.0115, localhost_9100_15m: 0 },
-    { time: '09:30', localhost_9100_1m: 0.0100, localhost_9100_5m: 0.0105, localhost_9100_15m: 0 },
-    { time: '09:40', localhost_9100_1m: 0.0090, localhost_9100_5m: 0.0100, localhost_9100_15m: 0 },
-  ];
-
-  const diskSpaceData = [
-    { name: 'Used', value: 24.1, color: '#f59e0b' },
-    { name: 'Free', value: 75.9, color: 'transparent' }
-  ];
-
-  const cpuUsageData = [
-    { time: '08:50', localhost_9100_System: 1.52, localhost_9100_User: 8.67, localhost_9100_Iowait: 0.73, localhost_9100_idle_per_second: 1.20 },
-    { time: '09:00', localhost_9100_System: 1.36, localhost_9100_User: 2.98, localhost_9100_Iowait: 0.07, localhost_9100_idle_per_second: 0.03 },
-    { time: '09:10', localhost_9100_System: 1.20, localhost_9100_User: 4.53, localhost_9100_Iowait: 0.07, localhost_9100_idle_per_second: 0 },
-    { time: '09:20', localhost_9100_System: 1.15, localhost_9100_User: 3.45, localhost_9100_Iowait: 0.05, localhost_9100_idle_per_second: 0 },
-    { time: '09:30', localhost_9100_System: 1.10, localhost_9100_User: 2.87, localhost_9100_Iowait: 0.03, localhost_9100_idle_per_second: 0 },
-    { time: '09:40', localhost_9100_System: 1.05, localhost_9100_User: 2.15, localhost_9100_Iowait: 0.02, localhost_9100_idle_per_second: 0 },
-  ];
-
-  const diskIOData = [
-    { time: '08:50', read: 8, write: 12 },
-    { time: '09:00', read: 15, write: 18 },
-    { time: '09:10', read: 22, write: 25 },
-    { time: '09:20', read: 18, write: 20 },
-    { time: '09:30', read: 12, write: 15 },
-    { time: '09:40', read: 10, write: 13 },
-  ];
-
-  const memoryData = [
-    { time: '08:50', localhost_9100_Total_memory: 985.52, localhost_9100_Used: 689.87 },
-    { time: '09:00', localhost_9100_Total_memory: 985.52, localhost_9100_Used: 695.23 },
-    { time: '09:10', localhost_9100_Total_memory: 985.52, localhost_9100_Used: 702.15 },
-    { time: '09:20', localhost_9100_Total_memory: 985.52, localhost_9100_Used: 698.45 },
-    { time: '09:30', localhost_9100_Total_memory: 985.52, localhost_9100_Used: 692.30 },
-    { time: '09:40', localhost_9100_Total_memory: 985.52, localhost_9100_Used: 688.75 },
-  ];
-
-  const partitionData = [
-    { filesystem: 'ext4', ip: 'localhost:9100', partition: '/', availableSpace: '21.80 GiB', usage: '9.32%' }
-  ];
-
-  const chartConfig = {
-    localhost_9100_1m: { label: 'localhost:9100_1m', color: '#22c55e' },
-    localhost_9100_5m: { label: 'localhost:9100_5m', color: '#3b82f6' },
-    localhost_9100_15m: { label: 'localhost:9100_15m', color: '#f59e0b' },
-    localhost_9100_System: { label: 'localhost:9100_System', color: '#ef4444' },
-    localhost_9100_User: { label: 'localhost:9100_User', color: '#3b82f6' },
-    localhost_9100_Iowait: { label: 'localhost:9100_Iowait', color: '#f59e0b' },
-    localhost_9100_idle_per_second: { label: 'localhost:9100_idle_per_second (%)', color: '#f97316' },
-    localhost_9100_Total_memory: { label: 'localhost:9100_Total memory', color: '#6b7280' },
-    localhost_9100_Used: { label: 'localhost:9100_Used', color: '#3b82f6' },
+  const getStatusIcon = (status: string) => {
+    switch (status) {
+      case 'healthy':
+      case 'running':
+        return <CheckCircle className="h-4 w-4" />;
+      case 'warning':
+      case 'degraded':
+        return <AlertTriangle className="h-4 w-4" />;
+      case 'critical':
+      case 'error':
+      case 'down':
+        return <AlertTriangle className="h-4 w-4" />;
+      case 'stopped':
+        return <Clock className="h-4 w-4" />;
+      default:
+        return <Clock className="h-4 w-4" />;
+    }
   };
 
-  const StatCard = ({ title, value, unit, color = 'text-green-400', subtitle }: { 
-    title: string; 
-    value: string | number; 
-    unit?: string; 
-    color?: string;
-    subtitle?: string;
-  }) => (
-    <Card className="bg-gray-800 border-gray-700">
-      <CardContent className="p-3">
-        <div className="text-xs text-gray-400 mb-1">{title}</div>
-        <div className={`text-lg font-bold ${color}`}>
-          {value}{unit && <span className="text-sm ml-1">{unit}</span>}
-        </div>
-        {subtitle && <div className="text-xs text-gray-500">{subtitle}</div>}
-      </CardContent>
-    </Card>
-  );
-
-  const GaugeCard = ({ title, value, max = 100, color = '#22c55e' }: {
-    title: string;
-    value: number;
-    max?: number;
-    color?: string;
-  }) => (
-    <Card className="bg-gray-800 border-gray-700">
-      <CardContent className="p-3">
-        <div className="text-xs text-gray-400 mb-1">{title}</div>
-        <div className="relative w-16 h-16 mx-auto">
-          <svg className="w-16 h-16 transform -rotate-90">
-            <circle
-              cx="32"
-              cy="32"
-              r="28"
-              stroke="#374151"
-              strokeWidth="4"
-              fill="transparent"
-            />
-            <circle
-              cx="32"
-              cy="32"
-              r="28"
-              stroke={color}
-              strokeWidth="4"
-              fill="transparent"
-              strokeDasharray={`${2 * Math.PI * 28}`}
-              strokeDashoffset={`${2 * Math.PI * 28 * (1 - value / max)}`}
-            />
-          </svg>
-          <div className="absolute inset-0 flex items-center justify-center">
-            <span className="text-sm font-bold" style={{ color }}>{value}%</span>
-          </div>
-        </div>
-      </CardContent>
-    </Card>
-  );
+  const formatNumber = (num: number) => {
+    return num.toLocaleString();
+  };
 
   return (
-    <div className="min-h-screen bg-gray-900 text-white p-4">
-      {/* Header */}
-      <div className="flex items-center justify-between mb-4">
-        <div>
-          <h1 className="text-3xl font-bold text-white">System Monitoring</h1>
-          <p className="text-gray-400">Real-time system performance metrics</p>
+    <main className="space-y-6">
+      <section className="space-y-4">
+        <div className="flex items-center justify-between">
+          <div>
+            <h1 className="text-2xl font-bold">System Monitoring</h1>
+            <p className="text-muted-foreground">Real-time monitoring of RTGS and CSD system health and performance</p>
+          </div>
+          
+          <div className="flex items-center gap-2">
+            <Button
+              variant={activeSystem === 'rtgs' ? 'default' : 'outline'}
+              onClick={() => setActiveSystem('rtgs')}
+              className="gap-2"
+            >
+              <Server className="h-4 w-4" />
+              RTGS System
+            </Button>
+            <Button
+              variant={activeSystem === 'csd' ? 'default' : 'outline'}
+              onClick={() => setActiveSystem('csd')}
+              className="gap-2"
+            >
+              <Database className="h-4 w-4" />
+              CSD System
+            </Button>
+          </div>
         </div>
-      </div>
 
-      {/* Top metrics row */}
-      <div className="grid grid-cols-7 gap-3 mb-4">
-        <StatCard title="System runtime" value="3.5" unit="hour" color="text-green-400" />
-        <div className="space-y-1">
-          <StatCard title="CPU Audit numb..." value="1" color="text-orange-400" />
-          <StatCard title="Total memory" value="986 MiB" color="text-green-400" />
-        </div>
-        <GaugeCard title="CPU Usage rate (5m)" value={11.60} color="#f59e0b" />
-        <GaugeCard title="CPU Iowait (5m)" value={0.07} color="#ef4444" />
-        <GaugeCard title="Memory usage" value={70} color="#22c55e" />
-        <GaugeCard title="Currently open file descriptor" value={57.5} max={100} color="#22c55e" />
-        <GaugeCard title="Root partition usage" value={9.4} color="#22c55e" />
-      </div>
-
-      {/* Charts grid */}
-      <div className="grid grid-cols-3 gap-4 mb-4">
-        {/* System Load Chart */}
-        <Card className="bg-gray-800 border-gray-700">
-          <CardHeader className="pb-2">
-            <CardTitle className="text-sm text-white">System average load</CardTitle>
-          </CardHeader>
-          <CardContent className="p-2">
-            <div className="h-48">
-              <ResponsiveContainer width="100%" height="100%">
-                <LineChart data={systemLoadData}>
-                  <XAxis 
-                    dataKey="time" 
-                    stroke="#9ca3af" 
-                    fontSize={10}
-                    tickLine={false}
-                    axisLine={false}
-                  />
-                  <YAxis 
-                    stroke="#9ca3af" 
-                    fontSize={10}
-                    tickLine={false}
-                    axisLine={false}
-                  />
-                  <Line 
-                    type="monotone" 
-                    dataKey="localhost_9100_1m" 
-                    stroke="#22c55e" 
-                    strokeWidth={1}
-                    dot={false}
-                  />
-                  <Line 
-                    type="monotone" 
-                    dataKey="localhost_9100_5m" 
-                    stroke="#3b82f6" 
-                    strokeWidth={1}
-                    dot={false}
-                  />
-                  <Line 
-                    type="monotone" 
-                    dataKey="localhost_9100_15m" 
-                    stroke="#f59e0b" 
-                    strokeWidth={1}
-                    dot={false}
-                  />
-                </LineChart>
-              </ResponsiveContainer>
-            </div>
-            <div className="flex gap-4 text-xs mt-2">
-              <div className="flex items-center gap-1">
-                <div className="w-2 h-2 bg-green-400"></div>
-                <span className="text-blue-400">current</span>
-                <span className="text-white">0.0100</span>
+        {/* System Overview */}
+        <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
+          <Card>
+            <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
+              <CardTitle className="text-sm font-medium">System Status</CardTitle>
+              {getStatusIcon(currentMetrics.status)}
+            </CardHeader>
+            <CardContent>
+              <div className="text-2xl font-bold">
+                <Badge className={getStatusColor(currentMetrics.status)}>
+                  {currentMetrics.status.toUpperCase()}
+                </Badge>
               </div>
-            </div>
-          </CardContent>
-        </Card>
+              <p className="text-xs text-muted-foreground">
+                Uptime: {currentMetrics.uptime}
+              </p>
+            </CardContent>
+          </Card>
 
-        {/* Disk Space Chart */}
-        <Card className="bg-gray-800 border-gray-700">
-          <CardHeader className="pb-2">
-            <CardTitle className="text-sm text-white">Total disk space</CardTitle>
-            <div className="text-blue-400 text-sm">24.1 GiB</div>
-          </CardHeader>
-          <CardContent className="p-2">
-            <div className="h-48 flex items-center justify-center">
-              <div className="relative w-32 h-32">
-                <svg className="w-32 h-32">
-                  <circle
-                    cx="64"
-                    cy="64"
-                    r="60"
-                    fill="#f59e0b"
-                  />
-                </svg>
-                <div className="absolute inset-0 flex flex-col items-center justify-center">
-                  <span className="text-blue-400 text-xs">current</span>
-                  <span className="text-white text-sm font-bold">24.1 GiB</span>
+          <Card>
+            <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
+              <CardTitle className="text-sm font-medium">Transactions Today</CardTitle>
+              <TrendingUp className="h-4 w-4 text-muted-foreground" />
+            </CardHeader>
+            <CardContent>
+              <div className="text-2xl font-bold">{formatNumber(currentMetrics.transactions.total)}</div>
+              <p className="text-xs text-muted-foreground">
+                {formatNumber(currentMetrics.transactions.successful)} successful
+              </p>
+            </CardContent>
+          </Card>
+
+          <Card>
+            <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
+              <CardTitle className="text-sm font-medium">Active Services</CardTitle>
+              <Activity className="h-4 w-4 text-muted-foreground" />
+            </CardHeader>
+            <CardContent>
+              <div className="text-2xl font-bold">
+                {currentMetrics.services.filter(s => s.status === 'running').length}/{currentMetrics.services.length}
+              </div>
+              <p className="text-xs text-muted-foreground">
+                services running
+              </p>
+            </CardContent>
+          </Card>
+
+          <Card>
+            <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
+              <CardTitle className="text-sm font-medium">Error Rate</CardTitle>
+              <AlertTriangle className="h-4 w-4 text-muted-foreground" />
+            </CardHeader>
+            <CardContent>
+              <div className="text-2xl font-bold">
+                {((currentMetrics.transactions.failed / currentMetrics.transactions.total) * 100).toFixed(2)}%
+              </div>
+              <p className="text-xs text-muted-foreground">
+                {formatNumber(currentMetrics.transactions.failed)} failed transactions
+              </p>
+            </CardContent>
+          </Card>
+        </div>
+
+        {/* System Resources */}
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+          <Card>
+            <CardHeader>
+              <CardTitle className="flex items-center gap-2">
+                <Monitor className="h-5 w-5" />
+                System Resources
+              </CardTitle>
+              <CardDescription>Current resource utilization for {currentMetrics.name}</CardDescription>
+            </CardHeader>
+            <CardContent>
+              <div className="space-y-4">
+                <div className="space-y-2">
+                  <div className="flex items-center justify-between">
+                    <div className="flex items-center gap-2">
+                      <Cpu className="h-4 w-4 text-blue-500" />
+                      <span className="text-sm font-medium">CPU Usage</span>
+                    </div>
+                    <span className="text-sm text-muted-foreground">{currentMetrics.cpu}%</span>
+                  </div>
+                  <Progress value={currentMetrics.cpu} className="h-2" />
+                </div>
+
+                <div className="space-y-2">
+                  <div className="flex items-center justify-between">
+                    <div className="flex items-center gap-2">
+                      <MemoryStick className="h-4 w-4 text-green-500" />
+                      <span className="text-sm font-medium">Memory Usage</span>
+                    </div>
+                    <span className="text-sm text-muted-foreground">{currentMetrics.memory}%</span>
+                  </div>
+                  <Progress value={currentMetrics.memory} className="h-2" />
+                </div>
+
+                <div className="space-y-2">
+                  <div className="flex items-center justify-between">
+                    <div className="flex items-center gap-2">
+                      <HardDrive className="h-4 w-4 text-orange-500" />
+                      <span className="text-sm font-medium">Disk Usage</span>
+                    </div>
+                    <span className="text-sm text-muted-foreground">{currentMetrics.disk}%</span>
+                  </div>
+                  <Progress value={currentMetrics.disk} className="h-2" />
+                </div>
+
+                <div className="space-y-2">
+                  <div className="flex items-center justify-between">
+                    <div className="flex items-center gap-2">
+                      <Network className="h-4 w-4 text-purple-500" />
+                      <span className="text-sm font-medium">Network I/O</span>
+                    </div>
+                    <span className="text-sm text-muted-foreground">{currentMetrics.network} MB/s</span>
+                  </div>
+                  <Progress value={Math.min(currentMetrics.network, 100)} className="h-2" />
                 </div>
               </div>
-            </div>
-          </CardContent>
-        </Card>
+            </CardContent>
+          </Card>
 
-        {/* Partition Space Table */}
-        <Card className="bg-gray-800 border-gray-700">
-          <CardHeader className="pb-2">
-            <CardTitle className="text-sm text-white">Free space for each partition</CardTitle>
+          <Card>
+            <CardHeader>
+              <CardTitle className="flex items-center gap-2">
+                <Activity className="h-5 w-5" />
+                Transaction Status
+              </CardTitle>
+              <CardDescription>Real-time transaction processing status</CardDescription>
+            </CardHeader>
+            <CardContent>
+              <div className="space-y-4">
+                <div className="grid grid-cols-2 gap-4">
+                  <div className="text-center p-3 bg-green-50 rounded-lg">
+                    <div className="text-2xl font-bold text-green-600">
+                      {formatNumber(currentMetrics.transactions.successful)}
+                    </div>
+                    <div className="text-sm text-green-600">Successful</div>
+                  </div>
+                  <div className="text-center p-3 bg-red-50 rounded-lg">
+                    <div className="text-2xl font-bold text-red-600">
+                      {formatNumber(currentMetrics.transactions.failed)}
+                    </div>
+                    <div className="text-sm text-red-600">Failed</div>
+                  </div>
+                </div>
+                
+                <div className="text-center p-3 bg-yellow-50 rounded-lg">
+                  <div className="text-lg font-bold text-yellow-600">
+                    {formatNumber(currentMetrics.transactions.pending)}
+                  </div>
+                  <div className="text-sm text-yellow-600">Pending Processing</div>
+                </div>
+
+                <div className="space-y-2">
+                  <div className="flex justify-between text-sm">
+                    <span>Success Rate</span>
+                    <span className="font-medium">
+                      {((currentMetrics.transactions.successful / currentMetrics.transactions.total) * 100).toFixed(1)}%
+                    </span>
+                  </div>
+                  <Progress 
+                    value={(currentMetrics.transactions.successful / currentMetrics.transactions.total) * 100} 
+                    className="h-2"
+                  />
+                </div>
+              </div>
+            </CardContent>
+          </Card>
+        </div>
+
+        {/* Services Status */}
+        <Card>
+          <CardHeader>
+            <CardTitle className="flex items-center gap-2">
+              <Server className="h-5 w-5" />
+              Service Status
+            </CardTitle>
+            <CardDescription>
+              Detailed status of all {currentMetrics.name} microservices
+            </CardDescription>
           </CardHeader>
-          <CardContent className="p-2">
+          <CardContent>
             <Table>
               <TableHeader>
-                <TableRow className="border-gray-700">
-                  <TableHead className="text-xs text-blue-400 p-1">File system</TableHead>
-                  <TableHead className="text-xs text-blue-400 p-1">IP</TableHead>
-                  <TableHead className="text-xs text-blue-400 p-1">Partition</TableHead>
-                  <TableHead className="text-xs text-blue-400 p-1">Available space</TableHead>
-                  <TableHead className="text-xs text-blue-400 p-1">Usage rate</TableHead>
+                <TableRow>
+                  <TableHead>Service Name</TableHead>
+                  <TableHead>Status</TableHead>
+                  <TableHead>Health</TableHead>
+                  <TableHead>Port</TableHead>
+                  <TableHead>Actions</TableHead>
                 </TableRow>
               </TableHeader>
               <TableBody>
-                <TableRow className="border-gray-700">
-                  <TableCell className="text-xs text-white p-1">ext4</TableCell>
-                  <TableCell className="text-xs text-white p-1">localhost:9100</TableCell>
-                  <TableCell className="text-xs text-white p-1">/</TableCell>
-                  <TableCell className="text-xs text-white p-1">21.80 GiB</TableCell>
-                  <TableCell className="text-xs p-1">
-                    <Badge className="bg-green-600 text-white text-xs">9.32%</Badge>
-                  </TableCell>
-                </TableRow>
+                {currentMetrics.services.map((service, index) => (
+                  <TableRow key={index}>
+                    <TableCell className="font-medium">{service.name}</TableCell>
+                    <TableCell>
+                      <div className="flex items-center gap-2">
+                        {getStatusIcon(service.status)}
+                        <Badge className={getStatusColor(service.status)}>
+                          {service.status}
+                        </Badge>
+                      </div>
+                    </TableCell>
+                    <TableCell>
+                      <Badge className={getStatusColor(service.health)}>
+                        {service.health}
+                      </Badge>
+                    </TableCell>
+                    <TableCell>:{service.port}</TableCell>
+                    <TableCell>
+                      <div className="flex items-center gap-2">
+                        <Button variant="ghost" size="sm">
+                          View Logs
+                        </Button>
+                        <Button variant="ghost" size="sm">
+                          Restart
+                        </Button>
+                      </div>
+                    </TableCell>
+                  </TableRow>
+                ))}
               </TableBody>
             </Table>
           </CardContent>
         </Card>
-      </div>
 
-      {/* CPU and Memory Charts */}
-      <div className="grid grid-cols-2 gap-4 mb-4">
-        {/* CPU Usage Chart */}
-        <Card className="bg-gray-800 border-gray-700">
-          <CardHeader className="pb-2">
-            <CardTitle className="text-sm text-white">CPU usage, disk I/O operations per second (%)</CardTitle>
-          </CardHeader>
-          <CardContent className="p-2">
-            <div className="h-48">
-              <ResponsiveContainer width="100%" height="100%">
-                <AreaChart data={cpuUsageData}>
-                  <XAxis 
-                    dataKey="time" 
-                    stroke="#9ca3af" 
-                    fontSize={10}
-                    tickLine={false}
-                    axisLine={false}
-                  />
-                  <YAxis 
-                    stroke="#9ca3af" 
-                    fontSize={10}
-                    tickLine={false}
-                    axisLine={false}
-                  />
-                  <Area 
-                    type="monotone" 
-                    dataKey="localhost_9100_System" 
-                    stackId="1" 
-                    stroke="#ef4444" 
-                    fill="#ef4444" 
-                    fillOpacity={0.3}
-                  />
-                  <Area 
-                    type="monotone" 
-                    dataKey="localhost_9100_User" 
-                    stackId="1" 
-                    stroke="#3b82f6" 
-                    fill="#3b82f6" 
-                    fillOpacity={0.3}
-                  />
-                  <Area 
-                    type="monotone" 
-                    dataKey="localhost_9100_Iowait" 
-                    stackId="1" 
-                    stroke="#f59e0b" 
-                    fill="#f59e0b" 
-                    fillOpacity={0.3}
-                  />
-                </AreaChart>
-              </ResponsiveContainer>
-            </div>
-            <div className="grid grid-cols-4 gap-2 text-xs mt-2">
-              <div>
-                <div className="text-blue-400">max</div>
-                <div className="text-gray-300">7.52%</div>
+        {/* System Information */}
+        <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
+          <Card>
+            <CardHeader>
+              <CardTitle className="flex items-center gap-2">
+                <Shield className="h-5 w-5" />
+                Security Status
+              </CardTitle>
+            </CardHeader>
+            <CardContent>
+              <div className="space-y-3">
+                <div className="flex items-center justify-between">
+                  <span className="text-sm">SSL Certificate</span>
+                  <Badge className="bg-green-100 text-green-800">Valid</Badge>
+                </div>
+                <div className="flex items-center justify-between">
+                  <span className="text-sm">Firewall Status</span>
+                  <Badge className="bg-green-100 text-green-800">Active</Badge>
+                </div>
+                <div className="flex items-center justify-between">
+                  <span className="text-sm">Intrusion Detection</span>
+                  <Badge className="bg-green-100 text-green-800">Monitoring</Badge>
+                </div>
+                <div className="flex items-center justify-between">
+                  <span className="text-sm">Last Security Scan</span>
+                  <span className="text-sm text-muted-foreground">2 hours ago</span>
+                </div>
               </div>
-              <div>
-                <div className="text-blue-400">avg</div>
-                <div className="text-gray-300">1.36%</div>
-              </div>
-              <div>
-                <div className="text-blue-400">current</div>
-                <div className="text-gray-300">1.20%</div>
-              </div>
-            </div>
-          </CardContent>
-        </Card>
+            </CardContent>
+          </Card>
 
-        {/* Memory Information Chart */}
-        <Card className="bg-gray-800 border-gray-700">
-          <CardHeader className="pb-2">
-            <CardTitle className="text-sm text-white">Memory information</CardTitle>
-          </CardHeader>
-          <CardContent className="p-2">
-            <div className="h-48">
-              <ResponsiveContainer width="100%" height="100%">
-                <AreaChart data={memoryData}>
-                  <XAxis 
-                    dataKey="time" 
-                    stroke="#9ca3af" 
-                    fontSize={10}
-                    tickLine={false}
-                    axisLine={false}
-                  />
-                  <YAxis 
-                    stroke="#9ca3af" 
-                    fontSize={10}
-                    tickLine={false}
-                    axisLine={false}
-                  />
-                  <Area 
-                    type="monotone" 
-                    dataKey="localhost_9100_Used" 
-                    stroke="#3b82f6" 
-                    fill="#3b82f6" 
-                    fillOpacity={0.6}
-                  />
-                  <Area 
-                    type="monotone" 
-                    dataKey="localhost_9100_Total_memory" 
-                    stroke="#f59e0b" 
-                    fill="transparent" 
-                    strokeDasharray="2,2"
-                  />
-                </AreaChart>
-              </ResponsiveContainer>
-            </div>
-            <div className="text-xs mt-2">
-              <div className="text-blue-400">current</div>
-              <div className="flex gap-4">
-                <span className="text-white">localhost:9100_Total memory: 985.52 MiB</span>
-                <span className="text-white">localhost:9100_Used: 689.87 MiB</span>
+          <Card>
+            <CardHeader>
+              <CardTitle className="flex items-center gap-2">
+                <Database className="h-5 w-5" />
+                Database Status
+              </CardTitle>
+            </CardHeader>
+            <CardContent>
+              <div className="space-y-3">
+                <div className="flex items-center justify-between">
+                  <span className="text-sm">Primary DB</span>
+                  <Badge className="bg-green-100 text-green-800">Online</Badge>
+                </div>
+                <div className="flex items-center justify-between">
+                  <span className="text-sm">Replica DB</span>
+                  <Badge className="bg-green-100 text-green-800">Synced</Badge>
+                </div>
+                <div className="flex items-center justify-between">
+                  <span className="text-sm">Backup Status</span>
+                  <Badge className="bg-green-100 text-green-800">Current</Badge>
+                </div>
+                <div className="flex items-center justify-between">
+                  <span className="text-sm">Last Backup</span>
+                  <span className="text-sm text-muted-foreground">6 hours ago</span>
+                </div>
               </div>
-            </div>
-          </CardContent>
-        </Card>
-      </div>
+            </CardContent>
+          </Card>
 
-      {/* Bottom Charts */}
-      <div className="grid grid-cols-3 gap-4">
-        {/* Disk I/O Rate */}
-        <Card className="bg-gray-800 border-gray-700">
-          <CardHeader className="pb-2">
-            <CardTitle className="text-sm text-white">Disk read and write rate (IOPS)</CardTitle>
-          </CardHeader>
-          <CardContent className="p-2">
-            <div className="h-32">
-              <ResponsiveContainer width="100%" height="100%">
-                <BarChart data={diskIOData}>
-                  <XAxis 
-                    dataKey="time" 
-                    stroke="#9ca3af" 
-                    fontSize={10}
-                    tickLine={false}
-                    axisLine={false}
-                  />
-                  <YAxis 
-                    stroke="#9ca3af" 
-                    fontSize={10}
-                    tickLine={false}
-                    axisLine={false}
-                  />
-                  <Bar dataKey="read" fill="#22c55e" />
-                  <Bar dataKey="write" fill="#3b82f6" />
-                </BarChart>
-              </ResponsiveContainer>
-            </div>
-          </CardContent>
-        </Card>
-
-        {/* Disk Capacity */}
-        <Card className="bg-gray-800 border-gray-700">
-          <CardHeader className="pb-2">
-            <CardTitle className="text-sm text-white">Disk read and write capacity</CardTitle>
-          </CardHeader>
-          <CardContent className="p-2">
-            <div className="h-32">
-              <ResponsiveContainer width="100%" height="100%">
-                <BarChart data={diskIOData}>
-                  <XAxis 
-                    dataKey="time" 
-                    stroke="#9ca3af" 
-                    fontSize={10}
-                    tickLine={false}
-                    axisLine={false}
-                  />
-                  <YAxis 
-                    stroke="#9ca3af" 
-                    fontSize={10}
-                    tickLine={false}
-                    axisLine={false}
-                  />
-                  <Bar dataKey="read" fill="#f59e0b" />
-                </BarChart>
-              </ResponsiveContainer>
-            </div>
-          </CardContent>
-        </Card>
-
-        {/* Disk I/O Time */}
-        <Card className="bg-gray-800 border-gray-700">
-          <CardHeader className="pb-2">
-            <CardTitle className="text-sm text-white">Disk I/O read and write time</CardTitle>
-          </CardHeader>
-          <CardContent className="p-2">
-            <div className="h-32 flex items-center justify-center">
-              <div className="text-center">
-                <div className="text-2xl text-gray-300">100 ms</div>
-                <div className="text-xs text-gray-500">Disk usage rate</div>
+          <Card>
+            <CardHeader>
+              <CardTitle className="flex items-center gap-2">
+                <Wifi className="h-5 w-5" />
+                Network Status
+              </CardTitle>
+            </CardHeader>
+            <CardContent>
+              <div className="space-y-3">
+                <div className="flex items-center justify-between">
+                  <span className="text-sm">External Connectivity</span>
+                  <Badge className="bg-green-100 text-green-800">Connected</Badge>
+                </div>
+                <div className="flex items-center justify-between">
+                  <span className="text-sm">Latency</span>
+                  <span className="text-sm text-muted-foreground">12ms</span>
+                </div>
+                <div className="flex items-center justify-between">
+                  <span className="text-sm">Bandwidth Usage</span>
+                  <span className="text-sm text-muted-foreground">45% of 1Gbps</span>
+                </div>
+                <div className="flex items-center justify-between">
+                  <span className="text-sm">Packet Loss</span>
+                  <span className="text-sm text-muted-foreground">0.01%</span>
+                </div>
               </div>
-            </div>
-          </CardContent>
-        </Card>
-      </div>
-    </div>
+            </CardContent>
+          </Card>
+        </div>
+      </section>
+    </main>
   );
-};
-
-export default SystemMonitoringPage;
+}
