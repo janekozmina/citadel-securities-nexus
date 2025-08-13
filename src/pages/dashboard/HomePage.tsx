@@ -19,14 +19,14 @@ const HomePage = () => {
     },
     {
       title: 'Total Transactions Settled',
-      value: `BD ${(rtgsMetrics.totalLiquidity / 1000)}B / ${rtgsMetrics.settledTransactions.toLocaleString()}`,
+      value: `BHD ${(rtgsMetrics.totalLiquidity / 1000)}B / ${rtgsMetrics.settledTransactions.toLocaleString()}`,
       change: 'Amount / Volume',
       icon: TrendingUp,
       color: 'text-green-600'
     },
     {
       title: 'Average Transaction Value',
-      value: `BD ${(rtgsMetrics.averageTransactionValue / 1000000).toFixed(1)}M`,
+      value: `BHD ${(rtgsMetrics.averageTransactionValue / 1000000).toFixed(1)}M`,
       change: 'Per transaction',
       icon: BarChart3,
       color: 'text-purple-600'
@@ -65,14 +65,14 @@ const HomePage = () => {
     },
     {
       title: 'Daily Settled',
-      value: `BD ${(csdMetrics.settlementValue / 1000000000).toFixed(1)}B`,
+      value: `BHD ${(csdMetrics.settlementValue / 1000000000).toFixed(1)}B`,
       change: "Today's settled transactions",
       icon: Banknote,
       color: 'text-green-600'
     },
     {
       title: 'Pending Settlements',
-      value: `BD ${(csdMetrics.pendingInstructions * 5.5).toFixed(0)}M`,
+      value: `BHD ${(csdMetrics.pendingInstructions * 5.5).toFixed(0)}M`,
       change: "Today's and tomorrow planned",
       icon: AlertCircle,
       color: 'text-yellow-600'
@@ -207,17 +207,17 @@ const HomePage = () => {
           <h3 className="text-lg font-semibold mb-4">Cross-Border Flow Today</h3>
            <div className="h-64 bg-gradient-to-br from-green-50 to-green-100 rounded-lg p-4 transition-all duration-500">
              <div className="flex justify-between items-center mb-4">
-               <span className="text-2xl font-bold text-green-800 transition-all duration-500">BD {(rtgsMetrics.totalLiquidity / 600).toFixed(1)}B</span>
+               <span className="text-2xl font-bold text-green-800 transition-all duration-500">BHD {(rtgsMetrics.totalLiquidity / 600).toFixed(1)}B</span>
                <ArrowUpRight className="h-5 w-5 text-green-600" />
              </div>
              <div className="space-y-3">
                <div className="flex items-center justify-between">
                  <span className="text-sm text-slate-600">Inbound</span>
-                 <span className="text-sm font-medium text-green-700 transition-all duration-500">BD {(rtgsMetrics.cashLiquidity / 487).toFixed(0)}M</span>
+                 <span className="text-sm font-medium text-green-700 transition-all duration-500">BHD {(rtgsMetrics.cashLiquidity / 487).toFixed(0)}M</span>
                </div>
                <div className="flex items-center justify-between">
                  <span className="text-sm text-slate-600">Outbound</span>
-                 <span className="text-sm font-medium text-red-700 transition-all duration-500">BD {(rtgsMetrics.pledgedCollateral / 833).toFixed(0)}M</span>
+                 <span className="text-sm font-medium text-red-700 transition-all duration-500">BHD {(rtgsMetrics.pledgedCollateral / 833).toFixed(0)}M</span>
                </div>
               <div className="mt-4 pt-4 border-t">
                 <div className="text-xs text-slate-500 mb-2">Volume Distribution</div>

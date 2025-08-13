@@ -43,7 +43,7 @@ const InvestorServicesHubPage = () => {
   ];
 
   const investorsByRegion = [
-    { region: 'UAE', count: 1247, percentage: 43.8 },
+    { region: 'Bahrain', count: 1247, percentage: 43.8 },
     { region: 'Saudi Arabia', count: 623, percentage: 21.9 },
     { region: 'Kuwait', count: 312, percentage: 11.0 },
     { region: 'Qatar', count: 289, percentage: 10.1 },
@@ -59,9 +59,9 @@ const InvestorServicesHubPage = () => {
   ];
 
   const investorsByVolume = [
-    { range: '1-100', count: 1523, percentage: 53.5, value: 'AED 76.15M' },
-    { range: '100-500', count: 892, percentage: 31.3, value: 'AED 267.6M' },
-    { range: '500-10M', count: 432, percentage: 15.2, value: 'AED 1.89B' }
+    { range: '1-100', count: 1523, percentage: 53.5, value: 'BHD 76.15M' },
+    { range: '100-500', count: 892, percentage: 31.3, value: 'BHD 267.6M' },
+    { range: '500-10M', count: 432, percentage: 15.2, value: 'BHD 1.89B' }
   ];
 
   return (
@@ -178,7 +178,7 @@ const InvestorServicesHubPage = () => {
                   <table className="w-full border-collapse">
                     <thead>
                       <tr className="border-b">
-                        <th className="text-left p-3 font-semibold">Range (K AED)</th>
+                        <th className="text-left p-3 font-semibold">Range (K BHD)</th>
                         <th className="text-left p-3 font-semibold">Investors</th>
                         <th className="text-left p-3 font-semibold">Percentage</th>
                         <th className="text-left p-3 font-semibold">Total Value</th>

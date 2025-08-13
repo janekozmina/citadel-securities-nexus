@@ -61,7 +61,7 @@ const CollateralManagerPage = () => {
                   <div className="flex items-center justify-between">
                     <div>
                       <p className="text-sm font-medium text-slate-600">Operations volume Repo with Central Bank</p>
-                      <p className="text-2xl font-bold">AED 60.5B</p>
+                      <p className="text-2xl font-bold">BHD 60.5B</p>
                     </div>
                     <DollarSign className="h-8 w-8 text-blue-600" />
                   </div>
@@ -72,7 +72,7 @@ const CollateralManagerPage = () => {
                   <div className="flex items-center justify-between">
                     <div>
                       <p className="text-sm font-medium text-slate-600">Operations volume Interbank Repo</p>
-                      <p className="text-2xl font-bold">AED 38.5B</p>
+                      <p className="text-2xl font-bold">BHD 38.5B</p>
                     </div>
                     <Percent className="h-8 w-8 text-green-600" />
                   </div>
@@ -83,7 +83,7 @@ const CollateralManagerPage = () => {
                   <div className="flex items-center justify-between">
                     <div>
                       <p className="text-sm font-medium text-slate-600">Operations volume ILF</p>
-                      <p className="text-2xl font-bold">AED 28.0B</p>
+                      <p className="text-2xl font-bold">BHD 28.0B</p>
                     </div>
                     <TrendingUp className="h-8 w-8 text-green-600" />
                   </div>
@@ -94,7 +94,7 @@ const CollateralManagerPage = () => {
                   <div className="flex items-center justify-between">
                     <div>
                       <p className="text-sm font-medium text-slate-600">Operations volume Islamic</p>
-                      <p className="text-2xl font-bold">AED 38.5B</p>
+                      <p className="text-2xl font-bold">BHD 38.5B</p>
                     </div>
                     <Shield className="h-8 w-8 text-blue-600" />
                   </div>

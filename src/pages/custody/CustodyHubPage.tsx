@@ -25,7 +25,7 @@ const CustodyHubPage = () => {
   };
 
   const topAssetClasses = [
-    { name: 'UAE Treasury Bond 26', isin: 'AE123456789', volume: 45000000 },
+    { name: 'Bahrain Treasury Bond 26', isin: 'BH123456789', volume: 45000000 },
     { name: 'Emaar Properties', isin: 'AE987654321', volume: 32000000 },
     { name: 'ADNOC Drilling', isin: 'AE112233445', volume: 28000000 },
     { name: 'First Abu Dhabi Bank', isin: 'AE556677889', volume: 22000000 },

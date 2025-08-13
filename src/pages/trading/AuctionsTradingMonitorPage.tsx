@@ -43,7 +43,7 @@ const AuctionsTradingMonitorPage = () => {
                         <tr key={auction.instrument} className="border-b hover:bg-slate-50">
                           <td className="p-3 font-mono font-semibold">{auction.instrument}</td>
                           <td className="p-3">{auction.participants}</td>
-                          <td className="p-3 text-green-600 font-medium">AED {auction.leadingBid}</td>
+                          <td className="p-3 text-green-600 font-medium">BHD {auction.leadingBid}</td>
                           <td className="p-3">{auction.volume.toLocaleString()}</td>
                           <td className="p-3">
                             <Button size="sm">Bid</Button>

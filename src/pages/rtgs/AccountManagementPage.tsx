@@ -107,7 +107,7 @@ export default function AccountManagementPage() {
               <Card>
                 <CardContent className="p-4">
                   <div className="text-sm font-medium text-slate-600 mb-2">Total Balance</div>
-                  <div className="text-2xl font-bold">BD {totalBalance.toLocaleString()}</div>
+                  <div className="text-2xl font-bold">BHD {totalBalance.toLocaleString()}</div>
                 </CardContent>
               </Card>
               <Card>
@@ -197,14 +197,14 @@ export default function AccountManagementPage() {
                           <TableCell className="font-mono text-xs">{account.id}</TableCell>
                           <TableCell className="font-medium text-sm">{account.participantName}</TableCell>
                           <TableCell className={`text-right font-medium ${getBalanceColor(account.availableBalance)}`}>
-                            BD {account.availableBalance.toLocaleString()}
+                            BHD {account.availableBalance.toLocaleString()}
                           </TableCell>
                           <TableCell>
                             <Badge variant="outline">{account.currency}</Badge>
                           </TableCell>
                           <TableCell className="text-right">{account.debitTurnover.toLocaleString()}</TableCell>
                           <TableCell className="text-right">{account.creditTurnover.toLocaleString()}</TableCell>
-                          <TableCell className="text-right">BD {account.potentialBalance.toLocaleString()}</TableCell>
+                          <TableCell className="text-right">BHD {account.potentialBalance.toLocaleString()}</TableCell>
                           <TableCell>
                             <Badge variant="secondary">{account.accountType}</Badge>
                           </TableCell>

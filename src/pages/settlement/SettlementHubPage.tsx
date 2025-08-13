@@ -51,7 +51,7 @@ const SettlementHubPage = () => {
       security: 'ISIN12345678',
       quantity: 1000,
       amount: 250000,
-      currency: 'AED',
+      currency: 'BHD',
       status: 'Pending' as const,
       priority: 'High' as const,
       settlement_date: '2024-01-15'

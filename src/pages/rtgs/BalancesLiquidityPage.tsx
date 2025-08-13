@@ -104,13 +104,13 @@ export default function BalancesLiquidityPage() {
               <Card>
                 <CardContent className="p-4">
                   <div className="text-sm font-medium text-slate-600 mb-2">Total Reserves</div>
-                  <div className="text-2xl font-bold">BD {totalReserved.toLocaleString()}</div>
+                  <div className="text-2xl font-bold">BHD {totalReserved.toLocaleString()}</div>
                 </CardContent>
               </Card>
               <Card>
                 <CardContent className="p-4">
                   <div className="text-sm font-medium text-slate-600 mb-2">Total Balance</div>
-                  <div className="text-2xl font-bold">BD {totalBalance.toLocaleString()}</div>
+                  <div className="text-2xl font-bold">BHD {totalBalance.toLocaleString()}</div>
                 </CardContent>
               </Card>
               <Card>
@@ -206,7 +206,7 @@ export default function BalancesLiquidityPage() {
                           <TableCell className="font-mono text-xs">{balance.accountType}</TableCell>
                           <TableCell>
                             <Badge className={getReserveStatusColor(balance.reservedAmount)}>
-                              BD {balance.reservedAmount.toLocaleString()}
+                              BHD {balance.reservedAmount.toLocaleString()}
                             </Badge>
                           </TableCell>
                           <TableCell>
@@ -216,7 +216,7 @@ export default function BalancesLiquidityPage() {
                           <TableCell className="text-right">{balance.creditTurnover.toLocaleString()}</TableCell>
                           <TableCell className="text-right">{balance.totalDebitQueue.toLocaleString()}</TableCell>
                           <TableCell className="text-right">{balance.totalCreditQueue.toLocaleString()}</TableCell>
-                          <TableCell className="text-right font-medium">BD {balance.balance.toLocaleString()}</TableCell>
+                          <TableCell className="text-right font-medium">BHD {balance.balance.toLocaleString()}</TableCell>
                         </TableRow>
                       ))}
                     </TableBody>

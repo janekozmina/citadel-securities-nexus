@@ -59,7 +59,7 @@ export default function TransactionStatusPage() {
         <div className="space-y-2">
           <div>
             <div className="text-sm text-slate-600">Amount</div>
-            <div className="text-2xl font-bold">BD {(amount / 1000000).toFixed(1)}M</div>
+            <div className="text-2xl font-bold">BHD {(amount / 1000000).toFixed(1)}M</div>
           </div>
           <div>
             <div className="text-sm text-slate-600">Volume</div>

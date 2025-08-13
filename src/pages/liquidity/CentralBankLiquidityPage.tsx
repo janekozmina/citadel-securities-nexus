@@ -14,7 +14,7 @@ const CentralBankLiquidityPage = () => {
     activeFacilities: 12,
     avgRate: 2.75,
     participants: [
-      { name: 'Emirates NBD', currentPosition: 12400000000, allocatedLimit: 15000000000, utilizationPct: 82.7, intradayUsage: 8900000000 },
+      { name: 'NBB (National Bank of Bahrain)', currentPosition: 12400000000, allocatedLimit: 15000000000, utilizationPct: 82.7, intradayUsage: 8900000000 },
       { name: 'First Abu Dhabi Bank', currentPosition: 10800000000, allocatedLimit: 14000000000, utilizationPct: 77.1, intradayUsage: 7600000000 },
       { name: 'ADCB Bank', currentPosition: 8200000000, allocatedLimit: 12000000000, utilizationPct: 68.3, intradayUsage: 5800000000 },
       { name: 'Mashreq Bank', currentPosition: 6500000000, allocatedLimit: 10000000000, utilizationPct: 65.0, intradayUsage: 4200000000 },

@@ -35,7 +35,7 @@ const configItems = [
     items: ['Payment authorization limits', 'User access controls', 'API permissions']
   },
   { 
-    title: 'DBD pending changes', 
+    title: 'NBB pending changes', 
     description: 'Manage database pending changes',
     icon: FileText,
     items: ['Schema changes', 'Data migrations', 'Pending updates']

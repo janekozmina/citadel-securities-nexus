@@ -14,7 +14,7 @@ const IslamicRepoPage = () => {
     avgProfitRate: 3.45,
     complianceRatio: 99.8,
     sharihTransactions: [
-      { id: 'MUR001', type: 'Murabaha', participant: 'Emirates Islamic Bank', asset: 'Sukuk Gov UAE 2027', purchasePrice: 85000000, resalePrice: 87400000, status: 'Executed', cycle: 'Complete' },
+      { id: 'MUR001', type: 'Murabaha', participant: 'Bank Islam Malaysia', asset: 'Sukuk Gov Bahrain 2027', purchasePrice: 85000000, resalePrice: 87400000, status: 'Executed', cycle: 'Complete' },
       { id: 'TAW002', type: 'Tawarruq', participant: 'Dubai Islamic Bank', asset: 'Islamic Corp Bond', purchasePrice: 65000000, resalePrice: 66950000, status: 'Pending Delivery', cycle: 'Asset Purchase' },
       { id: 'MUR003', type: 'Murabaha', participant: 'Sharjah Islamic Bank', asset: 'Commodity Murabaha', purchasePrice: 42000000, resalePrice: 43470000, status: 'In Progress', cycle: 'Re-sale' },
       { id: 'TAW004', type: 'Tawarruq', participant: 'Al Hilal Bank', asset: 'Sukuk Corporate', purchasePrice: 28000000, resalePrice: 28840000, status: 'Executed', cycle: 'Complete' }
@@ -26,7 +26,7 @@ const IslamicRepoPage = () => {
       { maturity: '3 Month', offered: 3.75, agreed: 3.65, benchmark: 3.55, volume: 7800000000 }
     ],
     assetInventory: [
-      { asset: 'UAE Government Sukuk', totalValue: 22400000000, utilized: 18200000000, available: 4200000000, utilizationPct: 81.3, status: 'Active', compliance: 100 },
+      { asset: 'Bahrain Government Sukuk', totalValue: 22400000000, utilized: 18200000000, available: 4200000000, utilizationPct: 81.3, status: 'Active', compliance: 100 },
       { asset: 'Islamic Corporate Bonds', totalValue: 8600000000, utilized: 6800000000, available: 1800000000, utilizationPct: 79.1, status: 'Active', compliance: 99.8 },
       { asset: 'Commodity Murabaha Assets', totalValue: 5400000000, utilized: 4200000000, available: 1200000000, utilizationPct: 77.8, status: 'Active', compliance: 100 },
       { asset: 'Real Estate Sukuk', totalValue: 2200000000, utilized: 1400000000, available: 800000000, utilizationPct: 63.6, status: 'Review', compliance: 99.5 }
@@ -39,7 +39,7 @@ const IslamicRepoPage = () => {
       { date: '07-10', murabaha: 3.45, tawarruq: 3.65, benchmark: 3.35 }
     ],
     participants: [
-      { bank: 'Emirates Islamic Bank', activeTrades: 45, totalValue: 12400000000, avgProfitRate: 3.35, compliance: 100 },
+      { bank: 'Bahrain Islamic Bank', activeTrades: 45, totalValue: 12400000000, avgProfitRate: 3.35, compliance: 100 },
       { bank: 'Dubai Islamic Bank', activeTrades: 38, totalValue: 9800000000, avgProfitRate: 3.42, compliance: 99.9 },
       { bank: 'Sharjah Islamic Bank', activeTrades: 32, totalValue: 7600000000, avgProfitRate: 3.48, compliance: 99.8 },
       { bank: 'Al Hilal Bank', activeTrades: 28, totalValue: 5400000000, avgProfitRate: 3.52, compliance: 99.7 },

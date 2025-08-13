@@ -31,7 +31,7 @@ const configItems = [
     items: ['Payment authorization limits', 'User access controls', 'API permissions']
   },
   { 
-    title: 'DBD pending changes', 
+    title: 'NBB pending changes', 
     description: 'Manage database pending changes',
     icon: FileText,
     items: ['Schema changes', 'Data migrations', 'Pending updates']
@@ -169,7 +169,7 @@ export default function RTGSConfigurationPage() {
     'Al-Salam Bank',
     'Bahrain Islamic Bank',
     'Khaleeji Bank',
-    'Bahrain Development Bank (BDB)',
+    'National Bank of Bahrain (NBB)',
     'Citibank Bahrain',
     'HSBC Bank Middle East (Bahrain)',
     'Standard Chartered Bank (Bahrain)',

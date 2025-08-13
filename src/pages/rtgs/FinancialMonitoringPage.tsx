@@ -126,7 +126,7 @@ export default function FinancialMonitoringPage() {
                   <div className="flex items-center justify-between">
                     <div>
                       <p className="text-sm text-slate-600">Total Liquidity</p>
-                      <p className="text-2xl font-bold transition-all duration-500">BD {rtgsMetrics.totalLiquidity / 1000}B</p>
+                      <p className="text-2xl font-bold transition-all duration-500">BHD {rtgsMetrics.totalLiquidity / 1000}B</p>
                     </div>
                     <TrendingUp className={`h-8 w-8 transition-colors duration-300 ${rtgsMetrics.totalLiquidity > 7000 ? 'text-green-600' : 'text-orange-600'}`} />
                   </div>
@@ -250,7 +250,7 @@ export default function FinancialMonitoringPage() {
                           onClick={() => handleSort('turnover')}
                         >
                           <div className="flex items-center gap-1">
-                            Turnover (BD)
+                            Turnover (BHD)
                             <ArrowUpDown className="h-3 w-3" />
                           </div>
                         </TableHead>
@@ -263,8 +263,8 @@ export default function FinancialMonitoringPage() {
                             <ArrowUpDown className="h-3 w-3" />
                           </div>
                         </TableHead>
-                        <TableHead>Opening Balance (BD)</TableHead>
-                        <TableHead>ILF Debt (BD)</TableHead>
+                        <TableHead>Opening Balance (BHD)</TableHead>
+                        <TableHead>ILF Debt (BHD)</TableHead>
                       </TableRow>
                     </TableHeader>
                     <TableBody>
