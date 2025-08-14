@@ -327,17 +327,18 @@ export function ModularSidebar() {
   return (
     <Sidebar
       className={cn(
-        "transition-all duration-300",
+        "transition-all duration-300 flex-shrink-0",
         isCollapsed ? "w-16" : selectedMainItem?.children ? "w-[400px]" : "w-40"
       )}
       style={{
-        background: themeConfig.colors.gradients.sidebar
+        background: themeConfig.colors.gradients.sidebar,
+        minHeight: '100vh'
       }}
       collapsible="icon"
     >
-      <SidebarContent className="h-full">
-        <SidebarGroup className="h-full">
-          <SidebarGroupContent className="h-full">
+      <SidebarContent className="h-full flex flex-col">
+        <SidebarGroup className="flex-1 flex flex-col">
+          <SidebarGroupContent className="flex-1 flex flex-col">
             <div className="flex h-full overflow-hidden">
               {/* Primary navigation panel - Compact but readable */}
               <div className={cn(
