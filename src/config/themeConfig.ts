@@ -84,11 +84,14 @@ export const themeConfig = {
       height: '4rem' // 64px
     },
     sidebar: {
-      width: '16rem',         // 256px expanded
-      collapsedWidth: '4rem', // 64px collapsed
-      collapsed: '4rem',      // 64px collapsed
-      expanded: '12rem',      // 192px - optimized width
-      subPanel: '15rem',      // 240px - optimized sub panel width
+      primary: '170px',
+      secondary: '240px',
+      total: '410px',
+      collapsed: '16px'
+    },
+    content: {
+      height: 'calc(100vh - 4rem)', // Full height minus header
+      padding: '1.5rem'
     },
     card: {
       padding: '1.5rem',

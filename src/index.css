@@ -32,11 +32,15 @@
     --radius: 0.5rem;
     
     /* Navigation drawer widths */
-    --nav1-w: 240px;
-    --nav2-w: 220px;
-    --nav1-w-compressed: 200px;
-    --nav2-w-compressed: 180px;
-    --nav-collapsed: 56px;
+    --nav1-w: 170px;
+    --nav2-w: 240px;
+    --nav-total-w: 410px;
+    --nav1-collapsed: 170px;
+    --nav-collapsed: 16px;
+    
+    /* Layout heights */
+    --header-height: 4rem;
+    --content-height: calc(100vh - var(--header-height));
 
     --sidebar-background: 0 0% 23%;
     --sidebar-foreground: 0 0% 85%;

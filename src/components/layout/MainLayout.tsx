@@ -63,19 +63,32 @@ const MainLayout = ({ children }: MainLayoutProps) => {
       >
         <ModularSidebar />
         
-        {/* MAIN CONTENT AREA - NO VERTICAL GAPS */}
-        <div className="flex flex-col flex-1 min-w-0 h-full">
-          <DashboardHeader />
+        {/* MAIN CONTENT - USES ALL REMAINING SPACE */}
+        <div 
+          className="flex flex-col flex-1 min-w-0"
+          style={{ 
+            height: '100vh',
+            width: 'calc(100vw - var(--nav-total-w))'
+          }}
+        >
+          <div 
+            className="flex-shrink-0"
+            style={{ height: themeConfig.spacing.header.height }}
+          >
+            <DashboardHeader />
+          </div>
           
-          {/* CONTENT FILLS ALL REMAINING VERTICAL SPACE */}
-          <main className="flex-1 h-full overflow-auto">
-            <div className="h-full">
-              <div className="px-6 py-4">
-                <Breadcrumbs />
-                <div className="mt-4">
-                  {children || <Outlet />}
-                </div>
-              </div>
+          {/* CONTENT AREA - EXACT HEIGHT CALCULATION */}
+          <main 
+            className="flex-1 overflow-auto"
+            style={{ 
+              height: themeConfig.spacing.content.height,
+              padding: themeConfig.spacing.content.padding
+            }}
+          >
+            <Breadcrumbs />
+            <div className="mt-4">
+              {children || <Outlet />}
             </div>
           </main>
         </div>
