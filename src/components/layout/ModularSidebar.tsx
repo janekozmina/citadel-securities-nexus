@@ -338,11 +338,11 @@ export function ModularSidebar() {
       <SidebarContent className="h-full">
         <SidebarGroup className="h-full">
           <SidebarGroupContent className="h-full">
-            <div className="flex h-full overflow-hidden">
+            <div className={cn("flex h-full overflow-hidden", selectedMainItem?.children && !isCollapsed ? "" : "w-full")}>
               {/* Primary navigation panel - Compact but readable */}
               <div className={cn(
                 "flex-shrink-0 h-full overflow-hidden",
-                isCollapsed ? "w-16" : "w-40"
+                isCollapsed ? "w-16" : selectedMainItem?.children ? "w-40" : "w-full"
               )}>
                 {renderMainPanel()}
               </div>
