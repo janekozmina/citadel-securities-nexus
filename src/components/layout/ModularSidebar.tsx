@@ -193,14 +193,14 @@ export function ModularSidebar() {
                     <div className="flex items-center gap-3 w-full">
                       <item.icon className="h-5 w-5 flex-shrink-0" />
                       {!isCollapsed && (
-                        <span className="font-medium text-sm truncate">{getHighlightedText(item.title, searchQuery)}</span>
+                        <span className="font-medium truncate" style={{ fontSize: themeConfig.typography.menu.primary }}>{getHighlightedText(item.title, searchQuery)}</span>
                       )}
                     </div>
                   ) : (
                     <NavLink to={item.url} className="flex items-center gap-3 w-full">
                       <item.icon className="h-5 w-5 flex-shrink-0" />
                       {!isCollapsed && (
-                        <span className="font-medium text-sm truncate">{getHighlightedText(item.title, searchQuery)}</span>
+                        <span className="font-medium truncate" style={{ fontSize: themeConfig.typography.menu.primary }}>{getHighlightedText(item.title, searchQuery)}</span>
                       )}
                     </NavLink>
                   )}
@@ -267,7 +267,7 @@ export function ModularSidebar() {
                         <div className="flex items-center justify-between w-full min-w-0">
                           <div className="flex items-center gap-2 min-w-0 flex-1">
                             <subItem.icon className="h-4 w-4 flex-shrink-0" />
-                            <span className="text-sm font-medium truncate">{getHighlightedText(subItem.title, searchQuery)}</span>
+                            <span className="font-medium truncate" style={{ fontSize: themeConfig.typography.menu.secondary }}>{getHighlightedText(subItem.title, searchQuery)}</span>
                           </div>
                           <ChevronRight className={cn(
                             "h-3 w-3 transition-transform duration-200 flex-shrink-0",
@@ -280,7 +280,7 @@ export function ModularSidebar() {
                           className="flex items-center gap-2 w-full min-w-0"
                         >
                           <subItem.icon className="h-4 w-4 flex-shrink-0" />
-                          <span className="text-sm font-medium truncate">{getHighlightedText(subItem.title, searchQuery)}</span>
+                          <span className="font-medium truncate" style={{ fontSize: themeConfig.typography.menu.secondary }}>{getHighlightedText(subItem.title, searchQuery)}</span>
                         </NavLink>
                       )}
                     </SidebarMenuButton>
@@ -307,7 +307,7 @@ export function ModularSidebar() {
                                 }
                               >
                                 <thirdItem.icon className="h-3.5 w-3.5 flex-shrink-0" />
-                                <span className="text-xs font-medium truncate">{thirdItem.title}</span>
+                                <span className="font-medium truncate" style={{ fontSize: themeConfig.typography.menu.tertiary }}>{thirdItem.title}</span>
                               </NavLink>
                             </SidebarMenuButton>
                           </SidebarMenuItem>
@@ -328,7 +328,7 @@ export function ModularSidebar() {
     <Sidebar
       className={cn(
         "transition-all duration-300",
-        isCollapsed ? "w-16" : selectedMainItem?.children ? "w-[360px]" : "w-52"
+        isCollapsed ? "w-16" : selectedMainItem?.children ? "w-[300px]" : themeConfig.spacing.sidebar.expanded
       )}
       style={{
         background: themeConfig.colors.gradients.sidebar
@@ -340,16 +340,21 @@ export function ModularSidebar() {
           <SidebarGroupContent>
             <div className="flex h-full">
               {/* Main navigation panel - Compact Material Design 3 style */}
-              <div className={cn(
-                "flex-shrink-0",
-                isCollapsed ? "w-16" : "w-52"
-              )}>
+              <div 
+                className="flex-shrink-0"
+                style={{ 
+                  width: isCollapsed ? themeConfig.spacing.sidebar.collapsed : themeConfig.spacing.sidebar.expanded 
+                }}
+              >
                 {renderMainPanel()}
               </div>
               
               {/* Sub navigation panel - Optimized for maximum text visibility */}
               {selectedMainItem?.children && !isCollapsed && (
-                <div className="w-72 border-l border-white/10">
+                <div 
+                  className="border-l border-white/10"
+                  style={{ width: themeConfig.spacing.sidebar.subPanel }}
+                >
                   {renderSubPanel()}
                 </div>
               )}

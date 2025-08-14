@@ -66,6 +66,11 @@ export const themeConfig = {
       medium: '500',
       semibold: '600',
       bold: '700'
+    },
+    menu: {
+      primary: '0.875rem',   // 14px - main menu items
+      secondary: '0.8125rem', // 13px - sub menu items  
+      tertiary: '0.75rem',   // 12px - third level items
     }
   },
 
@@ -79,8 +84,11 @@ export const themeConfig = {
       height: '4rem' // 64px
     },
     sidebar: {
-      width: '16rem',      // 256px expanded
-      collapsedWidth: '4rem' // 64px collapsed
+      width: '16rem',         // 256px expanded
+      collapsedWidth: '4rem', // 64px collapsed
+      collapsed: '4rem',      // 64px collapsed
+      expanded: '12rem',      // 192px - optimized width
+      subPanel: '15rem',      // 240px - optimized sub panel width
     },
     card: {
       padding: '1.5rem',
