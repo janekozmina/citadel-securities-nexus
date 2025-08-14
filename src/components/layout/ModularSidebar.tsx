@@ -182,7 +182,7 @@ export function ModularSidebar() {
                   }}
                   asChild={!hasChildren}
                   className={cn(
-                    "flex items-center gap-2 px-2 py-1.5 rounded-lg transition-all duration-200",
+                    "flex items-center gap-1.5 px-2 py-1.5 rounded-lg transition-all duration-200",
                     isActive 
                       ? 'bg-white/20 text-white shadow-md backdrop-blur-sm' 
                       : 'text-white/80 hover:bg-white/10 hover:text-white'
@@ -191,16 +191,16 @@ export function ModularSidebar() {
                 >
                   {hasChildren ? (
                     <div className="flex items-center gap-2 w-full">
-                      <item.icon className="h-5 w-5 flex-shrink-0" />
+                      <item.icon className="h-4 w-4 flex-shrink-0" />
                       {!isCollapsed && (
-                        <span className="font-medium text-[14px] leading-tight">{getHighlightedText(item.title, searchQuery)}</span>
+                        <span className="font-medium text-[13px] leading-tight truncate">{getHighlightedText(item.title, searchQuery)}</span>
                       )}
                     </div>
                   ) : (
                     <NavLink to={item.url} className="flex items-center gap-2 w-full">
-                      <item.icon className="h-5 w-5 flex-shrink-0" />
+                      <item.icon className="h-4 w-4 flex-shrink-0" />
                       {!isCollapsed && (
-                        <span className="font-medium text-[14px] leading-tight">{getHighlightedText(item.title, searchQuery)}</span>
+                        <span className="font-medium text-[13px] leading-tight truncate">{getHighlightedText(item.title, searchQuery)}</span>
                       )}
                     </NavLink>
                   )}
@@ -267,7 +267,7 @@ export function ModularSidebar() {
                         <div className="flex items-center justify-between w-full min-w-0">
                           <div className="flex items-center gap-2 min-w-0 flex-1">
                             <subItem.icon className="h-4 w-4 flex-shrink-0" />
-                            <span className="font-medium text-[12px] leading-tight whitespace-nowrap">{getHighlightedText(subItem.title, searchQuery)}</span>
+                            <span className="font-medium text-[11px] leading-tight truncate">{getHighlightedText(subItem.title, searchQuery)}</span>
                           </div>
                           <ChevronRight className={cn(
                             "h-3 w-3 transition-transform duration-200 flex-shrink-0",
@@ -280,7 +280,7 @@ export function ModularSidebar() {
                           className="flex items-center gap-2 w-full min-w-0"
                         >
                           <subItem.icon className="h-4 w-4 flex-shrink-0" />
-                          <span className="font-medium text-[12px] leading-tight whitespace-nowrap">{getHighlightedText(subItem.title, searchQuery)}</span>
+                          <span className="font-medium text-[11px] leading-tight truncate">{getHighlightedText(subItem.title, searchQuery)}</span>
                         </NavLink>
                       )}
                     </SidebarMenuButton>
@@ -307,7 +307,7 @@ export function ModularSidebar() {
                                 }
                               >
                                 <thirdItem.icon className="h-3.5 w-3.5 flex-shrink-0" />
-                                <span className="font-medium text-[11px] leading-tight whitespace-nowrap">{thirdItem.title}</span>
+                                <span className="font-medium text-[10px] leading-tight truncate">{thirdItem.title}</span>
                               </NavLink>
                             </SidebarMenuButton>
                           </SidebarMenuItem>
@@ -328,7 +328,7 @@ export function ModularSidebar() {
     <Sidebar
       className={cn(
         "transition-all duration-300",
-        isCollapsed ? "w-16" : selectedMainItem?.children ? "w-[280px]" : "w-44"
+        isCollapsed ? "w-16" : selectedMainItem?.children ? "w-[240px]" : "w-36"
       )}
       style={{
         background: themeConfig.colors.gradients.sidebar
@@ -342,14 +342,14 @@ export function ModularSidebar() {
               {/* Main navigation panel - Ultra compact */}
               <div className={cn(
                 "flex-shrink-0",
-                isCollapsed ? "w-16" : "w-44"
+                isCollapsed ? "w-16" : "w-36"
               )}>
                 {renderMainPanel()}
               </div>
               
-              {/* Sub navigation panel - Full width for complete text visibility */}
+              {/* Sub navigation panel - Minimal but readable width */}
               {selectedMainItem?.children && !isCollapsed && (
-                <div className="w-60 border-l border-white/10">
+                <div className="w-48 border-l border-white/10">
                   {renderSubPanel()}
                 </div>
               )}
