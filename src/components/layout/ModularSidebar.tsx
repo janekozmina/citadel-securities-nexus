@@ -152,22 +152,22 @@ export function ModularSidebar() {
     <div className="h-full flex flex-col">
       {/* Search bar - only show when not collapsed */}
       {!isCollapsed && (
-        <div className="p-4 border-b border-white/20">
+        <div className="px-3 py-2 border-b border-white/10">
           <div className="relative">
-            <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 h-4 w-4 text-white/60" />
+            <Search className="absolute left-2 top-1/2 transform -translate-y-1/2 h-3.5 w-3.5 text-white/60" />
             <Input
               placeholder="Search..."
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
-              className="pl-10 bg-white/10 border-white/20 text-white placeholder:text-white/60 focus:border-white/40"
+              className="pl-8 h-8 text-sm bg-white/10 border-white/20 text-white placeholder:text-white/60 focus:border-white/40"
             />
           </div>
         </div>
       )}
 
-      {/* Main Navigation */}
-      <div className="flex-1 overflow-y-auto p-4">
-        <SidebarMenu>
+      {/* Main Navigation - Material Design 3 compact style */}
+      <div className="flex-1 overflow-y-auto py-2">
+        <SidebarMenu className="space-y-1">
           {(searchQuery ? filteredSearchItems : accessibleItems).map((item) => {
             const isActive = findActiveMainItem()?.id === item.id;
             const hasChildren = item.children && item.children.length > 0;
@@ -182,9 +182,9 @@ export function ModularSidebar() {
                   }}
                   asChild={!hasChildren}
                   className={cn(
-                    "flex items-center gap-3 p-3 rounded-lg transition-all duration-200",
+                    "flex items-center gap-3 mx-2 px-3 py-2.5 rounded-full transition-all duration-200 min-h-[48px]",
                     isActive 
-                      ? 'bg-white/20 text-white shadow-lg backdrop-blur-sm' 
+                      ? 'bg-white/20 text-white shadow-md backdrop-blur-sm' 
                       : 'text-white/80 hover:bg-white/10 hover:text-white'
                   )}
                   title={item.title}
@@ -193,14 +193,14 @@ export function ModularSidebar() {
                     <div className="flex items-center gap-3 w-full">
                       <item.icon className="h-5 w-5 flex-shrink-0" />
                       {!isCollapsed && (
-                        <span className="font-medium">{getHighlightedText(item.title, searchQuery)}</span>
+                        <span className="font-medium text-sm truncate">{getHighlightedText(item.title, searchQuery)}</span>
                       )}
                     </div>
                   ) : (
                     <NavLink to={item.url} className="flex items-center gap-3 w-full">
                       <item.icon className="h-5 w-5 flex-shrink-0" />
                       {!isCollapsed && (
-                        <span className="font-medium">{getHighlightedText(item.title, searchQuery)}</span>
+                        <span className="font-medium text-sm truncate">{getHighlightedText(item.title, searchQuery)}</span>
                       )}
                     </NavLink>
                   )}
@@ -218,9 +218,9 @@ export function ModularSidebar() {
 
     return (
       <div className="h-full flex flex-col bg-black/20">
-        {/* Sub Panel Header */}
-        <div className="p-4 border-b border-white/20">
-          <div className="flex items-center gap-3">
+        {/* Sub Panel Header - Compact */}
+        <div className="px-3 py-2 border-b border-white/10">
+          <div className="flex items-center gap-2">
             <Button
               variant="ghost"
               size="sm"
@@ -228,17 +228,18 @@ export function ModularSidebar() {
                 setSelectedMainItem(null);
                 setExpandedSubItems(new Set());
               }}
-              className="p-1 h-auto text-white/80 hover:text-white hover:bg-white/10"
+              className="p-1.5 h-auto text-white/80 hover:text-white hover:bg-white/10 rounded-full"
             >
               <ChevronRight className="h-4 w-4 rotate-180" />
             </Button>
-            <selectedMainItem.icon className="h-5 w-5 text-white" />
-            <span className="font-medium text-white">{selectedMainItem.title}</span>
+            <selectedMainItem.icon className="h-4 w-4 text-white" />
+            <span className="font-medium text-sm text-white truncate">{selectedMainItem.title}</span>
           </div>
         </div>
 
-        <div className="flex-1 overflow-y-auto p-4">
-          <SidebarMenu>
+        {/* Optimized second panel for maximum text visibility */}
+        <div className="flex-1 overflow-y-auto py-2">
+          <SidebarMenu className="space-y-1 px-2">
             {selectedMainItem.children?.map((subItem) => {
               const isActive = location.pathname === subItem.url || 
                 (subItem.children && subItem.children.some(nested => location.pathname === nested.url));
@@ -256,38 +257,38 @@ export function ModularSidebar() {
                       }}
                       asChild={!hasChildren}
                       className={cn(
-                        "flex items-center justify-between gap-3 px-3 py-2.5 rounded-lg transition-all duration-200",
+                        "flex items-center justify-between gap-2 px-2 py-2 rounded-lg transition-all duration-200 min-h-[40px] w-full",
                         isActive 
                           ? 'bg-white/15 text-white shadow-md backdrop-blur-sm' 
                           : 'text-white/70 hover:bg-white/10 hover:text-white'
                       )}
                     >
                       {hasChildren ? (
-                        <div className="flex items-center justify-between w-full">
-                          <div className="flex items-center gap-3">
+                        <div className="flex items-center justify-between w-full min-w-0">
+                          <div className="flex items-center gap-2 min-w-0 flex-1">
                             <subItem.icon className="h-4 w-4 flex-shrink-0" />
-                            <span className="text-sm font-medium">{getHighlightedText(subItem.title, searchQuery)}</span>
+                            <span className="text-sm font-medium truncate">{getHighlightedText(subItem.title, searchQuery)}</span>
                           </div>
                           <ChevronRight className={cn(
-                            "h-3 w-3 transition-transform duration-200",
+                            "h-3 w-3 transition-transform duration-200 flex-shrink-0",
                             isExpanded ? 'rotate-90' : ''
                           )} />
                         </div>
                       ) : (
                         <NavLink
                           to={subItem.url}
-                          className="flex items-center gap-3 w-full"
+                          className="flex items-center gap-2 w-full min-w-0"
                         >
                           <subItem.icon className="h-4 w-4 flex-shrink-0" />
-                          <span className="text-sm font-medium">{getHighlightedText(subItem.title, searchQuery)}</span>
+                          <span className="text-sm font-medium truncate">{getHighlightedText(subItem.title, searchQuery)}</span>
                         </NavLink>
                       )}
                     </SidebarMenuButton>
                   </SidebarMenuItem>
                   
-                  {/* Third Level Items - Collapsible */}
+                  {/* Third Level Items - Optimized spacing */}
                   {hasChildren && isExpanded && (
-                    <div className="ml-4 mt-1 space-y-1">
+                    <div className="ml-3 mt-1 space-y-1">
                       {subItem.children?.map((thirdItem) => {
                         const isThirdActive = location.pathname === thirdItem.url;
                         
@@ -298,15 +299,15 @@ export function ModularSidebar() {
                                 to={thirdItem.url}
                                 className={({ isActive: linkActive }) => 
                                   cn(
-                                    "flex items-center gap-3 px-3 py-2 rounded-lg transition-all duration-200",
+                                    "flex items-center gap-2 px-2 py-1.5 rounded-lg transition-all duration-200 min-h-[36px] w-full",
                                     linkActive || isThirdActive
                                       ? 'bg-white/20 text-white shadow-md backdrop-blur-sm' 
                                       : 'text-white/60 hover:bg-white/10 hover:text-white'
                                   )
                                 }
                               >
-                                <thirdItem.icon className="h-3 w-3 flex-shrink-0" />
-                                <span className="text-xs font-medium">{thirdItem.title}</span>
+                                <thirdItem.icon className="h-3.5 w-3.5 flex-shrink-0" />
+                                <span className="text-xs font-medium truncate">{thirdItem.title}</span>
                               </NavLink>
                             </SidebarMenuButton>
                           </SidebarMenuItem>
@@ -327,7 +328,7 @@ export function ModularSidebar() {
     <Sidebar
       className={cn(
         "transition-all duration-300",
-        isCollapsed ? "w-16" : selectedMainItem?.children ? "w-96" : "w-64"
+        isCollapsed ? "w-16" : selectedMainItem?.children ? "w-[400px]" : "w-56"
       )}
       style={{
         background: themeConfig.colors.gradients.sidebar
@@ -338,17 +339,17 @@ export function ModularSidebar() {
         <SidebarGroup>
           <SidebarGroupContent>
             <div className="flex h-full">
-              {/* Main navigation panel */}
+              {/* Main navigation panel - Compact Material Design 3 style */}
               <div className={cn(
                 "flex-shrink-0",
-                isCollapsed ? "w-16" : "w-64"
+                isCollapsed ? "w-16" : "w-56"
               )}>
                 {renderMainPanel()}
               </div>
               
-              {/* Sub navigation panel */}
+              {/* Sub navigation panel - Optimized for maximum text visibility */}
               {selectedMainItem?.children && !isCollapsed && (
-                <div className="w-64 border-l border-white/20">
+                <div className="w-80 border-l border-white/10">
                   {renderSubPanel()}
                 </div>
               )}
