@@ -328,7 +328,7 @@ export function ModularSidebar() {
     <Sidebar
       className={cn(
         "transition-all duration-300",
-        isCollapsed ? "w-16" : selectedMainItem?.children ? "w-[370px]" : "w-40"
+        isCollapsed ? "w-16" : selectedMainItem?.children ? "w-[400px]" : "w-40"
       )}
       style={{
         background: themeConfig.colors.gradients.sidebar
@@ -349,7 +349,7 @@ export function ModularSidebar() {
               
               {/* Secondary navigation panel - Full text visibility */}
               {selectedMainItem?.children && !isCollapsed && (
-                <div className="w-[210px] border-l border-white/10 h-full overflow-hidden">
+                <div className="w-[240px] border-l border-white/10 h-full overflow-hidden">
                   {renderSubPanel()}
                 </div>
               )}
