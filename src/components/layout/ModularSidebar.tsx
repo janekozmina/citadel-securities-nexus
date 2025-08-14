@@ -149,25 +149,25 @@ export function ModularSidebar() {
   const filteredSearchItems = filterItemsBySearch(accessibleItems);
 
   const renderMainPanel = () => (
-    <div className="h-full flex flex-col">
+    <div className="h-full flex flex-col overflow-hidden">
       {/* Search bar - only show when not collapsed */}
       {!isCollapsed && (
-        <div className="px-3 py-2 border-b border-white/10">
+        <div className="flex-shrink-0 px-2 py-2 border-b border-white/10">
           <div className="relative">
-            <Search className="absolute left-2 top-1/2 transform -translate-y-1/2 h-3.5 w-3.5 text-white/60" />
+            <Search className="absolute left-2 top-1/2 transform -translate-y-1/2 h-3 w-3 text-white/60" />
             <Input
               placeholder="Search..."
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
-              className="pl-8 h-8 text-sm bg-white/10 border-white/20 text-white placeholder:text-white/60 focus:border-white/40"
+              className="pl-7 h-7 text-xs bg-white/10 border-white/20 text-white placeholder:text-white/60 focus:border-white/40"
             />
           </div>
         </div>
       )}
 
-      {/* Main Navigation - Material Design 3 compact style */}
-      <div className="flex-1 overflow-y-auto py-2">
-        <SidebarMenu className="space-y-1">
+      {/* Main Navigation */}
+      <div className="flex-1 overflow-y-auto overflow-x-hidden py-1">
+        <SidebarMenu className="space-y-0.5 px-1">
           {(searchQuery ? filteredSearchItems : accessibleItems).map((item) => {
             const isActive = findActiveMainItem()?.id === item.id;
             const hasChildren = item.children && item.children.length > 0;
@@ -182,7 +182,7 @@ export function ModularSidebar() {
                   }}
                   asChild={!hasChildren}
                   className={cn(
-                    "flex items-center gap-1 px-1.5 py-1 rounded-lg transition-all duration-200",
+                    "flex items-center gap-1.5 px-2 py-1.5 rounded-md transition-all duration-200",
                     isActive 
                       ? 'bg-white/20 text-white shadow-md backdrop-blur-sm' 
                       : 'text-white/80 hover:bg-white/10 hover:text-white'
@@ -191,16 +191,16 @@ export function ModularSidebar() {
                 >
                   {hasChildren ? (
                     <div className="flex items-center gap-2 w-full">
-                      <item.icon className="h-3.5 w-3.5 flex-shrink-0" />
+                      <item.icon className="h-4 w-4 flex-shrink-0" />
                       {!isCollapsed && (
-                        <span className="font-medium text-[12px] leading-tight">{getHighlightedText(item.title, searchQuery)}</span>
+                        <span className="font-medium text-sm leading-tight whitespace-nowrap overflow-hidden">{getHighlightedText(item.title, searchQuery)}</span>
                       )}
                     </div>
                   ) : (
                     <NavLink to={item.url} className="flex items-center gap-2 w-full">
-                      <item.icon className="h-3.5 w-3.5 flex-shrink-0" />
+                      <item.icon className="h-4 w-4 flex-shrink-0" />
                       {!isCollapsed && (
-                        <span className="font-medium text-[12px] leading-tight">{getHighlightedText(item.title, searchQuery)}</span>
+                        <span className="font-medium text-sm leading-tight whitespace-nowrap overflow-hidden">{getHighlightedText(item.title, searchQuery)}</span>
                       )}
                     </NavLink>
                   )}
@@ -217,9 +217,9 @@ export function ModularSidebar() {
     if (!selectedMainItem?.children || isCollapsed) return null;
 
     return (
-      <div className="h-full flex flex-col bg-black/20">
-        {/* Sub Panel Header - Compact */}
-        <div className="px-3 py-2 border-b border-white/10">
+      <div className="h-full flex flex-col bg-black/20 overflow-hidden">
+        {/* Sub Panel Header */}
+        <div className="flex-shrink-0 px-2 py-2 border-b border-white/10">
           <div className="flex items-center gap-2">
             <Button
               variant="ghost"
@@ -228,18 +228,18 @@ export function ModularSidebar() {
                 setSelectedMainItem(null);
                 setExpandedSubItems(new Set());
               }}
-              className="p-1.5 h-auto text-white/80 hover:text-white hover:bg-white/10 rounded-full"
+              className="p-1 h-auto text-white/80 hover:text-white hover:bg-white/10 rounded-md"
             >
-              <ChevronRight className="h-4 w-4 rotate-180" />
+              <ChevronRight className="h-3 w-3 rotate-180" />
             </Button>
-            <selectedMainItem.icon className="h-4 w-4 text-white" />
-            <span className="font-medium text-xs text-white truncate">{selectedMainItem.title}</span>
+            <selectedMainItem.icon className="h-3.5 w-3.5 text-white" />
+            <span className="font-medium text-xs text-white">{selectedMainItem.title}</span>
           </div>
         </div>
 
-        {/* Optimized second panel for maximum text visibility */}
-        <div className="flex-1 overflow-y-auto py-2">
-          <SidebarMenu className="space-y-1 px-2">
+        {/* Secondary Navigation */}
+        <div className="flex-1 overflow-y-auto overflow-x-hidden py-1">
+          <SidebarMenu className="space-y-0.5 px-1">
             {selectedMainItem.children?.map((subItem) => {
               const isActive = location.pathname === subItem.url || 
                 (subItem.children && subItem.children.some(nested => location.pathname === nested.url));
@@ -257,7 +257,7 @@ export function ModularSidebar() {
                       }}
                       asChild={!hasChildren}
                       className={cn(
-                        "flex items-center justify-between gap-1 px-1.5 py-1 rounded-lg transition-all duration-200",
+                        "flex items-center justify-between gap-1.5 px-2 py-1.5 rounded-md transition-all duration-200",
                         isActive 
                           ? 'bg-white/15 text-white shadow-md backdrop-blur-sm' 
                           : 'text-white/70 hover:bg-white/10 hover:text-white'
@@ -266,11 +266,11 @@ export function ModularSidebar() {
                       {hasChildren ? (
                         <div className="flex items-center justify-between w-full min-w-0">
                           <div className="flex items-center gap-2 min-w-0 flex-1">
-                            <subItem.icon className="h-3 w-3 flex-shrink-0" />
-                            <span className="font-medium text-[10px] leading-tight">{getHighlightedText(subItem.title, searchQuery)}</span>
+                            <subItem.icon className="h-3.5 w-3.5 flex-shrink-0" />
+                            <span className="font-medium text-xs leading-tight whitespace-nowrap overflow-hidden">{getHighlightedText(subItem.title, searchQuery)}</span>
                           </div>
                           <ChevronRight className={cn(
-                            "h-3 w-3 transition-transform duration-200 flex-shrink-0",
+                            "h-2.5 w-2.5 transition-transform duration-200 flex-shrink-0",
                             isExpanded ? 'rotate-90' : ''
                           )} />
                         </div>
@@ -279,16 +279,16 @@ export function ModularSidebar() {
                           to={subItem.url}
                           className="flex items-center gap-2 w-full min-w-0"
                         >
-                          <subItem.icon className="h-3 w-3 flex-shrink-0" />
-                          <span className="font-medium text-[10px] leading-tight">{getHighlightedText(subItem.title, searchQuery)}</span>
+                          <subItem.icon className="h-3.5 w-3.5 flex-shrink-0" />
+                          <span className="font-medium text-xs leading-tight whitespace-nowrap overflow-hidden">{getHighlightedText(subItem.title, searchQuery)}</span>
                         </NavLink>
                       )}
                     </SidebarMenuButton>
                   </SidebarMenuItem>
                   
-                  {/* Third Level Items - Optimized spacing */}
+                  {/* Third Level Items */}
                   {hasChildren && isExpanded && (
-                    <div className="ml-3 mt-1 space-y-1">
+                    <div className="ml-2 mt-0.5 space-y-0.5">
                       {subItem.children?.map((thirdItem) => {
                         const isThirdActive = location.pathname === thirdItem.url;
                         
@@ -299,15 +299,15 @@ export function ModularSidebar() {
                                 to={thirdItem.url}
                                 className={({ isActive: linkActive }) => 
                                   cn(
-                                    "flex items-center gap-2 px-2 py-1.5 rounded-lg transition-all duration-200",
+                                    "flex items-center gap-1.5 px-2 py-1 rounded-md transition-all duration-200",
                                     linkActive || isThirdActive
                                       ? 'bg-white/20 text-white shadow-md backdrop-blur-sm' 
                                       : 'text-white/60 hover:bg-white/10 hover:text-white'
                                   )
                                 }
                               >
-                                <thirdItem.icon className="h-2.5 w-2.5 flex-shrink-0" />
-                                <span className="font-medium text-[9px] leading-tight">{thirdItem.title}</span>
+                                <thirdItem.icon className="h-3 w-3 flex-shrink-0" />
+                                <span className="font-medium text-[11px] leading-tight whitespace-nowrap overflow-hidden">{thirdItem.title}</span>
                               </NavLink>
                             </SidebarMenuButton>
                           </SidebarMenuItem>
@@ -328,7 +328,7 @@ export function ModularSidebar() {
     <Sidebar
       className={cn(
         "transition-all duration-300",
-        isCollapsed ? "w-16" : selectedMainItem?.children ? "w-[200px]" : "w-32"
+        isCollapsed ? "w-16" : selectedMainItem?.children ? "w-[210px]" : "w-36"
       )}
       style={{
         background: themeConfig.colors.gradients.sidebar
@@ -342,14 +342,14 @@ export function ModularSidebar() {
               {/* Main navigation panel - Ultra compact */}
               <div className={cn(
                 "flex-shrink-0",
-                isCollapsed ? "w-16" : "w-32"
+                isCollapsed ? "w-16" : "w-36"
               )}>
                 {renderMainPanel()}
               </div>
               
-              {/* Sub navigation panel - Ultra compact */}
+              {/* Sub navigation panel */}
               {selectedMainItem?.children && !isCollapsed && (
-                <div className="w-40 border-l border-white/10">
+                <div className="w-[126px] border-l border-white/10">
                   {renderSubPanel()}
                 </div>
               )}
