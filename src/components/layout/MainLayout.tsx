@@ -63,12 +63,11 @@ const MainLayout = ({ children }: MainLayoutProps) => {
       >
         <ModularSidebar />
         
-        {/* Content area that adjusts to sidebar */}
         <div className="flex flex-col flex-1 min-w-0">
           <DashboardHeader />
           
           <main className="flex-1 overflow-auto">
-            <div className="p-4" style={{ padding: themeConfig.spacing.container.padding }}>
+            <div style={{ padding: themeConfig.spacing.container.padding }}>
               <Breadcrumbs />
               {children || <Outlet />}
             </div>
