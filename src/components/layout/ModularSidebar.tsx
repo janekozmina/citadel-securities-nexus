@@ -193,14 +193,14 @@ export function ModularSidebar() {
                     <div className="flex items-center gap-2 w-full">
                       <item.icon className="h-4 w-4 flex-shrink-0" />
                       {!isCollapsed && (
-                        <span className="font-medium leading-tight whitespace-nowrap overflow-hidden" style={{ fontSize: themeConfig.typography.menu.primary }}>{getHighlightedText(item.title, searchQuery)}</span>
+                        <span className="font-medium leading-tight" style={{ fontSize: '15px' }}>{getHighlightedText(item.title, searchQuery)}</span>
                       )}
                     </div>
                   ) : (
                     <NavLink to={item.url} className="flex items-center gap-2 w-full">
                       <item.icon className="h-4 w-4 flex-shrink-0" />
                       {!isCollapsed && (
-                        <span className="font-medium leading-tight whitespace-nowrap overflow-hidden" style={{ fontSize: themeConfig.typography.menu.primary }}>{getHighlightedText(item.title, searchQuery)}</span>
+                        <span className="font-medium leading-tight" style={{ fontSize: '15px' }}>{getHighlightedText(item.title, searchQuery)}</span>
                       )}
                     </NavLink>
                   )}
@@ -267,7 +267,7 @@ export function ModularSidebar() {
                         <div className="flex items-center justify-between w-full min-w-0">
                           <div className="flex items-center gap-2 min-w-0 flex-1">
                             <subItem.icon className="h-3.5 w-3.5 flex-shrink-0" />
-                            <span className="font-medium leading-tight whitespace-nowrap overflow-hidden" style={{ fontSize: themeConfig.typography.menu.secondary }}>{getHighlightedText(subItem.title, searchQuery)}</span>
+                            <span className="font-medium leading-tight" style={{ fontSize: '13px' }}>{getHighlightedText(subItem.title, searchQuery)}</span>
                           </div>
                           <ChevronRight className={cn(
                             "h-2.5 w-2.5 transition-transform duration-200 flex-shrink-0",
@@ -280,7 +280,7 @@ export function ModularSidebar() {
                           className="flex items-center gap-2 w-full min-w-0"
                         >
                           <subItem.icon className="h-3.5 w-3.5 flex-shrink-0" />
-                          <span className="font-medium leading-tight whitespace-nowrap overflow-hidden" style={{ fontSize: themeConfig.typography.menu.secondary }}>{getHighlightedText(subItem.title, searchQuery)}</span>
+                          <span className="font-medium leading-tight" style={{ fontSize: '13px' }}>{getHighlightedText(subItem.title, searchQuery)}</span>
                         </NavLink>
                       )}
                     </SidebarMenuButton>
@@ -307,7 +307,7 @@ export function ModularSidebar() {
                                 }
                               >
                                 <thirdItem.icon className="h-3 w-3 flex-shrink-0" />
-                                <span className="font-medium leading-tight whitespace-nowrap overflow-hidden" style={{ fontSize: themeConfig.typography.menu.tertiary }}>{thirdItem.title}</span>
+                                <span className="font-medium leading-tight" style={{ fontSize: '12px' }}>{thirdItem.title}</span>
                               </NavLink>
                             </SidebarMenuButton>
                           </SidebarMenuItem>
@@ -328,28 +328,28 @@ export function ModularSidebar() {
     <Sidebar
       className={cn(
         "transition-all duration-300",
-        isCollapsed ? "w-16" : selectedMainItem?.children ? `w-[calc(${themeConfig.spacing.sidebar.expanded}+${themeConfig.spacing.sidebar.subPanel})]` : themeConfig.spacing.sidebar.expanded.replace('rem', '') === '12' ? "w-48" : "w-36"
+        isCollapsed ? "w-16" : selectedMainItem?.children ? "w-[350px]" : "w-40"
       )}
       style={{
         background: themeConfig.colors.gradients.sidebar
       }}
       collapsible="icon"
     >
-      <SidebarContent>
-        <SidebarGroup>
-          <SidebarGroupContent>
-            <div className="flex h-full">
-              {/* Main navigation panel - Ultra compact */}
+      <SidebarContent className="h-full">
+        <SidebarGroup className="h-full">
+          <SidebarGroupContent className="h-full">
+            <div className="flex h-full overflow-hidden">
+              {/* Primary navigation panel - Compact but readable */}
               <div className={cn(
-                "flex-shrink-0",
-                isCollapsed ? "w-16" : "w-48"
+                "flex-shrink-0 h-full overflow-hidden",
+                isCollapsed ? "w-16" : "w-40"
               )}>
                 {renderMainPanel()}
               </div>
               
-              {/* Sub navigation panel */}
+              {/* Secondary navigation panel - Full text visibility */}
               {selectedMainItem?.children && !isCollapsed && (
-                <div className="border-l border-white/10" style={{ width: themeConfig.spacing.sidebar.subPanel }}>
+                <div className="w-[190px] border-l border-white/10 h-full overflow-hidden">
                   {renderSubPanel()}
                 </div>
               )}
