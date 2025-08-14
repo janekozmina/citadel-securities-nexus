@@ -4,7 +4,7 @@ import { TooltipProvider } from "@/components/ui/tooltip";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { AuthProvider } from "./contexts/AuthContext";
-import { AppShell } from "./components/layout/AppShell";
+import MainLayout from "./components/layout/MainLayout";
 import ProtectedRoute from "./components/auth/ProtectedRoute";
 
 // Auth Pages
@@ -43,22 +43,21 @@ import MasterDataPage from "./pages/masterdata/MasterDataPage";
 const queryClient = new QueryClient();
 
 const App = () => (
-  <div className="overflow-x-hidden min-h-screen">
-    <QueryClientProvider client={queryClient}>
-      <TooltipProvider>
-        <Toaster />
-        <Sonner />
-        <BrowserRouter>
-          <AuthProvider>
-            <Routes>
-              {/* Public Routes */}
-              <Route path="/login" element={<LoginPage />} />
-              <Route path="/mfa" element={<MFAPage />} />
-              
-              {/* Protected Routes with AppShell */}
-              <Route path="/*" element={
-                <ProtectedRoute>
-                  <AppShell>
+  <QueryClientProvider client={queryClient}>
+    <TooltipProvider>
+      <Toaster />
+      <Sonner />
+      <BrowserRouter>
+        <AuthProvider>
+          <Routes>
+            {/* Public Routes */}
+            <Route path="/login" element={<LoginPage />} />
+            <Route path="/mfa" element={<MFAPage />} />
+            
+            {/* Protected Routes with MainLayout */}
+            <Route path="/*" element={
+              <ProtectedRoute>
+                <MainLayout>
                     <Routes>
                       <Route path="/" element={<HomePage />} />
                       <Route path="/rtgs" element={<RTGSHomePage />} />
@@ -85,16 +84,15 @@ const App = () => (
                       <Route path="/operations" element={<OperationsPage />} />
                       <Route path="/admin" element={<SystemAdminPage />} />
                       <Route path="/masterdata" element={<MasterDataPage />} />
-                    </Routes>
-                  </AppShell>
-                </ProtectedRoute>
-              } />
-            </Routes>
-          </AuthProvider>
-        </BrowserRouter>
-      </TooltipProvider>
-    </QueryClientProvider>
-  </div>
+                  </Routes>
+                </MainLayout>
+              </ProtectedRoute>
+            } />
+          </Routes>
+        </AuthProvider>
+      </BrowserRouter>
+    </TooltipProvider>
+  </QueryClientProvider>
 );
 
 export default App;
