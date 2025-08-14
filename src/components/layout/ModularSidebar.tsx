@@ -182,7 +182,7 @@ export function ModularSidebar() {
                   }}
                   asChild={!hasChildren}
                   className={cn(
-                    "flex items-center gap-1.5 px-2 py-1.5 rounded-lg transition-all duration-200",
+                    "flex items-center gap-1 px-1.5 py-1 rounded-lg transition-all duration-200",
                     isActive 
                       ? 'bg-white/20 text-white shadow-md backdrop-blur-sm' 
                       : 'text-white/80 hover:bg-white/10 hover:text-white'
@@ -191,16 +191,16 @@ export function ModularSidebar() {
                 >
                   {hasChildren ? (
                     <div className="flex items-center gap-2 w-full">
-                      <item.icon className="h-4 w-4 flex-shrink-0" />
+                      <item.icon className="h-3.5 w-3.5 flex-shrink-0" />
                       {!isCollapsed && (
-                        <span className="font-medium text-[13px] leading-tight truncate">{getHighlightedText(item.title, searchQuery)}</span>
+                        <span className="font-medium text-[12px] leading-tight">{getHighlightedText(item.title, searchQuery)}</span>
                       )}
                     </div>
                   ) : (
                     <NavLink to={item.url} className="flex items-center gap-2 w-full">
-                      <item.icon className="h-4 w-4 flex-shrink-0" />
+                      <item.icon className="h-3.5 w-3.5 flex-shrink-0" />
                       {!isCollapsed && (
-                        <span className="font-medium text-[13px] leading-tight truncate">{getHighlightedText(item.title, searchQuery)}</span>
+                        <span className="font-medium text-[12px] leading-tight">{getHighlightedText(item.title, searchQuery)}</span>
                       )}
                     </NavLink>
                   )}
@@ -257,7 +257,7 @@ export function ModularSidebar() {
                       }}
                       asChild={!hasChildren}
                       className={cn(
-                        "flex items-center justify-between gap-2 px-2 py-1.5 rounded-lg transition-all duration-200",
+                        "flex items-center justify-between gap-1 px-1.5 py-1 rounded-lg transition-all duration-200",
                         isActive 
                           ? 'bg-white/15 text-white shadow-md backdrop-blur-sm' 
                           : 'text-white/70 hover:bg-white/10 hover:text-white'
@@ -266,8 +266,8 @@ export function ModularSidebar() {
                       {hasChildren ? (
                         <div className="flex items-center justify-between w-full min-w-0">
                           <div className="flex items-center gap-2 min-w-0 flex-1">
-                            <subItem.icon className="h-4 w-4 flex-shrink-0" />
-                            <span className="font-medium text-[11px] leading-tight truncate">{getHighlightedText(subItem.title, searchQuery)}</span>
+                            <subItem.icon className="h-3 w-3 flex-shrink-0" />
+                            <span className="font-medium text-[10px] leading-tight">{getHighlightedText(subItem.title, searchQuery)}</span>
                           </div>
                           <ChevronRight className={cn(
                             "h-3 w-3 transition-transform duration-200 flex-shrink-0",
@@ -279,8 +279,8 @@ export function ModularSidebar() {
                           to={subItem.url}
                           className="flex items-center gap-2 w-full min-w-0"
                         >
-                          <subItem.icon className="h-4 w-4 flex-shrink-0" />
-                          <span className="font-medium text-[11px] leading-tight truncate">{getHighlightedText(subItem.title, searchQuery)}</span>
+                          <subItem.icon className="h-3 w-3 flex-shrink-0" />
+                          <span className="font-medium text-[10px] leading-tight">{getHighlightedText(subItem.title, searchQuery)}</span>
                         </NavLink>
                       )}
                     </SidebarMenuButton>
@@ -306,8 +306,8 @@ export function ModularSidebar() {
                                   )
                                 }
                               >
-                                <thirdItem.icon className="h-3.5 w-3.5 flex-shrink-0" />
-                                <span className="font-medium text-[10px] leading-tight truncate">{thirdItem.title}</span>
+                                <thirdItem.icon className="h-2.5 w-2.5 flex-shrink-0" />
+                                <span className="font-medium text-[9px] leading-tight">{thirdItem.title}</span>
                               </NavLink>
                             </SidebarMenuButton>
                           </SidebarMenuItem>
@@ -328,7 +328,7 @@ export function ModularSidebar() {
     <Sidebar
       className={cn(
         "transition-all duration-300",
-        isCollapsed ? "w-16" : selectedMainItem?.children ? "w-[240px]" : "w-36"
+        isCollapsed ? "w-16" : selectedMainItem?.children ? "w-[200px]" : "w-32"
       )}
       style={{
         background: themeConfig.colors.gradients.sidebar
@@ -342,14 +342,14 @@ export function ModularSidebar() {
               {/* Main navigation panel - Ultra compact */}
               <div className={cn(
                 "flex-shrink-0",
-                isCollapsed ? "w-16" : "w-36"
+                isCollapsed ? "w-16" : "w-32"
               )}>
                 {renderMainPanel()}
               </div>
               
-              {/* Sub navigation panel - Minimal but readable width */}
+              {/* Sub navigation panel - Ultra compact */}
               {selectedMainItem?.children && !isCollapsed && (
-                <div className="w-48 border-l border-white/10">
+                <div className="w-40 border-l border-white/10">
                   {renderSubPanel()}
                 </div>
               )}
