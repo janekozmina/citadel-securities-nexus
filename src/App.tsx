@@ -6,7 +6,7 @@ import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { AuthProvider } from "./contexts/AuthContext";
 import LoginPage from "./pages/auth/LoginPage";
 import MFAPage from "./pages/auth/MFAPage";
-import DashboardLayout from "./components/layout/DashboardLayout";
+import MainLayout from "./components/layout/MainLayout";
 import HomePage from "./pages/dashboard/HomePage";
 import SecuritiesLifecyclePage from "./pages/securities/SecuritiesLifecyclePage";
 import InstrumentReferencePage from "./pages/securities/InstrumentReferencePage";
@@ -74,7 +74,7 @@ const App = () => (
             <Route path="/mfa" element={<MFAPage />} />
             <Route path="/" element={
               <ProtectedRoute>
-                <DashboardLayout />
+                <MainLayout />
               </ProtectedRoute>
             }>
               <Route index element={<HomePage />} />
