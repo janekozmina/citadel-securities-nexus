@@ -149,7 +149,7 @@ export function ModularSidebar() {
   const filteredSearchItems = filterItemsBySearch(accessibleItems);
 
   const renderMainPanel = () => (
-    <div className="h-full flex flex-col overflow-hidden">
+    <div className="h-full flex flex-col">
       {/* Search bar - only show when not collapsed */}
       {!isCollapsed && (
         <div className="flex-shrink-0 px-2 py-2 border-b border-white/10">
@@ -165,9 +165,9 @@ export function ModularSidebar() {
         </div>
       )}
 
-      {/* Main Navigation */}
-      <div className="flex-1 overflow-y-auto overflow-x-hidden py-1">
-        <SidebarMenu className="space-y-0.5 px-1">
+      {/* Main Navigation - fills remaining height */}
+      <div className="flex-1 h-full overflow-y-auto overflow-x-hidden py-1">
+        <SidebarMenu className="space-y-0.5 px-1 h-full">
           {(searchQuery ? filteredSearchItems : accessibleItems).map((item) => {
             const isActive = findActiveMainItem()?.id === item.id;
             const hasChildren = item.children && item.children.length > 0;
@@ -217,7 +217,7 @@ export function ModularSidebar() {
     if (!selectedMainItem?.children || isCollapsed) return null;
 
     return (
-      <div className="h-full flex flex-col bg-black/20 overflow-hidden">
+      <div className="h-full flex flex-col bg-black/20">
         {/* Sub Panel Header */}
         <div className="flex-shrink-0 px-2 py-2 border-b border-white/10">
           <div className="flex items-center gap-2">
@@ -237,9 +237,9 @@ export function ModularSidebar() {
           </div>
         </div>
 
-        {/* Secondary Navigation */}
-        <div className="flex-1 overflow-y-auto overflow-x-hidden py-1">
-          <SidebarMenu className="space-y-0.5 px-1">
+        {/* Secondary Navigation - fills remaining height */}
+        <div className="flex-1 h-full overflow-y-auto overflow-x-hidden py-1">
+          <SidebarMenu className="space-y-0.5 px-1 h-full">
             {selectedMainItem.children?.map((subItem) => {
               const isActive = location.pathname === subItem.url || 
                 (subItem.children && subItem.children.some(nested => location.pathname === nested.url));
