@@ -327,7 +327,7 @@ export function ModularSidebar() {
   return (
     <Sidebar
       className={cn(
-        "transition-all duration-300 h-screen",
+        "transition-all duration-300",
         isCollapsed ? "w-16" : selectedMainItem?.children ? "w-[350px]" : "w-40"
       )}
       style={{
@@ -335,7 +335,7 @@ export function ModularSidebar() {
       }}
       collapsible="icon"
     >
-      <SidebarContent className="h-screen">
+      <SidebarContent className="h-full">
         <SidebarGroup className="h-full">
           <SidebarGroupContent className="h-full">
             <div className="flex h-full overflow-hidden">
