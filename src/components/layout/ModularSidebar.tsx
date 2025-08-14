@@ -337,10 +337,10 @@ export function ModularSidebar() {
       }}
       collapsible="icon"
     >
-      <SidebarContent className="h-full p-0 flex-1 flex flex-col">
-        <SidebarGroup className="h-full flex-1 flex flex-col">
-          <SidebarGroupContent className="h-full p-0 flex-1 flex flex-col">
-            <div className="flex h-full flex-1">
+      <SidebarContent className="h-full overflow-y-auto">
+        <SidebarGroup className="h-full">
+          <SidebarGroupContent className="h-full">
+            <div className="flex h-full">
               {/* Primary navigation panel */}
               <div className={cn(
                 "flex-shrink-0 h-full",

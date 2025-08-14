@@ -54,43 +54,35 @@ const MainLayout = ({ children }: MainLayoutProps) => {
 
   return (
     <SidebarProvider>
-      <div 
-        className="h-screen flex w-full overflow-hidden"
-        style={{ 
-          background: `hsl(var(--background))`,
-          fontFamily: themeConfig.typography.fontFamily.sans.join(', ')
-        }}
-      >
-        <ModularSidebar />
+      <div className="flex w-full">
+        {/* STICKY SIDEBAR */}
+        <div className="sticky top-0 h-screen flex-shrink-0">
+          <ModularSidebar />
+        </div>
         
-        {/* MAIN CONTENT - USES ALL REMAINING SPACE */}
-        <div 
-          className="flex flex-col flex-1 min-w-0"
-          style={{ 
-            height: '100vh',
-            width: 'calc(100vw - var(--nav-total-w))'
-          }}
-        >
+        {/* MAIN CONTENT AREA */}
+        <div className="flex-1 min-w-0">
+          {/* STICKY HEADER */}
           <div 
-            className="flex-shrink-0"
+            className="sticky top-0 z-10"
             style={{ height: themeConfig.spacing.header.height }}
           >
             <DashboardHeader />
           </div>
           
-          {/* CONTENT AREA - EXACT HEIGHT CALCULATION */}
-          <main 
-            className="flex-1 overflow-auto"
+          {/* CONTENT - NO RESERVED SPACE, DIRECT UNDER BREADCRUMBS */}
+          <div 
+            className="px-6"
             style={{ 
-              height: themeConfig.spacing.content.height,
-              padding: themeConfig.spacing.content.padding
+              minHeight: `calc(100vh - ${themeConfig.spacing.header.height})`,
+              paddingTop: '1rem'
             }}
           >
             <Breadcrumbs />
             <div className="mt-4">
               {children || <Outlet />}
             </div>
-          </main>
+          </div>
         </div>
         
         <AlertsPanel alerts={getPageAlerts()} />
