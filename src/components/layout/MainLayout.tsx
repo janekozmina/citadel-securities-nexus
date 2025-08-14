@@ -55,7 +55,7 @@ const MainLayout = ({ children }: MainLayoutProps) => {
   return (
     <SidebarProvider>
       <div 
-        className="min-h-screen flex w-full"
+        className="min-h-screen flex w-full overflow-hidden"
         style={{ 
           background: `hsl(var(--background))`,
           fontFamily: themeConfig.typography.fontFamily.sans.join(', ')
@@ -63,10 +63,10 @@ const MainLayout = ({ children }: MainLayoutProps) => {
       >
         <ModularSidebar />
         
-        <div className="flex flex-col flex-1 min-w-0">
+        <div className="flex flex-col flex-1 min-w-0 overflow-hidden">
           <DashboardHeader />
           
-          <main className="flex-1 overflow-auto">
+          <main className="flex-1 overflow-auto w-full">
             <div style={{ padding: themeConfig.spacing.container.padding }}>
               <Breadcrumbs />
               {children || <Outlet />}
