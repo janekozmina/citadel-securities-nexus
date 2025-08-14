@@ -327,7 +327,7 @@ export function ModularSidebar() {
   return (
     <Sidebar
       className={cn(
-        "transition-all duration-300",
+        "transition-all duration-300 h-screen",
         isCollapsed ? "w-16" : selectedMainItem?.children ? "w-[350px]" : "w-40"
       )}
       style={{
@@ -335,14 +335,14 @@ export function ModularSidebar() {
       }}
       collapsible="icon"
     >
-      <SidebarContent className="h-full">
+      <SidebarContent className="h-screen">
         <SidebarGroup className="h-full">
           <SidebarGroupContent className="h-full">
-            <div className={cn("flex h-full overflow-hidden", selectedMainItem?.children && !isCollapsed ? "" : "w-full")}>
+            <div className="flex h-full overflow-hidden">
               {/* Primary navigation panel - Compact but readable */}
               <div className={cn(
                 "flex-shrink-0 h-full overflow-hidden",
-                isCollapsed ? "w-16" : selectedMainItem?.children ? "w-40" : "w-full"
+                isCollapsed ? "w-16" : "w-40"
               )}>
                 {renderMainPanel()}
               </div>
