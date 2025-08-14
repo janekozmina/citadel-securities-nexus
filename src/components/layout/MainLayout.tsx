@@ -55,7 +55,7 @@ const MainLayout = ({ children }: MainLayoutProps) => {
   return (
     <SidebarProvider>
       <div 
-        className="min-h-screen flex w-full"
+        className="h-screen flex w-full overflow-hidden"
         style={{ 
           background: `hsl(var(--background))`,
           fontFamily: themeConfig.typography.fontFamily.sans.join(', ')
@@ -63,16 +63,18 @@ const MainLayout = ({ children }: MainLayoutProps) => {
       >
         <ModularSidebar />
         
-        {/* Content area positioned to flow with sidebar */}
-        <div className="flex flex-col flex-1 min-w-0 h-screen">
+        {/* MAIN CONTENT AREA - NO VERTICAL GAPS */}
+        <div className="flex flex-col flex-1 min-w-0 h-full">
           <DashboardHeader />
           
-          {/* Main content starts immediately after header */}
-          <main className="flex-1 overflow-auto">
-            <div className="px-6 py-4">
-              <Breadcrumbs />
-              <div className="mt-4">
-                {children || <Outlet />}
+          {/* CONTENT FILLS ALL REMAINING VERTICAL SPACE */}
+          <main className="flex-1 h-full overflow-auto">
+            <div className="h-full">
+              <div className="px-6 py-4">
+                <Breadcrumbs />
+                <div className="mt-4">
+                  {children || <Outlet />}
+                </div>
               </div>
             </div>
           </main>
