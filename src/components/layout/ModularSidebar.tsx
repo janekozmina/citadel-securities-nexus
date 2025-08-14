@@ -267,7 +267,7 @@ export function ModularSidebar() {
                         <div className="flex items-center justify-between w-full min-w-0">
                           <div className="flex items-center gap-2 min-w-0 flex-1">
                             <subItem.icon className="h-4 w-4 flex-shrink-0" />
-                            <span className="font-medium text-[12px] leading-tight">{getHighlightedText(subItem.title, searchQuery)}</span>
+                            <span className="font-medium text-[12px] leading-tight whitespace-nowrap">{getHighlightedText(subItem.title, searchQuery)}</span>
                           </div>
                           <ChevronRight className={cn(
                             "h-3 w-3 transition-transform duration-200 flex-shrink-0",
@@ -280,7 +280,7 @@ export function ModularSidebar() {
                           className="flex items-center gap-2 w-full min-w-0"
                         >
                           <subItem.icon className="h-4 w-4 flex-shrink-0" />
-                          <span className="font-medium text-[12px] leading-tight">{getHighlightedText(subItem.title, searchQuery)}</span>
+                          <span className="font-medium text-[12px] leading-tight whitespace-nowrap">{getHighlightedText(subItem.title, searchQuery)}</span>
                         </NavLink>
                       )}
                     </SidebarMenuButton>
@@ -307,7 +307,7 @@ export function ModularSidebar() {
                                 }
                               >
                                 <thirdItem.icon className="h-3.5 w-3.5 flex-shrink-0" />
-                                <span className="font-medium text-[11px] leading-tight">{thirdItem.title}</span>
+                                <span className="font-medium text-[11px] leading-tight whitespace-nowrap">{thirdItem.title}</span>
                               </NavLink>
                             </SidebarMenuButton>
                           </SidebarMenuItem>
@@ -328,7 +328,7 @@ export function ModularSidebar() {
     <Sidebar
       className={cn(
         "transition-all duration-300",
-        isCollapsed ? "w-16" : selectedMainItem?.children ? "w-[320px]" : "w-52"
+        isCollapsed ? "w-16" : selectedMainItem?.children ? "w-[280px]" : "w-44"
       )}
       style={{
         background: themeConfig.colors.gradients.sidebar
@@ -342,14 +342,14 @@ export function ModularSidebar() {
               {/* Main navigation panel - Ultra compact */}
               <div className={cn(
                 "flex-shrink-0",
-                isCollapsed ? "w-16" : "w-52"
+                isCollapsed ? "w-16" : "w-44"
               )}>
                 {renderMainPanel()}
               </div>
               
-              {/* Sub navigation panel - Compact width for text visibility */}
+              {/* Sub navigation panel - Full width for complete text visibility */}
               {selectedMainItem?.children && !isCollapsed && (
-                <div className="w-64 border-l border-white/10">
+                <div className="w-60 border-l border-white/10">
                   {renderSubPanel()}
                 </div>
               )}
