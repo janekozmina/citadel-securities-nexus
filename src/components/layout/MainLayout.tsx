@@ -63,13 +63,17 @@ const MainLayout = ({ children }: MainLayoutProps) => {
       >
         <ModularSidebar />
         
-        <div className="flex flex-col flex-1 min-w-0">
+        {/* Content area positioned to flow with sidebar */}
+        <div className="flex flex-col flex-1 min-w-0 h-screen">
           <DashboardHeader />
           
+          {/* Main content starts immediately after header */}
           <main className="flex-1 overflow-auto">
-            <div style={{ padding: themeConfig.spacing.container.padding }}>
+            <div className="px-6 py-4">
               <Breadcrumbs />
-              {children || <Outlet />}
+              <div className="mt-4">
+                {children || <Outlet />}
+              </div>
             </div>
           </main>
         </div>
