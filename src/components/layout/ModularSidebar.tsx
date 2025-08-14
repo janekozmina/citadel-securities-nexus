@@ -328,7 +328,7 @@ export function ModularSidebar() {
     <Sidebar
       className={cn(
         "transition-all duration-300",
-        isCollapsed ? "w-16" : selectedMainItem?.children ? "w-[400px]" : "w-56"
+        isCollapsed ? "w-16" : selectedMainItem?.children ? "w-[320px]" : "w-48"
       )}
       style={{
         background: themeConfig.colors.gradients.sidebar
@@ -342,14 +342,14 @@ export function ModularSidebar() {
               {/* Main navigation panel - Compact Material Design 3 style */}
               <div className={cn(
                 "flex-shrink-0",
-                isCollapsed ? "w-16" : "w-56"
+                isCollapsed ? "w-16" : "w-48"
               )}>
                 {renderMainPanel()}
               </div>
               
               {/* Sub navigation panel - Optimized for maximum text visibility */}
               {selectedMainItem?.children && !isCollapsed && (
-                <div className="w-80 border-l border-white/10">
+                <div className="w-68 border-l border-white/10">
                   {renderSubPanel()}
                 </div>
               )}
