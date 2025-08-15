@@ -7,20 +7,36 @@ import { Input } from '@/components/ui/input';
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table';
 import { TooltipProvider } from '@/components/ui/tooltip';
 import { ArrowUpDown, Calculator, Pause, Eye } from 'lucide-react';
+import portalConfig from '@/config/portalConfig';
 
-const accountsData = [
-  { id: '0003800040120300062', availableBalance: 65611.992, currency: 'TND', debitTurnover: 0.000, creditTurnover: 0.000, totalDebitQueue: 0.000, totalCreditQueue: 65611.992, potentialBalance: 65611.992, accountType: 'SA', participantName: 'BANQUE CENTRALE' },
-  { id: '0003800040120300063', availableBalance: 27074.258, currency: 'TND', debitTurnover: 7584.212, creditTurnover: 0.000, totalDebitQueue: 0.000, totalCreditQueue: 27074.258, potentialBalance: 27074.258, accountType: 'SA', participantName: 'BANQUE CENTRALE' },
-  { id: '0003800040120300031', availableBalance: 21832.231, currency: 'TND', debitTurnover: 244.813, creditTurnover: 93.170, totalDebitQueue: 0.000, totalCreditQueue: 21832.231, potentialBalance: 21832.231, accountType: 'SA', participantName: 'BANQUE CENTRALE' },
-  { id: '0003800040120300002', availableBalance: 3639.321, currency: 'TND', debitTurnover: 0.000, creditTurnover: 284.000, totalDebitQueue: 0.000, totalCreditQueue: 1639.321, potentialBalance: 1639.321, accountType: 'SA', participantName: 'BANQUE TUNISO-LYBIENNE' },
-  { id: '0003800040120300029', availableBalance: 140.190, currency: 'TND', debitTurnover: 650.030, creditTurnover: 2056.260, totalDebitQueue: 190.000, totalCreditQueue: 330.230, potentialBalance: 330.230, accountType: 'SA', participantName: 'CITE BANK' },
-  { id: '0003800040120300051', availableBalance: 100.000, currency: 'TND', debitTurnover: 101000.000, creditTurnover: 149756.583, totalDebitQueue: 0.000, totalCreditQueue: 100.000, potentialBalance: 100.000, accountType: 'SA', participantName: 'NORTH AFRICA INTERNATIONAL BANK' },
-  { id: '0003800040120300035', availableBalance: 99.574, currency: 'TND', debitTurnover: 173904.013, creditTurnover: 152390.000, totalDebitQueue: 0.000, totalCreditQueue: 99.574, potentialBalance: 99.574, accountType: 'TND', participantName: 'BANQUE NATIONALE AGRICOLE' },
-  { id: '0003800040120370040', availableBalance: 58.521, currency: 'TND', debitTurnover: 44.000, creditTurnover: 0.000, totalDebitQueue: 0.000, totalCreditQueue: 58.521, potentialBalance: 58.521, accountType: 'SA', participantName: 'TUNIS INTERNATIONAL BANK' },
-  { id: '0003800040120378079', availableBalance: 43.141, currency: 'TND', debitTurnover: 0.000, creditTurnover: 0.000, totalDebitQueue: 0.000, totalCreditQueue: 43.141, potentialBalance: 43.141, accountType: 'SA', participantName: 'QATAR NATIONAL BANK-TUNISIE' },
-];
+// Generate account data using config
+const generateAccountData = () => {
+  const banks = portalConfig.banks.commercial;
+  const currencies = portalConfig.currencies.supported;
+  const primaryCurrency = portalConfig.currencies.primary;
+  
+  return banks.slice(0, 15).map((bank, index) => {
+    const currency = index < 3 ? primaryCurrency : currencies[index % currencies.length];
+    const baseBalance = Math.floor(Math.random() * 100000) + 1000;
+    
+    return {
+      id: `000380004012030${String(index + 1).padStart(4, '0')}`,
+      availableBalance: baseBalance,
+      currency: currency,
+      debitTurnover: Math.floor(Math.random() * 50000),
+      creditTurnover: Math.floor(Math.random() * 75000),
+      totalDebitQueue: Math.floor(Math.random() * 1000),
+      totalCreditQueue: baseBalance + Math.floor(Math.random() * 5000),
+      potentialBalance: baseBalance + Math.floor(Math.random() * 2000),
+      accountType: index % 3 === 0 ? 'SA' : 'CA',
+      participantName: bank,
+      bankCode: portalConfig.banks.codes[bank] || `B${String(index + 1).padStart(3, '0')}`
+    };
+  });
+};
 
 export default function AccountManagementPage() {
+  const accountsData = useMemo(() => generateAccountData(), []);
   const [filterCurrency, setFilterCurrency] = useState('all');
   const [filterAccountType, setFilterAccountType] = useState('all');
   const [searchTerm, setSearchTerm] = useState('');
@@ -30,15 +46,16 @@ export default function AccountManagementPage() {
   const itemsPerPage = 10;
 
   const getBalanceColor = (balance: number) => {
-    if (balance < 50) return 'text-red-600';
-    if (balance < 100) return 'text-yellow-600';
+    if (balance < 5000) return 'text-red-600';
+    if (balance < 20000) return 'text-yellow-600';
     return 'text-green-600';
   };
 
   const filteredAndSortedAccounts = useMemo(() => {
     let filtered = accountsData.filter(account => {
       const matchesSearch = account.participantName.toLowerCase().includes(searchTerm.toLowerCase()) ||
-                          account.id.includes(searchTerm);
+                          account.id.includes(searchTerm) ||
+                          account.bankCode.toLowerCase().includes(searchTerm.toLowerCase());
       const matchesCurrency = filterCurrency === 'all' || account.currency === filterCurrency;
       const matchesAccountType = filterAccountType === 'all' || account.accountType === filterAccountType;
       
@@ -64,7 +81,7 @@ export default function AccountManagementPage() {
     }
 
     return filtered;
-  }, [searchTerm, filterCurrency, filterAccountType, sortField, sortDirection]);
+  }, [accountsData, searchTerm, filterCurrency, filterAccountType, sortField, sortDirection]);
 
   const paginatedAccounts = useMemo(() => {
     const startIndex = (currentPage - 1) * itemsPerPage;
@@ -83,6 +100,7 @@ export default function AccountManagementPage() {
   };
 
   const totalBalance = accountsData.reduce((sum, account) => sum + account.availableBalance, 0);
+  const currencySymbol = portalConfig.currencies.symbol;
 
   return (
     <TooltipProvider>
@@ -107,7 +125,7 @@ export default function AccountManagementPage() {
               <Card>
                 <CardContent className="p-4">
                   <div className="text-sm font-medium text-slate-600 mb-2">Total Balance</div>
-                  <div className="text-2xl font-bold">BHD {totalBalance.toLocaleString()}</div>
+                  <div className="text-2xl font-bold">{currencySymbol} {totalBalance.toLocaleString()}</div>
                 </CardContent>
               </Card>
               <Card>
@@ -129,9 +147,9 @@ export default function AccountManagementPage() {
                     </SelectTrigger>
                     <SelectContent>
                       <SelectItem value="all">All Currencies</SelectItem>
-                      <SelectItem value="TND">TND</SelectItem>
-                      <SelectItem value="USD">USD</SelectItem>
-                      <SelectItem value="EUR">EUR</SelectItem>
+                      {portalConfig.currencies.supported.map(currency => (
+                        <SelectItem key={currency} value={currency}>{currency}</SelectItem>
+                      ))}
                     </SelectContent>
                   </Select>
                   <Select defaultValue="all" onValueChange={setFilterAccountType}>
@@ -141,7 +159,7 @@ export default function AccountManagementPage() {
                     <SelectContent>
                       <SelectItem value="all">All Types</SelectItem>
                       <SelectItem value="SA">SA</SelectItem>
-                      <SelectItem value="TND">TND</SelectItem>
+                      <SelectItem value="CA">CA</SelectItem>
                     </SelectContent>
                   </Select>
                   <Input 
@@ -163,6 +181,15 @@ export default function AccountManagementPage() {
                         >
                           <div className="flex items-center gap-1">
                             Account Code
+                            <ArrowUpDown className="h-3 w-3" />
+                          </div>
+                        </TableHead>
+                        <TableHead 
+                          className="cursor-pointer hover:bg-slate-50"
+                          onClick={() => handleSort('bankCode')}
+                        >
+                          <div className="flex items-center gap-1">
+                            Bank Code
                             <ArrowUpDown className="h-3 w-3" />
                           </div>
                         </TableHead>
@@ -195,16 +222,21 @@ export default function AccountManagementPage() {
                       {paginatedAccounts.map((account) => (
                         <TableRow key={account.id} className="hover:bg-slate-50">
                           <TableCell className="font-mono text-xs">{account.id}</TableCell>
+                          <TableCell className="font-medium text-sm">
+                            <Badge variant="outline">{account.bankCode}</Badge>
+                          </TableCell>
                           <TableCell className="font-medium text-sm">{account.participantName}</TableCell>
                           <TableCell className={`text-right font-medium ${getBalanceColor(account.availableBalance)}`}>
-                            BHD {account.availableBalance.toLocaleString()}
+                            {account.currency === portalConfig.currencies.primary ? currencySymbol : account.currency} {account.availableBalance.toLocaleString()}
                           </TableCell>
                           <TableCell>
                             <Badge variant="outline">{account.currency}</Badge>
                           </TableCell>
                           <TableCell className="text-right">{account.debitTurnover.toLocaleString()}</TableCell>
                           <TableCell className="text-right">{account.creditTurnover.toLocaleString()}</TableCell>
-                          <TableCell className="text-right">BHD {account.potentialBalance.toLocaleString()}</TableCell>
+                          <TableCell className="text-right">
+                            {account.currency === portalConfig.currencies.primary ? currencySymbol : account.currency} {account.potentialBalance.toLocaleString()}
+                          </TableCell>
                           <TableCell>
                             <Badge variant="secondary">{account.accountType}</Badge>
                           </TableCell>
