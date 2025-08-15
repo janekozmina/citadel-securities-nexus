@@ -6,7 +6,6 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@
 import { Input } from '@/components/ui/input';
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table';
 import { TooltipProvider } from '@/components/ui/tooltip';
-import { AlertsPanel } from '@/components/common/AlertsPanel';
 import { ArrowUpDown, TrendingUp, DollarSign, AlertCircle } from 'lucide-react';
 
 const balancesData = [
@@ -88,40 +87,6 @@ export default function BalancesLiquidityPage() {
   const totalReserved = balancesData.reduce((sum, balance) => sum + balance.reservedAmount, 0);
   const totalBalance = balancesData.reduce((sum, balance) => sum + balance.balance, 0);
 
-  const [alerts] = useState([
-    {
-      id: 1,
-      type: 'warning' as const,
-      message: 'National Bank of Bahrain liquidity below threshold',
-      time: '15:45',
-      urgent: true,
-      category: 'context' as const,
-      source: 'RTGS'
-    },
-    {
-      id: 2,
-      type: 'info' as const,
-      message: 'Daily liquidity report generated successfully',
-      time: '15:00',
-      urgent: false,
-      category: 'context' as const,
-      source: 'RTGS'
-    },
-    {
-      id: 3,
-      type: 'alert' as const,
-      message: 'System maintenance scheduled for tonight at 23:00',
-      time: '14:15',
-      urgent: false,
-      category: 'global' as const,
-      source: 'System'
-    }
-  ]);
-
-  const handleDismissAlert = (alertId: number) => {
-    console.log('Dismissing alert:', alertId);
-  };
-
   return (
     <TooltipProvider>
       <div className="space-y-6">
@@ -131,13 +96,6 @@ export default function BalancesLiquidityPage() {
             <p className="text-slate-600">Real-time participant balances and reserved amounts monitoring</p>
           </div>
         </div>
-
-        {/* Alerts Panel */}
-        <AlertsPanel 
-          alerts={alerts} 
-          onDismissAlert={handleDismissAlert}
-          className="mb-6"
-        />
 
         <div className="flex h-full">
           <div className="flex-1 space-y-6 pr-6">

@@ -18,8 +18,7 @@ import { Button } from '@/components/ui/button';
 import { 
   Search,
   X,
-  ChevronRight,
-  ChevronDown
+  ChevronRight
 } from 'lucide-react';
 import navigationConfig, { NavigationItem } from '@/config/navigationConfig';
 
@@ -32,20 +31,17 @@ export function AppSidebar() {
   
   const [searchQuery, setSearchQuery] = useState('');
   const [selectedMainItem, setSelectedMainItem] = useState<NavigationItem | null>(null);
-  const [expandedSubItems, setExpandedSubItems] = useState<Set<string>>(new Set());
 
   // Flatten all navigation items for searching
   const flattenNavigationItems = (items: NavigationItem[], parentPath = ''): NavigationItem[] => {
     let flattened: NavigationItem[] = [];
     
     items.forEach(item => {
-      // Add current item
       flattened.push({
         ...item,
         path: parentPath ? `${parentPath}/${item.path}` : item.path
       });
       
-      // Add children recursively
       if (item.children) {
         flattened = flattened.concat(flattenNavigationItems(item.children, item.path));
       }
@@ -58,7 +54,6 @@ export function AppSidebar() {
   const getAllNavigationItems = (): NavigationItem[] => {
     let allItems: NavigationItem[] = [...navigationConfig.primaryNavigation];
     
-    // Add secondary navigation items
     Object.values(navigationConfig.secondaryNavigation).forEach(items => {
       if (Array.isArray(items)) {
         allItems = allItems.concat(flattenNavigationItems(items));
@@ -71,13 +66,8 @@ export function AppSidebar() {
   // Filter items based on user role
   const getAccessibleItems = (items: NavigationItem[]): NavigationItem[] => {
     return items.filter(item => {
-      // If no roles specified, accessible to all
       if (!item.roles || item.roles.length === 0) return true;
-      
-      // Check if user's role is in the item's roles
       if (user?.role && item.roles.includes(user.role)) return true;
-      
-      // Use permission system as fallback
       return canAccessRoute(item.roles);
     });
   };
@@ -89,18 +79,10 @@ export function AppSidebar() {
     const searchTerm = query.toLowerCase().trim();
     
     return items.filter(item => {
-      // Search in title
       if (item.title.toLowerCase().includes(searchTerm)) return true;
-      
-      // Search in description
       if (item.description?.toLowerCase().includes(searchTerm)) return true;
-      
-      // Search in keywords
       if (item.keywords?.some(keyword => keyword.toLowerCase().includes(searchTerm))) return true;
-      
-      // Search in tags
       if (item.tags?.some(tag => tag.toLowerCase().includes(searchTerm))) return true;
-      
       return false;
     });
   };
@@ -128,7 +110,7 @@ export function AppSidebar() {
   // Get primary navigation items for normal display
   const primaryItems = getAccessibleItems(navigationConfig.primaryNavigation);
 
-  // Auto-expand items when route changes
+  // Find which primary item should be selected based on current route
   useEffect(() => {
     const currentPath = location.pathname;
     
@@ -148,14 +130,6 @@ export function AppSidebar() {
     
     if (activeMainItem) {
       setSelectedMainItem(activeMainItem);
-      
-      // Auto-expand relevant sub-items
-      const secondaryItems = navigationConfig.secondaryNavigation[activeMainItem.id] || [];
-      secondaryItems.forEach(item => {
-        if (item.children?.some(child => currentPath === child.path)) {
-          setExpandedSubItems(prev => new Set([...prev, item.id]));
-        }
-      });
     }
   }, [location.pathname, primaryItems]);
 
@@ -174,18 +148,6 @@ export function AppSidebar() {
 
   const clearSearch = () => {
     setSearchQuery('');
-  };
-
-  const toggleSubItemExpansion = (itemId: string) => {
-    setExpandedSubItems(prev => {
-      const newSet = new Set(prev);
-      if (newSet.has(itemId)) {
-        newSet.delete(itemId);
-      } else {
-        newSet.add(itemId);
-      }
-      return newSet;
-    });
   };
 
   const renderSearchResults = () => {
@@ -214,8 +176,8 @@ export function AppSidebar() {
                       className={({ isActive }) =>
                         `flex items-center gap-3 px-3 py-2 rounded-lg transition-colors ${
                           isActive 
-                            ? 'bg-accent text-accent-foreground' 
-                            : 'hover:bg-accent/50'
+                            ? 'bg-white/20 text-white shadow-md backdrop-blur-sm' 
+                            : 'text-white/70 hover:bg-white/10 hover:text-white'
                         }`
                       }
                     >
@@ -225,7 +187,7 @@ export function AppSidebar() {
                           {highlightText(item.title, searchQuery)}
                         </div>
                         {item.description && (
-                          <div className="text-xs text-muted-foreground mt-1 line-clamp-2">
+                          <div className="text-xs text-white/60 mt-1 line-clamp-2">
                             {highlightText(item.description, searchQuery)}
                           </div>
                         )}
@@ -243,11 +205,12 @@ export function AppSidebar() {
 
   const renderMainPanel = () => (
     <div className="h-full flex flex-col">
-      {/* Main Navigation - Icons Only */}
+      {/* Primary Navigation - Icons Only */}
       <div className="flex-1 overflow-y-auto p-4">
         <SidebarMenu>
           {primaryItems.map((item) => {
-            const isActive = location.pathname === item.path || selectedMainItem?.id === item.id;
+            const isActive = location.pathname === item.path || 
+              (selectedMainItem?.id === item.id && !searchQuery);
             const hasSubItems = navigationConfig.secondaryNavigation[item.id]?.length > 0;
             
             return (
@@ -255,7 +218,7 @@ export function AppSidebar() {
                 <SidebarMenuButton
                   onClick={() => {
                     if (hasSubItems) {
-                      setSelectedMainItem(item);
+                      setSelectedMainItem(selectedMainItem?.id === item.id ? null : item);
                     }
                   }}
                   asChild={!hasSubItems}
@@ -285,7 +248,7 @@ export function AppSidebar() {
   );
 
   const renderSubPanel = () => {
-    if (!selectedMainItem) return null;
+    if (!selectedMainItem || isCollapsed) return null;
     
     const secondaryItems = navigationConfig.secondaryNavigation[selectedMainItem.id] || [];
     const accessibleSecondaryItems = getAccessibleItems(secondaryItems);
@@ -298,10 +261,7 @@ export function AppSidebar() {
             <Button
               variant="ghost"
               size="sm"
-              onClick={() => {
-                setSelectedMainItem(null);
-                setExpandedSubItems(new Set());
-              }}
+              onClick={() => setSelectedMainItem(null)}
               className="p-1 h-auto text-white/80 hover:text-white hover:bg-white/10"
             >
               <ChevronRight className="h-4 w-4 rotate-180" />
@@ -321,17 +281,11 @@ export function AppSidebar() {
                 const isActive = location.pathname === subItem.path || 
                   (subItem.children && subItem.children.some(child => location.pathname === child.path));
                 const hasSubItems = subItem.children && subItem.children.length > 0;
-                const isExpanded = expandedSubItems.has(subItem.id);
                 
                 return (
                   <div key={subItem.id}>
                     <SidebarMenuItem>
                       <SidebarMenuButton
-                        onClick={() => {
-                          if (hasSubItems) {
-                            toggleSubItemExpansion(subItem.id);
-                          }
-                        }}
                         asChild={!hasSubItems}
                         className={`flex items-center justify-between gap-3 px-3 py-2.5 rounded-lg transition-all duration-200 ${
                           isActive 
@@ -339,28 +293,18 @@ export function AppSidebar() {
                             : 'text-white/70 hover:bg-white/10 hover:text-white'
                         }`}
                       >
-                        {hasSubItems ? (
-                          <div className="flex items-center justify-between w-full">
-                            <div className="flex items-center gap-3">
-                              <subItem.icon className="h-4 w-4 flex-shrink-0" />
-                              <span className="text-sm font-medium">{subItem.title}</span>
-                            </div>
-                            <ChevronDown className={`h-3 w-3 transition-transform duration-200 ${isExpanded ? 'rotate-180' : ''}`} />
-                          </div>
-                        ) : (
-                          <NavLink
-                            to={subItem.path}
-                            className="flex items-center gap-3 w-full"
-                          >
-                            <subItem.icon className="h-4 w-4 flex-shrink-0" />
-                            <span className="text-sm font-medium">{subItem.title}</span>
-                          </NavLink>
-                        )}
+                        <NavLink
+                          to={subItem.path}
+                          className="flex items-center gap-3 w-full"
+                        >
+                          <subItem.icon className="h-4 w-4 flex-shrink-0" />
+                          <span className="text-sm font-medium">{subItem.title}</span>
+                        </NavLink>
                       </SidebarMenuButton>
                     </SidebarMenuItem>
                     
-                    {/* Third Level Items - Collapsible */}
-                    {hasSubItems && isExpanded && (
+                    {/* Third Level Items - Always visible when parent is active */}
+                    {hasSubItems && isActive && (
                       <div className="ml-4 mt-1 space-y-1">
                         {subItem.children?.filter(child => getAccessibleItems([child]).length > 0).map((thirdItem) => {
                           const isThirdActive = location.pathname === thirdItem.path;
@@ -425,12 +369,12 @@ export function AppSidebar() {
 
         {/* Main Content */}
         <div className="flex flex-1 min-h-0">
-          {/* Main Panel */}
+          {/* Primary Panel - Always visible */}
           <div className={`${!isCollapsed && selectedMainItem ? 'w-16' : 'flex-1'} border-r border-white/20`}>
             {renderMainPanel()}
           </div>
           
-          {/* Sub Panel */}
+          {/* Secondary Panel - Only when item selected and not collapsed */}
           {!isCollapsed && selectedMainItem && (
             <div className="flex-1">
               {renderSubPanel()}

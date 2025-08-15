@@ -6,7 +6,6 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@
 import { Input } from '@/components/ui/input';
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table';
 import { TooltipProvider } from '@/components/ui/tooltip';
-import { AlertsPanel } from '@/components/common/AlertsPanel';
 import { ArrowUpDown, Calculator, Pause, Eye } from 'lucide-react';
 
 const accountsData = [
@@ -85,40 +84,6 @@ export default function AccountManagementPage() {
 
   const totalBalance = accountsData.reduce((sum, account) => sum + account.availableBalance, 0);
 
-  const [alerts] = useState([
-    {
-      id: 1,
-      type: 'warning' as const,
-      message: 'Account ABC123 approaching overdraft limit',
-      time: '15:23',
-      urgent: true,
-      category: 'context' as const,
-      source: 'RTGS'
-    },
-    {
-      id: 2,
-      type: 'info' as const,
-      message: '3 new account applications pending approval',
-      time: '14:45',
-      urgent: false,
-      category: 'context' as const,
-      source: 'RTGS'
-    },
-    {
-      id: 3,
-      type: 'alert' as const,
-      message: 'System maintenance scheduled for tonight at 23:00',
-      time: '14:15',
-      urgent: false,
-      category: 'global' as const,
-      source: 'System'
-    }
-  ]);
-
-  const handleDismissAlert = (alertId: number) => {
-    console.log('Dismissing alert:', alertId);
-  };
-
   return (
     <TooltipProvider>
       <div className="space-y-6">
@@ -128,13 +93,6 @@ export default function AccountManagementPage() {
             <p className="text-slate-600">Comprehensive account management and balance monitoring</p>
           </div>
         </div>
-
-        {/* Alerts Panel */}
-        <AlertsPanel 
-          alerts={alerts} 
-          onDismissAlert={handleDismissAlert}
-          className="mb-6"
-        />
 
         <div className="flex h-full">
           <div className="flex-1 space-y-6 pr-6">

@@ -1,10 +1,8 @@
 import { useEffect } from 'react';
-import { useLocation } from 'react-router-dom';
 import { DataCard } from '@/components/common/DataCard';
 import { DataTable } from '@/components/common/DataTable';
 import { SystemStatus } from '@/components/common/SystemStatus';
 import { QuickActions } from '@/components/common/QuickActions';
-import { AlertsPanel } from '@/components/common/AlertsPanel';
 import { 
   Banknote, 
   Building2, 
@@ -20,72 +18,9 @@ import {
 } from 'lucide-react';
 
 const HomePage = () => {
-  const location = useLocation();
-
   useEffect(() => {
     document.title = 'Dashboard | CBB Portal';
   }, []);
-
-  // Define alerts for different pages with categories
-  const getPageAlerts = () => {
-    const baseContextAlerts = [
-      {
-        id: 1,
-        type: 'warning' as const,
-        message: 'ILF window closes in 15 minutes',
-        time: '14:45',
-        urgent: true,
-        category: 'context' as const,
-        source: 'RTGS'
-      },
-      {
-        id: 4,
-        type: 'info' as const,
-        message: 'Dashboard data last refreshed 2 minutes ago',
-        time: '14:43',
-        urgent: false,
-        category: 'context' as const,
-        source: 'System'
-      }
-    ];
-
-    const globalAlerts = [
-      {
-        id: 2,
-        type: 'success' as const,
-        message: 'Settlement batch processing complete',
-        time: '14:30',
-        urgent: false,
-        category: 'global' as const,
-        source: 'CSD'
-      },
-      {
-        id: 3,
-        type: 'alert' as const,
-        message: 'System maintenance scheduled for tonight at 23:00',
-        time: '14:15',
-        urgent: false,
-        category: 'global' as const,
-        source: 'System'
-      },
-      {
-        id: 5,
-        type: 'warning' as const,
-        message: 'High transaction volume detected - monitoring performance',
-        time: '14:12',
-        urgent: false,
-        category: 'global' as const,
-        source: 'RTGS'
-      }
-    ];
-
-    // Add context alerts only for home page
-    if (location.pathname === '/') {
-      return [...baseContextAlerts, ...globalAlerts];
-    }
-
-    return globalAlerts;
-  };
   const kpiData = [
     {
       title: 'Total Transactions Today',
@@ -203,11 +138,6 @@ const HomePage = () => {
     { key: 'time', label: 'Time', type: 'text' as const }
   ];
 
-  const handleDismissAlert = (alertId: number) => {
-    // In a real app, this would make an API call to dismiss the alert
-    console.log('Dismissing alert:', alertId);
-  };
-
   return (
     <div className="space-y-6">
       <div className="space-y-2">
@@ -216,13 +146,6 @@ const HomePage = () => {
           Unified dashboard for RTGS, CSD, and CMS operations
         </p>
       </div>
-
-      {/* Alerts Panel - Full width at top */}
-      <AlertsPanel 
-        alerts={getPageAlerts()} 
-        onDismissAlert={handleDismissAlert}
-        className="mb-6"
-      />
 
       {/* KPI Cards */}
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
