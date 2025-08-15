@@ -1,452 +1,532 @@
+// Navigation Configuration - Material Design 3 Navigation Drawer
+// This file defines the complete navigation structure for the portal
+
 import { 
   Home, 
+  Banknote, 
   Building2, 
   Shield, 
-  Settings, 
-  Users,
-  Monitor,
-  Banknote,
-  RefreshCw,
-  CreditCard,
-  Vault,
-  Droplets,
-  Gavel,
-  FileText,
-  Database,
   TrendingUp,
-  DollarSign,
-  BookOpen,
+  Users,
+  FileText,
+  Settings,
+  BarChart3,
+  Clock,
+  CreditCard,
+  Database,
+  Globe,
+  Lock,
   AlertTriangle,
-  Search
+  CheckCircle,
+  Wallet,
+  DollarSign,
+  PieChart,
+  Activity,
+  Layers,
+  Search,
+  Archive,
+  UserCheck,
+  BookOpen,
+  Bell,
+  Key
 } from 'lucide-react';
 
 export interface NavigationItem {
   id: string;
   title: string;
-  url: string;
-  roles: string[];
+  path: string;
   icon: any;
-  children?: NavigationItem[];
   description?: string;
+  roles?: string[]; // Empty array means accessible to all roles
+  system?: 'RTGS' | 'CSD' | 'CMS' | 'COMMON';
+  children?: NavigationItem[];
   badge?: string;
 }
 
-export const navigationConfig: NavigationItem[] = [
+// Primary Navigation - Always visible (Material Design 3)
+export const primaryNavigation: NavigationItem[] = [
   {
     id: 'home',
-    title: 'Home',
-    url: '/',
-    roles: ['Admin', 'Issuer', 'Custodian', 'Broker', 'Participant', 'Regulator'],
+    title: 'Dashboard',
+    path: '/',
     icon: Home,
-    description: 'Dashboard overview and system status'
+    description: 'Main dashboard and overview',
+    system: 'COMMON'
   },
   {
     id: 'rtgs',
     title: 'RTGS',
-    url: '/rtgs',
-    roles: ['Admin'],
+    path: '/rtgs',
     icon: Banknote,
-    description: 'Real-Time Gross Settlement System',
-    children: [
-      { 
-        id: 'rtgs-financial-monitoring',
-        title: 'Financial Monitoring', 
-        url: '/rtgs/financial-monitoring', 
-        roles: ['Admin'], 
-        icon: Monitor,
-        children: [
-          { 
-            id: 'rtgs-account-management',
-            title: 'Account Management', 
-            url: '/rtgs/financial-monitoring/account-management', 
-            roles: ['Admin'], 
-            icon: Users 
-          },
-          { 
-            id: 'rtgs-balances-liquidity',
-            title: 'Balances & Liquidity', 
-            url: '/rtgs/financial-monitoring/balances-liquidity', 
-            roles: ['Admin'], 
-            icon: DollarSign 
-          },
-          { 
-            id: 'rtgs-transaction-status',
-            title: 'Transaction Status', 
-            url: '/rtgs/financial-monitoring/transaction-status', 
-            roles: ['Admin'], 
-            icon: TrendingUp 
-          },
-          { 
-            id: 'rtgs-business-day-management',
-            title: 'Business Day Management', 
-            url: '/rtgs/financial-monitoring/business-day-management', 
-            roles: ['Admin'], 
-            icon: RefreshCw 
-          },
-          { 
-            id: 'rtgs-billing',
-            title: 'Billing', 
-            url: '/rtgs/financial-monitoring/billing', 
-            roles: ['Admin'], 
-            icon: DollarSign 
-          }
-        ]
-      },
-      { 
-        id: 'rtgs-central-bank-operations',
-        title: 'Central Bank Operations', 
-        url: '/rtgs/central-bank-operations', 
-        roles: ['Admin'], 
-        icon: Building2,
-        children: [
-          { 
-            id: 'rtgs-cash-flow-overview',
-            title: 'Real-Time Cash Flow Overview', 
-            url: '/rtgs/central-bank-operations/cash-flow-overview', 
-            roles: ['Admin'], 
-            icon: TrendingUp 
-          }
-        ]
-      },
-      { 
-        id: 'rtgs-anomaly-detection',
-        title: 'Anomaly Detection', 
-        url: '/rtgs/anomaly-detection', 
-        roles: ['Admin'], 
-        icon: AlertTriangle 
-      },
-      { 
-        id: 'rtgs-dispute-management',
-        title: 'Dispute Management', 
-        url: '/rtgs/dispute-management', 
-        roles: ['Admin'], 
-        icon: Gavel 
-      }
-    ]
+    description: 'Real-Time Gross Settlement',
+    system: 'RTGS',
+    roles: ['Admin', 'CBBOperator', 'BankOperator']
   },
   {
     id: 'csd',
     title: 'CSD',
-    url: '/csd',
-    roles: ['Admin', 'Issuer', 'Custodian', 'Broker'],
+    path: '/csd',
     icon: Building2,
     description: 'Central Securities Depository',
-    children: [
-      { 
-        id: 'csd-operations',
-        title: 'Operations', 
-        url: '/operations', 
-        roles: ['Admin'], 
-        icon: RefreshCw 
-      },
-      { 
-        id: 'csd-securities-lifecycle',
-        title: 'Securities Lifecycle', 
-        url: '/securities',
-        roles: ['Admin'],
-        icon: CreditCard,
-        children: [
-          { 
-            id: 'securities-instrument-reference',
-            title: 'Instrument Reference', 
-            url: '/securities/instrument-reference', 
-            roles: ['Admin'], 
-            icon: FileText 
-          },
-          { 
-            id: 'securities-issuance',
-            title: 'Issuance', 
-            url: '/securities/issuance', 
-            roles: ['Admin'], 
-            icon: FileText 
-          },
-          { 
-            id: 'securities-corporate-actions',
-            title: 'Corporate Actions', 
-            url: '/securities/corporate-actions', 
-            roles: ['Admin'], 
-            icon: FileText 
-          }
-        ]
-      },
-      { 
-        id: 'csd-trading',
-        title: 'Trading', 
-        url: '/trading',
-        roles: ['Admin'],
-        icon: TrendingUp,
-        children: [
-          { 
-            id: 'trading-trade-matching',
-            title: 'Trade Matching', 
-            url: '/trading', 
-            roles: ['Admin'], 
-            icon: DollarSign 
-          },
-          { 
-            id: 'trading-transfer-instruction',
-            title: 'Transfer Instruction', 
-            url: '/trading/transfer-instruction', 
-            roles: ['Admin'], 
-            icon: DollarSign 
-          },
-          { 
-            id: 'trading-order-management',
-            title: 'Order Management', 
-            url: '/trading/order-management', 
-            roles: ['Admin'], 
-            icon: DollarSign 
-          },
-          { 
-            id: 'trading-auctions',
-            title: 'Auctions Trading Monitor', 
-            url: '/trading/auctions', 
-            roles: ['Admin'], 
-            icon: DollarSign 
-          },
-          { 
-            id: 'trading-bilateral',
-            title: 'Bilateral Trading Monitor', 
-            url: '/trading/bilateral', 
-            roles: ['Admin'], 
-            icon: DollarSign 
-          }
-        ]
-      },
-      { 
-        id: 'csd-clearing-hub',
-        title: 'Clearing Hub', 
-        url: '/clearing',
-        roles: ['Admin'],
-        icon: Vault,
-        children: [
-          { 
-            id: 'clearing-manager',
-            title: 'Clearing Manager', 
-            url: '/clearing/manager', 
-            roles: ['Admin'], 
-            icon: Settings 
-          },
-          { 
-            id: 'clearing-margin',
-            title: 'Margin Calculation', 
-            url: '/clearing/margin', 
-            roles: ['Admin'], 
-            icon: Settings 
-          },
-          { 
-            id: 'clearing-default',
-            title: 'Default Management', 
-            url: '/clearing/default', 
-            roles: ['Admin'], 
-            icon: Settings 
-          },
-          { 
-            id: 'clearing-ccp',
-            title: 'CCP Dashboard', 
-            url: '/clearing/ccp', 
-            roles: ['Admin'], 
-            icon: Settings 
-          }
-        ]
-      },
-      { 
-        id: 'csd-settlement-hub',
-        title: 'Settlement Hub', 
-        url: '/settlement', 
-        roles: ['Admin'], 
-        icon: RefreshCw 
-      },
-      { 
-        id: 'csd-custody-hub',
-        title: 'Custody Hub', 
-        url: '/custody', 
-        roles: ['Admin'], 
-        icon: Vault 
-      },
-      { 
-        id: 'csd-liquidity-hub',
-        title: 'Liquidity Hub', 
-        url: '/liquidity',
-        roles: ['Admin'],
-        icon: Droplets,
-        children: [
-          { 
-            id: 'liquidity-tri-party-repo',
-            title: 'Tri-Party REPO Services', 
-            url: '/liquidity/tri-party-repo', 
-            roles: ['Admin'], 
-            icon: Droplets 
-          },
-          { 
-            id: 'liquidity-central-bank',
-            title: 'Central Bank Liquidity Management', 
-            url: '/liquidity/central-bank-liquidity', 
-            roles: ['Admin'], 
-            icon: Droplets 
-          },
-          { 
-            id: 'liquidity-islamic-repo',
-            title: 'Islamic REPO', 
-            url: '/liquidity/islamic-repo', 
-            roles: ['Admin'], 
-            icon: Droplets 
-          }
-        ]
-      },
-      { 
-        id: 'csd-risk-management',
-        title: 'Risk Management', 
-        url: '/risk', 
-        roles: ['Admin'], 
-        icon: Shield 
-      },
-      { 
-        id: 'csd-auction-management',
-        title: 'Auction Management', 
-        url: '/auction', 
-        roles: ['Admin'], 
-        icon: Gavel 
-      },
-      { 
-        id: 'csd-investor-services',
-        title: 'Investor Services Hub', 
-        url: '/investor-services', 
-        roles: ['Admin'], 
-        icon: Users 
-      },
-      { 
-        id: 'csd-reporting',
-        title: 'Reporting & Compliance', 
-        url: '/reporting', 
-        roles: ['Admin'], 
-        icon: FileText 
-      }
-    ]
+    system: 'CSD',
+    roles: ['Admin', 'CBBOperator', 'BankOperator', 'Broker', 'Custodian']
   },
   {
     id: 'cms',
     title: 'CMS',
-    url: '/cms',
-    roles: ['Admin'],
+    path: '/cms',
     icon: Shield,
     description: 'Collateral Management System',
-    children: [
-      { 
-        id: 'cms-collateral-manager',
-        title: 'Collateral Manager', 
-        url: '/collateral/manager', 
-        roles: ['Admin'], 
-        icon: Vault 
-      },
-      { 
-        id: 'cms-collateral-optimization',
-        title: 'Collateral Optimization AI', 
-        url: '/collateral/optimization', 
-        roles: ['Admin'], 
-        icon: Vault 
-      }
-    ]
+    system: 'CMS',
+    roles: ['Admin', 'CBBOperator', 'BankOperator', 'Custodian']
   },
   {
-    id: 'knowledge-hub',
-    title: 'Knowledge Hub',
-    url: '/knowledge',
-    roles: ['Admin'],
-    icon: BookOpen,
-    description: 'Documentation and knowledge management',
-    children: [
-      { 
-        id: 'knowledge-search',
-        title: 'Documentation Search', 
-        url: '/knowledge/search', 
-        roles: ['Admin'], 
-        icon: Search 
-      },
-      { 
-        id: 'knowledge-findings',
-        title: 'Findings', 
-        url: '/knowledge/findings', 
-        roles: ['Admin'], 
-        icon: FileText 
-      }
-    ]
+    id: 'reports',
+    title: 'Reports',
+    path: '/reports',
+    icon: FileText,
+    description: 'Reports and analytics',
+    system: 'COMMON'
   },
   {
-    id: 'administration',
-    title: 'Administration',
-    url: '/administration',
-    roles: ['Admin'],
+    id: 'admin',
+    title: 'Admin',
+    path: '/admin',
     icon: Settings,
-    description: 'System administration and configuration',
-    children: [
-      {
-        id: 'admin-integrations',
-        title: 'Integrations Management',
-        url: '/admin/integrations',
-        roles: ['Admin'],
-        icon: Settings
-      },
-      {
-        id: 'admin-market-data',
-        title: 'Market Data',
-        url: '/admin/market-data',
-        roles: ['Admin'],
-        icon: TrendingUp
-      },
-      {
-        id: 'admin-static-data',
-        title: 'Static Data Management',
-        url: '/admin/static-data',
-        roles: ['Admin'],
-        icon: Database
-      },
-      {
-        id: 'admin-system-monitoring',
-        title: 'System Monitoring',
-        url: '/admin',
-        roles: ['Admin'],
-        icon: Settings
-      },
-      {
-        id: 'admin-system-administration',
-        title: 'System Administration',
-        url: '/monitoring',
-        roles: ['Admin'],
-        icon: Monitor
-      },
-      {
-        id: 'admin-user-management',
-        title: 'User Management',
-        url: '/users',
-        roles: ['Admin'],
-        icon: Users
-      },
-      { 
-        id: 'admin-rtgs-config',
-        title: 'RTGS Configuration', 
-        url: '/admin/rtgs-config', 
-        roles: ['Admin'], 
-        icon: Settings,
-        children: [
-          { 
-            id: 'admin-form-configuration',
-            title: 'Form Configuration', 
-            url: '/admin/rtgs-config/forms', 
-            roles: ['Admin'], 
-            icon: FileText 
-          }
-        ]
-      },
-      {
-        id: 'admin-master-data',
-        title: 'Master Data Management',
-        url: '/masterdata',
-        roles: ['Admin'],
-        icon: Database
-      }
-    ]
+    description: 'System administration',
+    system: 'COMMON',
+    roles: ['Admin', 'CBBOperator']
   }
 ];
+
+// Secondary Navigation - Contextual based on primary selection
+export const secondaryNavigation: Record<string, NavigationItem[]> = {
+  // RTGS System Navigation
+  rtgs: [
+    {
+      id: 'rtgs-dashboard',
+      title: 'RTGS Dashboard',
+      path: '/rtgs',
+      icon: BarChart3,
+      description: 'RTGS system overview and statistics'
+    },
+    {
+      id: 'rtgs-payments',
+      title: 'Payments',
+      path: '/rtgs/payments',
+      icon: DollarSign,
+      description: 'Payment processing and management',
+      children: [
+        {
+          id: 'payment-initiation',
+          title: 'Payment Initiation',
+          path: '/rtgs/payments/initiation',
+          icon: CreditCard,
+          description: 'Initiate new payments'
+        },
+        {
+          id: 'payment-status',
+          title: 'Payment Status',
+          path: '/rtgs/payments/status',
+          icon: Clock,
+          description: 'Track payment status'
+        },
+        {
+          id: 'payment-history',
+          title: 'Payment History',
+          path: '/rtgs/payments/history',
+          icon: Archive,
+          description: 'Historical payment records'
+        }
+      ]
+    },
+    {
+      id: 'rtgs-accounts',
+      title: 'Account Management',
+      path: '/rtgs/accounts',
+      icon: Wallet,
+      description: 'Manage participant accounts',
+      children: [
+        {
+          id: 'account-balances',
+          title: 'Account Balances',
+          path: '/rtgs/accounts/balances',
+          icon: PieChart,
+          description: 'Real-time account balances'
+        },
+        {
+          id: 'liquidity-management',
+          title: 'Liquidity Management',
+          path: '/rtgs/accounts/liquidity',
+          icon: Activity,
+          description: 'Manage liquidity positions'
+        },
+        {
+          id: 'account-maintenance',
+          title: 'Account Maintenance',
+          path: '/rtgs/accounts/maintenance',
+          icon: Settings,
+          description: 'Account setup and maintenance'
+        }
+      ]
+    },
+    {
+      id: 'rtgs-monitoring',
+      title: 'System Monitoring',
+      path: '/rtgs/monitoring',
+      icon: Activity,
+      description: 'Real-time system monitoring',
+      roles: ['Admin', 'CBBOperator'],
+      children: [
+        {
+          id: 'system-status',
+          title: 'System Status',
+          path: '/rtgs/monitoring/status',
+          icon: CheckCircle,
+          description: 'Current system status'
+        },
+        {
+          id: 'transaction-monitoring',
+          title: 'Transaction Monitoring',
+          path: '/rtgs/monitoring/transactions',
+          icon: Search,
+          description: 'Monitor transaction flows'
+        },
+        {
+          id: 'alerts-notifications',
+          title: 'Alerts & Notifications',
+          path: '/rtgs/monitoring/alerts',
+          icon: Bell,
+          description: 'System alerts and notifications'
+        }
+      ]
+    }
+  ],
+
+  // CSD System Navigation
+  csd: [
+    {
+      id: 'csd-dashboard',
+      title: 'CSD Dashboard',
+      path: '/csd',
+      icon: BarChart3,
+      description: 'Securities market overview'
+    },
+    {
+      id: 'csd-trading',
+      title: 'Trading',
+      path: '/csd/trading',
+      icon: TrendingUp,
+      description: 'Securities trading operations',
+      roles: ['Admin', 'CBBOperator', 'BankOperator', 'Broker'],
+      children: [
+        {
+          id: 'order-management',
+          title: 'Order Management',
+          path: '/csd/trading/orders',
+          icon: Layers,
+          description: 'Manage trading orders'
+        },
+        {
+          id: 'trade-matching',
+          title: 'Trade Matching',
+          path: '/csd/trading/matching',
+          icon: CheckCircle,
+          description: 'Trade matching engine'
+        },
+        {
+          id: 'market-data',
+          title: 'Market Data',
+          path: '/csd/trading/market-data',
+          icon: Globe,
+          description: 'Real-time market information'
+        }
+      ]
+    },
+    {
+      id: 'csd-settlement',
+      title: 'Settlement',
+      path: '/csd/settlement',
+      icon: CheckCircle,
+      description: 'Trade settlement processing',
+      children: [
+        {
+          id: 'settlement-status',
+          title: 'Settlement Status',
+          path: '/csd/settlement/status',
+          icon: Clock,
+          description: 'Track settlement progress'
+        },
+        {
+          id: 'failed-settlements',
+          title: 'Failed Settlements',
+          path: '/csd/settlement/failed',
+          icon: AlertTriangle,
+          description: 'Manage failed settlements'
+        },
+        {
+          id: 'settlement-calendar',
+          title: 'Settlement Calendar',
+          path: '/csd/settlement/calendar',
+          icon: Database,
+          description: 'Settlement schedule and calendar'
+        }
+      ]
+    },
+    {
+      id: 'csd-custody',
+      title: 'Custody Services',
+      path: '/csd/custody',
+      icon: Lock,
+      description: 'Securities custody and safekeeping',
+      roles: ['Admin', 'CBBOperator', 'Custodian'],
+      children: [
+        {
+          id: 'holdings-management',
+          title: 'Holdings Management',
+          path: '/csd/custody/holdings',
+          icon: Archive,
+          description: 'Manage securities holdings'
+        },
+        {
+          id: 'corporate-actions',
+          title: 'Corporate Actions',
+          path: '/csd/custody/corporate-actions',
+          icon: FileText,
+          description: 'Process corporate actions'
+        },
+        {
+          id: 'client-reporting',
+          title: 'Client Reporting',
+          path: '/csd/custody/reporting',
+          icon: FileText,
+          description: 'Generate client reports'
+        }
+      ]
+    }
+  ],
+
+  // CMS System Navigation
+  cms: [
+    {
+      id: 'cms-dashboard',
+      title: 'CMS Dashboard',
+      path: '/cms',
+      icon: BarChart3,
+      description: 'Collateral management overview'
+    },
+    {
+      id: 'cms-collateral',
+      title: 'Collateral Management',
+      path: '/cms/collateral',
+      icon: Shield,
+      description: 'Manage collateral assets',
+      children: [
+        {
+          id: 'collateral-valuation',
+          title: 'Collateral Valuation',
+          path: '/cms/collateral/valuation',
+          icon: DollarSign,
+          description: 'Asset valuation and pricing'
+        },
+        {
+          id: 'collateral-allocation',
+          title: 'Collateral Allocation',
+          path: '/cms/collateral/allocation',
+          icon: PieChart,
+          description: 'Allocate collateral to exposures'
+        },
+        {
+          id: 'margin-calculation',
+          title: 'Margin Calculation',
+          path: '/cms/collateral/margin',
+          icon: BarChart3,
+          description: 'Calculate margin requirements'
+        }
+      ]
+    },
+    {
+      id: 'cms-risk',
+      title: 'Risk Management',
+      path: '/cms/risk',
+      icon: AlertTriangle,
+      description: 'Risk monitoring and control',
+      roles: ['Admin', 'CBBOperator'],
+      children: [
+        {
+          id: 'exposure-monitoring',
+          title: 'Exposure Monitoring',
+          path: '/cms/risk/exposure',
+          icon: Activity,
+          description: 'Monitor counterparty exposures'
+        },
+        {
+          id: 'stress-testing',
+          title: 'Stress Testing',
+          path: '/cms/risk/stress-testing',
+          icon: AlertTriangle,
+          description: 'Perform stress tests'
+        },
+        {
+          id: 'limit-monitoring',
+          title: 'Limit Monitoring',
+          path: '/cms/risk/limits',
+          icon: Lock,
+          description: 'Monitor risk limits'
+        }
+      ]
+    }
+  ],
+
+  // Reports Navigation
+  reports: [
+    {
+      id: 'reports-dashboard',
+      title: 'Reports Dashboard',
+      path: '/reports',
+      icon: BarChart3,
+      description: 'Reporting overview and quick access'
+    },
+    {
+      id: 'operational-reports',
+      title: 'Operational Reports',
+      path: '/reports/operational',
+      icon: FileText,
+      description: 'Daily operational reporting',
+      children: [
+        {
+          id: 'daily-summary',
+          title: 'Daily Summary',
+          path: '/reports/operational/daily',
+          icon: Clock,
+          description: 'Daily operations summary'
+        },
+        {
+          id: 'transaction-reports',
+          title: 'Transaction Reports',
+          path: '/reports/operational/transactions',
+          icon: Archive,
+          description: 'Detailed transaction reports'
+        },
+        {
+          id: 'settlement-reports',
+          title: 'Settlement Reports',
+          path: '/reports/operational/settlement',
+          icon: CheckCircle,
+          description: 'Settlement activity reports'
+        }
+      ]
+    },
+    {
+      id: 'regulatory-reports',
+      title: 'Regulatory Reports',
+      path: '/reports/regulatory',
+      icon: FileText,
+      description: 'Regulatory compliance reporting',
+      roles: ['Admin', 'CBBOperator', 'Auditor'],
+      children: [
+        {
+          id: 'regulatory-submission',
+          title: 'Regulatory Submissions',
+          path: '/reports/regulatory/submissions',
+          icon: FileText,
+          description: 'Submit regulatory reports'
+        },
+        {
+          id: 'compliance-monitoring',
+          title: 'Compliance Monitoring',
+          path: '/reports/regulatory/compliance',
+          icon: CheckCircle,
+          description: 'Monitor compliance status'
+        }
+      ]
+    }
+  ],
+
+  // Admin Navigation
+  admin: [
+    {
+      id: 'admin-dashboard',
+      title: 'Admin Dashboard',
+      path: '/admin',
+      icon: BarChart3,
+      description: 'System administration overview'
+    },
+    {
+      id: 'user-management',
+      title: 'User Management',
+      path: '/admin/users',
+      icon: Users,
+      description: 'Manage system users',
+      children: [
+        {
+          id: 'user-accounts',
+          title: 'User Accounts',
+          path: '/admin/users/accounts',
+          icon: UserCheck,
+          description: 'Manage user accounts'
+        },
+        {
+          id: 'role-permissions',
+          title: 'Roles & Permissions',
+          path: '/admin/users/roles',
+          icon: Key,
+          description: 'Configure user roles and permissions'
+        }
+      ]
+    },
+    {
+      id: 'system-config',
+      title: 'System Configuration',
+      path: '/admin/config',
+      icon: Settings,
+      description: 'System configuration and settings',
+      children: [
+        {
+          id: 'business-calendar',
+          title: 'Business Calendar',
+          path: '/admin/config/calendar',
+          icon: Database,
+          description: 'Manage business calendar'
+        },
+        {
+          id: 'system-parameters',
+          title: 'System Parameters',
+          path: '/admin/config/parameters',
+          icon: Settings,
+          description: 'Configure system parameters'
+        }
+      ]
+    },
+    {
+      id: 'audit-logs',
+      title: 'Audit & Logs',
+      path: '/admin/audit',
+      icon: Search,
+      description: 'System audit and logging',
+      children: [
+        {
+          id: 'audit-trail',
+          title: 'Audit Trail',
+          path: '/admin/audit/trail',
+          icon: Archive,
+          description: 'View system audit trail'
+        },
+        {
+          id: 'system-logs',
+          title: 'System Logs',
+          path: '/admin/audit/logs',
+          icon: FileText,
+          description: 'Access system logs'
+        }
+      ]
+    }
+  ]
+};
+
+const navigationConfig = {
+  primaryNavigation,
+  secondaryNavigation
+};
 
 export default navigationConfig;

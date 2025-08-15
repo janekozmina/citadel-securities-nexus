@@ -49,7 +49,8 @@ export const themeConfig = {
       primary: 'linear-gradient(135deg, hsl(210, 100%, 54%) 0%, hsl(210, 100%, 40%) 100%)',
       secondary: 'linear-gradient(135deg, hsl(215, 25%, 27%) 0%, hsl(215, 25%, 15%) 100%)',
       surface: 'linear-gradient(135deg, hsl(0, 0%, 100%) 0%, hsl(210, 100%, 99%) 100%)',
-      header: 'linear-gradient(90deg, hsl(210, 100%, 97%) 0%, hsl(210, 100%, 93%) 100%)'
+      header: 'linear-gradient(90deg, hsl(210, 100%, 97%) 0%, hsl(210, 100%, 93%) 100%)',
+      sidebar: 'linear-gradient(135deg, hsl(215, 25%, 27%) 0%, hsl(215, 25%, 15%) 100%)'
     }
   },
 
