@@ -125,16 +125,6 @@ export default function BalancesLiquidityPage() {
               <CardContent className="p-4">
                 <div className="flex items-center justify-between">
                   <span className="text-sm font-medium text-slate-700">Liquidity Management Controls</span>
-                  <div className="flex gap-2">
-                    <Button variant="outline" size="sm">
-                      <Activity className="h-4 w-4 mr-2" />
-                      Real-time Mode
-                    </Button>
-                    <Button variant="outline" size="sm">
-                      <BarChart3 className="h-4 w-4 mr-2" />
-                      Analytics View
-                    </Button>
-                  </div>
                 </div>
               </CardContent>
             </Card>
