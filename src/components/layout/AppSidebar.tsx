@@ -5,65 +5,30 @@ import { usePermissions } from '@/hooks/usePermissions';
 import {
   Sidebar,
   SidebarContent,
-  SidebarGroup,
-  SidebarGroupContent,
-  SidebarGroupLabel,
-  SidebarMenu,
-  SidebarMenuButton,
-  SidebarMenuItem,
   useSidebar,
 } from '@/components/ui/sidebar';
 import { Input } from '@/components/ui/input';
 import { Button } from '@/components/ui/button';
+import { Badge } from '@/components/ui/badge';
 import { 
   Search,
   X,
-  ChevronRight
+  ChevronRight,
+  Menu
 } from 'lucide-react';
 import navigationConfig, { NavigationItem } from '@/config/navigationConfig';
 
 export function AppSidebar() {
   const { user } = useAuth();
   const { canAccessRoute } = usePermissions();
-  const { state } = useSidebar();
+  const { state, toggleSidebar } = useSidebar();
   const location = useLocation();
   const isCollapsed = state === 'collapsed';
   
   const [searchQuery, setSearchQuery] = useState('');
-  const [selectedMainItem, setSelectedMainItem] = useState<NavigationItem | null>(null);
+  const [expandedSections, setExpandedSections] = useState<Set<string>>(new Set());
 
-  // Flatten all navigation items for searching
-  const flattenNavigationItems = (items: NavigationItem[], parentPath = ''): NavigationItem[] => {
-    let flattened: NavigationItem[] = [];
-    
-    items.forEach(item => {
-      flattened.push({
-        ...item,
-        path: parentPath ? `${parentPath}/${item.path}` : item.path
-      });
-      
-      if (item.children) {
-        flattened = flattened.concat(flattenNavigationItems(item.children, item.path));
-      }
-    });
-    
-    return flattened;
-  };
-
-  // Get all navigation items (primary + secondary flattened)
-  const getAllNavigationItems = (): NavigationItem[] => {
-    let allItems: NavigationItem[] = [...navigationConfig.primaryNavigation];
-    
-    Object.values(navigationConfig.secondaryNavigation).forEach(items => {
-      if (Array.isArray(items)) {
-        allItems = allItems.concat(flattenNavigationItems(items));
-      }
-    });
-    
-    return allItems;
-  };
-
-  // Filter items based on user role
+  // Get accessible navigation items based on user role
   const getAccessibleItems = (items: NavigationItem[]): NavigationItem[] => {
     return items.filter(item => {
       if (!item.roles || item.roles.length === 0) return true;
@@ -78,14 +43,73 @@ export function AppSidebar() {
     
     const searchTerm = query.toLowerCase().trim();
     
-    return items.filter(item => {
-      if (item.title.toLowerCase().includes(searchTerm)) return true;
-      if (item.description?.toLowerCase().includes(searchTerm)) return true;
-      if (item.keywords?.some(keyword => keyword.toLowerCase().includes(searchTerm))) return true;
-      if (item.tags?.some(tag => tag.toLowerCase().includes(searchTerm))) return true;
-      return false;
+    const filterRecursive = (item: NavigationItem): NavigationItem | null => {
+      const titleMatches = item.title.toLowerCase().includes(searchTerm);
+      const descMatches = item.description?.toLowerCase().includes(searchTerm);
+      const keywordMatches = item.keywords?.some(k => k.toLowerCase().includes(searchTerm));
+      
+      let filteredChildren: NavigationItem[] = [];
+      if (item.children) {
+        filteredChildren = item.children
+          .map(child => filterRecursive(child))
+          .filter((child): child is NavigationItem => child !== null);
+      }
+      
+      if (titleMatches || descMatches || keywordMatches || filteredChildren.length > 0) {
+        return { ...item, children: filteredChildren };
+      }
+      
+      return null;
+    };
+
+    return items
+      .map(item => filterRecursive(item))
+      .filter((item): item is NavigationItem => item !== null);
+  };
+
+  // Toggle section expansion
+  const toggleSection = (sectionId: string) => {
+    setExpandedSections(prev => {
+      const newSet = new Set(prev);
+      if (newSet.has(sectionId)) {
+        newSet.delete(sectionId);
+      } else {
+        newSet.add(sectionId);
+      }
+      return newSet;
     });
   };
+
+  // Auto-expand sections based on current route
+  useEffect(() => {
+    const currentPath = location.pathname;
+    
+    // Find and expand sections containing current route
+    const findAndExpandPath = (items: NavigationItem[], parentId = '') => {
+      items.forEach(item => {
+        const fullId = parentId ? `${parentId}-${item.id}` : item.id;
+        
+        if (currentPath === item.path || currentPath.startsWith(item.path + '/')) {
+          setExpandedSections(prev => new Set([...prev, fullId]));
+        }
+        
+        if (item.children) {
+          findAndExpandPath(item.children, fullId);
+        }
+      });
+    };
+
+    // Check primary navigation
+    findAndExpandPath(navigationConfig.primaryNavigation);
+    
+    // Check secondary navigation
+    Object.entries(navigationConfig.secondaryNavigation).forEach(([key, items]) => {
+      if (currentPath.startsWith(`/${key}`)) {
+        setExpandedSections(prev => new Set([...prev, key]));
+        findAndExpandPath(items, key);
+      }
+    });
+  }, [location.pathname]);
 
   // Highlight matched text
   const highlightText = (text: string, query: string) => {
@@ -94,315 +118,240 @@ export function AppSidebar() {
     const parts = text.split(new RegExp(`(${query})`, 'gi'));
     return parts.map((part, index) => (
       part.toLowerCase() === query.toLowerCase() ? (
-        <span key={index} className="bg-yellow-200 dark:bg-yellow-800 px-1 rounded">
+        <mark key={index} className="bg-primary/20 text-primary rounded px-1">
           {part}
-        </span>
+        </mark>
       ) : (
         <span key={index}>{part}</span>
       )
     ));
   };
 
-  // Get filtered and accessible navigation items
-  const accessibleItems = getAccessibleItems(getAllNavigationItems());
-  const filteredItems = searchQuery ? filterItemsBySearch(accessibleItems, searchQuery) : [];
-  
-  // Get primary navigation items for normal display
-  const primaryItems = getAccessibleItems(navigationConfig.primaryNavigation);
-
-  // Find which primary item should be selected based on current route
-  useEffect(() => {
-    const currentPath = location.pathname;
-    
-    // Find which primary item contains current route
-    const activeMainItem = primaryItems.find(item => {
-      if (currentPath === item.path) return true;
-      
-      const secondaryItems = navigationConfig.secondaryNavigation[item.id] || [];
-      return secondaryItems.some(secondaryItem => {
-        if (currentPath === secondaryItem.path) return true;
-        if (secondaryItem.children) {
-          return secondaryItem.children.some(child => currentPath === child.path);
-        }
-        return false;
-      });
-    });
-    
-    if (activeMainItem) {
-      setSelectedMainItem(activeMainItem);
-    } else {
-      // Force selection based on current route for proper two-panel display
-      if (currentPath.startsWith('/admin')) {
-        const adminItem = primaryItems.find(item => item.id === 'admin');
-        if (adminItem) setSelectedMainItem(adminItem);
-      }
-      else if (currentPath.startsWith('/rtgs')) {
-        const rtgsItem = primaryItems.find(item => item.id === 'rtgs');
-        if (rtgsItem) setSelectedMainItem(rtgsItem);
-      }
-      else if (currentPath.startsWith('/csd')) {
-        const csdItem = primaryItems.find(item => item.id === 'csd');
-        if (csdItem) setSelectedMainItem(csdItem);
-      }
-      else if (currentPath.startsWith('/cms')) {
-        const cmsItem = primaryItems.find(item => item.id === 'cms');
-        if (cmsItem) setSelectedMainItem(cmsItem);
-      }
-      else if (currentPath.startsWith('/reports')) {
-        const reportsItem = primaryItems.find(item => item.id === 'reports');
-        if (reportsItem) setSelectedMainItem(reportsItem);
-      }
+  // Check if item is active
+  const isItemActive = (item: NavigationItem): boolean => {
+    if (location.pathname === item.path) return true;
+    if (item.children) {
+      return item.children.some(child => isItemActive(child));
     }
-  }, [location.pathname, primaryItems]);
-
-  // Auto-expand first result when searching
-  useEffect(() => {
-    if (searchQuery && filteredItems.length > 0) {
-      const firstResult = filteredItems[0];
-      const primaryItem = primaryItems.find(item => 
-        firstResult.path.startsWith(item.path) || firstResult.id === item.id
-      );
-      if (primaryItem) {
-        setSelectedMainItem(primaryItem);
-      }
-    }
-  }, [searchQuery, filteredItems, primaryItems]);
-
-  const clearSearch = () => {
-    setSearchQuery('');
+    return false;
   };
 
-  const renderSearchResults = () => {
-    if (!searchQuery) return null;
-    
-    if (filteredItems.length === 0) {
-      return (
-        <div className="p-4 text-center text-muted-foreground">
-          <p className="text-sm">No results found for "{searchQuery}"</p>
-          <p className="text-xs mt-1">Try different keywords or check spelling</p>
-        </div>
-      );
-    }
+  // Render navigation item
+  const renderNavigationItem = (item: NavigationItem, level = 0, parentId = '') => {
+    const fullId = parentId ? `${parentId}-${item.id}` : item.id;
+    const hasChildren = item.children && item.children.length > 0;
+    const isExpanded = expandedSections.has(fullId);
+    const isActive = isItemActive(item);
+    const accessibleChildren = hasChildren ? getAccessibleItems(item.children!) : [];
+
+    // Calculate indentation based on level
+    const indentClass = level === 0 ? 'pl-4' : level === 1 ? 'pl-8' : 'pl-12';
     
     return (
-      <div className="flex-1 overflow-y-auto">
-        <SidebarGroup>
-          <SidebarGroupLabel>Search Results ({filteredItems.length})</SidebarGroupLabel>
-          <SidebarGroupContent>
-            <SidebarMenu>
-              {filteredItems.map((item) => (
-                <SidebarMenuItem key={item.id}>
-                  <SidebarMenuButton asChild>
-                    <NavLink
-                      to={item.path}
-                      className={({ isActive }) =>
-                        `flex items-center gap-3 px-3 py-2 rounded-lg transition-colors ${
-                          isActive 
-                            ? 'bg-white/20 text-white shadow-md backdrop-blur-sm' 
-                            : 'text-white/70 hover:bg-white/10 hover:text-white'
-                        }`
-                      }
-                    >
-                      <item.icon className="h-4 w-4 flex-shrink-0" />
-                      <div className="flex-1 min-w-0">
-                        <div className="font-medium">
-                          {highlightText(item.title, searchQuery)}
-                        </div>
-                        {item.description && (
-                          <div className="text-xs text-white/60 mt-1 line-clamp-2">
-                            {highlightText(item.description, searchQuery)}
-                          </div>
-                        )}
-                      </div>
-                    </NavLink>
-                  </SidebarMenuButton>
-                </SidebarMenuItem>
-              ))}
-            </SidebarMenu>
-          </SidebarGroupContent>
-        </SidebarGroup>
-      </div>
-    );
-  };
-
-  const renderMainPanel = () => (
-    <div className="h-full flex flex-col p-4">
-      {/* Primary Navigation - Icons Only */}
-      <div className="flex-1 overflow-y-auto">
-        <SidebarMenu>
-          {primaryItems.map((item) => {
-            const isActive = location.pathname === item.path || 
-              (selectedMainItem?.id === item.id && !searchQuery);
-            const hasSubItems = navigationConfig.secondaryNavigation[item.id]?.length > 0;
+      <div key={fullId} className="mb-1">
+        {/* Navigation Item */}
+        <div className={`group relative ${indentClass}`}>
+          <NavLink
+            to={item.path}
+            className={({ isActive: linkActive }) => 
+              `flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm transition-all duration-200 hover:bg-accent/50 ${
+                linkActive || isActive
+                  ? 'bg-accent text-accent-foreground font-medium shadow-sm'
+                  : 'text-foreground/70 hover:text-foreground'
+              } ${level === 0 ? 'font-medium' : level === 1 ? 'font-normal' : 'font-light text-xs'}`
+            }
+            onClick={(e) => {
+              if (hasChildren) {
+                e.preventDefault();
+                toggleSection(fullId);
+              }
+            }}
+          >
+            {/* Icon */}
+            <item.icon className={`flex-shrink-0 ${
+              level === 0 ? 'h-5 w-5' : level === 1 ? 'h-4 w-4' : 'h-3 w-3'
+            }`} />
             
-            return (
-              <SidebarMenuItem key={item.id} className="mb-2">
-                <SidebarMenuButton
-                  onClick={() => {
-                    if (hasSubItems) {
-                      setSelectedMainItem(selectedMainItem?.id === item.id ? null : item);
-                    }
-                  }}
-                  asChild={!hasSubItems}
-                  className={`flex items-center justify-center p-3 rounded-lg transition-all duration-200 w-full ${
-                    isActive 
-                      ? 'bg-white/20 text-white shadow-lg backdrop-blur-sm' 
-                      : 'text-white/80 hover:bg-white/10 hover:text-white'
-                  }`}
-                  title={item.title}
-                >
-                  {hasSubItems ? (
-                    <div className="flex items-center justify-center">
-                      <item.icon className="h-5 w-5 flex-shrink-0" />
-                    </div>
-                  ) : (
-                    <NavLink to={item.path} className="flex items-center justify-center w-full">
-                      <item.icon className="h-5 w-5 flex-shrink-0" />
-                    </NavLink>
-                  )}
-                </SidebarMenuButton>
-              </SidebarMenuItem>
-            );
-          })}
-        </SidebarMenu>
-      </div>
-    </div>
-  );
-
-  const renderSubPanel = () => {
-    if (!selectedMainItem || isCollapsed) return null;
-    
-    const secondaryItems = navigationConfig.secondaryNavigation[selectedMainItem.id] || [];
-    const accessibleSecondaryItems = getAccessibleItems(secondaryItems);
-
-    return (
-      <div className="h-full flex flex-col bg-black/20">
-        {/* Sub Panel Header */}
-        <div className="p-4 border-b border-white/20">
-          <div className="flex items-center gap-3">
-            <Button
-              variant="ghost"
-              size="sm"
-              onClick={() => setSelectedMainItem(null)}
-              className="p-1 h-auto text-white/80 hover:text-white hover:bg-white/10"
-            >
-              <ChevronRight className="h-4 w-4 rotate-180" />
-            </Button>
-            <selectedMainItem.icon className="h-5 w-5 text-white" />
-            <span className="font-medium text-white">{selectedMainItem.title}</span>
-          </div>
+            {/* Title */}
+            {!isCollapsed && (
+              <>
+                <span className="flex-1 truncate">
+                  {highlightText(item.title, searchQuery)}
+                </span>
+                
+                {/* Badge for children count */}
+                {hasChildren && accessibleChildren.length > 0 && (
+                  <Badge variant="secondary" className="text-xs h-5 px-1.5">
+                    {accessibleChildren.length}
+                  </Badge>
+                )}
+                
+                {/* Expand/Collapse indicator */}
+                {hasChildren && (
+                  <ChevronRight 
+                    className={`h-4 w-4 transition-transform duration-200 ${
+                      isExpanded ? 'rotate-90' : ''
+                    }`} 
+                  />
+                )}
+              </>
+            )}
+          </NavLink>
         </div>
 
-        {/* Search Results or Regular Menu */}
-        {searchQuery ? (
-          renderSearchResults()
-        ) : (
-          <div className="flex-1 overflow-y-auto p-4">
-            <SidebarMenu>
-              {accessibleSecondaryItems.map((subItem) => {
-                const isActive = location.pathname === subItem.path || 
-                  (subItem.children && subItem.children.some(child => location.pathname === child.path));
-                const hasSubItems = subItem.children && subItem.children.length > 0;
-                
-                return (
-                  <div key={subItem.id} className="mb-2">
-                    <SidebarMenuItem>
-                      <SidebarMenuButton
-                        asChild={!hasSubItems}
-                        className={`flex items-center justify-between gap-3 px-3 py-2.5 rounded-lg transition-all duration-200 ${
-                          isActive 
-                            ? 'bg-white/15 text-white shadow-md backdrop-blur-sm' 
-                            : 'text-white/70 hover:bg-white/10 hover:text-white'
-                        }`}
-                      >
-                        <NavLink
-                          to={subItem.path}
-                          className="flex items-center gap-3 w-full"
-                        >
-                          <subItem.icon className="h-4 w-4 flex-shrink-0" />
-                          <span className="text-sm font-medium">{subItem.title}</span>
-                        </NavLink>
-                      </SidebarMenuButton>
-                    </SidebarMenuItem>
-                    
-                    {/* Third Level Items - Always visible when parent is active */}
-                    {hasSubItems && isActive && (
-                      <div className="ml-6 mt-2 space-y-1 border-l border-white/20 pl-3">
-                        {subItem.children?.filter(child => getAccessibleItems([child]).length > 0).map((thirdItem) => {
-                          const isThirdActive = location.pathname === thirdItem.path;
-                          
-                          return (
-                            <SidebarMenuItem key={thirdItem.id}>
-                              <SidebarMenuButton asChild>
-                                <NavLink
-                                  to={thirdItem.path}
-                                  className={({ isActive: linkActive }) => 
-                                    `flex items-center gap-3 px-3 py-2 rounded-lg transition-all duration-200 ${
-                                      linkActive || isThirdActive
-                                        ? 'bg-white/20 text-white shadow-md backdrop-blur-sm' 
-                                        : 'text-white/60 hover:bg-white/10 hover:text-white'
-                                    }`
-                                  }
-                                >
-                                  <thirdItem.icon className="h-3 w-3 flex-shrink-0" />
-                                  <span className="text-xs font-medium">{thirdItem.title}</span>
-                                </NavLink>
-                              </SidebarMenuButton>
-                            </SidebarMenuItem>
-                          );
-                        })}
-                      </div>
-                    )}
-                  </div>
-                );
-              })}
-            </SidebarMenu>
+        {/* Children - Only show when expanded and not collapsed */}
+        {hasChildren && isExpanded && !isCollapsed && (
+          <div className="mt-1 space-y-1">
+            {accessibleChildren.map(child => 
+              renderNavigationItem(child, level + 1, fullId)
+            )}
           </div>
         )}
       </div>
     );
   };
 
+  // Get filtered navigation items
+  const primaryItems = getAccessibleItems(navigationConfig.primaryNavigation);
+  const filteredPrimaryItems = searchQuery ? filterItemsBySearch(primaryItems, searchQuery) : primaryItems;
+
+  // Get all secondary items when searching
+  const getAllSecondaryItems = () => {
+    let allItems: NavigationItem[] = [];
+    Object.values(navigationConfig.secondaryNavigation).forEach(items => {
+      if (Array.isArray(items)) {
+        allItems = allItems.concat(getAccessibleItems(items));
+      }
+    });
+    return allItems;
+  };
+
+  const secondaryItems = getAllSecondaryItems();
+  const filteredSecondaryItems = searchQuery ? filterItemsBySearch(secondaryItems, searchQuery) : [];
+
   return (
-    <Sidebar className="dashboard-sidebar-bg border-r border-slate-600">
-      <SidebarContent>
-        {/* Search Bar - Always visible at top */}
-        <div className="p-4 border-b border-white/20">
-          <div className="relative">
-            <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 h-4 w-4 text-white/60" />
-            <Input
-              placeholder={isCollapsed ? "Search..." : "Search menu items..."}
-              value={searchQuery}
-              onChange={(e) => setSearchQuery(e.target.value)}
-              className="pl-10 pr-8 bg-white/10 border-white/20 text-white placeholder:text-white/60 focus:border-white/40"
-            />
-            {searchQuery && (
-              <Button
-                variant="ghost"
-                size="sm"
-                onClick={clearSearch}
-                className="absolute right-1 top-1/2 transform -translate-y-1/2 h-6 w-6 p-0 text-white/60 hover:text-white hover:bg-white/10"
-              >
-                <X className="h-3 w-3" />
-              </Button>
-            )}
-          </div>
+    <Sidebar className="dashboard-sidebar-bg border-r border-border/40">
+      <SidebarContent className="flex flex-col h-full">
+        {/* Header */}
+        <div className="flex items-center gap-3 p-4 border-b border-border/40">
+          <Button
+            variant="ghost"
+            size="sm"
+            onClick={toggleSidebar}
+            className="h-8 w-8 p-0 text-foreground/60 hover:text-foreground hover:bg-accent/50"
+          >
+            <Menu className="h-4 w-4" />
+          </Button>
+          {!isCollapsed && (
+            <h2 className="text-lg font-semibold text-foreground">Navigation</h2>
+          )}
         </div>
 
-        {/* Two Panel Layout */}
-        <div className="flex flex-1 min-h-0">
-          {/* Panel 1: Primary Navigation - Always visible (Icons) */}
-          <div className="w-16 border-r border-white/20 flex-shrink-0">
-            {renderMainPanel()}
+        {/* Search */}
+        {!isCollapsed && (
+          <div className="p-4 border-b border-border/40">
+            <div className="relative">
+              <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 h-4 w-4 text-muted-foreground" />
+              <Input
+                placeholder="Search navigation..."
+                value={searchQuery}
+                onChange={(e) => setSearchQuery(e.target.value)}
+                className="pl-10 pr-8 h-9 bg-background/50 border-border/60 focus:border-primary/60"
+              />
+              {searchQuery && (
+                <Button
+                  variant="ghost"
+                  size="sm"
+                  onClick={() => setSearchQuery('')}
+                  className="absolute right-1 top-1/2 transform -translate-y-1/2 h-6 w-6 p-0 text-muted-foreground hover:text-foreground"
+                >
+                  <X className="h-3 w-3" />
+                </Button>
+              )}
+            </div>
           </div>
-          
-          {/* Panel 2: Secondary Navigation - Only when item selected */}
-          {!isCollapsed && selectedMainItem && (
-            <div className="w-80 flex-shrink-0">
-              {renderSubPanel()}
+        )}
+
+        {/* Navigation Content */}
+        <div className="flex-1 overflow-y-auto py-4">
+          {searchQuery ? (
+            /* Search Results */
+            <div className="space-y-4">
+              {filteredPrimaryItems.length > 0 && (
+                <div>
+                  <div className="px-4 py-2 text-xs font-semibold text-muted-foreground uppercase tracking-wider">
+                    Primary Navigation
+                  </div>
+                  <div className="space-y-1">
+                    {filteredPrimaryItems.map(item => renderNavigationItem(item, 0))}
+                  </div>
+                </div>
+              )}
+              
+              {filteredSecondaryItems.length > 0 && (
+                <div>
+                  <div className="px-4 py-2 text-xs font-semibold text-muted-foreground uppercase tracking-wider">
+                    Secondary Navigation
+                  </div>
+                  <div className="space-y-1">
+                    {filteredSecondaryItems.map(item => renderNavigationItem(item, 0))}
+                  </div>
+                </div>
+              )}
+              
+              {filteredPrimaryItems.length === 0 && filteredSecondaryItems.length === 0 && (
+                <div className="px-4 py-8 text-center text-muted-foreground">
+                  <Search className="h-8 w-8 mx-auto mb-2 opacity-50" />
+                  <p className="text-sm">No results found for "{searchQuery}"</p>
+                  <p className="text-xs mt-1">Try different keywords</p>
+                </div>
+              )}
+            </div>
+          ) : (
+            /* Regular Navigation */
+            <div className="space-y-6">
+              {/* Primary Navigation */}
+              <div>
+                {!isCollapsed && (
+                  <div className="px-4 py-2 text-xs font-semibold text-muted-foreground uppercase tracking-wider">
+                    Main
+                  </div>
+                )}
+                <div className="space-y-1">
+                  {primaryItems.map(item => renderNavigationItem(item, 0))}
+                </div>
+              </div>
+
+              {/* Secondary Navigation for current section */}
+              {!isCollapsed && Object.entries(navigationConfig.secondaryNavigation).map(([key, items]) => {
+                const accessibleItems = getAccessibleItems(items);
+                const shouldShow = location.pathname.startsWith(`/${key}`) && accessibleItems.length > 0;
+                
+                if (!shouldShow) return null;
+                
+                return (
+                  <div key={key}>
+                    <div className="px-4 py-2 text-xs font-semibold text-muted-foreground uppercase tracking-wider">
+                      {key.toUpperCase()} Menu
+                    </div>
+                    <div className="space-y-1">
+                      {accessibleItems.map(item => renderNavigationItem(item, 0, key))}
+                    </div>
+                  </div>
+                );
+              })}
             </div>
           )}
         </div>
+
+        {/* Footer */}
+        {!isCollapsed && (
+          <div className="p-4 border-t border-border/40">
+            <div className="text-xs text-muted-foreground">
+              CBB Portal v1.0
+            </div>
+          </div>
+        )}
       </SidebarContent>
     </Sidebar>
   );
