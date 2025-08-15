@@ -14,9 +14,18 @@ import {
   DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu';
 
+// Helper hook that safely uses sidebar context
+const useSidebarContextSafe = () => {
+  try {
+    return useSidebarContext();
+  } catch {
+    return { toggle: () => {} }; // Return dummy function if no provider
+  }
+};
+
 export const DashboardHeader = () => {
   const { user, logout } = useAuth();
-  const { toggle } = useSidebarContext();
+  const { toggle } = useSidebarContextSafe();
   const [searchQuery, setSearchQuery] = useState('');
 
   return (
