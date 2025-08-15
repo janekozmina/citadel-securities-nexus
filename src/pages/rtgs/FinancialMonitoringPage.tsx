@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { DataTable } from '@/components/common/DataTable';
+import { QuickActionsManager } from '@/components/common/QuickActionsManager';
 import portalConfig from '@/config/portalConfig';
 import { 
   AlertTriangle,
@@ -89,31 +90,13 @@ export default function FinancialMonitoringPage() {
       </div>
 
       {/* Quick Actions / Shortcuts */}
-      <div className="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-6 gap-4">
-        <Button variant="outline" size="sm" className="h-auto flex-col gap-2 p-4">
-          <RefreshCw className={`h-4 w-4 ${refreshing ? 'animate-spin' : ''}`} />
-          <span className="text-xs">Refresh Data</span>
-        </Button>
-        <Button variant="outline" size="sm" className="h-auto flex-col gap-2 p-4">
-          <Filter className="h-4 w-4" />
-          <span className="text-xs">Filter Banks</span>
-        </Button>
-        <Button variant="outline" size="sm" className="h-auto flex-col gap-2 p-4">
-          <AlertTriangle className="h-4 w-4" />
-          <span className="text-xs">View Alerts</span>
-        </Button>
-        <Button variant="outline" size="sm" className="h-auto flex-col gap-2 p-4">
-          <Download className="h-4 w-4" />
-          <span className="text-xs">Export Data</span>
-        </Button>
-        <Button variant="outline" size="sm" className="h-auto flex-col gap-2 p-4">
-          <TrendingUp className="h-4 w-4" />
-          <span className="text-xs">Trend Analysis</span>
-        </Button>
-        <Button variant="outline" size="sm" className="h-auto flex-col gap-2 p-4">
-          <Activity className="h-4 w-4" />
-          <span className="text-xs">Live Monitor</span>
-        </Button>
+      <div className="flex justify-end mb-4">
+        <div className="w-64">
+          <QuickActionsManager 
+            pageKey="financial-monitoring" 
+            systemType="rtgs" 
+          />
+        </div>
       </div>
 
       {/* Status Overview Cards */}

@@ -9,6 +9,7 @@ import { TooltipProvider } from '@/components/ui/tooltip';
 import { ArrowUpDown, TrendingUp, DollarSign, AlertCircle, Wallet, Activity, BarChart3, Shield } from 'lucide-react';
 import { LiquidityWidget } from '@/components/common/LiquidityWidget';
 import { DataTable } from '@/components/common/DataTable';
+import { QuickActionsManager } from '@/components/common/QuickActionsManager';
 
 const balancesData = [
   { id: '0003800040124240088', participant: 'BANQUE DE TUNISIE ET DES EMIRATS', accountCode: 'SA', accountType: 'RTSE', reservedAmount: 4439.726, currency: 'TND', debitTurnover: 100.000, creditTurnover: 0.000, totalDebitQueue: 0.000, totalCreditQueue: 0.000, balance: 4439.726 },
@@ -226,23 +227,10 @@ export default function BalancesLiquidityPage() {
 
           {/* Right Sidebar with Quick Actions */}
           <div className="w-64 space-y-4">
-            <div className="bg-white border border-slate-200 rounded-lg p-4">
-              <h3 className="font-semibold text-slate-900 mb-4">Quick Actions</h3>
-              <div className="space-y-2">
-                <Button className="w-full justify-start">
-                  <TrendingUp className="h-4 w-4 mr-2" />
-                  Liquidity Analysis
-                </Button>
-                <Button variant="outline" className="w-full justify-start">
-                  <DollarSign className="h-4 w-4 mr-2" />
-                  Reserve Management
-                </Button>
-                <Button variant="outline" className="w-full justify-start">
-                  <AlertCircle className="h-4 w-4 mr-2" />
-                  Balance Alerts
-                </Button>
-              </div>
-            </div>
+            <QuickActionsManager 
+              pageKey="balances-liquidity" 
+              systemType="rtgs" 
+            />
           </div>
         </div>
       </div>

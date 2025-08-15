@@ -8,6 +8,7 @@ import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@
 import { TooltipProvider } from '@/components/ui/tooltip';
 import { ArrowUpDown, Calculator, Pause, Eye } from 'lucide-react';
 import portalConfig from '@/config/portalConfig';
+import { QuickActionsManager } from '@/components/common/QuickActionsManager';
 
 // Generate account data using config
 const generateAccountData = () => {
@@ -279,23 +280,10 @@ export default function AccountManagementPage() {
 
           {/* Right Sidebar with Quick Actions */}
           <div className="w-64 space-y-4">
-            <div className="bg-white border border-slate-200 rounded-lg p-4">
-              <h3 className="font-semibold text-slate-900 mb-4">Quick Actions</h3>
-              <div className="space-y-2">
-                <Button className="w-full justify-start">
-                  <Eye className="h-4 w-4 mr-2" />
-                  Show Total
-                </Button>
-                <Button variant="outline" className="w-full justify-start">
-                  <Calculator className="h-4 w-4 mr-2" />
-                  Set Overdraft
-                </Button>
-                <Button variant="outline" className="w-full justify-start">
-                  <Pause className="h-4 w-4 mr-2" />
-                  Suspend Account
-                </Button>
-              </div>
-            </div>
+            <QuickActionsManager 
+              pageKey="account-management" 
+              systemType="rtgs" 
+            />
           </div>
         </div>
       </div>
