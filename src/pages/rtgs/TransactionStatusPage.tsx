@@ -3,6 +3,7 @@ import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { DataTable } from '@/components/common/DataTable';
 import { QuickActionsManager } from '@/components/common/QuickActionsManager';
+import { TransactionQuickActionsDialogs } from '@/components/dialogs/TransactionQuickActionsDialogs';
 import { 
   generateTransactionData, 
   getTransactionStats, 
@@ -35,6 +36,7 @@ export default function TransactionStatusPage() {
   const [transactions] = useState<TransactionData[]>(() => generateTransactionData());
   const [viewMode, setViewMode] = useState<'visual' | 'table'>('visual');
   const [statusFilter, setStatusFilter] = useState<'all' | 'Settled' | 'Rejected' | 'In Queue' | 'ILF/BUYBACK'>('all');
+  const [activeDialog, setActiveDialog] = useState<'general-transfer' | 'check-funds' | 'liquidity-source' | 'manual-gridlock' | null>(null);
   const stats = getTransactionStats(transactions);
 
   useEffect(() => {
@@ -288,11 +290,22 @@ export default function TransactionStatusPage() {
         {/* Right Sidebar with Quick Actions */}
         <div className="w-64 space-y-4">
           <QuickActionsManager 
-            pageKey="transaction-status" 
-            systemType="rtgs" 
+            pageKey="transaction-status"
+            systemType="rtgs"
+            className="lg:col-span-1"
+            onActionClick={(actionId) => {
+              if (['general-transfer', 'check-funds', 'liquidity-source', 'manual-gridlock'].includes(actionId)) {
+                setActiveDialog(actionId as any);
+              }
+            }}
           />
         </div>
       </div>
+
+      <TransactionQuickActionsDialogs
+        activeDialog={activeDialog}
+        onClose={() => setActiveDialog(null)}
+      />
     </main>
   );
 }

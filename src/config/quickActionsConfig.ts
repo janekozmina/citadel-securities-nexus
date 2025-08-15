@@ -2,6 +2,7 @@ import {
   TrendingUp, 
   DollarSign, 
   AlertCircle, 
+  AlertTriangle,
   FileText, 
   Settings, 
   Users, 
@@ -35,6 +36,7 @@ import {
   X,
   ArrowRight,
   ArrowLeft,
+  ArrowRightLeft,
   Calculator,
   Scissors,
   LucideIcon
@@ -53,6 +55,38 @@ export interface QuickAction {
 export const quickActionsConfig: Record<string, QuickAction[]> = {
   // RTGS Quick Actions
   rtgs: [
+    {
+      id: 'general-transfer',
+      label: 'General Transfer',
+      icon: ArrowRightLeft,
+      category: 'transfers',
+      description: 'Perform general fund transfers between accounts',
+      permissions: ['rtgs.transfers.create']
+    },
+    {
+      id: 'check-funds',
+      label: 'Check Funds',
+      icon: Search,
+      category: 'monitoring',
+      description: 'Check available funds and balances',
+      permissions: ['rtgs.balances.view']
+    },
+    {
+      id: 'liquidity-source',
+      label: 'Liquidity Source',
+      icon: TrendingUp,
+      category: 'liquidity',
+      description: 'View liquidity sources and distribution',
+      permissions: ['rtgs.liquidity.view']
+    },
+    {
+      id: 'manual-gridlock',
+      label: 'Manual Gridlock',
+      icon: AlertTriangle,
+      category: 'operations',
+      description: 'Manage and resolve payment gridlocks',
+      permissions: ['rtgs.gridlock.manage']
+    },
     {
       id: 'liquidity-analysis',
       label: 'Liquidity Analysis',
@@ -345,6 +379,6 @@ export const defaultQuickActions: Record<string, string[]> = {
   'financial-monitoring': ['system-status', 'audit-trail', 'refresh-data'],
   'settlement-hub': ['settlement-monitoring', 'trade-matching', 'risk-monitoring'],
   'collateral-manager': ['collateral-management', 'margin-calculation', 'risk-assessment'],
-  'transaction-status': ['transaction-monitoring', 'payment-processing', 'financial-reports'],
+  'transaction-status': ['general-transfer', 'check-funds', 'liquidity-source', 'manual-gridlock'],
   'default': ['export-data', 'refresh-data', 'advanced-search']
 };

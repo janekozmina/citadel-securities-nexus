@@ -26,9 +26,11 @@ import type { QuickAction } from '@/config/quickActionsConfig';
 interface QuickActionsManagerProps {
   pageKey: string;
   systemType: 'rtgs' | 'csd' | 'cms' | 'common';
+  className?: string;
+  onActionClick?: (actionId: string) => void;
 }
 
-export const QuickActionsManager = ({ pageKey, systemType }: QuickActionsManagerProps) => {
+export const QuickActionsManager = ({ pageKey, systemType, className, onActionClick }: QuickActionsManagerProps) => {
   const {
     activeActions,
     availableActions,
@@ -51,12 +53,15 @@ export const QuickActionsManager = ({ pageKey, systemType }: QuickActionsManager
   );
 
   const handleActionClick = (action: QuickAction) => {
-    // This would be implemented by the parent component or through a context
-    console.log(`Quick action clicked: ${action.label}`);
+    if (onActionClick) {
+      onActionClick(action.id);
+    } else {
+      console.log(`Quick action clicked: ${action.label}`);
+    }
   };
 
   return (
-    <div className="bg-white border border-slate-200 rounded-lg p-4">
+    <div className={`bg-white border border-slate-200 rounded-lg p-4 ${className || ''}`}>
       <div className="flex items-center justify-between mb-4">
         <h3 className="font-semibold text-slate-900">Quick Actions</h3>
         <div className="flex gap-1">
