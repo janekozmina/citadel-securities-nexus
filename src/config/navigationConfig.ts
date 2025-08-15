@@ -28,7 +28,38 @@ import {
   UserCheck,
   BookOpen,
   Bell,
-  Key
+  Key,
+  Monitor,
+  Target,
+  Briefcase,
+  Calculator,
+  Calendar,
+  FileCheck,
+  Gavel,
+  TrendingDown,
+  Eye,
+  Scale,
+  ShieldCheck,
+  MessageSquare,
+  Send,
+  Inbox,
+  Award,
+  Zap,
+  RefreshCw,
+  AlertCircle,
+  Flag,
+  Coins,
+  Receipt,
+  ArrowUpDown,
+  ArrowDownUp,
+  PlayCircle,
+  PauseCircle,
+  XCircle,
+  Grid3X3,
+  FileBarChart,
+  Download,
+  Upload,
+  UserPlus
 } from 'lucide-react';
 
 export interface NavigationItem {
@@ -220,97 +251,616 @@ export const secondaryNavigation: Record<string, NavigationItem[]> = {
       title: 'CSD Dashboard',
       path: '/csd',
       icon: BarChart3,
-      description: 'Securities market overview'
+      description: 'Central Securities Depository overview'
     },
     {
-      id: 'csd-trading',
-      title: 'Trading',
-      path: '/csd/trading',
-      icon: TrendingUp,
-      description: 'Securities trading operations',
-      roles: ['Admin', 'CBBOperator', 'BankOperator', 'Broker'],
+      id: 'summary-hub',
+      title: 'Summary Hub',
+      path: '/csd/summary-hub',
+      icon: Grid3X3,
+      description: 'Central securities summary dashboard'
+    },
+    {
+      id: 'daily-monitor',
+      title: 'Daily Monitor',
+      path: '/csd/daily-monitor',
+      icon: Monitor,
+      description: 'Daily operations monitoring'
+    },
+    {
+      id: 'cbb-operations-hub',
+      title: 'CBB Operations Hub',
+      path: '/csd/cbb-operations-hub',
+      icon: Target,
+      description: 'Central Bank operations center',
       children: [
         {
-          id: 'order-management',
-          title: 'Order Management',
-          path: '/csd/trading/orders',
-          icon: Layers,
-          description: 'Manage trading orders'
-        },
-        {
-          id: 'trade-matching',
-          title: 'Trade Matching',
-          path: '/csd/trading/matching',
-          icon: CheckCircle,
-          description: 'Trade matching engine'
-        },
-        {
-          id: 'market-data',
-          title: 'Market Data',
-          path: '/csd/trading/market-data',
-          icon: Globe,
-          description: 'Real-time market information'
+          id: 'operations-summary',
+          title: 'Operations Summary',
+          path: '/csd/cbb-operations-hub/operations-summary',
+          icon: BarChart3,
+          description: 'Overview of all operations'
         }
       ]
     },
     {
-      id: 'csd-settlement',
-      title: 'Settlement',
-      path: '/csd/settlement',
-      icon: CheckCircle,
-      description: 'Trade settlement processing',
+      id: 'operations',
+      title: 'Operations',
+      path: '/csd/operations',
+      icon: Briefcase,
+      description: 'General operations management'
+    },
+    {
+      id: 'accounts-balances',
+      title: 'Accounts and Balances',
+      path: '/csd/accounts-balances',
+      icon: Calculator,
+      description: 'Account and balance management',
       children: [
         {
-          id: 'settlement-status',
-          title: 'Settlement Status',
-          path: '/csd/settlement/status',
-          icon: Clock,
-          description: 'Track settlement progress'
+          id: 'account-balances-summary',
+          title: 'Account & Balances Summary',
+          path: '/csd/accounts-balances/summary',
+          icon: BarChart3,
+          description: 'Account balances overview'
         },
         {
-          id: 'failed-settlements',
-          title: 'Failed Settlements',
-          path: '/csd/settlement/failed',
+          id: 'account-statements',
+          title: 'Account Statements',
+          path: '/csd/accounts-balances/statements',
+          icon: FileText,
+          description: 'Account statement generation'
+        }
+      ]
+    },
+    {
+      id: 'positions',
+      title: 'Positions',
+      path: '/csd/positions',
+      icon: PieChart,
+      description: 'Securities positions management',
+      children: [
+        {
+          id: 'exposure-summary',
+          title: 'Exposure Summary',
+          path: '/csd/positions/exposure-summary',
           icon: AlertTriangle,
-          description: 'Manage failed settlements'
-        },
-        {
-          id: 'settlement-calendar',
-          title: 'Settlement Calendar',
-          path: '/csd/settlement/calendar',
-          icon: Database,
-          description: 'Settlement schedule and calendar'
+          description: 'Exposure analysis and summary'
         }
       ]
     },
     {
-      id: 'csd-custody',
-      title: 'Custody Services',
-      path: '/csd/custody',
-      icon: Lock,
-      description: 'Securities custody and safekeeping',
-      roles: ['Admin', 'CBBOperator', 'Custodian'],
+      id: 'instrument-management',
+      title: 'Instrument Management',
+      path: '/csd/instruments',
+      icon: Database,
+      description: 'Securities instrument management',
       children: [
         {
-          id: 'holdings-management',
-          title: 'Holdings Management',
-          path: '/csd/custody/holdings',
-          icon: Archive,
-          description: 'Manage securities holdings'
+          id: 'instruments-summary',
+          title: 'Instruments Summary',
+          path: '/csd/instruments/summary',
+          icon: BarChart3,
+          description: 'Overview of all instruments'
         },
         {
-          id: 'corporate-actions',
-          title: 'Corporate Actions',
-          path: '/csd/custody/corporate-actions',
-          icon: FileText,
-          description: 'Process corporate actions'
+          id: 'register-cbb-instrument',
+          title: 'Register CBB Instrument',
+          path: '/csd/instruments/register-cbb',
+          icon: FileCheck,
+          description: 'Register new CBB instruments'
         },
         {
-          id: 'client-reporting',
-          title: 'Client Reporting',
-          path: '/csd/custody/reporting',
+          id: 'register-treasury-bill',
+          title: 'Register Treasury Bill',
+          path: '/csd/instruments/register-treasury-bill',
+          icon: Receipt,
+          description: 'Register treasury bills'
+        },
+        {
+          id: 'register-treasury-bond',
+          title: 'Register Treasury Bond',
+          path: '/csd/instruments/register-treasury-bond',
+          icon: Award,
+          description: 'Register treasury bonds'
+        },
+        {
+          id: 'register-islamic-sukuk',
+          title: 'Register Islamic Sukuk',
+          path: '/csd/instruments/register-islamic-sukuk',
+          icon: BookOpen,
+          description: 'Register Islamic Sukuk instruments'
+        },
+        {
+          id: 'securities-issuance-other',
+          title: 'Securities Issuance Other',
+          path: '/csd/instruments/securities-issuance-other',
+          icon: Layers,
+          description: 'Other securities issuance'
+        },
+        {
+          id: 'private-placement',
+          title: 'Private Placement',
+          path: '/csd/instruments/private-placement',
+          icon: UserPlus,
+          description: 'Private placement securities'
+        },
+        {
+          id: 'status-management',
+          title: 'Status Management',
+          path: '/csd/instruments/status-management',
+          icon: Flag,
+          description: 'Instrument status management'
+        }
+      ]
+    },
+    {
+      id: 'corporate-actions',
+      title: 'Corporate Actions',
+      path: '/csd/corporate-actions',
+      icon: Gavel,
+      description: 'Corporate actions management',
+      children: [
+        {
+          id: 'corporate-actions-summary',
+          title: 'Corporate Actions Summary',
+          path: '/csd/corporate-actions/summary',
+          icon: BarChart3,
+          description: 'Corporate actions overview'
+        },
+        {
+          id: 'coupon-reward',
+          title: 'Coupon/reward',
+          path: '/csd/corporate-actions/coupon-reward',
+          icon: Coins,
+          description: 'Coupon and reward processing'
+        },
+        {
+          id: 'redemptions',
+          title: 'Redemptions',
+          path: '/csd/corporate-actions/redemptions',
+          icon: RefreshCw,
+          description: 'Security redemptions'
+        },
+        {
+          id: 'early-redemptions',
+          title: 'Early Redemptions',
+          path: '/csd/corporate-actions/early-redemptions',
+          icon: Zap,
+          description: 'Early redemption processing'
+        }
+      ]
+    },
+    {
+      id: 'transactions',
+      title: 'Transactions',
+      path: '/csd/transactions',
+      icon: ArrowUpDown,
+      description: 'Transaction management',
+      children: [
+        {
+          id: 'transactions-summary',
+          title: 'Transactions Summary',
+          path: '/csd/transactions/summary',
+          icon: BarChart3,
+          description: 'Transaction overview'
+        },
+        {
+          id: 'documents-approval',
+          title: 'Documents Approval',
+          path: '/csd/transactions/documents-approval',
+          icon: FileCheck,
+          description: 'Document approval workflow'
+        },
+        {
+          id: 'settled-transactions',
+          title: 'Settled Transactions',
+          path: '/csd/transactions/settled',
+          icon: CheckCircle,
+          description: 'Completed transactions'
+        },
+        {
+          id: 'pending-transactions',
+          title: 'Pending Transactions',
+          path: '/csd/transactions/pending',
+          icon: Clock,
+          description: 'Pending transactions'
+        },
+        {
+          id: 'failed-transactions',
+          title: 'Failed Transactions',
+          path: '/csd/transactions/failed',
+          icon: XCircle,
+          description: 'Failed transactions'
+        },
+        {
+          id: 'transfers-dvf-dvp',
+          title: 'Transfers (DvF / DvP)',
+          path: '/csd/transactions/transfers',
+          icon: ArrowUpDown,
+          description: 'Delivery vs payment transfers'
+        },
+        {
+          id: 'cross-border-settlement',
+          title: 'Cross-Border Settlement',
+          path: '/csd/transactions/cross-border',
+          icon: Globe,
+          description: 'International settlements'
+        },
+        {
+          id: 'exchange-trades-settlement',
+          title: 'Exchange Trades Settlement',
+          path: '/csd/transactions/exchange-trades',
+          icon: TrendingUp,
+          description: 'Exchange trade settlements'
+        },
+        {
+          id: 'clearing-manager',
+          title: 'Clearing Manager',
+          path: '/csd/transactions/clearing-manager',
+          icon: ShieldCheck,
+          description: 'Clearing management'
+        },
+        {
+          id: 'payments-status',
+          title: 'Payments Status',
+          path: '/csd/transactions/payments-status',
+          icon: CreditCard,
+          description: 'Payment status tracking'
+        }
+      ]
+    },
+    {
+      id: 'open-market-operations',
+      title: 'Open Market Operations',
+      path: '/csd/open-market-operations',
+      icon: TrendingUp,
+      description: 'Open market operations',
+      children: [
+        {
+          id: 'auctions-summary',
+          title: 'Auctions Summary',
+          path: '/csd/open-market-operations/auctions-summary',
+          icon: BarChart3,
+          description: 'Auctions overview'
+        },
+        {
+          id: 'active-auctions',
+          title: 'Active Auctions',
+          path: '/csd/open-market-operations/active-auctions',
+          icon: PlayCircle,
+          description: 'Currently active auctions'
+        },
+        {
+          id: 'cb-auction',
+          title: 'CB Auction',
+          path: '/csd/open-market-operations/cb-auction',
+          icon: Gavel,
+          description: 'Central Bank auctions'
+        },
+        {
+          id: 'repo-reverse-repo-auction',
+          title: 'Repo/Reverse Repo Auction',
+          path: '/csd/open-market-operations/repo-reverse-repo',
+          icon: RefreshCw,
+          description: 'Repo and reverse repo auctions'
+        },
+        {
+          id: 'deposit-auction',
+          title: 'Deposit Auction',
+          path: '/csd/open-market-operations/deposit-auction',
+          icon: Wallet,
+          description: 'Deposit auctions'
+        },
+        {
+          id: 'outright-auction',
+          title: 'Outright Auction',
+          path: '/csd/open-market-operations/outright-auction',
+          icon: Target,
+          description: 'Outright purchase auctions'
+        },
+        {
+          id: 'fx-auction',
+          title: 'FX Auction',
+          path: '/csd/open-market-operations/fx-auction',
+          icon: DollarSign,
+          description: 'Foreign exchange auctions'
+        },
+        {
+          id: 'fx-forward-auction',
+          title: 'FX Forward Auction',
+          path: '/csd/open-market-operations/fx-forward',
+          icon: TrendingUp,
+          description: 'FX forward auctions'
+        },
+        {
+          id: 'fx-swap-auction',
+          title: 'FX SWAP Auction',
+          path: '/csd/open-market-operations/fx-swap',
+          icon: ArrowUpDown,
+          description: 'FX swap auctions'
+        },
+        {
+          id: 'debt-switch-auction',
+          title: 'Debt Switch Auction',
+          path: '/csd/open-market-operations/debt-switch',
+          icon: RefreshCw,
+          description: 'Debt switch auctions'
+        },
+        {
+          id: 'buyback-auction',
+          title: 'Buyback Auction',
+          path: '/csd/open-market-operations/buyback',
+          icon: ArrowDownUp,
+          description: 'Buyback auctions'
+        }
+      ]
+    },
+    {
+      id: 'standing-facilities',
+      title: 'Standing Facilities',
+      path: '/csd/standing-facilities',
+      icon: Building2,
+      description: 'Standing facilities management',
+      children: [
+        {
+          id: 'standing-operations-summary',
+          title: 'Operations Summary',
+          path: '/csd/standing-facilities/operations-summary',
+          icon: BarChart3,
+          description: 'Standing facilities overview'
+        },
+        {
+          id: 'islamic-liquidity-summary',
+          title: 'Islamic Liquidity Summary',
+          path: '/csd/standing-facilities/islamic-liquidity-summary',
+          icon: BookOpen,
+          description: 'Islamic liquidity overview'
+        },
+        {
+          id: 'ilf',
+          title: 'ILF',
+          path: '/csd/standing-facilities/ilf',
+          icon: Wallet,
+          description: 'Intraday Liquidity Facility'
+        },
+        {
+          id: 'floor-facilities',
+          title: 'Floor Facilities',
+          path: '/csd/standing-facilities/floor-facilities',
+          icon: TrendingDown,
+          description: 'Floor lending facilities'
+        },
+        {
+          id: 'lending-facilities',
+          title: 'Lending Facilities',
+          path: '/csd/standing-facilities/lending-facilities',
+          icon: CreditCard,
+          description: 'Lending facilities'
+        },
+        {
+          id: 'deposit-facilities',
+          title: 'Deposit Facilities',
+          path: '/csd/standing-facilities/deposit-facilities',
+          icon: Wallet,
+          description: 'Deposit facilities'
+        },
+        {
+          id: 'repo',
+          title: 'Repo',
+          path: '/csd/standing-facilities/repo',
+          icon: RefreshCw,
+          description: 'Repurchase agreements'
+        },
+        {
+          id: 'reverse-repo',
+          title: 'Reverse Repo',
+          path: '/csd/standing-facilities/reverse-repo',
+          icon: ArrowDownUp,
+          description: 'Reverse repurchase agreements'
+        },
+        {
+          id: 'islamic-deposits',
+          title: 'Islamic Deposits (Wakala/ Murabaha)',
+          path: '/csd/standing-facilities/islamic-deposits',
+          icon: BookOpen,
+          description: 'Islamic deposit products'
+        },
+        {
+          id: 'islamic-lending',
+          title: 'Islamic Lending against securities (ISLI)',
+          path: '/csd/standing-facilities/islamic-lending',
+          icon: Shield,
+          description: 'Islamic securities lending'
+        }
+      ]
+    },
+    {
+      id: 'liquidity-monitor',
+      title: 'Liquidity Monitor',
+      path: '/csd/liquidity-monitor',
+      icon: Activity,
+      description: 'Liquidity monitoring',
+      children: [
+        {
+          id: 'liquidity-position-summary',
+          title: 'Liquidity Position Summary',
+          path: '/csd/liquidity-monitor/position-summary',
+          icon: BarChart3,
+          description: 'Liquidity position overview'
+        },
+        {
+          id: 'liquidity-forecasting',
+          title: 'Liquidity Forecasting',
+          path: '/csd/liquidity-monitor/forecasting',
+          icon: TrendingUp,
+          description: 'Liquidity forecasting tools'
+        }
+      ]
+    },
+    {
+      id: 'reserves-management',
+      title: 'Reserves management',
+      path: '/csd/reserves-management',
+      icon: Archive,
+      description: 'Reserve management',
+      children: [
+        {
+          id: 'reserves-summary',
+          title: 'Reserves Summary',
+          path: '/csd/reserves-management/summary',
+          icon: BarChart3,
+          description: 'Reserves overview'
+        }
+      ]
+    },
+    {
+      id: 'limits',
+      title: 'Limits',
+      path: '/csd/limits',
+      icon: Scale,
+      description: 'Limits management',
+      children: [
+        {
+          id: 'limits-summary',
+          title: 'Limits Summary',
+          path: '/csd/limits/summary',
+          icon: BarChart3,
+          description: 'Limits overview'
+        },
+        {
+          id: 'limits-alerts',
+          title: 'Limits Alerts',
+          path: '/csd/limits/alerts',
+          icon: AlertCircle,
+          description: 'Limit breach alerts'
+        }
+      ]
+    },
+    {
+      id: 'reconciliation',
+      title: 'Reconciliation',
+      path: '/csd/reconciliation',
+      icon: CheckCircle,
+      description: 'Reconciliation processes',
+      children: [
+        {
+          id: 'transaction-reconciliation',
+          title: 'Transaction Reconciliation',
+          path: '/csd/reconciliation/transactions',
+          icon: CheckCircle,
+          description: 'Transaction reconciliation'
+        }
+      ]
+    },
+    {
+      id: 'investors-management',
+      title: 'Investors Management',
+      path: '/csd/investors-management',
+      icon: Users,
+      description: 'Investor management',
+      children: [
+        {
+          id: 'investors-summary',
+          title: 'Investors Summary',
+          path: '/csd/investors-management/summary',
+          icon: BarChart3,
+          description: 'Investors overview'
+        }
+      ]
+    },
+    {
+      id: 'reporting',
+      title: 'Reporting',
+      path: '/csd/reporting',
+      icon: FileBarChart,
+      description: 'Reporting and analytics',
+      children: [
+        {
+          id: 'reporting-summary',
+          title: 'Summary',
+          path: '/csd/reporting/summary',
+          icon: BarChart3,
+          description: 'Reporting summary'
+        },
+        {
+          id: 'standard-reports',
+          title: 'Standard Reports',
+          path: '/csd/reporting/standard-reports',
           icon: FileText,
-          description: 'Generate client reports'
+          description: 'Standard report templates'
+        },
+        {
+          id: 'ad-hoc-reports',
+          title: 'Ad-hoc Reports',
+          path: '/csd/reporting/ad-hoc-reports',
+          icon: Search,
+          description: 'Custom ad-hoc reports'
+        },
+        {
+          id: 'custom-reports',
+          title: 'Custom Reports',
+          path: '/csd/reporting/custom-reports',
+          icon: Settings,
+          description: 'Custom report builder'
+        },
+        {
+          id: 'gl-posting',
+          title: 'GL Posting',
+          path: '/csd/reporting/gl-posting',
+          icon: Calculator,
+          description: 'General ledger posting'
+        }
+      ]
+    },
+    {
+      id: 'monitoring',
+      title: 'Monitoring',
+      path: '/csd/monitoring',
+      icon: Eye,
+      description: 'System monitoring',
+      children: [
+        {
+          id: 'system-monitoring',
+          title: 'System monitoring',
+          path: '/csd/monitoring/system',
+          icon: Monitor,
+          description: 'System health monitoring'
+        },
+        {
+          id: 'audit-log-activity',
+          title: 'Audit Log and Activity',
+          path: '/csd/monitoring/audit-log',
+          icon: FileText,
+          description: 'Audit logs and activity tracking'
+        },
+        {
+          id: 'suspicious-access-alerts',
+          title: 'Suspicious Access Attempt Alerts',
+          path: '/csd/monitoring/suspicious-access',
+          icon: AlertTriangle,
+          description: 'Security access alerts'
+        },
+        {
+          id: 'suspensions',
+          title: 'Suspensions',
+          path: '/csd/monitoring/suspensions',
+          icon: PauseCircle,
+          description: 'Account suspensions'
+        },
+        {
+          id: 'incoming-messages',
+          title: 'Incoming Messages',
+          path: '/csd/monitoring/incoming-messages',
+          icon: Inbox,
+          description: 'Incoming system messages'
+        },
+        {
+          id: 'outgoing-messages',
+          title: 'Outgoing Messages',
+          path: '/csd/monitoring/outgoing-messages',
+          icon: Send,
+          description: 'Outgoing system messages'
         }
       ]
     }
