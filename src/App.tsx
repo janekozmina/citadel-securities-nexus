@@ -18,9 +18,15 @@ import HomePage from "./pages/dashboard/HomePage";
 
 // RTGS Pages
 import RTGSPage from "./pages/rtgs/RTGSPage";
-import RTGSPaymentsPage from "./pages/rtgs/RTGSPaymentsPage";
-import RTGSAccountsPage from "./pages/rtgs/RTGSAccountsPage";
-import RTGSMonitoringPage from "./pages/rtgs/RTGSMonitoringPage";
+import FinancialMonitoringPage from "./pages/rtgs/FinancialMonitoringPage";
+import AccountManagementPage from "./pages/rtgs/AccountManagementPage";
+import BalancesLiquidityPage from "./pages/rtgs/BalancesLiquidityPage";
+import TransactionStatusPage from "./pages/rtgs/TransactionStatusPage";
+import BusinessDayManagementPage from "./pages/rtgs/BusinessDayManagementPage";
+import BillingPage from "./pages/rtgs/BillingPage";
+import BIReportsPage from "./pages/rtgs/BIReportsPage";
+import CentralBankOperationsPage from "./pages/rtgs/CentralBankOperationsPage";
+import CashOperationsPage from "./pages/rtgs/CashOperationsPage";
 
 // CSD Pages  
 import CSDPage from "./pages/csd/CSDPage";
@@ -61,9 +67,19 @@ const App = () => (
                     
                     {/* RTGS System */}
                     <Route path="/rtgs" element={<RTGSPage />} />
-                    <Route path="/rtgs/payments/*" element={<RTGSPaymentsPage />} />
-                    <Route path="/rtgs/accounts/*" element={<RTGSAccountsPage />} />
-                    <Route path="/rtgs/monitoring/*" element={<RTGSMonitoringPage />} />
+                    
+                    {/* Financial Monitoring */}
+                    <Route path="/rtgs/financial-monitoring" element={<FinancialMonitoringPage />} />
+                    <Route path="/rtgs/financial-monitoring/account-management" element={<AccountManagementPage />} />
+                    <Route path="/rtgs/financial-monitoring/balances-liquidity" element={<BalancesLiquidityPage />} />
+                    <Route path="/rtgs/financial-monitoring/transaction-status" element={<TransactionStatusPage />} />
+                    <Route path="/rtgs/financial-monitoring/business-day-management" element={<BusinessDayManagementPage />} />
+                    <Route path="/rtgs/financial-monitoring/billing" element={<BillingPage />} />
+                    <Route path="/rtgs/financial-monitoring/bi-reports" element={<BIReportsPage />} />
+                    
+                    {/* CB Operations */}
+                    <Route path="/rtgs/cb-operations" element={<CentralBankOperationsPage />} />
+                    <Route path="/rtgs/cb-operations/cash-operations" element={<CashOperationsPage />} />
                     
                     {/* CSD System */}
                     <Route path="/csd" element={<CSDPage />} />

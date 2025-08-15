@@ -111,93 +111,70 @@ export const secondaryNavigation: Record<string, NavigationItem[]> = {
       description: 'RTGS system overview and statistics'
     },
     {
-      id: 'rtgs-payments',
-      title: 'Payments',
-      path: '/rtgs/payments',
-      icon: DollarSign,
-      description: 'Payment processing and management',
-      children: [
-        {
-          id: 'payment-initiation',
-          title: 'Payment Initiation',
-          path: '/rtgs/payments/initiation',
-          icon: CreditCard,
-          description: 'Initiate new payments'
-        },
-        {
-          id: 'payment-status',
-          title: 'Payment Status',
-          path: '/rtgs/payments/status',
-          icon: Clock,
-          description: 'Track payment status'
-        },
-        {
-          id: 'payment-history',
-          title: 'Payment History',
-          path: '/rtgs/payments/history',
-          icon: Archive,
-          description: 'Historical payment records'
-        }
-      ]
-    },
-    {
-      id: 'rtgs-accounts',
-      title: 'Account Management',
-      path: '/rtgs/accounts',
-      icon: Wallet,
-      description: 'Manage participant accounts',
-      children: [
-        {
-          id: 'account-balances',
-          title: 'Account Balances',
-          path: '/rtgs/accounts/balances',
-          icon: PieChart,
-          description: 'Real-time account balances'
-        },
-        {
-          id: 'liquidity-management',
-          title: 'Liquidity Management',
-          path: '/rtgs/accounts/liquidity',
-          icon: Activity,
-          description: 'Manage liquidity positions'
-        },
-        {
-          id: 'account-maintenance',
-          title: 'Account Maintenance',
-          path: '/rtgs/accounts/maintenance',
-          icon: Settings,
-          description: 'Account setup and maintenance'
-        }
-      ]
-    },
-    {
-      id: 'rtgs-monitoring',
-      title: 'System Monitoring',
-      path: '/rtgs/monitoring',
+      id: 'financial-monitoring',
+      title: 'Financial Monitoring',
+      path: '/rtgs/financial-monitoring',
       icon: Activity,
-      description: 'Real-time system monitoring',
+      description: 'Financial monitoring and oversight',
+      children: [
+        {
+          id: 'account-management',
+          title: 'Account Management',
+          path: '/rtgs/financial-monitoring/account-management',
+          icon: Wallet,
+          description: 'Manage participant accounts'
+        },
+        {
+          id: 'balances-liquidity',
+          title: 'Balances & Liquidity',
+          path: '/rtgs/financial-monitoring/balances-liquidity',
+          icon: PieChart,
+          description: 'Real-time balances and liquidity'
+        },
+        {
+          id: 'transaction-status',
+          title: 'Transactions Status Amount / Volume',
+          path: '/rtgs/financial-monitoring/transaction-status',
+          icon: BarChart3,
+          description: 'Transaction status and volumes'
+        },
+        {
+          id: 'business-day-management',
+          title: 'Business Day Management',
+          path: '/rtgs/financial-monitoring/business-day-management',
+          icon: Clock,
+          description: 'Business day operations'
+        },
+        {
+          id: 'billing',
+          title: 'Billing',
+          path: '/rtgs/financial-monitoring/billing',
+          icon: FileText,
+          description: 'Billing and fee management'
+        },
+        {
+          id: 'bi-reports',
+          title: 'BI Reports',
+          path: '/rtgs/financial-monitoring/bi-reports',
+          icon: BarChart3,
+          description: 'Business intelligence reports'
+        }
+      ]
+    },
+    {
+      id: 'cb-operations',
+      title: 'CB Operations',
+      path: '/rtgs/cb-operations',
+      icon: Building2,
+      description: 'Central Bank operations',
       roles: ['Admin', 'CBBOperator'],
       children: [
         {
-          id: 'system-status',
-          title: 'System Status',
-          path: '/rtgs/monitoring/status',
-          icon: CheckCircle,
-          description: 'Current system status'
-        },
-        {
-          id: 'transaction-monitoring',
-          title: 'Transaction Monitoring',
-          path: '/rtgs/monitoring/transactions',
-          icon: Search,
-          description: 'Monitor transaction flows'
-        },
-        {
-          id: 'alerts-notifications',
-          title: 'Alerts & Notifications',
-          path: '/rtgs/monitoring/alerts',
-          icon: Bell,
-          description: 'System alerts and notifications'
+          id: 'cash-operations',
+          title: 'Cash Operations',
+          path: '/rtgs/cb-operations/cash-operations',
+          icon: DollarSign,
+          description: 'Central bank cash operations'
         }
       ]
     }

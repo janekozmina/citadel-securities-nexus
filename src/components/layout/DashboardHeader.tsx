@@ -20,7 +20,7 @@ export const DashboardHeader = () => {
   return (
     <header className="h-16 dashboard-header-bg border-b border-slate-600 flex items-center justify-between px-6">
       <div className="flex items-center gap-6">
-        <h1 className="text-xl font-semibold text-white">Unified Portal</h1>
+        <h1 className="text-xl font-semibold text-white">CBB Portal</h1>
         
         {/* Search through menu */}
         <div className="relative w-80">

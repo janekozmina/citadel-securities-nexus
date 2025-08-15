@@ -130,7 +130,7 @@ const MainLayout = ({ children }: MainLayoutProps) => {
         </div>
       </div>
       
-      <AlertsPanel alerts={getPageAlerts()} />
+      
       <Chatbot />
     </div>
   );

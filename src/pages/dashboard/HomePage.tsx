@@ -1,7 +1,10 @@
+import { useEffect } from 'react';
+import { useLocation } from 'react-router-dom';
 import { DataCard } from '@/components/common/DataCard';
 import { DataTable } from '@/components/common/DataTable';
 import { SystemStatus } from '@/components/common/SystemStatus';
 import { QuickActions } from '@/components/common/QuickActions';
+import { AlertsCard } from '@/components/common/AlertsCard';
 import { 
   Banknote, 
   Building2, 
@@ -17,6 +20,47 @@ import {
 } from 'lucide-react';
 
 const HomePage = () => {
+  const location = useLocation();
+
+  useEffect(() => {
+    document.title = 'Dashboard | CBB Portal';
+  }, []);
+
+  // Define alerts for different pages
+  const getPageAlerts = () => {
+    const baseAlerts = [
+      {
+        id: 2,
+        type: 'info' as const,
+        message: 'Settlement batch processing complete',
+        time: '14:30',
+        urgent: false
+      },
+      {
+        id: 3,
+        type: 'alert' as const,
+        message: 'System maintenance scheduled for tonight',
+        time: '14:15',
+        urgent: false
+      }
+    ];
+
+    // Add ILF alert for home page
+    if (location.pathname === '/') {
+      return [
+        {
+          id: 1,
+          type: 'warning' as const,
+          message: 'ILF window closes in 15 minutes',
+          time: '14:45',
+          urgent: true
+        },
+        ...baseAlerts
+      ];
+    }
+
+    return baseAlerts;
+  };
   const kpiData = [
     {
       title: 'Total Transactions Today',
@@ -162,10 +206,11 @@ const HomePage = () => {
           />
         </div>
 
-        {/* System Status */}
+        {/* System Status and Alerts */}
         <div className="space-y-6">
           <SystemStatus systems={systemStatuses} />
           <QuickActions title="Quick Actions" actions={quickActions} />
+          <AlertsCard alerts={getPageAlerts()} />
         </div>
       </div>
     </div>
