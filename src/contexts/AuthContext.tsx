@@ -1,5 +1,6 @@
 import React, { createContext, useContext, useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { mfaGenerator } from '@/utils/mfaGenerator';
 
 export type UserRole = 'Admin' | 'Issuer' | 'Custodian' | 'Broker' | 'Participant' | 'Regulator';
 
@@ -66,8 +67,8 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
   };
 
   const verifyMFA = async (code: string): Promise<boolean> => {
-    // Mock MFA verification
-    if (code === '123456') {
+    // Use dynamic MFA validation
+    if (mfaGenerator.validateCode(code)) {
       setIsMFAVerified(true);
       localStorage.setItem('csd_mfa_verified', 'true');
       navigate('/');
