@@ -141,6 +141,29 @@ export default function AccountManagementPage() {
           </div>
         </div>
 
+        {/* View Mode Toggle - Fixed positioning */}
+        <div className="flex items-center gap-2 min-h-[40px] mb-6">
+          <span className="text-sm font-medium text-slate-700">View Mode:</span>
+          <div className="flex gap-2">
+            <Button
+              variant={viewMode === 'table' ? 'default' : 'outline'}
+              size="sm"
+              onClick={() => setViewMode('table')}
+            >
+              <TableIcon className="h-4 w-4 mr-2" />
+              Table
+            </Button>
+            <Button
+              variant={viewMode === 'visual' ? 'default' : 'outline'}
+              size="sm"
+              onClick={() => setViewMode('visual')}
+            >
+              <BarChart3 className="h-4 w-4 mr-2" />
+              Dashboard
+            </Button>
+          </div>
+        </div>
+
         <div className="flex h-full">
           <div className="flex-1 space-y-6 pr-6">
             {/* Filters Section */}
@@ -198,29 +221,6 @@ export default function AccountManagementPage() {
                 </div>
               </CardContent>
             </Card>
-
-            {/* View Mode Toggle - Fixed positioning */}
-            <div className="flex items-center gap-2 min-h-[40px]">
-              <span className="text-sm font-medium text-slate-700">View Mode:</span>
-              <div className="flex gap-2">
-                <Button
-                  variant={viewMode === 'table' ? 'default' : 'outline'}
-                  size="sm"
-                  onClick={() => setViewMode('table')}
-                >
-                  <TableIcon className="h-4 w-4 mr-2" />
-                  Table
-                </Button>
-                <Button
-                  variant={viewMode === 'visual' ? 'default' : 'outline'}
-                  size="sm"
-                  onClick={() => setViewMode('visual')}
-                >
-                  <BarChart3 className="h-4 w-4 mr-2" />
-                  Dashboard
-                </Button>
-              </div>
-            </div>
 
             {/* Risk Dashboard View */}
             {viewMode === 'visual' && (
