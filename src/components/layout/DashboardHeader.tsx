@@ -3,9 +3,11 @@ import { useState } from 'react';
 import { useAuth } from '@/contexts/AuthContext';
 import { Button } from '@/components/ui/button';
 import { Avatar, AvatarFallback } from '@/components/ui/avatar';
+import { Badge } from '@/components/ui/badge';
 import { Input } from '@/components/ui/input';
-import { Search, Menu } from 'lucide-react';
+import { Search, Menu, Clock, Play, Pause, RotateCcw } from 'lucide-react';
 import { useSidebarContext } from './SidebarProvider';
+import { useBusinessDayEmulation } from '@/hooks/useBusinessDayEmulation';
 
 import {
   DropdownMenu,
@@ -27,6 +29,14 @@ export const DashboardHeader = () => {
   const { user, logout } = useAuth();
   const { toggle } = useSidebarContextSafe();
   const [searchQuery, setSearchQuery] = useState('');
+  const { 
+    emulatedDay, 
+    currentPhaseData, 
+    toggleSimulation, 
+    resetSimulation, 
+    formatEmulatedTime,
+    getPhaseProgress 
+  } = useBusinessDayEmulation(10); // 10x speed: 1 real minute = 10 emulated minutes
 
   return (
     <header className="h-16 dashboard-header-bg border-b border-slate-600 flex items-center justify-between px-6">
@@ -40,6 +50,49 @@ export const DashboardHeader = () => {
         >
           <Menu className="h-5 w-5" />
         </Button>
+        
+        {/* Emulated Business Day Time */}
+        <div className="flex items-center gap-3 bg-white/10 rounded-lg px-3 py-1.5">
+          <Clock className="h-4 w-4 text-white" />
+          <div className="flex flex-col">
+            <div className="flex items-center gap-2">
+              <span className="text-sm font-medium text-white">
+                {formatEmulatedTime(emulatedDay.emulatedTime)}
+              </span>
+              <Badge 
+                variant={emulatedDay.isRunning ? "default" : "secondary"}
+                className="text-xs"
+              >
+                {emulatedDay.isRunning ? "Live" : "Paused"}
+              </Badge>
+            </div>
+            <span className="text-xs text-slate-300">
+              {currentPhaseData.name} ({getPhaseProgress()}%)
+            </span>
+          </div>
+          
+          <div className="flex items-center gap-1">
+            <Button
+              variant="ghost"
+              size="sm"
+              onClick={toggleSimulation}
+              className="h-6 w-6 p-0 text-white hover:bg-white/20"
+            >
+              {emulatedDay.isRunning ? 
+                <Pause className="h-3 w-3" /> : 
+                <Play className="h-3 w-3" />
+              }
+            </Button>
+            <Button
+              variant="ghost"
+              size="sm"
+              onClick={resetSimulation}
+              className="h-6 w-6 p-0 text-white hover:bg-white/20"
+            >
+              <RotateCcw className="h-3 w-3" />
+            </Button>
+          </div>
+        </div>
       </div>
       
       <div className="flex items-center gap-4">

@@ -7,6 +7,7 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@
 import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle, DialogTrigger } from '@/components/ui/dialog';
 import { Badge } from '@/components/ui/badge';
 import { Separator } from '@/components/ui/separator';
+import { Progress } from '@/components/ui/progress';
 import { 
   Plus, 
   Clock, 
@@ -16,9 +17,13 @@ import {
   RotateCcw,
   Settings,
   AlertCircle,
-  CheckCircle
+  CheckCircle,
+  Activity,
+  TrendingUp,
+  BarChart3
 } from 'lucide-react';
 import { toast } from 'sonner';
+import { useBusinessDayEmulation } from '@/hooks/useBusinessDayEmulation';
 
 interface BusinessPeriod {
   id: string;
@@ -67,7 +72,18 @@ export default function BusinessDayManagementPage() {
     document.title = 'Business Day Management | Unified Portal';
   }, []);
 
-  const [currentTime, setCurrentTime] = useState('15:00');
+  const { 
+    emulatedDay, 
+    transactionMetrics, 
+    liquidityMetrics, 
+    currentPhaseData,
+    businessPhases,
+    toggleSimulation, 
+    resetSimulation, 
+    formatEmulatedTime,
+    getPhaseProgress 
+  } = useBusinessDayEmulation(10);
+
   const [isAddPeriodOpen, setIsAddPeriodOpen] = useState(false);
   const [periods, setPeriods] = useState<BusinessPeriod[]>([
     {
@@ -230,9 +246,6 @@ export default function BusinessDayManagementPage() {
           </div>
           
           <div className="flex items-center gap-4">
-            <div className="text-sm text-muted-foreground">
-              Current Time: <span className="font-medium text-foreground">{currentTime}</span>
-            </div>
             
             <Dialog open={isAddPeriodOpen} onOpenChange={setIsAddPeriodOpen}>
               <DialogTrigger asChild>
@@ -337,6 +350,102 @@ export default function BusinessDayManagementPage() {
           </div>
         </div>
 
+        {/* Business Day Emulation Dashboard */}
+        <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 mb-6">
+          {/* Real-time Metrics */}
+          <Card>
+            <CardHeader>
+              <CardTitle className="flex items-center gap-2">
+                <Activity className="h-5 w-5" />
+                Transaction Metrics
+              </CardTitle>
+            </CardHeader>
+            <CardContent className="space-y-4">
+              <div className="grid grid-cols-2 gap-4 text-sm">
+                <div>
+                  <p className="text-muted-foreground">Total</p>
+                  <p className="font-semibold">{transactionMetrics.totalTransactions.toLocaleString()}</p>
+                </div>
+                <div>
+                  <p className="text-muted-foreground">Settled</p>
+                  <p className="font-semibold text-green-600">{transactionMetrics.settledTransactions.toLocaleString()}</p>
+                </div>
+                <div>
+                  <p className="text-muted-foreground">Queued</p>
+                  <p className="font-semibold text-yellow-600">{transactionMetrics.queuedTransactions.toLocaleString()}</p>
+                </div>
+                <div>
+                  <p className="text-muted-foreground">Rejected</p>
+                  <p className="font-semibold text-red-600">{transactionMetrics.rejectedTransactions.toLocaleString()}</p>
+                </div>
+              </div>
+              <Separator />
+              <div>
+                <p className="text-muted-foreground text-sm">Volume</p>
+                <p className="font-semibold">BHD {(transactionMetrics.totalVolume / 1000000).toFixed(1)}M</p>
+              </div>
+            </CardContent>
+          </Card>
+
+          {/* Liquidity Metrics */}
+          <Card>
+            <CardHeader>
+              <CardTitle className="flex items-center gap-2">
+                <TrendingUp className="h-5 w-5" />
+                Liquidity Metrics
+              </CardTitle>
+            </CardHeader>
+            <CardContent className="space-y-4">
+              <div className="space-y-3">
+                <div>
+                  <div className="flex justify-between text-sm">
+                    <span className="text-muted-foreground">Utilization</span>
+                    <span className="font-semibold">{liquidityMetrics.utilizationRate}%</span>
+                  </div>
+                  <Progress value={liquidityMetrics.utilizationRate} className="h-2" />
+                </div>
+                <div className="grid grid-cols-2 gap-4 text-sm">
+                  <div>
+                    <p className="text-muted-foreground">Available</p>
+                    <p className="font-semibold">BHD {(liquidityMetrics.availableLiquidity / 1000000000).toFixed(1)}B</p>
+                  </div>
+                  <div>
+                    <p className="text-muted-foreground">Total</p>
+                    <p className="font-semibold">BHD {(liquidityMetrics.totalLiquidity / 1000000000).toFixed(1)}B</p>
+                  </div>
+                </div>
+              </div>
+            </CardContent>
+          </Card>
+
+          {/* Current Phase */}
+          <Card>
+            <CardHeader>
+              <CardTitle className="flex items-center gap-2">
+                <BarChart3 className="h-5 w-5" />
+                Current Phase
+              </CardTitle>
+            </CardHeader>
+            <CardContent className="space-y-4">
+              <div>
+                <div className="flex justify-between items-start mb-2">
+                  <div>
+                    <p className="font-semibold">{currentPhaseData.name}</p>
+                    <p className="text-sm text-muted-foreground">{currentPhaseData.description}</p>
+                  </div>
+                  <Badge variant="outline">{getPhaseProgress()}%</Badge>
+                </div>
+                <Progress value={getPhaseProgress()} className="h-2" />
+              </div>
+              <div className="flex items-center gap-2 text-sm">
+                <Clock className="h-4 w-4 text-muted-foreground" />
+                <span className="text-muted-foreground">Emulated Time:</span>
+                <span className="font-medium">{formatEmulatedTime(emulatedDay.emulatedTime)}</span>
+              </div>
+            </CardContent>
+          </Card>
+        </div>
+
         {/* Business Day Schedule */}
         <div className="grid grid-cols-1 gap-6">
           {/* RTGS Schedule */}
@@ -344,9 +453,9 @@ export default function BusinessDayManagementPage() {
             <CardHeader>
               <CardTitle className="flex items-center gap-2">
                 <div className="w-3 h-3 bg-blue-500 rounded"></div>
-                RTGS Schedule
+                RTGS Business Day Schedule
               </CardTitle>
-              <CardDescription>Real-Time Gross Settlement system periods</CardDescription>
+              <CardDescription>Real-Time Gross Settlement system periods with emulated timing</CardDescription>
             </CardHeader>
             <CardContent>
               <div className="space-y-4">
@@ -354,118 +463,71 @@ export default function BusinessDayManagementPage() {
                 <div className="relative">
                   <div className="absolute left-8 top-0 bottom-0 w-0.5 bg-border"></div>
                   
-                  {periods
-                    .filter(period => period.type === 'rtgs')
-                    .map((period, index) => (
-                      <div key={period.id} className="relative flex items-start gap-4 pb-6">
-                        <div className={`w-6 h-6 rounded-full ${getStatusColor(period.status)} flex items-center justify-center text-white relative z-10`}>
-                          {getStatusIcon(period.status)}
+                  {businessPhases.map((phase, index) => {
+                    const isActive = phase.id === emulatedDay.currentPhase;
+                    const isPast = phase.id < emulatedDay.currentPhase;
+                    const isFuture = phase.id > emulatedDay.currentPhase;
+                    
+                    return (
+                      <div key={phase.id} className="relative flex items-start gap-4 pb-6">
+                        <div className={`w-6 h-6 rounded-full flex items-center justify-center text-white relative z-10 ${
+                          isActive ? 'bg-green-500' : 
+                          isPast ? 'bg-blue-500' : 
+                          'bg-gray-400'
+                        }`}>
+                          {isActive ? (
+                            <Play className="h-3 w-3" />
+                          ) : isPast ? (
+                            <CheckCircle className="h-3 w-3" />
+                          ) : (
+                            <Clock className="h-3 w-3" />
+                          )}
                         </div>
                         
                         <div className="flex-1 space-y-2">
                           <div className="flex items-center justify-between">
                             <div>
-                              <h4 className="font-medium">{period.name}</h4>
+                              <h4 className={`font-medium ${isActive ? 'text-green-600' : ''}`}>
+                                {phase.name}
+                              </h4>
                               <p className="text-sm text-muted-foreground">
-                                {period.startTime} - {period.endTime}
+                                {String(Math.floor(phase.startHour)).padStart(2, '0')}:
+                                {String(Math.round((phase.startHour % 1) * 60)).padStart(2, '0')} - {' '}
+                                {String(Math.floor(phase.endHour)).padStart(2, '0')}:
+                                {String(Math.round((phase.endHour % 1) * 60)).padStart(2, '0')}
+                                {isActive && ` (${getPhaseProgress()}% complete)`}
                               </p>
                             </div>
                             
-                            <div className="flex items-center gap-2">
-                              {period.status === 'scheduled' && (
-                                <Button 
-                                  size="sm" 
-                                  variant="outline"
-                                  onClick={() => handlePeriodAction(period.id, 'activate')}
-                                >
-                                  <Play className="h-3 w-3" />
-                                </Button>
-                              )}
-                              {period.status === 'active' && (
-                                <>
-                                  <Button 
-                                    size="sm" 
-                                    variant="outline"
-                                    onClick={() => handlePeriodAction(period.id, 'pause')}
-                                  >
-                                    <Pause className="h-3 w-3" />
-                                  </Button>
-                                  <Button 
-                                    size="sm" 
-                                    variant="outline"
-                                    onClick={() => handlePeriodAction(period.id, 'complete')}
-                                  >
-                                    <CheckCircle className="h-3 w-3" />
-                                  </Button>
-                                </>
-                              )}
-                              {period.status === 'paused' && (
-                                <Button 
-                                  size="sm" 
-                                  variant="outline"
-                                  onClick={() => handlePeriodAction(period.id, 'activate')}
-                                >
-                                  <Play className="h-3 w-3" />
-                                </Button>
-                              )}
-                            </div>
+                            {isActive && (
+                              <Badge variant="default" className="bg-green-500">
+                                Active
+                              </Badge>
+                            )}
                           </div>
                           
                           <details className="text-sm">
                             <summary className="cursor-pointer text-muted-foreground hover:text-foreground">
-                              View Activities ({period.actions.length})
+                              View Activities ({phase.activities.length})
                             </summary>
                             <div className="mt-2 space-y-1 pl-4 border-l-2 border-muted">
-                              {period.actions.map((action, actionIndex) => (
-                                <div key={actionIndex} className="text-sm text-muted-foreground">
-                                  • {action}
+                              {phase.activities.map((activity, activityIndex) => (
+                                <div key={activityIndex} className="text-sm text-muted-foreground">
+                                  • {activity}
                                 </div>
                               ))}
                             </div>
                           </details>
                         </div>
                       </div>
-                    ))}
+                    );
+                  })}
                 </div>
               </div>
             </CardContent>
           </Card>
 
         </div>
-
-        {/* Current Status */}
-        <Card>
-          <CardHeader>
-            <CardTitle className="flex items-center gap-2">
-              <AlertCircle className="h-5 w-5" />
-              Current Status & Actions
-            </CardTitle>
-            <CardDescription>Actions that appear when clicking on periods</CardDescription>
-          </CardHeader>
-          <CardContent>
-            <div className="bg-muted/50 p-4 rounded-lg">
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-4 text-sm">
-                <div>
-                  <h4 className="font-medium mb-2">Actions on period click:</h4>
-                  <ul className="space-y-1 text-muted-foreground">
-                    <li>• Actions or period activation</li>
-                    <li>• Open options</li>
-                    <li>• Set business limit</li>
-                    <li>• Actions on period activation</li>
-                  </ul>
-                </div>
-                <div>
-                  <h4 className="font-medium mb-2">Actions on period deactivation:</h4>
-                  <ul className="space-y-1 text-muted-foreground">
-                    <li>• Cut-off</li>
-                    <li>• Cancel customer payments from intraday queue</li>
-                    <li>• GL reporting for the period</li>
-                  </ul>
-                </div>
-              </div>
-            </div>
-          </CardContent>
-        </Card>
       </section>
     </main>
   );
