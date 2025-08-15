@@ -5,7 +5,7 @@ import { Breadcrumbs } from './Breadcrumbs';
 import Chatbot from './Chatbot';
 import { useAuth } from '@/contexts/AuthContext';
 import themeConfig from '@/config/themeConfig';
-import { ResponsiveSidebar } from './ResponsiveSidebar';
+import { NestedSidebar } from './NestedSidebar';
 import { SidebarProvider, useSidebarContext } from './SidebarProvider';
 
 interface MainLayoutProps {
@@ -56,13 +56,13 @@ function MainLayoutContent({ children }: MainLayoutProps) {
   return (
     <div className="flex w-full">
       {/* Responsive 3-Level Nested Sidebar */}
-      <ResponsiveSidebar isOpen={isOpen} onToggle={toggle} />
+      <NestedSidebar isOpen={isOpen} onToggle={toggle} />
         
       {/* MAIN CONTENT AREA */}
       <div 
         className={`
           flex-1 min-w-0 transition-all duration-300 ease-in-out
-          ${isOpen ? 'lg:ml-[260px]' : 'lg:ml-0'}
+          ${isOpen ? 'lg:ml-[280px]' : 'lg:ml-0'}
         `}
       >
         {/* STICKY HEADER */}
