@@ -4,7 +4,8 @@ import { useAuth } from '@/contexts/AuthContext';
 import { Button } from '@/components/ui/button';
 import { Avatar, AvatarFallback } from '@/components/ui/avatar';
 import { Input } from '@/components/ui/input';
-import { Search } from 'lucide-react';
+import { Search, Menu } from 'lucide-react';
+import { useSidebarContext } from './SidebarProvider';
 
 import {
   DropdownMenu,
@@ -15,11 +16,20 @@ import {
 
 export const DashboardHeader = () => {
   const { user, logout } = useAuth();
+  const { toggle } = useSidebarContext();
   const [searchQuery, setSearchQuery] = useState('');
 
   return (
     <header className="h-16 dashboard-header-bg border-b border-slate-600 flex items-center justify-between px-6">
       <div className="flex items-center gap-6">
+        <Button
+          variant="ghost"
+          size="sm"
+          onClick={toggle}
+          className="lg:hidden text-white hover:bg-white/10"
+        >
+          <Menu className="h-5 w-5" />
+        </Button>
         <h1 className="text-xl font-semibold text-white">CBB Portal</h1>
         
         {/* Search through menu */}
