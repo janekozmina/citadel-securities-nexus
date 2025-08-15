@@ -1,4 +1,5 @@
 import { DashboardConfig } from '@/hooks/useDashboardFilters';
+import { ChartConfig } from '@/components/common/InteractiveChart';
 
 // Account Management Dashboard Configuration
 export const accountManagementConfig: DashboardConfig = {
@@ -98,6 +99,42 @@ export const accountMetricsConfig: MetricConfig[] = [
     filterValue: 'high'
   }
 ];
+
+// Chart Configurations
+export const transactionStatusChartConfig: ChartConfig = {
+  type: 'pie',
+  title: 'Transaction Status Distribution',
+  height: 320,
+  data: [
+    { name: 'Settled', value: 0, color: '#22c55e', filterKey: 'status', filterValue: 'Settled' },
+    { name: 'Rejected', value: 0, color: '#ef4444', filterKey: 'status', filterValue: 'Rejected' },
+    { name: 'In Queue', value: 0, color: '#f59e0b', filterKey: 'status', filterValue: 'In Queue' },
+    { name: 'ILF/BUYBACK', value: 0, color: '#8b5cf6', filterKey: 'status', filterValue: 'ILF/BUYBACK' }
+  ]
+};
+
+export const accountRiskChartConfig: ChartConfig = {
+  type: 'pie',
+  title: 'Account Risk Distribution',
+  height: 280,
+  data: [
+    { name: 'Low Risk', value: 0, color: '#22c55e', filterKey: 'riskLevel', filterValue: 'low' },
+    { name: 'Medium Risk', value: 0, color: '#f59e0b', filterKey: 'riskLevel', filterValue: 'medium' },
+    { name: 'High Risk', value: 0, color: '#ef4444', filterKey: 'riskLevel', filterValue: 'high' }
+  ]
+};
+
+export const liquidityTrendChartConfig: ChartConfig = {
+  type: 'bar',
+  title: 'Liquidity Trend Analysis',
+  height: 300,
+  data: [
+    { name: 'Morning', value: 0, color: '#3b82f6' },
+    { name: 'Midday', value: 0, color: '#10b981' },
+    { name: 'Afternoon', value: 0, color: '#f59e0b' },
+    { name: 'Evening', value: 0, color: '#8b5cf6' }
+  ]
+};
 
 export const transactionMetricsConfig: MetricConfig[] = [
   {
