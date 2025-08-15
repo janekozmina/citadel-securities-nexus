@@ -1,85 +1,50 @@
-import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
+import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { LucideIcon } from 'lucide-react';
-import { cn } from '@/lib/utils';
+import { useNavigate } from 'react-router-dom';
 
 interface QuickAction {
-  label: string;
-  action: string;
-  icon: string;
-  variant?: 'default' | 'outline' | 'secondary';
-  disabled?: boolean;
+  title: string;
+  description: string;
+  icon: LucideIcon;
+  path: string;
+  variant?: 'default' | 'secondary' | 'outline';
 }
 
 interface QuickActionsProps {
-  title?: string;
+  title: string;
   actions: QuickAction[];
-  onActionClick?: (action: string) => void;
-  className?: string;
-  layout?: 'vertical' | 'horizontal' | 'grid';
 }
 
-// Icon mapping - add more as needed
-const iconMap: Record<string, LucideIcon> = {
-  // Import dynamically or use a proper icon mapping system
-  // This is a simplified version for demonstration
-};
-
-export const QuickActions = ({
-  title = "Quick Actions",
-  actions,
-  onActionClick,
-  className,
-  layout = 'vertical'
-}: QuickActionsProps) => {
-  const handleActionClick = (action: string) => {
-    if (onActionClick) {
-      onActionClick(action);
-    } else {
-      console.log(`Action triggered: ${action}`);
-    }
-  };
-
-  const getLayoutClasses = () => {
-    switch (layout) {
-      case 'horizontal':
-        return 'flex flex-wrap gap-2';
-      case 'grid':
-        return 'grid grid-cols-2 gap-2';
-      default:
-        return 'space-y-2';
-    }
-  };
+export const QuickActions = ({ title, actions }: QuickActionsProps) => {
+  const navigate = useNavigate();
 
   return (
-    <Card className={cn("bg-card", className)}>
-      <CardHeader className="pb-3">
-        <CardTitle className="text-lg font-semibold">{title}</CardTitle>
+    <Card>
+      <CardHeader>
+        <CardTitle>{title}</CardTitle>
       </CardHeader>
-      <CardContent>
-        <div className={getLayoutClasses()}>
-          {actions.map((action, index) => {
-            // For now, we'll use a placeholder icon since we can't dynamically import
-            // In a real implementation, you'd want a proper icon mapping system
-            return (
-              <Button
-                key={index}
-                variant={action.variant || 'outline'}
-                className={cn(
-                  layout === 'vertical' ? 'w-full justify-start' : '',
-                  "transition-all duration-200 hover:scale-105"
-                )}
-                onClick={() => handleActionClick(action.action)}
-                disabled={action.disabled}
-              >
-                {action.label}
-              </Button>
-            );
-          })}
-        </div>
+      <CardContent className="grid grid-cols-1 md:grid-cols-2 gap-4">
+        {actions.map((action) => {
+          const IconComponent = action.icon;
+          return (
+            <Button
+              key={action.path}
+              variant={action.variant || 'outline'}
+              className="h-auto p-4 flex flex-col items-start space-y-2 text-left"
+              onClick={() => navigate(action.path)}
+            >
+              <div className="flex items-center gap-2 w-full">
+                <IconComponent className="h-5 w-5" />
+                <span className="font-medium">{action.title}</span>
+              </div>
+              <span className="text-sm text-muted-foreground">
+                {action.description}
+              </span>
+            </Button>
+          );
+        })}
       </CardContent>
     </Card>
   );
 };
-
-export default QuickActions;

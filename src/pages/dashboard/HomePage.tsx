@@ -1,218 +1,171 @@
-import { useState, useEffect } from 'react';
-import { useAuth } from '@/contexts/AuthContext';
-import { Card, CardContent } from '@/components/ui/card';
-import { TrendingUp, Users, Building, AlertCircle, Clock, Banknote, FileText, Activity, BarChart3, Shield, Settings, FileWarning, Timer, ArrowUpRight, ArrowDownRight, Minus, RefreshCw } from 'lucide-react';
-import { useBusinessDaySimulation } from '@/hooks/useBusinessDaySimulation';
+import { DataCard } from '@/components/common/DataCard';
+import { DataTable } from '@/components/common/DataTable';
+import { SystemStatus } from '@/components/common/SystemStatus';
+import { QuickActions } from '@/components/common/QuickActions';
+import { 
+  Banknote, 
+  Building2, 
+  Shield, 
+  TrendingUp, 
+  Activity,
+  Clock,
+  AlertTriangle,
+  CheckCircle,
+  DollarSign,
+  CreditCard,
+  Users
+} from 'lucide-react';
 
 const HomePage = () => {
-  const { user } = useAuth();
-  const { rtgsMetrics, csdMetrics, lastUpdated, isBusinessHours } = useBusinessDaySimulation();
-
-  // RTGS View Stats - Dynamic
-  const rtgsStats = [
-    {
-      title: 'Transactions in Queue',
-      value: rtgsMetrics.queuedPayments.toString(),
-      change: 'Pending processing',
-      icon: Clock,
-      color: 'text-blue-600'
-    },
-    {
-      title: 'Total Transactions Settled',
-      value: `BHD ${(rtgsMetrics.totalLiquidity / 1000)}B / ${rtgsMetrics.settledTransactions.toLocaleString()}`,
-      change: 'Amount / Volume',
-      icon: TrendingUp,
-      color: 'text-green-600'
-    },
-    {
-      title: 'Average Transaction Value',
-      value: `BHD ${(rtgsMetrics.averageTransactionValue / 1000000).toFixed(1)}M`,
-      change: 'Per transaction',
-      icon: BarChart3,
-      color: 'text-purple-600'
-    }
-  ];
-
-  // CSD View Stats - Dynamic
-  const csdStats = [
+  const kpiData = [
     {
       title: 'Total Transactions Today',
-      value: '1,000,000',
-      change: '',
-      icon: TrendingUp,
-      color: 'text-green-600'
+      value: '2,847',
+      subtitle: '+12% from yesterday',
+      icon: Activity,
+      trend: { value: 12, isPositive: true },
+      status: 'success' as const
     },
     {
-      title: 'Average Processing Time',
-      value: '35 ms',
-      change: '',
-      icon: Clock,
-      color: 'text-blue-600'
+      title: 'Settlement Value',
+      value: 'BD 847.2M',
+      subtitle: 'Today\'s settled amount',
+      icon: DollarSign,
+      status: 'info' as const
     },
     {
-      title: 'Total Securities Held',
-      value: '20,500,000',
-      change: 'Equities, Bonds, ETFs',
-      icon: Building,
-      color: 'text-purple-600'
-    },
-    {
-      title: 'Total MBills Held',
-      value: '10,000,000',
-      change: 'Equities, Bonds, ETFs',
-      icon: FileText,
-      color: 'text-orange-600'
-    },
-    {
-      title: 'Daily Settled',
-      value: `BHD ${(csdMetrics.settlementValue / 1000000000).toFixed(1)}B`,
-      change: "Today's settled transactions",
-      icon: Banknote,
-      color: 'text-green-600'
+      title: 'System Uptime',
+      value: '99.98%',
+      subtitle: 'Last 30 days',
+      icon: CheckCircle,
+      status: 'success' as const
     },
     {
       title: 'Pending Settlements',
-      value: `BHD ${(csdMetrics.pendingInstructions * 5.5).toFixed(0)}M`,
-      change: "Today's and tomorrow planned",
-      icon: AlertCircle,
-      color: 'text-yellow-600'
-    },
-    {
-      title: 'Corporate Actions',
-      value: csdMetrics.corporateActions.toString(),
-      change: 'This week: Maturity',
-      icon: Users,
-      color: 'text-indigo-600',
-      subtitle: 'ISIN: ABC1234'
+      value: '23',
+      subtitle: 'Requiring attention',
+      icon: Clock,
+      status: 'warning' as const
     }
   ];
 
-  // System Status Component
-  const SystemStatus = () => (
-    <Card className="bg-white">
-      <CardContent className="p-6">
-        <h3 className="font-semibold text-slate-900 mb-4">System Status</h3>
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-          <div>
-            <h4 className="text-sm font-medium text-slate-700 mb-2">RTGS Systems</h4>
-            <div className="space-y-2">
-              <div className="flex items-center justify-between">
-                <span className="text-sm text-slate-600">RTGS System</span>
-                <div className="w-3 h-3 bg-green-500 rounded-full"></div>
-              </div>
-              <div className="flex items-center justify-between">
-                <span className="text-sm text-slate-600">Settlement Engine</span>
-                <div className="w-3 h-3 bg-green-500 rounded-full"></div>
-              </div>
-              <div className="flex items-center justify-between">
-                <span className="text-sm text-slate-600">Queue Manager</span>
-                <div className="w-3 h-3 bg-yellow-500 rounded-full"></div>
-              </div>
-            </div>
-          </div>
-          <div>
-            <h4 className="text-sm font-medium text-slate-700 mb-2">CSD Systems</h4>
-            <div className="space-y-2">
-              <div className="flex items-center justify-between">
-                <span className="text-sm text-slate-600">CSD Core</span>
-                <div className="w-3 h-3 bg-green-500 rounded-full"></div>
-              </div>
-              <div className="flex items-center justify-between">
-                <span className="text-sm text-slate-600">Settlement System</span>
-                <div className="w-3 h-3 bg-green-500 rounded-full"></div>
-              </div>
-              <div className="flex items-center justify-between">
-                <span className="text-sm text-slate-600">Corporate Actions</span>
-                <div className="w-3 h-3 bg-green-500 rounded-full"></div>
-              </div>
-            </div>
-          </div>
-          <div>
-            <h4 className="text-sm font-medium text-slate-700 mb-2">CMS Systems</h4>
-            <div className="space-y-2">
-              <div className="flex items-center justify-between">
-                <span className="text-sm text-slate-600">Collateral Management</span>
-                <div className="w-3 h-3 bg-green-500 rounded-full"></div>
-              </div>
-              <div className="flex items-center justify-between">
-                <span className="text-sm text-slate-600">Risk Engine</span>
-                <div className="w-3 h-3 bg-yellow-500 rounded-full"></div>
-              </div>
-              <div className="flex items-center justify-between">
-                <span className="text-sm text-slate-600">Valuation Service</span>
-                <div className="w-3 h-3 bg-green-500 rounded-full"></div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </CardContent>
-    </Card>
-  );
+  const recentTransactions = [
+    {
+      id: 'TXN001',
+      bank: 'National Bank of Bahrain',
+      amount: 1250000,
+      type: 'RTGS Transfer',
+      status: 'Completed',
+      time: '14:32'
+    },
+    {
+      id: 'TXN002', 
+      bank: 'Ahli United Bank',
+      amount: 875000,
+      type: 'Securities Settlement',
+      status: 'Processing',
+      time: '14:28'
+    },
+    {
+      id: 'TXN003',
+      bank: 'Arab Banking Corporation',
+      amount: 2100000,
+      type: 'Repo Transaction',
+      status: 'Completed',
+      time: '14:15'
+    }
+  ];
 
-  const renderStatsGrid = (stats: any[], columns: number = 4) => (
-    <div className={`grid grid-cols-${columns} gap-4`}>
-      {stats.map((stat, index) => (
-        <Card key={index} className="bg-white transition-all duration-300 animate-fade-in hover-scale" style={{ animationDelay: `${index * 0.1}s` }}>
-          <CardContent className="p-5">
-            <div className="flex items-center justify-between">
-              <div className="flex-1 min-w-0">
-                <p className="text-sm font-medium text-slate-600 truncate">{stat.title}</p>
-                {stat.subtitle && (
-                  <p className="text-xs text-slate-500 mt-1">{stat.subtitle}</p>
-                )}
-                <p className="text-xl font-bold text-slate-900 mt-2 transition-all duration-500">{stat.value}</p>
-                {stat.change && (
-                  <p className="text-xs text-slate-500 mt-1 truncate">{stat.change}</p>
-                )}
-              </div>
-              <stat.icon className={`h-7 w-7 ${stat.color} flex-shrink-0 ml-3 transition-colors duration-300`} />
-            </div>
-          </CardContent>
-        </Card>
-      ))}
-    </div>
-  );
+  const systemStatuses = [
+    { 
+      name: 'RTGS System', 
+      status: 'online' as const, 
+      uptime: '99.98%', 
+      lastUpdate: '2 mins ago' 
+    },
+    { 
+      name: 'CSD Platform', 
+      status: 'online' as const, 
+      uptime: '99.95%', 
+      lastUpdate: '1 min ago' 
+    },
+    { 
+      name: 'CMS Engine', 
+      status: 'warning' as const, 
+      uptime: '99.87%', 
+      lastUpdate: 'Maintenance in 2 hours' 
+    }
+  ];
 
+  const quickActions = [
+    {
+      title: 'Process Payment',
+      description: 'Initiate new RTGS payment',
+      icon: CreditCard,
+      path: '/rtgs/payments',
+      variant: 'default' as const
+    },
+    {
+      title: 'View Settlements',
+      description: 'Check settlement status',
+      icon: Building2,
+      path: '/csd/settlement'
+    },
+    {
+      title: 'Manage Collateral',
+      description: 'Collateral operations',
+      icon: Shield,
+      path: '/cms/collateral'
+    },
+    {
+      title: 'System Monitoring',
+      description: 'Real-time system status',
+      icon: Activity,
+      path: '/rtgs/monitoring'
+    }
+  ];
+
+  const transactionColumns = [
+    { key: 'id', label: 'Transaction ID', type: 'text' as const },
+    { key: 'bank', label: 'Bank', type: 'text' as const },
+    { key: 'amount', label: 'Amount', type: 'currency' as const },
+    { key: 'type', label: 'Type', type: 'text' as const },
+    { key: 'status', label: 'Status', type: 'status' as const },
+    { key: 'time', label: 'Time', type: 'text' as const }
+  ];
 
   return (
     <div className="space-y-6">
-      <div className="bg-white p-6 border-b border-slate-200">
-        <div className="flex items-center justify-between">
-          <div>
-            <h1 className="text-2xl font-bold text-slate-900">
-              Welcome back, {user?.username || 'User'}
-            </h1>
-            <p className="text-slate-600 mt-2">
-              {isBusinessHours ? 'Business day operations are active' : 'Outside business hours - simulation mode'}
-            </p>
-          </div>
-          <div className="text-right">
-            <div className="text-sm text-slate-600">Last updated</div>
-            <div className="text-lg font-semibold flex items-center gap-2">
-              <RefreshCw className={`h-4 w-4 ${isBusinessHours ? 'animate-spin' : ''}`} />
-              {lastUpdated.toLocaleTimeString()}
-            </div>
-          </div>
-        </div>
+      <div className="space-y-2">
+        <h1 className="text-3xl font-bold tracking-tight">Central Bank Portal</h1>
+        <p className="text-muted-foreground">
+          Unified dashboard for RTGS, CSD, and CMS operations
+        </p>
       </div>
 
-      <div className="px-6 space-y-6">
-        {/* System Status Section */}
-        <div className="mb-6">
-          <SystemStatus />
+      {/* KPI Cards */}
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+        {kpiData.map((kpi) => (
+          <DataCard key={kpi.title} {...kpi} />
+        ))}
+      </div>
+
+      {/* Main Content Grid */}
+      <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
+        {/* Recent Transactions */}
+        <div className="lg:col-span-2">
+          <DataTable
+            title="Recent Transactions"
+            icon={TrendingUp}
+            columns={transactionColumns}
+            data={recentTransactions}
+          />
         </div>
 
-        {/* RTGS and CSD Side by Side */}
-        <div className="grid grid-cols-1 xl:grid-cols-2 gap-8">
-          {/* RTGS Section */}
-          <div className="space-y-6">
-            {renderStatsGrid(rtgsStats, 1)}
-          </div>
-
-          {/* CSD Section */}
-          <div className="space-y-6">
-            {renderStatsGrid(csdStats, 1)}
-          </div>
+        {/* System Status */}
+        <div className="space-y-6">
+          <SystemStatus systems={systemStatuses} />
+          <QuickActions title="Quick Actions" actions={quickActions} />
         </div>
       </div>
     </div>

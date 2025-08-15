@@ -1,110 +1,72 @@
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
-import { cn } from '@/lib/utils';
-import dataConfig from '@/config/dataConfig';
+import { Activity, CheckCircle, AlertTriangle, XCircle } from 'lucide-react';
 
 interface SystemStatusProps {
-  title?: string;
-  className?: string;
-  showAllSystems?: boolean;
-  compactView?: boolean;
+  systems: {
+    name: string;
+    status: 'online' | 'warning' | 'offline' | 'maintenance';
+    uptime?: string;
+    lastUpdate?: string;
+  }[];
 }
 
-export const SystemStatus = ({
-  title = "System Status",
-  className,
-  showAllSystems = true,
-  compactView = false
-}: SystemStatusProps) => {
-  const getStatusColor = (status: string) => {
+export const SystemStatus = ({ systems }: SystemStatusProps) => {
+  const getStatusIcon = (status: string) => {
     switch (status) {
-      case 'operational':
-        return 'bg-green-500';
-      case 'warning':
-        return 'bg-yellow-500';
-      case 'error':
-        return 'bg-red-500';
-      case 'maintenance':
-        return 'bg-blue-500';
-      default:
-        return 'bg-gray-500';
+      case 'online': return <CheckCircle className="h-4 w-4 text-green-500" />;
+      case 'warning': return <AlertTriangle className="h-4 w-4 text-yellow-500" />;
+      case 'offline': return <XCircle className="h-4 w-4 text-red-500" />;
+      case 'maintenance': return <Activity className="h-4 w-4 text-blue-500" />;
+      default: return <CheckCircle className="h-4 w-4" />;
     }
   };
 
-  const getStatusBadge = (status: string) => {
-    const variant = status === 'operational' ? 'default' : 
-                   status === 'warning' ? 'secondary' : 'destructive';
-    
-    return (
-      <Badge variant={variant} className="text-xs">
-        {status.charAt(0).toUpperCase() + status.slice(1)}
-      </Badge>
-    );
+  const getStatusVariant = (status: string) => {
+    switch (status) {
+      case 'online': return 'default';
+      case 'warning': return 'secondary';
+      case 'offline': return 'destructive';
+      case 'maintenance': return 'outline';
+      default: return 'outline';
+    }
   };
 
-  const systemsToShow = showAllSystems 
-    ? [
-        { name: 'RTGS Systems', systems: dataConfig.systemStatus.rtgs },
-        { name: 'CSD Systems', systems: dataConfig.systemStatus.csd },
-        { name: 'CMS Systems', systems: dataConfig.systemStatus.cms }
-      ]
-    : [{ name: 'All Systems', systems: [...dataConfig.systemStatus.rtgs, ...dataConfig.systemStatus.csd, ...dataConfig.systemStatus.cms] }];
-
-  if (compactView) {
-    return (
-      <Card className={cn("bg-card", className)}>
-        <CardContent className="p-4">
-          <div className="flex items-center justify-between mb-2">
-            <h3 className="font-medium text-sm">{title}</h3>
-          </div>
-          <div className="flex flex-wrap gap-2">
-            {systemsToShow.flatMap(group => group.systems).map((system, index) => (
-              <div key={index} className="flex items-center gap-2">
-                <div className={cn("w-2 h-2 rounded-full", getStatusColor(system.status))}></div>
-                <span className="text-xs text-muted-foreground">{system.name}</span>
-              </div>
-            ))}
-          </div>
-        </CardContent>
-      </Card>
-    );
-  }
-
   return (
-    <Card className={cn("bg-card", className)}>
-      <CardHeader className="pb-4">
-        <CardTitle className="text-lg font-semibold">{title}</CardTitle>
+    <Card>
+      <CardHeader>
+        <CardTitle className="flex items-center gap-2">
+          <Activity className="h-5 w-5" />
+          System Status
+        </CardTitle>
       </CardHeader>
-      <CardContent>
-        <div className={cn(
-          "grid gap-6",
-          showAllSystems ? "grid-cols-1 md:grid-cols-3" : "grid-cols-1"
-        )}>
-          {systemsToShow.map((group, groupIndex) => (
-            <div key={groupIndex}>
-              <h4 className="text-sm font-medium text-muted-foreground mb-3">
-                {group.name}
-              </h4>
-              <div className="space-y-3">
-                {group.systems.map((system, index) => (
-                  <div key={index} className="flex items-center justify-between">
-                    <span className="text-sm text-foreground">{system.name}</span>
-                    <div className="flex items-center gap-2">
-                      {getStatusBadge(system.status)}
-                      <div className={cn(
-                        "w-3 h-3 rounded-full",
-                        getStatusColor(system.status)
-                      )}></div>
-                    </div>
+      <CardContent className="space-y-4">
+        {systems.map((system) => (
+          <div key={system.name} className="flex items-center justify-between p-3 border rounded-lg">
+            <div className="flex items-center gap-3">
+              {getStatusIcon(system.status)}
+              <div>
+                <div className="font-medium">{system.name}</div>
+                {system.uptime && (
+                  <div className="text-sm text-muted-foreground">
+                    Uptime: {system.uptime}
                   </div>
-                ))}
+                )}
               </div>
             </div>
-          ))}
-        </div>
+            <div className="text-right">
+              <Badge variant={getStatusVariant(system.status) as any}>
+                {system.status.charAt(0).toUpperCase() + system.status.slice(1)}
+              </Badge>
+              {system.lastUpdate && (
+                <div className="text-xs text-muted-foreground mt-1">
+                  {system.lastUpdate}
+                </div>
+              )}
+            </div>
+          </div>
+        ))}
       </CardContent>
     </Card>
   );
 };
-
-export default SystemStatus;
