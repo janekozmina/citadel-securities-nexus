@@ -35,7 +35,8 @@ export const DashboardHeader = () => {
           variant="ghost"
           size="sm"
           onClick={toggle}
-          className="lg:hidden text-white hover:bg-white/10"
+          className="text-white hover:bg-white/10"
+          aria-label="Toggle navigation menu"
         >
           <Menu className="h-5 w-5" />
         </Button>
