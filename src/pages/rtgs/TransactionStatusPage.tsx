@@ -14,7 +14,9 @@ import {
   CheckCircle, 
   XCircle, 
   Clock, 
-  ArrowUpDown 
+  ArrowUpDown,
+  TableIcon,
+  BarChart3
 } from 'lucide-react';
 import { PieChart, Pie, Cell, ResponsiveContainer, Legend, Tooltip } from 'recharts';
 import portalConfig from '@/config/portalConfig';
@@ -28,6 +30,7 @@ const COLORS = {
 
 export default function TransactionStatusPage() {
   const [transactions] = useState<TransactionData[]>(() => generateTransactionData());
+  const [viewMode, setViewMode] = useState<'visual' | 'table'>('visual');
   const stats = getTransactionStats(transactions);
 
   useEffect(() => {
@@ -67,146 +70,182 @@ export default function TransactionStatusPage() {
       </section>
 
       <div className="flex gap-6">
-        <div className="flex-1 space-y-6">
-          {/* Controls Section - Above All Content */}
-          <Card className="bg-slate-50">
-            <CardContent className="p-4">
-              <div className="flex items-center justify-between">
-                <span className="text-sm font-medium text-slate-700">Transaction Monitoring Controls</span>
-                <div className="flex gap-2">
-                  <Button variant="outline" size="sm">
-                    <Clock className="h-4 w-4 mr-2" />
-                    Refresh Data
-                  </Button>
-                  <Button variant="outline" size="sm">
-                    <ArrowUpDown className="h-4 w-4 mr-2" />
-                    Export Report
-                  </Button>
-                </div>
-              </div>
-            </CardContent>
-          </Card>
-
-          {/* Transaction Statistics Shortcuts */}
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-4">
-            {/* Total Transactions */}
-            <Card>
-              <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-                <CardTitle className="text-sm font-medium">Total Transactions</CardTitle>
-                <ArrowUpDown className="h-4 w-4 text-muted-foreground" />
-              </CardHeader>
-              <CardContent>
-                <div className="text-2xl font-bold">{stats.total.count.toLocaleString()}</div>
-                <p className="text-xs text-muted-foreground">
-                  {formatCurrency(stats.total.volume)}
-                </p>
-              </CardContent>
-            </Card>
-
-            {/* Settled */}
-            <Card>
-              <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-                <CardTitle className="text-sm font-medium">Settled Transactions</CardTitle>
-                <CheckCircle className="h-4 w-4 text-green-600" />
-              </CardHeader>
-              <CardContent>
-                <div className="text-2xl font-bold text-green-600">{stats.settled.count.toLocaleString()}</div>
-                <p className="text-xs text-muted-foreground">
-                  {formatCurrency(stats.settled.volume)}
-                </p>
-              </CardContent>
-            </Card>
-
-            {/* Rejected */}
-            <Card>
-              <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-                <CardTitle className="text-sm font-medium">Rejected Transactions</CardTitle>
-                <XCircle className="h-4 w-4 text-red-600" />
-              </CardHeader>
-              <CardContent>
-                <div className="text-2xl font-bold text-red-600">{stats.rejected.count.toLocaleString()}</div>
-                <p className="text-xs text-muted-foreground">
-                  {formatCurrency(stats.rejected.volume)}
-                </p>
-              </CardContent>
-            </Card>
-
-            {/* In Queue */}
-            <Card>
-              <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-                <CardTitle className="text-sm font-medium">Queued Transactions</CardTitle>
-                <Clock className="h-4 w-4 text-yellow-600" />
-              </CardHeader>
-              <CardContent>
-                <div className="text-2xl font-bold text-yellow-600">{stats.queue.count.toLocaleString()}</div>
-                <p className="text-xs text-muted-foreground">
-                  {formatCurrency(stats.queue.volume)}
-                </p>
-              </CardContent>
-            </Card>
-
-            {/* ILF/BUYBACK */}
-            <Card>
-              <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-                <CardTitle className="text-sm font-medium">ILF/BUYBACK Transactions</CardTitle>
-                <TrendingUp className="h-4 w-4 text-purple-600" />
-              </CardHeader>
-              <CardContent>
-                <div className="text-2xl font-bold text-purple-600">{stats.ilf.count.toLocaleString()}</div>
-                <p className="text-xs text-muted-foreground">
-                  {formatCurrency(stats.ilf.volume)}
-                </p>
-              </CardContent>
-            </Card>
+        {/* View Mode Toggle - Fixed positioning */}
+        <div className="w-full mb-6">
+          <div className="flex items-center gap-2 min-h-[40px] mb-6">
+            <span className="text-sm font-medium text-slate-700">View Mode:</span>
+            <div className="flex gap-2">
+              <Button
+                variant={viewMode === 'table' ? 'default' : 'outline'}
+                size="sm"
+                onClick={() => setViewMode('table')}
+              >
+                <TableIcon className="h-4 w-4 mr-2" />
+                Table
+              </Button>
+              <Button
+                variant={viewMode === 'visual' ? 'default' : 'outline'}
+                size="sm"
+                onClick={() => setViewMode('visual')}
+              >
+                <BarChart3 className="h-4 w-4 mr-2" />
+                Dashboard
+              </Button>
+            </div>
           </div>
+        </div>
+      </div>
 
-          {/* Pie Chart */}
-          <Card>
-            <CardHeader>
-              <CardTitle>Transaction Status Distribution</CardTitle>
-            </CardHeader>
-            <CardContent>
-              <div className="h-80">
-                <ResponsiveContainer width="100%" height="100%">
-                  <PieChart>
-                    <Pie
-                      data={pieData}
-                      cx="50%"
-                      cy="50%"
-                      labelLine={false}
-                      label={({ name, percent }) => `${name} ${(percent * 100).toFixed(0)}%`}
-                      outerRadius={80}
-                      fill="#8884d8"
-                      dataKey="value"
-                    >
-                      {pieData.map((entry, index) => (
-                        <Cell key={`cell-${index}`} fill={entry.color} />
-                      ))}
-                    </Pie>
-                    <Tooltip 
-                      formatter={(value: any) => [value, 'Transactions']}
-                    />
-                    <Legend />
-                  </PieChart>
-                </ResponsiveContainer>
+      <div className="flex gap-6">
+        <div className="flex-1 space-y-6">
+          {/* Controls Section - Only show for table view */}
+          {viewMode === 'table' && (
+            <Card className="bg-slate-50">
+              <CardContent className="p-4">
+                <div className="flex items-center justify-between">
+                  <span className="text-sm font-medium text-slate-700">Transaction Monitoring Controls</span>
+                  <div className="flex gap-2">
+                    <Button variant="outline" size="sm">
+                      <Clock className="h-4 w-4 mr-2" />
+                      Refresh Data
+                    </Button>
+                    <Button variant="outline" size="sm">
+                      <ArrowUpDown className="h-4 w-4 mr-2" />
+                      Export Report
+                    </Button>
+                  </div>
+                </div>
+              </CardContent>
+            </Card>
+          )}
+
+          {/* Dashboard View */}
+          {viewMode === 'visual' && (
+            <div className="space-y-6">
+              {/* Transaction Statistics Shortcuts */}
+              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-4">
+                {/* Total Transactions */}
+                <Card>
+                  <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
+                    <CardTitle className="text-sm font-medium">Total Transactions</CardTitle>
+                    <ArrowUpDown className="h-4 w-4 text-muted-foreground" />
+                  </CardHeader>
+                  <CardContent>
+                    <div className="text-2xl font-bold">{stats.total.count.toLocaleString()}</div>
+                    <p className="text-xs text-muted-foreground">
+                      {formatCurrency(stats.total.volume)}
+                    </p>
+                  </CardContent>
+                </Card>
+
+                {/* Settled */}
+                <Card>
+                  <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
+                    <CardTitle className="text-sm font-medium">Settled Transactions</CardTitle>
+                    <CheckCircle className="h-4 w-4 text-green-600" />
+                  </CardHeader>
+                  <CardContent>
+                    <div className="text-2xl font-bold text-green-600">{stats.settled.count.toLocaleString()}</div>
+                    <p className="text-xs text-muted-foreground">
+                      {formatCurrency(stats.settled.volume)}
+                    </p>
+                  </CardContent>
+                </Card>
+
+                {/* Rejected */}
+                <Card>
+                  <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
+                    <CardTitle className="text-sm font-medium">Rejected Transactions</CardTitle>
+                    <XCircle className="h-4 w-4 text-red-600" />
+                  </CardHeader>
+                  <CardContent>
+                    <div className="text-2xl font-bold text-red-600">{stats.rejected.count.toLocaleString()}</div>
+                    <p className="text-xs text-muted-foreground">
+                      {formatCurrency(stats.rejected.volume)}
+                    </p>
+                  </CardContent>
+                </Card>
+
+                {/* In Queue */}
+                <Card>
+                  <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
+                    <CardTitle className="text-sm font-medium">Queued Transactions</CardTitle>
+                    <Clock className="h-4 w-4 text-yellow-600" />
+                  </CardHeader>
+                  <CardContent>
+                    <div className="text-2xl font-bold text-yellow-600">{stats.queue.count.toLocaleString()}</div>
+                    <p className="text-xs text-muted-foreground">
+                      {formatCurrency(stats.queue.volume)}
+                    </p>
+                  </CardContent>
+                </Card>
+
+                {/* ILF/BUYBACK */}
+                <Card>
+                  <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
+                    <CardTitle className="text-sm font-medium">ILF/BUYBACK Transactions</CardTitle>
+                    <TrendingUp className="h-4 w-4 text-purple-600" />
+                  </CardHeader>
+                  <CardContent>
+                    <div className="text-2xl font-bold text-purple-600">{stats.ilf.count.toLocaleString()}</div>
+                    <p className="text-xs text-muted-foreground">
+                      {formatCurrency(stats.ilf.volume)}
+                    </p>
+                  </CardContent>
+                </Card>
               </div>
-            </CardContent>
-          </Card>
 
-          {/* Transactions Table */}
-          <Card>
-            <CardHeader>
-              <CardTitle>All Transactions</CardTitle>
-            </CardHeader>
-            <CardContent>
-              <DataTable
-                title="Transactions"
-                data={transactions}
-                columns={transactionTableColumns}
-                searchPlaceholder="Search transactions..."
-              />
-            </CardContent>
-          </Card>
+              {/* Pie Chart */}
+              <Card>
+                <CardHeader>
+                  <CardTitle>Transaction Status Distribution</CardTitle>
+                </CardHeader>
+                <CardContent>
+                  <div className="h-80">
+                    <ResponsiveContainer width="100%" height="100%">
+                      <PieChart>
+                        <Pie
+                          data={pieData}
+                          cx="50%"
+                          cy="50%"
+                          labelLine={false}
+                          label={({ name, percent }) => `${name} ${(percent * 100).toFixed(0)}%`}
+                          outerRadius={80}
+                          fill="#8884d8"
+                          dataKey="value"
+                        >
+                          {pieData.map((entry, index) => (
+                            <Cell key={`cell-${index}`} fill={entry.color} />
+                          ))}
+                        </Pie>
+                        <Tooltip 
+                          formatter={(value: any) => [value, 'Transactions']}
+                        />
+                        <Legend />
+                      </PieChart>
+                    </ResponsiveContainer>
+                  </div>
+                </CardContent>
+              </Card>
+            </div>
+          )}
+
+          {/* Table View */}
+          {viewMode === 'table' && (
+            <Card>
+              <CardHeader>
+                <CardTitle>All Transactions</CardTitle>
+              </CardHeader>
+              <CardContent>
+                <DataTable
+                  title="Transactions"
+                  data={transactions}
+                  columns={transactionTableColumns}
+                  searchPlaceholder="Search transactions..."
+                />
+              </CardContent>
+            </Card>
+          )}
         </div>
 
         {/* Right Sidebar with Quick Actions */}
