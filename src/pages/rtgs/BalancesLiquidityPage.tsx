@@ -40,67 +40,6 @@ const collateralData = [
 ];
 
 export default function BalancesLiquidityPage() {
-  const [filterAccountType, setFilterAccountType] = useState('all');
-  const [filterCurrency, setFilterCurrency] = useState('all');
-  const [searchTerm, setSearchTerm] = useState('');
-  const [sortField, setSortField] = useState<string>('');
-  const [sortDirection, setSortDirection] = useState<'asc' | 'desc'>('asc');
-  const [currentPage, setCurrentPage] = useState(1);
-  const itemsPerPage = 10;
-
-  const getReserveStatusColor = (amount: number) => {
-    if (amount < 100) return 'bg-red-100 text-red-800 border-red-200';
-    if (amount < 500) return 'bg-yellow-100 text-yellow-800 border-yellow-200';
-    return 'bg-green-100 text-green-800 border-green-200';
-  };
-
-  const filteredAndSortedBalances = useMemo(() => {
-    let filtered = balancesData.filter(balance => {
-      const matchesSearch = balance.participant.toLowerCase().includes(searchTerm.toLowerCase()) ||
-                          balance.id.includes(searchTerm) ||
-                          balance.accountType.toLowerCase().includes(searchTerm.toLowerCase());
-      const matchesAccountType = filterAccountType === 'all' || balance.accountType === filterAccountType;
-      const matchesCurrency = filterCurrency === 'all' || balance.currency === filterCurrency;
-      
-      return matchesSearch && matchesAccountType && matchesCurrency;
-    });
-
-    if (sortField) {
-      filtered.sort((a, b) => {
-        let aValue = a[sortField as keyof typeof a];
-        let bValue = b[sortField as keyof typeof b];
-        
-        if (typeof aValue === 'string') {
-          aValue = aValue.toLowerCase();
-          bValue = (bValue as string).toLowerCase();
-        }
-        
-        if (sortDirection === 'asc') {
-          return aValue < bValue ? -1 : aValue > bValue ? 1 : 0;
-        } else {
-          return aValue > bValue ? -1 : aValue < bValue ? 1 : 0;
-        }
-      });
-    }
-
-    return filtered;
-  }, [searchTerm, filterAccountType, filterCurrency, sortField, sortDirection]);
-
-  const paginatedBalances = useMemo(() => {
-    const startIndex = (currentPage - 1) * itemsPerPage;
-    return filteredAndSortedBalances.slice(startIndex, startIndex + itemsPerPage);
-  }, [filteredAndSortedBalances, currentPage]);
-
-  const totalPages = Math.ceil(filteredAndSortedBalances.length / itemsPerPage);
-
-  const handleSort = (field: string) => {
-    if (sortField === field) {
-      setSortDirection(sortDirection === 'asc' ? 'desc' : 'asc');
-    } else {
-      setSortField(field);
-      setSortDirection('asc');
-    }
-  };
 
   const totalReserved = balancesData.reduce((sum, balance) => sum + balance.reservedAmount, 0);
   const totalBalance = balancesData.reduce((sum, balance) => sum + balance.balance, 0);
@@ -230,139 +169,31 @@ export default function BalancesLiquidityPage() {
               </Card>
             </div>
 
-            {/* Balances Table */}
-            <Card>
-              <CardHeader>
-                <CardTitle>Balances & Liquidity</CardTitle>
-                <div className="flex gap-2 mt-2">
-                  <Select defaultValue="all" onValueChange={setFilterAccountType}>
-                    <SelectTrigger className="w-40">
-                      <SelectValue />
-                    </SelectTrigger>
-                    <SelectContent>
-                      <SelectItem value="all">All Account Types</SelectItem>
-                      <SelectItem value="RTSE">RTSE</SelectItem>
-                      <SelectItem value="BCTNTTNTSA">BCTNTTNTSA</SelectItem>
-                      <SelectItem value="BANQTFTT25">BANQTFTT25</SelectItem>
-                      <SelectItem value="BCTNTTNT25">BCTNTTNT25</SelectItem>
-                    </SelectContent>
-                  </Select>
-                  <Select defaultValue="all" onValueChange={setFilterCurrency}>
-                    <SelectTrigger className="w-32">
-                      <SelectValue />
-                    </SelectTrigger>
-                    <SelectContent>
-                      <SelectItem value="all">All Currencies</SelectItem>
-                      <SelectItem value="TND">TND</SelectItem>
-                      <SelectItem value="USD">USD</SelectItem>
-                      <SelectItem value="EUR">EUR</SelectItem>
-                    </SelectContent>
-                  </Select>
-                  <Input 
-                    placeholder="Search participants..." 
-                    className="w-48" 
-                    value={searchTerm}
-                    onChange={(e) => setSearchTerm(e.target.value)}
-                  />
-                </div>
-              </CardHeader>
-              <CardContent>
-                <div className="overflow-x-auto">
-                  <Table>
-                    <TableHeader>
-                      <TableRow>
-                        <TableHead 
-                          className="cursor-pointer hover:bg-slate-50"
-                          onClick={() => handleSort('participant')}
-                        >
-                          <div className="flex items-center gap-1">
-                            Participant
-                            <ArrowUpDown className="h-3 w-3" />
-                          </div>
-                        </TableHead>
-                        <TableHead>Account Code</TableHead>
-                        <TableHead>Account Type</TableHead>
-                        <TableHead 
-                          className="cursor-pointer hover:bg-slate-50"
-                          onClick={() => handleSort('reservedAmount')}
-                        >
-                          <div className="flex items-center gap-1">
-                            Reserved Amount
-                            <ArrowUpDown className="h-3 w-3" />
-                          </div>
-                        </TableHead>
-                        <TableHead>Currency</TableHead>
-                        <TableHead>Debit Turnover</TableHead>
-                        <TableHead>Credit Turnover</TableHead>
-                        <TableHead>Total in Debit Queue</TableHead>
-                        <TableHead>Total in Credit Queue</TableHead>
-                        <TableHead>Personal Balance</TableHead>
-                      </TableRow>
-                    </TableHeader>
-                    <TableBody>
-                      {paginatedBalances.map((balance) => (
-                        <TableRow key={balance.id} className="hover:bg-slate-50">
-                          <TableCell className="font-medium text-sm">{balance.participant}</TableCell>
-                          <TableCell>
-                            <Badge variant="outline">{balance.accountCode}</Badge>
-                          </TableCell>
-                          <TableCell className="font-mono text-xs">{balance.accountType}</TableCell>
-                          <TableCell>
-                            <Badge className={getReserveStatusColor(balance.reservedAmount)}>
-                              BHD {balance.reservedAmount.toLocaleString()}
-                            </Badge>
-                          </TableCell>
-                          <TableCell>
-                            <Badge variant="secondary">{balance.currency}</Badge>
-                          </TableCell>
-                          <TableCell className="text-right">{balance.debitTurnover.toLocaleString()}</TableCell>
-                          <TableCell className="text-right">{balance.creditTurnover.toLocaleString()}</TableCell>
-                          <TableCell className="text-right">{balance.totalDebitQueue.toLocaleString()}</TableCell>
-                          <TableCell className="text-right">{balance.totalCreditQueue.toLocaleString()}</TableCell>
-                          <TableCell className="text-right font-medium">BHD {balance.balance.toLocaleString()}</TableCell>
-                        </TableRow>
-                      ))}
-                    </TableBody>
-                  </Table>
-                </div>
-                
-                {/* Pagination */}
-                <div className="flex items-center justify-between mt-4">
-                  <div className="text-sm text-slate-600">
-                    Showing {((currentPage - 1) * itemsPerPage) + 1} to {Math.min(currentPage * itemsPerPage, filteredAndSortedBalances.length)} of {filteredAndSortedBalances.length} records
-                  </div>
-                  <div className="flex gap-2">
-                    <Button 
-                      variant="outline" 
-                      size="sm"
-                      disabled={currentPage === 1}
-                      onClick={() => setCurrentPage(currentPage - 1)}
-                    >
-                      Previous
-                    </Button>
-                    <span className="flex items-center px-3 text-sm">
-                      Page {currentPage} of {totalPages}
-                    </span>
-                    <Button 
-                      variant="outline" 
-                      size="sm"
-                      disabled={currentPage === totalPages}
-                      onClick={() => setCurrentPage(currentPage + 1)}
-                    >
-                      Next
-                    </Button>
-                  </div>
-                </div>
-              </CardContent>
-            </Card>
-
             {/* Reserve Accounts Table */}
             <DataTable
               title="Reserve Accounts"
               icon={DollarSign}
               columns={reserveColumns}
               data={reservesData}
-              className="mt-6"
+              searchPlaceholder="Search reserve accounts..."
+              itemsPerPage={8}
+              filters={[
+                {
+                  key: 'reserveType',
+                  label: 'Reserve Type',
+                  options: ['Mandatory Reserve', 'Excess Reserve', 'Liquidity Buffer']
+                },
+                {
+                  key: 'status',
+                  label: 'Status',
+                  options: ['Active', 'Under Review', 'Inactive']
+                },
+                {
+                  key: 'currency',
+                  label: 'Currency',
+                  options: ['BHD', 'USD', 'EUR']
+                }
+              ]}
             />
 
             {/* Collateral Accounts Table */}
@@ -371,7 +202,25 @@ export default function BalancesLiquidityPage() {
               icon={Shield}
               columns={collateralColumns}
               data={collateralData}
-              className="mt-6"
+              searchPlaceholder="Search collateral accounts..."
+              itemsPerPage={8}
+              filters={[
+                {
+                  key: 'collateralType',
+                  label: 'Collateral Type',
+                  options: ['Government Bonds', 'Corporate Bonds', 'Treasury Bills', 'Equity Securities']
+                },
+                {
+                  key: 'status',
+                  label: 'Status',
+                  options: ['Pledged', 'Available', 'Under Evaluation']
+                },
+                {
+                  key: 'eligibility',
+                  label: 'Eligibility',
+                  options: ['AAA', 'AA', 'A']
+                }
+              ]}
             />
           </div>
 
