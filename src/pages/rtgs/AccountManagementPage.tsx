@@ -143,36 +143,89 @@ export default function AccountManagementPage() {
 
         <div className="flex h-full">
           <div className="flex-1 space-y-6 pr-6">
-            {/* View Toggle */}
-            <div className="flex items-center justify-between">
-              <div className="flex items-center gap-2">
-                <Button
-                  variant={viewMode === 'visual' ? 'default' : 'outline'}
-                  size="sm"
-                  onClick={() => setViewMode('visual')}
-                >
-                  <BarChart3 className="h-4 w-4 mr-2" />
-                  Risk Dashboard
-                </Button>
-                <Button
-                  variant={viewMode === 'table' ? 'default' : 'outline'}
-                  size="sm"
-                  onClick={() => setViewMode('table')}
-                >
-                  <TableIcon className="h-4 w-4 mr-2" />
-                  Account Table
-                </Button>
-              </div>
-              {riskFilter !== 'all' && (
-                <Button
-                  variant="outline"
-                  size="sm"
-                  onClick={() => setRiskFilter('all')}
-                >
-                  Clear Risk Filter
-                </Button>
-              )}
-            </div>
+            {/* Controls Section - Above All Content */}
+            <Card className="bg-slate-50">
+              <CardContent className="p-4">
+                <div className="space-y-4">
+                  {/* View Toggle */}
+                  <div className="flex items-center justify-between">
+                    <div className="flex items-center gap-2">
+                      <span className="text-sm font-medium text-slate-700">View Mode:</span>
+                      <Button
+                        variant={viewMode === 'visual' ? 'default' : 'outline'}
+                        size="sm"
+                        onClick={() => setViewMode('visual')}
+                      >
+                        <BarChart3 className="h-4 w-4 mr-2" />
+                        Risk Dashboard
+                      </Button>
+                      <Button
+                        variant={viewMode === 'table' ? 'default' : 'outline'}
+                        size="sm"
+                        onClick={() => setViewMode('table')}
+                      >
+                        <TableIcon className="h-4 w-4 mr-2" />
+                        Account Table
+                      </Button>
+                    </div>
+                    {riskFilter !== 'all' && (
+                      <Button
+                        variant="outline"
+                        size="sm"
+                        onClick={() => setRiskFilter('all')}
+                      >
+                        Clear Risk Filter
+                      </Button>
+                    )}
+                  </div>
+
+                  {/* Filters Row */}
+                  {viewMode === 'table' && (
+                    <div className="flex gap-2 items-center">
+                      <span className="text-sm font-medium text-slate-700">Filters:</span>
+                      <Select value={filterCurrency} onValueChange={setFilterCurrency}>
+                        <SelectTrigger className="w-32">
+                          <SelectValue placeholder="Currency" />
+                        </SelectTrigger>
+                        <SelectContent>
+                          <SelectItem value="all">All Currencies</SelectItem>
+                          {portalConfig.currencies.supported.map(currency => (
+                            <SelectItem key={currency} value={currency}>{currency}</SelectItem>
+                          ))}
+                        </SelectContent>
+                      </Select>
+                      <Select value={filterAccountType} onValueChange={setFilterAccountType}>
+                        <SelectTrigger className="w-32">
+                          <SelectValue placeholder="Account Type" />
+                        </SelectTrigger>
+                        <SelectContent>
+                          <SelectItem value="all">All Types</SelectItem>
+                          <SelectItem value="SA">SA</SelectItem>
+                          <SelectItem value="CA">CA</SelectItem>
+                        </SelectContent>
+                      </Select>
+                      <Select value={riskFilter} onValueChange={(value: 'all' | 'low' | 'medium' | 'high') => setRiskFilter(value)}>
+                        <SelectTrigger className="w-32">
+                          <SelectValue placeholder="Risk Level" />
+                        </SelectTrigger>
+                        <SelectContent>
+                          <SelectItem value="all">All Risk Levels</SelectItem>
+                          <SelectItem value="high">High Risk</SelectItem>
+                          <SelectItem value="medium">Medium Risk</SelectItem>
+                          <SelectItem value="low">Low Risk</SelectItem>
+                        </SelectContent>
+                      </Select>
+                      <Input 
+                        placeholder="Search accounts..." 
+                        className="w-48" 
+                        value={searchTerm}
+                        onChange={(e) => setSearchTerm(e.target.value)}
+                      />
+                    </div>
+                  )}
+                </div>
+              </CardContent>
+            </Card>
 
             {/* Risk Dashboard View */}
             {viewMode === 'visual' && (
@@ -294,35 +347,6 @@ export default function AccountManagementPage() {
             <Card>
               <CardHeader>
                 <CardTitle>Account Management</CardTitle>
-                <div className="flex gap-2 mt-2">
-                  <Select defaultValue="all" onValueChange={setFilterCurrency}>
-                    <SelectTrigger className="w-32">
-                      <SelectValue />
-                    </SelectTrigger>
-                    <SelectContent>
-                      <SelectItem value="all">All Currencies</SelectItem>
-                      {portalConfig.currencies.supported.map(currency => (
-                        <SelectItem key={currency} value={currency}>{currency}</SelectItem>
-                      ))}
-                    </SelectContent>
-                  </Select>
-                  <Select defaultValue="all" onValueChange={setFilterAccountType}>
-                    <SelectTrigger className="w-32">
-                      <SelectValue />
-                    </SelectTrigger>
-                    <SelectContent>
-                      <SelectItem value="all">All Types</SelectItem>
-                      <SelectItem value="SA">SA</SelectItem>
-                      <SelectItem value="CA">CA</SelectItem>
-                    </SelectContent>
-                  </Select>
-                  <Input 
-                    placeholder="Search accounts..." 
-                    className="w-48" 
-                    value={searchTerm}
-                    onChange={(e) => setSearchTerm(e.target.value)}
-                  />
-                </div>
               </CardHeader>
               <CardContent>
                 <div className="overflow-x-auto">

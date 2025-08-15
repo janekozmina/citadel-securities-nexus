@@ -89,17 +89,32 @@ export default function FinancialMonitoringPage() {
         </p>
       </div>
 
-      {/* Quick Actions / Shortcuts */}
-      <div className="flex justify-end mb-4">
-        <div className="w-64">
-          <QuickActionsManager 
-            pageKey="financial-monitoring" 
-            systemType="rtgs" 
-          />
-        </div>
-      </div>
+      {/* Controls Section - Above All Content */}
+      <Card className="bg-slate-50">
+        <CardContent className="p-4">
+          <div className="flex items-center justify-between">
+            <span className="text-sm font-medium text-slate-700">Monitoring Controls</span>
+            <div className="flex gap-2">
+              <Button variant="outline" size="sm" onClick={handleRefresh} disabled={refreshing}>
+                <RefreshCw className={`h-4 w-4 mr-2 ${refreshing ? 'animate-spin' : ''}`} />
+                {refreshing ? 'Refreshing...' : 'Refresh'}
+              </Button>
+              <Button variant="outline" size="sm">
+                <Filter className="h-4 w-4 mr-2" />
+                Filter Banks
+              </Button>
+              <Button variant="outline" size="sm">
+                <Download className="h-4 w-4 mr-2" />
+                Export Report
+              </Button>
+            </div>
+          </div>
+        </CardContent>
+      </Card>
 
-      {/* Status Overview Cards */}
+      <div className="flex gap-6">
+        <div className="flex-1 space-y-6">
+          {/* Status Overview Cards */}
       <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
         <Card>
           <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
@@ -135,13 +150,23 @@ export default function FinancialMonitoringPage() {
         </Card>
       </div>
 
-      {/* Financial Monitoring Table */}
-      <DataTable
-        title="Bank Financial Position Monitoring"
-        icon={Activity}
-        columns={columns}
-        data={bankData}
-      />
+          {/* Financial Monitoring Table */}
+          <DataTable
+            title="Bank Financial Position Monitoring"
+            icon={Activity}
+            columns={columns}
+            data={bankData}
+          />
+        </div>
+
+        {/* Right Sidebar with Quick Actions */}
+        <div className="w-64 space-y-4">
+          <QuickActionsManager 
+            pageKey="financial-monitoring" 
+            systemType="rtgs" 
+          />
+        </div>
+      </div>
     </div>
   );
 }
