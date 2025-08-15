@@ -130,6 +130,22 @@ export function AppSidebar() {
     
     if (activeMainItem) {
       setSelectedMainItem(activeMainItem);
+    } else {
+      // If we're on /admin route, select admin item  
+      if (currentPath.startsWith('/admin')) {
+        const adminItem = primaryItems.find(item => item.id === 'admin');
+        if (adminItem) setSelectedMainItem(adminItem);
+      }
+      // If we're on /rtgs route, select RTGS item
+      else if (currentPath.startsWith('/rtgs')) {
+        const rtgsItem = primaryItems.find(item => item.id === 'rtgs');
+        if (rtgsItem) setSelectedMainItem(rtgsItem);
+      }
+      // For testing - if on admin route, temporarily select RTGS to test submenu
+      else if (currentPath === '/admin') {
+        const rtgsItem = primaryItems.find(item => item.id === 'rtgs');
+        if (rtgsItem) setSelectedMainItem(rtgsItem);
+      }
     }
   }, [location.pathname, primaryItems]);
 
@@ -283,7 +299,7 @@ export function AppSidebar() {
                 const hasSubItems = subItem.children && subItem.children.length > 0;
                 
                 return (
-                  <div key={subItem.id}>
+                  <div key={subItem.id} className="mb-2">
                     <SidebarMenuItem>
                       <SidebarMenuButton
                         asChild={!hasSubItems}
@@ -305,7 +321,7 @@ export function AppSidebar() {
                     
                     {/* Third Level Items - Always visible when parent is active */}
                     {hasSubItems && isActive && (
-                      <div className="ml-4 mt-1 space-y-1">
+                      <div className="ml-6 mt-2 space-y-1 border-l border-white/20 pl-3">
                         {subItem.children?.filter(child => getAccessibleItems([child]).length > 0).map((thirdItem) => {
                           const isThirdActive = location.pathname === thirdItem.path;
                           
