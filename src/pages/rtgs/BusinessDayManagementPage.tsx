@@ -72,57 +72,57 @@ export default function BusinessDayManagementPage() {
   const [periods, setPeriods] = useState<BusinessPeriod[]>([
     {
       id: '1',
-      name: 'Start of business day',
-      startTime: '09:00',
-      endTime: '11:00',
+      name: 'Pre-Opening Phase (System Preparation & Liquidity Setup)',
+      startTime: '07:00',
+      endTime: '08:30',
       status: 'completed',
       type: 'rtgs',
-      actions: ['All payments']
+      actions: ['System health checks', 'Batch processing completion check', 'Liquidity provision', 'Initial reports']
     },
     {
-      id: '2', 
-      name: 'Start of business day',
-      startTime: '09:00',
-      endTime: '13:00',
+      id: '2',
+      name: 'Opening & Morning Session',
+      startTime: '08:30',
+      endTime: '12:00',
       status: 'active',
-      type: 'csd',
-      actions: ['All payments', 'Interbank payments']
+      type: 'rtgs',
+      actions: ['System officially opens', 'High-value and urgent payments processed', 'Liquidity management', 'Monitoring']
     },
     {
       id: '3',
-      name: 'Interbank payments',
-      startTime: '13:00',
-      endTime: '15:00',
+      name: 'Midday Settlement Peaks',
+      startTime: '12:00',
+      endTime: '14:30',
       status: 'active', 
       type: 'rtgs',
-      actions: ['Interbank payments']
+      actions: ['Bulk settlements', 'Securities settlement obligations', 'FX settlement obligations', 'Liquidity reshuffling']
     },
     {
       id: '4',
-      name: 'Interbank payments',
-      startTime: '13:00',
-      endTime: '16:00',
+      name: 'Afternoon Adjustments',
+      startTime: '14:30',
+      endTime: '16:30',
       status: 'scheduled',
-      type: 'csd',
-      actions: ['Interbank payments', 'Cut-off']
+      type: 'rtgs',
+      actions: ['Final settlement for SSS/CCP positions', 'Customer and interbank transfers', 'Liquidity returns', 'Critical payments processing']
     },
     {
       id: '5',
-      name: 'EOD',
-      startTime: '16:00',
-      endTime: '18:00',
+      name: 'Cut-Off & End-of-Day Processing',
+      startTime: '16:30',
+      endTime: '17:00',
       status: 'scheduled',
       type: 'rtgs',
-      actions: ['Cut-off', 'Reconciliation, rejection and confirmation', 'EOD']
+      actions: ['Cut-off for customer payments', 'Final gridlock resolution', 'Closing of intraday credit lines', 'Daily summary reports']
     },
     {
       id: '6',
-      name: 'EOD', 
-      startTime: '16:00',
-      endTime: '19:00',
+      name: 'Post-Closing', 
+      startTime: '17:00',
+      endTime: '18:00',
       status: 'scheduled',
-      type: 'csd',
-      actions: ['Reconciliation, rejection and confirmation', 'EOD']
+      type: 'rtgs',
+      actions: ['System reconciliation', 'Backup of transaction data', 'Preparation for overnight processes', 'EOD statements availability']
     }
   ]);
 
@@ -334,7 +334,7 @@ export default function BusinessDayManagementPage() {
         </div>
 
         {/* Business Day Schedule */}
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+        <div className="grid grid-cols-1 gap-6">
           {/* RTGS Schedule */}
           <Card>
             <CardHeader>
@@ -353,7 +353,7 @@ export default function BusinessDayManagementPage() {
                   {periods
                     .filter(period => period.type === 'rtgs')
                     .map((period, index) => (
-                      <div key={period.id} className="relative flex items-start gap-4 pb-4">
+                      <div key={period.id} className="relative flex items-start gap-4 pb-6">
                         <div className={`w-6 h-6 rounded-full ${getStatusColor(period.status)} flex items-center justify-center text-white relative z-10`}>
                           {getStatusIcon(period.status)}
                         </div>
@@ -407,13 +407,18 @@ export default function BusinessDayManagementPage() {
                             </div>
                           </div>
                           
-                          <div className="flex flex-wrap gap-1">
-                            {period.actions.map((action, actionIndex) => (
-                              <Badge key={actionIndex} variant="secondary" className="text-xs">
-                                {action}
-                              </Badge>
-                            ))}
-                          </div>
+                          <details className="text-sm">
+                            <summary className="cursor-pointer text-muted-foreground hover:text-foreground">
+                              View Activities ({period.actions.length})
+                            </summary>
+                            <div className="mt-2 space-y-1 pl-4 border-l-2 border-muted">
+                              {period.actions.map((action, actionIndex) => (
+                                <div key={actionIndex} className="text-sm text-muted-foreground">
+                                  • {action}
+                                </div>
+                              ))}
+                            </div>
+                          </details>
                         </div>
                       </div>
                     ))}
@@ -422,92 +427,6 @@ export default function BusinessDayManagementPage() {
             </CardContent>
           </Card>
 
-          {/* CSD Schedule */}
-          <Card>
-            <CardHeader>
-              <CardTitle className="flex items-center gap-2">
-                <div className="w-3 h-3 bg-green-500 rounded"></div>
-                CSD Schedule
-              </CardTitle>
-              <CardDescription>Central Securities Depository system periods</CardDescription>
-            </CardHeader>
-            <CardContent>
-              <div className="space-y-4">
-                {/* Timeline */}
-                <div className="relative">
-                  <div className="absolute left-8 top-0 bottom-0 w-0.5 bg-border"></div>
-                  
-                  {periods
-                    .filter(period => period.type === 'csd')
-                    .map((period, index) => (
-                      <div key={period.id} className="relative flex items-start gap-4 pb-4">
-                        <div className={`w-6 h-6 rounded-full ${getStatusColor(period.status)} flex items-center justify-center text-white relative z-10`}>
-                          {getStatusIcon(period.status)}
-                        </div>
-                        
-                        <div className="flex-1 space-y-2">
-                          <div className="flex items-center justify-between">
-                            <div>
-                              <h4 className="font-medium">{period.name}</h4>
-                              <p className="text-sm text-muted-foreground">
-                                {period.startTime} - {period.endTime}
-                              </p>
-                            </div>
-                            
-                            <div className="flex items-center gap-2">
-                              {period.status === 'scheduled' && (
-                                <Button 
-                                  size="sm" 
-                                  variant="outline"
-                                  onClick={() => handlePeriodAction(period.id, 'activate')}
-                                >
-                                  <Play className="h-3 w-3" />
-                                </Button>
-                              )}
-                              {period.status === 'active' && (
-                                <>
-                                  <Button 
-                                    size="sm" 
-                                    variant="outline"
-                                    onClick={() => handlePeriodAction(period.id, 'pause')}
-                                  >
-                                    <Pause className="h-3 w-3" />
-                                  </Button>
-                                  <Button 
-                                    size="sm" 
-                                    variant="outline"
-                                    onClick={() => handlePeriodAction(period.id, 'complete')}
-                                  >
-                                    <CheckCircle className="h-3 w-3" />
-                                  </Button>
-                                </>
-                              )}
-                              {period.status === 'paused' && (
-                                <Button 
-                                  size="sm" 
-                                  variant="outline"
-                                  onClick={() => handlePeriodAction(period.id, 'activate')}
-                                >
-                                  <Play className="h-3 w-3" />
-                                </Button>
-                              )}
-                            </div>
-                          </div>
-                          
-                          <div className="flex flex-wrap gap-1">
-                            {period.actions.map((action, actionIndex) => (
-                              <Badge key={actionIndex} variant="secondary" className="text-xs">
-                                {action}
-                              </Badge>
-                            ))}
-                          </div>
-                        </div>
-                      </div>
-                    ))}
-                </div>
-              </div>
-            </CardContent>
-          </Card>
         </div>
 
         {/* Current Status */}
