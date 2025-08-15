@@ -72,7 +72,7 @@ export default function TransactionStatusPage() {
             {/* Total Transactions */}
             <Card>
               <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-                <CardTitle className="text-sm font-medium">Общее число транзакций</CardTitle>
+                <CardTitle className="text-sm font-medium">Total Transactions</CardTitle>
                 <ArrowUpDown className="h-4 w-4 text-muted-foreground" />
               </CardHeader>
               <CardContent>
@@ -86,7 +86,7 @@ export default function TransactionStatusPage() {
             {/* Settled */}
             <Card>
               <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-                <CardTitle className="text-sm font-medium">Сколько засетленных</CardTitle>
+                <CardTitle className="text-sm font-medium">Settled Transactions</CardTitle>
                 <CheckCircle className="h-4 w-4 text-green-600" />
               </CardHeader>
               <CardContent>
@@ -100,7 +100,7 @@ export default function TransactionStatusPage() {
             {/* Rejected */}
             <Card>
               <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-                <CardTitle className="text-sm font-medium">Сколько отклоненных</CardTitle>
+                <CardTitle className="text-sm font-medium">Rejected Transactions</CardTitle>
                 <XCircle className="h-4 w-4 text-red-600" />
               </CardHeader>
               <CardContent>
@@ -114,7 +114,7 @@ export default function TransactionStatusPage() {
             {/* In Queue */}
             <Card>
               <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-                <CardTitle className="text-sm font-medium">Сколько в очереди</CardTitle>
+                <CardTitle className="text-sm font-medium">Queued Transactions</CardTitle>
                 <Clock className="h-4 w-4 text-yellow-600" />
               </CardHeader>
               <CardContent>
@@ -128,7 +128,7 @@ export default function TransactionStatusPage() {
             {/* ILF/BUYBACK */}
             <Card>
               <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-                <CardTitle className="text-sm font-medium">Сколько ILF/BUYBACK</CardTitle>
+                <CardTitle className="text-sm font-medium">ILF/BUYBACK Transactions</CardTitle>
                 <TrendingUp className="h-4 w-4 text-purple-600" />
               </CardHeader>
               <CardContent>

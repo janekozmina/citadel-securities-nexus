@@ -64,9 +64,9 @@ export const QuickActionsManager = ({ pageKey, systemType }: QuickActionsManager
             variant="ghost" 
             size="sm" 
             className="h-6 px-2 text-xs"
-            onClick={() => console.log('All Actions clicked')}
+            onClick={() => console.log('More Actions clicked')}
           >
-            All Actions
+            More Actions
           </Button>
           <Dialog open={isOpen} onOpenChange={setIsOpen}>
             <DialogTrigger asChild>
