@@ -5,19 +5,17 @@ import { Breadcrumbs } from './Breadcrumbs';
 import Chatbot from './Chatbot';
 import { useAuth } from '@/contexts/AuthContext';
 import themeConfig from '@/config/themeConfig';
-import { Button } from '@/components/ui/button';
-import { Separator } from '@/components/ui/separator';
-import { Home, Banknote, Building2, Shield, FileText, Settings } from 'lucide-react';
-import { useNavigate } from 'react-router-dom';
+import { ResponsiveSidebar } from './ResponsiveSidebar';
+import { SidebarProvider, useSidebarContext } from './SidebarProvider';
 
 interface MainLayoutProps {
   children?: React.ReactNode;
 }
 
-const MainLayout = ({ children }: MainLayoutProps) => {
+function MainLayoutContent({ children }: MainLayoutProps) {
   const location = useLocation();
-  const navigate = useNavigate();
   const { user } = useAuth();
+  const { isOpen, toggle } = useSidebarContext();
 
   // Define alerts for different pages
   const getPageAlerts = () => {
@@ -55,58 +53,18 @@ const MainLayout = ({ children }: MainLayoutProps) => {
     return baseAlerts;
   };
 
-  // Simplified navigation items
-  const navItems = [
-    { path: '/', icon: Home, label: 'Dashboard' },
-    { path: '/rtgs', icon: Banknote, label: 'RTGS' },
-    { path: '/csd', icon: Building2, label: 'CSD' },
-    { path: '/cms', icon: Shield, label: 'CMS' },
-    { path: '/reports', icon: FileText, label: 'Reports' },
-    { path: '/admin', icon: Settings, label: 'Admin' },
-  ];
-
   return (
     <div className="flex w-full">
-      {/* Temporary Simple Sidebar */}
-      <div className="w-64 h-screen bg-muted/30 border-r sticky top-0 flex flex-col">
-        <div className="p-4 border-b">
-          <div className="flex items-center gap-2">
-            <div className="w-8 h-8 bg-primary rounded-lg flex items-center justify-center">
-              <span className="text-primary-foreground font-bold text-sm">CBB</span>
-            </div>
-            <span className="font-semibold">Central Bank Portal</span>
-          </div>
-        </div>
-        
-        <div className="flex-1 p-2">
-          {navItems.map((item) => {
-            const IconComponent = item.icon;
-            const isActive = location.pathname === item.path || 
-                           (location.pathname.startsWith(item.path + '/') && item.path !== '/');
-            
-            return (
-              <Button
-                key={item.path}
-                variant={isActive ? "secondary" : "ghost"}
-                className="w-full justify-start mb-1"
-                onClick={() => navigate(item.path)}
-              >
-                <IconComponent className="h-4 w-4 mr-2" />
-                {item.label}
-              </Button>
-            );
-          })}
-        </div>
-        
-        <div className="p-4 border-t">
-          <div className="text-xs text-muted-foreground">
-            Welcome, {user?.name}
-          </div>
-        </div>
-      </div>
+      {/* Responsive 3-Level Nested Sidebar */}
+      <ResponsiveSidebar isOpen={isOpen} onToggle={toggle} />
         
       {/* MAIN CONTENT AREA */}
-      <div className="flex-1 min-w-0">
+      <div 
+        className={`
+          flex-1 min-w-0 transition-all duration-300 ease-in-out
+          ${isOpen ? 'lg:ml-[260px]' : 'lg:ml-0'}
+        `}
+      >
         {/* STICKY HEADER */}
         <div 
           className="sticky top-0 z-10"
@@ -130,9 +88,16 @@ const MainLayout = ({ children }: MainLayoutProps) => {
         </div>
       </div>
       
-      
       <Chatbot />
     </div>
+  );
+}
+
+const MainLayout = ({ children }: MainLayoutProps) => {
+  return (
+    <SidebarProvider>
+      <MainLayoutContent>{children}</MainLayoutContent>
+    </SidebarProvider>
   );
 };
 
