@@ -41,6 +41,8 @@ export interface NavigationItem {
   system?: 'RTGS' | 'CSD' | 'CMS' | 'COMMON';
   children?: NavigationItem[];
   badge?: string;
+  keywords?: string[]; // For search functionality
+  tags?: string[]; // For categorized search
 }
 
 // Primary Navigation - Always visible (Material Design 3)
@@ -51,7 +53,9 @@ export const primaryNavigation: NavigationItem[] = [
     path: '/',
     icon: Home,
     description: 'Main dashboard and overview',
-    system: 'COMMON'
+    system: 'COMMON',
+    keywords: ['home', 'dashboard', 'overview', 'main', 'portal'],
+    tags: ['navigation', 'dashboard']
   },
   {
     id: 'rtgs',
@@ -60,7 +64,9 @@ export const primaryNavigation: NavigationItem[] = [
     icon: Banknote,
     description: 'Real-Time Gross Settlement',
     system: 'RTGS',
-    roles: ['Admin', 'CBBOperator', 'BankOperator']
+    roles: ['Admin', 'CBBOperator', 'BankOperator'],
+    keywords: ['rtgs', 'real-time', 'gross', 'settlement', 'payments', 'banking'],
+    tags: ['payments', 'settlement', 'banking']
   },
   {
     id: 'csd',
@@ -69,7 +75,9 @@ export const primaryNavigation: NavigationItem[] = [
     icon: Building2,
     description: 'Central Securities Depository',
     system: 'CSD',
-    roles: ['Admin', 'CBBOperator', 'BankOperator', 'Broker', 'Custodian']
+    roles: ['Admin', 'CBBOperator', 'BankOperator', 'Broker', 'Custodian'],
+    keywords: ['csd', 'securities', 'depository', 'trading', 'custody', 'clearing'],
+    tags: ['securities', 'trading', 'custody']
   },
   {
     id: 'cms',
@@ -78,7 +86,9 @@ export const primaryNavigation: NavigationItem[] = [
     icon: Shield,
     description: 'Collateral Management System',
     system: 'CMS',
-    roles: ['Admin', 'CBBOperator', 'BankOperator', 'Custodian']
+    roles: ['Admin', 'CBBOperator', 'BankOperator', 'Custodian'],
+    keywords: ['cms', 'collateral', 'management', 'risk', 'margin'],
+    tags: ['collateral', 'risk', 'management']
   },
   {
     id: 'reports',
@@ -86,7 +96,9 @@ export const primaryNavigation: NavigationItem[] = [
     path: '/reports',
     icon: FileText,
     description: 'Reports and analytics',
-    system: 'COMMON'
+    system: 'COMMON',
+    keywords: ['reports', 'analytics', 'reporting', 'data', 'insights'],
+    tags: ['reporting', 'analytics']
   },
   {
     id: 'admin',
@@ -95,7 +107,9 @@ export const primaryNavigation: NavigationItem[] = [
     icon: Settings,
     description: 'System administration',
     system: 'COMMON',
-    roles: ['Admin', 'CBBOperator']
+    roles: ['Admin', 'CBBOperator'],
+    keywords: ['admin', 'administration', 'settings', 'config', 'management'],
+    tags: ['administration', 'settings']
   }
 ];
 
@@ -108,7 +122,8 @@ export const secondaryNavigation: Record<string, NavigationItem[]> = {
       title: 'RTGS Dashboard',
       path: '/rtgs',
       icon: BarChart3,
-      description: 'RTGS system overview and statistics'
+      description: 'RTGS system overview and statistics',
+      keywords: ['dashboard', 'overview', 'statistics', 'monitoring']
     },
     {
       id: 'financial-monitoring',
@@ -116,48 +131,62 @@ export const secondaryNavigation: Record<string, NavigationItem[]> = {
       path: '/rtgs/financial-monitoring',
       icon: Activity,
       description: 'Financial monitoring and oversight',
+      keywords: ['financial', 'monitoring', 'oversight', 'supervision'],
+      tags: ['monitoring', 'oversight'],
       children: [
         {
           id: 'account-management',
           title: 'Account Management',
           path: '/rtgs/financial-monitoring/account-management',
           icon: Wallet,
-          description: 'Manage participant accounts'
+          description: 'Manage participant accounts',
+          keywords: ['account', 'management', 'participants', 'balance'],
+          tags: ['accounts', 'management']
         },
         {
           id: 'balances-liquidity',
           title: 'Balances & Liquidity',
           path: '/rtgs/financial-monitoring/balances-liquidity',
           icon: PieChart,
-          description: 'Real-time balances and liquidity'
+          description: 'Real-time balances and liquidity',
+          keywords: ['balances', 'liquidity', 'real-time', 'funds', 'cash'],
+          tags: ['balances', 'liquidity']
         },
         {
           id: 'transaction-status',
           title: 'Transactions Status Amount / Volume',
           path: '/rtgs/financial-monitoring/transaction-status',
           icon: BarChart3,
-          description: 'Transaction status and volumes'
+          description: 'Transaction status and volumes',
+          keywords: ['transaction', 'status', 'amount', 'volume', 'payments'],
+          tags: ['transactions', 'monitoring']
         },
         {
           id: 'business-day-management',
           title: 'Business Day Management',
           path: '/rtgs/financial-monitoring/business-day-management',
           icon: Clock,
-          description: 'Business day operations'
+          description: 'Business day operations',
+          keywords: ['business', 'day', 'management', 'operations', 'schedule'],
+          tags: ['operations', 'schedule']
         },
         {
           id: 'billing',
           title: 'Billing',
           path: '/rtgs/financial-monitoring/billing',
           icon: FileText,
-          description: 'Billing and fee management'
+          description: 'Billing and fee management',
+          keywords: ['billing', 'fees', 'charges', 'invoicing', 'payment'],
+          tags: ['billing', 'fees']
         },
         {
           id: 'bi-reports',
           title: 'BI Reports',
           path: '/rtgs/financial-monitoring/bi-reports',
           icon: BarChart3,
-          description: 'Business intelligence reports'
+          description: 'Business intelligence reports',
+          keywords: ['bi', 'business', 'intelligence', 'reports', 'analytics'],
+          tags: ['reporting', 'analytics']
         }
       ]
     },
@@ -168,13 +197,17 @@ export const secondaryNavigation: Record<string, NavigationItem[]> = {
       icon: Building2,
       description: 'Central Bank operations',
       roles: ['Admin', 'CBBOperator'],
+      keywords: ['central', 'bank', 'operations', 'cbb', 'monetary'],
+      tags: ['central-bank', 'operations'],
       children: [
         {
           id: 'cash-operations',
           title: 'Cash Operations',
           path: '/rtgs/cb-operations/cash-operations',
           icon: DollarSign,
-          description: 'Central bank cash operations'
+          description: 'Central bank cash operations',
+          keywords: ['cash', 'operations', 'liquidity', 'central', 'bank'],
+          tags: ['cash', 'operations']
         }
       ]
     }
