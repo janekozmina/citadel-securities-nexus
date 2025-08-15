@@ -58,44 +58,155 @@ const App = () => (
             <Route path="/mfa" element={<MFAPage />} />
             
             {/* Protected Routes with MainLayout */}
-            <Route path="/*" element={
+            <Route path="/" element={
               <ProtectedRoute>
                 <MainLayout>
-                  <Routes>
-                    {/* Dashboard */}
-                    <Route path="/" element={<HomePage />} />
-                    
-                    {/* RTGS System */}
-                    <Route path="/rtgs" element={<RTGSPage />} />
-                    
-                    {/* Financial Monitoring */}
-                    <Route path="/rtgs/financial-monitoring" element={<FinancialMonitoringPage />} />
-                    <Route path="/rtgs/financial-monitoring/account-management" element={<AccountManagementPage />} />
-                    <Route path="/rtgs/financial-monitoring/balances-liquidity" element={<BalancesLiquidityPage />} />
-                    <Route path="/rtgs/financial-monitoring/transaction-status" element={<TransactionStatusPage />} />
-                    <Route path="/rtgs/financial-monitoring/business-day-management" element={<BusinessDayManagementPage />} />
-                    <Route path="/rtgs/financial-monitoring/billing" element={<BillingPage />} />
-                    <Route path="/rtgs/financial-monitoring/bi-reports" element={<BIReportsPage />} />
-                    
-                    {/* CB Operations */}
-                    <Route path="/rtgs/cb-operations" element={<CentralBankOperationsPage />} />
-                    <Route path="/rtgs/cb-operations/cash-operations" element={<CashOperationsPage />} />
-                    
-                    {/* CSD System */}
-                    <Route path="/csd" element={<CSDPage />} />
-                    <Route path="/csd/trading/*" element={<CSDTradingPage />} />
-                    <Route path="/csd/settlement/*" element={<CSDSettlementPage />} />
-                    <Route path="/csd/custody/*" element={<CSDCustodyPage />} />
-                    
-                    {/* CMS System */}
-                    <Route path="/cms" element={<CMSPage />} />
-                    <Route path="/cms/collateral/*" element={<CMSCollateralPage />} />
-                    <Route path="/cms/risk/*" element={<CMSRiskPage />} />
-                    
-                    {/* Common */}
-                    <Route path="/reports/*" element={<ReportsPage />} />
-                    <Route path="/admin/*" element={<AdminPage />} />
-                  </Routes>
+                  <HomePage />
+                </MainLayout>
+              </ProtectedRoute>
+            } />
+            
+            {/* RTGS System */}
+            <Route path="/rtgs" element={
+              <ProtectedRoute>
+                <MainLayout>
+                  <RTGSPage />
+                </MainLayout>
+              </ProtectedRoute>
+            } />
+            
+            {/* Financial Monitoring */}
+            <Route path="/rtgs/financial-monitoring" element={
+              <ProtectedRoute>
+                <MainLayout>
+                  <FinancialMonitoringPage />
+                </MainLayout>
+              </ProtectedRoute>
+            } />
+            <Route path="/rtgs/financial-monitoring/account-management" element={
+              <ProtectedRoute>
+                <MainLayout>
+                  <AccountManagementPage />
+                </MainLayout>
+              </ProtectedRoute>
+            } />
+            <Route path="/rtgs/financial-monitoring/balances-liquidity" element={
+              <ProtectedRoute>
+                <MainLayout>
+                  <BalancesLiquidityPage />
+                </MainLayout>
+              </ProtectedRoute>
+            } />
+            <Route path="/rtgs/financial-monitoring/transaction-status" element={
+              <ProtectedRoute>
+                <MainLayout>
+                  <TransactionStatusPage />
+                </MainLayout>
+              </ProtectedRoute>
+            } />
+            <Route path="/rtgs/financial-monitoring/business-day-management" element={
+              <ProtectedRoute>
+                <MainLayout>
+                  <BusinessDayManagementPage />
+                </MainLayout>
+              </ProtectedRoute>
+            } />
+            <Route path="/rtgs/financial-monitoring/billing" element={
+              <ProtectedRoute>
+                <MainLayout>
+                  <BillingPage />
+                </MainLayout>
+              </ProtectedRoute>
+            } />
+            <Route path="/rtgs/financial-monitoring/bi-reports" element={
+              <ProtectedRoute>
+                <MainLayout>
+                  <BIReportsPage />
+                </MainLayout>
+              </ProtectedRoute>
+            } />
+            
+            {/* CB Operations */}
+            <Route path="/rtgs/cb-operations" element={
+              <ProtectedRoute>
+                <MainLayout>
+                  <CentralBankOperationsPage />
+                </MainLayout>
+              </ProtectedRoute>
+            } />
+            <Route path="/rtgs/cb-operations/cash-operations" element={
+              <ProtectedRoute>
+                <MainLayout>
+                  <CashOperationsPage />
+                </MainLayout>
+              </ProtectedRoute>
+            } />
+            
+            {/* CSD System */}
+            <Route path="/csd" element={
+              <ProtectedRoute>
+                <MainLayout>
+                  <CSDPage />
+                </MainLayout>
+              </ProtectedRoute>
+            } />
+            <Route path="/csd/trading/*" element={
+              <ProtectedRoute>
+                <MainLayout>
+                  <CSDTradingPage />
+                </MainLayout>
+              </ProtectedRoute>
+            } />
+            <Route path="/csd/settlement/*" element={
+              <ProtectedRoute>
+                <MainLayout>
+                  <CSDSettlementPage />
+                </MainLayout>
+              </ProtectedRoute>
+            } />
+            <Route path="/csd/custody/*" element={
+              <ProtectedRoute>
+                <MainLayout>
+                  <CSDCustodyPage />
+                </MainLayout>
+              </ProtectedRoute>
+            } />
+            
+            {/* CMS System */}
+            <Route path="/cms" element={
+              <ProtectedRoute>
+                <MainLayout>
+                  <CMSPage />
+                </MainLayout>
+              </ProtectedRoute>
+            } />
+            <Route path="/cms/collateral/*" element={
+              <ProtectedRoute>
+                <MainLayout>
+                  <CMSCollateralPage />
+                </MainLayout>
+              </ProtectedRoute>
+            } />
+            <Route path="/cms/risk/*" element={
+              <ProtectedRoute>
+                <MainLayout>
+                  <CMSRiskPage />
+                </MainLayout>
+              </ProtectedRoute>
+            } />
+            
+            {/* Common */}
+            <Route path="/reports/*" element={
+              <ProtectedRoute>
+                <MainLayout>
+                  <ReportsPage />
+                </MainLayout>
+              </ProtectedRoute>
+            } />
+            <Route path="/admin/*" element={
+              <ProtectedRoute>
+                <MainLayout>
+                  <AdminPage />
                 </MainLayout>
               </ProtectedRoute>
             } />
