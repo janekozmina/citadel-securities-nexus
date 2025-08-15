@@ -192,9 +192,6 @@ export function NestedSidebar({ isOpen, onToggle }: NestedSidebarProps) {
         {/* Header */}
         <div className="flex items-center justify-between p-4 border-b border-white/20">
           <div className="flex items-center gap-2">
-            <div className="w-8 h-8 bg-primary rounded-lg flex items-center justify-center">
-              <span className="text-white font-bold text-sm">CBB</span>
-            </div>
             <span className="text-white font-semibold">Central Bank Portal</span>
           </div>
           

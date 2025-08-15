@@ -345,5 +345,6 @@ export const defaultQuickActions: Record<string, string[]> = {
   'financial-monitoring': ['system-status', 'audit-trail', 'refresh-data'],
   'settlement-hub': ['settlement-monitoring', 'trade-matching', 'risk-monitoring'],
   'collateral-manager': ['collateral-management', 'margin-calculation', 'risk-assessment'],
+  'transaction-status': ['transaction-monitoring', 'payment-processing', 'financial-reports'],
   'default': ['export-data', 'refresh-data', 'advanced-search']
 };

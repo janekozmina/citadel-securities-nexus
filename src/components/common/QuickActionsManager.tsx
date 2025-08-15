@@ -59,13 +59,22 @@ export const QuickActionsManager = ({ pageKey, systemType }: QuickActionsManager
     <div className="bg-white border border-slate-200 rounded-lg p-4">
       <div className="flex items-center justify-between mb-4">
         <h3 className="font-semibold text-slate-900">Quick Actions</h3>
-        <Dialog open={isOpen} onOpenChange={setIsOpen}>
-          <DialogTrigger asChild>
-            <Button variant="ghost" size="sm" className="h-6 w-6 p-0">
-              <Settings className="h-3 w-3" />
-            </Button>
-          </DialogTrigger>
-          <DialogContent className="max-w-2xl max-h-[80vh]">
+        <div className="flex gap-1">
+          <Button 
+            variant="ghost" 
+            size="sm" 
+            className="h-6 px-2 text-xs"
+            onClick={() => console.log('All Actions clicked')}
+          >
+            All Actions
+          </Button>
+          <Dialog open={isOpen} onOpenChange={setIsOpen}>
+            <DialogTrigger asChild>
+              <Button variant="ghost" size="sm" className="h-6 w-6 p-0">
+                <Settings className="h-3 w-3" />
+              </Button>
+            </DialogTrigger>
+            <DialogContent className="max-w-2xl max-h-[80vh]">
             <DialogHeader>
               <DialogTitle>Manage Quick Actions</DialogTitle>
               <DialogDescription>
@@ -181,8 +190,9 @@ export const QuickActionsManager = ({ pageKey, systemType }: QuickActionsManager
             <DialogFooter>
               <Button onClick={() => setIsOpen(false)}>Done</Button>
             </DialogFooter>
-          </DialogContent>
-        </Dialog>
+            </DialogContent>
+          </Dialog>
+        </div>
       </div>
 
       {/* Active Quick Actions */}

@@ -6,8 +6,7 @@ export const portalConfig = {
   app: {
     name: 'Central Bank Unified Portal',
     version: '2.0.0',
-    description: 'Unified portal for RTGS, CSD, and CMS operations',
-    logo: '/cbb-logo-official.png'
+    description: 'Unified portal for RTGS, CSD, and CMS operations'
   },
 
   // Supported currencies and symbols
