@@ -190,6 +190,10 @@ export default function BusinessDayManagementPage() {
         }
         return { ...period, status: newStatus };
       }
+      // If activating a period, set all other active periods to completed
+      else if (action === 'activate' && period.status === 'active') {
+        return { ...period, status: 'completed' };
+      }
       return period;
     }));
     
