@@ -80,7 +80,7 @@ export interface NavigationItem {
 export const primaryNavigation: NavigationItem[] = [
   {
     id: 'home',
-    title: 'Dashboard',
+    title: 'Home',
     path: '/',
     icon: Home,
     description: 'Main dashboard and overview',

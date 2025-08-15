@@ -160,8 +160,8 @@ export const useBusinessDaySimulation = () => {
     // Initial load
     updateSimulation();
     
-    // Update every 2 minutes (120000 ms)
-    const interval = setInterval(updateSimulation, 120000);
+    // Update every 1 minute (60000 ms) to simulate full business day in an hour
+    const interval = setInterval(updateSimulation, 60000);
     
     return () => clearInterval(interval);
   }, [updateSimulation]);

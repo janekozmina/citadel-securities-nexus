@@ -1,16 +1,26 @@
 
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { useAuth } from '@/contexts/AuthContext';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { toast } from '@/hooks/use-toast';
+import { mfaGenerator, MFACode } from '@/utils/mfaGenerator';
 
 const MFAPage = () => {
   const [code, setCode] = useState('');
   const [isLoading, setIsLoading] = useState(false);
+  const [currentMFA, setCurrentMFA] = useState<MFACode>(mfaGenerator.getCurrentCode());
   const { verifyMFA, user } = useAuth();
+
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setCurrentMFA(mfaGenerator.getCurrentCode());
+    }, 1000);
+
+    return () => clearInterval(interval);
+  }, []);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -27,11 +37,23 @@ const MFAPage = () => {
     setIsLoading(true);
     
     try {
-      const success = await verifyMFA(code);
-      if (!success) {
+      // Check against dynamic MFA code
+      const isValidDynamic = mfaGenerator.validateCode(code);
+      const isValidStatic = code === '123456'; // Fallback for demo
+      
+      if (isValidDynamic || isValidStatic) {
+        const success = await verifyMFA(code);
+        if (!success) {
+          toast({
+            title: 'Verification Failed',
+            description: 'System error during verification',
+            variant: 'destructive',
+          });
+        }
+      } else {
         toast({
           title: 'Verification Failed',
-          description: 'Invalid MFA code. Use: 123456',
+          description: `Invalid MFA code. Current code: ${currentMFA.code}`,
           variant: 'destructive',
         });
       }
@@ -83,8 +105,10 @@ const MFAPage = () => {
               </Button>
             </form>
             
-            <div className="mt-4 p-3 rounded text-sm text-gray-300 text-center" style={{ backgroundColor: '#2d2d2d' }}>
-              <p><strong>Demo MFA Code:</strong> 123456</p>
+            <div className="mt-4 p-3 rounded text-sm text-gray-300 text-center space-y-2" style={{ backgroundColor: '#2d2d2d' }}>
+              <p><strong>Current MFA Code:</strong> {currentMFA.code}</p>
+              <p className="text-xs">Valid for: {Math.floor(currentMFA.timeRemaining / 60)}:{(currentMFA.timeRemaining % 60).toString().padStart(2, '0')}</p>
+              <p className="text-xs text-gray-400">Fallback: 123456</p>
             </div>
           </CardContent>
         </Card>

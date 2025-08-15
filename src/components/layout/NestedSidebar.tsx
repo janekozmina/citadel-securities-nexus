@@ -230,11 +230,6 @@ export function NestedSidebar({ isOpen, onToggle }: NestedSidebarProps) {
           </div>
         </div>
 
-        {/* Footer - Debug info */}
-        <div className="p-4 border-t border-white/20 text-xs text-white/60">
-          <div>Path: {location.pathname}</div>
-          <div>Expanded: {Array.from(expandedItems).join(', ')}</div>
-        </div>
       </aside>
     </>
   );

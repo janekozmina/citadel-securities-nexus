@@ -21,7 +21,7 @@ const HomePage = () => {
   useEffect(() => {
     document.title = 'Dashboard | CBB Portal';
   }, []);
-  const kpiData = [
+  const rtgsKpiData = [
     {
       title: 'Total Transactions Today',
       value: '2,847',
@@ -31,25 +31,78 @@ const HomePage = () => {
       status: 'success' as const
     },
     {
-      title: 'Settlement Value',
-      value: 'BD 847.2M',
-      subtitle: 'Today\'s settled amount',
+      title: 'Average Processing Time',
+      value: '2.3s',
+      subtitle: 'Real-time processing',
+      icon: Clock,
+      status: 'success' as const
+    },
+    {
+      title: 'Average Transaction Value',
+      value: 'BD 1.2M',
+      subtitle: 'Per transaction',
       icon: DollarSign,
       status: 'info' as const
     },
     {
-      title: 'System Uptime',
-      value: '99.98%',
-      subtitle: 'Last 30 days',
+      title: 'Processing Delay Share',
+      value: '0.02%',
+      subtitle: 'Minimal delays',
+      icon: TrendingUp,
+      status: 'success' as const
+    }
+  ];
+
+  const csdKpiData = [
+    {
+      title: 'Total Transactions Today',
+      value: '1,247',
+      subtitle: '+8% from yesterday',
+      icon: Activity,
+      trend: { value: 8, isPositive: true },
+      status: 'success' as const
+    },
+    {
+      title: 'Average Processing Time',
+      value: '4.1s',
+      subtitle: 'Settlement processing',
+      icon: Clock,
+      status: 'success' as const
+    },
+    {
+      title: 'Total Securities Hold',
+      value: 'BD 12.8B',
+      subtitle: 'Under custody',
+      icon: Shield,
+      status: 'info' as const
+    },
+    {
+      title: 'Total Mbill Hold',
+      value: 'BD 2.4B',
+      subtitle: 'Government securities',
+      icon: Banknote,
+      status: 'info' as const
+    },
+    {
+      title: 'Daily Settled',
+      value: 'BD 847.2M',
+      subtitle: 'Today\'s settled amount',
       icon: CheckCircle,
       status: 'success' as const
     },
     {
-      title: 'Pending Settlements',
+      title: 'Pending Settlement',
       value: '23',
-      subtitle: 'Requiring attention',
+      subtitle: 'Awaiting settlement',
       icon: Clock,
       status: 'warning' as const
+    },
+    {
+      title: 'Corporate Actions',
+      value: '12',
+      subtitle: 'Active this month',
+      icon: Building2,
+      status: 'info' as const
     }
   ];
 
@@ -101,33 +154,6 @@ const HomePage = () => {
     }
   ];
 
-  const quickActions = [
-    {
-      title: 'Process Payment',
-      description: 'Initiate new RTGS payment',
-      icon: CreditCard,
-      path: '/rtgs/payments',
-      variant: 'default' as const
-    },
-    {
-      title: 'View Settlements',
-      description: 'Check settlement status',
-      icon: Building2,
-      path: '/csd/settlement'
-    },
-    {
-      title: 'Manage Collateral',
-      description: 'Collateral operations',
-      icon: Shield,
-      path: '/cms/collateral'
-    },
-    {
-      title: 'System Monitoring',
-      description: 'Real-time system status',
-      icon: Activity,
-      path: '/rtgs/monitoring'
-    }
-  ];
 
   const transactionColumns = [
     { key: 'id', label: 'Transaction ID', type: 'text' as const },
@@ -147,9 +173,24 @@ const HomePage = () => {
         </p>
       </div>
 
-      {/* KPI Cards */}
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-        {kpiData.map((kpi) => (
+      {/* RTGS KPI Cards */}
+      <div className="space-y-2 mb-6">
+        <h2 className="text-xl font-semibold">RTGS Metrics</h2>
+        <p className="text-muted-foreground text-sm">Real-time gross settlement system performance</p>
+      </div>
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
+        {rtgsKpiData.map((kpi) => (
+          <DataCard key={kpi.title} {...kpi} />
+        ))}
+      </div>
+
+      {/* CSD KPI Cards */}
+      <div className="space-y-2 mb-6">
+        <h2 className="text-xl font-semibold">CSD Metrics</h2>
+        <p className="text-muted-foreground text-sm">Central securities depository operations</p>
+      </div>
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
+        {csdKpiData.map((kpi) => (
           <DataCard key={kpi.title} {...kpi} />
         ))}
       </div>
@@ -166,10 +207,9 @@ const HomePage = () => {
           />
         </div>
 
-        {/* System Status and Quick Actions */}
+        {/* System Status */}
         <div className="space-y-6">
           <SystemStatus systems={systemStatuses} />
-          <QuickActions title="Quick Actions" actions={quickActions} />
         </div>
       </div>
     </div>
