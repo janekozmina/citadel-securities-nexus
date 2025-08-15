@@ -31,6 +31,7 @@ const COLORS = {
 export default function TransactionStatusPage() {
   const [transactions] = useState<TransactionData[]>(() => generateTransactionData());
   const [viewMode, setViewMode] = useState<'visual' | 'table'>('visual');
+  const [statusFilter, setStatusFilter] = useState<'all' | 'Settled' | 'Rejected' | 'In Queue' | 'ILF/BUYBACK'>('all');
   const stats = getTransactionStats(transactions);
 
   useEffect(() => {
@@ -125,7 +126,13 @@ export default function TransactionStatusPage() {
               {/* Transaction Statistics Shortcuts */}
               <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-4">
                 {/* Total Transactions */}
-                <Card>
+                <Card 
+                  className="cursor-pointer hover:shadow-md transition-shadow"
+                  onClick={() => {
+                    setStatusFilter('all');
+                    setViewMode('table');
+                  }}
+                >
                   <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
                     <CardTitle className="text-sm font-medium">Total Transactions</CardTitle>
                     <ArrowUpDown className="h-4 w-4 text-muted-foreground" />
@@ -139,7 +146,13 @@ export default function TransactionStatusPage() {
                 </Card>
 
                 {/* Settled */}
-                <Card>
+                <Card 
+                  className="cursor-pointer hover:shadow-md transition-shadow"
+                  onClick={() => {
+                    setStatusFilter('Settled');
+                    setViewMode('table');
+                  }}
+                >
                   <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
                     <CardTitle className="text-sm font-medium">Settled Transactions</CardTitle>
                     <CheckCircle className="h-4 w-4 text-green-600" />
@@ -153,7 +166,13 @@ export default function TransactionStatusPage() {
                 </Card>
 
                 {/* Rejected */}
-                <Card>
+                <Card 
+                  className="cursor-pointer hover:shadow-md transition-shadow"
+                  onClick={() => {
+                    setStatusFilter('Rejected');
+                    setViewMode('table');
+                  }}
+                >
                   <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
                     <CardTitle className="text-sm font-medium">Rejected Transactions</CardTitle>
                     <XCircle className="h-4 w-4 text-red-600" />
@@ -167,7 +186,13 @@ export default function TransactionStatusPage() {
                 </Card>
 
                 {/* In Queue */}
-                <Card>
+                <Card 
+                  className="cursor-pointer hover:shadow-md transition-shadow"
+                  onClick={() => {
+                    setStatusFilter('In Queue');
+                    setViewMode('table');
+                  }}
+                >
                   <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
                     <CardTitle className="text-sm font-medium">Queued Transactions</CardTitle>
                     <Clock className="h-4 w-4 text-yellow-600" />
@@ -181,7 +206,13 @@ export default function TransactionStatusPage() {
                 </Card>
 
                 {/* ILF/BUYBACK */}
-                <Card>
+                <Card 
+                  className="cursor-pointer hover:shadow-md transition-shadow"
+                  onClick={() => {
+                    setStatusFilter('ILF/BUYBACK');
+                    setViewMode('table');
+                  }}
+                >
                   <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
                     <CardTitle className="text-sm font-medium">ILF/BUYBACK Transactions</CardTitle>
                     <TrendingUp className="h-4 w-4 text-purple-600" />
@@ -234,14 +265,37 @@ export default function TransactionStatusPage() {
           {viewMode === 'table' && (
             <Card>
               <CardHeader>
-                <CardTitle>All Transactions</CardTitle>
+                <CardTitle className="flex items-center justify-between">
+                  All Transactions
+                  {statusFilter !== 'all' && (
+                    <Button
+                      variant="outline"
+                      size="sm"
+                      onClick={() => setStatusFilter('all')}
+                    >
+                      Clear Status Filter
+                    </Button>
+                  )}
+                </CardTitle>
               </CardHeader>
               <CardContent>
                 <DataTable
                   title="Transactions"
-                  data={transactions}
+                  data={statusFilter === 'all' ? transactions : transactions.filter(t => t.status === statusFilter)}
                   columns={transactionTableColumns}
                   searchPlaceholder="Search transactions..."
+                  filters={[
+                    {
+                      key: 'status',
+                      label: 'Status',
+                      options: ['Settled', 'Rejected', 'In Queue', 'ILF/BUYBACK']
+                    },
+                    {
+                      key: 'type',
+                      label: 'Type',
+                      options: ['Customer Transfer', 'Bank Transfer', 'Government Payment', 'Interbank Transfer']
+                    }
+                  ]}
                 />
               </CardContent>
             </Card>
