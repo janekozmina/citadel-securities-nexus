@@ -147,7 +147,7 @@ const RTGSPage = () => {
         </div>
 
         {/* Quick Actions */}
-        <QuickActions title="RTGS Operations" actions={quickActions} />
+        <QuickActions title="Quick Actions" actions={quickActions} />
       </div>
     </div>
   );

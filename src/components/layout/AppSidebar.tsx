@@ -131,20 +131,26 @@ export function AppSidebar() {
     if (activeMainItem) {
       setSelectedMainItem(activeMainItem);
     } else {
-      // If we're on /admin route, select admin item  
+      // Force selection based on current route for proper two-panel display
       if (currentPath.startsWith('/admin')) {
         const adminItem = primaryItems.find(item => item.id === 'admin');
         if (adminItem) setSelectedMainItem(adminItem);
       }
-      // If we're on /rtgs route, select RTGS item
       else if (currentPath.startsWith('/rtgs')) {
         const rtgsItem = primaryItems.find(item => item.id === 'rtgs');
         if (rtgsItem) setSelectedMainItem(rtgsItem);
       }
-      // For testing - if on admin route, temporarily select RTGS to test submenu
-      else if (currentPath === '/admin') {
-        const rtgsItem = primaryItems.find(item => item.id === 'rtgs');
-        if (rtgsItem) setSelectedMainItem(rtgsItem);
+      else if (currentPath.startsWith('/csd')) {
+        const csdItem = primaryItems.find(item => item.id === 'csd');
+        if (csdItem) setSelectedMainItem(csdItem);
+      }
+      else if (currentPath.startsWith('/cms')) {
+        const cmsItem = primaryItems.find(item => item.id === 'cms');
+        if (cmsItem) setSelectedMainItem(cmsItem);
+      }
+      else if (currentPath.startsWith('/reports')) {
+        const reportsItem = primaryItems.find(item => item.id === 'reports');
+        if (reportsItem) setSelectedMainItem(reportsItem);
       }
     }
   }, [location.pathname, primaryItems]);
@@ -220,9 +226,9 @@ export function AppSidebar() {
   };
 
   const renderMainPanel = () => (
-    <div className="h-full flex flex-col">
+    <div className="h-full flex flex-col p-4">
       {/* Primary Navigation - Icons Only */}
-      <div className="flex-1 overflow-y-auto p-4">
+      <div className="flex-1 overflow-y-auto">
         <SidebarMenu>
           {primaryItems.map((item) => {
             const isActive = location.pathname === item.path || 
@@ -230,7 +236,7 @@ export function AppSidebar() {
             const hasSubItems = navigationConfig.secondaryNavigation[item.id]?.length > 0;
             
             return (
-              <SidebarMenuItem key={item.id}>
+              <SidebarMenuItem key={item.id} className="mb-2">
                 <SidebarMenuButton
                   onClick={() => {
                     if (hasSubItems) {
@@ -238,7 +244,7 @@ export function AppSidebar() {
                     }
                   }}
                   asChild={!hasSubItems}
-                  className={`flex items-center gap-2 p-3 rounded-lg transition-all duration-200 ${
+                  className={`flex items-center justify-center p-3 rounded-lg transition-all duration-200 w-full ${
                     isActive 
                       ? 'bg-white/20 text-white shadow-lg backdrop-blur-sm' 
                       : 'text-white/80 hover:bg-white/10 hover:text-white'
@@ -383,16 +389,16 @@ export function AppSidebar() {
           </div>
         </div>
 
-        {/* Main Content */}
+        {/* Two Panel Layout */}
         <div className="flex flex-1 min-h-0">
-          {/* Primary Panel - Always visible */}
-          <div className={`${!isCollapsed && selectedMainItem ? 'w-16' : 'flex-1'} border-r border-white/20`}>
+          {/* Panel 1: Primary Navigation - Always visible (Icons) */}
+          <div className="w-16 border-r border-white/20 flex-shrink-0">
             {renderMainPanel()}
           </div>
           
-          {/* Secondary Panel - Only when item selected and not collapsed */}
+          {/* Panel 2: Secondary Navigation - Only when item selected */}
           {!isCollapsed && selectedMainItem && (
-            <div className="flex-1">
+            <div className="w-80 flex-shrink-0">
               {renderSubPanel()}
             </div>
           )}
