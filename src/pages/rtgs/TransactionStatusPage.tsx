@@ -39,6 +39,12 @@ export default function TransactionStatusPage() {
   const [activeDialog, setActiveDialog] = useState<'general-transfer' | 'check-funds' | 'liquidity-source' | 'manual-gridlock' | null>(null);
   const stats = getTransactionStats(transactions);
 
+  // Clear localStorage for this page to force reset to new defaults
+  useEffect(() => {
+    const storageKey = 'quickActions_transaction-status';
+    localStorage.removeItem(storageKey);
+  }, []);
+
   useEffect(() => {
     document.title = 'Transaction Status Amount / Volume | CBB Portal';
   }, []);
