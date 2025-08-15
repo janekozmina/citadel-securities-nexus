@@ -19,7 +19,7 @@ import {
 } from '@/components/ui/select';
 import { ScrollArea } from '@/components/ui/scroll-area';
 import { Separator } from '@/components/ui/separator';
-import { Settings, Plus, Trash2, RotateCcw } from 'lucide-react';
+import { Settings, Plus, Trash2, RotateCcw, Eye } from 'lucide-react';
 import { useQuickActions } from '@/hooks/useQuickActions';
 import type { QuickAction } from '@/config/quickActionsConfig';
 
@@ -60,14 +60,6 @@ export const QuickActionsManager = ({ pageKey, systemType }: QuickActionsManager
       <div className="flex items-center justify-between mb-4">
         <h3 className="font-semibold text-slate-900">Quick Actions</h3>
         <div className="flex gap-1">
-          <Button 
-            variant="ghost" 
-            size="sm" 
-            className="h-6 px-2 text-xs"
-            onClick={() => console.log('More Actions clicked')}
-          >
-            More Actions
-          </Button>
           <Dialog open={isOpen} onOpenChange={setIsOpen}>
             <DialogTrigger asChild>
               <Button variant="ghost" size="sm" className="h-6 w-6 p-0">
@@ -213,6 +205,104 @@ export const QuickActionsManager = ({ pageKey, systemType }: QuickActionsManager
             No quick actions configured
           </div>
         )}
+      </div>
+
+      {/* More Actions - Separate from Quick Actions */}
+      <div className="mt-6 pt-4 border-t border-slate-200">
+        <div className="flex items-center justify-between mb-3">
+          <h4 className="text-sm font-medium text-slate-700">More Actions</h4>
+        </div>
+        <Dialog>
+          <DialogTrigger asChild>
+            <Button variant="outline" className="w-full justify-start" size="sm">
+              <Plus className="h-4 w-4 mr-2" />
+              View All Actions
+            </Button>
+          </DialogTrigger>
+          <DialogContent className="max-w-3xl max-h-[80vh]">
+            <DialogHeader>
+              <DialogTitle>All Available Actions</DialogTitle>
+              <DialogDescription>
+                Browse all available actions organized by category. Actions are context-aware based on your current view.
+              </DialogDescription>
+            </DialogHeader>
+            
+            <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+              {/* Context-Aware Actions */}
+              <div>
+                <h4 className="font-medium mb-3">Context Actions</h4>
+                <ScrollArea className="h-[300px] border rounded-md p-2">
+                  <div className="space-y-2">
+                    {availableActions.filter(action => action.category === 'account' || action.category === 'transaction').map((action) => (
+                      <div
+                        key={action.id}
+                        className="flex items-center justify-between p-2 bg-white border rounded-md hover:bg-slate-50"
+                      >
+                        <div className="flex items-center gap-2">
+                          <action.icon className="h-4 w-4" />
+                          <div>
+                            <div className="text-sm font-medium">{action.label}</div>
+                            <div className="text-xs text-muted-foreground">
+                              {action.description}
+                            </div>
+                          </div>
+                        </div>
+                        <Button
+                          variant="ghost"
+                          size="sm"
+                          onClick={() => handleActionClick(action)}
+                          className="h-6 w-6 p-0"
+                        >
+                          <Eye className="h-3 w-3" />
+                        </Button>
+                      </div>
+                    ))}
+                  </div>
+                </ScrollArea>
+              </div>
+
+              {/* All Other Actions */}
+              <div>
+                <h4 className="font-medium mb-3">Other Actions</h4>
+                <ScrollArea className="h-[300px] border rounded-md p-2">
+                  <div className="space-y-2">
+                    {availableActions.filter(action => action.category !== 'account' && action.category !== 'transaction').map((action) => (
+                      <div
+                        key={action.id}
+                        className="flex items-center justify-between p-2 bg-white border rounded-md hover:bg-slate-50"
+                      >
+                        <div className="flex items-center gap-2">
+                          <action.icon className="h-4 w-4" />
+                          <div>
+                            <div className="text-sm font-medium">{action.label}</div>
+                            <div className="text-xs text-muted-foreground">
+                              {action.description}
+                            </div>
+                            <Badge variant="outline" className="text-xs mt-1">
+                              {action.category}
+                            </Badge>
+                          </div>
+                        </div>
+                        <Button
+                          variant="ghost"
+                          size="sm"
+                          onClick={() => handleActionClick(action)}
+                          className="h-6 w-6 p-0"
+                        >
+                          <Eye className="h-3 w-3" />
+                        </Button>
+                      </div>
+                    ))}
+                  </div>
+                </ScrollArea>
+              </div>
+            </div>
+
+            <DialogFooter>
+              <Button onClick={() => setIsOpen(false)}>Close</Button>
+            </DialogFooter>
+          </DialogContent>
+        </Dialog>
       </div>
     </div>
   );

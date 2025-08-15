@@ -6,7 +6,8 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@
 import { Input } from '@/components/ui/input';
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table';
 import { TooltipProvider } from '@/components/ui/tooltip';
-import { ArrowUpDown, Calculator, Pause, Eye } from 'lucide-react';
+import { Progress } from '@/components/ui/progress';
+import { ArrowUpDown, Calculator, Pause, Eye, BarChart3, TableIcon, AlertTriangle, CheckCircle, XCircle } from 'lucide-react';
 import portalConfig from '@/config/portalConfig';
 import { QuickActionsManager } from '@/components/common/QuickActionsManager';
 
@@ -44,6 +45,8 @@ export default function AccountManagementPage() {
   const [sortField, setSortField] = useState<string>('');
   const [sortDirection, setSortDirection] = useState<'asc' | 'desc'>('asc');
   const [currentPage, setCurrentPage] = useState(1);
+  const [viewMode, setViewMode] = useState<'visual' | 'table'>('visual');
+  const [riskFilter, setRiskFilter] = useState<'all' | 'low' | 'medium' | 'high'>('all');
   const itemsPerPage = 10;
 
   const getBalanceColor = (balance: number) => {
@@ -52,6 +55,30 @@ export default function AccountManagementPage() {
     return 'text-green-600';
   };
 
+  const getRiskLevel = (balance: number) => {
+    if (balance < 5000) return 'high';
+    if (balance < 20000) return 'medium';
+    return 'low';
+  };
+
+  const getRiskColor = (risk: string) => {
+    switch (risk) {
+      case 'high': return 'bg-red-500';
+      case 'medium': return 'bg-yellow-500';
+      case 'low': return 'bg-green-500';
+      default: return 'bg-gray-500';
+    }
+  };
+
+  const riskData = useMemo(() => {
+    const risks = { low: 0, medium: 0, high: 0 };
+    accountsData.forEach(account => {
+      const risk = getRiskLevel(account.availableBalance);
+      risks[risk as keyof typeof risks]++;
+    });
+    return risks;
+  }, [accountsData]);
+
   const filteredAndSortedAccounts = useMemo(() => {
     let filtered = accountsData.filter(account => {
       const matchesSearch = account.participantName.toLowerCase().includes(searchTerm.toLowerCase()) ||
@@ -59,8 +86,9 @@ export default function AccountManagementPage() {
                           account.bankCode.toLowerCase().includes(searchTerm.toLowerCase());
       const matchesCurrency = filterCurrency === 'all' || account.currency === filterCurrency;
       const matchesAccountType = filterAccountType === 'all' || account.accountType === filterAccountType;
+      const matchesRisk = riskFilter === 'all' || getRiskLevel(account.availableBalance) === riskFilter;
       
-      return matchesSearch && matchesCurrency && matchesAccountType;
+      return matchesSearch && matchesCurrency && matchesAccountType && matchesRisk;
     });
 
     if (sortField) {
@@ -82,7 +110,7 @@ export default function AccountManagementPage() {
     }
 
     return filtered;
-  }, [accountsData, searchTerm, filterCurrency, filterAccountType, sortField, sortDirection]);
+  }, [accountsData, searchTerm, filterCurrency, filterAccountType, riskFilter, sortField, sortDirection]);
 
   const paginatedAccounts = useMemo(() => {
     const startIndex = (currentPage - 1) * itemsPerPage;
@@ -115,29 +143,154 @@ export default function AccountManagementPage() {
 
         <div className="flex h-full">
           <div className="flex-1 space-y-6 pr-6">
-            {/* Summary Cards */}
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-              <Card>
-                <CardContent className="p-4">
-                  <div className="text-sm font-medium text-slate-600 mb-2">Total Accounts</div>
-                  <div className="text-2xl font-bold">{accountsData.length}</div>
-                </CardContent>
-              </Card>
-              <Card>
-                <CardContent className="p-4">
-                  <div className="text-sm font-medium text-slate-600 mb-2">Total Balance</div>
-                  <div className="text-2xl font-bold">{currencySymbol} {totalBalance.toLocaleString()}</div>
-                </CardContent>
-              </Card>
-              <Card>
-                <CardContent className="p-4">
-                  <div className="text-sm font-medium text-slate-600 mb-2">Active Accounts</div>
-                  <div className="text-2xl font-bold text-green-600">{accountsData.filter(a => a.availableBalance > 0).length}</div>
-                </CardContent>
-              </Card>
+            {/* View Toggle */}
+            <div className="flex items-center justify-between">
+              <div className="flex items-center gap-2">
+                <Button
+                  variant={viewMode === 'visual' ? 'default' : 'outline'}
+                  size="sm"
+                  onClick={() => setViewMode('visual')}
+                >
+                  <BarChart3 className="h-4 w-4 mr-2" />
+                  Risk Dashboard
+                </Button>
+                <Button
+                  variant={viewMode === 'table' ? 'default' : 'outline'}
+                  size="sm"
+                  onClick={() => setViewMode('table')}
+                >
+                  <TableIcon className="h-4 w-4 mr-2" />
+                  Account Table
+                </Button>
+              </div>
+              {riskFilter !== 'all' && (
+                <Button
+                  variant="outline"
+                  size="sm"
+                  onClick={() => setRiskFilter('all')}
+                >
+                  Clear Risk Filter
+                </Button>
+              )}
             </div>
 
+            {/* Risk Dashboard View */}
+            {viewMode === 'visual' && (
+              <div className="space-y-6">
+                {/* Risk Summary Cards */}
+                <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
+                  <Card>
+                    <CardContent className="p-4">
+                      <div className="text-sm font-medium text-slate-600 mb-2">Total Accounts</div>
+                      <div className="text-2xl font-bold">{accountsData.length}</div>
+                    </CardContent>
+                  </Card>
+                  <Card>
+                    <CardContent className="p-4">
+                      <div className="text-sm font-medium text-slate-600 mb-2">Total Balance</div>
+                      <div className="text-2xl font-bold">{currencySymbol} {totalBalance.toLocaleString()}</div>
+                    </CardContent>
+                  </Card>
+                  <Card>
+                    <CardContent className="p-4">
+                      <div className="text-sm font-medium text-slate-600 mb-2">Active Accounts</div>
+                      <div className="text-2xl font-bold text-green-600">{accountsData.filter(a => a.availableBalance > 0).length}</div>
+                    </CardContent>
+                  </Card>
+                  <Card>
+                    <CardContent className="p-4">
+                      <div className="text-sm font-medium text-slate-600 mb-2">High Risk Accounts</div>
+                      <div className="text-2xl font-bold text-red-600">{riskData.high}</div>
+                    </CardContent>
+                  </Card>
+                </div>
+
+                {/* Risk Indicator Gauge */}
+                <Card>
+                  <CardHeader>
+                    <CardTitle className="flex items-center gap-2">
+                      <AlertTriangle className="h-5 w-5" />
+                      Potential Balance Risk Indicator
+                    </CardTitle>
+                  </CardHeader>
+                  <CardContent>
+                    <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+                      {/* High Risk */}
+                      <div 
+                        className="cursor-pointer p-4 border rounded-lg hover:shadow-md transition-shadow"
+                        onClick={() => {
+                          setRiskFilter('high');
+                          setViewMode('table');
+                        }}
+                      >
+                        <div className="flex items-center justify-between mb-2">
+                          <div className="flex items-center gap-2">
+                            <div className="w-3 h-3 bg-red-500 rounded-full"></div>
+                            <span className="font-medium text-red-700">High Risk</span>
+                          </div>
+                          <XCircle className="h-4 w-4 text-red-500" />
+                        </div>
+                        <div className="text-2xl font-bold text-red-600 mb-1">{riskData.high}</div>
+                        <div className="text-sm text-gray-600">Below 5K threshold</div>
+                        <Progress 
+                          value={(riskData.high / accountsData.length) * 100} 
+                          className="mt-2 h-2"
+                        />
+                      </div>
+
+                      {/* Medium Risk */}
+                      <div 
+                        className="cursor-pointer p-4 border rounded-lg hover:shadow-md transition-shadow"
+                        onClick={() => {
+                          setRiskFilter('medium');
+                          setViewMode('table');
+                        }}
+                      >
+                        <div className="flex items-center justify-between mb-2">
+                          <div className="flex items-center gap-2">
+                            <div className="w-3 h-3 bg-yellow-500 rounded-full"></div>
+                            <span className="font-medium text-yellow-700">Medium Risk</span>
+                          </div>
+                          <AlertTriangle className="h-4 w-4 text-yellow-500" />
+                        </div>
+                        <div className="text-2xl font-bold text-yellow-600 mb-1">{riskData.medium}</div>
+                        <div className="text-sm text-gray-600">5K-20K range</div>
+                        <Progress 
+                          value={(riskData.medium / accountsData.length) * 100} 
+                          className="mt-2 h-2"
+                        />
+                      </div>
+
+                      {/* Low Risk */}
+                      <div 
+                        className="cursor-pointer p-4 border rounded-lg hover:shadow-md transition-shadow"
+                        onClick={() => {
+                          setRiskFilter('low');
+                          setViewMode('table');
+                        }}
+                      >
+                        <div className="flex items-center justify-between mb-2">
+                          <div className="flex items-center gap-2">
+                            <div className="w-3 h-3 bg-green-500 rounded-full"></div>
+                            <span className="font-medium text-green-700">Low Risk</span>
+                          </div>
+                          <CheckCircle className="h-4 w-4 text-green-500" />
+                        </div>
+                        <div className="text-2xl font-bold text-green-600 mb-1">{riskData.low}</div>
+                        <div className="text-sm text-gray-600">Above 20K threshold</div>
+                        <Progress 
+                          value={(riskData.low / accountsData.length) * 100} 
+                          className="mt-2 h-2"
+                        />
+                      </div>
+                    </div>
+                  </CardContent>
+                </Card>
+              </div>
+            )}
+
             {/* Accounts Table */}
+            {viewMode === 'table' && (
             <Card>
               <CardHeader>
                 <CardTitle>Account Management</CardTitle>
@@ -276,6 +429,7 @@ export default function AccountManagementPage() {
                 </div>
               </CardContent>
             </Card>
+            )}
           </div>
 
           {/* Right Sidebar with Quick Actions */}
