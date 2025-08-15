@@ -1,22 +1,25 @@
-// Central configuration for the entire portal
+// Central Bank Portal Configuration
+// This file contains all portal-wide settings, data, and configurations
+
 export const portalConfig = {
   // Application metadata
   app: {
     name: 'Central Bank Unified Portal',
     version: '2.0.0',
-    description: 'Unified portal for RTGS, CSD, and CMS operations'
+    description: 'Unified portal for RTGS, CSD, and CMS operations',
+    logo: '/cbb-logo-official.png'
   },
 
   // Supported currencies and symbols
   currencies: {
     primary: 'BHD',
-    symbol: 'BHD',
+    symbol: 'BD',
     formatting: {
       thousands: ',',
       decimal: '.',
-      precision: 2
+      precision: 3
     },
-    supported: ['BHD', 'USD', 'EUR']
+    supported: ['BHD', 'USD', 'EUR', 'SAR', 'KWD', 'QAR', 'AED']
   },
 
   // Bank names and identifiers for Bahrain
@@ -60,53 +63,88 @@ export const portalConfig = {
   roles: {
     Admin: {
       permissions: ['*'], // Full access
-      label: 'Administrator',
-      color: 'red'
+      label: 'System Administrator',
+      color: 'destructive',
+      allowedSystems: ['RTGS', 'CSD', 'CMS']
     },
-    Issuer: {
-      permissions: ['securities.*', 'issuance.*', 'corporate-actions.*'],
-      label: 'Issuer',
-      color: 'blue'
+    CBBOperator: {
+      permissions: [
+        'rtgs.*',
+        'csd.*', 
+        'cms.*',
+        'reports.*',
+        'monitoring.*'
+      ],
+      label: 'CBB Operator',
+      color: 'primary',
+      allowedSystems: ['RTGS', 'CSD', 'CMS']
     },
-    Custodian: {
-      permissions: ['custody.*', 'settlement.*', 'securities.view'],
-      label: 'Custodian',
-      color: 'green'
+    BankOperator: {
+      permissions: [
+        'rtgs.transactions',
+        'rtgs.accounts',
+        'csd.trading',
+        'csd.settlement',
+        'cms.collateral',
+        'reports.basic'
+      ],
+      label: 'Bank Operator',
+      color: 'secondary',
+      allowedSystems: ['RTGS', 'CSD', 'CMS']
     },
     Broker: {
-      permissions: ['trading.*', 'orders.*', 'settlement.view'],
+      permissions: [
+        'csd.trading',
+        'csd.settlement',
+        'reports.trading'
+      ],
       label: 'Broker/Dealer',
-      color: 'purple'
+      color: 'accent',
+      allowedSystems: ['CSD']
     },
-    Participant: {
-      permissions: ['rtgs.view', 'liquidity.view', 'reporting.view'],
-      label: 'Participant',
-      color: 'yellow'
+    Custodian: {
+      permissions: [
+        'csd.custody',
+        'csd.settlement',
+        'cms.collateral',
+        'reports.custody'
+      ],
+      label: 'Custodian',
+      color: 'outline',
+      allowedSystems: ['CSD', 'CMS']
     },
-    Regulator: {
-      permissions: ['reporting.*', 'monitoring.*', 'audit.*'],
-      label: 'Regulator',
-      color: 'gray'
+    Auditor: {
+      permissions: [
+        'reports.*',
+        'monitoring.view',
+        'audit.*'
+      ],
+      label: 'Auditor',
+      color: 'muted',
+      allowedSystems: ['RTGS', 'CSD', 'CMS']
     }
   },
 
   // System configuration
   systems: {
-    rtgs: {
+    RTGS: {
       name: 'Real-Time Gross Settlement',
       code: 'RTGS',
+      description: 'High-value payment system',
       color: 'blue',
       icon: 'Banknote'
     },
-    csd: {
+    CSD: {
       name: 'Central Securities Depository',
-      code: 'CSD',
+      code: 'CSD', 
+      description: 'Securities settlement and custody',
       color: 'green',
       icon: 'Building2'
     },
-    cms: {
+    CMS: {
       name: 'Collateral Management System',
       code: 'CMS',
+      description: 'Collateral and risk management',
       color: 'purple',
       icon: 'Shield'
     }
@@ -124,7 +162,40 @@ export const portalConfig = {
       settlement: '15:00',
       corporateActions: '12:00'
     },
-    refreshInterval: 30000 // 30 seconds
+    refreshInterval: 30000, // 30 seconds
+    batchProcessing: {
+      settlement: '19:00',
+      reporting: '20:00',
+      backup: '22:00'
+    }
+  },
+
+  // Demo data for development
+  demo: {
+    users: [
+      {
+        email: 'admin@cbb.gov.bh',
+        password: 'admin123',
+        role: 'Admin',
+        name: 'System Administrator',
+        department: 'IT Operations'
+      },
+      {
+        email: 'operator@cbb.gov.bh', 
+        password: 'operator123',
+        role: 'CBBOperator',
+        name: 'CBB Operations Team',
+        department: 'Financial Operations'
+      },
+      {
+        email: 'bank@nbb.com.bh',
+        password: 'bank123', 
+        role: 'BankOperator',
+        name: 'NBB Operator',
+        department: 'Treasury Operations'
+      }
+    ],
+    mfaCodes: ['123456', '000000'] // Demo MFA codes
   }
 };
 

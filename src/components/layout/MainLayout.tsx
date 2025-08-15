@@ -1,6 +1,5 @@
 import { Outlet, useLocation } from 'react-router-dom';
-import { SidebarProvider } from '@/components/ui/sidebar';
-import { ModularSidebar } from './ModularSidebar';
+import MaterialNavigationDrawer from './MaterialNavigationDrawer';
 import { DashboardHeader } from './DashboardHeader';
 import { AlertsPanel } from './AlertsPanel';
 import { Breadcrumbs } from './Breadcrumbs';
@@ -53,19 +52,16 @@ const MainLayout = ({ children }: MainLayoutProps) => {
   };
 
   return (
-    <SidebarProvider>
-      <div className="flex w-full">
-        {/* STICKY SIDEBAR */}
-        <div className="sticky top-0 h-screen flex-shrink-0">
-          <ModularSidebar />
-        </div>
+    <div className="flex w-full">
+      {/* Material Design 3 Navigation */}
+      <MaterialNavigationDrawer />
         
         {/* MAIN CONTENT AREA */}
         <div className="flex-1 min-w-0">
           {/* STICKY HEADER */}
           <div 
             className="sticky top-0 z-10"
-            style={{ height: themeConfig.spacing.header.height }}
+            style={{ height: themeConfig.layout.header.height }}
           >
             <DashboardHeader />
           </div>
@@ -74,7 +70,7 @@ const MainLayout = ({ children }: MainLayoutProps) => {
           <div 
             className="px-6"
             style={{ 
-              minHeight: `calc(100vh - ${themeConfig.spacing.header.height})`,
+              minHeight: `calc(100vh - ${themeConfig.layout.header.height})`,
               paddingTop: '1rem'
             }}
           >
@@ -85,10 +81,9 @@ const MainLayout = ({ children }: MainLayoutProps) => {
           </div>
         </div>
         
-        <AlertsPanel alerts={getPageAlerts()} />
-        <Chatbot />
-      </div>
-    </SidebarProvider>
+      <AlertsPanel alerts={getPageAlerts()} />
+      <Chatbot />
+    </div>
   );
 };
 
