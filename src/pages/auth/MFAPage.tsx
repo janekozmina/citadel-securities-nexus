@@ -39,9 +39,8 @@ const MFAPage = () => {
     try {
       // Check against dynamic MFA code
       const isValidDynamic = mfaGenerator.validateCode(code);
-      const isValidStatic = code === '123456'; // Fallback for demo
       
-      if (isValidDynamic || isValidStatic) {
+      if (isValidDynamic) {
         const success = await verifyMFA(code);
         if (!success) {
           toast({
@@ -108,7 +107,6 @@ const MFAPage = () => {
             <div className="mt-4 p-3 rounded text-sm text-gray-300 text-center space-y-2" style={{ backgroundColor: '#2d2d2d' }}>
               <p><strong>Current MFA Code:</strong> {currentMFA.code}</p>
               <p className="text-xs">Valid for: {Math.floor(currentMFA.timeRemaining / 60)}:{(currentMFA.timeRemaining % 60).toString().padStart(2, '0')}</p>
-              <p className="text-xs text-gray-400">Fallback: 123456</p>
             </div>
           </CardContent>
         </Card>
