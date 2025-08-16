@@ -3,6 +3,7 @@ import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { DataTable } from '@/components/common/DataTable';
 import { QuickActionsManager } from '@/components/common/QuickActionsManager';
+import { PageHeader } from '@/components/common/PageHeader';
 import { TransactionQuickActionsDialogs } from '@/components/dialogs/TransactionQuickActionsDialogs';
 import { 
   generateTransactionData, 
@@ -70,10 +71,7 @@ export default function TransactionStatusPage() {
 
   return (
     <main>
-      <section className="space-y-2 mb-6">
-        <h1 className="text-2xl font-bold">RTGS — Transaction Status Amount / Volume</h1>
-        <p className="text-muted-foreground">Monitor transaction status, amounts, and volumes in real-time.</p>
-      </section>
+      <PageHeader />
 
       <div className="flex gap-6">
         {/* View Mode Toggle - Fixed positioning */}

@@ -10,6 +10,7 @@ import { Progress } from '@/components/ui/progress';
 import { ArrowUpDown, Calculator, Pause, Eye, BarChart3, TableIcon, AlertTriangle, CheckCircle, XCircle } from 'lucide-react';
 import portalConfig from '@/config/portalConfig';
 import { QuickActionsManager } from '@/components/common/QuickActionsManager';
+import { PageHeader } from '@/components/common/PageHeader';
 
 // Generate account data using config
 const generateAccountData = () => {
@@ -134,7 +135,7 @@ export default function AccountManagementPage() {
   return (
     <TooltipProvider>
       <div className="space-y-6">
-        {/* No header needed - it's now in DashboardHeader */}
+        <PageHeader />
 
         {/* View Mode Toggle - Fixed positioning */}
         <div className="flex items-center gap-2 min-h-[40px] mb-6">

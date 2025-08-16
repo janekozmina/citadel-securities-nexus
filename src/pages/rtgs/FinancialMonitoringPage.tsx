@@ -3,6 +3,7 @@ import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { DataTable } from '@/components/common/DataTable';
 import { QuickActionsManager } from '@/components/common/QuickActionsManager';
+import { PageHeader } from '@/components/common/PageHeader';
 import portalConfig from '@/config/portalConfig';
 import { 
   AlertTriangle,
@@ -82,12 +83,7 @@ export default function FinancialMonitoringPage() {
 
   return (
     <div className="space-y-6">
-      <div className="space-y-2">
-        <h1 className="text-3xl font-bold tracking-tight">RTGS — Financial Monitoring</h1>
-        <p className="text-muted-foreground">
-          Comprehensive financial monitoring and oversight dashboard
-        </p>
-      </div>
+      <PageHeader />
 
       {/* Controls Section - Above All Content */}
       <Card className="bg-slate-50">

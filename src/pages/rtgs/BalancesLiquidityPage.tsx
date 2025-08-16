@@ -10,6 +10,7 @@ import { ArrowUpDown, TrendingUp, DollarSign, AlertCircle, Wallet, Activity, Bar
 import { LiquidityWidget } from '@/components/common/LiquidityWidget';
 import { DataTable } from '@/components/common/DataTable';
 import { QuickActionsManager } from '@/components/common/QuickActionsManager';
+import { PageHeader } from '@/components/common/PageHeader';
 
 const balancesData = [
   { id: '0003800040124240088', participant: 'BANQUE DE TUNISIE ET DES EMIRATS', accountCode: 'SA', accountType: 'RTSE', reservedAmount: 4439.726, currency: 'TND', debitTurnover: 100.000, creditTurnover: 0.000, totalDebitQueue: 0.000, totalCreditQueue: 0.000, balance: 4439.726 },
@@ -111,12 +112,7 @@ export default function BalancesLiquidityPage() {
   return (
     <TooltipProvider>
       <div className="space-y-6">
-        <div className="flex items-center justify-between">
-          <div>
-            <h1 className="text-2xl font-bold text-slate-900">RTGS — Balances & Liquidity</h1>
-            <p className="text-slate-600">Real-time participant balances and reserved amounts monitoring</p>
-          </div>
-        </div>
+        <PageHeader />
 
         <div className="flex h-full">
           <div className="flex-1 space-y-6 pr-6">

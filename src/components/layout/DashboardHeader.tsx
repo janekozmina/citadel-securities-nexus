@@ -68,13 +68,6 @@ export const DashboardHeader = ({
           <Menu className="h-5 w-5" />
         </Button>
         
-        {/* Page Title */}
-        <div className="flex flex-col">
-          <h1 className="text-lg font-semibold text-white">{pageTitle}</h1>
-          {pageDescription && (
-            <p className="text-xs text-slate-300">{pageDescription}</p>
-          )}
-        </div>
         
         {/* Emulated Business Day Time */}
         <div className="flex items-center gap-3 bg-white/10 rounded-lg px-3 py-1.5">

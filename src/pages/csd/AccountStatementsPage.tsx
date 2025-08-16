@@ -4,6 +4,7 @@ import { ConfigurableDashboardSection } from '@/components/common/ConfigurableDa
 import { InteractiveChart } from '@/components/common/InteractiveChart';
 import { DataTable } from '@/components/common/DataTable';
 import { QuickActionsManager } from '@/components/common/QuickActionsManager';
+import { PageHeader } from '@/components/common/PageHeader';
 import { useDashboardFilters } from '@/hooks/useDashboardFilters';
 import { 
   accountStatementsConfig,
@@ -127,70 +128,74 @@ export default function AccountStatementsPage() {
   ];
 
   return (
-    <div className="flex gap-6">
-      <div className="flex-1 space-y-6">
-        {/* KPI Metrics Cards */}
-        <DashboardMetricsGrid
-          metricsConfig={accountStatementsMetricsConfig}
-          data={filteredData}
-          stats={stats}
-          onMetricClick={applyFilterAndSwitchView}
-        />
-
-        {/* Dashboard Highlights */}
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-          <ConfigurableDashboardSection
-            title="Statement Activity Overview"
-            description="Debit vs credit turnover analysis"
+    <div className="space-y-6">
+      <PageHeader />
+      
+      <div className="flex gap-6">
+        <div className="flex-1 space-y-6">
+          {/* KPI Metrics Cards */}
+          <DashboardMetricsGrid
+            metricsConfig={accountStatementsMetricsConfig}
             data={filteredData}
-            tableColumns={[
-              { key: 'accountCode', header: 'Account Code' },
-              { key: 'debit', header: 'Debit Turnover', formatter: (value: number) => value > 0 ? `BHD ${value.toLocaleString()}` : '-' },
-              { key: 'credit', header: 'Credit Turnover', formatter: (value: number) => value > 0 ? `BHD ${value.toLocaleString()}` : '-' },
-              { key: 'accountType', header: 'Account Type' }
-            ]}
-            chartConfig={updatedActivityChart}
-            defaultView="visual"
-            onChartClick={applyFilterAndSwitchView}
+            stats={stats}
+            onMetricClick={applyFilterAndSwitchView}
           />
 
+          {/* Dashboard Highlights */}
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+            <ConfigurableDashboardSection
+              title="Statement Activity Overview"
+              description="Debit vs credit turnover analysis"
+              data={filteredData}
+              tableColumns={[
+                { key: 'accountCode', header: 'Account Code' },
+                { key: 'debit', header: 'Debit Turnover', formatter: (value: number) => value > 0 ? `BHD ${value.toLocaleString()}` : '-' },
+                { key: 'credit', header: 'Credit Turnover', formatter: (value: number) => value > 0 ? `BHD ${value.toLocaleString()}` : '-' },
+                { key: 'accountType', header: 'Account Type' }
+              ]}
+              chartConfig={updatedActivityChart}
+              defaultView="visual"
+              onChartClick={applyFilterAndSwitchView}
+            />
+
+            <ConfigurableDashboardSection
+              title="Account Type Distribution"
+              description="Distribution by account categories"
+              data={[
+                { type: 'Custody Accounts', count: stats['Custody Accounts'], percentage: (stats['Custody Accounts'] / filteredData.length) * 100 },
+                { type: 'Settlement Accounts', count: stats['Settlement Accounts'], percentage: (stats['Settlement Accounts'] / filteredData.length) * 100 },
+                { type: 'Margin Accounts', count: stats['Margin Accounts'], percentage: (stats['Margin Accounts'] / filteredData.length) * 100 }
+              ]}
+              tableColumns={[
+                { key: 'type', header: 'Account Type' },
+                { key: 'count', header: 'Count' },
+                { key: 'percentage', header: 'Percentage', formatter: (value: number) => `${value.toFixed(1)}%` }
+              ]}
+              chartConfig={updatedAccountTypeChart}
+              defaultView="visual"
+              onChartClick={applyFilterAndSwitchView}
+            />
+          </div>
+
+          {/* Account Movements Dashboard */}
           <ConfigurableDashboardSection
-            title="Account Type Distribution"
-            description="Distribution by account categories"
-            data={[
-              { type: 'Custody Accounts', count: stats['Custody Accounts'], percentage: (stats['Custody Accounts'] / filteredData.length) * 100 },
-              { type: 'Settlement Accounts', count: stats['Settlement Accounts'], percentage: (stats['Settlement Accounts'] / filteredData.length) * 100 },
-              { type: 'Margin Accounts', count: stats['Margin Accounts'], percentage: (stats['Margin Accounts'] / filteredData.length) * 100 }
-            ]}
-            tableColumns={[
-              { key: 'type', header: 'Account Type' },
-              { key: 'count', header: 'Count' },
-              { key: 'percentage', header: 'Percentage', formatter: (value: number) => `${value.toFixed(1)}%` }
-            ]}
-            chartConfig={updatedAccountTypeChart}
-            defaultView="visual"
+            title="Account Movements Dashboard"
+            description="Track balance trends and account movements over time"
+            data={filteredData}
+            tableColumns={columns}
+            chartConfig={updatedMovementsTrendChart}
+            defaultView={viewMode}
             onChartClick={applyFilterAndSwitchView}
           />
         </div>
 
-        {/* Account Movements Dashboard */}
-        <ConfigurableDashboardSection
-          title="Account Movements Dashboard"
-          description="Track balance trends and account movements over time"
-          data={filteredData}
-          tableColumns={columns}
-          chartConfig={updatedMovementsTrendChart}
-          defaultView={viewMode}
-          onChartClick={applyFilterAndSwitchView}
-        />
-      </div>
-
-      {/* Right Sidebar with Quick Actions */}
-      <div className="w-64 space-y-4">
-        <QuickActionsManager 
-          pageKey="account-statements"
-          systemType="csd"
-        />
+        {/* Right Sidebar with Quick Actions */}
+        <div className="w-64 space-y-4">
+          <QuickActionsManager 
+            pageKey="account-statements"
+            systemType="csd"
+          />
+        </div>
       </div>
     </div>
   );
