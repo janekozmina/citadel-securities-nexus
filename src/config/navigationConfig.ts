@@ -391,6 +391,13 @@ export const secondaryNavigation: Record<string, NavigationItem[]> = {
           path: '/csd/instruments/status-management',
           icon: Flag,
           description: 'Instrument status management'
+        },
+        {
+          id: 'instrument-types',
+          title: 'Instrument Types',
+          path: '/csd/instruments/types',
+          icon: Settings,
+          description: 'Configure instrument type parameters'
         }
       ]
     },

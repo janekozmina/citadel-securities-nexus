@@ -36,6 +36,7 @@ import CSDCustodyPage from "./pages/csd/CSDCustodyPage";
 import AccountStatementsPage from "./pages/csd/AccountStatementsPage";
 import RegisterIslamicSukukPage from "./pages/csd/RegisterIslamicSukukPage";
 import TransfersPage from "./pages/csd/TransfersPage";
+import InstrumentTypesPage from "./pages/securities/InstrumentTypesPage";
 
 // CMS Pages
 import CMSPage from "./pages/cms/CMSPage";
@@ -192,6 +193,13 @@ const App = () => (
               <ProtectedRoute>
                 <MainLayout>
                   <TransfersPage />
+                </MainLayout>
+              </ProtectedRoute>
+            } />
+            <Route path="/csd/instruments/types" element={
+              <ProtectedRoute>
+                <MainLayout>
+                  <InstrumentTypesPage />
                 </MainLayout>
               </ProtectedRoute>
             } />
