@@ -38,6 +38,7 @@ import RegisterIslamicSukukPage from "./pages/csd/RegisterIslamicSukukPage";
 import TransfersPage from "./pages/csd/TransfersPage";
 import InstrumentTypesPage from "./pages/securities/InstrumentTypesPage";
 import CollateralParametersPage from "./pages/collateral/CollateralParametersPage";
+import EligibilityCriteriaBuilderPage from "./pages/csd/EligibilityCriteriaBuilderPage";
 
 // CMS Pages
 import CMSPage from "./pages/cms/CMSPage";
@@ -208,6 +209,13 @@ const App = () => (
               <ProtectedRoute>
                 <MainLayout>
                   <CollateralParametersPage />
+                </MainLayout>
+              </ProtectedRoute>
+            } />
+            <Route path="/csd/instruments/eligibility-criteria-builder" element={
+              <ProtectedRoute>
+                <MainLayout>
+                  <EligibilityCriteriaBuilderPage />
                 </MainLayout>
               </ProtectedRoute>
             } />

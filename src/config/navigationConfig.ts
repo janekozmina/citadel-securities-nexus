@@ -59,7 +59,8 @@ import {
   FileBarChart,
   Download,
   Upload,
-  UserPlus
+  UserPlus,
+  Filter
 } from 'lucide-react';
 
 export interface NavigationItem {
@@ -398,6 +399,13 @@ export const secondaryNavigation: Record<string, NavigationItem[]> = {
           path: '/csd/instruments/types',
           icon: Settings,
           description: 'Configure instrument type parameters'
+        },
+        {
+          id: 'eligibility-criteria-builder',
+          title: 'Eligibility Criteria Builder',
+          path: '/csd/instruments/eligibility-criteria-builder',
+          icon: Filter,
+          description: 'Create and manage eligibility criteria for securities selection'
         }
       ]
     },
