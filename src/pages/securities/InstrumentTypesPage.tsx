@@ -186,11 +186,11 @@ const InstrumentTypesPage = () => {
   const usageData = generateUsageData(selectedPeriod);
 
   const chartConfig = {
-    govBonds: { label: "Government Bonds", color: "hsl(var(--primary))" },
-    corpBonds: { label: "Corporate Bonds", color: "hsl(var(--secondary))" },
-    equities: { label: "Equities", color: "hsl(var(--accent))" },
-    sukuk: { label: "Sukuk", color: "hsl(var(--muted-foreground))" },
-    mmkt: { label: "Money Market", color: "hsl(var(--destructive))" },
+    govBonds: { label: "Government Bonds", color: "hsl(220, 70%, 50%)" }, // Blue
+    corpBonds: { label: "Corporate Bonds", color: "hsl(160, 60%, 45%)" }, // Teal
+    equities: { label: "Equities", color: "hsl(280, 65%, 55%)" }, // Purple
+    sukuk: { label: "Sukuk", color: "hsl(25, 85%, 55%)" }, // Orange
+    mmkt: { label: "Money Market", color: "hsl(340, 75%, 55%)" }, // Pink/Red
   };
 
   const handleEdit = (code: string) => {
