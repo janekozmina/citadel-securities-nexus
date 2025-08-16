@@ -39,6 +39,7 @@ import {
   ArrowRightLeft,
   Calculator,
   Scissors,
+  Flag,
   LucideIcon
 } from 'lucide-react';
 
@@ -372,6 +373,45 @@ export const quickActionsConfig: Record<string, QuickAction[]> = {
   ]
 };
 
+// Account Statements specific actions
+export const accountStatementsActions: QuickAction[] = [
+  {
+    id: 'download-statement',
+    label: 'Download Latest Statement',
+    icon: Download,
+    category: 'statements',
+    description: 'Download the most recent account statement',
+    permissions: ['csd.statements.download']
+  },
+  {
+    id: 'request-statement',
+    label: 'Request On-Demand Statement',
+    icon: FileText,
+    category: 'statements',
+    description: 'Generate a custom statement for specific period',
+    permissions: ['csd.statements.generate']
+  },
+  {
+    id: 'reconciliation-report',
+    label: 'Generate Reconciliation Report',
+    icon: Calculator,
+    category: 'reports',
+    description: 'Generate reconciliation report for account balances',
+    permissions: ['csd.reconciliation.generate']
+  },
+  {
+    id: 'flag-transaction',
+    label: 'Flag Transaction for Review',
+    icon: Flag,
+    category: 'monitoring',
+    description: 'Flag suspicious transactions for manual review',
+    permissions: ['csd.transactions.flag']
+  }
+];
+
+// Add account statements actions to CSD system
+quickActionsConfig.csd = [...quickActionsConfig.csd, ...accountStatementsActions];
+
 // Default Quick Actions for each page type
 export const defaultQuickActions: Record<string, string[]> = {
   'balances-liquidity': ['liquidity-analysis', 'reserve-management', 'balance-alerts'],
@@ -380,5 +420,6 @@ export const defaultQuickActions: Record<string, string[]> = {
   'settlement-hub': ['settlement-monitoring', 'trade-matching', 'risk-monitoring'],
   'collateral-manager': ['collateral-management', 'margin-calculation', 'risk-assessment'],
   'transaction-status': ['general-transfer', 'check-funds', 'liquidity-source', 'manual-gridlock'],
+  'account-statements': ['download-statement', 'request-statement', 'reconciliation-report', 'export-data'],
   'default': ['export-data', 'refresh-data', 'advanced-search']
 };

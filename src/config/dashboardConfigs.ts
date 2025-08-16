@@ -181,3 +181,102 @@ export const transactionMetricsConfig: MetricConfig[] = [
     filterValue: 'ILF/BUYBACK'
   }
 ];
+
+// Account Statements Dashboard Configuration
+export const accountStatementsConfig: DashboardConfig = {
+  defaultView: 'visual',
+  searchFields: ['accountCode', 'accountType', 'instrument'],
+  filters: [
+    {
+      key: 'accountType',
+      label: 'Account Type',
+      options: ['Custody Accounts', 'Settlement Accounts', 'Margin Accounts']
+    },
+    {
+      key: 'period',
+      label: 'Period',
+      options: ['Current Month', 'Previous Month', 'Quarter', 'Year']
+    }
+  ]
+};
+
+// Account Statements Metrics Configuration
+export const accountStatementsMetricsConfig: MetricConfig[] = [
+  {
+    key: 'totalSecuritiesCustody',
+    title: 'Total Securities Under Custody',
+    valueFormatter: (value) => `BHD ${value.toLocaleString()}`,
+    iconName: 'Shield',
+    iconColor: 'text-blue-600',
+    textColor: 'text-blue-600'
+  },
+  {
+    key: 'activeAccounts',
+    title: 'Number of Active Accounts',
+    iconName: 'Users',
+    iconColor: 'text-green-600',
+    textColor: 'text-green-600',
+    filterKey: 'accountType',
+    filterValue: 'active'
+  },
+  {
+    key: 'debitTurnover',
+    title: 'Total Debit Turnover (Period)',
+    valueFormatter: (value) => `BHD ${value.toLocaleString()}`,
+    iconName: 'TrendingDown',
+    iconColor: 'text-red-600',
+    textColor: 'text-red-600'
+  },
+  {
+    key: 'creditTurnover',
+    title: 'Total Credit Turnover (Period)',
+    valueFormatter: (value) => `BHD ${value.toLocaleString()}`,
+    iconName: 'TrendingUp',
+    iconColor: 'text-green-600',
+    textColor: 'text-green-600'
+  },
+  {
+    key: 'closingBalance',
+    title: 'Closing Balance (End of Period)',
+    valueFormatter: (value) => `BHD ${value.toLocaleString()}`,
+    iconName: 'DollarSign',
+    iconColor: 'text-blue-600',
+    textColor: 'text-blue-600'
+  }
+];
+
+// Account Statements Chart Configurations
+export const statementActivityChartConfig: ChartConfig = {
+  type: 'bar',
+  title: 'Statement Activity Overview',
+  height: 320,
+  data: [
+    { name: 'Debit Turnover', value: 0, color: '#ef4444', filterKey: 'transactionType', filterValue: 'debit' },
+    { name: 'Credit Turnover', value: 0, color: '#22c55e', filterKey: 'transactionType', filterValue: 'credit' }
+  ]
+};
+
+export const accountTypeDistributionChartConfig: ChartConfig = {
+  type: 'pie',
+  title: 'Account Type Distribution',
+  height: 320,
+  data: [
+    { name: 'Custody Accounts', value: 0, color: '#3b82f6', filterKey: 'accountType', filterValue: 'Custody Accounts' },
+    { name: 'Settlement Accounts', value: 0, color: '#f59e0b', filterKey: 'accountType', filterValue: 'Settlement Accounts' },
+    { name: 'Margin Accounts', value: 0, color: '#8b5cf6', filterKey: 'accountType', filterValue: 'Margin Accounts' }
+  ]
+};
+
+export const accountMovementsTrendChartConfig: ChartConfig = {
+  type: 'line',
+  title: 'Account Movements Dashboard',
+  height: 380,
+  data: [
+    { name: 'Jan', value: 0, color: '#3b82f6' },
+    { name: 'Feb', value: 0, color: '#3b82f6' },
+    { name: 'Mar', value: 0, color: '#3b82f6' },
+    { name: 'Apr', value: 0, color: '#3b82f6' },
+    { name: 'May', value: 0, color: '#3b82f6' },
+    { name: 'Jun', value: 0, color: '#3b82f6' }
+  ]
+};

@@ -33,6 +33,7 @@ import CSDPage from "./pages/csd/CSDPage";
 import CSDTradingPage from "./pages/csd/CSDTradingPage";
 import CSDSettlementPage from "./pages/csd/CSDSettlementPage";
 import CSDCustodyPage from "./pages/csd/CSDCustodyPage";
+import AccountStatementsPage from "./pages/csd/AccountStatementsPage";
 
 // CMS Pages
 import CMSPage from "./pages/cms/CMSPage";
@@ -168,6 +169,13 @@ const App = () => (
               <ProtectedRoute>
                 <MainLayout>
                   <CSDCustodyPage />
+                </MainLayout>
+              </ProtectedRoute>
+            } />
+            <Route path="/csd/accounts-balances/statements" element={
+              <ProtectedRoute>
+                <MainLayout>
+                  <AccountStatementsPage />
                 </MainLayout>
               </ProtectedRoute>
             } />
