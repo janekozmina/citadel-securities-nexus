@@ -1,9 +1,8 @@
 import { useState, useEffect } from 'react';
-import { DashboardViewSwitcher } from '@/components/common/DashboardViewSwitcher';
 import { DashboardMetricsGrid } from '@/components/common/DashboardMetricsGrid';
+import { ConfigurableDashboardSection } from '@/components/common/ConfigurableDashboardSection';
 import { InteractiveChart } from '@/components/common/InteractiveChart';
 import { DataTable } from '@/components/common/DataTable';
-import { QuickActionsManager } from '@/components/common/QuickActionsManager';
 import { useDashboardFilters } from '@/hooks/useDashboardFilters';
 import { 
   accountStatementsConfig,
@@ -128,19 +127,7 @@ export default function AccountStatementsPage() {
 
   return (
     <div className="space-y-6">
-      {/* Header with View Switcher */}
-      <div className="flex justify-between items-center">
-        <div>
-          <h1 className="text-3xl font-bold tracking-tight">Account Statements</h1>
-          <p className="text-muted-foreground">
-            Comprehensive view of account statements and transaction history
-          </p>
-        </div>
-        <DashboardViewSwitcher 
-          viewMode={viewMode} 
-          onViewModeChange={setViewMode}
-        />
-      </div>
+      {/* No header needed - it's now in DashboardHeader */}
 
       {/* KPI Metrics Cards */}
       <DashboardMetricsGrid
@@ -150,41 +137,51 @@ export default function AccountStatementsPage() {
         onMetricClick={applyFilterAndSwitchView}
       />
 
-      {viewMode === 'visual' ? (
-        <>
-          {/* Dashboard Highlights */}
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-            <InteractiveChart config={updatedActivityChart} />
-            <InteractiveChart config={updatedAccountTypeChart} />
-          </div>
-
-          {/* Transformable Dashboard */}
-          <div className="grid grid-cols-1 gap-6">
-            <InteractiveChart config={updatedMovementsTrendChart} />
-          </div>
-        </>
-      ) : (
-        /* Table View */
-        <DataTable
-          title="Account Statements"
+      {/* Dashboard Highlights */}
+      <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+        <ConfigurableDashboardSection
+          title="Statement Activity Overview"
+          description="Debit vs credit turnover analysis"
           data={filteredData}
-          columns={columns}
-          searchable={true}
-          searchPlaceholder="Search account statements..."
-          filters={[
-            {
-              key: 'accountType',
-              label: 'Account Type',
-              options: ['Custody Accounts', 'Settlement Accounts', 'Margin Accounts']
-            }
+          tableColumns={[
+            { key: 'accountCode', header: 'Account Code' },
+            { key: 'debit', header: 'Debit Turnover', formatter: (value: number) => value > 0 ? `BHD ${value.toLocaleString()}` : '-' },
+            { key: 'credit', header: 'Credit Turnover', formatter: (value: number) => value > 0 ? `BHD ${value.toLocaleString()}` : '-' },
+            { key: 'accountType', header: 'Account Type' }
           ]}
+          chartConfig={updatedActivityChart}
+          defaultView="visual"
+          onChartClick={applyFilterAndSwitchView}
         />
-      )}
 
-      {/* Quick Actions Sidebar */}
-      <QuickActionsManager
-        pageKey="account-statements"
-        systemType="csd"
+        <ConfigurableDashboardSection
+          title="Account Type Distribution"
+          description="Distribution by account categories"
+          data={[
+            { type: 'Custody Accounts', count: stats['Custody Accounts'], percentage: (stats['Custody Accounts'] / filteredData.length) * 100 },
+            { type: 'Settlement Accounts', count: stats['Settlement Accounts'], percentage: (stats['Settlement Accounts'] / filteredData.length) * 100 },
+            { type: 'Margin Accounts', count: stats['Margin Accounts'], percentage: (stats['Margin Accounts'] / filteredData.length) * 100 }
+          ]}
+          tableColumns={[
+            { key: 'type', header: 'Account Type' },
+            { key: 'count', header: 'Count' },
+            { key: 'percentage', header: 'Percentage', formatter: (value: number) => `${value.toFixed(1)}%` }
+          ]}
+          chartConfig={updatedAccountTypeChart}
+          defaultView="visual"
+          onChartClick={applyFilterAndSwitchView}
+        />
+      </div>
+
+      {/* Account Movements Dashboard */}
+      <ConfigurableDashboardSection
+        title="Account Movements Dashboard"
+        description="Track balance trends and account movements over time"
+        data={filteredData}
+        tableColumns={columns}
+        chartConfig={updatedMovementsTrendChart}
+        defaultView={viewMode}
+        onChartClick={applyFilterAndSwitchView}
       />
     </div>
   );

@@ -1,6 +1,7 @@
 
 import { useState } from 'react';
 import { useAuth } from '@/contexts/AuthContext';
+import { useLocation } from 'react-router-dom';
 import { Button } from '@/components/ui/button';
 import { Avatar, AvatarFallback } from '@/components/ui/avatar';
 import { Badge } from '@/components/ui/badge';
@@ -8,6 +9,8 @@ import { Input } from '@/components/ui/input';
 import { Search, Menu, Clock, Play, Pause, RotateCcw } from 'lucide-react';
 import { useSidebarContext } from './SidebarProvider';
 import { useBusinessDayEmulation } from '@/hooks/useBusinessDayEmulation';
+import { getPageTitle, getPageDescription } from '@/utils/pageConfig';
+import { QuickActionsManager } from '@/components/common/QuickActionsManager';
 
 import {
   DropdownMenu,
@@ -25,9 +28,20 @@ const useSidebarContextSafe = () => {
   }
 };
 
-export const DashboardHeader = () => {
+interface DashboardHeaderProps {
+  showQuickActions?: boolean;
+  pageKey?: string;
+  systemType?: 'rtgs' | 'csd' | 'cms' | 'common';
+}
+
+export const DashboardHeader = ({ 
+  showQuickActions = false, 
+  pageKey, 
+  systemType = 'common' 
+}: DashboardHeaderProps) => {
   const { user, logout } = useAuth();
   const { toggle } = useSidebarContextSafe();
+  const location = useLocation();
   const [searchQuery, setSearchQuery] = useState('');
   const { 
     emulatedDay, 
@@ -37,6 +51,9 @@ export const DashboardHeader = () => {
     formatEmulatedTime,
     getPhaseProgress 
   } = useBusinessDayEmulation(10); // 10x speed: 1 real minute = 10 emulated minutes
+
+  const pageTitle = getPageTitle(location.pathname);
+  const pageDescription = getPageDescription(location.pathname);
 
   return (
     <header className="h-16 dashboard-header-bg border-b border-slate-600 flex items-center justify-between px-6">
@@ -50,6 +67,14 @@ export const DashboardHeader = () => {
         >
           <Menu className="h-5 w-5" />
         </Button>
+        
+        {/* Page Title */}
+        <div className="flex flex-col">
+          <h1 className="text-lg font-semibold text-white">{pageTitle}</h1>
+          {pageDescription && (
+            <p className="text-xs text-slate-300">{pageDescription}</p>
+          )}
+        </div>
         
         {/* Emulated Business Day Time */}
         <div className="flex items-center gap-3 bg-white/10 rounded-lg px-3 py-1.5">
@@ -96,6 +121,15 @@ export const DashboardHeader = () => {
       </div>
       
       <div className="flex items-center gap-4">
+        {/* Quick Actions */}
+        {showQuickActions && pageKey && (
+          <QuickActionsManager
+            pageKey={pageKey}
+            systemType={systemType}
+            className="mr-4"
+          />
+        )}
+        
         <span className="text-sm text-slate-300">Welcome, {user?.name}</span>
         <DropdownMenu>
           <DropdownMenuTrigger asChild>

@@ -134,12 +134,7 @@ export default function AccountManagementPage() {
   return (
     <TooltipProvider>
       <div className="space-y-6">
-        <div className="flex items-center justify-between">
-          <div>
-            <h1 className="text-2xl font-bold text-slate-900">RTGS — Account Management</h1>
-            <p className="text-slate-600">Comprehensive account management and balance monitoring</p>
-          </div>
-        </div>
+        {/* No header needed - it's now in DashboardHeader */}
 
         {/* View Mode Toggle - Fixed positioning */}
         <div className="flex items-center gap-2 min-h-[40px] mb-6">
@@ -164,9 +159,7 @@ export default function AccountManagementPage() {
           </div>
         </div>
 
-        <div className="flex h-full">
-          <div className="flex-1 space-y-6 pr-6">
-            {/* Filters Section - Only show for table view */}
+        {/* Filters Section - Only show for table view */}
             {viewMode === 'table' && (
               <Card className="bg-slate-50">
                 <CardContent className="p-4">
@@ -451,16 +444,6 @@ export default function AccountManagementPage() {
               </CardContent>
             </Card>
             )}
-          </div>
-
-          {/* Right Sidebar with Quick Actions */}
-          <div className="w-64 space-y-4">
-            <QuickActionsManager 
-              pageKey="account-management" 
-              systemType="rtgs" 
-            />
-          </div>
-        </div>
       </div>
     </TooltipProvider>
   );

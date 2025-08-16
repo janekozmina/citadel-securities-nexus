@@ -218,8 +218,8 @@ export function NestedSidebar({ isOpen, onToggle }: NestedSidebarProps) {
           </div>
         </div>
 
-        {/* Navigation Content */}
-        <div className="flex-1 overflow-y-auto p-4">
+        {/* Navigation Content - Now scrollable */}
+        <div className="flex-1 overflow-y-auto p-4 max-h-[calc(100vh-200px)]">
           <div className="space-y-2">
             {filterItems(getAccessibleItems(primaryNavigation)).map(item => 
               renderNavItem(item, 0)

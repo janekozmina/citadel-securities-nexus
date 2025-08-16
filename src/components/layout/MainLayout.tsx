@@ -7,6 +7,7 @@ import { useAuth } from '@/contexts/AuthContext';
 import themeConfig from '@/config/themeConfig';
 import { NestedSidebar } from './NestedSidebar';
 import { SidebarProvider, useSidebarContext } from './SidebarProvider';
+import { getPageTitle } from '@/utils/pageConfig';
 
 interface MainLayoutProps {
   children?: React.ReactNode;
@@ -16,6 +17,26 @@ function MainLayoutContent({ children }: MainLayoutProps) {
   const location = useLocation();
   const { user } = useAuth();
   const { isOpen, toggle } = useSidebarContext();
+  
+  // Determine if current page should show quick actions
+  const shouldShowQuickActions = location.pathname.includes('/rtgs/') || 
+                                 location.pathname.includes('/csd/') || 
+                                 location.pathname.includes('/cms/');
+  
+  // Determine page key and system type for quick actions
+  const getPageKey = () => {
+    if (location.pathname.includes('/account-management')) return 'account-management';
+    if (location.pathname.includes('/transaction-status')) return 'transaction-status';
+    if (location.pathname.includes('/statements')) return 'account-statements';
+    return 'default';
+  };
+  
+  const getSystemType = (): 'rtgs' | 'csd' | 'cms' | 'common' => {
+    if (location.pathname.includes('/rtgs/')) return 'rtgs';
+    if (location.pathname.includes('/csd/')) return 'csd';
+    if (location.pathname.includes('/cms/')) return 'cms';
+    return 'common';
+  };
 
   // Define alerts for different pages
   const getPageAlerts = () => {
@@ -70,7 +91,11 @@ function MainLayoutContent({ children }: MainLayoutProps) {
           className="sticky top-0 z-10"
           style={{ height: themeConfig.layout.header.height }}
         >
-          <DashboardHeader />
+          <DashboardHeader 
+            showQuickActions={shouldShowQuickActions}
+            pageKey={getPageKey()}
+            systemType={getSystemType()}
+          />
         </div>
         
         {/* CONTENT */}
