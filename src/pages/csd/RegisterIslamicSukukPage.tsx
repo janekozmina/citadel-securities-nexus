@@ -263,52 +263,41 @@ export default function RegisterIslamicSukukPage() {
   return (
     <div className="space-y-6">
       <PageHeader />
-
-      {/* Top Metrics Cards */}
-      <MetricCardsSection
-        metricsConfig={sukukMetricsConfig}
-        data={filteredData}
-        stats={stats}
-        onMetricClick={applyFilterAndSwitchView}
-      />
-
-      {/* Dashboard Highlights */}
-      <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
-        <ConfigurableDashboardSection
-          title="Issuer Concentration Dashboard"
-          description="Distribution of outstanding Sukuk by top issuers"
-          data={filteredData}
-          chartConfig={issuerChartConfig}
-          defaultView="visual"
-          showViewSwitcher={false}
-          titleFontSize="text-lg font-semibold"
-          pieChartSize="full"
-        />
-
-        <ConfigurableDashboardSection
-          title="Maturity Profile Dashboard"
-          description="Outstanding Sukuk value by maturity year"
-          data={filteredData}
-          chartConfig={maturityChartConfig}
-          defaultView="visual"
-          showViewSwitcher={false}
-          titleFontSize="text-lg font-semibold"
-        />
-
-        <ConfigurableDashboardSection
-          title="Investor Base Dashboard"
-          description="Holdings distribution by investor type"
-          data={filteredData}
-          chartConfig={investorChartConfig}
-          defaultView="visual"
-          showViewSwitcher={false}
-          titleFontSize="text-lg font-semibold"
-        />
-      </div>
-
-      {/* Sukuk Registry Table */}
+      
       <div className="flex gap-6">
-        <div className="flex-1">
+        <div className="flex-1 space-y-6">
+          {/* Top Metrics Cards */}
+          <MetricCardsSection
+            metricsConfig={sukukMetricsConfig}
+            data={filteredData}
+            stats={stats}
+            onMetricClick={applyFilterAndSwitchView}
+          />
+
+          {/* Dashboard Highlights */}
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+            <ConfigurableDashboardSection
+              title="Maturity Profile Dashboard"
+              description="Outstanding Sukuk value by maturity year"
+              data={filteredData}
+              chartConfig={maturityChartConfig}
+              defaultView="visual"
+              showViewSwitcher={false}
+              titleFontSize="text-lg font-semibold"
+            />
+
+            <ConfigurableDashboardSection
+              title="Investor Base Dashboard"
+              description="Holdings distribution by investor type"
+              data={filteredData}
+              chartConfig={investorChartConfig}
+              defaultView="visual"
+              showViewSwitcher={false}
+              titleFontSize="text-lg font-semibold"
+            />
+          </div>
+
+          {/* Sukuk Registry Table */}
           <ConfigurableDashboardSection
             title="Islamic Sukuk Registry"
             description="Complete registry of issued Islamic Sukuk instruments"
