@@ -1,5 +1,6 @@
 import { DashboardConfig } from '@/hooks/useDashboardFilters';
 import { ChartConfig } from '@/components/common/InteractiveChart';
+import { getChartColors, chartColorSchemes } from '@/config/chartColors';
 
 // Account Management Dashboard Configuration
 export const accountManagementConfig: DashboardConfig = {
@@ -100,16 +101,18 @@ export const accountMetricsConfig: MetricConfig[] = [
   }
 ];
 
-// Chart Configurations
+// Chart Configurations with unified colors
+const colors = getChartColors();
+
 export const transactionStatusChartConfig: ChartConfig = {
   type: 'pie',
   title: 'Transaction Status Distribution',
   height: 320,
   data: [
-    { name: 'Settled', value: 0, color: '#22c55e', filterKey: 'status', filterValue: 'Settled' },
-    { name: 'Rejected', value: 0, color: '#ef4444', filterKey: 'status', filterValue: 'Rejected' },
-    { name: 'In Queue', value: 0, color: '#f59e0b', filterKey: 'status', filterValue: 'In Queue' },
-    { name: 'ILF/BUYBACK', value: 0, color: '#8b5cf6', filterKey: 'status', filterValue: 'ILF/BUYBACK' }
+    { name: 'Settled', value: 0, color: chartColorSchemes.transactionStatus.settled, filterKey: 'status', filterValue: 'Settled' },
+    { name: 'Rejected', value: 0, color: chartColorSchemes.transactionStatus.rejected, filterKey: 'status', filterValue: 'Rejected' },
+    { name: 'In Queue', value: 0, color: chartColorSchemes.transactionStatus.pending, filterKey: 'status', filterValue: 'In Queue' },
+    { name: 'ILF/BUYBACK', value: 0, color: colors.getPieColors(4)[3], filterKey: 'status', filterValue: 'ILF/BUYBACK' }
   ]
 };
 
@@ -118,9 +121,9 @@ export const accountRiskChartConfig: ChartConfig = {
   title: 'Account Risk Distribution',
   height: 280,
   data: [
-    { name: 'Low Risk', value: 0, color: '#22c55e', filterKey: 'riskLevel', filterValue: 'low' },
-    { name: 'Medium Risk', value: 0, color: '#f59e0b', filterKey: 'riskLevel', filterValue: 'medium' },
-    { name: 'High Risk', value: 0, color: '#ef4444', filterKey: 'riskLevel', filterValue: 'high' }
+    { name: 'Low Risk', value: 0, color: chartColorSchemes.riskLevels.low, filterKey: 'riskLevel', filterValue: 'low' },
+    { name: 'Medium Risk', value: 0, color: chartColorSchemes.riskLevels.medium, filterKey: 'riskLevel', filterValue: 'medium' },
+    { name: 'High Risk', value: 0, color: chartColorSchemes.riskLevels.high, filterKey: 'riskLevel', filterValue: 'high' }
   ]
 };
 
@@ -129,10 +132,10 @@ export const liquidityTrendChartConfig: ChartConfig = {
   title: 'Liquidity Trend Analysis',
   height: 300,
   data: [
-    { name: 'Morning', value: 0, color: '#3b82f6' },
-    { name: 'Midday', value: 0, color: '#10b981' },
-    { name: 'Afternoon', value: 0, color: '#f59e0b' },
-    { name: 'Evening', value: 0, color: '#8b5cf6' }
+    { name: 'Morning', value: 0, color: colors.getBarColors(4)[0] },
+    { name: 'Midday', value: 0, color: colors.getBarColors(4)[1] },
+    { name: 'Afternoon', value: 0, color: colors.getBarColors(4)[2] },
+    { name: 'Evening', value: 0, color: colors.getBarColors(4)[3] }
   ]
 };
 
@@ -251,8 +254,8 @@ export const statementActivityChartConfig: ChartConfig = {
   title: 'Statement Activity Overview',
   height: 320,
   data: [
-    { name: 'Debit Turnover', value: 0, color: '#ef4444', filterKey: 'transactionType', filterValue: 'debit' },
-    { name: 'Credit Turnover', value: 0, color: '#22c55e', filterKey: 'transactionType', filterValue: 'credit' }
+    { name: 'Debit Turnover', value: 0, color: chartColorSchemes.financial.debit, filterKey: 'transactionType', filterValue: 'debit' },
+    { name: 'Credit Turnover', value: 0, color: chartColorSchemes.financial.credit, filterKey: 'transactionType', filterValue: 'credit' }
   ]
 };
 
@@ -261,9 +264,9 @@ export const accountTypeDistributionChartConfig: ChartConfig = {
   title: 'Account Type Distribution',
   height: 320,
   data: [
-    { name: 'Custody Accounts', value: 0, color: '#3b82f6', filterKey: 'accountType', filterValue: 'Custody Accounts' },
-    { name: 'Settlement Accounts', value: 0, color: '#f59e0b', filterKey: 'accountType', filterValue: 'Settlement Accounts' },
-    { name: 'Margin Accounts', value: 0, color: '#8b5cf6', filterKey: 'accountType', filterValue: 'Margin Accounts' }
+    { name: 'Custody Accounts', value: 0, color: chartColorSchemes.accountTypes.custody, filterKey: 'accountType', filterValue: 'Custody Accounts' },
+    { name: 'Settlement Accounts', value: 0, color: chartColorSchemes.accountTypes.settlement, filterKey: 'accountType', filterValue: 'Settlement Accounts' },
+    { name: 'Margin Accounts', value: 0, color: chartColorSchemes.accountTypes.margin, filterKey: 'accountType', filterValue: 'Margin Accounts' }
   ]
 };
 
@@ -272,11 +275,11 @@ export const accountMovementsTrendChartConfig: ChartConfig = {
   title: 'Account Movements Dashboard',
   height: 380,
   data: [
-    { name: 'Jan', value: 0, color: '#3b82f6' },
-    { name: 'Feb', value: 0, color: '#3b82f6' },
-    { name: 'Mar', value: 0, color: '#3b82f6' },
-    { name: 'Apr', value: 0, color: '#3b82f6' },
-    { name: 'May', value: 0, color: '#3b82f6' },
-    { name: 'Jun', value: 0, color: '#3b82f6' }
+    { name: 'Jan', value: 0, color: colors.getPieColors(6)[0] },
+    { name: 'Feb', value: 0, color: colors.getPieColors(6)[1] },
+    { name: 'Mar', value: 0, color: colors.getPieColors(6)[2] },
+    { name: 'Apr', value: 0, color: colors.getPieColors(6)[3] },
+    { name: 'May', value: 0, color: colors.getPieColors(6)[4] },
+    { name: 'Jun', value: 0, color: colors.getPieColors(6)[5] }
   ]
 };

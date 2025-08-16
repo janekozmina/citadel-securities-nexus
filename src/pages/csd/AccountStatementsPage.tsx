@@ -15,6 +15,7 @@ import {
 } from '@/config/dashboardConfigs';
 import { updateChartDataWithStats } from '@/utils/chartUtils';
 import portalConfig from '@/config/portalConfig';
+import { getChartColors, chartColorSchemes, assignColorsToData } from '@/config/chartColors';
 
 // Mock data for account statements using portal configuration
 const generateMockAccountStatements = () => {
@@ -88,7 +89,9 @@ export default function AccountStatementsPage() {
 
   const stats = getStatementsStats(filteredData);
 
-  // Remove titles from chart configs to avoid duplication
+  // Remove titles from chart configs to avoid duplication and apply proper colors
+  const colors = getChartColors();
+  
   const updatedStatementActivityConfig = {
     ...statementActivityChartConfig,
     title: '', // Remove title since ConfigurableDashboardSection provides it
@@ -96,14 +99,14 @@ export default function AccountStatementsPage() {
       { 
         name: 'Debit Turnover', 
         value: stats.debitTurnover, 
-        color: '#ef4444', 
+        color: chartColorSchemes.financial.debit, 
         filterKey: 'transactionType', 
         filterValue: 'debit' 
       },
       { 
         name: 'Credit Turnover', 
         value: stats.creditTurnover, 
-        color: '#22c55e', 
+        color: chartColorSchemes.financial.credit, 
         filterKey: 'transactionType', 
         filterValue: 'credit' 
       }
@@ -117,21 +120,21 @@ export default function AccountStatementsPage() {
       { 
         name: 'Custody Accounts', 
         value: stats['Custody Accounts'], 
-        color: '#3b82f6', 
+        color: chartColorSchemes.accountTypes.custody, 
         filterKey: 'accountType', 
         filterValue: 'Custody Accounts' 
       },
       { 
         name: 'Settlement Accounts', 
         value: stats['Settlement Accounts'], 
-        color: '#f59e0b', 
+        color: chartColorSchemes.accountTypes.settlement, 
         filterKey: 'accountType', 
         filterValue: 'Settlement Accounts' 
       },
       { 
         name: 'Margin Accounts', 
         value: stats['Margin Accounts'], 
-        color: '#8b5cf6', 
+        color: chartColorSchemes.accountTypes.margin, 
         filterKey: 'accountType', 
         filterValue: 'Margin Accounts' 
       }
@@ -141,14 +144,14 @@ export default function AccountStatementsPage() {
   const updatedAccountMovementsConfig = {
     ...accountMovementsTrendChartConfig,
     title: '', // Remove title since ConfigurableDashboardSection provides it
-    data: [
-      { name: 'Jan', value: Math.floor(Math.random() * 1000000), color: '#3b82f6' },
-      { name: 'Feb', value: Math.floor(Math.random() * 1000000), color: '#3b82f6' },
-      { name: 'Mar', value: Math.floor(Math.random() * 1000000), color: '#3b82f6' },
-      { name: 'Apr', value: Math.floor(Math.random() * 1000000), color: '#3b82f6' },
-      { name: 'May', value: Math.floor(Math.random() * 1000000), color: '#3b82f6' },
-      { name: 'Jun', value: Math.floor(Math.random() * 1000000), color: '#3b82f6' }
-    ]
+    data: assignColorsToData([
+      { name: 'Jan', value: Math.floor(Math.random() * 1000000) },
+      { name: 'Feb', value: Math.floor(Math.random() * 1000000) },
+      { name: 'Mar', value: Math.floor(Math.random() * 1000000) },
+      { name: 'Apr', value: Math.floor(Math.random() * 1000000) },
+      { name: 'May', value: Math.floor(Math.random() * 1000000) },
+      { name: 'Jun', value: Math.floor(Math.random() * 1000000) }
+    ])
   };
 
   // Set chart click handlers
