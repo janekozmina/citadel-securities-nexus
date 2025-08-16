@@ -1,5 +1,4 @@
 import { useState } from 'react';
-import { Breadcrumbs } from '@/components/layout/Breadcrumbs';
 import { PageHeader } from '@/components/common/PageHeader';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
@@ -87,7 +86,6 @@ const EligibilityCriteriaBuilderPage = () => {
 
   return (
     <div className="space-y-6">
-      <Breadcrumbs />
       <PageHeader
         title="Eligibility Criteria Builder"
         description="Create and manage eligibility criteria for securities selection"
