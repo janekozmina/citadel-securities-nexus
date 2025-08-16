@@ -107,7 +107,7 @@ const colors = getChartColors();
 export const transactionStatusChartConfig: ChartConfig = {
   type: 'pie',
   title: 'Transaction Status Distribution',
-  height: 320,
+  height: 380,
   data: [
     { name: 'Settled', value: 0, color: chartColorSchemes.transactionStatus.settled, filterKey: 'status', filterValue: 'Settled' },
     { name: 'Rejected', value: 0, color: chartColorSchemes.transactionStatus.rejected, filterKey: 'status', filterValue: 'Rejected' },
@@ -119,7 +119,7 @@ export const transactionStatusChartConfig: ChartConfig = {
 export const accountRiskChartConfig: ChartConfig = {
   type: 'pie',
   title: 'Account Risk Distribution',
-  height: 280,
+  height: 380,
   data: [
     { name: 'Low Risk', value: 0, color: chartColorSchemes.riskLevels.low, filterKey: 'riskLevel', filterValue: 'low' },
     { name: 'Medium Risk', value: 0, color: chartColorSchemes.riskLevels.medium, filterKey: 'riskLevel', filterValue: 'medium' },
@@ -130,7 +130,7 @@ export const accountRiskChartConfig: ChartConfig = {
 export const liquidityTrendChartConfig: ChartConfig = {
   type: 'bar',
   title: 'Liquidity Trend Analysis',
-  height: 300,
+  height: 380,
   data: [
     { name: 'Morning', value: 0, color: colors.getBarColors(4)[0] },
     { name: 'Midday', value: 0, color: colors.getBarColors(4)[1] },
@@ -252,7 +252,7 @@ export const accountStatementsMetricsConfig: MetricConfig[] = [
 export const statementActivityChartConfig: ChartConfig = {
   type: 'bar',
   title: 'Statement Activity Overview',
-  height: 320,
+  height: 380,
   data: [
     { name: 'Debit Turnover', value: 0, color: chartColorSchemes.financial.debit, filterKey: 'transactionType', filterValue: 'debit' },
     { name: 'Credit Turnover', value: 0, color: chartColorSchemes.financial.credit, filterKey: 'transactionType', filterValue: 'credit' }
@@ -262,7 +262,7 @@ export const statementActivityChartConfig: ChartConfig = {
 export const accountTypeDistributionChartConfig: ChartConfig = {
   type: 'pie',
   title: 'Account Type Distribution',
-  height: 320,
+  height: 380,
   data: [
     { name: 'Custody Accounts', value: 0, color: chartColorSchemes.accountTypes.custody, filterKey: 'accountType', filterValue: 'Custody Accounts' },
     { name: 'Settlement Accounts', value: 0, color: chartColorSchemes.accountTypes.settlement, filterKey: 'accountType', filterValue: 'Settlement Accounts' },
@@ -273,7 +273,7 @@ export const accountTypeDistributionChartConfig: ChartConfig = {
 export const accountMovementsTrendChartConfig: ChartConfig = {
   type: 'line',
   title: 'Account Movements Dashboard',
-  height: 380,
+  height: 420,
   data: [
     { name: 'Jan', value: 0, color: colors.getPieColors(6)[0] },
     { name: 'Feb', value: 0, color: colors.getPieColors(6)[1] },

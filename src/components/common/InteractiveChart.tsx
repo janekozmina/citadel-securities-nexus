@@ -32,14 +32,14 @@ export function InteractiveChart({ config, className = "", showCard = true, titl
   };
 
   const renderPieChart = () => (
-    <PieChart>
+    <PieChart margin={{ top: 20, right: 80, bottom: 60, left: 20 }}>
       <Pie
         data={config.data}
         cx="50%"
-        cy="50%"
+        cy="45%"
         labelLine={false}
         label={({ name, percent }) => `${name} ${(percent * 100).toFixed(0)}%`}
-        outerRadius={80}
+        outerRadius={Math.min((config.height || 320) * 0.3, 100)}
         fill="#8884d8"
         dataKey="value"
         onClick={handleSegmentClick}
@@ -54,16 +54,34 @@ export function InteractiveChart({ config, className = "", showCard = true, titl
         ))}
       </Pie>
       <Tooltip formatter={(value: any) => [value, 'Count']} />
-      <Legend />
+      <Legend 
+        verticalAlign="bottom" 
+        height={36}
+        wrapperStyle={{ paddingTop: '20px' }}
+      />
     </PieChart>
   );
 
   const renderBarChart = () => (
-    <BarChart data={config.data}>
-      <XAxis dataKey="name" />
-      <YAxis />
-      <Tooltip />
-      <Legend />
+    <BarChart 
+      data={config.data} 
+      margin={{ top: 20, right: 30, bottom: 60, left: 20 }}
+    >
+      <XAxis 
+        dataKey="name" 
+        tick={{ fontSize: 12 }}
+        interval={0}
+        angle={-45}
+        textAnchor="end"
+        height={60}
+      />
+      <YAxis tick={{ fontSize: 12 }} />
+      <Tooltip formatter={(value: any) => [value.toLocaleString(), 'Amount']} />
+      <Legend 
+        verticalAlign="bottom" 
+        height={36}
+        wrapperStyle={{ paddingTop: '10px' }}
+      />
       <Bar 
         dataKey="value" 
         onClick={handleSegmentClick}
@@ -88,7 +106,7 @@ export function InteractiveChart({ config, className = "", showCard = true, titl
   };
 
   const chartContent = (
-    <div style={{ height: config.height || 320 }}>
+    <div style={{ height: config.height || 380, width: '100%', minHeight: '320px' }}>
       <ResponsiveContainer width="100%" height="100%">
         {renderChart()}
       </ResponsiveContainer>
