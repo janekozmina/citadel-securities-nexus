@@ -169,7 +169,7 @@ const haircutMatrix = [
   },
 ];
 
-export default function HaircutMatrixPage() {
+export default function CollateralParametersPage() {
   const [selectedPeriod, setSelectedPeriod] = useState('current-month');
 
   const usageData = generateCollateralUsageData(selectedPeriod);
@@ -188,8 +188,8 @@ export default function HaircutMatrixPage() {
   return (
     <div className="container mx-auto px-4 py-6 space-y-6">
       <PageHeader 
-        title="Haircut Matrix Configuration"
-        description="Manage haircut rates for different collateral types and maturity periods"
+        title="Collateral Parameters"
+        description="Manage haircut rates and collateral parameters for different instrument types and maturity periods"
       />
 
       {/* Collateral Usage Dashboard */}

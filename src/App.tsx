@@ -37,6 +37,7 @@ import AccountStatementsPage from "./pages/csd/AccountStatementsPage";
 import RegisterIslamicSukukPage from "./pages/csd/RegisterIslamicSukukPage";
 import TransfersPage from "./pages/csd/TransfersPage";
 import InstrumentTypesPage from "./pages/securities/InstrumentTypesPage";
+import CollateralParametersPage from "./pages/collateral/CollateralParametersPage";
 
 // CMS Pages
 import CMSPage from "./pages/cms/CMSPage";
@@ -200,6 +201,13 @@ const App = () => (
               <ProtectedRoute>
                 <MainLayout>
                   <InstrumentTypesPage />
+                </MainLayout>
+              </ProtectedRoute>
+            } />
+            <Route path="/collateral/haircut-matrix" element={
+              <ProtectedRoute>
+                <MainLayout>
+                  <CollateralParametersPage />
                 </MainLayout>
               </ProtectedRoute>
             } />

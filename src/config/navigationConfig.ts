@@ -904,6 +904,13 @@ export const secondaryNavigation: Record<string, NavigationItem[]> = {
           description: 'Allocate collateral to exposures'
         },
         {
+          id: 'collateral-parameters',
+          title: 'Collateral Parameters',
+          path: '/collateral/haircut-matrix',
+          icon: Settings,
+          description: 'Configure haircut parameters and collateral settings'
+        },
+        {
           id: 'margin-calculation',
           title: 'Margin Calculation',
           path: '/cms/collateral/margin',
