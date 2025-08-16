@@ -215,11 +215,11 @@ export default function CollateralParametersPage() {
                 <YAxis />
                 <Tooltip />
                 <Legend />
-                <Bar dataKey="govBonds" fill="hsl(220, 70%, 50%)" name="Government Bonds" />
-                <Bar dataKey="corpBonds" fill="hsl(160, 60%, 45%)" name="Corporate Bonds" />
-                <Bar dataKey="sukuk" fill="hsl(280, 65%, 55%)" name="Sukuk" />
-                <Line type="monotone" dataKey="centralBankBills" stroke="hsl(25, 85%, 55%)" strokeWidth={3} name="Central Bank Bills" />
-                <Line type="monotone" dataKey="mbs" stroke="hsl(340, 75%, 55%)" strokeWidth={3} name="MBS" />
+                <Bar dataKey="govBonds" stackId="stack" fill="hsl(220, 70%, 50%)" name="Government Bonds" />
+                <Bar dataKey="corpBonds" stackId="stack" fill="hsl(160, 60%, 45%)" name="Corporate Bonds" />
+                <Bar dataKey="sukuk" stackId="stack" fill="hsl(280, 65%, 55%)" name="Sukuk" />
+                <Bar dataKey="centralBankBills" stackId="stack" fill="hsl(25, 85%, 55%)" name="Central Bank Bills" />
+                <Bar dataKey="mbs" stackId="stack" fill="hsl(340, 75%, 55%)" name="MBS" />
               </ComposedChart>
             </ResponsiveContainer>
           </div>
