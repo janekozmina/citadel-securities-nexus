@@ -42,6 +42,7 @@ const routeMap: Record<string, RouteInfo> = {
   '/csd/instruments': { path: '/csd/instruments', label: 'Instruments', parent: '/csd' },
   '/csd/instruments/register-islamic-sukuk': { path: '/csd/instruments/register-islamic-sukuk', label: 'Register Islamic Sukuk', parent: '/csd/instruments' },
   '/csd/instruments/types': { path: '/csd/instruments/types', label: 'Instrument Types', parent: '/csd/instruments' },
+  '/csd/instruments/eligibility-criteria-builder': { path: '/csd/instruments/eligibility-criteria-builder', label: 'Eligibility Criteria Builder', parent: '/csd/instruments' },
   '/csd/transactions': { path: '/csd/transactions', label: 'Transactions', parent: '/csd' },
   '/csd/transactions/transfers': { path: '/csd/transactions/transfers', label: 'Transfers (DvF / DvP)', parent: '/csd/transactions' },
   '/csd/custody': { path: '/csd/custody', label: 'Custody', parent: '/csd' },
