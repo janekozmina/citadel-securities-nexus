@@ -89,26 +89,69 @@ export default function AccountStatementsPage() {
   const stats = getStatementsStats(filteredData);
 
   // Update chart data with actual stats
-  const updatedActivityChart = updateChartDataWithStats(statementActivityChartConfig, {
-    debit: stats.debitTurnover,
-    credit: stats.creditTurnover
-  });
+  const updatedStatementActivityConfig = {
+    ...statementActivityChartConfig,
+    data: [
+      { 
+        name: 'Debit Turnover', 
+        value: stats.debitTurnover, 
+        color: '#ef4444', 
+        filterKey: 'transactionType', 
+        filterValue: 'debit' 
+      },
+      { 
+        name: 'Credit Turnover', 
+        value: stats.creditTurnover, 
+        color: '#22c55e', 
+        filterKey: 'transactionType', 
+        filterValue: 'credit' 
+      }
+    ]
+  };
   
-  const updatedAccountTypeChart = updateChartDataWithStats(accountTypeDistributionChartConfig, stats);
+  const updatedAccountTypeConfig = {
+    ...accountTypeDistributionChartConfig,
+    data: [
+      { 
+        name: 'Custody Accounts', 
+        value: stats['Custody Accounts'], 
+        color: '#3b82f6', 
+        filterKey: 'accountType', 
+        filterValue: 'Custody Accounts' 
+      },
+      { 
+        name: 'Settlement Accounts', 
+        value: stats['Settlement Accounts'], 
+        color: '#f59e0b', 
+        filterKey: 'accountType', 
+        filterValue: 'Settlement Accounts' 
+      },
+      { 
+        name: 'Margin Accounts', 
+        value: stats['Margin Accounts'], 
+        color: '#8b5cf6', 
+        filterKey: 'accountType', 
+        filterValue: 'Margin Accounts' 
+      }
+    ]
+  };
   
-  const updatedMovementsTrendChart = updateChartDataWithStats(accountMovementsTrendChartConfig, {
-    Jan: Math.floor(Math.random() * 1000000),
-    Feb: Math.floor(Math.random() * 1000000),
-    Mar: Math.floor(Math.random() * 1000000),
-    Apr: Math.floor(Math.random() * 1000000),
-    May: Math.floor(Math.random() * 1000000),
-    Jun: Math.floor(Math.random() * 1000000)
-  });
+  const updatedAccountMovementsConfig = {
+    ...accountMovementsTrendChartConfig,
+    data: [
+      { name: 'Jan', value: Math.floor(Math.random() * 1000000), color: '#3b82f6' },
+      { name: 'Feb', value: Math.floor(Math.random() * 1000000), color: '#3b82f6' },
+      { name: 'Mar', value: Math.floor(Math.random() * 1000000), color: '#3b82f6' },
+      { name: 'Apr', value: Math.floor(Math.random() * 1000000), color: '#3b82f6' },
+      { name: 'May', value: Math.floor(Math.random() * 1000000), color: '#3b82f6' },
+      { name: 'Jun', value: Math.floor(Math.random() * 1000000), color: '#3b82f6' }
+    ]
+  };
 
   // Set chart click handlers
-  updatedActivityChart.onSegmentClick = applyFilterAndSwitchView;
-  updatedAccountTypeChart.onSegmentClick = applyFilterAndSwitchView;
-  updatedMovementsTrendChart.onSegmentClick = applyFilterAndSwitchView;
+  updatedStatementActivityConfig.onSegmentClick = applyFilterAndSwitchView;
+  updatedAccountTypeConfig.onSegmentClick = applyFilterAndSwitchView;
+  updatedAccountMovementsConfig.onSegmentClick = applyFilterAndSwitchView;
 
   useEffect(() => {
     document.title = 'Account Statements | CBB Portal';
@@ -161,7 +204,7 @@ export default function AccountStatementsPage() {
               title="Statement Activity Overview"
               description="Debit vs credit turnover analysis"
               data={filteredData}
-              chartConfig={updatedActivityChart}
+              chartConfig={updatedStatementActivityConfig}
               defaultView="visual"
               showViewSwitcher={false}
             />
@@ -174,7 +217,7 @@ export default function AccountStatementsPage() {
                 { type: 'Settlement Accounts', count: stats['Settlement Accounts'], percentage: (stats['Settlement Accounts'] / filteredData.length) * 100 },
                 { type: 'Margin Accounts', count: stats['Margin Accounts'], percentage: (stats['Margin Accounts'] / filteredData.length) * 100 }
               ]}
-              chartConfig={updatedAccountTypeChart}
+              chartConfig={updatedAccountTypeConfig}
               defaultView="visual"
               showViewSwitcher={false}
             />
@@ -186,7 +229,7 @@ export default function AccountStatementsPage() {
             description="Track balance trends and account movements over time"
             data={filteredData}
             tableColumns={columns}
-            chartConfig={updatedMovementsTrendChart}
+            chartConfig={updatedAccountMovementsConfig}
             defaultView={viewMode}
             onChartClick={applyFilterAndSwitchView}
             showViewSwitcher={true}
