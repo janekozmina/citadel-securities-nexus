@@ -9,7 +9,7 @@ import { Switch } from '@/components/ui/switch';
 import { Badge } from '@/components/ui/badge';
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table';
 import { ChartContainer, ChartTooltip, ChartTooltipContent } from '@/components/ui/chart';
-import { ResponsiveContainer, BarChart, Bar, XAxis, YAxis, CartesianGrid, LineChart, Line } from 'recharts';
+import { ResponsiveContainer, BarChart, Bar, XAxis, YAxis, CartesianGrid, LineChart, Line, Legend } from 'recharts';
 import { Edit, Save, X, BarChart3, TrendingUp, Settings2 } from 'lucide-react';
 import { useBusinessDayEmulation } from '@/hooks/useBusinessDayEmulation';
 
@@ -320,6 +320,7 @@ const InstrumentTypesPage = () => {
                   />
                   <YAxis />
                   <ChartTooltip content={<ChartTooltipContent />} />
+                  <Legend />
                   <Bar dataKey="govBonds" fill="var(--color-govBonds)" name="Government Bonds" />
                   <Bar dataKey="corpBonds" fill="var(--color-corpBonds)" name="Corporate Bonds" />
                   <Bar dataKey="equities" fill="var(--color-equities)" name="Equities" />
