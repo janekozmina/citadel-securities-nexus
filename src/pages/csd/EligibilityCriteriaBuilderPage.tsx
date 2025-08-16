@@ -93,13 +93,7 @@ const EligibilityCriteriaBuilderPage = () => {
         description="Create and manage eligibility criteria for securities selection"
       />
 
-      <div className="flex justify-between items-center">
-        <div className="flex items-center gap-2">
-          <Button variant="outline" size="sm">
-            <Filter className="h-4 w-4 mr-2" />
-            Filter
-          </Button>
-        </div>
+      <div className="flex justify-end items-center">
         <Button onClick={handleCreateNew}>
           <Plus className="h-4 w-4 mr-2" />
           Create New Criteria
