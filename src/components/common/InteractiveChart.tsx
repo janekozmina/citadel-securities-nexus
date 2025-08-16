@@ -32,14 +32,14 @@ export function InteractiveChart({ config, className = "", showCard = true, titl
   };
 
   const renderPieChart = () => (
-    <PieChart margin={{ top: 20, right: 80, bottom: 60, left: 20 }}>
+    <PieChart margin={{ top: 10, right: 100, bottom: 80, left: 10 }}>
       <Pie
         data={config.data}
         cx="50%"
-        cy="45%"
+        cy="40%"
         labelLine={false}
         label={({ name, percent }) => `${name} ${(percent * 100).toFixed(0)}%`}
-        outerRadius={Math.min((config.height || 320) * 0.3, 100)}
+        outerRadius={Math.min((config.height || 320) * 0.25, 90)}
         fill="#8884d8"
         dataKey="value"
         onClick={handleSegmentClick}
@@ -56,8 +56,14 @@ export function InteractiveChart({ config, className = "", showCard = true, titl
       <Tooltip formatter={(value: any) => [value, 'Count']} />
       <Legend 
         verticalAlign="bottom" 
-        height={36}
-        wrapperStyle={{ paddingTop: '20px' }}
+        height={50}
+        wrapperStyle={{ 
+          paddingTop: '20px',
+          fontSize: '12px',
+          lineHeight: '16px'
+        }}
+        layout="horizontal"
+        align="center"
       />
     </PieChart>
   );
@@ -65,7 +71,7 @@ export function InteractiveChart({ config, className = "", showCard = true, titl
   const renderBarChart = () => (
     <BarChart 
       data={config.data} 
-      margin={{ top: 20, right: 30, bottom: 60, left: 20 }}
+      margin={{ top: 20, right: 30, bottom: 40, left: 20 }}
     >
       <XAxis 
         dataKey="name" 
@@ -73,15 +79,10 @@ export function InteractiveChart({ config, className = "", showCard = true, titl
         interval={0}
         angle={-45}
         textAnchor="end"
-        height={60}
+        height={40}
       />
       <YAxis tick={{ fontSize: 12 }} />
       <Tooltip formatter={(value: any) => [value.toLocaleString(), 'Amount']} />
-      <Legend 
-        verticalAlign="bottom" 
-        height={36}
-        wrapperStyle={{ paddingTop: '10px' }}
-      />
       <Bar 
         dataKey="value" 
         onClick={handleSegmentClick}

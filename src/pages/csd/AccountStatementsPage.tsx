@@ -87,7 +87,46 @@ export default function AccountStatementsPage() {
     applyFilterAndSwitchView
   } = useDashboardFilters(statements, accountStatementsConfig);
 
+  const [activityPeriod, setActivityPeriod] = useState('current-month');
+
+  
+  // Filter data based on activity period
+  const getFilteredDataByPeriod = (period: string) => {
+    const now = new Date();
+    let startDate: Date;
+    
+    switch (period) {
+      case 'previous-month':
+        startDate = new Date(now.getFullYear(), now.getMonth() - 1, 1);
+        break;
+      case 'last-3-months':
+        startDate = new Date(now.getFullYear(), now.getMonth() - 3, 1);
+        break;
+      case 'last-6-months':
+        startDate = new Date(now.getFullYear(), now.getMonth() - 6, 1);
+        break;
+      case 'current-quarter':
+        const quarter = Math.floor(now.getMonth() / 3);
+        startDate = new Date(now.getFullYear(), quarter * 3, 1);
+        break;
+      case 'current-year':
+        startDate = new Date(now.getFullYear(), 0, 1);
+        break;
+      case 'ytd':
+        startDate = new Date(now.getFullYear(), 0, 1);
+        break;
+      default: // current-month
+        startDate = new Date(now.getFullYear(), now.getMonth(), 1);
+    }
+    
+    return filteredData.filter(item => new Date(item.date) >= startDate);
+  };
+
+  const periodFilteredData = getFilteredDataByPeriod(activityPeriod);
   const stats = getStatementsStats(filteredData);
+
+  // Calculate activity stats based on period
+  const activityStats = getStatementsStats(periodFilteredData);
 
   // Remove titles from chart configs to avoid duplication and apply proper colors
   const colors = getChartColors();
@@ -98,14 +137,14 @@ export default function AccountStatementsPage() {
     data: [
       { 
         name: 'Debit Turnover', 
-        value: stats.debitTurnover, 
+        value: activityStats.debitTurnover, 
         color: chartColorSchemes.financial.debit, 
         filterKey: 'transactionType', 
         filterValue: 'debit' 
       },
       { 
         name: 'Credit Turnover', 
-        value: stats.creditTurnover, 
+        value: activityStats.creditTurnover, 
         color: chartColorSchemes.financial.credit, 
         filterKey: 'transactionType', 
         filterValue: 'credit' 
@@ -214,6 +253,8 @@ export default function AccountStatementsPage() {
               defaultView="visual"
               showViewSwitcher={false}
               titleFontSize="text-lg font-semibold"
+              showPeriodControl={true}
+              onPeriodChange={setActivityPeriod}
             />
 
             <ConfigurableDashboardSection

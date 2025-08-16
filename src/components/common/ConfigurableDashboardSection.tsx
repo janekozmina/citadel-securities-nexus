@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { Card, CardHeader, CardTitle, CardContent } from '@/components/ui/card';
 import { DashboardViewSwitcher } from './DashboardViewSwitcher';
+import { PeriodControl } from './PeriodControl';
 import { DataTable } from './DataTable';
 import { InteractiveChart, ChartConfig } from './InteractiveChart';
 
@@ -15,6 +16,8 @@ interface ConfigurableDashboardSectionProps {
   className?: string;
   showViewSwitcher?: boolean;
   titleFontSize?: string;
+  showPeriodControl?: boolean;
+  onPeriodChange?: (period: string) => void;
 }
 
 export function ConfigurableDashboardSection({
@@ -27,9 +30,19 @@ export function ConfigurableDashboardSection({
   onChartClick,
   className = "",
   showViewSwitcher = true,
-  titleFontSize = "text-lg"
+  titleFontSize = "text-lg",
+  showPeriodControl = false,
+  onPeriodChange
 }: ConfigurableDashboardSectionProps) {
   const [viewMode, setViewMode] = useState<'visual' | 'table'>(defaultView);
+  const [selectedPeriod, setSelectedPeriod] = useState('current-month');
+
+  const handlePeriodChange = (period: string) => {
+    setSelectedPeriod(period);
+    if (onPeriodChange) {
+      onPeriodChange(period);
+    }
+  };
 
   return (
     <Card className={className}>
@@ -41,12 +54,20 @@ export function ConfigurableDashboardSection({
               <p className="text-sm text-muted-foreground mt-1">{description}</p>
             )}
           </div>
-          {showViewSwitcher && tableColumns && (
-            <DashboardViewSwitcher
-              viewMode={viewMode}
-              onViewModeChange={setViewMode}
-            />
-          )}
+          <div className="flex items-center gap-4">
+            {showPeriodControl && (
+              <PeriodControl
+                value={selectedPeriod}
+                onValueChange={handlePeriodChange}
+              />
+            )}
+            {showViewSwitcher && tableColumns && (
+              <DashboardViewSwitcher
+                viewMode={viewMode}
+                onViewModeChange={setViewMode}
+              />
+            )}
+          </div>
         </div>
       </CardHeader>
       <CardContent>
