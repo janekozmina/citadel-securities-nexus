@@ -18,6 +18,7 @@ interface ConfigurableDashboardSectionProps {
   titleFontSize?: string;
   showPeriodControl?: boolean;
   onPeriodChange?: (period: string) => void;
+  pieChartSize?: 'small' | 'medium' | 'large' | 'full';
 }
 
 export function ConfigurableDashboardSection({
@@ -32,7 +33,8 @@ export function ConfigurableDashboardSection({
   showViewSwitcher = true,
   titleFontSize = "text-lg",
   showPeriodControl = false,
-  onPeriodChange
+  onPeriodChange,
+  pieChartSize = "medium"
 }: ConfigurableDashboardSectionProps) {
   const [viewMode, setViewMode] = useState<'visual' | 'table'>(defaultView);
   const [selectedPeriod, setSelectedPeriod] = useState('current-month');
@@ -75,6 +77,7 @@ export function ConfigurableDashboardSection({
           <InteractiveChart
             config={chartConfig}
             showCard={false}
+            pieChartSize={pieChartSize}
           />
         ) : (
           <DataTable

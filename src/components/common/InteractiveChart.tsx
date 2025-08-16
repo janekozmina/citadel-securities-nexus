@@ -22,24 +22,61 @@ interface InteractiveChartProps {
   className?: string;
   showCard?: boolean;
   titleFontSize?: string;
+  pieChartSize?: 'small' | 'medium' | 'large' | 'full';
 }
 
-export function InteractiveChart({ config, className = "", showCard = true, titleFontSize = "text-lg" }: InteractiveChartProps) {
+export function InteractiveChart({ config, className = "", showCard = true, titleFontSize = "text-lg", pieChartSize = "medium" }: InteractiveChartProps) {
   const handleSegmentClick = (segment: ChartSegment) => {
     if (config.onSegmentClick && segment.filterKey) {
       config.onSegmentClick(segment.filterKey, segment.filterValue);
     }
   };
 
+  // Configure pie chart sizing based on prop
+  const getPieChartConfig = () => {
+    switch (pieChartSize) {
+      case 'small':
+        return {
+          margin: { top: 10, right: 60, bottom: 80, left: 10 },
+          cy: "40%",
+          outerRadius: Math.min((config.height || 320) * 0.2, 60),
+          legendHeight: 50
+        };
+      case 'large':
+        return {
+          margin: { top: 20, right: 140, bottom: 100, left: 20 },
+          cy: "45%",
+          outerRadius: Math.min((config.height || 320) * 0.35, 120),
+          legendHeight: 70
+        };
+      case 'full':
+        return {
+          margin: { top: 20, right: 40, bottom: 80, left: 20 },
+          cy: "40%",
+          outerRadius: Math.min((config.height || 420) * 0.4, 150),
+          legendHeight: 60
+        };
+      default: // medium
+        return {
+          margin: { top: 10, right: 120, bottom: 100, left: 10 },
+          cy: "35%",
+          outerRadius: Math.min((config.height || 320) * 0.22, 80),
+          legendHeight: 60
+        };
+    }
+  };
+
+  const pieConfig = getPieChartConfig();
+
   const renderPieChart = () => (
-    <PieChart margin={{ top: 10, right: 120, bottom: 100, left: 10 }}>
+    <PieChart margin={pieConfig.margin}>
       <Pie
         data={config.data}
         cx="50%"
-        cy="35%"
+        cy={pieConfig.cy}
         labelLine={false}
         label={({ name, percent }) => `${(percent * 100).toFixed(0)}%`}
-        outerRadius={Math.min((config.height || 320) * 0.22, 80)}
+        outerRadius={pieConfig.outerRadius}
         fill="#8884d8"
         dataKey="value"
         onClick={handleSegmentClick}
@@ -56,9 +93,9 @@ export function InteractiveChart({ config, className = "", showCard = true, titl
       <Tooltip formatter={(value: any) => [value, 'Count']} />
       <Legend 
         verticalAlign="bottom" 
-        height={60}
+        height={pieConfig.legendHeight}
         wrapperStyle={{ 
-          paddingTop: '30px',
+          paddingTop: '20px',
           fontSize: '12px',
           lineHeight: '18px',
           whiteSpace: 'normal'

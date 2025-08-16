@@ -185,23 +185,37 @@ export default function AccountStatementsPage() {
       { 
         name: 'Avg Debit', 
         value: Math.round(activityStats.avgDebitAmount), 
-        color: colors.getPieColors(6)[3], 
+        color: colors.getPieColors(8)[3], 
         filterKey: 'transactionType', 
         filterValue: 'avg-debit' 
       },
       { 
         name: 'Avg Credit', 
         value: Math.round(activityStats.avgCreditAmount), 
-        color: colors.getPieColors(6)[4], 
+        color: colors.getPieColors(8)[4], 
         filterKey: 'transactionType', 
         filterValue: 'avg-credit' 
       },
       { 
         name: 'Total Trans.', 
         value: activityStats.totalTransactions, 
-        color: colors.getPieColors(6)[5], 
+        color: colors.getPieColors(8)[5], 
         filterKey: 'transactionType', 
         filterValue: 'total-transactions' 
+      },
+      { 
+        name: 'Debit Count', 
+        value: activityStats.debitTransactions, 
+        color: colors.getPieColors(8)[6], 
+        filterKey: 'transactionType', 
+        filterValue: 'debit-count' 
+      },
+      { 
+        name: 'Credit Count', 
+        value: activityStats.creditTransactions, 
+        color: colors.getPieColors(8)[7], 
+        filterKey: 'transactionType', 
+        filterValue: 'credit-count' 
       }
     ]
   };
@@ -323,6 +337,7 @@ export default function AccountStatementsPage() {
               defaultView="visual"
               showViewSwitcher={false}
               titleFontSize="text-lg font-semibold"
+              pieChartSize="full"
             />
           </div>
 
