@@ -78,6 +78,7 @@ const routeMap: Record<string, RouteInfo> = {
   '/reporting': { path: '/reporting', label: 'Reporting & Compliance', parent: '/csd' },
   '/collateral/manager': { path: '/collateral/manager', label: 'Collateral Manager', parent: '/csd' },
   '/collateral/optimization': { path: '/collateral/optimization', label: 'Collateral Optimization', parent: '/csd' },
+  '/collateral/haircut-matrix': { path: '/collateral/haircut-matrix', label: 'Haircut Matrix', parent: '/collateral' },
   
   // CMS Routes
   '/cms': { path: '/cms', label: 'CMS' },
@@ -110,6 +111,7 @@ const routeMap: Record<string, RouteInfo> = {
   
   // Reports
   '/reports': { path: '/reports', label: 'Reports' },
+  '/collateral': { path: '/collateral', label: 'Collateral Management' },
 };
 
 export function Breadcrumbs() {
