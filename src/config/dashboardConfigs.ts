@@ -252,7 +252,7 @@ export const accountStatementsMetricsConfig: MetricConfig[] = [
 export const statementActivityChartConfig: ChartConfig = {
   type: 'bar',
   title: 'Statement Activity Overview',
-  height: 380,
+  height: 420,
   data: [
     { name: 'Debit Turnover', value: 0, color: chartColorSchemes.financial.debit, filterKey: 'transactionType', filterValue: 'debit' },
     { name: 'Credit Turnover', value: 0, color: chartColorSchemes.financial.credit, filterKey: 'transactionType', filterValue: 'credit' }
@@ -262,7 +262,7 @@ export const statementActivityChartConfig: ChartConfig = {
 export const accountTypeDistributionChartConfig: ChartConfig = {
   type: 'pie',
   title: 'Account Type Distribution',
-  height: 380,
+  height: 420,
   data: [
     { name: 'Custody Accounts', value: 0, color: chartColorSchemes.accountTypes.custody, filterKey: 'accountType', filterValue: 'Custody Accounts' },
     { name: 'Settlement Accounts', value: 0, color: chartColorSchemes.accountTypes.settlement, filterKey: 'accountType', filterValue: 'Settlement Accounts' },

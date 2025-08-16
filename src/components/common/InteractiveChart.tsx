@@ -32,14 +32,14 @@ export function InteractiveChart({ config, className = "", showCard = true, titl
   };
 
   const renderPieChart = () => (
-    <PieChart margin={{ top: 10, right: 100, bottom: 80, left: 10 }}>
+    <PieChart margin={{ top: 10, right: 120, bottom: 100, left: 10 }}>
       <Pie
         data={config.data}
         cx="50%"
-        cy="40%"
+        cy="35%"
         labelLine={false}
-        label={({ name, percent }) => `${name} ${(percent * 100).toFixed(0)}%`}
-        outerRadius={Math.min((config.height || 320) * 0.25, 90)}
+        label={({ name, percent }) => `${(percent * 100).toFixed(0)}%`}
+        outerRadius={Math.min((config.height || 320) * 0.22, 80)}
         fill="#8884d8"
         dataKey="value"
         onClick={handleSegmentClick}
@@ -56,14 +56,16 @@ export function InteractiveChart({ config, className = "", showCard = true, titl
       <Tooltip formatter={(value: any) => [value, 'Count']} />
       <Legend 
         verticalAlign="bottom" 
-        height={50}
+        height={60}
         wrapperStyle={{ 
-          paddingTop: '20px',
+          paddingTop: '30px',
           fontSize: '12px',
-          lineHeight: '16px'
+          lineHeight: '18px',
+          whiteSpace: 'normal'
         }}
         layout="horizontal"
         align="center"
+        iconType="square"
       />
     </PieChart>
   );

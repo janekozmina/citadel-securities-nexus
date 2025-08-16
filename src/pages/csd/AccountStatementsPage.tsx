@@ -53,11 +53,30 @@ const getStatementsStats = (data: any[]) => {
   const creditTurnover = data.reduce((sum, item) => sum + item.credit, 0);
   const closingBalance = data.reduce((sum, item) => sum + item.closingBalance, 0);
   
+  // Enhanced activity breakdown
+  const totalTransactions = data.filter(item => item.debit > 0 || item.credit > 0).length;
+  const debitTransactions = data.filter(item => item.debit > 0).length;
+  const creditTransactions = data.filter(item => item.credit > 0).length;
+  const avgDebitAmount = debitTransactions > 0 ? debitTurnover / debitTransactions : 0;
+  const avgCreditAmount = creditTransactions > 0 ? creditTurnover / creditTransactions : 0;
+  const netTurnover = creditTurnover - debitTurnover;
+  
   // Account type distribution
   const accountTypeStats = data.reduce((acc, item) => {
     acc[item.accountType] = (acc[item.accountType] || 0) + 1;
     return acc;
   }, {} as Record<string, number>);
+  
+  // Activity by currency
+  const currencyStats = data.reduce((acc, item) => {
+    if (!acc[item.currency]) {
+      acc[item.currency] = { debit: 0, credit: 0, count: 0 };
+    }
+    acc[item.currency].debit += item.debit;
+    acc[item.currency].credit += item.credit;
+    acc[item.currency].count += 1;
+    return acc;
+  }, {} as Record<string, { debit: number; credit: number; count: number }>);
   
   return {
     totalSecuritiesCustody,
@@ -65,6 +84,13 @@ const getStatementsStats = (data: any[]) => {
     debitTurnover,
     creditTurnover,
     closingBalance,
+    totalTransactions,
+    debitTransactions,
+    creditTransactions,
+    avgDebitAmount,
+    avgCreditAmount,
+    netTurnover,
+    currencyStats,
     'Custody Accounts': accountTypeStats['Custody Accounts'] || 0,
     'Settlement Accounts': accountTypeStats['Settlement Accounts'] || 0,
     'Margin Accounts': accountTypeStats['Margin Accounts'] || 0
@@ -136,18 +162,46 @@ export default function AccountStatementsPage() {
     title: '', // Remove title since ConfigurableDashboardSection provides it
     data: [
       { 
-        name: 'Debit Turnover', 
+        name: 'Total Debit', 
         value: activityStats.debitTurnover, 
         color: chartColorSchemes.financial.debit, 
         filterKey: 'transactionType', 
         filterValue: 'debit' 
       },
       { 
-        name: 'Credit Turnover', 
+        name: 'Total Credit', 
         value: activityStats.creditTurnover, 
         color: chartColorSchemes.financial.credit, 
         filterKey: 'transactionType', 
         filterValue: 'credit' 
+      },
+      { 
+        name: 'Net Flow', 
+        value: Math.abs(activityStats.netTurnover), 
+        color: activityStats.netTurnover >= 0 ? chartColorSchemes.financial.credit : chartColorSchemes.financial.debit, 
+        filterKey: 'transactionType', 
+        filterValue: 'net' 
+      },
+      { 
+        name: 'Avg Debit', 
+        value: Math.round(activityStats.avgDebitAmount), 
+        color: colors.getPieColors(6)[3], 
+        filterKey: 'transactionType', 
+        filterValue: 'avg-debit' 
+      },
+      { 
+        name: 'Avg Credit', 
+        value: Math.round(activityStats.avgCreditAmount), 
+        color: colors.getPieColors(6)[4], 
+        filterKey: 'transactionType', 
+        filterValue: 'avg-credit' 
+      },
+      { 
+        name: 'Total Trans.', 
+        value: activityStats.totalTransactions, 
+        color: colors.getPieColors(6)[5], 
+        filterKey: 'transactionType', 
+        filterValue: 'total-transactions' 
       }
     ]
   };
@@ -247,8 +301,8 @@ export default function AccountStatementsPage() {
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
             <ConfigurableDashboardSection
               title="Statement Activity Overview"
-              description="Debit vs credit turnover analysis"
-              data={filteredData}
+              description="Comprehensive analysis of transaction flows, volumes, and averages"
+              data={periodFilteredData}
               chartConfig={updatedStatementActivityConfig}
               defaultView="visual"
               showViewSwitcher={false}
