@@ -4,6 +4,7 @@ import { DataTable } from '@/components/common/DataTable';
 import { DashboardViewSwitcher } from '@/components/common/DashboardViewSwitcher';
 import { QuickActionsManager } from '@/components/common/QuickActionsManager';
 import { PageHeader } from '@/components/common/PageHeader';
+import { TransactionQuickActionsDialogs } from '@/components/dialogs/TransactionQuickActionsDialogs';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
@@ -160,6 +161,9 @@ export default function TransfersPage() {
   const [viewMode, setViewMode] = useState<'visual' | 'table'>('visual'); // Default to visual dashboard
   const [activeTab, setActiveTab] = useState('all');
   
+  // Dialog state for quick actions
+  const [activeDialog, setActiveDialog] = useState<'general-transfer' | 'check-funds' | 'liquidity-source' | 'manual-gridlock' | 'submit-transfer-instruction' | null>(null);
+  
   // Filter states like Account Management
   const [filterType, setFilterType] = useState('all');
   const [filterStatus, setFilterStatus] = useState('all');
@@ -244,6 +248,15 @@ export default function TransfersPage() {
     } else {
       setSortField(field);
       setSortDirection('asc');
+    }
+  };
+
+  // Handle quick action clicks
+  const handleQuickActionClick = (actionId: string) => {
+    if (actionId === 'submit-transfer-instruction') {
+      setActiveDialog('submit-transfer-instruction');
+    } else {
+      console.log(`Quick action clicked: ${actionId}`);
     }
   };
 
@@ -550,9 +563,16 @@ export default function TransfersPage() {
           <QuickActionsManager 
             pageKey="transfers"
             systemType="csd"
+            onActionClick={handleQuickActionClick}
           />
         </div>
       </div>
+
+      {/* Quick Actions Dialogs */}
+      <TransactionQuickActionsDialogs
+        activeDialog={activeDialog}
+        onClose={() => setActiveDialog(null)}
+      />
     </div>
   );
 }
