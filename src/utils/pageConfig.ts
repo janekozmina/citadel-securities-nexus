@@ -21,10 +21,7 @@ export function getPageTitle(pathname: string): string {
   const secondaryMatch = findInNavigationTree(secondaryItems, pathname);
 
   if (secondaryMatch) {
-    // For nested pages, show "Primary — Secondary" format
-    if (primaryMatch.id === 'rtgs' || primaryMatch.id === 'csd' || primaryMatch.id === 'cms') {
-      return `${primaryMatch.title} — ${secondaryMatch.title}`;
-    }
+    // Return just the menu item title without system prefix
     return secondaryMatch.title;
   }
 
