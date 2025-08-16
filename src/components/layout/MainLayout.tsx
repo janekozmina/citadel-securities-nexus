@@ -92,7 +92,7 @@ function MainLayoutContent({ children }: MainLayoutProps) {
           style={{ height: themeConfig.layout.header.height }}
         >
           <DashboardHeader 
-            showQuickActions={shouldShowQuickActions}
+            showQuickActions={false}
             pageKey={getPageKey()}
             systemType={getSystemType()}
           />
