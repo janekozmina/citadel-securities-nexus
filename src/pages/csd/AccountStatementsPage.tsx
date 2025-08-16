@@ -88,9 +88,10 @@ export default function AccountStatementsPage() {
 
   const stats = getStatementsStats(filteredData);
 
-  // Update chart data with actual stats
+  // Remove titles from chart configs to avoid duplication
   const updatedStatementActivityConfig = {
     ...statementActivityChartConfig,
+    title: '', // Remove title since ConfigurableDashboardSection provides it
     data: [
       { 
         name: 'Debit Turnover', 
@@ -111,6 +112,7 @@ export default function AccountStatementsPage() {
   
   const updatedAccountTypeConfig = {
     ...accountTypeDistributionChartConfig,
+    title: '', // Remove title since ConfigurableDashboardSection provides it
     data: [
       { 
         name: 'Custody Accounts', 
@@ -138,6 +140,7 @@ export default function AccountStatementsPage() {
   
   const updatedAccountMovementsConfig = {
     ...accountMovementsTrendChartConfig,
+    title: '', // Remove title since ConfigurableDashboardSection provides it
     data: [
       { name: 'Jan', value: Math.floor(Math.random() * 1000000), color: '#3b82f6' },
       { name: 'Feb', value: Math.floor(Math.random() * 1000000), color: '#3b82f6' },
@@ -207,6 +210,7 @@ export default function AccountStatementsPage() {
               chartConfig={updatedStatementActivityConfig}
               defaultView="visual"
               showViewSwitcher={false}
+              titleFontSize="text-lg font-semibold"
             />
 
             <ConfigurableDashboardSection
@@ -220,6 +224,7 @@ export default function AccountStatementsPage() {
               chartConfig={updatedAccountTypeConfig}
               defaultView="visual"
               showViewSwitcher={false}
+              titleFontSize="text-lg font-semibold"
             />
           </div>
 
@@ -233,6 +238,7 @@ export default function AccountStatementsPage() {
             defaultView={viewMode}
             onChartClick={applyFilterAndSwitchView}
             showViewSwitcher={true}
+            titleFontSize="text-lg font-semibold"
           />
         </div>
 

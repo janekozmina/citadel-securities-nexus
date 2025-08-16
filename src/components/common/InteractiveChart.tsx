@@ -20,9 +20,11 @@ export interface ChartConfig {
 interface InteractiveChartProps {
   config: ChartConfig;
   className?: string;
+  showCard?: boolean;
+  titleFontSize?: string;
 }
 
-export function InteractiveChart({ config, className = "" }: InteractiveChartProps) {
+export function InteractiveChart({ config, className = "", showCard = true, titleFontSize = "text-lg" }: InteractiveChartProps) {
   const handleSegmentClick = (segment: ChartSegment) => {
     if (config.onSegmentClick && segment.filterKey) {
       config.onSegmentClick(segment.filterKey, segment.filterValue);
@@ -85,17 +87,25 @@ export function InteractiveChart({ config, className = "" }: InteractiveChartPro
     }
   };
 
+  const chartContent = (
+    <div style={{ height: config.height || 320 }}>
+      <ResponsiveContainer width="100%" height="100%">
+        {renderChart()}
+      </ResponsiveContainer>
+    </div>
+  );
+
+  if (!showCard) {
+    return <div className={className}>{chartContent}</div>;
+  }
+
   return (
     <Card className={className}>
       <CardHeader>
-        <CardTitle>{config.title}</CardTitle>
+        <CardTitle className={titleFontSize}>{config.title}</CardTitle>
       </CardHeader>
       <CardContent>
-        <div style={{ height: config.height || 320 }}>
-          <ResponsiveContainer width="100%" height="100%">
-            {renderChart()}
-          </ResponsiveContainer>
-        </div>
+        {chartContent}
       </CardContent>
     </Card>
   );

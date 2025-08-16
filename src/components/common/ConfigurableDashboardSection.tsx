@@ -14,6 +14,7 @@ interface ConfigurableDashboardSectionProps {
   onChartClick?: (filterKey?: string, filterValue?: string) => void;
   className?: string;
   showViewSwitcher?: boolean;
+  titleFontSize?: string;
 }
 
 export function ConfigurableDashboardSection({
@@ -25,7 +26,8 @@ export function ConfigurableDashboardSection({
   defaultView = 'visual',
   onChartClick,
   className = "",
-  showViewSwitcher = true
+  showViewSwitcher = true,
+  titleFontSize = "text-lg"
 }: ConfigurableDashboardSectionProps) {
   const [viewMode, setViewMode] = useState<'visual' | 'table'>(defaultView);
 
@@ -34,7 +36,7 @@ export function ConfigurableDashboardSection({
       <CardHeader className="pb-3">
         <div className="flex items-center justify-between">
           <div>
-            <CardTitle>{title}</CardTitle>
+            <CardTitle className={titleFontSize}>{title}</CardTitle>
             {description && (
               <p className="text-sm text-muted-foreground mt-1">{description}</p>
             )}
@@ -51,6 +53,7 @@ export function ConfigurableDashboardSection({
         {viewMode === 'visual' || !tableColumns ? (
           <InteractiveChart
             config={chartConfig}
+            showCard={false}
           />
         ) : (
           <DataTable
