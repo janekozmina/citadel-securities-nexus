@@ -311,35 +311,6 @@ export default function AccountStatementsPage() {
             onMetricClick={applyFilterAndSwitchView}
           />
 
-          {/* Dashboard Highlights */}
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-            <ConfigurableDashboardSection
-              title="Statement Activity Overview"
-              description="Comprehensive analysis of transaction flows, volumes, and averages"
-              data={periodFilteredData}
-              chartConfig={updatedStatementActivityConfig}
-              defaultView="visual"
-              showViewSwitcher={false}
-              titleFontSize="text-lg font-semibold"
-              showPeriodControl={true}
-              onPeriodChange={setActivityPeriod}
-            />
-
-            <ConfigurableDashboardSection
-              title="Account Type Distribution"
-              description="Distribution by account categories"
-              data={[
-                { type: 'Custody Accounts', count: stats['Custody Accounts'], percentage: (stats['Custody Accounts'] / filteredData.length) * 100 },
-                { type: 'Settlement Accounts', count: stats['Settlement Accounts'], percentage: (stats['Settlement Accounts'] / filteredData.length) * 100 },
-                { type: 'Margin Accounts', count: stats['Margin Accounts'], percentage: (stats['Margin Accounts'] / filteredData.length) * 100 }
-              ]}
-              chartConfig={updatedAccountTypeConfig}
-              defaultView="visual"
-              showViewSwitcher={false}
-              titleFontSize="text-lg font-semibold"
-              pieChartSize="full"
-            />
-          </div>
 
           {/* Account Movements Dashboard */}
           <ConfigurableDashboardSection
