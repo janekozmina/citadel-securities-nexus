@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { DashboardMetricsGrid } from '@/components/common/DashboardMetricsGrid';
+import { MetricCardsSection } from '@/components/common/MetricCardsSection';
 import { ConfigurableDashboardSection } from '@/components/common/ConfigurableDashboardSection';
 import { InteractiveChart } from '@/components/common/InteractiveChart';
 import { DataTable } from '@/components/common/DataTable';
@@ -133,8 +133,8 @@ export default function AccountStatementsPage() {
       
       <div className="flex gap-6">
         <div className="flex-1 space-y-6">
-          {/* KPI Metrics Cards */}
-          <DashboardMetricsGrid
+          {/* Top Metrics Cards */}
+          <MetricCardsSection
             metricsConfig={accountStatementsMetricsConfig}
             data={filteredData}
             stats={stats}
@@ -147,15 +147,9 @@ export default function AccountStatementsPage() {
               title="Statement Activity Overview"
               description="Debit vs credit turnover analysis"
               data={filteredData}
-              tableColumns={[
-                { key: 'accountCode', header: 'Account Code' },
-                { key: 'debit', header: 'Debit Turnover', formatter: (value: number) => value > 0 ? `BHD ${value.toLocaleString()}` : '-' },
-                { key: 'credit', header: 'Credit Turnover', formatter: (value: number) => value > 0 ? `BHD ${value.toLocaleString()}` : '-' },
-                { key: 'accountType', header: 'Account Type' }
-              ]}
               chartConfig={updatedActivityChart}
               defaultView="visual"
-              onChartClick={applyFilterAndSwitchView}
+              showViewSwitcher={false}
             />
 
             <ConfigurableDashboardSection
@@ -166,14 +160,9 @@ export default function AccountStatementsPage() {
                 { type: 'Settlement Accounts', count: stats['Settlement Accounts'], percentage: (stats['Settlement Accounts'] / filteredData.length) * 100 },
                 { type: 'Margin Accounts', count: stats['Margin Accounts'], percentage: (stats['Margin Accounts'] / filteredData.length) * 100 }
               ]}
-              tableColumns={[
-                { key: 'type', header: 'Account Type' },
-                { key: 'count', header: 'Count' },
-                { key: 'percentage', header: 'Percentage', formatter: (value: number) => `${value.toFixed(1)}%` }
-              ]}
               chartConfig={updatedAccountTypeChart}
               defaultView="visual"
-              onChartClick={applyFilterAndSwitchView}
+              showViewSwitcher={false}
             />
           </div>
 
@@ -186,6 +175,7 @@ export default function AccountStatementsPage() {
             chartConfig={updatedMovementsTrendChart}
             defaultView={viewMode}
             onChartClick={applyFilterAndSwitchView}
+            showViewSwitcher={true}
           />
         </div>
 

@@ -11,6 +11,7 @@ import { ArrowUpDown, Calculator, Pause, Eye, BarChart3, TableIcon, AlertTriangl
 import portalConfig from '@/config/portalConfig';
 import { QuickActionsManager } from '@/components/common/QuickActionsManager';
 import { PageHeader } from '@/components/common/PageHeader';
+import { MetricCardsSection } from '@/components/common/MetricCardsSection';
 
 // Generate account data using config
 const generateAccountData = () => {
@@ -137,6 +138,44 @@ export default function AccountManagementPage() {
       <div className="space-y-6">
         <PageHeader />
 
+        {/* Top Metrics Cards */}
+        <MetricCardsSection
+          metricsConfig={[
+            {
+              key: 'totalAccounts',
+              title: 'Total Accounts',
+              iconName: 'Users'
+            },
+            {
+              key: 'totalBalance',
+              title: 'Total Balance',
+              valueFormatter: (value) => `${currencySymbol} ${value.toLocaleString()}`,
+              iconName: 'DollarSign'
+            },
+            {
+              key: 'activeAccounts',
+              title: 'Active Accounts',
+              iconName: 'CheckCircle',
+              iconColor: 'text-green-600',
+              textColor: 'text-green-600'
+            },
+            {
+              key: 'highRiskAccounts',
+              title: 'High Risk Accounts',
+              iconName: 'AlertTriangle',
+              iconColor: 'text-red-600',
+              textColor: 'text-red-600'
+            }
+          ]}
+          data={accountsData}
+          stats={{
+            totalAccounts: accountsData.length,
+            totalBalance: totalBalance,
+            activeAccounts: accountsData.filter(a => a.availableBalance > 0).length,
+            highRiskAccounts: riskData.high
+          }}
+        />
+
         {/* View Mode Toggle - Fixed positioning */}
         <div className="flex items-center gap-2 min-h-[40px] mb-6">
           <span className="text-sm font-medium text-slate-700">View Mode:</span>
@@ -223,34 +262,6 @@ export default function AccountManagementPage() {
             {/* Risk Dashboard View */}
             {viewMode === 'visual' && (
               <div className="space-y-6">
-                {/* Risk Summary Cards */}
-                <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
-                  <Card>
-                    <CardContent className="p-4">
-                      <div className="text-sm font-medium text-slate-600 mb-2">Total Accounts</div>
-                      <div className="text-2xl font-bold">{accountsData.length}</div>
-                    </CardContent>
-                  </Card>
-                  <Card>
-                    <CardContent className="p-4">
-                      <div className="text-sm font-medium text-slate-600 mb-2">Total Balance</div>
-                      <div className="text-2xl font-bold">{currencySymbol} {totalBalance.toLocaleString()}</div>
-                    </CardContent>
-                  </Card>
-                  <Card>
-                    <CardContent className="p-4">
-                      <div className="text-sm font-medium text-slate-600 mb-2">Active Accounts</div>
-                      <div className="text-2xl font-bold text-green-600">{accountsData.filter(a => a.availableBalance > 0).length}</div>
-                    </CardContent>
-                  </Card>
-                  <Card>
-                    <CardContent className="p-4">
-                      <div className="text-sm font-medium text-slate-600 mb-2">High Risk Accounts</div>
-                      <div className="text-2xl font-bold text-red-600">{riskData.high}</div>
-                    </CardContent>
-                  </Card>
-                </div>
-
                 {/* Risk Indicator Gauge */}
                 <Card>
                   <CardHeader>

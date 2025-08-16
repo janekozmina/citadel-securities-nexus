@@ -8,11 +8,12 @@ interface ConfigurableDashboardSectionProps {
   title: string;
   description?: string;
   data: any[];
-  tableColumns: any[];
+  tableColumns?: any[];
   chartConfig: ChartConfig;
   defaultView?: 'visual' | 'table';
   onChartClick?: (filterKey?: string, filterValue?: string) => void;
   className?: string;
+  showViewSwitcher?: boolean;
 }
 
 export function ConfigurableDashboardSection({
@@ -23,7 +24,8 @@ export function ConfigurableDashboardSection({
   chartConfig,
   defaultView = 'visual',
   onChartClick,
-  className = ""
+  className = "",
+  showViewSwitcher = true
 }: ConfigurableDashboardSectionProps) {
   const [viewMode, setViewMode] = useState<'visual' | 'table'>(defaultView);
 
@@ -37,14 +39,16 @@ export function ConfigurableDashboardSection({
               <p className="text-sm text-muted-foreground mt-1">{description}</p>
             )}
           </div>
-          <DashboardViewSwitcher
-            viewMode={viewMode}
-            onViewModeChange={setViewMode}
-          />
+          {showViewSwitcher && tableColumns && (
+            <DashboardViewSwitcher
+              viewMode={viewMode}
+              onViewModeChange={setViewMode}
+            />
+          )}
         </div>
       </CardHeader>
       <CardContent>
-        {viewMode === 'visual' ? (
+        {viewMode === 'visual' || !tableColumns ? (
           <InteractiveChart
             config={chartConfig}
           />
