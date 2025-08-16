@@ -114,6 +114,7 @@ export const EligibilityCriteriaBuilderDialog = ({
 }: EligibilityCriteriaBuilderDialogProps) => {
   const [name, setName] = useState(editingCriteria?.name || '');
   const [description, setDescription] = useState(editingCriteria?.description || '');
+  const [status, setStatus] = useState<'Active' | 'Inactive' | 'Draft'>(editingCriteria?.status || 'Draft');
   const [conditions, setConditions] = useState<Condition[]>([]);
   const [showAttributeSelector, setShowAttributeSelector] = useState(false);
   const [selectedCategory, setSelectedCategory] = useState<string>('');
@@ -153,19 +154,20 @@ export const EligibilityCriteriaBuilderDialog = ({
     }
   };
 
-  const filteredAttributes = selectedCategory
-    ? ATTRIBUTE_CATEGORIES[selectedCategory as keyof typeof ATTRIBUTE_CATEGORIES]?.filter(attr =>
+  // Get all attributes for search when no category is selected
+  const allAttributes = Object.values(ATTRIBUTE_CATEGORIES).flat();
+  
+  const filteredAttributes = searchTerm
+    ? allAttributes.filter(attr =>
         attr.toLowerCase().includes(searchTerm.toLowerCase())
-      ) || []
+      )
+    : selectedCategory
+    ? ATTRIBUTE_CATEGORIES[selectedCategory as keyof typeof ATTRIBUTE_CATEGORIES] || []
     : [];
-
-  const allAttributes = Object.values(ATTRIBUTE_CATEGORIES).flat().filter(attr =>
-    attr.toLowerCase().includes(searchTerm.toLowerCase())
-  );
 
   const handleSave = () => {
     // Handle save logic here
-    console.log('Saving criteria:', { name, description, conditions });
+    console.log('Saving criteria:', { name, description, status, conditions });
     onClose();
   };
 
@@ -198,8 +200,8 @@ export const EligibilityCriteriaBuilderDialog = ({
               />
             </div>
 
-            {!selectedCategory ? (
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
+            {!selectedCategory && !searchTerm ? (
+              <div className="grid grid-cols-2 gap-3">
                 {Object.keys(ATTRIBUTE_CATEGORIES).map((category) => (
                   <Card
                     key={category}
@@ -222,19 +224,21 @@ export const EligibilityCriteriaBuilderDialog = ({
               </div>
             ) : (
               <div>
-                <div className="flex items-center gap-2 mb-4">
-                  <Button
-                    variant="ghost"
-                    size="sm"
-                    onClick={() => setSelectedCategory('')}
-                  >
-                    <ArrowLeft className="h-4 w-4" />
-                  </Button>
-                  <h3 className="font-medium">{selectedCategory}</h3>
-                </div>
+                {selectedCategory && !searchTerm && (
+                  <div className="flex items-center gap-2 mb-4">
+                    <Button
+                      variant="ghost"
+                      size="sm"
+                      onClick={() => setSelectedCategory('')}
+                    >
+                      <ArrowLeft className="h-4 w-4" />
+                    </Button>
+                    <h3 className="font-medium">{selectedCategory}</h3>
+                  </div>
+                )}
                 <ScrollArea className="h-96">
-                  <div className="grid grid-cols-1 gap-2">
-                    {(searchTerm ? allAttributes : filteredAttributes).map((attribute) => (
+                  <div className="grid grid-cols-2 gap-2">
+                    {filteredAttributes.map((attribute) => (
                       <Button
                         key={attribute}
                         variant="ghost"
@@ -243,7 +247,7 @@ export const EligibilityCriteriaBuilderDialog = ({
                       >
                         <div className="text-left">
                           <div className="font-medium">{attribute}</div>
-                          {searchTerm && !filteredAttributes.includes(attribute) && (
+                          {searchTerm && (
                             <div className="text-xs text-muted-foreground">
                               {Object.entries(ATTRIBUTE_CATEGORIES).find(([, attrs]) => 
                                 attrs.includes(attribute)
@@ -285,15 +289,29 @@ export const EligibilityCriteriaBuilderDialog = ({
                 />
               </div>
               <div className="space-y-2">
-                <Label htmlFor="description">Description</Label>
-                <Textarea
-                  id="description"
-                  value={description}
-                  onChange={(e) => setDescription(e.target.value)}
-                  placeholder="Enter criteria description"
-                  rows={3}
-                />
+                <Label htmlFor="status">Status</Label>
+                <Select value={status} onValueChange={(value: 'Active' | 'Inactive' | 'Draft') => setStatus(value)}>
+                  <SelectTrigger>
+                    <SelectValue />
+                  </SelectTrigger>
+                  <SelectContent>
+                    <SelectItem value="Draft">Draft</SelectItem>
+                    <SelectItem value="Active">Active</SelectItem>
+                    <SelectItem value="Inactive">Inactive</SelectItem>
+                  </SelectContent>
+                </Select>
               </div>
+            </div>
+            
+            <div className="space-y-2">
+              <Label htmlFor="description">Description</Label>
+              <Textarea
+                id="description"
+                value={description}
+                onChange={(e) => setDescription(e.target.value)}
+                placeholder="Enter criteria description"
+                rows={3}
+              />
             </div>
 
             <div className="space-y-4">
