@@ -1,4 +1,6 @@
 import React, { useState, useMemo } from 'react';
+import { PageHeader } from '@/components/common/PageHeader';
+import { PeriodControl } from '@/components/common/PeriodControl';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
@@ -7,8 +9,9 @@ import { Switch } from '@/components/ui/switch';
 import { Badge } from '@/components/ui/badge';
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table';
 import { ChartContainer, ChartTooltip, ChartTooltipContent } from '@/components/ui/chart';
-import { ResponsiveContainer, BarChart, Bar, XAxis, YAxis, CartesianGrid } from 'recharts';
-import { Edit, Save, X, BarChart3 } from 'lucide-react';
+import { ResponsiveContainer, BarChart, Bar, XAxis, YAxis, CartesianGrid, LineChart, Line } from 'recharts';
+import { Edit, Save, X, BarChart3, TrendingUp, Settings2 } from 'lucide-react';
+import { useBusinessDayEmulation } from '@/hooks/useBusinessDayEmulation';
 
 interface InstrumentType {
   code: string;
@@ -56,14 +59,29 @@ interface InstrumentType {
   isRpuForTcv: boolean;
 }
 
-// Sample data for dashboard
-const usageData = [
-  { type: 'Government Bonds', count: 245, percentage: 35 },
-  { type: 'Corporate Bonds', count: 189, percentage: 27 },
-  { type: 'Equities', count: 134, percentage: 19 },
-  { type: 'Sukuk', count: 87, percentage: 12 },
-  { type: 'Money Market', count: 45, percentage: 7 }
-];
+// Sample data for dashboard with periods
+const generateUsageData = (period: string) => {
+  const baseData = {
+    'current-month': [
+      { period: 'Week 1', govBonds: 245, corpBonds: 189, equities: 134, sukuk: 87, mmkt: 45 },
+      { period: 'Week 2', govBonds: 267, corpBonds: 203, equities: 142, sukuk: 93, mmkt: 52 },
+      { period: 'Week 3', govBonds: 289, corpBonds: 218, equities: 156, sukuk: 98, mmkt: 48 },
+      { period: 'Week 4', govBonds: 301, corpBonds: 234, equities: 167, sukuk: 104, mmkt: 55 }
+    ],
+    'last-3-months': [
+      { period: 'Month 1', govBonds: 1245, corpBonds: 945, equities: 634, sukuk: 387, mmkt: 245 },
+      { period: 'Month 2', govBonds: 1367, corpBonds: 1034, equities: 698, sukuk: 423, mmkt: 267 },
+      { period: 'Month 3', govBonds: 1489, corpBonds: 1123, equities: 756, sukuk: 456, mmkt: 289 }
+    ],
+    'current-year': [
+      { period: 'Q1', govBonds: 4245, corpBonds: 3102, equities: 2088, sukuk: 1266, mmkt: 801 },
+      { period: 'Q2', govBonds: 4567, corpBonds: 3345, equities: 2234, sukuk: 1389, mmkt: 867 },
+      { period: 'Q3', govBonds: 4689, corpBonds: 3456, equities: 2356, sukuk: 1456, mmkt: 923 },
+      { period: 'Q4', govBonds: 4823, corpBonds: 3578, equities: 2456, sukuk: 1523, mmkt: 978 }
+    ]
+  };
+  return baseData[period as keyof typeof baseData] || baseData['current-month'];
+};
 
 // Sample instrument types data
 const initialInstrumentTypes: InstrumentType[] = [
@@ -159,15 +177,20 @@ const initialInstrumentTypes: InstrumentType[] = [
 ];
 
 const InstrumentTypesPage = () => {
+  const { emulatedDay } = useBusinessDayEmulation();
   const [instrumentTypes, setInstrumentTypes] = useState<InstrumentType[]>(initialInstrumentTypes);
   const [editingRow, setEditingRow] = useState<string | null>(null);
   const [editData, setEditData] = useState<Partial<InstrumentType>>({});
+  const [selectedPeriod, setSelectedPeriod] = useState('current-month');
+  
+  const usageData = generateUsageData(selectedPeriod);
 
   const chartConfig = {
-    count: {
-      label: "Count",
-      color: "hsl(var(--primary))",
-    },
+    govBonds: { label: "Government Bonds", color: "hsl(var(--primary))" },
+    corpBonds: { label: "Corporate Bonds", color: "hsl(var(--secondary))" },
+    equities: { label: "Equities", color: "hsl(var(--accent))" },
+    sukuk: { label: "Sukuk", color: "hsl(var(--muted-foreground))" },
+    mmkt: { label: "Money Market", color: "hsl(var(--destructive))" },
   };
 
   const handleEdit = (code: string) => {
@@ -265,30 +288,43 @@ const InstrumentTypesPage = () => {
 
   return (
     <div className="space-y-6">
+      {/* Page Header */}
+      <PageHeader
+        title="Instrument Types"
+        description="Configure instrument type parameters and view usage analytics"
+      />
+
       {/* Dashboard Section */}
       <div className="space-y-6">
         <Card>
           <CardHeader>
-            <CardTitle className="flex items-center gap-2">
-              <BarChart3 className="h-5 w-5" />
-              CSD Instrument Usage Frequency
-            </CardTitle>
+            <div className="flex items-center justify-between">
+              <CardTitle className="flex items-center gap-2">
+                <BarChart3 className="h-5 w-5" />
+                CSD Instrument Usage Frequency
+              </CardTitle>
+              <PeriodControl
+                value={selectedPeriod}
+                onValueChange={setSelectedPeriod}
+              />
+            </div>
           </CardHeader>
           <CardContent>
-            <ChartContainer config={chartConfig} className="h-[300px] w-full">
+            <ChartContainer config={chartConfig} className="h-[350px] w-full">
               <ResponsiveContainer width="100%" height="100%">
-                <BarChart data={usageData}>
+                <BarChart data={usageData} margin={{ top: 20, right: 30, left: 20, bottom: 5 }}>
                   <CartesianGrid strokeDasharray="3 3" />
                   <XAxis 
-                    dataKey="type" 
+                    dataKey="period" 
                     tick={{ fontSize: 12 }}
-                    angle={-45}
-                    textAnchor="end"
-                    height={80}
                   />
                   <YAxis />
                   <ChartTooltip content={<ChartTooltipContent />} />
-                  <Bar dataKey="count" fill="var(--color-count)" radius={[4, 4, 0, 0]} />
+                  <Bar dataKey="govBonds" fill="var(--color-govBonds)" name="Government Bonds" />
+                  <Bar dataKey="corpBonds" fill="var(--color-corpBonds)" name="Corporate Bonds" />
+                  <Bar dataKey="equities" fill="var(--color-equities)" name="Equities" />
+                  <Bar dataKey="sukuk" fill="var(--color-sukuk)" name="Sukuk" />
+                  <Bar dataKey="mmkt" fill="var(--color-mmkt)" name="Money Market" />
                 </BarChart>
               </ResponsiveContainer>
             </ChartContainer>
