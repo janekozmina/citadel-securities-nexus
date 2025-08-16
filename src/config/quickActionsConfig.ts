@@ -454,8 +454,52 @@ export const islamicSukukActions: QuickAction[] = [
   }
 ];
 
-// Add Islamic Sukuk actions to CSD system
-quickActionsConfig.csd = [...quickActionsConfig.csd, ...islamicSukukActions, ...accountStatementsActions];
+// Transfers specific actions
+export const transfersActions: QuickAction[] = [
+  {
+    id: 'submit-transfer-instruction',
+    label: 'Submit New Transfer Instruction',
+    icon: Plus,
+    category: 'instructions',
+    description: 'Submit a new transfer instruction',
+    permissions: ['csd.transfers.create']
+  },
+  {
+    id: 'amend-pending-instruction',
+    label: 'Amend Pending Instruction',
+    icon: Edit,
+    category: 'instructions',
+    description: 'Modify pending transfer instructions',
+    permissions: ['csd.transfers.amend']
+  },
+  {
+    id: 'cancel-instruction',
+    label: 'Cancel Instruction',
+    icon: X,
+    category: 'instructions',
+    description: 'Cancel pending transfer instructions',
+    permissions: ['csd.transfers.cancel']
+  },
+  {
+    id: 'download-instruction-report',
+    label: 'Download Instruction Report',
+    icon: Download,
+    category: 'reports',
+    description: 'Download detailed instruction report',
+    permissions: ['csd.transfers.reports']
+  },
+  {
+    id: 'notify-counterparty',
+    label: 'Notify Counterparty',
+    icon: Send,
+    category: 'notifications',
+    description: 'Send notifications to counterparties',
+    permissions: ['csd.transfers.notify']
+  }
+];
+
+// Add all specific actions to CSD system
+quickActionsConfig.csd = [...quickActionsConfig.csd, ...islamicSukukActions, ...accountStatementsActions, ...transfersActions];
 
 // Default Quick Actions for each page type
 export const defaultQuickActions: Record<string, string[]> = {
@@ -467,5 +511,6 @@ export const defaultQuickActions: Record<string, string[]> = {
   'transaction-status': ['general-transfer', 'check-funds', 'liquidity-source', 'manual-gridlock'],
   'account-statements': ['download-statement', 'request-statement', 'reconciliation-report', 'export-data'],
   'islamic-sukuk': ['register-new-sukuk', 'view-issuer-details', 'generate-sukuk-term-sheet', 'export-maturity-schedule'],
+  'transfers': ['submit-transfer-instruction', 'amend-pending-instruction', 'cancel-instruction', 'download-instruction-report', 'notify-counterparty'],
   'default': ['export-data', 'refresh-data', 'advanced-search']
 };
