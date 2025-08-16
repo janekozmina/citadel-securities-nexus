@@ -12,6 +12,7 @@ import { ChartContainer, ChartTooltip, ChartTooltipContent } from '@/components/
 import { ResponsiveContainer, BarChart, Bar, XAxis, YAxis, CartesianGrid, LineChart, Line, Legend } from 'recharts';
 import { Edit, Save, X, BarChart3, TrendingUp, Settings2 } from 'lucide-react';
 import { useBusinessDayEmulation } from '@/hooks/useBusinessDayEmulation';
+import { InstrumentTypeEditDialog } from '@/components/dialogs/InstrumentTypeEditDialog';
 
 interface InstrumentType {
   code: string;
@@ -179,9 +180,9 @@ const initialInstrumentTypes: InstrumentType[] = [
 const InstrumentTypesPage = () => {
   const { emulatedDay } = useBusinessDayEmulation();
   const [instrumentTypes, setInstrumentTypes] = useState<InstrumentType[]>(initialInstrumentTypes);
-  const [editingRow, setEditingRow] = useState<string | null>(null);
-  const [editData, setEditData] = useState<Partial<InstrumentType>>({});
   const [selectedPeriod, setSelectedPeriod] = useState('current-month');
+  const [dialogOpen, setDialogOpen] = useState(false);
+  const [selectedInstrument, setSelectedInstrument] = useState<InstrumentType | null>(null);
   
   const usageData = generateUsageData(selectedPeriod);
 
@@ -196,93 +197,18 @@ const InstrumentTypesPage = () => {
   const handleEdit = (code: string) => {
     const item = instrumentTypes.find(i => i.code === code);
     if (item) {
-      setEditData({ ...item });
-      setEditingRow(code);
+      setSelectedInstrument(item);
+      setDialogOpen(true);
     }
   };
 
-  const handleSave = () => {
-    if (editingRow && editData) {
+  const handleSave = (data: Partial<InstrumentType>) => {
+    if (selectedInstrument) {
       setInstrumentTypes(prev => 
         prev.map(item => 
-          item.code === editingRow ? { ...item, ...editData } : item
+          item.code === selectedInstrument.code ? { ...item, ...data } : item
         )
       );
-      setEditingRow(null);
-      setEditData({});
-    }
-  };
-
-  const handleCancel = () => {
-    setEditingRow(null);
-    setEditData({});
-  };
-
-  const renderEditableCell = (
-    value: any,
-    field: keyof InstrumentType,
-    type: 'text' | 'number' | 'decimal' | 'toggle' | 'dropdown',
-    options?: string[]
-  ) => {
-    const isEditing = editingRow !== null;
-    const currentValue = isEditing ? (editData[field] ?? value) : value;
-
-    if (!isEditing) {
-      if (type === 'toggle') {
-        return (
-          <Badge variant={value ? 'default' : 'secondary'}>
-            {value ? 'Y' : 'N'}
-          </Badge>
-        );
-      }
-      return <span>{value}</span>;
-    }
-
-    switch (type) {
-      case 'text':
-        return (
-          <Input
-            value={currentValue || ''}
-            onChange={(e) => setEditData(prev => ({ ...prev, [field]: e.target.value }))}
-            className="h-8"
-          />
-        );
-      case 'number':
-      case 'decimal':
-        return (
-          <Input
-            type="number"
-            value={currentValue || ''}
-            onChange={(e) => setEditData(prev => ({ ...prev, [field]: type === 'number' ? parseInt(e.target.value) || 0 : parseFloat(e.target.value) || 0 }))}
-            className="h-8"
-            step={type === 'decimal' ? '0.0001' : '1'}
-          />
-        );
-      case 'toggle':
-        return (
-          <Switch
-            checked={currentValue || false}
-            onCheckedChange={(checked) => setEditData(prev => ({ ...prev, [field]: checked }))}
-          />
-        );
-      case 'dropdown':
-        return (
-          <Select
-            value={currentValue || ''}
-            onValueChange={(value) => setEditData(prev => ({ ...prev, [field]: value }))}
-          >
-            <SelectTrigger className="h-8">
-              <SelectValue />
-            </SelectTrigger>
-            <SelectContent>
-              {options?.map(option => (
-                <SelectItem key={option} value={option}>{option}</SelectItem>
-              ))}
-            </SelectContent>
-          </Select>
-        );
-      default:
-        return <span>{value}</span>;
     }
   };
 
@@ -321,11 +247,11 @@ const InstrumentTypesPage = () => {
                   <YAxis />
                   <ChartTooltip content={<ChartTooltipContent />} />
                   <Legend />
-                  <Bar dataKey="govBonds" fill="var(--color-govBonds)" name="Government Bonds" />
-                  <Bar dataKey="corpBonds" fill="var(--color-corpBonds)" name="Corporate Bonds" />
-                  <Bar dataKey="equities" fill="var(--color-equities)" name="Equities" />
-                  <Bar dataKey="sukuk" fill="var(--color-sukuk)" name="Sukuk" />
-                  <Bar dataKey="mmkt" fill="var(--color-mmkt)" name="Money Market" />
+                  <Bar dataKey="govBonds" stackId="stack" fill="var(--color-govBonds)" name="Government Bonds" />
+                  <Bar dataKey="corpBonds" stackId="stack" fill="var(--color-corpBonds)" name="Corporate Bonds" />
+                  <Bar dataKey="equities" stackId="stack" fill="var(--color-equities)" name="Equities" />
+                  <Bar dataKey="sukuk" stackId="stack" fill="var(--color-sukuk)" name="Sukuk" />
+                  <Bar dataKey="mmkt" stackId="stack" fill="var(--color-mmkt)" name="Money Market" />
                 </BarChart>
               </ResponsiveContainer>
             </ChartContainer>
@@ -336,27 +262,7 @@ const InstrumentTypesPage = () => {
       {/* Configuration Table */}
       <Card>
         <CardHeader>
-          <div className="flex items-center justify-between">
-            <CardTitle>Instrument Types Configuration</CardTitle>
-            <div className="flex gap-2">
-              {editingRow ? (
-                <>
-                  <Button size="sm" onClick={handleSave}>
-                    <Save className="h-4 w-4 mr-1" />
-                    Save
-                  </Button>
-                  <Button size="sm" variant="outline" onClick={handleCancel}>
-                    <X className="h-4 w-4 mr-1" />
-                    Cancel
-                  </Button>
-                </>
-              ) : (
-                <Button size="sm" variant="outline" disabled>
-                  Select row to edit
-                </Button>
-              )}
-            </div>
-          </div>
+          <CardTitle>Instrument Types Configuration</CardTitle>
         </CardHeader>
         <CardContent>
           <div className="overflow-x-auto">
@@ -406,66 +312,78 @@ const InstrumentTypesPage = () => {
               </TableHeader>
               <TableBody>
                 {instrumentTypes.map((item) => (
-                  <TableRow key={item.code} className={editingRow === item.code ? 'bg-muted/50' : ''}>
+                  <TableRow key={item.code}>
                     <TableCell>
-                      {editingRow === item.code ? (
-                        <div className="flex gap-1">
-                          <Button size="sm" onClick={handleSave}>
-                            <Save className="h-3 w-3" />
-                          </Button>
-                          <Button size="sm" variant="outline" onClick={handleCancel}>
-                            <X className="h-3 w-3" />
-                          </Button>
-                        </div>
-                      ) : (
-                        <Button 
-                          size="sm" 
-                          variant="outline" 
-                          onClick={() => handleEdit(item.code)}
-                          disabled={editingRow !== null}
-                        >
-                          <Edit className="h-3 w-3" />
-                        </Button>
-                      )}
+                      <Button 
+                        size="sm" 
+                        variant="outline" 
+                        onClick={() => handleEdit(item.code)}
+                      >
+                        <Edit className="h-3 w-3" />
+                      </Button>
                     </TableCell>
-                    <TableCell className="font-mono">{renderEditableCell(item.code, 'code', 'text')}</TableCell>
-                    <TableCell>{renderEditableCell(item.name, 'name', 'text')}</TableCell>
-                    <TableCell>{renderEditableCell(item.catCode, 'catCode', 'dropdown', ['FXDINC', 'EQTY', 'MMKT'])}</TableCell>
-                    <TableCell>{renderEditableCell(item.rateFixAlg, 'rateFixAlg', 'dropdown', ['CBEG', 'CEND'])}</TableCell>
-                    <TableCell>{renderEditableCell(item.qmCode, 'qmCode', 'dropdown', ['DIRP', 'YLD'])}</TableCell>
-                    <TableCell>{renderEditableCell(item.dShiftIssu, 'dShiftIssu', 'number')}</TableCell>
-                    <TableCell>{renderEditableCell(item.genTranche, 'genTranche', 'toggle')}</TableCell>
-                    <TableCell>{renderEditableCell(item.cbCode, 'cbCode', 'dropdown', ['ACT/360', 'ACT/365', '30/360'])}</TableCell>
-                    <TableCell>{renderEditableCell(item.pricCbCd, 'pricCbCd', 'dropdown', ['CLOSE', 'AVG', 'OPEN'])}</TableCell>
-                    <TableCell>{renderEditableCell(item.rtCode, 'rtCode', 'dropdown', ['LIBOR', 'SOFR', 'FIXED'])}</TableCell>
-                    <TableCell>{renderEditableCell(item.rateCalcAlg, 'rateCalcAlg', 'dropdown', ['STRT', 'REVS'])}</TableCell>
-                    <TableCell>{renderEditableCell(item.brShiftDays, 'brShiftDays', 'number')}</TableCell>
-                    <TableCell>{renderEditableCell(item.mrop, 'mrop', 'number')}</TableCell>
-                    <TableCell>{renderEditableCell(item.threshold, 'threshold', 'decimal')}</TableCell>
-                    <TableCell>{renderEditableCell(item.cLastCoup, 'cLastCoup', 'toggle')}</TableCell>
-                    <TableCell>{renderEditableCell(item.rndMethod, 'rndMethod', 'dropdown', ['4', '100'])}</TableCell>
-                    <TableCell>{renderEditableCell(item.precAmt, 'precAmt', 'number')}</TableCell>
-                    <TableCell>{renderEditableCell(item.rateScale, 'rateScale', 'number')}</TableCell>
-                    <TableCell>{renderEditableCell(item.pricScale, 'pricScale', 'number')}</TableCell>
-                    <TableCell>{renderEditableCell(item.proceedShift, 'proceedShift', 'number')}</TableCell>
-                    <TableCell>{renderEditableCell(item.proceedProcType, 'proceedProcType', 'dropdown', ['A', 'M', 'E'])}</TableCell>
-                    <TableCell>{renderEditableCell(item.exDays, 'exDays', 'number')}</TableCell>
-                    <TableCell>{renderEditableCell(item.debit, 'debit', 'toggle')}</TableCell>
-                    <TableCell>{renderEditableCell(item.balType, 'balType', 'dropdown', ['CUSTODY', 'TRADING'])}</TableCell>
-                    <TableCell>{renderEditableCell(item.rrmethod, 'rrmethod', 'dropdown', ['4', '100'])}</TableCell>
-                    <TableCell>{renderEditableCell(item.pabsRmethod, 'pabsRmethod', 'dropdown', ['4', '100'])}</TableCell>
-                    <TableCell>{renderEditableCell(item.aiCalcType, 'aiCalcType', 'dropdown', ['S', 'C'])}</TableCell>
-                    <TableCell>{renderEditableCell(item.rwrdRate, 'rwrdRate', 'decimal')}</TableCell>
-                    <TableCell>{renderEditableCell(item.intAtMatu, 'intAtMatu', 'toggle')}</TableCell>
-                    <TableCell>{renderEditableCell(item.lockDays, 'lockDays', 'number')}</TableCell>
-                    <TableCell>{renderEditableCell(item.lockNoticeDays, 'lockNoticeDays', 'number')}</TableCell>
-                    <TableCell>{renderEditableCell(item.mhp, 'mhp', 'number')}</TableCell>
-                    <TableCell>{renderEditableCell(item.marketDataType, 'marketDataType', 'dropdown', ['Y', 'M'])}</TableCell>
-                    <TableCell>{renderEditableCell(item.genCodeMsk, 'genCodeMsk', 'text')}</TableCell>
-                    <TableCell>{renderEditableCell(item.pabsScale, 'pabsScale', 'number')}</TableCell>
-                    <TableCell>{renderEditableCell(item.totalCVRmethod, 'totalCVRmethod', 'dropdown', ['4', '100'])}</TableCell>
-                    <TableCell>{renderEditableCell(item.isSharia, 'isSharia', 'toggle')}</TableCell>
-                    <TableCell>{renderEditableCell(item.isRpuForTcv, 'isRpuForTcv', 'toggle')}</TableCell>
+                    <TableCell className="font-mono">{item.code}</TableCell>
+                    <TableCell>{item.name}</TableCell>
+                    <TableCell>{item.catCode}</TableCell>
+                    <TableCell>{item.rateFixAlg}</TableCell>
+                    <TableCell>{item.qmCode}</TableCell>
+                    <TableCell>{item.dShiftIssu}</TableCell>
+                    <TableCell>
+                      <Badge variant={item.genTranche ? 'default' : 'secondary'}>
+                        {item.genTranche ? 'Y' : 'N'}
+                      </Badge>
+                    </TableCell>
+                    <TableCell>{item.cbCode}</TableCell>
+                    <TableCell>{item.pricCbCd}</TableCell>
+                    <TableCell>{item.rtCode}</TableCell>
+                    <TableCell>{item.rateCalcAlg}</TableCell>
+                    <TableCell>{item.brShiftDays}</TableCell>
+                    <TableCell>{item.mrop}</TableCell>
+                    <TableCell>{item.threshold}</TableCell>
+                    <TableCell>
+                      <Badge variant={item.cLastCoup ? 'default' : 'secondary'}>
+                        {item.cLastCoup ? 'Y' : 'N'}
+                      </Badge>
+                    </TableCell>
+                    <TableCell>{item.rndMethod}</TableCell>
+                    <TableCell>{item.precAmt}</TableCell>
+                    <TableCell>{item.rateScale}</TableCell>
+                    <TableCell>{item.pricScale}</TableCell>
+                    <TableCell>{item.proceedShift}</TableCell>
+                    <TableCell>{item.proceedProcType}</TableCell>
+                    <TableCell>{item.exDays}</TableCell>
+                    <TableCell>
+                      <Badge variant={item.debit ? 'default' : 'secondary'}>
+                        {item.debit ? 'Y' : 'N'}
+                      </Badge>
+                    </TableCell>
+                    <TableCell>{item.balType}</TableCell>
+                    <TableCell>{item.rrmethod}</TableCell>
+                    <TableCell>{item.pabsRmethod}</TableCell>
+                    <TableCell>{item.aiCalcType}</TableCell>
+                    <TableCell>{item.rwrdRate}</TableCell>
+                    <TableCell>
+                      <Badge variant={item.intAtMatu ? 'default' : 'secondary'}>
+                        {item.intAtMatu ? 'Y' : 'N'}
+                      </Badge>
+                    </TableCell>
+                    <TableCell>{item.lockDays}</TableCell>
+                    <TableCell>{item.lockNoticeDays}</TableCell>
+                    <TableCell>{item.mhp}</TableCell>
+                    <TableCell>{item.marketDataType}</TableCell>
+                    <TableCell>{item.genCodeMsk}</TableCell>
+                    <TableCell>{item.pabsScale}</TableCell>
+                    <TableCell>{item.totalCVRmethod}</TableCell>
+                    <TableCell>
+                      <Badge variant={item.isSharia ? 'default' : 'secondary'}>
+                        {item.isSharia ? 'Y' : 'N'}
+                      </Badge>
+                    </TableCell>
+                    <TableCell>
+                      <Badge variant={item.isRpuForTcv ? 'default' : 'secondary'}>
+                        {item.isRpuForTcv ? 'Y' : 'N'}
+                      </Badge>
+                    </TableCell>
                   </TableRow>
                 ))}
               </TableBody>
@@ -473,6 +391,14 @@ const InstrumentTypesPage = () => {
           </div>
         </CardContent>
       </Card>
+
+      {/* Edit Dialog */}
+      <InstrumentTypeEditDialog
+        open={dialogOpen}
+        onOpenChange={setDialogOpen}
+        instrumentType={selectedInstrument}
+        onSave={handleSave}
+      />
     </div>
   );
 };
