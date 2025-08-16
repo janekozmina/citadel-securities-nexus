@@ -4,10 +4,11 @@ import { GeneralTransferForm } from '@/components/forms/GeneralTransferForm';
 import { CheckFundsForm } from '@/components/forms/CheckFundsForm';
 import { LiquiditySourceDialog } from './LiquiditySourceDialog';
 import { ManualGridlockDialog } from './ManualGridlockDialog';
+import TransferInstructionDialog from './TransferInstructionDialog';
 import { toast } from 'sonner';
 
 interface TransactionQuickActionsDialogsProps {
-  activeDialog: 'general-transfer' | 'check-funds' | 'liquidity-source' | 'manual-gridlock' | null;
+  activeDialog: 'general-transfer' | 'check-funds' | 'liquidity-source' | 'manual-gridlock' | 'submit-transfer-instruction' | null;
   onClose: () => void;
 }
 
@@ -36,6 +37,8 @@ export function TransactionQuickActionsDialogs({
         return 'Liquidity Sources';
       case 'manual-gridlock':
         return 'Manual Gridlock';
+      case 'submit-transfer-instruction':
+        return 'Submit Transfer Instruction';
       default:
         return '';
     }
@@ -61,16 +64,21 @@ export function TransactionQuickActionsDialogs({
         return <LiquiditySourceDialog onClose={onClose} />;
       case 'manual-gridlock':
         return <ManualGridlockDialog onClose={onClose} />;
+      case 'submit-transfer-instruction':
+        return <TransferInstructionDialog open={!!activeDialog} onOpenChange={onClose} />;
       default:
         return null;
     }
   };
 
   const isLargeDialog = activeDialog === 'general-transfer' || 
-                       activeDialog === 'liquidity-source' || 
-                       activeDialog === 'manual-gridlock';
+                        activeDialog === 'liquidity-source' || 
+                        activeDialog === 'manual-gridlock' ||
+                        activeDialog === 'submit-transfer-instruction';
 
-  return (
+  return activeDialog === 'submit-transfer-instruction' ? (
+    renderDialogContent()
+  ) : (
     <Dialog open={!!activeDialog} onOpenChange={onClose}>
       <DialogContent className={`${isLargeDialog ? 'max-w-4xl' : 'max-w-2xl'} max-h-[90vh] overflow-y-auto`}>
         {activeDialog !== 'liquidity-source' && activeDialog !== 'manual-gridlock' && (
