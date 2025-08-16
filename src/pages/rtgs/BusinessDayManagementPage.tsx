@@ -24,6 +24,7 @@ import {
 } from 'lucide-react';
 import { toast } from 'sonner';
 import { useBusinessDayEmulation } from '@/hooks/useBusinessDayEmulation';
+import { PageHeader } from '@/components/common/PageHeader';
 
 interface BusinessPeriod {
   id: string;

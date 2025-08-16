@@ -16,15 +16,31 @@ interface RouteInfo {
 
 const routeMap: Record<string, RouteInfo> = {
   '/': { path: '/', label: 'Home' },
+  
+  // RTGS Routes
   '/rtgs': { path: '/rtgs', label: 'RTGS' },
   '/rtgs/financial-monitoring': { path: '/rtgs/financial-monitoring', label: 'Financial Monitoring', parent: '/rtgs' },
   '/rtgs/financial-monitoring/account-management': { path: '/rtgs/financial-monitoring/account-management', label: 'Account Management', parent: '/rtgs/financial-monitoring' },
   '/rtgs/financial-monitoring/balances-liquidity': { path: '/rtgs/financial-monitoring/balances-liquidity', label: 'Balances & Liquidity', parent: '/rtgs/financial-monitoring' },
   '/rtgs/financial-monitoring/transaction-status': { path: '/rtgs/financial-monitoring/transaction-status', label: 'Transaction Status', parent: '/rtgs/financial-monitoring' },
   '/rtgs/central-bank-operations': { path: '/rtgs/central-bank-operations', label: 'Central Bank Operations', parent: '/rtgs' },
+  '/rtgs/business-day-management': { path: '/rtgs/business-day-management', label: 'Business Day Management', parent: '/rtgs' },
   '/rtgs/anomaly-detection': { path: '/rtgs/anomaly-detection', label: 'Anomaly Detection', parent: '/rtgs' },
   '/rtgs/dispute-management': { path: '/rtgs/dispute-management', label: 'Dispute Management', parent: '/rtgs' },
+  '/rtgs/billing': { path: '/rtgs/billing', label: 'Billing', parent: '/rtgs' },
+  '/rtgs/bi-reports': { path: '/rtgs/bi-reports', label: 'BI Reports', parent: '/rtgs' },
+  '/rtgs/cash-operations': { path: '/rtgs/cash-operations', label: 'Cash Operations', parent: '/rtgs' },
+  '/rtgs/real-time-cash-flow-overview': { path: '/rtgs/real-time-cash-flow-overview', label: 'Real-time Cash Flow Overview', parent: '/rtgs' },
+  
+  // CSD Routes
   '/csd': { path: '/csd', label: 'CSD' },
+  '/csd/accounts-balances': { path: '/csd/accounts-balances', label: 'Accounts & Balances', parent: '/csd' },
+  '/csd/accounts-balances/statements': { path: '/csd/accounts-balances/statements', label: 'Account Statements', parent: '/csd/accounts-balances' },
+  '/csd/custody': { path: '/csd/custody', label: 'Custody', parent: '/csd' },
+  '/csd/trading': { path: '/csd/trading', label: 'Trading', parent: '/csd' },
+  '/csd/settlement': { path: '/csd/settlement', label: 'Settlement', parent: '/csd' },
+  
+  // Legacy CSD Routes (for compatibility)
   '/operations': { path: '/operations', label: 'Operations', parent: '/csd' },
   '/securities': { path: '/securities', label: 'Securities Lifecycle', parent: '/csd' },
   '/securities/instrument-reference': { path: '/securities/instrument-reference', label: 'Instrument Reference', parent: '/securities' },
@@ -35,6 +51,7 @@ const routeMap: Record<string, RouteInfo> = {
   '/trading/order-management': { path: '/trading/order-management', label: 'Order Management', parent: '/trading' },
   '/trading/auctions': { path: '/trading/auctions', label: 'Auctions Trading Monitor', parent: '/trading' },
   '/trading/bilateral': { path: '/trading/bilateral', label: 'Bilateral Trading Monitor', parent: '/trading' },
+  '/trading/match': { path: '/trading/match', label: 'Trade Matching', parent: '/trading' },
   '/clearing': { path: '/clearing', label: 'Clearing Hub', parent: '/csd' },
   '/clearing/manager': { path: '/clearing/manager', label: 'Clearing Manager', parent: '/clearing' },
   '/clearing/margin': { path: '/clearing/margin', label: 'Margin Calculation', parent: '/clearing' },
@@ -50,19 +67,36 @@ const routeMap: Record<string, RouteInfo> = {
   '/auction': { path: '/auction', label: 'Auction Management', parent: '/csd' },
   '/investor-services': { path: '/investor-services', label: 'Investor Services Hub', parent: '/csd' },
   '/reporting': { path: '/reporting', label: 'Reporting & Compliance', parent: '/csd' },
+  
+  // CMS Routes
+  '/cms': { path: '/cms', label: 'CMS' },
+  '/cms/collateral': { path: '/cms/collateral', label: 'Collateral Management', parent: '/cms' },
+  '/cms/risk': { path: '/cms/risk', label: 'Risk Management', parent: '/cms' },
+  '/collateral/manager': { path: '/collateral/manager', label: 'Collateral Manager', parent: '/cms' },
+  '/collateral/optimization': { path: '/collateral/optimization', label: 'Collateral Optimization AI', parent: '/cms' },
+  
+  // Knowledge Hub
   '/knowledge': { path: '/knowledge', label: 'Knowledge Hub' },
   '/knowledge/search': { path: '/knowledge/search', label: 'Documentation Search', parent: '/knowledge' },
   '/knowledge/findings': { path: '/knowledge/findings', label: 'Findings', parent: '/knowledge' },
-  '/cms': { path: '/cms', label: 'CMS' },
-  '/collateral/manager': { path: '/collateral/manager', label: 'Collateral Manager', parent: '/cms' },
-  '/collateral/optimization': { path: '/collateral/optimization', label: 'Collateral Optimization AI', parent: '/cms' },
+  
+  // Admin Routes
+  '/admin': { path: '/admin', label: 'Administration' },
   '/admin/integrations': { path: '/admin/integrations', label: 'Integrations Management', parent: '/admin' },
   '/admin/market-data': { path: '/admin/market-data', label: 'Market Data', parent: '/admin' },
   '/admin/static-data': { path: '/admin/static-data', label: 'Static Data Management', parent: '/admin' },
   '/admin/rtgs-config': { path: '/admin/rtgs-config', label: 'RTGS Configuration', parent: '/admin' },
-  '/admin': { path: '/admin', label: 'System Monitoring' },
-  '/monitoring': { path: '/monitoring', label: 'System Administration' },
-  '/users': { path: '/users', label: 'User Management' },
+  '/admin/users': { path: '/admin/users', label: 'User Management', parent: '/admin' },
+  '/admin/system': { path: '/admin/system', label: 'System Administration', parent: '/admin' },
+  '/admin/form-config': { path: '/admin/form-config', label: 'Form Configuration', parent: '/admin' },
+  '/monitoring': { path: '/monitoring', label: 'System Monitoring', parent: '/admin' },
+  '/users': { path: '/users', label: 'User Management', parent: '/admin' },
+  
+  // Master Data
+  '/masterdata': { path: '/masterdata', label: 'Master Data' },
+  
+  // Reports
+  '/reports': { path: '/reports', label: 'Reports' },
 };
 
 export function Breadcrumbs() {
@@ -86,8 +120,9 @@ export function Breadcrumbs() {
   
   const breadcrumbs = buildBreadcrumbs(location.pathname);
   
-  if (breadcrumbs.length <= 1) {
-    return null; // Don't show breadcrumbs for home or single-level pages
+  // Always show breadcrumbs if we have a valid route, even for single-level pages
+  if (breadcrumbs.length === 0) {
+    return null; // Only hide if no route found
   }
   
   return (
