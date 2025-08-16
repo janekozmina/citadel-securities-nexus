@@ -35,6 +35,7 @@ import CSDSettlementPage from "./pages/csd/CSDSettlementPage";
 import CSDCustodyPage from "./pages/csd/CSDCustodyPage";
 import AccountStatementsPage from "./pages/csd/AccountStatementsPage";
 import RegisterIslamicSukukPage from "./pages/csd/RegisterIslamicSukukPage";
+import TransfersPage from "./pages/csd/TransfersPage";
 
 // CMS Pages
 import CMSPage from "./pages/cms/CMSPage";
@@ -184,6 +185,13 @@ const App = () => (
               <ProtectedRoute>
                 <MainLayout>
                   <RegisterIslamicSukukPage />
+                </MainLayout>
+              </ProtectedRoute>
+            } />
+            <Route path="/csd/transfers" element={
+              <ProtectedRoute>
+                <MainLayout>
+                  <TransfersPage />
                 </MainLayout>
               </ProtectedRoute>
             } />

@@ -41,6 +41,7 @@ const routeMap: Record<string, RouteInfo> = {
   '/csd/accounts-balances/statements': { path: '/csd/accounts-balances/statements', label: 'Account Statements', parent: '/csd/accounts-balances' },
   '/csd/instruments': { path: '/csd/instruments', label: 'Instruments', parent: '/csd' },
   '/csd/instruments/register-islamic-sukuk': { path: '/csd/instruments/register-islamic-sukuk', label: 'Register Islamic Sukuk', parent: '/csd/instruments' },
+  '/csd/transfers': { path: '/csd/transfers', label: 'Transfers', parent: '/csd' },
   '/csd/custody': { path: '/csd/custody', label: 'Custody', parent: '/csd' },
   '/csd/trading': { path: '/csd/trading', label: 'Trading', parent: '/csd' },
   '/csd/settlement': { path: '/csd/settlement', label: 'Settlement', parent: '/csd' },
