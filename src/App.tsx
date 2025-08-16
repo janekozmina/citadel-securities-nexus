@@ -188,7 +188,7 @@ const App = () => (
                 </MainLayout>
               </ProtectedRoute>
             } />
-            <Route path="/csd/transfers" element={
+            <Route path="/csd/transactions/transfers" element={
               <ProtectedRoute>
                 <MainLayout>
                   <TransfersPage />
