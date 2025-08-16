@@ -40,6 +40,7 @@ import {
   Calculator,
   Scissors,
   Flag,
+  Building,
   LucideIcon
 } from 'lucide-react';
 
@@ -409,8 +410,52 @@ export const accountStatementsActions: QuickAction[] = [
   }
 ];
 
-// Add account statements actions to CSD system
-quickActionsConfig.csd = [...quickActionsConfig.csd, ...accountStatementsActions];
+// Islamic Sukuk specific actions
+export const islamicSukukActions: QuickAction[] = [
+  {
+    id: 'register-new-sukuk',
+    label: 'Register New Sukuk',
+    icon: Plus,
+    category: 'registration',
+    description: 'Register a new Islamic Sukuk instrument',
+    permissions: ['csd.sukuk.register']
+  },
+  {
+    id: 'view-issuer-details',
+    label: 'View Issuer Details',
+    icon: Eye,
+    category: 'information',
+    description: 'View detailed information about Sukuk issuers',
+    permissions: ['csd.issuers.view']
+  },
+  {
+    id: 'generate-sukuk-term-sheet',
+    label: 'Generate Sukuk Term Sheet',
+    icon: FileText,
+    category: 'documents',
+    description: 'Generate comprehensive term sheet for Sukuk',
+    permissions: ['csd.sukuk.documents']
+  },
+  {
+    id: 'export-maturity-schedule',
+    label: 'Export Maturity Schedule',
+    icon: Download,
+    category: 'reports',
+    description: 'Export detailed maturity schedule report',
+    permissions: ['csd.sukuk.export']
+  },
+  {
+    id: 'notify-investors-maturity',
+    label: 'Notify Investors on Upcoming Maturity',
+    icon: Send,
+    category: 'notifications',
+    description: 'Send maturity notifications to investors',
+    permissions: ['csd.sukuk.notifications']
+  }
+];
+
+// Add Islamic Sukuk actions to CSD system
+quickActionsConfig.csd = [...quickActionsConfig.csd, ...islamicSukukActions, ...accountStatementsActions];
 
 // Default Quick Actions for each page type
 export const defaultQuickActions: Record<string, string[]> = {
@@ -421,5 +466,6 @@ export const defaultQuickActions: Record<string, string[]> = {
   'collateral-manager': ['collateral-management', 'margin-calculation', 'risk-assessment'],
   'transaction-status': ['general-transfer', 'check-funds', 'liquidity-source', 'manual-gridlock'],
   'account-statements': ['download-statement', 'request-statement', 'reconciliation-report', 'export-data'],
+  'islamic-sukuk': ['register-new-sukuk', 'view-issuer-details', 'generate-sukuk-term-sheet', 'export-maturity-schedule'],
   'default': ['export-data', 'refresh-data', 'advanced-search']
 };
