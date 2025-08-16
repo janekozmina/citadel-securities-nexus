@@ -31,11 +31,16 @@ const routeMap: Record<string, RouteInfo> = {
   '/rtgs/bi-reports': { path: '/rtgs/bi-reports', label: 'BI Reports', parent: '/rtgs' },
   '/rtgs/cash-operations': { path: '/rtgs/cash-operations', label: 'Cash Operations', parent: '/rtgs' },
   '/rtgs/real-time-cash-flow-overview': { path: '/rtgs/real-time-cash-flow-overview', label: 'Real-time Cash Flow Overview', parent: '/rtgs' },
+  '/rtgs/payments': { path: '/rtgs/payments', label: 'RTGS Payments', parent: '/rtgs' },
+  '/rtgs/accounts': { path: '/rtgs/accounts', label: 'RTGS Accounts', parent: '/rtgs' },
+  '/rtgs/monitoring': { path: '/rtgs/monitoring', label: 'RTGS Monitoring', parent: '/rtgs' },
   
   // CSD Routes
   '/csd': { path: '/csd', label: 'CSD' },
   '/csd/accounts-balances': { path: '/csd/accounts-balances', label: 'Accounts & Balances', parent: '/csd' },
   '/csd/accounts-balances/statements': { path: '/csd/accounts-balances/statements', label: 'Account Statements', parent: '/csd/accounts-balances' },
+  '/csd/instruments': { path: '/csd/instruments', label: 'Instruments', parent: '/csd' },
+  '/csd/instruments/register-islamic-sukuk': { path: '/csd/instruments/register-islamic-sukuk', label: 'Register Islamic Sukuk', parent: '/csd/instruments' },
   '/csd/custody': { path: '/csd/custody', label: 'Custody', parent: '/csd' },
   '/csd/trading': { path: '/csd/trading', label: 'Trading', parent: '/csd' },
   '/csd/settlement': { path: '/csd/settlement', label: 'Settlement', parent: '/csd' },
@@ -46,6 +51,7 @@ const routeMap: Record<string, RouteInfo> = {
   '/securities/instrument-reference': { path: '/securities/instrument-reference', label: 'Instrument Reference', parent: '/securities' },
   '/securities/issuance': { path: '/securities/issuance', label: 'Issuance', parent: '/securities' },
   '/securities/corporate-actions': { path: '/securities/corporate-actions', label: 'Corporate Actions', parent: '/securities' },
+  '/securities/lifecycle': { path: '/securities/lifecycle', label: 'Securities Lifecycle', parent: '/csd' },
   '/trading': { path: '/trading', label: 'Trading', parent: '/csd' },
   '/trading/transfer-instruction': { path: '/trading/transfer-instruction', label: 'Transfer Instruction', parent: '/trading' },
   '/trading/order-management': { path: '/trading/order-management', label: 'Order Management', parent: '/trading' },
@@ -67,13 +73,13 @@ const routeMap: Record<string, RouteInfo> = {
   '/auction': { path: '/auction', label: 'Auction Management', parent: '/csd' },
   '/investor-services': { path: '/investor-services', label: 'Investor Services Hub', parent: '/csd' },
   '/reporting': { path: '/reporting', label: 'Reporting & Compliance', parent: '/csd' },
+  '/collateral/manager': { path: '/collateral/manager', label: 'Collateral Manager', parent: '/csd' },
+  '/collateral/optimization': { path: '/collateral/optimization', label: 'Collateral Optimization', parent: '/csd' },
   
   // CMS Routes
   '/cms': { path: '/cms', label: 'CMS' },
   '/cms/collateral': { path: '/cms/collateral', label: 'Collateral Management', parent: '/cms' },
   '/cms/risk': { path: '/cms/risk', label: 'Risk Management', parent: '/cms' },
-  '/collateral/manager': { path: '/collateral/manager', label: 'Collateral Manager', parent: '/cms' },
-  '/collateral/optimization': { path: '/collateral/optimization', label: 'Collateral Optimization AI', parent: '/cms' },
   
   // Knowledge Hub
   '/knowledge': { path: '/knowledge', label: 'Knowledge Hub' },
@@ -91,6 +97,10 @@ const routeMap: Record<string, RouteInfo> = {
   '/admin/form-config': { path: '/admin/form-config', label: 'Form Configuration', parent: '/admin' },
   '/monitoring': { path: '/monitoring', label: 'System Monitoring', parent: '/admin' },
   '/users': { path: '/users', label: 'User Management', parent: '/admin' },
+  
+  // Auth Routes
+  '/login': { path: '/login', label: 'Login' },
+  '/mfa': { path: '/mfa', label: 'Multi-Factor Authentication', parent: '/login' },
   
   // Master Data
   '/masterdata': { path: '/masterdata', label: 'Master Data' },
