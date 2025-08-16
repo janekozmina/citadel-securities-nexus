@@ -33,35 +33,29 @@ export function getPageTitle(pathname: string): string {
 
 // Helper function to recursively search navigation tree
 function findInNavigationTree(items: NavigationItem[], pathname: string): NavigationItem | null {
+  let bestMatch: NavigationItem | null = null;
+  
   for (const item of items) {
-    // Check exact match
+    // Check exact match first - this is the most specific
     if (pathname === item.path) {
       return item;
     }
     
-    // Check if path starts with item path (for nested routes)
-    if (pathname.startsWith(item.path + '/')) {
-      // First check children for more specific match
-      if (item.children) {
-        const childMatch = findInNavigationTree(item.children, pathname);
-        if (childMatch) {
-          return childMatch;
-        }
-      }
-      // Return this item if no more specific child found
-      return item;
-    }
-
-    // Recursively check children
+    // Check children for exact matches first
     if (item.children) {
       const childMatch = findInNavigationTree(item.children, pathname);
       if (childMatch) {
-        return childMatch;
+        return childMatch; // Return the most specific child match
       }
+    }
+    
+    // Check if path starts with item path (but prioritize exact matches)
+    if (pathname.startsWith(item.path + '/')) {
+      bestMatch = item; // Keep this as a fallback
     }
   }
   
-  return null;
+  return bestMatch;
 }
 
 // Helper function to get page description from navigation config

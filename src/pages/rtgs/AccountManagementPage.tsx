@@ -159,7 +159,9 @@ export default function AccountManagementPage() {
           </div>
         </div>
 
-        {/* Filters Section - Only show for table view */}
+        <div className="flex h-full">
+          <div className="flex-1 space-y-6 pr-6">
+            {/* Filters Section - Only show for table view */}
             {viewMode === 'table' && (
               <Card className="bg-slate-50">
                 <CardContent className="p-4">
@@ -444,6 +446,16 @@ export default function AccountManagementPage() {
               </CardContent>
             </Card>
             )}
+          </div>
+
+          {/* Quick Actions Sidebar */}
+          <div className="w-80 pl-6">
+            <QuickActionsManager
+              pageKey="account-management"
+              systemType="rtgs"
+            />
+          </div>
+        </div>
       </div>
     </TooltipProvider>
   );
