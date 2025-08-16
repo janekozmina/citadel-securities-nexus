@@ -198,11 +198,11 @@ export const QuickActionsManager = ({ pageKey, systemType, className, onActionCl
           <Button
             key={action.id}
             variant={action.variant || 'outline'}
-            className="w-full justify-start"
+            className="w-full justify-start text-left h-auto py-2 px-3 whitespace-normal"
             onClick={() => handleActionClick(action)}
           >
-            <action.icon className="h-4 w-4 mr-2" />
-            {action.label}
+            <action.icon className="h-4 w-4 mr-2 flex-shrink-0 mt-0.5" />
+            <span className="break-words">{action.label}</span>
           </Button>
         ))}
         {activeActions.length === 0 && (

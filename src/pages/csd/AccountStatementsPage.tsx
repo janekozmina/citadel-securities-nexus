@@ -14,23 +14,35 @@ import {
   accountMovementsTrendChartConfig
 } from '@/config/dashboardConfigs';
 import { updateChartDataWithStats } from '@/utils/chartUtils';
+import portalConfig from '@/config/portalConfig';
 
-// Mock data for account statements
+// Mock data for account statements using portal configuration
 const generateMockAccountStatements = () => {
   const accountTypes = ['Custody Accounts', 'Settlement Accounts', 'Margin Accounts'];
   const instruments = ['CBB-2024-001', 'CBB-2024-002', 'GOVT-TB-2024', 'SUKUK-2024-001'];
+  const banks = portalConfig.banks.commercial;
+  const currencies = portalConfig.currencies.supported;
+  const primaryCurrency = portalConfig.currencies.primary;
   
-  return Array.from({ length: 50 }, (_, i) => ({
-    id: `ACC-${String(i + 1).padStart(4, '0')}`,
-    date: new Date(2024, Math.floor(Math.random() * 12), Math.floor(Math.random() * 28) + 1).toISOString().split('T')[0],
-    accountCode: `ACC-${String(i + 1).padStart(6, '0')}`,
-    accountType: accountTypes[Math.floor(Math.random() * accountTypes.length)],
-    instrument: instruments[Math.floor(Math.random() * instruments.length)],
-    debit: Math.random() > 0.5 ? Math.floor(Math.random() * 500000) : 0,
-    credit: Math.random() > 0.5 ? Math.floor(Math.random() * 500000) : 0,
-    closingBalance: Math.floor(Math.random() * 1000000) + 100000,
-    participantName: `Participant ${String.fromCharCode(65 + Math.floor(Math.random() * 26))}`
-  }));
+  return Array.from({ length: 100 }, (_, i) => {
+    const bank = banks[i % banks.length];
+    const currency = i < 20 ? primaryCurrency : currencies[i % currencies.length];
+    const accountType = accountTypes[Math.floor(Math.random() * accountTypes.length)];
+    
+    return {
+      id: `ACC-${String(i + 1).padStart(4, '0')}`,
+      date: new Date(2024, Math.floor(Math.random() * 12), Math.floor(Math.random() * 28) + 1).toISOString().split('T')[0],
+      accountCode: `${currency}-${portalConfig.banks.codes[bank] || 'UNK'}-${String(i + 1).padStart(6, '0')}`,
+      accountType: accountType,
+      instrument: instruments[Math.floor(Math.random() * instruments.length)],
+      debit: Math.random() > 0.3 ? Math.floor(Math.random() * 2000000) : 0,
+      credit: Math.random() > 0.3 ? Math.floor(Math.random() * 2500000) : 0,
+      closingBalance: Math.floor(Math.random() * 5000000) + 500000,
+      participantName: bank,
+      currency: currency,
+      bankCode: portalConfig.banks.codes[bank] || 'UNK'
+    };
+  });
 };
 
 const getStatementsStats = (data: any[]) => {
@@ -105,24 +117,26 @@ export default function AccountStatementsPage() {
   const columns = [
     { key: 'date', label: 'Date', sortable: true },
     { key: 'accountCode', label: 'Account Code', sortable: true },
+    { key: 'participantName', label: 'Participant', sortable: true },
+    { key: 'currency', label: 'Currency', sortable: true },
     { key: 'instrument', label: 'Security/Instrument', sortable: true },
     { 
       key: 'debit', 
       label: 'Debit', 
       sortable: true,
-      render: (value: number) => value > 0 ? `BHD ${value.toLocaleString()}` : '-'
+      render: (value: number, row: any) => value > 0 ? `${row.currency} ${value.toLocaleString()}` : '-'
     },
     { 
       key: 'credit', 
       label: 'Credit', 
       sortable: true,
-      render: (value: number) => value > 0 ? `BHD ${value.toLocaleString()}` : '-'
+      render: (value: number, row: any) => value > 0 ? `${row.currency} ${value.toLocaleString()}` : '-'
     },
     { 
       key: 'closingBalance', 
       label: 'Closing Balance', 
       sortable: true,
-      render: (value: number) => `BHD ${value.toLocaleString()}`
+      render: (value: number, row: any) => `${row.currency} ${value.toLocaleString()}`
     },
     { key: 'accountType', label: 'Account Type', sortable: true }
   ];
