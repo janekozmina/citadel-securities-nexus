@@ -18,7 +18,8 @@ import {
   Search,
   Filter,
   Eye,
-  Calendar as CalendarIcon
+  Calendar as CalendarIcon,
+  ArrowUpDown
 } from 'lucide-react';
 
 interface BillingRecord {
@@ -143,6 +144,10 @@ export default function BillingPage() {
   const [typeFilter, setTypeFilter] = useState('all');
   const [dateFrom, setDateFrom] = useState<Date>();
   const [dateTo, setDateTo] = useState<Date>();
+  const [sortField, setSortField] = useState<string>('');
+  const [sortDirection, setSortDirection] = useState<'asc' | 'desc'>('asc');
+  const [currentPage, setCurrentPage] = useState(1);
+  const itemsPerPage = 10;
   
   const filteredData = mockBillingData.filter(record => {
     const matchesSearch = record.bank.toLowerCase().includes(searchQuery.toLowerCase()) ||
@@ -153,11 +158,47 @@ export default function BillingPage() {
     return matchesSearch && matchesStatus && matchesType;
   });
 
+  // Sort filtered data
+  const sortedData = [...filteredData].sort((a, b) => {
+    if (!sortField) return 0;
+    
+    let aValue = a[sortField as keyof typeof a];
+    let bValue = b[sortField as keyof typeof b];
+    
+    if (typeof aValue === 'string') {
+      aValue = aValue.toLowerCase();
+      bValue = (bValue as string).toLowerCase();
+    }
+    
+    if (sortDirection === 'asc') {
+      return aValue < bValue ? -1 : aValue > bValue ? 1 : 0;
+    } else {
+      return aValue > bValue ? -1 : aValue < bValue ? 1 : 0;
+    }
+  });
+
+  // Paginate data
+  const paginatedData = sortedData.slice(
+    (currentPage - 1) * itemsPerPage,
+    currentPage * itemsPerPage
+  );
+
+  const totalPages = Math.ceil(sortedData.length / itemsPerPage);
+
+  const handleSort = (field: string) => {
+    if (sortField === field) {
+      setSortDirection(sortDirection === 'asc' ? 'desc' : 'asc');
+    } else {
+      setSortField(field);
+      setSortDirection('asc');
+    }
+  };
+
   // Calculate summary statistics
-  const totalInterest = filteredData.reduce((sum, record) => sum + record.interestEarned, 0);
-  const totalFees = filteredData.reduce((sum, record) => sum + record.fees, 0);
-  const totalCharges = filteredData.reduce((sum, record) => sum + record.charges, 0);
-  const netTotal = filteredData.reduce((sum, record) => sum + record.netAmount, 0);
+  const totalInterest = sortedData.reduce((sum, record) => sum + record.interestEarned, 0);
+  const totalFees = sortedData.reduce((sum, record) => sum + record.fees, 0);
+  const totalCharges = sortedData.reduce((sum, record) => sum + record.charges, 0);
+  const netTotal = sortedData.reduce((sum, record) => sum + record.netAmount, 0);
 
   const getStatusColor = (status: string) => {
     switch (status) {
@@ -348,52 +389,151 @@ export default function BillingPage() {
             </CardDescription>
           </CardHeader>
           <CardContent>
-            <Table>
-              <TableHeader>
-                <TableRow>
-                  <TableHead>Account</TableHead>
-                  <TableHead>Bank</TableHead>
-                  <TableHead>Period</TableHead>
-                  <TableHead className="text-right">Interest Earned</TableHead>
-                  <TableHead className="text-right">Fees</TableHead>
-                  <TableHead className="text-right">Charges</TableHead>
-                  <TableHead className="text-right">Net Amount</TableHead>
-                  <TableHead>Status</TableHead>
-                  <TableHead>Actions</TableHead>
-                </TableRow>
-              </TableHeader>
-              <TableBody>
-                {filteredData.map((record) => (
-                  <TableRow key={record.id}>
-                    <TableCell className="font-medium">{record.account}</TableCell>
-                    <TableCell>{record.bank}</TableCell>
-                    <TableCell>{record.period}</TableCell>
-                    <TableCell className="text-right text-green-600">
-                      {record.interestEarned > 0 ? formatCurrency(record.interestEarned) : '-'}
-                    </TableCell>
-                    <TableCell className="text-right text-blue-600">
-                      {record.fees > 0 ? formatCurrency(record.fees) : '-'}
-                    </TableCell>
-                    <TableCell className="text-right text-orange-600">
-                      {record.charges > 0 ? formatCurrency(record.charges) : '-'}
-                    </TableCell>
-                    <TableCell className={`text-right font-medium ${record.netAmount >= 0 ? 'text-green-600' : 'text-red-600'}`}>
-                      {formatCurrency(record.netAmount)}
-                    </TableCell>
-                    <TableCell>
-                      <Badge className={getStatusColor(record.status)}>
-                        {record.status}
-                      </Badge>
-                    </TableCell>
-                    <TableCell>
-                      <Button variant="ghost" size="sm">
-                        <Eye className="h-4 w-4" />
-                      </Button>
-                    </TableCell>
+            <div className="overflow-x-auto">
+              <Table>
+                <TableHeader>
+                  <TableRow>
+                    <TableHead 
+                      className="cursor-pointer hover:bg-slate-50"
+                      onClick={() => handleSort('account')}
+                    >
+                      <div className="flex items-center gap-1">
+                        Account
+                        <ArrowUpDown className="h-3 w-3" />
+                      </div>
+                    </TableHead>
+                    <TableHead 
+                      className="cursor-pointer hover:bg-slate-50"
+                      onClick={() => handleSort('bank')}
+                    >
+                      <div className="flex items-center gap-1">
+                        Bank
+                        <ArrowUpDown className="h-3 w-3" />
+                      </div>
+                    </TableHead>
+                    <TableHead 
+                      className="cursor-pointer hover:bg-slate-50"
+                      onClick={() => handleSort('period')}
+                    >
+                      <div className="flex items-center gap-1">
+                        Period
+                        <ArrowUpDown className="h-3 w-3" />
+                      </div>
+                    </TableHead>
+                    <TableHead 
+                      className="text-right cursor-pointer hover:bg-slate-50"
+                      onClick={() => handleSort('interestEarned')}
+                    >
+                      <div className="flex items-center gap-1 justify-end">
+                        Interest Earned
+                        <ArrowUpDown className="h-3 w-3" />
+                      </div>
+                    </TableHead>
+                    <TableHead 
+                      className="text-right cursor-pointer hover:bg-slate-50"
+                      onClick={() => handleSort('fees')}
+                    >
+                      <div className="flex items-center gap-1 justify-end">
+                        Fees
+                        <ArrowUpDown className="h-3 w-3" />
+                      </div>
+                    </TableHead>
+                    <TableHead 
+                      className="text-right cursor-pointer hover:bg-slate-50"
+                      onClick={() => handleSort('charges')}
+                    >
+                      <div className="flex items-center gap-1 justify-end">
+                        Charges
+                        <ArrowUpDown className="h-3 w-3" />
+                      </div>
+                    </TableHead>
+                    <TableHead 
+                      className="text-right cursor-pointer hover:bg-slate-50"
+                      onClick={() => handleSort('netAmount')}
+                    >
+                      <div className="flex items-center gap-1 justify-end">
+                        Net Amount
+                        <ArrowUpDown className="h-3 w-3" />
+                      </div>
+                    </TableHead>
+                    <TableHead 
+                      className="cursor-pointer hover:bg-slate-50"
+                      onClick={() => handleSort('status')}
+                    >
+                      <div className="flex items-center gap-1">
+                        Status
+                        <ArrowUpDown className="h-3 w-3" />
+                      </div>
+                    </TableHead>
+                    <TableHead>Actions</TableHead>
                   </TableRow>
-                ))}
-              </TableBody>
-            </Table>
+                </TableHeader>
+                <TableBody>
+                  {paginatedData.map((record) => (
+                    <TableRow key={record.id} className="hover:bg-slate-50">
+                      <TableCell className="font-mono text-xs">{record.account}</TableCell>
+                      <TableCell className="font-medium text-sm">{record.bank}</TableCell>
+                      <TableCell>
+                        <Badge variant="outline">{record.period}</Badge>
+                      </TableCell>
+                      <TableCell className="text-right text-green-600 font-medium">
+                        {record.interestEarned > 0 ? formatCurrency(record.interestEarned) : '-'}
+                      </TableCell>
+                      <TableCell className="text-right text-blue-600 font-medium">
+                        {record.fees > 0 ? formatCurrency(record.fees) : '-'}
+                      </TableCell>
+                      <TableCell className="text-right text-orange-600 font-medium">
+                        {record.charges > 0 ? formatCurrency(record.charges) : '-'}
+                      </TableCell>
+                      <TableCell className={`text-right font-medium ${record.netAmount >= 0 ? 'text-green-600' : 'text-red-600'}`}>
+                        {formatCurrency(record.netAmount)}
+                      </TableCell>
+                      <TableCell>
+                        <Badge variant={
+                          record.status === 'processed' ? 'default' :
+                          record.status === 'pending' ? 'secondary' : 'destructive'
+                        }>
+                          {record.status}
+                        </Badge>
+                      </TableCell>
+                      <TableCell>
+                        <Button variant="ghost" size="sm">
+                          <Eye className="h-4 w-4" />
+                        </Button>
+                      </TableCell>
+                    </TableRow>
+                  ))}
+                </TableBody>
+              </Table>
+            </div>
+            
+            {/* Pagination */}
+            <div className="flex items-center justify-between mt-4">
+              <div className="text-sm text-slate-600">
+                Showing {((currentPage - 1) * itemsPerPage) + 1} to {Math.min(currentPage * itemsPerPage, sortedData.length)} of {sortedData.length} records
+              </div>
+              <div className="flex gap-2">
+                <Button 
+                  variant="outline" 
+                  size="sm"
+                  disabled={currentPage === 1}
+                  onClick={() => setCurrentPage(currentPage - 1)}
+                >
+                  Previous
+                </Button>
+                <span className="flex items-center px-3 text-sm">
+                  Page {currentPage} of {totalPages}
+                </span>
+                <Button 
+                  variant="outline" 
+                  size="sm"
+                  disabled={currentPage === totalPages}
+                  onClick={() => setCurrentPage(currentPage + 1)}
+                >
+                  Next
+                </Button>
+              </div>
+            </div>
           </CardContent>
         </Card>
       </section>
