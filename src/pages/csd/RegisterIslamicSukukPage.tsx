@@ -37,7 +37,7 @@ const generateMockSukukData = () => {
       issueDate: issueDate.toISOString().split('T')[0],
       maturityDate: maturityDate.toISOString().split('T')[0],
       tenor: tenor,
-      profit_rate: 3.5 + Math.random() * 4, // 3.5% to 7.5%
+      profit_rate: parseFloat((3.5 + Math.random() * 4).toFixed(5)), // 3.5% to 7.5%
       currency: i < 60 ? 'BHD' : ['USD', 'EUR'][Math.floor(Math.random() * 2)],
       status: ['Active', 'Matured', 'Called'][Math.floor(Math.random() * 10) < 8 ? 0 : Math.floor(Math.random() * 2) + 1],
       investorDistribution: {

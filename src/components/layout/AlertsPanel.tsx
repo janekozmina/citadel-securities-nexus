@@ -171,7 +171,7 @@ const AlertsPanel = ({ alerts, onDismissAlert }: AlertsPanelProps) => {
   };
 
   return (
-    <div className={`fixed right-0 top-16 h-[calc(100vh-8rem)] transition-all duration-300 z-40 ${isExpanded ? 'w-80' : 'w-10'}`}>
+    <div className={`fixed right-0 top-16 bottom-4 transition-all duration-300 z-40 ${isExpanded ? 'w-80' : 'w-10'}`}>
       <div className="h-full flex">
         {/* Toggle Button */}
         <div className="w-10 h-full flex items-center justify-center alerts-panel-gradient">
