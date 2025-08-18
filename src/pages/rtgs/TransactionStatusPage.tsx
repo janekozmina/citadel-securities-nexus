@@ -1,4 +1,5 @@
 import { useEffect, useState } from 'react';
+import { useBusinessDayEmulation } from '@/hooks/useBusinessDayEmulation';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { DataTable } from '@/components/common/DataTable';
@@ -34,11 +35,35 @@ const COLORS = {
 };
 
 export default function TransactionStatusPage() {
+  const { transactionMetrics } = useBusinessDayEmulation();
   const [transactions] = useState<TransactionData[]>(() => generateTransactionData());
   const [viewMode, setViewMode] = useState<'visual' | 'table'>('visual');
   const [statusFilter, setStatusFilter] = useState<'all' | 'Settled' | 'Rejected' | 'In Queue' | 'ILF/BUYBACK'>('all');
   const [activeDialog, setActiveDialog] = useState<'general-transfer' | 'check-funds' | 'liquidity-source' | 'manual-gridlock' | null>(null);
-  const stats = getTransactionStats(transactions);
+  
+  // Create stats from business day emulation metrics instead of static data
+  const stats = {
+    total: {
+      count: transactionMetrics.totalTransactions,
+      volume: transactionMetrics.totalVolume
+    },
+    settled: {
+      count: transactionMetrics.settledTransactions,
+      volume: Math.round(transactionMetrics.totalVolume * 0.85) // ~85% of total volume settled
+    },
+    rejected: {
+      count: transactionMetrics.rejectedTransactions,
+      volume: Math.round(transactionMetrics.totalVolume * 0.05) // ~5% of total volume rejected
+    },
+    queue: {
+      count: transactionMetrics.queuedTransactions,
+      volume: Math.round(transactionMetrics.totalVolume * 0.08) // ~8% of total volume queued
+    },
+    ilf: {
+      count: transactionMetrics.ilfTransactions,
+      volume: Math.round(transactionMetrics.totalVolume * 0.02) // ~2% of total volume ILF
+    }
+  };
 
   useEffect(() => {
     document.title = 'Transaction Status Amount / Volume | CBB Portal';
@@ -143,7 +168,7 @@ export default function TransactionStatusPage() {
                   <CardContent>
                     <div className="text-2xl font-bold">{stats.total.count.toLocaleString()}</div>
                     <p className="text-xs text-muted-foreground">
-                      {formatCurrency(stats.total.volume)}
+                      {formatVolume(stats.total.volume)} BHD
                     </p>
                   </CardContent>
                 </Card>
@@ -163,7 +188,7 @@ export default function TransactionStatusPage() {
                   <CardContent>
                     <div className="text-2xl font-bold text-green-600">{stats.settled.count.toLocaleString()}</div>
                     <p className="text-xs text-muted-foreground">
-                      {formatCurrency(stats.settled.volume)}
+                      {formatVolume(stats.settled.volume)} BHD
                     </p>
                   </CardContent>
                 </Card>
@@ -183,7 +208,7 @@ export default function TransactionStatusPage() {
                   <CardContent>
                     <div className="text-2xl font-bold text-red-600">{stats.rejected.count.toLocaleString()}</div>
                     <p className="text-xs text-muted-foreground">
-                      {formatCurrency(stats.rejected.volume)}
+                      {formatVolume(stats.rejected.volume)} BHD
                     </p>
                   </CardContent>
                 </Card>
@@ -203,7 +228,7 @@ export default function TransactionStatusPage() {
                   <CardContent>
                     <div className="text-2xl font-bold text-yellow-600">{stats.queue.count.toLocaleString()}</div>
                     <p className="text-xs text-muted-foreground">
-                      {formatCurrency(stats.queue.volume)}
+                      {formatVolume(stats.queue.volume)} BHD
                     </p>
                   </CardContent>
                 </Card>
@@ -223,7 +248,7 @@ export default function TransactionStatusPage() {
                   <CardContent>
                     <div className="text-2xl font-bold text-purple-600">{stats.ilf.count.toLocaleString()}</div>
                     <p className="text-xs text-muted-foreground">
-                      {formatCurrency(stats.ilf.volume)}
+                      {formatVolume(stats.ilf.volume)} BHD
                     </p>
                   </CardContent>
                 </Card>
