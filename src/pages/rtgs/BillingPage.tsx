@@ -1,12 +1,14 @@
 import { useEffect, useState } from 'react';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
-import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
-// Date picker will be implemented as needed
+import { Calendar } from '@/components/ui/calendar';
+import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover';
+import { format } from 'date-fns';
+import { cn } from '@/lib/utils';
 import { 
   DollarSign, 
   TrendingUp, 
@@ -16,7 +18,7 @@ import {
   Search,
   Filter,
   Eye,
-  Calendar
+  Calendar as CalendarIcon
 } from 'lucide-react';
 
 interface BillingRecord {
@@ -139,6 +141,8 @@ export default function BillingPage() {
   const [searchQuery, setSearchQuery] = useState('');
   const [statusFilter, setStatusFilter] = useState('all');
   const [typeFilter, setTypeFilter] = useState('all');
+  const [dateFrom, setDateFrom] = useState<Date>();
+  const [dateTo, setDateTo] = useState<Date>();
   
   const filteredData = mockBillingData.filter(record => {
     const matchesSearch = record.bank.toLowerCase().includes(searchQuery.toLowerCase()) ||
@@ -281,241 +285,117 @@ export default function BillingPage() {
                 </SelectContent>
               </Select>
 
-              <Button variant="outline" className="gap-2">
-                <Calendar className="h-4 w-4" />
-                Date Range
-              </Button>
+              {/* Date Range Picker */}
+              <div className="flex gap-2">
+                <Popover>
+                  <PopoverTrigger asChild>
+                    <Button
+                      variant="outline"
+                      className={cn(
+                        "justify-start text-left font-normal",
+                        !dateFrom && "text-muted-foreground"
+                      )}
+                    >
+                      <CalendarIcon className="mr-2 h-4 w-4" />
+                      {dateFrom ? format(dateFrom, "PPP") : "From date"}
+                    </Button>
+                  </PopoverTrigger>
+                  <PopoverContent className="w-auto p-0" align="start">
+                    <Calendar
+                      mode="single"
+                      selected={dateFrom}
+                      onSelect={setDateFrom}
+                      initialFocus
+                      className={cn("p-3 pointer-events-auto")}
+                    />
+                  </PopoverContent>
+                </Popover>
+
+                <Popover>
+                  <PopoverTrigger asChild>
+                    <Button
+                      variant="outline"
+                      className={cn(
+                        "justify-start text-left font-normal",
+                        !dateTo && "text-muted-foreground"
+                      )}
+                    >
+                      <CalendarIcon className="mr-2 h-4 w-4" />
+                      {dateTo ? format(dateTo, "PPP") : "To date"}
+                    </Button>
+                  </PopoverTrigger>
+                  <PopoverContent className="w-auto p-0" align="start">
+                    <Calendar
+                      mode="single"
+                      selected={dateTo}
+                      onSelect={setDateTo}
+                      initialFocus
+                      className={cn("p-3 pointer-events-auto")}
+                    />
+                  </PopoverContent>
+                </Popover>
+              </div>
             </div>
           </CardContent>
         </Card>
 
         {/* Billing Details */}
-        <Tabs defaultValue="summary" className="space-y-4">
-          <TabsList>
-            <TabsTrigger value="summary">Summary View</TabsTrigger>
-            <TabsTrigger value="detailed">Detailed Breakdown</TabsTrigger>
-            <TabsTrigger value="disputes">Disputes</TabsTrigger>
-          </TabsList>
-          
-          <TabsContent value="summary">
-            <Card>
-              <CardHeader>
-                <CardTitle>Billing Summary</CardTitle>
-                <CardDescription>
-                  Overview of interest, fees, and charges for each participant account
-                </CardDescription>
-              </CardHeader>
-              <CardContent>
-                <Table>
-                  <TableHeader>
-                    <TableRow>
-                      <TableHead>Account</TableHead>
-                      <TableHead>Bank</TableHead>
-                      <TableHead>Period</TableHead>
-                      <TableHead className="text-right">Interest Earned</TableHead>
-                      <TableHead className="text-right">Fees</TableHead>
-                      <TableHead className="text-right">Charges</TableHead>
-                      <TableHead className="text-right">Net Amount</TableHead>
-                      <TableHead>Status</TableHead>
-                      <TableHead>Actions</TableHead>
-                    </TableRow>
-                  </TableHeader>
-                  <TableBody>
-                    {filteredData.map((record) => (
-                      <TableRow key={record.id}>
-                        <TableCell className="font-medium">{record.account}</TableCell>
-                        <TableCell>{record.bank}</TableCell>
-                        <TableCell>{record.period}</TableCell>
-                        <TableCell className="text-right text-green-600">
-                          {record.interestEarned > 0 ? formatCurrency(record.interestEarned) : '-'}
-                        </TableCell>
-                        <TableCell className="text-right text-blue-600">
-                          {record.fees > 0 ? formatCurrency(record.fees) : '-'}
-                        </TableCell>
-                        <TableCell className="text-right text-orange-600">
-                          {record.charges > 0 ? formatCurrency(record.charges) : '-'}
-                        </TableCell>
-                        <TableCell className={`text-right font-medium ${record.netAmount >= 0 ? 'text-green-600' : 'text-red-600'}`}>
-                          {formatCurrency(record.netAmount)}
-                        </TableCell>
-                        <TableCell>
-                          <Badge className={getStatusColor(record.status)}>
-                            {record.status}
-                          </Badge>
-                        </TableCell>
-                        <TableCell>
-                          <Button variant="ghost" size="sm">
-                            <Eye className="h-4 w-4" />
-                          </Button>
-                        </TableCell>
-                      </TableRow>
-                    ))}
-                  </TableBody>
-                </Table>
-              </CardContent>
-            </Card>
-          </TabsContent>
-          
-          <TabsContent value="detailed">
-            <Card>
-              <CardHeader>
-                <CardTitle>Detailed Breakdown</CardTitle>
-                <CardDescription>
-                  Detailed breakdown of each billing component with transaction-level information
-                </CardDescription>
-              </CardHeader>
-              <CardContent>
-                <div className="space-y-6">
-                  {/* Interest Details */}
-                  <div>
-                    <h3 className="text-lg font-semibold mb-3 flex items-center gap-2">
-                      <TrendingUp className="h-5 w-5 text-green-600" />
-                      Interest Calculations
-                    </h3>
-                    <div className="bg-green-50 p-4 rounded-lg space-y-2">
-                      <div className="grid grid-cols-1 md:grid-cols-3 gap-4 text-sm">
-                        <div>
-                          <span className="font-medium">Base Rate:</span> 4.25%
-                        </div>
-                        <div>
-                          <span className="font-medium">Calculation Method:</span> Daily Balance
-                        </div>
-                        <div>
-                          <span className="font-medium">Accrual Frequency:</span> Daily
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-
-                  {/* Fee Structure */}
-                  <div>
-                    <h3 className="text-lg font-semibold mb-3 flex items-center gap-2">
-                      <DollarSign className="h-5 w-5 text-blue-600" />
-                      Fee Structure
-                    </h3>
-                    <div className="bg-blue-50 p-4 rounded-lg">
-                      <Table>
-                        <TableHeader>
-                          <TableRow>
-                            <TableHead>Fee Type</TableHead>
-                            <TableHead>Rate/Amount</TableHead>
-                            <TableHead>Frequency</TableHead>
-                            <TableHead>Description</TableHead>
-                          </TableRow>
-                        </TableHeader>
-                        <TableBody>
-                          <TableRow>
-                            <TableCell>Account Maintenance</TableCell>
-                            <TableCell>BHD 150/month</TableCell>
-                            <TableCell>Monthly</TableCell>
-                            <TableCell>Basic account maintenance fee</TableCell>
-                          </TableRow>
-                          <TableRow>
-                            <TableCell>Transaction Fee</TableCell>
-                            <TableCell>BHD 0.50 per transaction</TableCell>
-                            <TableCell>Per Transaction</TableCell>
-                            <TableCell>Processing fee for each transaction</TableCell>
-                          </TableRow>
-                          <TableRow>
-                            <TableCell>Liquidity Management</TableCell>
-                            <TableCell>0.15% of daily average</TableCell>
-                            <TableCell>Monthly</TableCell>
-                            <TableCell>Liquidity facility usage fee</TableCell>
-                          </TableRow>
-                        </TableBody>
-                      </Table>
-                    </div>
-                  </div>
-
-                  {/* Charges Breakdown */}
-                  <div>
-                    <h3 className="text-lg font-semibold mb-3 flex items-center gap-2">
-                      <TrendingDown className="h-5 w-5 text-orange-600" />
-                      Additional Charges
-                    </h3>
-                    <div className="bg-orange-50 p-4 rounded-lg">
-                      <Table>
-                        <TableHeader>
-                          <TableRow>
-                            <TableHead>Charge Type</TableHead>
-                            <TableHead>Amount</TableHead>
-                            <TableHead>Reason</TableHead>
-                            <TableHead>Date</TableHead>
-                          </TableRow>
-                        </TableHeader>
-                        <TableBody>
-                          <TableRow>
-                            <TableCell>Late Payment Penalty</TableCell>
-                            <TableCell>BHD 50.00</TableCell>
-                            <TableCell>Settlement delay &gt; 2 hours</TableCell>
-                            <TableCell>2024-01-15</TableCell>
-                          </TableRow>
-                          <TableRow>
-                            <TableCell>System Override Fee</TableCell>
-                            <TableCell>BHD 25.50</TableCell>
-                            <TableCell>Manual intervention required</TableCell>
-                            <TableCell>2024-01-22</TableCell>
-                          </TableRow>
-                          <TableRow>
-                            <TableCell>Compliance Check</TableCell>
-                            <TableCell>BHD 75.00</TableCell>
-                            <TableCell>Enhanced due diligence</TableCell>
-                            <TableCell>2024-01-28</TableCell>
-                          </TableRow>
-                        </TableBody>
-                      </Table>
-                    </div>
-                  </div>
-                </div>
-              </CardContent>
-            </Card>
-          </TabsContent>
-          
-          <TabsContent value="disputes">
-            <Card>
-              <CardHeader>
-                <CardTitle>Disputed Items</CardTitle>
-                <CardDescription>
-                  Review and manage billing disputes from participants
-                </CardDescription>
-              </CardHeader>
-              <CardContent>
-                <div className="space-y-4">
-                  {filteredData.filter(record => record.status === 'disputed').map((record) => (
-                    <div key={record.id} className="border border-red-200 bg-red-50 p-4 rounded-lg">
-                      <div className="flex items-start justify-between">
-                        <div className="space-y-2">
-                          <h4 className="font-semibold">{record.bank}</h4>
-                          <p className="text-sm text-muted-foreground">Account: {record.account}</p>
-                          <p className="text-sm">
-                            <span className="font-medium">Disputed Amount:</span> {formatCurrency(record.netAmount)}
-                          </p>
-                          <p className="text-sm">
-                            <span className="font-medium">Reason:</span> Incorrect interest calculation on overnight balances
-                          </p>
-                        </div>
-                        <div className="flex gap-2">
-                          <Button size="sm" variant="outline">
-                            Review
-                          </Button>
-                          <Button size="sm">
-                            Resolve
-                          </Button>
-                        </div>
-                      </div>
-                    </div>
-                  ))}
-                  
-                  {filteredData.filter(record => record.status === 'disputed').length === 0 && (
-                    <div className="text-center py-8 text-muted-foreground">
-                      No disputed items found
-                    </div>
-                  )}
-                </div>
-              </CardContent>
-            </Card>
-          </TabsContent>
-        </Tabs>
+        <Card>
+          <CardHeader>
+            <CardTitle>Billing Summary</CardTitle>
+            <CardDescription>
+              Overview of interest, fees, and charges for each participant account
+            </CardDescription>
+          </CardHeader>
+          <CardContent>
+            <Table>
+              <TableHeader>
+                <TableRow>
+                  <TableHead>Account</TableHead>
+                  <TableHead>Bank</TableHead>
+                  <TableHead>Period</TableHead>
+                  <TableHead className="text-right">Interest Earned</TableHead>
+                  <TableHead className="text-right">Fees</TableHead>
+                  <TableHead className="text-right">Charges</TableHead>
+                  <TableHead className="text-right">Net Amount</TableHead>
+                  <TableHead>Status</TableHead>
+                  <TableHead>Actions</TableHead>
+                </TableRow>
+              </TableHeader>
+              <TableBody>
+                {filteredData.map((record) => (
+                  <TableRow key={record.id}>
+                    <TableCell className="font-medium">{record.account}</TableCell>
+                    <TableCell>{record.bank}</TableCell>
+                    <TableCell>{record.period}</TableCell>
+                    <TableCell className="text-right text-green-600">
+                      {record.interestEarned > 0 ? formatCurrency(record.interestEarned) : '-'}
+                    </TableCell>
+                    <TableCell className="text-right text-blue-600">
+                      {record.fees > 0 ? formatCurrency(record.fees) : '-'}
+                    </TableCell>
+                    <TableCell className="text-right text-orange-600">
+                      {record.charges > 0 ? formatCurrency(record.charges) : '-'}
+                    </TableCell>
+                    <TableCell className={`text-right font-medium ${record.netAmount >= 0 ? 'text-green-600' : 'text-red-600'}`}>
+                      {formatCurrency(record.netAmount)}
+                    </TableCell>
+                    <TableCell>
+                      <Badge className={getStatusColor(record.status)}>
+                        {record.status}
+                      </Badge>
+                    </TableCell>
+                    <TableCell>
+                      <Button variant="ghost" size="sm">
+                        <Eye className="h-4 w-4" />
+                      </Button>
+                    </TableCell>
+                  </TableRow>
+                ))}
+              </TableBody>
+            </Table>
+          </CardContent>
+        </Card>
       </section>
     </main>
   );
