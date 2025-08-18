@@ -1,4 +1,11 @@
 import { useState, useEffect, useCallback } from 'react';
+import { 
+  simulationConfig, 
+  getTransactionCountForHour, 
+  getHourlyProgress,
+  RTGS_TRANSACTION_COUNTS,
+  CSD_TRANSACTION_COUNTS 
+} from '../config/simulationConfig';
 
 export interface EmulatedBusinessDay {
   currentTime: Date;
@@ -18,6 +25,29 @@ export interface TransactionMetrics {
   averageTransactionValue: number;
   processingTime: number;
   delayShare: number;
+  cumulativeTransactions: number;
+  hourlyTransactions: number;
+  currencyBreakdown: {
+    BHD: number;
+    USD: number;
+    EUR: number;
+    SAR: number;
+  };
+}
+
+export interface CSDMetrics {
+  totalTransactions: number;
+  settledTransactions: number;
+  failedSettlements: number;
+  pendingInstructions: number;
+  settlementValue: number;
+  cumulativeTransactions: number;
+  hourlyTransactions: number;
+  securitiesBreakdown: {
+    Government: number;
+    Corporate: number;
+    Sukuk: number;
+  };
 }
 
 export interface LiquidityMetrics {
@@ -120,72 +150,45 @@ const BUSINESS_PHASES: BusinessPhase[] = [
 ];
 
 const generateTransactionPattern = (hour: number, minute: number): TransactionMetrics => {
-  // Convert hour.minute to decimal hour
-  const decimalHour = hour + minute / 60;
+  const isBusinessHours = hour >= 8 && hour <= 17;
   
-  // Activity multiplier based on business day phases
-  let activityMultiplier = 1;
+  // Get cumulative and hourly transaction counts from configuration
+  const cumulativeTransactions = isBusinessHours ? 
+    RTGS_TRANSACTION_COUNTS[Math.min(hour - 8, RTGS_TRANSACTION_COUNTS.length - 1)] : 0;
+  const hourlyTransactions = isBusinessHours ? 
+    getTransactionCountForHour(hour, RTGS_TRANSACTION_COUNTS) : 0;
+  const progressTransactions = isBusinessHours ? 
+    getHourlyProgress(hour, minute, RTGS_TRANSACTION_COUNTS) : 0;
+  
+  const totalTransactions = cumulativeTransactions + progressTransactions;
+  
+  // Generate processing metrics only during opening phase
   let processingTime = 0;
   let averageValue = 0;
   let delayShare = 0;
   
-  if (decimalHour >= 7 && decimalHour < 8.5) {
-    // Pre-opening phase - minimal transactions
-    activityMultiplier = 0.05;
-    processingTime = 0;
-    averageValue = 0;
-    delayShare = 0;
-  } else if (decimalHour >= 8.5 && decimalHour < 12) {
-    // Opening phase - start generating metrics
-    activityMultiplier = 0.8 + Math.sin((decimalHour - 8.5) * Math.PI / 7) * 0.4;
-    processingTime = normalRandom(2.3, 0.5); // Normal distribution around 2.3s
-    averageValue = normalRandom(2400000, 300000); // Normal distribution around 2.4M BHD
-    delayShare = normalRandom(0.02, 0.01); // Normal distribution around 0.02%
-  } else if (decimalHour >= 12 && decimalHour < 14.5) {
-    // Peak activity
-    activityMultiplier = 1.2 + normalRandom(0, 0.15);
-    processingTime = normalRandom(2.1, 0.4);
-    averageValue = normalRandom(2600000, 400000);
-    delayShare = normalRandom(0.025, 0.015);
-  } else if (decimalHour >= 14.5 && decimalHour < 16.5) {
-    // Afternoon
-    activityMultiplier = 0.9 + normalRandom(0, 0.1);
-    processingTime = normalRandom(2.4, 0.3);
-    averageValue = normalRandom(2300000, 250000);
-    delayShare = normalRandom(0.018, 0.008);
-  } else if (decimalHour >= 16.5 && decimalHour < 17) {
-    // End-of-day
-    activityMultiplier = 0.5 + normalRandom(0, 0.15);
-    processingTime = normalRandom(2.7, 0.6);
-    averageValue = normalRandom(2100000, 300000);
-    delayShare = normalRandom(0.035, 0.02);
-  } else if (decimalHour >= 17 && decimalHour < 18) {
-    // Post-closing
-    activityMultiplier = 0.2 + normalRandom(0, 0.05);
-    processingTime = normalRandom(3.1, 0.8);
-    averageValue = normalRandom(1800000, 200000);
-    delayShare = normalRandom(0.015, 0.01);
-  } else {
-    // Outside business hours
-    activityMultiplier = 0.02;
-    processingTime = 0;
-    averageValue = 0;
-    delayShare = 0;
+  if (hour >= 8 && hour <= 17) {
+    processingTime = normalRandom(2.3, 0.5);
+    averageValue = normalRandom(2400000, 300000);
+    delayShare = normalRandom(0.02, 0.01);
   }
-
-  // Different base transactions for RTGS vs CSD (RTGS typically higher volume)
-  const baseRTGSTransactions = 18000;
-  const totalTransactions = Math.max(0, Math.round(baseRTGSTransactions * activityMultiplier * normalRandom(1, 0.1)));
   
-  // Settlement rate varies by time of day
-  const settlementRate = Math.min(0.98, Math.max(0.85, 0.70 + (activityMultiplier * 0.25)));
+  // Settlement rates
+  const settlementRate = isBusinessHours ? 0.95 + normalRandom(0, 0.03) : 0;
   const settledTransactions = Math.round(totalTransactions * settlementRate);
+  const rejectedTransactions = Math.round(totalTransactions * normalRandom(0.02, 0.01));
+  const queuedTransactions = Math.round(totalTransactions * normalRandom(0.08, 0.02));
+  const ilfTransactions = Math.round(totalTransactions * normalRandom(0.05, 0.015));
   
-  const rejectedTransactions = Math.round(totalTransactions * Math.max(0, normalRandom(0.025, 0.01)));
-  const queuedTransactions = Math.round(totalTransactions * Math.max(0, (0.10 - activityMultiplier * 0.05)));
-  const ilfTransactions = Math.round(totalTransactions * Math.max(0, normalRandom(0.05, 0.015)));
-
   const totalVolume = Math.round(settledTransactions * Math.max(0, averageValue));
+  
+  // Currency breakdown based on configuration
+  const currencyBreakdown = {
+    BHD: Math.round(totalTransactions * 0.65),
+    USD: Math.round(totalTransactions * 0.25),
+    EUR: Math.round(totalTransactions * 0.07),
+    SAR: Math.round(totalTransactions * 0.03)
+  };
 
   return {
     totalTransactions,
@@ -196,7 +199,51 @@ const generateTransactionPattern = (hour: number, minute: number): TransactionMe
     totalVolume,
     averageTransactionValue: Math.max(0, Math.round(averageValue)),
     processingTime: Math.max(0, processingTime),
-    delayShare: Math.max(0, delayShare)
+    delayShare: Math.max(0, delayShare),
+    cumulativeTransactions,
+    hourlyTransactions: hourlyTransactions + progressTransactions,
+    currencyBreakdown
+  };
+};
+
+const generateCSDPattern = (hour: number, minute: number): CSDMetrics => {
+  const isBusinessHours = hour >= 9 && hour <= 17;
+  
+  // Get cumulative and hourly transaction counts from configuration
+  const cumulativeTransactions = isBusinessHours ? 
+    CSD_TRANSACTION_COUNTS[Math.min(hour - 9, CSD_TRANSACTION_COUNTS.length - 1)] : 0;
+  const hourlyTransactions = isBusinessHours ? 
+    getTransactionCountForHour(hour, CSD_TRANSACTION_COUNTS) : 0;
+  const progressTransactions = isBusinessHours ? 
+    getHourlyProgress(hour, minute, CSD_TRANSACTION_COUNTS) : 0;
+  
+  const totalTransactions = cumulativeTransactions + progressTransactions;
+  
+  // Settlement metrics
+  const settlementRate = isBusinessHours ? 0.92 + normalRandom(0, 0.05) : 0;
+  const settledTransactions = Math.round(totalTransactions * settlementRate);
+  const failedSettlements = Math.round(totalTransactions * normalRandom(0.03, 0.01));
+  const pendingInstructions = Math.round(totalTransactions * normalRandom(0.05, 0.02));
+  
+  const averageSettlementValue = 1500000; // 1.5M BHD average
+  const settlementValue = Math.round(settledTransactions * averageSettlementValue);
+  
+  // Securities breakdown
+  const securitiesBreakdown = {
+    Government: Math.round(totalTransactions * 0.60),
+    Corporate: Math.round(totalTransactions * 0.25),
+    Sukuk: Math.round(totalTransactions * 0.15)
+  };
+
+  return {
+    totalTransactions,
+    settledTransactions,
+    failedSettlements,
+    pendingInstructions,
+    settlementValue,
+    cumulativeTransactions,
+    hourlyTransactions: hourlyTransactions + progressTransactions,
+    securitiesBreakdown
   };
 };
 
@@ -236,19 +283,19 @@ const normalRandom = (mean: number, stdDev: number) => {
   return mean + stdDev * z;
 };
 
-export const useBusinessDayEmulation = (timeMultiplier: number = 11) => { // 11 minutes real time = 1 hour emulated (60 minutes)
+export const useBusinessDayEmulation = () => {
   const [emulatedDay, setEmulatedDay] = useState<EmulatedBusinessDay>(() => {
     const now = new Date();
-    // Start emulated day at 7:00 AM
+    // Start simulation based on current real time hour
     const emulatedStart = new Date();
-    emulatedStart.setHours(7, 0, 0, 0);
+    emulatedStart.setHours(now.getHours(), 0, 0, 0);
     
     return {
       currentTime: now,
       emulatedTime: emulatedStart,
       currentPhase: 1,
       isRunning: true,
-      timeMultiplier
+      timeMultiplier: 1 // Real time progression
     };
   });
 
@@ -261,7 +308,21 @@ export const useBusinessDayEmulation = (timeMultiplier: number = 11) => { // 11 
     totalVolume: 0,
     averageTransactionValue: 0,
     processingTime: 0,
-    delayShare: 0
+    delayShare: 0,
+    cumulativeTransactions: 0,
+    hourlyTransactions: 0,
+    currencyBreakdown: { BHD: 0, USD: 0, EUR: 0, SAR: 0 }
+  }));
+  
+  const [csdMetrics, setCSDMetrics] = useState<CSDMetrics>(() => ({
+    totalTransactions: 0,
+    settledTransactions: 0,
+    failedSettlements: 0,
+    pendingInstructions: 0,
+    settlementValue: 0,
+    cumulativeTransactions: 0,
+    hourlyTransactions: 0,
+    securitiesBreakdown: { Government: 0, Corporate: 0, Sukuk: 0 }
   }));
   
   const [liquidityMetrics, setLiquidityMetrics] = useState<LiquidityMetrics>(() => 
@@ -284,17 +345,9 @@ export const useBusinessDayEmulation = (timeMultiplier: number = 11) => { // 11 
 
     setEmulatedDay(prev => {
       const now = new Date();
-      const newEmulatedTime = new Date(prev.emulatedTime);
+      // Sync with real time, starting each hour fresh
+      const newEmulatedTime = new Date();
       
-      // Add 1 emulated minute each update (every 5.45 seconds real time)
-      newEmulatedTime.setMinutes(newEmulatedTime.getMinutes() + 1);
-      
-      // Reset to next day at 7:00 AM if we go past 18:00
-      if (newEmulatedTime.getHours() >= 18) {
-        newEmulatedTime.setHours(7, 0, 0, 0);
-        newEmulatedTime.setDate(newEmulatedTime.getDate() + 1);
-      }
-
       const currentPhase = getCurrentPhase(newEmulatedTime);
 
       return {
@@ -304,26 +357,25 @@ export const useBusinessDayEmulation = (timeMultiplier: number = 11) => { // 11 
         currentPhase
       };
     });
-  }, [emulatedDay.isRunning, timeMultiplier, getCurrentPhase]);
+  }, [emulatedDay.isRunning, getCurrentPhase]);
 
   const updateMetrics = useCallback(() => {
     const hour = emulatedDay.emulatedTime.getHours();
     const minute = emulatedDay.emulatedTime.getMinutes();
     
     setTransactionMetrics(generateTransactionPattern(hour, minute));
+    setCSDMetrics(generateCSDPattern(hour, minute));
     setLiquidityMetrics(generateLiquidityPattern(hour, minute));
   }, [emulatedDay.emulatedTime]);
 
   useEffect(() => {
     if (!emulatedDay.isRunning) return;
 
-    // Update every 5.45 seconds to complete full business day in 1 hour
-    // 11 hours of business day / 60 minutes = 11 minutes per emulated hour
-    // 60 seconds / 11 = ~5.45 seconds per emulated minute
+    // Update every minute to match real time progression
     const interval = setInterval(() => {
       updateEmulation();
       updateMetrics();
-    }, 5450); // ~5.45 seconds real time = 1 emulated minute
+    }, 60000); // Update every minute
 
     return () => clearInterval(interval);
   }, [updateEmulation, updateMetrics, emulatedDay.isRunning]);
@@ -336,8 +388,9 @@ export const useBusinessDayEmulation = (timeMultiplier: number = 11) => { // 11 
   };
 
   const resetSimulation = () => {
+    const now = new Date();
     const emulatedStart = new Date();
-    emulatedStart.setHours(7, 0, 0, 0);
+    emulatedStart.setHours(now.getHours(), 0, 0, 0);
     
     setEmulatedDay(prev => ({
       ...prev,
@@ -355,9 +408,22 @@ export const useBusinessDayEmulation = (timeMultiplier: number = 11) => { // 11 
       totalVolume: 0,
       averageTransactionValue: 0,
       processingTime: 0,
-      delayShare: 0
+      delayShare: 0,
+      cumulativeTransactions: 0,
+      hourlyTransactions: 0,
+      currencyBreakdown: { BHD: 0, USD: 0, EUR: 0, SAR: 0 }
     });
-    setLiquidityMetrics(generateLiquidityPattern(7, 0));
+    setCSDMetrics({
+      totalTransactions: 0,
+      settledTransactions: 0,
+      failedSettlements: 0,
+      pendingInstructions: 0,
+      settlementValue: 0,
+      cumulativeTransactions: 0,
+      hourlyTransactions: 0,
+      securitiesBreakdown: { Government: 0, Corporate: 0, Sukuk: 0 }
+    });
+    setLiquidityMetrics(generateLiquidityPattern(now.getHours(), 0));
   };
 
   const setTimeMultiplier = (multiplier: number) => {
@@ -372,6 +438,7 @@ export const useBusinessDayEmulation = (timeMultiplier: number = 11) => { // 11 
   return {
     emulatedDay,
     transactionMetrics,
+    csdMetrics,
     liquidityMetrics,
     currentPhaseData,
     businessPhases: BUSINESS_PHASES,

@@ -50,7 +50,7 @@ export const DashboardHeader = ({
     resetSimulation, 
     formatEmulatedTime,
     getPhaseProgress 
-  } = useBusinessDayEmulation(10); // 10x speed: 1 real minute = 10 emulated minutes
+  } = useBusinessDayEmulation(); // Real time progression
 
   const pageTitle = getPageTitle(location.pathname);
   const pageDescription = getPageDescription(location.pathname);
