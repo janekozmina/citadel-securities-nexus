@@ -44,10 +44,13 @@ export function InteractiveChart({ config, className = "", showCard = true, titl
         };
       case 'large':
         return {
-          margin: { top: 20, right: 140, bottom: 100, left: 20 },
-          cy: "45%",
-          outerRadius: Math.min((config.height || 320) * 0.35, 120),
-          legendHeight: 70
+          margin: { top: 20, right: 180, bottom: 20, left: 20 },
+          cy: "50%",
+          outerRadius: Math.min((config.height || 320) * 0.4, 130),
+          legendHeight: 70,
+          legendLayout: 'vertical',
+          legendAlign: 'right',
+          legendVerticalAlign: 'middle'
         };
       case 'full':
         return {
@@ -92,16 +95,16 @@ export function InteractiveChart({ config, className = "", showCard = true, titl
       </Pie>
       <Tooltip formatter={(value: any) => [value, 'Count']} />
       <Legend 
-        verticalAlign="bottom" 
-        height={pieConfig.legendHeight}
+        verticalAlign={(pieConfig.legendVerticalAlign as any) || "bottom"} 
+        height={pieConfig.legendVerticalAlign === 'middle' ? undefined : pieConfig.legendHeight}
         wrapperStyle={{ 
-          paddingTop: '20px',
+          paddingTop: pieConfig.legendVerticalAlign === 'middle' ? '0px' : '20px',
           fontSize: '12px',
           lineHeight: '18px',
           whiteSpace: 'normal'
         }}
-        layout="horizontal"
-        align="center"
+        layout={(pieConfig.legendLayout as any) || "horizontal"}
+        align={(pieConfig.legendAlign as any) || "center"}
         iconType="square"
       />
     </PieChart>
