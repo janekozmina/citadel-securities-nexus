@@ -28,7 +28,7 @@ const RTGSPage = () => {
     },
     {
       title: 'Average Processing Time',
-      value: currentPhaseData.name === 'Pre-Opening Phase' ? 'N/A' : '2.3s',
+      value: currentPhaseData.name === 'Pre-Opening Phase' ? 'N/A' : `${transactionMetrics.processingTime.toFixed(1)}s`,
       subtitle: currentPhaseData.name === 'Pre-Opening Phase' ? 'System preparation' : 'Real-time processing',
       icon: Clock,
       status: currentPhaseData.name === 'Pre-Opening Phase' ? 'warning' as const : 'success' as const
@@ -42,7 +42,7 @@ const RTGSPage = () => {
     },
     {
       title: 'Processing Delay Share',
-      value: currentPhaseData.name === 'Pre-Opening Phase' ? 'N/A' : '0.02%',
+      value: currentPhaseData.name === 'Pre-Opening Phase' ? 'N/A' : `${(transactionMetrics.delayShare * 100).toFixed(3)}%`,
       subtitle: currentPhaseData.name === 'Pre-Opening Phase' ? 'System idle' : 'Minimal delays',
       icon: TrendingUp,
       status: currentPhaseData.name === 'Pre-Opening Phase' ? 'warning' as const : 'success' as const

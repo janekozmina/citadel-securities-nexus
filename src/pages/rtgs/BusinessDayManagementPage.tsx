@@ -83,7 +83,7 @@ export default function BusinessDayManagementPage() {
     resetSimulation, 
     formatEmulatedTime,
     getPhaseProgress 
-  } = useBusinessDayEmulation(10);
+  } = useBusinessDayEmulation();
 
   const [isAddPeriodOpen, setIsAddPeriodOpen] = useState(false);
   const [periods, setPeriods] = useState<BusinessPeriod[]>([
@@ -465,9 +465,19 @@ export default function BusinessDayManagementPage() {
                   <div className="absolute left-8 top-0 bottom-0 w-0.5 bg-border"></div>
                   
                   {businessPhases.map((phase, index) => {
-                    const isActive = phase.id === emulatedDay.currentPhase;
-                    const isPast = phase.id < emulatedDay.currentPhase;
-                    const isFuture = phase.id > emulatedDay.currentPhase;
+                     const isActive = phase.id === emulatedDay.currentPhase;
+                     const isPast = phase.id < emulatedDay.currentPhase;
+                     const isFuture = phase.id > emulatedDay.currentPhase;
+                     
+                     // Update periods status based on current emulated phase
+                     const correspondingPeriod = periods.find(p => p.name.includes(phase.name.split(' ')[0]));
+                     if (correspondingPeriod) {
+                       if (isActive && correspondingPeriod.status !== 'active') {
+                         correspondingPeriod.status = 'active';
+                       } else if (isPast && correspondingPeriod.status !== 'completed') {
+                         correspondingPeriod.status = 'completed';
+                       }
+                     }
                     
                     return (
                       <div key={phase.id} className="relative flex items-start gap-4 pb-6">

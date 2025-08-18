@@ -16,6 +16,8 @@ export interface TransactionMetrics {
   ilfTransactions: number;
   totalVolume: number;
   averageTransactionValue: number;
+  processingTime: number;
+  delayShare: number;
 }
 
 export interface LiquidityMetrics {
@@ -123,37 +125,67 @@ const generateTransactionPattern = (hour: number, minute: number): TransactionMe
   
   // Activity multiplier based on business day phases
   let activityMultiplier = 1;
+  let processingTime = 0;
+  let averageValue = 0;
+  let delayShare = 0;
+  
   if (decimalHour >= 7 && decimalHour < 8.5) {
-    activityMultiplier = 0.3; // Pre-opening
+    // Pre-opening phase - minimal transactions
+    activityMultiplier = 0.05;
+    processingTime = 0;
+    averageValue = 0;
+    delayShare = 0;
   } else if (decimalHour >= 8.5 && decimalHour < 12) {
-    activityMultiplier = 0.8 + Math.sin((decimalHour - 8.5) * Math.PI / 7) * 0.4; // Morning ramp-up
+    // Opening phase - start generating metrics
+    activityMultiplier = 0.8 + Math.sin((decimalHour - 8.5) * Math.PI / 7) * 0.4;
+    processingTime = normalRandom(2.3, 0.5); // Normal distribution around 2.3s
+    averageValue = normalRandom(2400000, 300000); // Normal distribution around 2.4M BHD
+    delayShare = normalRandom(0.02, 0.01); // Normal distribution around 0.02%
   } else if (decimalHour >= 12 && decimalHour < 14.5) {
-    activityMultiplier = 1.2 + Math.random() * 0.3; // Peak activity
+    // Peak activity
+    activityMultiplier = 1.2 + normalRandom(0, 0.15);
+    processingTime = normalRandom(2.1, 0.4);
+    averageValue = normalRandom(2600000, 400000);
+    delayShare = normalRandom(0.025, 0.015);
   } else if (decimalHour >= 14.5 && decimalHour < 16.5) {
-    activityMultiplier = 0.9 + Math.random() * 0.2; // Afternoon
+    // Afternoon
+    activityMultiplier = 0.9 + normalRandom(0, 0.1);
+    processingTime = normalRandom(2.4, 0.3);
+    averageValue = normalRandom(2300000, 250000);
+    delayShare = normalRandom(0.018, 0.008);
   } else if (decimalHour >= 16.5 && decimalHour < 17) {
-    activityMultiplier = 0.5 + Math.random() * 0.3; // End-of-day
+    // End-of-day
+    activityMultiplier = 0.5 + normalRandom(0, 0.15);
+    processingTime = normalRandom(2.7, 0.6);
+    averageValue = normalRandom(2100000, 300000);
+    delayShare = normalRandom(0.035, 0.02);
   } else if (decimalHour >= 17 && decimalHour < 18) {
-    activityMultiplier = 0.2 + Math.random() * 0.1; // Post-closing
+    // Post-closing
+    activityMultiplier = 0.2 + normalRandom(0, 0.05);
+    processingTime = normalRandom(3.1, 0.8);
+    averageValue = normalRandom(1800000, 200000);
+    delayShare = normalRandom(0.015, 0.01);
   } else {
-    activityMultiplier = 0.1; // Outside business hours
+    // Outside business hours
+    activityMultiplier = 0.02;
+    processingTime = 0;
+    averageValue = 0;
+    delayShare = 0;
   }
 
-  const variation = () => 0.9 + Math.random() * 0.2; // ±10% variation
-
-  const baseTransactions = 15000;
-  const totalTransactions = Math.round(baseTransactions * activityMultiplier * variation());
+  // Different base transactions for RTGS vs CSD (RTGS typically higher volume)
+  const baseRTGSTransactions = 18000;
+  const totalTransactions = Math.max(0, Math.round(baseRTGSTransactions * activityMultiplier * normalRandom(1, 0.1)));
   
   // Settlement rate varies by time of day
-  const settlementRate = Math.min(0.95, 0.70 + (activityMultiplier * 0.25));
+  const settlementRate = Math.min(0.98, Math.max(0.85, 0.70 + (activityMultiplier * 0.25)));
   const settledTransactions = Math.round(totalTransactions * settlementRate);
   
-  const rejectedTransactions = Math.round(totalTransactions * (0.02 + Math.random() * 0.03));
-  const queuedTransactions = Math.round(totalTransactions * (0.10 - activityMultiplier * 0.05));
-  const ilfTransactions = Math.round(totalTransactions * (0.05 + Math.random() * 0.02));
+  const rejectedTransactions = Math.round(totalTransactions * Math.max(0, normalRandom(0.025, 0.01)));
+  const queuedTransactions = Math.round(totalTransactions * Math.max(0, (0.10 - activityMultiplier * 0.05)));
+  const ilfTransactions = Math.round(totalTransactions * Math.max(0, normalRandom(0.05, 0.015)));
 
-  const averageValue = 2400000 + Math.random() * 500000;
-  const totalVolume = Math.round(settledTransactions * averageValue);
+  const totalVolume = Math.round(settledTransactions * Math.max(0, averageValue));
 
   return {
     totalTransactions,
@@ -162,7 +194,9 @@ const generateTransactionPattern = (hour: number, minute: number): TransactionMe
     queuedTransactions,
     ilfTransactions,
     totalVolume,
-    averageTransactionValue: Math.round(averageValue)
+    averageTransactionValue: Math.max(0, Math.round(averageValue)),
+    processingTime: Math.max(0, processingTime),
+    delayShare: Math.max(0, delayShare)
   };
 };
 
@@ -193,7 +227,16 @@ const generateLiquidityPattern = (hour: number, minute: number): LiquidityMetric
   };
 };
 
-export const useBusinessDayEmulation = (timeMultiplier: number = 1) => {
+// Normal distribution helper function
+const normalRandom = (mean: number, stdDev: number) => {
+  let u = 0, v = 0;
+  while(u === 0) u = Math.random();
+  while(v === 0) v = Math.random();
+  const z = Math.sqrt(-2.0 * Math.log(u)) * Math.cos(2 * Math.PI * v);
+  return mean + stdDev * z;
+};
+
+export const useBusinessDayEmulation = (timeMultiplier: number = 11) => { // 11 minutes real time = 1 hour emulated (60 minutes)
   const [emulatedDay, setEmulatedDay] = useState<EmulatedBusinessDay>(() => {
     const now = new Date();
     // Start emulated day at 7:00 AM
@@ -209,9 +252,17 @@ export const useBusinessDayEmulation = (timeMultiplier: number = 1) => {
     };
   });
 
-  const [transactionMetrics, setTransactionMetrics] = useState<TransactionMetrics>(() => 
-    generateTransactionPattern(7, 0)
-  );
+  const [transactionMetrics, setTransactionMetrics] = useState<TransactionMetrics>(() => ({
+    totalTransactions: 0,
+    settledTransactions: 0,
+    rejectedTransactions: 0,
+    queuedTransactions: 0,
+    ilfTransactions: 0,
+    totalVolume: 0,
+    averageTransactionValue: 0,
+    processingTime: 0,
+    delayShare: 0
+  }));
   
   const [liquidityMetrics, setLiquidityMetrics] = useState<LiquidityMetrics>(() => 
     generateLiquidityPattern(7, 0)
@@ -235,8 +286,8 @@ export const useBusinessDayEmulation = (timeMultiplier: number = 1) => {
       const now = new Date();
       const newEmulatedTime = new Date(prev.emulatedTime);
       
-      // Add time based on multiplier (1 real minute = timeMultiplier emulated minutes)
-      newEmulatedTime.setMinutes(newEmulatedTime.getMinutes() + timeMultiplier);
+      // Add 1 emulated minute each update (every 5.45 seconds real time)
+      newEmulatedTime.setMinutes(newEmulatedTime.getMinutes() + 1);
       
       // Reset to next day at 7:00 AM if we go past 18:00
       if (newEmulatedTime.getHours() >= 18) {
@@ -266,11 +317,13 @@ export const useBusinessDayEmulation = (timeMultiplier: number = 1) => {
   useEffect(() => {
     if (!emulatedDay.isRunning) return;
 
-    // Update every minute in real time
+    // Update every 5.45 seconds to complete full business day in 1 hour
+    // 11 hours of business day / 60 minutes = 11 minutes per emulated hour
+    // 60 seconds / 11 = ~5.45 seconds per emulated minute
     const interval = setInterval(() => {
       updateEmulation();
       updateMetrics();
-    }, 60000); // 1 minute real time
+    }, 5450); // ~5.45 seconds real time = 1 emulated minute
 
     return () => clearInterval(interval);
   }, [updateEmulation, updateMetrics, emulatedDay.isRunning]);
@@ -293,7 +346,17 @@ export const useBusinessDayEmulation = (timeMultiplier: number = 1) => {
       isRunning: false
     }));
     
-    setTransactionMetrics(generateTransactionPattern(7, 0));
+    setTransactionMetrics({
+      totalTransactions: 0,
+      settledTransactions: 0,
+      rejectedTransactions: 0,
+      queuedTransactions: 0,
+      ilfTransactions: 0,
+      totalVolume: 0,
+      averageTransactionValue: 0,
+      processingTime: 0,
+      delayShare: 0
+    });
     setLiquidityMetrics(generateLiquidityPattern(7, 0));
   };
 
