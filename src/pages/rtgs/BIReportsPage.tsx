@@ -16,11 +16,13 @@ export default function BIReportsPage() {
 
   return (
     <div className="space-y-6">
+      <PageHeader />
+      
       <div className="flex h-full">
         <div className="flex-1 space-y-6 pr-6">
           <div>
             <h1 className="text-2xl font-bold">BI Reports</h1>
-            <p className="text-muted-foreground">Business intelligence reports and analytics for RTGS operations.</p>
+            <p className="text-muted-foreground">Business intelligence reports and analytics for RTGS operations</p>
           </div>
           
           {/* First Row - Warehoused Payments */}

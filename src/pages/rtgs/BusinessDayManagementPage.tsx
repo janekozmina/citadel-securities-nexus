@@ -207,6 +207,8 @@ export default function BusinessDayManagementPage() {
 
   return (
     <div className="space-y-6">
+      <PageHeader />
+      
       <div className="flex h-full">
         <div className="flex-1 space-y-6 pr-6">
           <div className="flex items-center justify-between">
