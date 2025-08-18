@@ -101,7 +101,7 @@ function MainLayoutContent({ children }: MainLayoutProps) {
       <div 
         className={`
           flex-1 min-w-0 transition-all duration-300 ease-in-out
-          ${isOpen ? 'lg:ml-[280px]' : 'lg:ml-0'}
+          ${isOpen ? 'lg:ml-[320px]' : 'lg:ml-0'}
         `}
       >
         {/* STICKY HEADER */}

@@ -113,7 +113,7 @@ export function NestedSidebar({ isOpen, onToggle }: NestedSidebarProps) {
           
           <NavLink 
             to={item.path} 
-            className={`flex-1 ${textSize} truncate hover:text-white`}
+            className={`flex-1 ${textSize} whitespace-normal break-words hover:text-white`}
             onClick={(e) => {
               if (showChildren) {
                 e.preventDefault();
@@ -182,7 +182,7 @@ export function NestedSidebar({ isOpen, onToggle }: NestedSidebarProps) {
         className={`
           fixed top-0 left-0 h-full bg-gradient-to-b from-slate-900 to-slate-800 
           border-r border-slate-600 z-50 transition-all duration-300 ease-in-out
-          ${isOpen ? 'w-[280px]' : 'w-0'} 
+          ${isOpen ? 'w-[320px]' : 'w-0'} 
           ${isOpen ? 'translate-x-0' : '-translate-x-full lg:translate-x-0'}
           overflow-hidden
         `}
