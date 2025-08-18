@@ -63,13 +63,11 @@ export default function BalancesLiquidityPage() {
   const liquidityPositionData = {
     realTime: [
       { label: 'Net Liquidity', value: 'BHD 8.45M', change: { value: 3.2, isPositive: true } },
-      { label: 'Intraday Peak', value: 'BHD 9.12M', change: { value: 5.1, isPositive: true } },
       { label: 'Overdraft Usage', value: 'BHD 0', change: { value: 0, isPositive: true } },
       { label: 'Active Consumption', value: '68%' },
     ],
     endOfDay: [
       { label: 'Net Liquidity', value: 'BHD 8.18M' },
-      { label: 'Intraday Peak', value: 'BHD 8.67M' },
       { label: 'Overdraft Usage', value: 'BHD 0' },
       { label: 'Active Consumption', value: '65%' },
     ]
@@ -92,21 +90,19 @@ export default function BalancesLiquidityPage() {
     { key: 'accountId', label: 'Account ID', type: 'text' as const },
     { key: 'institution', label: 'Institution', type: 'text' as const },
     { key: 'reserveType', label: 'Reserve Type', type: 'text' as const },
-    { key: 'amount', label: 'Amount', type: 'currency' as const },
+    { key: 'amount', label: 'Amount', type: 'number' as const },
     { key: 'rate', label: 'Rate (%)', type: 'number' as const },
     { key: 'currency', label: 'Currency', type: 'text' as const },
-    { key: 'status', label: 'Status', type: 'status' as const },
   ];
 
   const collateralColumns = [
     { key: 'accountId', label: 'Account ID', type: 'text' as const },
     { key: 'institution', label: 'Institution', type: 'text' as const },
     { key: 'collateralType', label: 'Collateral Type', type: 'text' as const },
-    { key: 'value', label: 'Value', type: 'currency' as const },
+    { key: 'value', label: 'Value', type: 'number' as const },
     { key: 'haircut', label: 'Haircut (%)', type: 'number' as const },
     { key: 'eligibility', label: 'Eligibility', type: 'text' as const },
     { key: 'currency', label: 'Currency', type: 'text' as const },
-    { key: 'status', label: 'Status', type: 'status' as const },
   ];
 
   return (
@@ -126,7 +122,7 @@ export default function BalancesLiquidityPage() {
             </Card>
 
             {/* Liquidity Widgets */}
-            <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
+            <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
               <LiquidityWidget
                 title="Account Balances"
                 icon={Wallet}
@@ -138,12 +134,6 @@ export default function BalancesLiquidityPage() {
                 icon={Activity}
                 realTimeData={liquidityPositionData.realTime}
                 endOfDayData={liquidityPositionData.endOfDay}
-              />
-              <LiquidityWidget
-                title="Liquidity Forecasting"
-                icon={BarChart3}
-                realTimeData={liquidityForecastData.realTime}
-                endOfDayData={liquidityForecastData.endOfDay}
               />
             </div>
 
@@ -175,24 +165,19 @@ export default function BalancesLiquidityPage() {
               </Card>
             </div>
 
-            {/* Reserve Accounts Table */}
+            {/* Reserved Accounts Table */}
             <DataTable
-              title="Reserve Accounts"
+              title="Reserved Accounts"
               icon={DollarSign}
               columns={reserveColumns}
               data={reservesData}
-              searchPlaceholder="Search reserve accounts..."
+              searchPlaceholder="Search reserved accounts..."
               itemsPerPage={8}
               filters={[
                 {
                   key: 'reserveType',
                   label: 'Reserve Type',
                   options: ['Mandatory Reserve', 'Excess Reserve', 'Liquidity Buffer']
-                },
-                {
-                  key: 'status',
-                  label: 'Status',
-                  options: ['Active', 'Under Review', 'Inactive']
                 },
                 {
                   key: 'currency',
@@ -215,11 +200,6 @@ export default function BalancesLiquidityPage() {
                   key: 'collateralType',
                   label: 'Collateral Type',
                   options: ['Government Bonds', 'Corporate Bonds', 'Treasury Bills', 'Equity Securities']
-                },
-                {
-                  key: 'status',
-                  label: 'Status',
-                  options: ['Pledged', 'Available', 'Under Evaluation']
                 },
                 {
                   key: 'eligibility',
