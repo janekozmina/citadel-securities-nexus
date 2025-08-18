@@ -157,6 +157,15 @@ export const secondaryNavigation: Record<string, NavigationItem[]> = {
       tags: ['monitoring', 'oversight'],
       children: [
         {
+          id: 'financial-monitoring-dashboard',
+          title: 'Financial Monitoring Dashboard',
+          path: '/rtgs/financial-monitoring/dashboard',
+          icon: BarChart3,
+          description: 'Financial monitoring overview dashboard',
+          keywords: ['dashboard', 'overview', 'monitoring', 'financial'],
+          tags: ['dashboard', 'monitoring']
+        },
+        {
           id: 'account-management',
           title: 'Account Management',
           path: '/rtgs/financial-monitoring/account-management',
