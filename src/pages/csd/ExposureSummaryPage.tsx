@@ -85,14 +85,16 @@ export default function ExposureSummaryPage() {
           </div>
 
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-            <InteractiveChart
-              config={{
-                type: "pie",
-                title: "Exposure by Sector",
-                data: chartData.map(item => ({ ...item, color: `hsl(var(--chart-${chartData.indexOf(item) + 1}))` })),
-                height: 300
-              }}
-            />
+            <div className="flex items-center justify-center">
+              <InteractiveChart
+                config={{
+                  type: "pie",
+                  title: "Exposure by Sector",
+                  data: chartData.map(item => ({ ...item, color: `hsl(var(--chart-${chartData.indexOf(item) + 1}))` })),
+                  height: 300
+                }}
+              />
+            </div>
 
             <InteractiveChart
               config={{
