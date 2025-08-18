@@ -1,4 +1,4 @@
-import { useLocation, Link } from 'react-router-dom';
+import { useLocation, Link, useNavigate } from 'react-router-dom';
 import {
   Breadcrumb,
   BreadcrumbItem,
@@ -7,6 +7,7 @@ import {
   BreadcrumbPage,
   BreadcrumbSeparator,
 } from '@/components/ui/breadcrumb';
+import { secondaryNavigation } from '@/config/navigationConfig';
 
 interface RouteInfo {
   path: string;
@@ -116,6 +117,7 @@ const routeMap: Record<string, RouteInfo> = {
 
 export function Breadcrumbs() {
   const location = useLocation();
+  const navigate = useNavigate();
   
   const buildBreadcrumbs = (currentPath: string): RouteInfo[] => {
     const breadcrumbs: RouteInfo[] = [];
@@ -131,6 +133,41 @@ export function Breadcrumbs() {
     }
     
     return breadcrumbs;
+  };
+  
+  // Function to get the navigation target based on breadcrumb level
+  const getNavigationTarget = (crumb: RouteInfo, breadcrumbs: RouteInfo[], index: number): string => {
+    // If it's a first-level item (like "RTGS", "CSD"), navigate to its dashboard
+    if (index === 0 && breadcrumbs.length > 1) {
+      return crumb.path; // This will be like "/rtgs" or "/csd"
+    }
+    
+    // If it's a second-level item with children, navigate to the first child
+    if (index === 1 && breadcrumbs.length > 2) {
+      const systemKey = crumb.path.split('/')[1]; // Extract "rtgs", "csd", etc.
+      const systemNavigation = secondaryNavigation[systemKey];
+      
+      if (systemNavigation) {
+        // Find the current second-level section
+        const currentSection = systemNavigation.find(item => 
+          item.path === crumb.path || 
+          item.children?.some(child => breadcrumbs.some(bc => bc.path === child.path))
+        );
+        
+        // If section has children, navigate to the first child
+        if (currentSection?.children && currentSection.children.length > 0) {
+          return currentSection.children[0].path;
+        }
+      }
+    }
+    
+    // Default: navigate to the crumb's own path
+    return crumb.path;
+  };
+
+  const handleBreadcrumbClick = (crumb: RouteInfo, breadcrumbs: RouteInfo[], index: number) => {
+    const targetPath = getNavigationTarget(crumb, breadcrumbs, index);
+    navigate(targetPath);
   };
   
   const breadcrumbs = buildBreadcrumbs(location.pathname);
@@ -155,12 +192,12 @@ export function Breadcrumbs() {
                   </BreadcrumbPage>
                 ) : (
                   <BreadcrumbLink asChild>
-                    <Link 
-                      to={crumb.path}
-                      className="text-muted-foreground hover:text-foreground transition-colors"
+                    <button
+                      onClick={() => handleBreadcrumbClick(crumb, breadcrumbs, index)}
+                      className="text-muted-foreground hover:text-foreground transition-colors cursor-pointer bg-transparent border-none p-0 font-inherit"
                     >
                       {crumb.label}
-                    </Link>
+                    </button>
                   </BreadcrumbLink>
                 )}
               </BreadcrumbItem>
