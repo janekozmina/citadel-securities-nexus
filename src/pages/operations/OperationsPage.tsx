@@ -41,7 +41,7 @@ const OperationsPage = () => {
         { id: '1.1', name: 'New Issuance', icon: Plus },
         { id: '1.2', name: 'Auction Management', icon: Gavel },
         { id: '1.3', name: 'Yield Curve Analyzer', icon: TrendingUp },
-        { id: '1.4', name: 'M-Bills Calendar', icon: Calendar }
+        { id: '1.4', name: 'Central Bank Bills Calendar', icon: Calendar }
       ]
     },
     {
@@ -53,10 +53,10 @@ const OperationsPage = () => {
       operations: [
         { id: '2.1', name: 'Overnight Deposit Facility (ODF)', icon: DollarSign },
         { id: '2.2', name: 'Intraday Liquidity Facility (ILF)', icon: ArrowUpDown },
-        { id: '2.3', name: 'Marginal Lending Facility (MLF)', icon: TrendingUp },
-        { id: '2.4', name: 'Collateralized Murabaha Facility (CMF)', icon: Building2 },
-        { id: '2.5', name: 'Overnight Murabaha Facility (OMF)', icon: DollarSign },
-        { id: '2.6', name: 'Contingent Liquidity Insurance Facility (CLIF)', icon: Settings },
+        { id: '2.3', name: 'Islamic Lending Facility (MLF)', icon: TrendingUp },
+        { id: '2.4', name: 'Collateralized Murabaha Facility', icon: Building2 },
+        { id: '2.5', name: 'Overnight Murabaha Facility', icon: DollarSign },
+        { id: '2.6', name: 'Contingent Liquidity Insurance Facility', icon: Settings },
         { id: '2.7', name: 'US Dollar Liquidity Facility', icon: DollarSign }
       ]
     },
@@ -186,7 +186,7 @@ const OperationsPage = () => {
                   className="w-full justify-start gap-3 h-auto py-3 px-4 font-normal text-left"
                   onClick={() => handleOperationClick(category.title, operation.name)}
                 >
-                  <operation.icon className="h-4 w-4 text-muted-foreground flex-shrink-0" />
+                  <operation.icon className="h-4 w-4 text-white flex-shrink-0" />
                   <div className="flex flex-col items-start">
                     <span className="text-sm font-medium">{operation.name}</span>
                     <span className="text-xs text-muted-foreground">{operation.id}</span>
