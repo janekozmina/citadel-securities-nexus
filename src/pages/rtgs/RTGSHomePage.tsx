@@ -1,10 +1,10 @@
 import { useEffect } from 'react';
 import { DataCard } from '@/components/common/DataCard';
-import { InteractiveChart } from '@/components/common/InteractiveChart';
+import { SankeyChart } from '@/components/charts/SankeyChart';
 import { DataTable } from '@/components/common/DataTable';
-import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { useBusinessDayEmulation } from '@/hooks/useBusinessDayEmulation';
 import { currency } from '@/config/currencyConfig';
+import { dashboardStyleConfig } from '@/config/dashboardStyleConfig';
 import { 
   Activity,
   Clock,
@@ -53,19 +53,40 @@ export default function RTGSHomePage() {
     }
   ];
 
-  // Pie chart data for monthly money flow
-  const pieChartData = currentPhaseData.name === 'Pre-Opening Phase' ? [
-    { name: 'System Setup', value: 0, color: '#E5E7EB' },
-    { name: 'Liquidity Provision', value: 0, color: '#D1D5DB' },
-    { name: 'Pre-checks Complete', value: 0, color: '#9CA3AF' },
-    { name: 'Standing Ready', value: 0, color: '#6B7280' },
-    { name: 'Awaiting Opening', value: 0, color: '#4B5563' }
+  // Sankey chart data for liquidity and settlement overview
+  const sankeyNodes = currentPhaseData.name === 'Pre-Opening Phase' ? [
+    { id: 'cbb', name: 'CBB Reserve', category: 'source' as const, value: 0 },
+    { id: 'deposits', name: 'Bank Deposits', category: 'source' as const, value: 0 },
+    { id: 'repo', name: 'Repo Operations', category: 'source' as const, value: 0 },
+    { id: 'rtgs', name: 'RTGS Settlement', category: 'settlement' as const },
+    { id: 'nbb', name: 'NBB', category: 'participant' as const },
+    { id: 'aub', name: 'AUB', category: 'participant' as const },
+    { id: 'bbk', name: 'BBK', category: 'participant' as const }
   ] : [
-    { name: 'National Bank of Bahrain', value: 3800, color: '#3B82F6' },
-    { name: 'Ahli United Bank', value: 2900, color: '#10B981' },
-    { name: 'Bank of Bahrain and Kuwait', value: 2600, color: '#F59E0B' },
-    { name: 'Gulf International Bank', value: 2300, color: '#EF4444' },
-    { name: 'HSBC Bank Middle East', value: 2000, color: '#8B5CF6' }
+    { id: 'cbb', name: 'CBB Reserve', category: 'source' as const, value: 15000000000 },
+    { id: 'deposits', name: 'Bank Deposits', category: 'source' as const, value: 8500000000 },
+    { id: 'repo', name: 'Repo Operations', category: 'source' as const, value: 5200000000 },
+    { id: 'rtgs', name: 'RTGS Settlement', category: 'settlement' as const },
+    { id: 'nbb', name: 'NBB', category: 'participant' as const },
+    { id: 'aub', name: 'AUB', category: 'participant' as const },
+    { id: 'bbk', name: 'BBK', category: 'participant' as const },
+    { id: 'gib', name: 'GIB', category: 'participant' as const },
+    { id: 'hsbc', name: 'HSBC', category: 'participant' as const }
+  ];
+
+  const sankeyLinks = currentPhaseData.name === 'Pre-Opening Phase' ? [
+    { source: 'cbb', target: 'rtgs', value: 0 },
+    { source: 'deposits', target: 'rtgs', value: 0 },
+    { source: 'repo', target: 'rtgs', value: 0 }
+  ] : [
+    { source: 'cbb', target: 'rtgs', value: 15000000000 },
+    { source: 'deposits', target: 'rtgs', value: 8500000000 },
+    { source: 'repo', target: 'rtgs', value: 5200000000 },
+    { source: 'rtgs', target: 'nbb', value: 9800000000 },
+    { source: 'rtgs', target: 'aub', value: 7200000000 },
+    { source: 'rtgs', target: 'bbk', value: 5900000000 },
+    { source: 'rtgs', target: 'gib', value: 3400000000 },
+    { source: 'rtgs', target: 'hsbc', value: 2400000000 }
   ];
 
   // Bank-to-bank transaction data
@@ -95,32 +116,29 @@ export default function RTGSHomePage() {
   ];
 
   return (
-    <div className="space-y-6">
-      <div className="space-y-2">
-        <h1 className="text-3xl font-bold tracking-tight">RTGS Operations</h1>
-        <p className="text-muted-foreground">
+    <div className={dashboardStyleConfig.pageHeader.wrapper.className}>
+      <div className={dashboardStyleConfig.pageHeader.container.className}>
+        <h1 className={dashboardStyleConfig.pageHeader.title.className}>RTGS Operations</h1>
+        <p className={dashboardStyleConfig.pageHeader.subtitle.className}>
           Real-Time Gross Settlement system overview and metrics
         </p>
       </div>
 
       {/* RTGS KPI Cards */}
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+      <div className={dashboardStyleConfig.grid.kpiCards}>
         {rtgsKpiData.map((kpi) => (
           <DataCard key={kpi.title} {...kpi} />
         ))}
       </div>
 
-      {/* Money Flow Widgets */}
-      <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-        {/* Money Flow Avg Monthly Top 5 Banks - Pie Chart */}
-        <InteractiveChart
-          config={{
-            type: 'pie',
-            title: 'Money Flow Avg Monthly Top 5 Banks',
-            data: pieChartData,
-            height: 400
-          }}
-          pieChartSize="medium"
+      {/* Liquidity & Settlement Overview */}
+      <div className={dashboardStyleConfig.grid.charts}>
+        {/* Liquidity & Settlement Flow - Sankey Chart */}
+        <SankeyChart
+          title="Liquidity & Settlement Overview"
+          nodes={sankeyNodes}
+          links={sankeyLinks}
+          height={dashboardStyleConfig.card.defaultHeight}
         />
 
         {/* Bank-to-Bank Transactions Table */}
