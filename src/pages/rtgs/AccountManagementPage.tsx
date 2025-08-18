@@ -150,69 +150,74 @@ export default function AccountManagementPage() {
       <div className="space-y-6">
         <PageHeader />
 
-        {/* Top Metrics Cards */}
-        <MetricCardsSection
-          metricsConfig={[
-            {
-              key: 'totalAccounts',
-              title: 'Total Accounts',
-              iconName: 'Users'
-            },
-            {
-              key: 'totalBalance',
-              title: 'Total Balance',
-              valueFormatter: (value) => `${currencySymbol} ${value.toLocaleString()}`,
-              iconName: 'DollarSign'
-            },
-            {
-              key: 'activeAccounts',
-              title: 'Active Accounts',
-              iconName: 'CheckCircle',
-              iconColor: 'text-green-600',
-              textColor: 'text-green-600'
-            },
-            {
-              key: 'highRiskAccounts',
-              title: 'High Risk Accounts',
-              iconName: 'AlertTriangle',
-              iconColor: 'text-red-600',
-              textColor: 'text-red-600'
-            }
-          ]}
-          data={accountsData}
-          stats={{
-            totalAccounts: accountsData.length,
-            totalBalance: totalBalance,
-            activeAccounts: accountsData.filter(a => a.availableBalance > 0).length,
-            highRiskAccounts: riskData.high
-          }}
-        />
-
-        {/* View Mode Toggle - Fixed positioning */}
-        <div className="flex items-center gap-2 min-h-[40px] mb-6">
-          <span className="text-sm font-medium text-slate-700">View Mode:</span>
-          <div className="flex gap-2">
-            <Button
-              variant={viewMode === 'table' ? 'default' : 'outline'}
-              size="sm"
-              onClick={() => setViewMode('table')}
-            >
-              <TableIcon className="h-4 w-4 mr-2" />
-              Table
-            </Button>
-            <Button
-              variant={viewMode === 'visual' ? 'default' : 'outline'}
-              size="sm"
-              onClick={() => setViewMode('visual')}
-            >
-              <BarChart3 className="h-4 w-4 mr-2" />
-              Dashboard
-            </Button>
-          </div>
-        </div>
-
         <div className="flex h-full">
           <div className="flex-1 space-y-6 pr-6">
+            <div>
+              <h1 className="text-2xl font-bold">Account Management</h1>
+              <p className="text-muted-foreground">Manage participant accounts</p>
+            </div>
+
+            {/* Top Metrics Cards */}
+            <MetricCardsSection
+              metricsConfig={[
+                {
+                  key: 'totalAccounts',
+                  title: 'Total Accounts',
+                  iconName: 'Users'
+                },
+                {
+                  key: 'totalBalance',
+                  title: 'Total Balance',
+                  valueFormatter: (value) => `${currencySymbol} ${value.toLocaleString()}`,
+                  iconName: 'DollarSign'
+                },
+                {
+                  key: 'activeAccounts',
+                  title: 'Active Accounts',
+                  iconName: 'CheckCircle',
+                  iconColor: 'text-green-600',
+                  textColor: 'text-green-600'
+                },
+                {
+                  key: 'highRiskAccounts',
+                  title: 'High Risk Accounts',
+                  iconName: 'AlertTriangle',
+                  iconColor: 'text-red-600',
+                  textColor: 'text-red-600'
+                }
+              ]}
+              data={accountsData}
+              stats={{
+                totalAccounts: accountsData.length,
+                totalBalance: totalBalance,
+                activeAccounts: accountsData.filter(a => a.availableBalance > 0).length,
+                highRiskAccounts: riskData.high
+              }}
+            />
+
+            {/* View Mode Toggle - Fixed positioning */}
+            <div className="flex items-center gap-2 min-h-[40px] mb-6">
+              <span className="text-sm font-medium text-slate-700">View Mode:</span>
+              <div className="flex gap-2">
+                <Button
+                  variant={viewMode === 'table' ? 'default' : 'outline'}
+                  size="sm"
+                  onClick={() => setViewMode('table')}
+                >
+                  <TableIcon className="h-4 w-4 mr-2" />
+                  Table
+                </Button>
+                <Button
+                  variant={viewMode === 'visual' ? 'default' : 'outline'}
+                  size="sm"
+                  onClick={() => setViewMode('visual')}
+                >
+                  <BarChart3 className="h-4 w-4 mr-2" />
+                  Dashboard
+                </Button>
+              </div>
+            </div>
+
             {/* Filters Section - Only show for table view */}
             {viewMode === 'table' && (
               <Card className="bg-slate-50">
@@ -408,75 +413,108 @@ export default function AccountManagementPage() {
                         <TableHead>Currency</TableHead>
                         <TableHead>Debit Turnover</TableHead>
                         <TableHead>Credit Turnover</TableHead>
+                        <TableHead>Total Debit Queue</TableHead>
+                        <TableHead>Total Credit Queue</TableHead>
                         <TableHead>Potential Balance</TableHead>
                         <TableHead>Account Type</TableHead>
+                        <TableHead>Risk Level</TableHead>
+                        <TableHead>Actions</TableHead>
                       </TableRow>
                     </TableHeader>
                     <TableBody>
                       {paginatedAccounts.map((account) => (
-                        <TableRow key={account.id} className="hover:bg-slate-50">
-                          <TableCell className="font-mono text-xs">{account.id}</TableCell>
-                          <TableCell className="font-medium text-sm">
-                            <Badge variant="outline">{account.bic}</Badge>
+                        <TableRow key={account.id}>
+                          <TableCell className="font-medium">{account.id}</TableCell>
+                          <TableCell className="font-mono text-xs">{account.bic}</TableCell>
+                          <TableCell>{account.participantName}</TableCell>
+                          <TableCell className={`font-medium ${getBalanceColor(account.availableBalance)}`}>
+                            {currencySymbol} {account.availableBalance.toLocaleString()}
                           </TableCell>
-                          <TableCell className="font-medium text-sm">{account.participantName}</TableCell>
-                          <TableCell className={`text-right font-medium ${getBalanceColor(account.availableBalance)}`}>
-                            {account.availableBalance.toLocaleString()}
+                          <TableCell>{account.currency}</TableCell>
+                          <TableCell>{currencySymbol} {account.debitTurnover.toLocaleString()}</TableCell>
+                          <TableCell>{currencySymbol} {account.creditTurnover.toLocaleString()}</TableCell>
+                          <TableCell>{currencySymbol} {account.totalDebitQueue.toLocaleString()}</TableCell>
+                          <TableCell>{currencySymbol} {account.totalCreditQueue.toLocaleString()}</TableCell>
+                          <TableCell>{currencySymbol} {account.potentialBalance.toLocaleString()}</TableCell>
+                          <TableCell>
+                            <Badge variant="outline">{account.accountType}</Badge>
                           </TableCell>
                           <TableCell>
-                            <Badge variant="outline">{account.currency}</Badge>
-                          </TableCell>
-                          <TableCell className="text-right">{account.debitTurnover.toLocaleString()}</TableCell>
-                          <TableCell className="text-right">{account.creditTurnover.toLocaleString()}</TableCell>
-                          <TableCell className="text-right">
-                            {account.potentialBalance.toLocaleString()}
+                            <div className="flex items-center gap-2">
+                              <div className={`w-2 h-2 rounded-full ${getRiskColor(getRiskLevel(account.availableBalance))}`}></div>
+                              <span className="text-xs capitalize">
+                                {getRiskLevel(account.availableBalance)}
+                              </span>
+                            </div>
                           </TableCell>
                           <TableCell>
-                            <Badge variant="secondary">{account.accountType}</Badge>
+                            <div className="flex gap-1">
+                              <Button size="sm" variant="outline">
+                                <Calculator className="h-3 w-3" />
+                              </Button>
+                              <Button size="sm" variant="outline">
+                                <Pause className="h-3 w-3" />
+                              </Button>
+                              <Button size="sm" variant="outline">
+                                <Eye className="h-3 w-3" />
+                              </Button>
+                            </div>
                           </TableCell>
                         </TableRow>
                       ))}
                     </TableBody>
                   </Table>
                 </div>
-                
+
                 {/* Pagination */}
-                <div className="flex items-center justify-between mt-4">
-                  <div className="text-sm text-slate-600">
-                    Showing {((currentPage - 1) * itemsPerPage) + 1} to {Math.min(currentPage * itemsPerPage, filteredAndSortedAccounts.length)} of {filteredAndSortedAccounts.length} accounts
+                {totalPages > 1 && (
+                  <div className="flex items-center justify-between mt-4">
+                    <div className="text-sm text-slate-600">
+                      Showing {((currentPage - 1) * itemsPerPage) + 1} to {Math.min(currentPage * itemsPerPage, filteredAndSortedAccounts.length)} of {filteredAndSortedAccounts.length} entries
+                    </div>
+                    <div className="flex gap-2">
+                      <Button
+                        variant="outline"
+                        size="sm"
+                        onClick={() => setCurrentPage(currentPage - 1)}
+                        disabled={currentPage === 1}
+                      >
+                        Previous
+                      </Button>
+                      <div className="flex gap-1">
+                        {Array.from({ length: totalPages }, (_, i) => i + 1).map((page) => (
+                          <Button
+                            key={page}
+                            variant={page === currentPage ? "default" : "outline"}
+                            size="sm"
+                            onClick={() => setCurrentPage(page)}
+                            className="w-8"
+                          >
+                            {page}
+                          </Button>
+                        ))}
+                      </div>
+                      <Button
+                        variant="outline"
+                        size="sm"
+                        onClick={() => setCurrentPage(currentPage + 1)}
+                        disabled={currentPage === totalPages}
+                      >
+                        Next
+                      </Button>
+                    </div>
                   </div>
-                  <div className="flex gap-2">
-                    <Button 
-                      variant="outline" 
-                      size="sm"
-                      disabled={currentPage === 1}
-                      onClick={() => setCurrentPage(currentPage - 1)}
-                    >
-                      Previous
-                    </Button>
-                    <span className="flex items-center px-3 text-sm">
-                      Page {currentPage} of {totalPages}
-                    </span>
-                    <Button 
-                      variant="outline" 
-                      size="sm"
-                      disabled={currentPage === totalPages}
-                      onClick={() => setCurrentPage(currentPage + 1)}
-                    >
-                      Next
-                    </Button>
-                  </div>
-                </div>
+                )}
               </CardContent>
             </Card>
             )}
           </div>
 
-          {/* Quick Actions Sidebar */}
-          <div className="w-80 pl-6">
-            <QuickActionsManager
-              pageKey="account-management"
-              systemType="rtgs"
+          {/* Right Sidebar with Quick Actions */}
+          <div className="w-64 space-y-4">
+            <QuickActionsManager 
+              pageKey="account-management" 
+              systemType="rtgs" 
             />
           </div>
         </div>
