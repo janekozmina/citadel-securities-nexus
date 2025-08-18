@@ -74,6 +74,7 @@ export function TransactionQuickActionsDialogs({
   const isLargeDialog = activeDialog === 'general-transfer' || 
                         activeDialog === 'liquidity-source' || 
                         activeDialog === 'manual-gridlock' ||
+                        activeDialog === 'check-funds' ||
                         activeDialog === 'submit-transfer-instruction';
 
   return activeDialog === 'submit-transfer-instruction' ? (
