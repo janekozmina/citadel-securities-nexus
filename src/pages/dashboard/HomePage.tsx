@@ -158,25 +158,25 @@ const HomePage = () => {
     { 
       name: 'RTGS System', 
       status: 'online' as const, 
-      uptime: '99.98%', 
+      uptime: '100%', 
       lastUpdate: '2 mins ago' 
     },
     { 
       name: 'CMS System', 
       status: 'online' as const, 
-      uptime: '99.95%', 
+      uptime: '100%', 
       lastUpdate: '1 min ago' 
     },
     { 
       name: 'CSD System', 
       status: 'warning' as const, 
-      uptime: '99.87%', 
+      uptime: '100%', 
       lastUpdate: 'Maintenance in 2 hours' 
     },
     { 
       name: 'Data Warehouse', 
       status: 'online' as const, 
-      uptime: '99.92%', 
+      uptime: '100%', 
       lastUpdate: '5 mins ago' 
     }
   ];
