@@ -1,6 +1,7 @@
 import { DataCard } from '@/components/common/DataCard';
 import { DataTable } from '@/components/common/DataTable';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
+import { useBusinessDayEmulation } from '@/hooks/useBusinessDayEmulation';
 import { 
   Banknote, 
   DollarSign, 
@@ -12,36 +13,37 @@ import {
 } from 'lucide-react';
 
 const RTGSPage = () => {
-  // Same metrics as home page
+  const { transactionMetrics, liquidityMetrics, currentPhaseData } = useBusinessDayEmulation();
+  // Same metrics as home page with business day emulation
   const rtgsKpiData = [
     {
       title: 'Total Transactions Today',
-      value: '2,847',
-      subtitle: '+12% from yesterday',
+      value: transactionMetrics.totalTransactions.toLocaleString(),
+      subtitle: currentPhaseData.name === 'Pre-Opening Phase' ? 'Pre-opening phase' : '+12% from yesterday',
       icon: Activity,
-      trend: { value: 12, isPositive: true },
+      trend: currentPhaseData.name !== 'Pre-Opening Phase' ? { value: 12, isPositive: true } : undefined,
       status: 'success' as const
     },
     {
       title: 'Average Processing Time',
-      value: '2.3s',
-      subtitle: 'Real-time processing',
+      value: currentPhaseData.name === 'Pre-Opening Phase' ? 'N/A' : '2.3s',
+      subtitle: currentPhaseData.name === 'Pre-Opening Phase' ? 'System preparation' : 'Real-time processing',
       icon: Clock,
-      status: 'success' as const
+      status: currentPhaseData.name === 'Pre-Opening Phase' ? 'warning' as const : 'success' as const
     },
     {
       title: 'Average Transaction Value',
-      value: 'BD 1.2M',
+      value: currentPhaseData.name === 'Pre-Opening Phase' ? 'N/A' : `BD ${(transactionMetrics.averageTransactionValue / 1000000).toFixed(1)}M`,
       subtitle: 'Per transaction',
       icon: DollarSign,
-      status: 'info' as const
+      status: currentPhaseData.name === 'Pre-Opening Phase' ? 'warning' as const : 'info' as const
     },
     {
       title: 'Processing Delay Share',
-      value: '0.02%',
-      subtitle: 'Minimal delays',
+      value: currentPhaseData.name === 'Pre-Opening Phase' ? 'N/A' : '0.02%',
+      subtitle: currentPhaseData.name === 'Pre-Opening Phase' ? 'System idle' : 'Minimal delays',
       icon: TrendingUp,
-      status: 'success' as const
+      status: currentPhaseData.name === 'Pre-Opening Phase' ? 'warning' as const : 'success' as const
     }
   ];
 

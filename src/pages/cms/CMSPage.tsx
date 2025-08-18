@@ -1,6 +1,7 @@
 import { DataCard } from '@/components/common/DataCard';
 import { DataTable } from '@/components/common/DataTable';
 import { QuickActions } from '@/components/common/QuickActions';
+import { useBusinessDayEmulation } from '@/hooks/useBusinessDayEmulation';
 import { 
   Shield, 
   DollarSign, 
@@ -13,36 +14,37 @@ import {
 } from 'lucide-react';
 
 const CMSPage = () => {
+  const { liquidityMetrics, currentPhaseData } = useBusinessDayEmulation();
   const collateralMetrics = [
     {
       title: 'Total Collateral Value',
-      value: 'BD 8.7B',
+      value: currentPhaseData.name === 'Pre-Opening Phase' ? 'BD 8.7B' : `BD ${(liquidityMetrics.pledgedCollateral / 1000000000).toFixed(1)}B`,
       subtitle: 'Across all participants',
       icon: DollarSign,
       status: 'info' as const
     },
     {
       title: 'Utilization Rate',
-      value: '68%',
-      subtitle: 'Of total available collateral',
+      value: currentPhaseData.name === 'Pre-Opening Phase' ? 'N/A' : `${liquidityMetrics.utilizationRate}%`,
+      subtitle: currentPhaseData.name === 'Pre-Opening Phase' ? 'System preparation' : 'Of total available collateral',
       icon: PieChart,
-      trend: { value: 5, isPositive: true },
-      status: 'success' as const
+      trend: currentPhaseData.name !== 'Pre-Opening Phase' ? { value: 5, isPositive: true } : undefined,
+      status: currentPhaseData.name === 'Pre-Opening Phase' ? 'warning' as const : 'success' as const
     },
     {
       title: 'Margin Deficit',
-      value: 'BD 24.5M',
-      subtitle: 'Requires immediate attention',
+      value: currentPhaseData.name === 'Pre-Opening Phase' ? 'BD 0' : 'BD 24.5M',
+      subtitle: currentPhaseData.name === 'Pre-Opening Phase' ? 'No deficits yet' : 'Requires immediate attention',
       icon: AlertTriangle,
-      status: 'warning' as const
+      status: currentPhaseData.name === 'Pre-Opening Phase' ? 'info' as const : 'warning' as const
     },
     {
       title: 'Risk Score',
-      value: '7.2',
-      subtitle: 'Portfolio risk assessment',
+      value: currentPhaseData.name === 'Pre-Opening Phase' ? 'N/A' : '7.2',
+      subtitle: currentPhaseData.name === 'Pre-Opening Phase' ? 'Risk assessment pending' : 'Portfolio risk assessment',
       icon: BarChart3,
-      trend: { value: 3, isPositive: false },
-      status: 'warning' as const
+      trend: currentPhaseData.name !== 'Pre-Opening Phase' ? { value: 3, isPositive: false } : undefined,
+      status: currentPhaseData.name === 'Pre-Opening Phase' ? 'warning' as const : 'warning' as const
     }
   ];
 

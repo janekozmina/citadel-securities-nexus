@@ -3,6 +3,7 @@ import { DataCard } from '@/components/common/DataCard';
 import { DataTable } from '@/components/common/DataTable';
 import { SystemStatus } from '@/components/common/SystemStatus';
 import { QuickActions } from '@/components/common/QuickActions';
+import { useBusinessDayEmulation } from '@/hooks/useBusinessDayEmulation';
 import { 
   Banknote, 
   Building2, 
@@ -18,56 +19,58 @@ import {
 } from 'lucide-react';
 
 const HomePage = () => {
+  const { transactionMetrics, liquidityMetrics, currentPhaseData } = useBusinessDayEmulation();
+  
   useEffect(() => {
     document.title = 'Dashboard | CBB Portal';
   }, []);
   const rtgsKpiData = [
     {
       title: 'Total Transactions Today',
-      value: '2,847',
-      subtitle: '+12% from yesterday',
+      value: transactionMetrics.totalTransactions.toLocaleString(),
+      subtitle: currentPhaseData.name === 'Pre-Opening Phase' ? 'Pre-opening phase' : '+12% from yesterday',
       icon: Activity,
-      trend: { value: 12, isPositive: true },
+      trend: currentPhaseData.name !== 'Pre-Opening Phase' ? { value: 12, isPositive: true } : undefined,
       status: 'success' as const
     },
     {
       title: 'Average Processing Time',
-      value: '2.3s',
-      subtitle: 'Real-time processing',
+      value: currentPhaseData.name === 'Pre-Opening Phase' ? 'N/A' : '2.3s',
+      subtitle: currentPhaseData.name === 'Pre-Opening Phase' ? 'System preparation' : 'Real-time processing',
       icon: Clock,
-      status: 'success' as const
+      status: currentPhaseData.name === 'Pre-Opening Phase' ? 'warning' as const : 'success' as const
     },
     {
       title: 'Average Transaction Value',
-      value: 'BD 1.2M',
+      value: currentPhaseData.name === 'Pre-Opening Phase' ? 'N/A' : `BD ${(transactionMetrics.averageTransactionValue / 1000000).toFixed(1)}M`,
       subtitle: 'Per transaction',
       icon: DollarSign,
-      status: 'info' as const
+      status: currentPhaseData.name === 'Pre-Opening Phase' ? 'warning' as const : 'info' as const
     },
     {
       title: 'Processing Delay Share',
-      value: '0.02%',
-      subtitle: 'Minimal delays',
+      value: currentPhaseData.name === 'Pre-Opening Phase' ? 'N/A' : '0.02%',
+      subtitle: currentPhaseData.name === 'Pre-Opening Phase' ? 'System idle' : 'Minimal delays',
       icon: TrendingUp,
-      status: 'success' as const
+      status: currentPhaseData.name === 'Pre-Opening Phase' ? 'warning' as const : 'success' as const
     }
   ];
 
   const csdKpiData = [
     {
       title: 'Total Transactions Today',
-      value: '1,247',
-      subtitle: '+8% from yesterday',
+      value: Math.round(transactionMetrics.totalTransactions * 0.4).toLocaleString(),
+      subtitle: currentPhaseData.name === 'Pre-Opening Phase' ? 'Pre-opening phase' : '+8% from yesterday',
       icon: Activity,
-      trend: { value: 8, isPositive: true },
+      trend: currentPhaseData.name !== 'Pre-Opening Phase' ? { value: 8, isPositive: true } : undefined,
       status: 'success' as const
     },
     {
       title: 'Average Processing Time',
-      value: '4.1s',
-      subtitle: 'Settlement processing',
+      value: currentPhaseData.name === 'Pre-Opening Phase' ? 'N/A' : '4.1s',
+      subtitle: currentPhaseData.name === 'Pre-Opening Phase' ? 'System preparation' : 'Settlement processing',
       icon: Clock,
-      status: 'success' as const
+      status: currentPhaseData.name === 'Pre-Opening Phase' ? 'warning' as const : 'success' as const
     },
     {
       title: 'Total Securities Hold',
@@ -85,17 +88,17 @@ const HomePage = () => {
     },
     {
       title: 'Daily Settled',
-      value: 'BD 847.2M',
-      subtitle: 'Today\'s settled amount',
+      value: currentPhaseData.name === 'Pre-Opening Phase' ? 'BD 0' : `BD ${(transactionMetrics.totalVolume / 1000000).toFixed(1)}M`,
+      subtitle: currentPhaseData.name === 'Pre-Opening Phase' ? 'No settlements yet' : 'Today\'s settled amount',
       icon: CheckCircle,
-      status: 'success' as const
+      status: currentPhaseData.name === 'Pre-Opening Phase' ? 'warning' as const : 'success' as const
     },
     {
       title: 'Pending Settlement',
-      value: '23',
-      subtitle: 'Awaiting settlement',
+      value: currentPhaseData.name === 'Pre-Opening Phase' ? '0' : transactionMetrics.queuedTransactions.toString(),
+      subtitle: currentPhaseData.name === 'Pre-Opening Phase' ? 'No pending settlements' : 'Awaiting settlement',
       icon: Clock,
-      status: 'warning' as const
+      status: currentPhaseData.name === 'Pre-Opening Phase' ? 'info' as const : transactionMetrics.queuedTransactions > 20 ? 'warning' as const : 'success' as const
     },
     {
       title: 'Corporate Actions',
@@ -106,7 +109,24 @@ const HomePage = () => {
     }
   ];
 
-  const recentTransactions = [
+  const recentTransactions = currentPhaseData.name === 'Pre-Opening Phase' ? [
+    {
+      id: 'SYS001',
+      bank: 'System',
+      amount: 0,
+      type: 'System Check',
+      status: 'Completed',
+      time: '07:00'
+    },
+    {
+      id: 'SYS002', 
+      bank: 'System',
+      amount: 0,
+      type: 'Liquidity Setup',
+      status: 'In Progress',
+      time: '07:15'
+    }
+  ] : [
     {
       id: 'TXN001',
       bank: 'National Bank of Bahrain',
