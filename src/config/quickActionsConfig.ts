@@ -41,6 +41,7 @@ import {
   Scissors,
   Flag,
   Building,
+  ExternalLink,
   LucideIcon
 } from 'lucide-react';
 
@@ -88,6 +89,15 @@ export const quickActionsConfig: Record<string, QuickAction[]> = {
       category: 'operations',
       description: 'Manage and resolve payment gridlocks',
       permissions: ['rtgs.gridlock.manage']
+    },
+    {
+      id: 'access-bi-full-view',
+      label: 'Access BI Full View',
+      icon: ExternalLink,
+      variant: 'outline',
+      category: 'Analytics',
+      description: 'Open comprehensive business intelligence monitoring in a new tab',
+      permissions: ['rtgs.bi.view']
     },
     {
       id: 'liquidity-analysis',
@@ -512,5 +522,6 @@ export const defaultQuickActions: Record<string, string[]> = {
   'account-statements': ['download-statement', 'request-statement', 'reconciliation-report', 'export-data'],
   'islamic-sukuk': ['register-new-sukuk', 'view-issuer-details', 'generate-sukuk-term-sheet', 'export-maturity-schedule'],
   'transfers': ['submit-transfer-instruction', 'amend-pending-instruction', 'cancel-instruction', 'download-instruction-report', 'notify-counterparty'],
+  'bi-reports': ['access-bi-full-view', 'refresh-data', 'export-data'],
   'default': ['export-data', 'refresh-data', 'advanced-search']
 };
