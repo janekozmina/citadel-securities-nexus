@@ -1,5 +1,5 @@
 import { DataCard } from '@/components/common/DataCard';
-import { SankeyChart } from '@/components/charts/SankeyChart';
+import { LiquidityHeatmap } from '@/components/charts/LiquidityHeatmap';
 import { DataTable } from '@/components/common/DataTable';
 import { useBusinessDayEmulation } from '@/hooks/useBusinessDayEmulation';
 import { currency } from '@/config/currencyConfig';
@@ -93,40 +93,23 @@ const RTGSPage = () => {
     { key: 'timestamp', label: 'Time', type: 'text' as const }
   ];
 
-  // Sankey chart data for liquidity and settlement overview
-  const sankeyNodes = currentPhaseData.name === 'Pre-Opening Phase' ? [
-    { id: 'cbb', name: 'CBB Reserve', category: 'source' as const, value: 0 },
-    { id: 'deposits', name: 'Bank Deposits', category: 'source' as const, value: 0 },
-    { id: 'repo', name: 'Repo Operations', category: 'source' as const, value: 0 },
-    { id: 'rtgs', name: 'RTGS Settlement', category: 'settlement' as const },
-    { id: 'nbb', name: 'NBB', category: 'participant' as const },
-    { id: 'aub', name: 'AUB', category: 'participant' as const },
-    { id: 'bbk', name: 'BBK', category: 'participant' as const }
+  // Heatmap data for liquidity visualization
+  const heatmapParticipants = currentPhaseData.name === 'Pre-Opening Phase' ? [
+    { id: 'nbb', name: 'National Bank of Bahrain', shortName: 'NBB', settlementValue: 0, liquidityStatus: 'medium' as const },
+    { id: 'aub', name: 'Ahli United Bank', shortName: 'AUB', settlementValue: 0, liquidityStatus: 'medium' as const },
+    { id: 'bbk', name: 'Bank of Bahrain and Kuwait', shortName: 'BBK', settlementValue: 0, liquidityStatus: 'medium' as const },
+    { id: 'gib', name: 'Gulf International Bank', shortName: 'GIB', settlementValue: 0, liquidityStatus: 'medium' as const },
+    { id: 'hsbc', name: 'HSBC Bank Middle East', shortName: 'HSBC', settlementValue: 0, liquidityStatus: 'medium' as const },
+    { id: 'citi', name: 'Citibank N.A.', shortName: 'CITI', settlementValue: 0, liquidityStatus: 'medium' as const }
   ] : [
-    { id: 'cbb', name: 'CBB Reserve', category: 'source' as const, value: 15000000000 },
-    { id: 'deposits', name: 'Bank Deposits', category: 'source' as const, value: 8500000000 },
-    { id: 'repo', name: 'Repo Operations', category: 'source' as const, value: 5200000000 },
-    { id: 'rtgs', name: 'RTGS Settlement', category: 'settlement' as const },
-    { id: 'nbb', name: 'NBB', category: 'participant' as const },
-    { id: 'aub', name: 'AUB', category: 'participant' as const },
-    { id: 'bbk', name: 'BBK', category: 'participant' as const },
-    { id: 'gib', name: 'GIB', category: 'participant' as const },
-    { id: 'hsbc', name: 'HSBC', category: 'participant' as const }
-  ];
-
-  const sankeyLinks = currentPhaseData.name === 'Pre-Opening Phase' ? [
-    { source: 'cbb', target: 'rtgs', value: 0 },
-    { source: 'deposits', target: 'rtgs', value: 0 },
-    { source: 'repo', target: 'rtgs', value: 0 }
-  ] : [
-    { source: 'cbb', target: 'rtgs', value: 15000000000 },
-    { source: 'deposits', target: 'rtgs', value: 8500000000 },
-    { source: 'repo', target: 'rtgs', value: 5200000000 },
-    { source: 'rtgs', target: 'nbb', value: 9800000000 },
-    { source: 'rtgs', target: 'aub', value: 7200000000 },
-    { source: 'rtgs', target: 'bbk', value: 5900000000 },
-    { source: 'rtgs', target: 'gib', value: 3400000000 },
-    { source: 'rtgs', target: 'hsbc', value: 2400000000 }
+    { id: 'nbb', name: 'National Bank of Bahrain', shortName: 'NBB', settlementValue: 9800000000, liquidityStatus: 'high' as const },
+    { id: 'aub', name: 'Ahli United Bank', shortName: 'AUB', settlementValue: 7200000000, liquidityStatus: 'high' as const },
+    { id: 'bbk', name: 'Bank of Bahrain and Kuwait', shortName: 'BBK', settlementValue: 5900000000, liquidityStatus: 'medium' as const },
+    { id: 'gib', name: 'Gulf International Bank', shortName: 'GIB', settlementValue: 3400000000, liquidityStatus: 'low' as const },
+    { id: 'hsbc', name: 'HSBC Bank Middle East', shortName: 'HSBC', settlementValue: 2400000000, liquidityStatus: 'critical' as const },
+    { id: 'citi', name: 'Citibank N.A.', shortName: 'CITI', settlementValue: 1800000000, liquidityStatus: 'low' as const },
+    { id: 'abc', name: 'Arab Banking Corporation', shortName: 'ABC', settlementValue: 2100000000, liquidityStatus: 'medium' as const },
+    { id: 'scb', name: 'Standard Chartered Bank', shortName: 'SCB', settlementValue: 1600000000, liquidityStatus: 'critical' as const }
   ];
 
   // Bank-to-bank transaction data
@@ -173,11 +156,10 @@ const RTGSPage = () => {
 
       {/* Liquidity & Settlement Overview */}
       <div className={dashboardStyleConfig.grid.charts}>
-        {/* Liquidity & Settlement Flow - Sankey Chart */}
-        <SankeyChart
+        {/* Liquidity Heatmap */}
+        <LiquidityHeatmap
           title="Liquidity & Settlement Overview"
-          nodes={sankeyNodes}
-          links={sankeyLinks}
+          participants={heatmapParticipants}
           height={dashboardStyleConfig.card.defaultHeight}
         />
 
