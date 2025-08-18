@@ -67,6 +67,9 @@ import AdminPage from "./pages/admin/AdminPage";
 import UserManagementPage from "./pages/admin/UserManagementPage";
 import UserAccountsManagementPage from "./pages/admin/UserAccountsManagementPage";
 import RolesPermissionsPage from "./pages/admin/RolesPermissionsPage";
+import SystemConfigurationPage from "./pages/admin/SystemConfigurationPage";
+import RTGSConfigurationPage from "./pages/admin/RTGSConfigurationPage";
+import CSDConfigurationPage from "./pages/admin/CSDConfigurationPage";
 
 const queryClient = new QueryClient();
 
@@ -404,6 +407,27 @@ const App = () => (
               <ProtectedRoute>
                 <MainLayout>
                   <RolesPermissionsPage />
+                </MainLayout>
+              </ProtectedRoute>
+            } />
+            <Route path="/admin/config" element={
+              <ProtectedRoute>
+                <MainLayout>
+                  <SystemConfigurationPage />
+                </MainLayout>
+              </ProtectedRoute>
+            } />
+            <Route path="/admin/config/rtgs" element={
+              <ProtectedRoute>
+                <MainLayout>
+                  <RTGSConfigurationPage />
+                </MainLayout>
+              </ProtectedRoute>
+            } />
+            <Route path="/admin/config/csd" element={
+              <ProtectedRoute>
+                <MainLayout>
+                  <CSDConfigurationPage />
                 </MainLayout>
               </ProtectedRoute>
             } />

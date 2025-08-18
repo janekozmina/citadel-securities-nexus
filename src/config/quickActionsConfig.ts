@@ -100,6 +100,15 @@ export const quickActionsConfig: Record<string, QuickAction[]> = {
       permissions: ['rtgs.bi.view']
     },
     {
+      id: 'access-configuration-panel',
+      label: 'Access Configuration Panel',
+      icon: ExternalLink,
+      variant: 'outline',
+      category: 'configuration',
+      description: 'Access external RTGS configuration panel',
+      permissions: ['rtgs.config.access']
+    },
+    {
       id: 'cash-withdrawal',
       label: 'Cash Withdrawal',
       icon: DollarSign,
@@ -596,5 +605,7 @@ export const defaultQuickActions: Record<string, string[]> = {
   'transfers': ['submit-transfer-instruction', 'amend-pending-instruction', 'cancel-instruction', 'download-instruction-report', 'notify-counterparty'],
   'cash-operations': ['cash-withdrawal', 'cash-deposit', 'vault-reconciliation', 'cash-transfer', 'compliance-report'],
   'bi-reports': ['access-bi-full-view', 'refresh-data', 'export-data'],
+  'rtgs-configuration': ['access-configuration-panel'],
+  'csd-configuration': ['export-data', 'refresh-data'],
   'default': ['export-data', 'refresh-data', 'advanced-search']
 };

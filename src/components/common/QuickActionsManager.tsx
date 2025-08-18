@@ -53,10 +53,22 @@ export const QuickActionsManager = ({ pageKey, systemType, className, onActionCl
   );
 
   const handleActionClick = (action: QuickAction) => {
+    // Handle specific action logic here
     if (onActionClick) {
       onActionClick(action.id);
-    } else {
-      console.log(`Quick action clicked: ${action.label}`);
+    }
+    
+    // Default behaviors for specific actions
+    switch (action.id) {
+      case 'access-configuration-panel':
+        window.open('http://cn-dmrtgs-app01:8000/', '_blank');
+        break;
+      case 'refresh-data':
+        window.location.reload();
+        break;
+      default:
+        console.log(`Quick action clicked: ${action.label}`);
+        break;
     }
   };
 

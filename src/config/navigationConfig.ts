@@ -983,18 +983,18 @@ export const secondaryNavigation: Record<string, NavigationItem[]> = {
       description: 'System configuration and settings',
       children: [
         {
-          id: 'business-calendar',
-          title: 'Business Calendar',
-          path: '/admin/config/calendar',
-          icon: Database,
-          description: 'Manage business calendar'
+          id: 'rtgs-config',
+          title: 'RTGS Configuration',
+          path: '/admin/config/rtgs',
+          icon: Settings,
+          description: 'Configure RTGS system parameters'
         },
         {
-          id: 'system-parameters',
-          title: 'System Parameters',
-          path: '/admin/config/parameters',
+          id: 'csd-config',
+          title: 'CSD Configuration',
+          path: '/admin/config/csd',
           icon: Settings,
-          description: 'Configure system parameters'
+          description: 'Configure CSD system parameters'
         }
       ]
     },
