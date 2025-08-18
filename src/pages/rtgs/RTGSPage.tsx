@@ -124,12 +124,7 @@ const RTGSPage = () => {
     { fromBank: 'National Bank of Bahrain', toBank: 'Ahli United Bank', amount: currency(9810000000, true), id: 'TXN002' },
     { fromBank: 'Ahli United Bank', toBank: 'Gulf International Bank', amount: currency(6700000000, true), id: 'TXN003' },
     { fromBank: 'Bank of Bahrain and Kuwait', toBank: 'Gulf International Bank', amount: currency(6480000000, true), id: 'TXN004' },
-    { fromBank: 'Gulf International Bank', toBank: 'Bank of Bahrain and Kuwait', amount: currency(5180000000, true), id: 'TXN005' },
-    { fromBank: 'HSBC Bank Middle East', toBank: 'Ahli United Bank', amount: currency(4900000000, true), id: 'TXN006' },
-    { fromBank: 'Ahli United Bank', toBank: 'National Bank of Bahrain', amount: currency(3870000000, true), id: 'TXN007' },
-    { fromBank: 'National Bank of Bahrain', toBank: 'HSBC Bank Middle East', amount: currency(3830000000, true), id: 'TXN008' },
-    { fromBank: 'Gulf International Bank', toBank: 'HSBC Bank Middle East', amount: currency(2880000000, true), id: 'TXN009' },
-    { fromBank: 'Bank of Bahrain and Kuwait', toBank: 'Ahli United Bank', amount: currency(2830000000, true), id: 'TXN010' }
+    { fromBank: 'Gulf International Bank', toBank: 'Bank of Bahrain and Kuwait', amount: currency(5180000000, true), id: 'TXN005' }
   ];
 
   const transactionColumns = [

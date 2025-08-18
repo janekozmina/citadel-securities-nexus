@@ -65,7 +65,7 @@ export const LiquidityHeatmap: React.FC<LiquidityHeatmapProps> = ({
   return (
     <Card className={className}>
       <CardHeader>
-        <CardTitle className="text-lg font-semibold">{title}</CardTitle>
+        <CardTitle className="flex items-center gap-2 text-lg font-semibold">{title}</CardTitle>
       </CardHeader>
       <CardContent>
         <div 

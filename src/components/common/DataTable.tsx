@@ -162,7 +162,7 @@ export const DataTable = ({
   return (
     <Card className={className}>
       <CardHeader>
-        <CardTitle className="flex items-center gap-2">
+        <CardTitle className="flex items-center gap-2 text-lg font-semibold">
           {Icon && <Icon className="h-5 w-5" />}
           {title}
         </CardTitle>
