@@ -1,7 +1,6 @@
 import { useEffect } from 'react';
 import { DataCard } from '@/components/common/DataCard';
 import { DataTable } from '@/components/common/DataTable';
-import { SystemStatus } from '@/components/common/SystemStatus';
 import { useBusinessDayEmulation } from '@/hooks/useBusinessDayEmulation';
 import { currency } from '@/config/currencyConfig';
 import { 
@@ -146,39 +145,6 @@ const CSDPage = () => {
     }
   ];
 
-  const systemStatuses = [
-    { 
-      name: 'CSD Core System', 
-      status: 'online' as const, 
-      uptime: '99.95%', 
-      lastUpdate: '1 min ago' 
-    },
-    { 
-      name: 'Settlement Engine', 
-      status: 'online' as const, 
-      uptime: '99.98%', 
-      lastUpdate: '2 mins ago' 
-    },
-    { 
-      name: 'Custody System', 
-      status: 'warning' as const, 
-      uptime: '99.87%', 
-      lastUpdate: 'Maintenance in 2 hours' 
-    },
-    { 
-      name: 'Corporate Actions', 
-      status: 'online' as const, 
-      uptime: '99.92%', 
-      lastUpdate: '5 mins ago' 
-    },
-    { 
-      name: 'Risk Management', 
-      status: 'online' as const, 
-      uptime: '99.89%', 
-      lastUpdate: '3 mins ago' 
-    }
-  ];
-
   const settlementColumns = [
     { key: 'id', label: 'Settlement ID', type: 'text' as const },
     { key: 'participant', label: 'Participant', type: 'text' as const },
@@ -208,22 +174,14 @@ const CSDPage = () => {
         ))}
       </div>
 
-      {/* Main Content Grid */}
-      <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
-        {/* Recent Settlements */}
-        <div className="lg:col-span-2">
-          <DataTable
-            title="Recent Settlement Instructions"
-            icon={TrendingUp}
-            columns={settlementColumns}
-            data={recentSettlements}
-          />
-        </div>
-
-        {/* System Status */}
-        <div className="space-y-6">
-          <SystemStatus systems={systemStatuses} />
-        </div>
+      {/* Recent Settlements - Full Width */}
+      <div className="w-full">
+        <DataTable
+          title="Recent Settlement Instructions"
+          icon={TrendingUp}
+          columns={settlementColumns}
+          data={recentSettlements}
+        />
       </div>
     </div>
   );
