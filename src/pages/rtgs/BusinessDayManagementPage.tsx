@@ -86,62 +86,29 @@ export default function BusinessDayManagementPage() {
   } = useBusinessDayEmulation();
 
   const [isAddPeriodOpen, setIsAddPeriodOpen] = useState(false);
-  const [periods, setPeriods] = useState<BusinessPeriod[]>([
-    {
-      id: '1',
-      name: 'Pre-Opening Phase (System Preparation & Liquidity Setup)',
-      startTime: '07:00',
-      endTime: '08:30',
-      status: 'completed',
+  
+  // Sync periods with business day emulation phases
+  const [periods, setPeriods] = useState<BusinessPeriod[]>(() => 
+    businessPhases.map(phase => ({
+      id: phase.id.toString(),
+      name: phase.name,
+      startTime: `${Math.floor(phase.startHour)}:${(phase.startHour % 1 * 60).toString().padStart(2, '0')}`,
+      endTime: `${Math.floor(phase.endHour)}:${(phase.endHour % 1 * 60).toString().padStart(2, '0')}`,
+      status: phase.id === emulatedDay.currentPhase ? 'active' : 
+              phase.id < emulatedDay.currentPhase ? 'completed' : 'scheduled',
       type: 'rtgs',
-      actions: ['System health checks', 'Batch processing completion check', 'Liquidity provision', 'Initial reports']
-    },
-    {
-      id: '2',
-      name: 'Opening & Morning Session',
-      startTime: '08:30',
-      endTime: '12:00',
-      status: 'active',
-      type: 'rtgs',
-      actions: ['System officially opens', 'High-value and urgent payments processed', 'Liquidity management', 'Monitoring']
-    },
-    {
-      id: '3',
-      name: 'Midday Settlement Peaks',
-      startTime: '12:00',
-      endTime: '14:30',
-      status: 'active', 
-      type: 'rtgs',
-      actions: ['Bulk settlements', 'Securities settlement obligations', 'FX settlement obligations', 'Liquidity reshuffling']
-    },
-    {
-      id: '4',
-      name: 'Afternoon Adjustments',
-      startTime: '14:30',
-      endTime: '16:30',
-      status: 'scheduled',
-      type: 'rtgs',
-      actions: ['Final settlement for SSS/CCP positions', 'Customer and interbank transfers', 'Liquidity returns', 'Critical payments processing']
-    },
-    {
-      id: '5',
-      name: 'Cut-Off & End-of-Day Processing',
-      startTime: '16:30',
-      endTime: '17:00',
-      status: 'scheduled',
-      type: 'rtgs',
-      actions: ['Cut-off for customer payments', 'Final gridlock resolution', 'Closing of intraday credit lines', 'Daily summary reports']
-    },
-    {
-      id: '6',
-      name: 'Post-Closing', 
-      startTime: '17:00',
-      endTime: '18:00',
-      status: 'scheduled',
-      type: 'rtgs',
-      actions: ['System reconciliation', 'Backup of transaction data', 'Preparation for overnight processes', 'EOD statements availability']
-    }
-  ]);
+      actions: phase.activities
+    }))
+  );
+
+  // Update periods status when emulated phase changes
+  useEffect(() => {
+    setPeriods(prev => prev.map(period => ({
+      ...period,
+      status: parseInt(period.id) === emulatedDay.currentPhase ? 'active' : 
+              parseInt(period.id) < emulatedDay.currentPhase ? 'completed' : 'scheduled'
+    })));
+  }, [emulatedDay.currentPhase]);
 
   const [periodForm, setPeriodForm] = useState<PeriodFormData>({
     name: '',
