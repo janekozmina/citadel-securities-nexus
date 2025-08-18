@@ -63,6 +63,9 @@ import OperationsPage from "./pages/operations/OperationsPage";
 // Common Pages
 import ReportsPage from "./pages/reports/ReportsPage";
 import AdminPage from "./pages/admin/AdminPage";
+import UserManagementPage from "./pages/admin/UserManagementPage";
+import UserAccountsManagementPage from "./pages/admin/UserAccountsManagementPage";
+import RolesPermissionsPage from "./pages/admin/RolesPermissionsPage";
 
 const queryClient = new QueryClient();
 
@@ -375,10 +378,31 @@ const App = () => (
                 </MainLayout>
               </ProtectedRoute>
             } />
-            <Route path="/admin/*" element={
+            <Route path="/admin" element={
               <ProtectedRoute>
                 <MainLayout>
                   <AdminPage />
+                </MainLayout>
+              </ProtectedRoute>
+            } />
+            <Route path="/admin/users" element={
+              <ProtectedRoute>
+                <MainLayout>
+                  <UserManagementPage />
+                </MainLayout>
+              </ProtectedRoute>
+            } />
+            <Route path="/admin/users/accounts" element={
+              <ProtectedRoute>
+                <MainLayout>
+                  <UserAccountsManagementPage />
+                </MainLayout>
+              </ProtectedRoute>
+            } />
+            <Route path="/admin/users/roles" element={
+              <ProtectedRoute>
+                <MainLayout>
+                  <RolesPermissionsPage />
                 </MainLayout>
               </ProtectedRoute>
             } />
