@@ -86,12 +86,7 @@ export default function CashOperationsPage() {
       
       <div className="flex h-full">
         <div className="flex-1 space-y-6 pr-6">
-          <section className="space-y-2">
-            <h1 className="text-2xl font-bold">RTGS — Cash Operations</h1>
-            <p className="text-muted-foreground">Central Bank cash operations and liquidity management.</p>
-          </section>
-
-        {/* 1. Real-Time Cash Flow Overview */}
+          {/* 1. Real-Time Cash Flow Overview */}
         <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
           <Card>
             <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
