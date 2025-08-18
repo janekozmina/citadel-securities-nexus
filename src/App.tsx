@@ -45,6 +45,9 @@ import CMSPage from "./pages/cms/CMSPage";
 import CMSCollateralPage from "./pages/cms/CMSCollateralPage";
 import CMSRiskPage from "./pages/cms/CMSRiskPage";
 
+// Operations Pages
+import OperationsPage from "./pages/operations/OperationsPage";
+
 // Common Pages
 import ReportsPage from "./pages/reports/ReportsPage";
 import AdminPage from "./pages/admin/AdminPage";
@@ -219,6 +222,23 @@ const App = () => (
                 </MainLayout>
               </ProtectedRoute>
             } />
+            
+            {/* Operations Hub */}
+            <Route path="/csd/operations-hub" element={
+              <ProtectedRoute>
+                <MainLayout>
+                  <OperationsPage />
+                </MainLayout>
+              </ProtectedRoute>
+            } />
+            <Route path="/csd/operations-hub/operations" element={
+              <ProtectedRoute>
+                <MainLayout>
+                  <OperationsPage />
+                </MainLayout>
+              </ProtectedRoute>
+            } />
+            
             
             {/* CMS System */}
             <Route path="/cms" element={

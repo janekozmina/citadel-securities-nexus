@@ -262,34 +262,20 @@ export const secondaryNavigation: Record<string, NavigationItem[]> = {
       description: 'Central securities summary dashboard'
     },
     {
-      id: 'daily-monitor',
-      title: 'Daily Monitor',
-      path: '/csd/daily-monitor',
-      icon: Monitor,
-      description: 'Daily operations monitoring'
-    },
-    {
-      id: 'cbb-operations-hub',
-      title: 'CBB Operations Hub',
-      path: '/csd/cbb-operations-hub',
+      id: 'operations-hub',
+      title: 'Operations Hub',
+      path: '/csd/operations-hub',
       icon: Target,
       description: 'Central Bank operations center',
       children: [
         {
-          id: 'operations-summary',
-          title: 'Operations Summary',
-          path: '/csd/cbb-operations-hub/operations-summary',
-          icon: BarChart3,
-          description: 'Overview of all operations'
+          id: 'operations',
+          title: 'Operations',
+          path: '/csd/operations-hub/operations',
+          icon: Briefcase,
+          description: 'General operations management'
         }
       ]
-    },
-    {
-      id: 'operations',
-      title: 'Operations',
-      path: '/csd/operations',
-      icon: Briefcase,
-      description: 'General operations management'
     },
     {
       id: 'accounts-balances',
