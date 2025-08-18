@@ -3,6 +3,8 @@ import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
 import { Checkbox } from '@/components/ui/checkbox';
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
+import { Label } from '@/components/ui/label';
 
 interface LiquiditySource {
   id: string;
@@ -28,6 +30,8 @@ export function LiquiditySourceDialog({ onClose }: LiquiditySourceDialogProps) {
   const [visibleSources, setVisibleSources] = useState<Set<string>>(
     new Set(liquiditySources.map(source => source.id))
   );
+
+  const [priorityGroup, setPriorityGroup] = useState<string>('');
 
   const totalLiquidity = liquiditySources
     .filter(source => visibleSources.has(source.id))
@@ -55,7 +59,31 @@ export function LiquiditySourceDialog({ onClose }: LiquiditySourceDialogProps) {
   };
 
   const getStackedBarSegments = () => {
-    const visibleSourcesData = liquiditySources.filter(source => visibleSources.has(source.id));
+    let visibleSourcesData = liquiditySources.filter(source => visibleSources.has(source.id));
+    
+    // Apply priority group sorting if selected
+    if (priorityGroup) {
+      visibleSourcesData = [...visibleSourcesData].sort((a, b) => {
+        if (priorityGroup === 'net-transactions') {
+          // Sort by highest value first for net transactions
+          return b.value - a.value;
+        } else if (priorityGroup === 'governmental-payments') {
+          // Prioritize central bank and repo agreements for governmental
+          const govPriority = { 'central-bank': 1, 'repo-agreements': 2 };
+          const aPriority = govPriority[a.id as keyof typeof govPriority] || 999;
+          const bPriority = govPriority[b.id as keyof typeof govPriority] || 999;
+          return aPriority - bPriority;
+        } else if (priorityGroup === 'participant-payments') {
+          // Prioritize commercial deposits and interbank loans for participants
+          const partPriority = { 'commercial-deposits': 1, 'interbank-loans': 2 };
+          const aPriority = partPriority[a.id as keyof typeof partPriority] || 999;
+          const bPriority = partPriority[b.id as keyof typeof partPriority] || 999;
+          return aPriority - bPriority;
+        }
+        return 0;
+      });
+    }
+    
     const maxValue = totalLiquidity;
     
     return visibleSourcesData.map(source => ({
@@ -73,6 +101,23 @@ export function LiquiditySourceDialog({ onClose }: LiquiditySourceDialogProps) {
         </Button>
       </div>
 
+      {/* Priority Group Selection */}
+      <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-6">
+        <div>
+          <Label htmlFor="priority-group">Priority Group</Label>
+          <Select value={priorityGroup} onValueChange={setPriorityGroup}>
+            <SelectTrigger>
+              <SelectValue placeholder="Select priority group" />
+            </SelectTrigger>
+            <SelectContent>
+              <SelectItem value="net-transactions">Net transactions</SelectItem>
+              <SelectItem value="governmental-payments">Governmental payments</SelectItem>
+              <SelectItem value="participant-payments">Participant payments</SelectItem>
+            </SelectContent>
+          </Select>
+        </div>
+      </div>
+
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
         {/* Stacked Bar Chart */}
         <div className="lg:col-span-2">
@@ -81,6 +126,13 @@ export function LiquiditySourceDialog({ onClose }: LiquiditySourceDialogProps) {
               <CardTitle>Liquidity Sources Distribution</CardTitle>
               <p className="text-sm text-muted-foreground">
                 Total Liquidity: {formatCurrency(totalLiquidity)}
+                {priorityGroup && (
+                  <span className="ml-2 text-blue-600">
+                    ({priorityGroup === 'net-transactions' ? 'Net transactions' :
+                      priorityGroup === 'governmental-payments' ? 'Governmental payments' :
+                      'Participant payments'} priority)
+                  </span>
+                )}
               </p>
             </CardHeader>
             <CardContent>

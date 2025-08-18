@@ -4,6 +4,7 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Label } from '@/components/ui/label';
 import { Badge } from '@/components/ui/badge';
+import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table';
 import { AlertTriangle, CheckCircle } from 'lucide-react';
 
 interface ManualGridlockDialogProps {
@@ -19,19 +20,61 @@ export function ManualGridlockDialog({ onClose }: ManualGridlockDialogProps) {
   const [simulationResult, setSimulationResult] = useState<any>(null);
   const [isResolving, setIsResolving] = useState(false);
 
+  // Mock transaction data for gridlock analysis
+  const mockTransactions = [
+    { id: 'TXN001', participant: 'Ahli United Bank', amount: 15000000, status: 'Queued', priority: 'High' },
+    { id: 'TXN002', participant: 'NBB', amount: 8500000, status: 'Queued', priority: 'Medium' },
+    { id: 'TXN003', participant: 'BBK', amount: 12000000, status: 'Queued', priority: 'High' },
+    { id: 'TXN004', participant: 'Ahli United Bank', amount: 6000000, status: 'Queued', priority: 'Low' },
+    { id: 'TXN005', participant: 'NBB', amount: 3500000, status: 'Queued', priority: 'Medium' },
+    { id: 'TXN006', participant: 'BBK', amount: 9200000, status: 'Queued', priority: 'High' },
+    { id: 'TXN007', participant: 'GIB', amount: 4800000, status: 'Queued', priority: 'Low' },
+    { id: 'TXN008', participant: 'ABC Bank', amount: 7200000, status: 'Queued', priority: 'Medium' },
+    { id: 'TXN009', participant: 'GIB', amount: 2100000, status: 'Queued', priority: 'Low' },
+    { id: 'TXN010', participant: 'ABC Bank', amount: 11800000, status: 'Queued', priority: 'High' }
+  ];
+
   const updateField = (field: string, value: string) => {
     setFormData(prev => ({ ...prev, [field]: value }));
   };
 
   const handleSimulateGridlock = () => {
-    // Simulate gridlock detection
+    // Determine affected transactions based on method
+    let affectedCount;
+    let affectedTransactionsList;
+    
+    switch (formData.method) {
+      case 'gradient-descent':
+        affectedCount = Math.floor(Math.random() * 4) + 6; // 6-9 transactions
+        break;
+      case 'linear-programming':
+        affectedCount = Math.floor(Math.random() * 3) + 4; // 4-6 transactions
+        break;
+      case 'graph-algorithm':
+        affectedCount = Math.floor(Math.random() * 5) + 7; // 7-11 transactions
+        break;
+      case 'heuristic':
+        affectedCount = Math.floor(Math.random() * 3) + 8; // 8-10 transactions
+        break;
+      default:
+        affectedCount = 8;
+    }
+
+    // Select random transactions for the gridlock
+    const shuffled = [...mockTransactions].sort(() => 0.5 - Math.random());
+    affectedTransactionsList = shuffled.slice(0, affectedCount);
+    
+    const totalAmount = affectedTransactionsList.reduce((sum, txn) => sum + txn.amount, 0);
+    const uniqueParticipants = [...new Set(affectedTransactionsList.map(txn => txn.participant))];
+
     const mockResult = {
       gridlockDetected: true,
-      affectedTransactions: 8,
-      totalAmount: 45000000,
-      participants: ['Ahli United Bank', 'NBB', 'BBK'],
+      affectedTransactions: affectedCount,
+      totalAmount,
+      participants: uniqueParticipants,
       method: formData.method,
-      priorityGroup: formData.priorityGroup
+      priorityGroup: formData.priorityGroup,
+      transactionsList: affectedTransactionsList
     };
     setSimulationResult(mockResult);
   };
@@ -157,6 +200,50 @@ export function ManualGridlockDialog({ onClose }: ManualGridlockDialogProps) {
                 <div className="text-sm text-green-800">
                   Gridlock successfully resolved. {simulationResult.affectedTransactions} transactions have been processed.
                 </div>
+              </div>
+            )}
+
+            {/* Affected Transactions Table */}
+            {simulationResult.transactionsList && !simulationResult.resolved && (
+              <div className="mt-6">
+                <h4 className="text-sm font-medium text-muted-foreground mb-3">Affected Transactions</h4>
+                <Card>
+                  <CardContent className="p-0">
+                    <Table>
+                      <TableHeader>
+                        <TableRow className="bg-orange-50">
+                          <TableHead className="text-orange-800">Transaction ID</TableHead>
+                          <TableHead className="text-orange-800">Participant</TableHead>
+                          <TableHead className="text-orange-800">Amount</TableHead>
+                          <TableHead className="text-orange-800">Priority</TableHead>
+                          <TableHead className="text-orange-800">Status</TableHead>
+                        </TableRow>
+                      </TableHeader>
+                      <TableBody>
+                        {simulationResult.transactionsList.map((transaction: any, index: number) => (
+                          <TableRow key={transaction.id} className={index % 2 === 0 ? 'bg-gray-50' : 'bg-white'}>
+                            <TableCell className="font-mono text-sm">{transaction.id}</TableCell>
+                            <TableCell className="text-sm">{transaction.participant}</TableCell>
+                            <TableCell className="font-mono text-sm">{formatCurrency(transaction.amount)}</TableCell>
+                            <TableCell>
+                              <Badge variant={
+                                transaction.priority === 'High' ? 'destructive' : 
+                                transaction.priority === 'Medium' ? 'default' : 'outline'
+                              }>
+                                {transaction.priority}
+                              </Badge>
+                            </TableCell>
+                            <TableCell>
+                              <Badge variant="outline" className="text-orange-600 border-orange-300">
+                                {transaction.status}
+                              </Badge>
+                            </TableCell>
+                          </TableRow>
+                        ))}
+                      </TableBody>
+                    </Table>
+                  </CardContent>
+                </Card>
               </div>
             )}
           </CardContent>
