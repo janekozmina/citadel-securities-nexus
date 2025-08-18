@@ -150,7 +150,7 @@ const RTGSPage = () => {
       </div>
 
       {/* Bank-to-Bank Transactions Table */}
-      <div className={dashboardStyleConfig.grid.charts}>
+      <div className={dashboardStyleConfig.grid.fullWidth}>
         <DataTable
           title="Money Flow Top 5 Banks"
           icon={ArrowUpDown}
