@@ -285,11 +285,11 @@ export const secondaryNavigation: Record<string, NavigationItem[]> = {
       description: 'Account and balance management',
       children: [
         {
-          id: 'account-balances-summary',
-          title: 'Account & Balances Summary',
+          id: 'account-management',
+          title: 'Account Management',
           path: '/csd/accounts-balances/summary',
           icon: BarChart3,
-          description: 'Account balances overview'
+          description: 'CSD account management and balances overview'
         },
         {
           id: 'account-statements',

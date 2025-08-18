@@ -33,6 +33,7 @@ import CSDPage from "./pages/csd/CSDPage";
 import CSDTradingPage from "./pages/csd/CSDTradingPage";
 import CSDSettlementPage from "./pages/csd/CSDSettlementPage";
 import CSDCustodyPage from "./pages/csd/CSDCustodyPage";
+import CSDAccountManagementPage from "./pages/csd/CSDAccountManagementPage";
 import AccountStatementsPage from "./pages/csd/AccountStatementsPage";
 import RegisterIslamicSukukPage from "./pages/csd/RegisterIslamicSukukPage";
 import TransfersPage from "./pages/csd/TransfersPage";
@@ -177,6 +178,13 @@ const App = () => (
               <ProtectedRoute>
                 <MainLayout>
                   <CSDCustodyPage />
+                </MainLayout>
+              </ProtectedRoute>
+            } />
+            <Route path="/csd/accounts-balances/summary" element={
+              <ProtectedRoute>
+                <MainLayout>
+                  <CSDAccountManagementPage />
                 </MainLayout>
               </ProtectedRoute>
             } />

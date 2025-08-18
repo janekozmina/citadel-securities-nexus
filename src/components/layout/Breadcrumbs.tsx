@@ -49,8 +49,9 @@ const routeMap: Record<string, RouteInfo> = {
   '/csd/custody': { path: '/csd/custody', label: 'Custody', parent: '/csd' },
   '/csd/trading': { path: '/csd/trading', label: 'Trading', parent: '/csd' },
   '/csd/settlement': { path: '/csd/settlement', label: 'Settlement', parent: '/csd' },
-  
-  // Legacy CSD Routes (for compatibility)
+  '/csd/operations-hub': { path: '/csd/operations-hub', label: 'Operations Hub', parent: '/csd' },
+  '/csd/operations-hub/operations': { path: '/csd/operations-hub/operations', label: 'Operations', parent: '/csd/operations-hub' },
+  '/csd/accounts-balances/summary': { path: '/csd/accounts-balances/summary', label: 'Account Management', parent: '/csd/accounts-balances' },
   '/operations': { path: '/operations', label: 'Operations', parent: '/csd' },
   '/securities': { path: '/securities', label: 'Securities Lifecycle', parent: '/csd' },
   '/securities/instrument-reference': { path: '/securities/instrument-reference', label: 'Instrument Reference', parent: '/securities' },

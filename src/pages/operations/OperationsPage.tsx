@@ -27,7 +27,7 @@ const OperationsPage = () => {
   const [isRepoPledgeFormOpen, setIsRepoPledgeFormOpen] = useState(false);
 
   useEffect(() => {
-    document.title = 'Operations | Unified Portal';
+    document.title = 'Operations Hub | CBB Portal';
   }, []);
 
   const operationCategories = [
@@ -159,9 +159,9 @@ const OperationsPage = () => {
     <div className="space-y-6">
       {/* Page Header */}
       <div className="space-y-2">
-        <h1 className="text-3xl font-bold tracking-tight">Operations</h1>
+        <h1 className="text-3xl font-bold tracking-tight">CSD — Operations Hub</h1>
         <p className="text-muted-foreground">
-          Central Bank monetary policy and operational management
+          Central Securities Depository operational management
         </p>
       </div>
 
