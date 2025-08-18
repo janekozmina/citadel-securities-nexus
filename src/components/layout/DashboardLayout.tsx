@@ -13,38 +13,56 @@ function DashboardContent() {
 
   // Define alerts for different pages
   const getPageAlerts = () => {
-    const baseAlerts = [
+    const systemAlerts = [
+      {
+        id: 1,
+        type: 'alert' as const,
+        message: 'System maintenance scheduled on 2025/08/19. Expected downtime: 2 hours.',
+        time: '09:00',
+        urgent: false,
+        category: 'system' as const,
+        source: 'CSD'
+      },
       {
         id: 2,
         type: 'info' as const,
-        message: 'Settlement batch processing complete',
-        time: '14:30',
-        urgent: false
-      },
-      {
-        id: 3,
-        type: 'alert' as const,
-        message: 'System maintenance scheduled for tonight',
-        time: '14:15',
-        urgent: false
+        message: 'New reporting rule effective from 2025/09/01.',
+        time: '08:30',
+        urgent: false,
+        category: 'system' as const,
+        source: 'System'
       }
     ];
 
-    // Add ILF alert for home page
-    if (location.pathname === '/') {
-      return [
-        {
-          id: 1,
-          type: 'warning' as const,
-          message: 'ILF window closes in 15 minutes',
-          time: '14:45',
-          urgent: true
-        },
-        ...baseAlerts
-      ];
+    const contextAlerts = [];
+
+    // Add context alerts based on current page
+    if (location.pathname.includes('/csd/account') || location.pathname.includes('/csd/balances')) {
+      contextAlerts.push({
+        id: 3,
+        type: 'warning' as const,
+        message: 'Account QNB Finansbank A.Ş., Bahrain balance below threshold.',
+        time: '14:45',
+        urgent: true,
+        category: 'context' as const,
+        source: 'CSD'
+      });
     }
 
-    return baseAlerts;
+    // Add ILF alert for home page
+    if (location.pathname === '/') {
+      contextAlerts.push({
+        id: 4,
+        type: 'warning' as const,
+        message: 'ILF window closes in 15 minutes',
+        time: '14:45',
+        urgent: true,
+        category: 'context' as const,
+        source: 'RTGS'
+      });
+    }
+
+    return [...systemAlerts, ...contextAlerts];
   };
 
   return (
