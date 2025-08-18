@@ -141,16 +141,22 @@ const HomePage = () => {
       lastUpdate: '2 mins ago' 
     },
     { 
-      name: 'CSD Platform', 
+      name: 'CMS System', 
       status: 'online' as const, 
       uptime: '99.95%', 
       lastUpdate: '1 min ago' 
     },
     { 
-      name: 'CMS Engine', 
+      name: 'CSD System', 
       status: 'warning' as const, 
       uptime: '99.87%', 
       lastUpdate: 'Maintenance in 2 hours' 
+    },
+    { 
+      name: 'Data Warehouse', 
+      status: 'online' as const, 
+      uptime: '99.92%', 
+      lastUpdate: '5 mins ago' 
     }
   ];
 
