@@ -36,7 +36,7 @@ const CSDPage = () => {
     },
     {
       title: 'Average Settlement Time',
-      value: currentPhaseData.name === 'Pre-Opening Phase' ? 'N/A' : '4.2s',
+      value: currentPhaseData.name === 'Pre-Opening Phase' ? 'N/A' : '40-60 ms',
       subtitle: currentPhaseData.name === 'Pre-Opening Phase' ? 'System preparation' : 'DvP settlement time',
       icon: Clock,
       status: currentPhaseData.name === 'Pre-Opening Phase' ? 'warning' as const : 'success' as const
@@ -49,7 +49,7 @@ const CSDPage = () => {
       status: 'info' as const
     },
     {
-      title: 'Government Securities (MBills)',
+      title: 'Central Bank Bills',
       value: currency(2400000000, true),
       subtitle: 'Outstanding amount',
       icon: Banknote,
@@ -78,7 +78,7 @@ const CSDPage = () => {
     },
     {
       title: 'Participant Accounts',
-      value: '48',
+      value: '1200',
       subtitle: 'Active accounts',
       icon: Users,
       status: 'success' as const
