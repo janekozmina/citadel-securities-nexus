@@ -1,13 +1,14 @@
 import React from 'react';
 import { PageHeader } from '@/components/common/PageHeader';
-import { DashboardMetricsGrid } from '@/components/common/DashboardMetricsGrid';
 import { InteractiveChart } from '@/components/common/InteractiveChart';
 import { DataTable } from '@/components/common/DataTable';
-import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
+import { Card, CardContent } from '@/components/ui/card';
 import { QuickActionsManager } from '@/components/common/QuickActionsManager';
 import { ArrowUpDown, DollarSign, TrendingUp, Clock } from 'lucide-react';
+import { getPageConfig } from '@/config/pageConfig';
 
 export default function TransactionsSummaryPage() {
+  const config = getPageConfig('csd', 'transactionsSummary');
   const transactionMetrics = [
     {
       title: 'Total Transactions',
@@ -57,8 +58,8 @@ export default function TransactionsSummaryPage() {
   return (
     <div className="page-container">
       <PageHeader
-        title="Transactions Summary"
-        description="Overview of all transaction activities and settlement status"
+        title={config.title}
+        description={config.description}
       />
 
       <div className="grid grid-cols-1 xl:grid-cols-4 gap-6 mb-8">
@@ -108,7 +109,7 @@ export default function TransactionsSummaryPage() {
           </div>
 
           <DataTable
-            title="Recent Transactions"
+            title={config.tableTitle}
             data={transactionData}
             columns={[
               { key: 'txnId', label: 'Transaction ID' },

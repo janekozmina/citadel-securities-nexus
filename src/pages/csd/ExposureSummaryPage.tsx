@@ -1,13 +1,14 @@
 import React from 'react';
 import { PageHeader } from '@/components/common/PageHeader';
-import { DashboardMetricsGrid } from '@/components/common/DashboardMetricsGrid';
 import { InteractiveChart } from '@/components/common/InteractiveChart';
 import { DataTable } from '@/components/common/DataTable';
-import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
+import { Card, CardContent } from '@/components/ui/card';
 import { QuickActionsManager } from '@/components/common/QuickActionsManager';
 import { AlertTriangle, TrendingUp, TrendingDown, DollarSign } from 'lucide-react';
+import { getPageConfig } from '@/config/pageConfig';
 
 export default function ExposureSummaryPage() {
+  const config = getPageConfig('csd', 'exposureSummary');
   const exposureMetrics = [
     {
       title: 'Total Exposure',
@@ -58,8 +59,8 @@ export default function ExposureSummaryPage() {
   return (
     <div className="page-container">
       <PageHeader
-        title="Exposure Summary"
-        description="Monitor and analyze counterparty exposures and risk concentrations"
+        title={config.title}
+        description={config.description}
       />
 
       <div className="grid grid-cols-1 xl:grid-cols-4 gap-6 mb-8">
@@ -108,7 +109,7 @@ export default function ExposureSummaryPage() {
           </div>
 
           <DataTable
-            title="Counterparty Exposures"
+            title={config.tableTitle}
             data={exposureData}
             columns={[
               { key: 'counterparty', label: 'Counterparty' },

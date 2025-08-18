@@ -1,12 +1,13 @@
 import React from 'react';
 import { PageHeader } from '@/components/common/PageHeader';
-import { DashboardMetricsGrid } from '@/components/common/DashboardMetricsGrid';
 import { DataTable } from '@/components/common/DataTable';
-import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
+import { Card, CardContent } from '@/components/ui/card';
 import { QuickActionsManager } from '@/components/common/QuickActionsManager';
 import { FileText, Download, Mail, CheckCircle } from 'lucide-react';
+import { getPageConfig } from '@/config/pageConfig';
 
 export default function AccountStatementsPage() {
+  const config = getPageConfig('csd', 'accountStatements');
   const statementMetrics = [
     {
       title: 'Statements Generated',
@@ -49,8 +50,8 @@ export default function AccountStatementsPage() {
   return (
     <div className="page-container">
       <PageHeader
-        title="Account Statements"
-        description="Generate and manage account statements for CSD participants"
+        title={config.title}
+        description={config.description}
       />
 
       <div className="grid grid-cols-1 xl:grid-cols-4 gap-6 mb-8">
@@ -75,7 +76,7 @@ export default function AccountStatementsPage() {
           </div>
 
           <DataTable
-            title="Account Statements"
+            title={config.tableTitle}
             data={statementsData}
             columns={[
               { key: 'account', label: 'Account ID' },
