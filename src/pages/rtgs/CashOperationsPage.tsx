@@ -4,6 +4,7 @@ import { Progress } from '@/components/ui/progress';
 import { Badge } from '@/components/ui/badge';
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table';
 import { QuickActionsManager } from '@/components/common/QuickActionsManager';
+import { PageHeader } from '@/components/common/PageHeader';
 import { useBusinessDayEmulation } from '@/hooks/useBusinessDayEmulation';
 import { 
   TrendingUp, 
