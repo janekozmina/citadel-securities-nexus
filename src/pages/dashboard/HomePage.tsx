@@ -4,6 +4,7 @@ import { DataTable } from '@/components/common/DataTable';
 import { SystemStatus } from '@/components/common/SystemStatus';
 import { QuickActions } from '@/components/common/QuickActions';
 import { useBusinessDayEmulation } from '@/hooks/useBusinessDayEmulation';
+import { currency } from '@/config/currencyConfig';
 import { 
   Banknote, 
   Building2, 
@@ -42,7 +43,7 @@ const HomePage = () => {
     },
     {
       title: 'Average Transaction Value',
-      value: currentPhaseData.name === 'Pre-Opening Phase' ? 'N/A' : `BD ${(transactionMetrics.averageTransactionValue / 1000000).toFixed(1)}M`,
+      value: currentPhaseData.name === 'Pre-Opening Phase' ? 'N/A' : currency(transactionMetrics.averageTransactionValue, true),
       subtitle: 'Per transaction',
       icon: DollarSign,
       status: currentPhaseData.name === 'Pre-Opening Phase' ? 'warning' as const : 'info' as const
@@ -74,21 +75,21 @@ const HomePage = () => {
     },
     {
       title: 'Total Securities Hold',
-      value: 'BD 12.8B',
+      value: currency(12800000000, true),
       subtitle: 'Under custody',
       icon: Shield,
       status: 'info' as const
     },
     {
       title: 'Total Mbill Hold',
-      value: 'BD 2.4B',
+      value: currency(2400000000, true),
       subtitle: 'Government securities',
       icon: Banknote,
       status: 'info' as const
     },
     {
       title: 'Daily Settled',
-      value: currentPhaseData.name === 'Pre-Opening Phase' ? 'BD 0' : `BD ${(transactionMetrics.totalVolume / 1000000).toFixed(1)}M`,
+      value: currentPhaseData.name === 'Pre-Opening Phase' ? currency(0) : currency(transactionMetrics.totalVolume, true),
       subtitle: currentPhaseData.name === 'Pre-Opening Phase' ? 'No settlements yet' : 'Today\'s settled amount',
       icon: CheckCircle,
       status: currentPhaseData.name === 'Pre-Opening Phase' ? 'warning' as const : 'success' as const

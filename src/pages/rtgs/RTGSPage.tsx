@@ -2,6 +2,7 @@ import { DataCard } from '@/components/common/DataCard';
 import { DataTable } from '@/components/common/DataTable';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { useBusinessDayEmulation } from '@/hooks/useBusinessDayEmulation';
+import { currency } from '@/config/currencyConfig';
 import { 
   Banknote, 
   DollarSign, 
@@ -33,7 +34,7 @@ const RTGSPage = () => {
     },
     {
       title: 'Average Transaction Value',
-      value: currentPhaseData.name === 'Pre-Opening Phase' ? 'N/A' : `BD ${(transactionMetrics.averageTransactionValue / 1000000).toFixed(1)}M`,
+      value: currentPhaseData.name === 'Pre-Opening Phase' ? 'N/A' : currency(transactionMetrics.averageTransactionValue, true),
       subtitle: 'Per transaction',
       icon: DollarSign,
       status: currentPhaseData.name === 'Pre-Opening Phase' ? 'warning' as const : 'info' as const
@@ -93,19 +94,19 @@ const RTGSPage = () => {
 
   // Money flow data for widgets
   const moneyFlowData = [
-    { bank: 'National Bank of Bahrain (NBB)', amount: 'BD 125.2M', percentage: 22.3 },
-    { bank: 'Ahli United Bank B.S.C.', amount: 'BD 98.7M', percentage: 17.6 },
-    { bank: 'Bank of Bahrain and Kuwait (BBK)', amount: 'BD 87.4M', percentage: 15.5 },
-    { bank: 'Gulf International Bank B.S.C. (GIB)', amount: 'BD 76.1M', percentage: 13.5 },
-    { bank: 'HSBC Bank Middle East Limited', amount: 'BD 65.8M', percentage: 11.7 }
+    { bank: 'National Bank of Bahrain (NBB)', amount: currency(125200000, true), percentage: 22.3 },
+    { bank: 'Ahli United Bank B.S.C.', amount: currency(98700000, true), percentage: 17.6 },
+    { bank: 'Bank of Bahrain and Kuwait (BBK)', amount: currency(87400000, true), percentage: 15.5 },
+    { bank: 'Gulf International Bank B.S.C. (GIB)', amount: currency(76100000, true), percentage: 13.5 },
+    { bank: 'HSBC Bank Middle East Limited', amount: currency(65800000, true), percentage: 11.7 }
   ];
 
   const avgMonthlyData = [
-    { bank: 'National Bank of Bahrain (NBB)', amount: 'BD 3.8B', growth: '+5.2%' },
-    { bank: 'Ahli United Bank B.S.C.', amount: 'BD 2.9B', growth: '+3.8%' },
-    { bank: 'Bank of Bahrain and Kuwait (BBK)', amount: 'BD 2.6B', growth: '+2.1%' },
-    { bank: 'Gulf International Bank B.S.C. (GIB)', amount: 'BD 2.3B', growth: '+4.3%' },
-    { bank: 'HSBC Bank Middle East Limited', amount: 'BD 2.0B', growth: '+1.9%' }
+    { bank: 'National Bank of Bahrain (NBB)', amount: currency(3800000000, true), growth: '+5.2%' },
+    { bank: 'Ahli United Bank B.S.C.', amount: currency(2900000000, true), growth: '+3.8%' },
+    { bank: 'Bank of Bahrain and Kuwait (BBK)', amount: currency(2600000000, true), growth: '+2.1%' },
+    { bank: 'Gulf International Bank B.S.C. (GIB)', amount: currency(2300000000, true), growth: '+4.3%' },
+    { bank: 'HSBC Bank Middle East Limited', amount: currency(2000000000, true), growth: '+1.9%' }
   ];
 
   return (

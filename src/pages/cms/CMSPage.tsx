@@ -2,6 +2,7 @@ import { DataCard } from '@/components/common/DataCard';
 import { DataTable } from '@/components/common/DataTable';
 import { QuickActions } from '@/components/common/QuickActions';
 import { useBusinessDayEmulation } from '@/hooks/useBusinessDayEmulation';
+import { currency } from '@/config/currencyConfig';
 import { 
   Shield, 
   DollarSign, 
@@ -18,7 +19,7 @@ const CMSPage = () => {
   const collateralMetrics = [
     {
       title: 'Total Collateral Value',
-      value: currentPhaseData.name === 'Pre-Opening Phase' ? 'BD 8.7B' : `BD ${(liquidityMetrics.pledgedCollateral / 1000000000).toFixed(1)}B`,
+      value: currentPhaseData.name === 'Pre-Opening Phase' ? currency(8700000000, true) : currency(liquidityMetrics.pledgedCollateral, true),
       subtitle: 'Across all participants',
       icon: DollarSign,
       status: 'info' as const
@@ -33,7 +34,7 @@ const CMSPage = () => {
     },
     {
       title: 'Margin Deficit',
-      value: currentPhaseData.name === 'Pre-Opening Phase' ? 'BD 0' : 'BD 24.5M',
+      value: currentPhaseData.name === 'Pre-Opening Phase' ? currency(0) : currency(24500000, true),
       subtitle: currentPhaseData.name === 'Pre-Opening Phase' ? 'No deficits yet' : 'Requires immediate attention',
       icon: AlertTriangle,
       status: currentPhaseData.name === 'Pre-Opening Phase' ? 'info' as const : 'warning' as const
