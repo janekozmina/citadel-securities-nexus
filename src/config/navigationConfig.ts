@@ -124,7 +124,7 @@ export const primaryNavigation: NavigationItem[] = [
   },
   {
     id: 'admin',
-    title: 'Admin',
+    title: 'Administration',
     path: '/admin',
     icon: Settings,
     description: 'System administration',
@@ -1018,57 +1018,6 @@ export const secondaryNavigation: Record<string, NavigationItem[]> = {
           path: '/admin/audit/logs',
           icon: FileText,
           description: 'View system logs'
-        }
-      ]
-    },
-    {
-      id: 'monitoring',
-      title: 'Monitoring',
-      path: '/admin/monitoring',
-      icon: Eye,
-      description: 'System monitoring',
-      children: [
-        {
-          id: 'system-monitoring',
-          title: 'System monitoring',
-          path: '/admin/monitoring/system',
-          icon: Monitor,
-          description: 'System health monitoring'
-        },
-        {
-          id: 'audit-log-activity',
-          title: 'Audit Log and Activity',
-          path: '/admin/monitoring/audit-log',
-          icon: FileText,
-          description: 'Audit logs and activity tracking'
-        },
-        {
-          id: 'suspicious-access-alerts',
-          title: 'Suspicious Access Attempt Alerts',
-          path: '/admin/monitoring/suspicious-access',
-          icon: AlertTriangle,
-          description: 'Security access alerts'
-        },
-        {
-          id: 'suspensions',
-          title: 'Suspensions',
-          path: '/admin/monitoring/suspensions',
-          icon: PauseCircle,
-          description: 'Account suspensions'
-        },
-        {
-          id: 'incoming-messages',
-          title: 'Incoming Messages',
-          path: '/admin/monitoring/incoming-messages',
-          icon: Inbox,
-          description: 'Incoming system messages'
-        },
-        {
-          id: 'outgoing-messages',
-          title: 'Outgoing Messages',
-          path: '/admin/monitoring/outgoing-messages',
-          icon: Send,
-          description: 'Outgoing system messages'
         }
       ]
     }
