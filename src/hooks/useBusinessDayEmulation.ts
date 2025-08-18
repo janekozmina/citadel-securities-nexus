@@ -286,13 +286,10 @@ const normalRandom = (mean: number, stdDev: number) => {
 export const useBusinessDayEmulation = () => {
   const [emulatedDay, setEmulatedDay] = useState<EmulatedBusinessDay>(() => {
     const now = new Date();
-    // Start simulation based on current real time hour
-    const emulatedStart = new Date();
-    emulatedStart.setHours(now.getHours(), 0, 0, 0);
     
     return {
       currentTime: now,
-      emulatedTime: emulatedStart,
+      emulatedTime: now, // Sync directly with current local time
       currentPhase: 1,
       isRunning: true,
       timeMultiplier: 1 // Real time progression
@@ -337,7 +334,11 @@ export const useBusinessDayEmulation = () => {
         return phase.id;
       }
     }
-    return 6; // Default to last phase if outside range
+    
+    // Handle times outside business hours
+    if (hour < 7) return 1; // Before business day starts
+    if (hour >= 18) return 6; // After business day ends
+    return 1; // Default fallback
   }, []);
 
   const updateEmulation = useCallback(() => {
@@ -345,37 +346,40 @@ export const useBusinessDayEmulation = () => {
 
     setEmulatedDay(prev => {
       const now = new Date();
-      // Sync with real time, starting each hour fresh
-      const newEmulatedTime = new Date();
-      
-      const currentPhase = getCurrentPhase(newEmulatedTime);
+      // Always sync with current local time
+      const currentPhase = getCurrentPhase(now);
 
       return {
         ...prev,
         currentTime: now,
-        emulatedTime: newEmulatedTime,
+        emulatedTime: now, // Keep synced with real time
         currentPhase
       };
     });
   }, [emulatedDay.isRunning, getCurrentPhase]);
 
   const updateMetrics = useCallback(() => {
-    const hour = emulatedDay.emulatedTime.getHours();
-    const minute = emulatedDay.emulatedTime.getMinutes();
+    // Use current real time for metrics calculation
+    const now = new Date();
+    const hour = now.getHours();
+    const minute = now.getMinutes();
     
     setTransactionMetrics(generateTransactionPattern(hour, minute));
     setCSDMetrics(generateCSDPattern(hour, minute));
     setLiquidityMetrics(generateLiquidityPattern(hour, minute));
-  }, [emulatedDay.emulatedTime]);
+  }, []);
 
   useEffect(() => {
+    // Initial metrics calculation on mount
+    updateMetrics();
+    
     if (!emulatedDay.isRunning) return;
 
-    // Update every minute to match real time progression
+    // Update every 30 seconds for real-time updates
     const interval = setInterval(() => {
       updateEmulation();
       updateMetrics();
-    }, 60000); // Update every minute
+    }, 30000); // Update every 30 seconds
 
     return () => clearInterval(interval);
   }, [updateEmulation, updateMetrics, emulatedDay.isRunning]);
@@ -389,13 +393,11 @@ export const useBusinessDayEmulation = () => {
 
   const resetSimulation = () => {
     const now = new Date();
-    const emulatedStart = new Date();
-    emulatedStart.setHours(now.getHours(), 0, 0, 0);
     
     setEmulatedDay(prev => ({
       ...prev,
-      emulatedTime: emulatedStart,
-      currentPhase: 1,
+      emulatedTime: now, // Reset to current time
+      currentPhase: getCurrentPhase(now),
       isRunning: false
     }));
     
@@ -423,8 +425,18 @@ export const useBusinessDayEmulation = () => {
       hourlyTransactions: 0,
       securitiesBreakdown: { Government: 0, Corporate: 0, Sukuk: 0 }
     });
-    setLiquidityMetrics(generateLiquidityPattern(now.getHours(), 0));
+    setLiquidityMetrics(generateLiquidityPattern(now.getHours(), now.getMinutes()));
   };
+
+  // Initial phase calculation on mount
+  useEffect(() => {
+    const now = new Date();
+    const initialPhase = getCurrentPhase(now);
+    setEmulatedDay(prev => ({
+      ...prev,
+      currentPhase: initialPhase
+    }));
+  }, [getCurrentPhase]);
 
   const setTimeMultiplier = (multiplier: number) => {
     setEmulatedDay(prev => ({
