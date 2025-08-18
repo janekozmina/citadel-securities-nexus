@@ -21,6 +21,8 @@ import {
   Calendar as CalendarIcon,
   ArrowUpDown
 } from 'lucide-react';
+import { QuickActionsManager } from '@/components/common/QuickActionsManager';
+import { PageHeader } from '@/components/common/PageHeader';
 
 interface BillingRecord {
   id: string;
@@ -214,21 +216,24 @@ export default function BillingPage() {
   };
 
   return (
-    <main className="space-y-6">
-      <section className="space-y-4">
-        <div className="flex items-center justify-between">
-          <div>
-            <h1 className="text-2xl font-bold">Billing Management</h1>
-            <p className="text-muted-foreground">Interest, Fees, and Charges Summary for participant accounts</p>
+    <div className="space-y-6">
+      <PageHeader />
+      
+      <div className="flex h-full">
+        <div className="flex-1 space-y-6 pr-6">
+          <div className="flex items-center justify-between">
+            <div>
+              <h1 className="text-2xl font-bold">Billing Management</h1>
+              <p className="text-muted-foreground">Interest, Fees, and Charges Summary for participant accounts</p>
+            </div>
+            
+            <Button className="gap-2">
+              <Download className="h-4 w-4" />
+              Export Report
+            </Button>
           </div>
-          
-          <Button className="gap-2">
-            <Download className="h-4 w-4" />
-            Export Report
-          </Button>
-        </div>
 
-        {/* Summary Cards */}
+          {/* Summary Cards */}
         <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
           <Card>
             <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
@@ -536,7 +541,16 @@ export default function BillingPage() {
             </div>
           </CardContent>
         </Card>
-      </section>
-    </main>
+        </div>
+
+        {/* Right Sidebar with Quick Actions */}
+        <div className="w-64 space-y-4">
+          <QuickActionsManager 
+            pageKey="billing" 
+            systemType="rtgs" 
+          />
+        </div>
+      </div>
+    </div>
   );
 }

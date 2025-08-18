@@ -95,13 +95,13 @@ export default function TransactionStatusPage() {
   ];
 
   return (
-    <main>
+    <div className="space-y-6">
       <PageHeader />
 
-      <div className="flex gap-6">
-        {/* View Mode Toggle - Fixed positioning */}
-        <div className="w-full mb-6">
-          <div className="flex items-center gap-2 min-h-[40px] mb-6">
+      <div className="flex h-full">
+        <div className="flex-1 space-y-6 pr-6">
+          {/* View Mode Toggle - Fixed positioning */}
+          <div className="flex items-center gap-2 min-h-[40px]">
             <span className="text-sm font-medium text-slate-700">View Mode:</span>
             <div className="flex gap-2">
               <Button
@@ -122,11 +122,6 @@ export default function TransactionStatusPage() {
               </Button>
             </div>
           </div>
-        </div>
-      </div>
-
-      <div className="flex gap-6">
-        <div className="flex-1 space-y-6">
           {/* Controls Section - Only show for table view */}
           {viewMode === 'table' && (
             <Card className="bg-slate-50">
@@ -316,7 +311,6 @@ export default function TransactionStatusPage() {
           <QuickActionsManager 
             pageKey="transaction-status"
             systemType="rtgs"
-            className="lg:col-span-1"
             onActionClick={(actionId) => {
               if (['general-transfer', 'check-funds', 'liquidity-source', 'manual-gridlock'].includes(actionId)) {
                 setActiveDialog(actionId as any);
@@ -330,6 +324,6 @@ export default function TransactionStatusPage() {
         activeDialog={activeDialog}
         onClose={() => setActiveDialog(null)}
       />
-    </main>
+    </div>
   );
 }

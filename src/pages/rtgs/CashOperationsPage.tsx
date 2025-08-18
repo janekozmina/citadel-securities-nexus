@@ -80,12 +80,15 @@ export default function CashOperationsPage() {
   };
 
   return (
-    <div className="flex gap-6">
-      <div className="flex-1 space-y-6">
-        <section className="space-y-2">
-          <h1 className="text-2xl font-bold">RTGS — Cash Operations</h1>
-          <p className="text-muted-foreground">Central Bank cash operations and liquidity management.</p>
-        </section>
+    <div className="space-y-6">
+      <PageHeader />
+      
+      <div className="flex h-full">
+        <div className="flex-1 space-y-6 pr-6">
+          <section className="space-y-2">
+            <h1 className="text-2xl font-bold">RTGS — Cash Operations</h1>
+            <p className="text-muted-foreground">Central Bank cash operations and liquidity management.</p>
+          </section>
 
         {/* 1. Real-Time Cash Flow Overview */}
         <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
@@ -452,15 +455,16 @@ export default function CashOperationsPage() {
             </div>
           </CardContent>
         </Card>
-      </div>
+        </div>
 
-      {/* Right Sidebar with Quick Actions */}
-      <div className="w-64 space-y-4">
-        <QuickActionsManager 
-          pageKey="cash-operations"
-          systemType="rtgs"
-          onActionClick={handleQuickActionClick}
-        />
+        {/* Right Sidebar with Quick Actions */}
+        <div className="w-64 space-y-4">
+          <QuickActionsManager 
+            pageKey="cash-operations" 
+            systemType="rtgs" 
+            onActionClick={handleQuickActionClick}
+          />
+        </div>
       </div>
     </div>
   );
