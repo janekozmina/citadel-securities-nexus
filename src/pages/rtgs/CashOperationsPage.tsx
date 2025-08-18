@@ -82,10 +82,13 @@ export default function CashOperationsPage() {
 
   return (
     <div className="space-y-6">
-      <PageHeader />
-      
       <div className="flex h-full">
         <div className="flex-1 space-y-6 pr-6">
+          <div>
+            <h1 className="text-2xl font-bold">Cash Operations</h1>
+            <p className="text-muted-foreground">Central bank cash operations and liquidity management</p>
+          </div>
+          
           {/* 1. Real-Time Cash Flow Overview */}
         <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
           <Card>

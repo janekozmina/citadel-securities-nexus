@@ -217,10 +217,15 @@ export default function BillingPage() {
 
   return (
     <div className="space-y-6">
-      <PageHeader />
-      
       <div className="flex h-full">
         <div className="flex-1 space-y-6 pr-6">
+          <div className="flex items-center justify-between">
+            <div>
+              <h1 className="text-2xl font-bold">Billing</h1>
+              <p className="text-muted-foreground">Billing and fee management</p>
+            </div>
+          </div>
+          
           {/* Summary Cards */}
         <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
           <Card>
