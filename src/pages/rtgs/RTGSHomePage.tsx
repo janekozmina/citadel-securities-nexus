@@ -1,5 +1,7 @@
 import { useEffect } from 'react';
 import { DataCard } from '@/components/common/DataCard';
+import { InteractiveChart } from '@/components/common/InteractiveChart';
+import { DataTable } from '@/components/common/DataTable';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { useBusinessDayEmulation } from '@/hooks/useBusinessDayEmulation';
 import { currency } from '@/config/currencyConfig';
@@ -51,26 +53,45 @@ export default function RTGSHomePage() {
     }
   ];
 
-  const moneyFlowData = currentPhaseData.name === 'Pre-Opening Phase' ? [
-    { bank: 'System Setup', amount: currency(0), percentage: 0 },
-    { bank: 'Liquidity Provision', amount: currency(0), percentage: 0 },
-    { bank: 'Pre-checks Complete', amount: currency(0), percentage: 0 },
-    { bank: 'Standing Ready', amount: currency(0), percentage: 0 },
-    { bank: 'Awaiting Opening', amount: currency(0), percentage: 0 }
+  // Pie chart data for monthly money flow
+  const pieChartData = currentPhaseData.name === 'Pre-Opening Phase' ? [
+    { name: 'System Setup', value: 0, color: '#E5E7EB' },
+    { name: 'Liquidity Provision', value: 0, color: '#D1D5DB' },
+    { name: 'Pre-checks Complete', value: 0, color: '#9CA3AF' },
+    { name: 'Standing Ready', value: 0, color: '#6B7280' },
+    { name: 'Awaiting Opening', value: 0, color: '#4B5563' }
   ] : [
-    { bank: 'National Bank of Bahrain (NBB)', amount: currency(125200000, true), percentage: 22.3 },
-    { bank: 'Ahli United Bank B.S.C.', amount: currency(98700000, true), percentage: 17.6 },
-    { bank: 'Bank of Bahrain and Kuwait (BBK)', amount: currency(87400000, true), percentage: 15.5 },
-    { bank: 'Gulf International Bank B.S.C. (GIB)', amount: currency(76100000, true), percentage: 13.5 },
-    { bank: 'HSBC Bank Middle East Limited', amount: currency(65800000, true), percentage: 11.7 }
+    { name: 'National Bank of Bahrain', value: 3800, color: '#3B82F6' },
+    { name: 'Ahli United Bank', value: 2900, color: '#10B981' },
+    { name: 'Bank of Bahrain and Kuwait', value: 2600, color: '#F59E0B' },
+    { name: 'Gulf International Bank', value: 2300, color: '#EF4444' },
+    { name: 'HSBC Bank Middle East', value: 2000, color: '#8B5CF6' }
   ];
 
-  const avgMonthlyData = [
-    { bank: 'National Bank of Bahrain (NBB)', amount: currency(3800000000, true), growth: '+5.2%' },
-    { bank: 'Ahli United Bank B.S.C.', amount: currency(2900000000, true), growth: '+3.8%' },
-    { bank: 'Bank of Bahrain and Kuwait (BBK)', amount: currency(2600000000, true), growth: '+2.1%' },
-    { bank: 'Gulf International Bank B.S.C. (GIB)', amount: currency(2300000000, true), growth: '+4.3%' },
-    { bank: 'HSBC Bank Middle East Limited', amount: currency(2000000000, true), growth: '+1.9%' }
+  // Bank-to-bank transaction data
+  const bankTransactions = currentPhaseData.name === 'Pre-Opening Phase' ? [
+    { fromBank: 'System', toBank: 'Setup', amount: currency(0), id: 'SYS001' },
+    { fromBank: 'Pre-opening', toBank: 'Phase', amount: currency(0), id: 'SYS002' },
+    { fromBank: 'Awaiting', toBank: 'Launch', amount: currency(0), id: 'SYS003' },
+    { fromBank: 'Liquidity', toBank: 'Preparation', amount: currency(0), id: 'SYS004' },
+    { fromBank: 'System', toBank: 'Ready', amount: currency(0), id: 'SYS005' }
+  ] : [
+    { fromBank: 'Gulf International Bank', toBank: 'National Bank of Bahrain', amount: currency(10000000000, true), id: 'TXN001' },
+    { fromBank: 'National Bank of Bahrain', toBank: 'Ahli United Bank', amount: currency(9810000000, true), id: 'TXN002' },
+    { fromBank: 'Ahli United Bank', toBank: 'Gulf International Bank', amount: currency(6700000000, true), id: 'TXN003' },
+    { fromBank: 'Bank of Bahrain and Kuwait', toBank: 'Gulf International Bank', amount: currency(6480000000, true), id: 'TXN004' },
+    { fromBank: 'Gulf International Bank', toBank: 'Bank of Bahrain and Kuwait', amount: currency(5180000000, true), id: 'TXN005' },
+    { fromBank: 'HSBC Bank Middle East', toBank: 'Ahli United Bank', amount: currency(4900000000, true), id: 'TXN006' },
+    { fromBank: 'Ahli United Bank', toBank: 'National Bank of Bahrain', amount: currency(3870000000, true), id: 'TXN007' },
+    { fromBank: 'National Bank of Bahrain', toBank: 'HSBC Bank Middle East', amount: currency(3830000000, true), id: 'TXN008' },
+    { fromBank: 'Gulf International Bank', toBank: 'HSBC Bank Middle East', amount: currency(2880000000, true), id: 'TXN009' },
+    { fromBank: 'Bank of Bahrain and Kuwait', toBank: 'Ahli United Bank', amount: currency(2830000000, true), id: 'TXN010' }
+  ];
+
+  const transactionColumns = [
+    { key: 'fromBank', label: 'From Bank', type: 'text' as const },
+    { key: 'toBank', label: 'To Bank', type: 'text' as const },
+    { key: 'amount', label: 'SUM (BHD)', type: 'text' as const }
   ];
 
   return (
@@ -91,57 +112,24 @@ export default function RTGSHomePage() {
 
       {/* Money Flow Widgets */}
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-        {/* Daily Money Flow Top 5 */}
-        <Card>
-          <CardHeader className="flex flex-row items-center space-y-0 pb-2">
-            <CardTitle className="text-base font-medium">Money Flow Top 5 Banks (Today)</CardTitle>
-            <ArrowUpDown className="ml-auto h-4 w-4 text-muted-foreground" />
-          </CardHeader>
-          <CardContent>
-            <div className="space-y-3">
-              {moneyFlowData.map((item, index) => (
-                <div key={index} className="flex items-center justify-between">
-                  <div className="flex items-center space-x-2">
-                    <div className="w-6 h-6 rounded-full bg-primary/10 flex items-center justify-center text-xs font-medium">
-                      {index + 1}
-                    </div>
-                    <span className="text-sm font-medium truncate">{item.bank}</span>
-                  </div>
-                  <div className="text-right">
-                    <div className="text-sm font-medium">{item.amount}</div>
-                    <div className="text-xs text-muted-foreground">{item.percentage}%</div>
-                  </div>
-                </div>
-              ))}
-            </div>
-          </CardContent>
-        </Card>
+        {/* Money Flow Avg Monthly Top 5 Banks - Pie Chart */}
+        <InteractiveChart
+          config={{
+            type: 'pie',
+            title: 'Money Flow Avg Monthly Top 5 Banks',
+            data: pieChartData,
+            height: 400
+          }}
+          pieChartSize="medium"
+        />
 
-        {/* Average Monthly Flow Top 5 */}
-        <Card>
-          <CardHeader className="flex flex-row items-center space-y-0 pb-2">
-            <CardTitle className="text-base font-medium">Money Flow Avg Monthly Top 5 Banks</CardTitle>
-            <Building2 className="ml-auto h-4 w-4 text-muted-foreground" />
-          </CardHeader>
-          <CardContent>
-            <div className="space-y-3">
-              {avgMonthlyData.map((item, index) => (
-                <div key={index} className="flex items-center justify-between">
-                  <div className="flex items-center space-x-2">
-                    <div className="w-6 h-6 rounded-full bg-secondary/10 flex items-center justify-center text-xs font-medium">
-                      {index + 1}
-                    </div>
-                    <span className="text-sm font-medium truncate">{item.bank}</span>
-                  </div>
-                  <div className="text-right">
-                    <div className="text-sm font-medium">{item.amount}</div>
-                    <div className="text-xs text-green-600">{item.growth}</div>
-                  </div>
-                </div>
-              ))}
-            </div>
-          </CardContent>
-        </Card>
+        {/* Bank-to-Bank Transactions Table */}
+        <DataTable
+          title="Money Flow Top 5 Banks"
+          icon={ArrowUpDown}
+          columns={transactionColumns}
+          data={bankTransactions}
+        />
       </div>
     </div>
   );
