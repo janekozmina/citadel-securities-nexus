@@ -149,16 +149,8 @@ const RTGSPage = () => {
         ))}
       </div>
 
-      {/* Liquidity & Settlement Overview */}
+      {/* Bank-to-Bank Transactions Table */}
       <div className={dashboardStyleConfig.grid.charts}>
-        {/* Liquidity Heatmap */}
-        <LiquidityHeatmap
-          title="Liquidity & Settlement Overview"
-          participants={heatmapParticipants}
-          height={dashboardStyleConfig.card.defaultHeight}
-        />
-
-        {/* Bank-to-Bank Transactions Table */}
         <DataTable
           title="Money Flow Top 5 Banks"
           icon={ArrowUpDown}
