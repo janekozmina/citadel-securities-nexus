@@ -378,58 +378,6 @@ export default function BusinessDayManagementPage() {
             </Card>
           </div>
 
-          {/* Quick Actions */}
-          <Card className="mb-6">
-            <CardHeader>
-              <CardTitle>Quick Actions</CardTitle>
-              <CardDescription>Manage business day periods and operations</CardDescription>
-            </CardHeader>
-            <CardContent>
-              <div className="flex flex-wrap gap-2">
-                <Button 
-                  variant="outline" 
-                  size="sm"
-                  onClick={() => setIsAddPeriodOpen(true)}
-                >
-                  <Plus className="h-4 w-4 mr-2" />
-                  Add Period
-                </Button>
-                <Button 
-                  variant="outline" 
-                  size="sm"
-                  onClick={() => toast.success('Update period functionality available')}
-                >
-                  <Settings className="h-4 w-4 mr-2" />
-                  Update Period
-                </Button>
-                <Button 
-                  variant="outline" 
-                  size="sm"
-                  onClick={() => toast.success('Period activated')}
-                >
-                  <Play className="h-4 w-4 mr-2" />
-                  Activate Period
-                </Button>
-                <Button 
-                  variant="outline" 
-                  size="sm"
-                  onClick={() => toast.success('Period closed')}
-                >
-                  <Pause className="h-4 w-4 mr-2" />
-                  Close Period
-                </Button>
-                <Button 
-                  variant="outline" 
-                  size="sm"
-                  onClick={() => toast.success('Period deleted')}
-                >
-                  <AlertCircle className="h-4 w-4 mr-2" />
-                  Delete Period
-                </Button>
-              </div>
-            </CardContent>
-          </Card>
-
           {/* Business Day Schedule */}
           <div className="grid grid-cols-1 gap-6">
             {/* RTGS Schedule */}
