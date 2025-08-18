@@ -136,7 +136,7 @@ const RolesPermissionsPage = () => {
     }
   ]);
 
-  const [selectedSystem, setSelectedSystem] = useState<'ALL' | 'RTGS' | 'CSD' | 'CROSS_SYSTEM'>('ALL');
+  const [selectedSystem, setSelectedSystem] = useState<'RTGS' | 'CSD_CMS'>('RTGS');
   const [searchTerm, setSearchTerm] = useState('');
   const [isRoleDialogOpen, setIsRoleDialogOpen] = useState(false);
   const [editingRole, setEditingRole] = useState<Role | null>(null);
@@ -149,7 +149,9 @@ const RolesPermissionsPage = () => {
   });
 
   const filteredRoles = roles.filter(role => {
-    const matchesSystem = selectedSystem === 'ALL' || role.system === selectedSystem;
+    const matchesSystem = selectedSystem === 'RTGS' ? 
+      role.system === 'RTGS' : 
+      (role.system === 'CSD' || role.system === 'CMS' || role.system === 'CROSS_SYSTEM');
     const matchesSearch = role.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
                          role.description.toLowerCase().includes(searchTerm.toLowerCase());
     return matchesSystem && matchesSearch;
@@ -278,11 +280,9 @@ const RolesPermissionsPage = () => {
       </div>
 
       <Tabs value={selectedSystem} onValueChange={(value) => setSelectedSystem(value as any)} className="space-y-6">
-        <TabsList className="grid w-full grid-cols-4">
-          <TabsTrigger value="ALL">All Systems</TabsTrigger>
-          <TabsTrigger value="RTGS">RTGS</TabsTrigger>
-          <TabsTrigger value="CSD">CSD + CMS</TabsTrigger>
-          <TabsTrigger value="CROSS_SYSTEM">Cross-System</TabsTrigger>
+        <TabsList className="grid w-full grid-cols-2">
+          <TabsTrigger value="RTGS">RTGS System</TabsTrigger>
+          <TabsTrigger value="CSD_CMS">CSD + CMS Systems</TabsTrigger>
         </TabsList>
 
         <Card>
@@ -290,7 +290,7 @@ const RolesPermissionsPage = () => {
             <div className="flex items-center justify-between">
               <CardTitle className="flex items-center gap-2">
                 <Shield className="h-5 w-5" />
-                {selectedSystem === 'ALL' ? 'All Roles' : `${selectedSystem} Roles`}
+                {selectedSystem === 'RTGS' ? 'RTGS Roles' : 'CSD + CMS Roles'}
               </CardTitle>
               <div className="relative">
                 <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 h-4 w-4 text-slate-400" />
@@ -421,7 +421,7 @@ const RolesPermissionsPage = () => {
           </Card>
         </TabsContent>
 
-        <TabsContent value="CSD" className="space-y-6">
+        <TabsContent value="CSD_CMS" className="space-y-6">
           <Card>
             <CardHeader>
               <CardTitle>CSD + CMS Permissions Overview</CardTitle>

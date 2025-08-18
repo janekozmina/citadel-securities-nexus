@@ -99,12 +99,14 @@ const UserAccountsManagementPage = () => {
     }
   ]);
 
-  const [selectedSystem, setSelectedSystem] = useState<'ALL' | 'RTGS' | 'CSD' | 'CMS'>('ALL');
+  const [selectedSystem, setSelectedSystem] = useState<'RTGS' | 'CSD_CMS'>('RTGS');
   const [searchTerm, setSearchTerm] = useState('');
   const [statusFilter, setStatusFilter] = useState<string>('all');
 
   const filteredUsers = users.filter(user => {
-    const matchesSystem = selectedSystem === 'ALL' || user.system === selectedSystem || user.system === 'ALL';
+    const matchesSystem = selectedSystem === 'RTGS' ? 
+      (user.system === 'RTGS' || user.system === 'ALL') : 
+      (user.system === 'CSD' || user.system === 'CMS' || user.system === 'ALL');
     const matchesSearch = user.username.toLowerCase().includes(searchTerm.toLowerCase()) ||
                          user.email.toLowerCase().includes(searchTerm.toLowerCase()) ||
                          `${user.firstName} ${user.lastName}`.toLowerCase().includes(searchTerm.toLowerCase());
@@ -161,11 +163,9 @@ const UserAccountsManagementPage = () => {
       </div>
 
       <Tabs value={selectedSystem} onValueChange={(value) => setSelectedSystem(value as any)} className="space-y-6">
-        <TabsList className="grid w-full grid-cols-4">
-          <TabsTrigger value="ALL">All Systems</TabsTrigger>
-          <TabsTrigger value="RTGS">RTGS</TabsTrigger>
-          <TabsTrigger value="CSD">CSD + CMS</TabsTrigger>
-          <TabsTrigger value="CMS">System Admin</TabsTrigger>
+        <TabsList className="grid w-full grid-cols-2">
+          <TabsTrigger value="RTGS">RTGS System</TabsTrigger>
+          <TabsTrigger value="CSD_CMS">CSD + CMS Systems</TabsTrigger>
         </TabsList>
 
         <Card>
@@ -173,7 +173,7 @@ const UserAccountsManagementPage = () => {
             <div className="flex items-center justify-between">
               <CardTitle className="flex items-center gap-2">
                 <Users className="h-5 w-5" />
-                {selectedSystem === 'ALL' ? 'All User Accounts' : `${selectedSystem} User Accounts`}
+                {selectedSystem === 'RTGS' ? 'RTGS User Accounts' : 'CSD + CMS User Accounts'}
               </CardTitle>
               <div className="flex items-center gap-4">
                 <div className="relative">
@@ -333,7 +333,7 @@ const UserAccountsManagementPage = () => {
           </Card>
         </TabsContent>
 
-        <TabsContent value="CSD" className="space-y-6">
+        <TabsContent value="CSD_CMS" className="space-y-6">
           <Card>
             <CardHeader>
               <CardTitle>CSD + CMS System Access Summary</CardTitle>
