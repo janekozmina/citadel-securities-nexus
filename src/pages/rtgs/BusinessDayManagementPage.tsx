@@ -319,7 +319,7 @@ export default function BusinessDayManagementPage() {
         </div>
 
         {/* Business Day Emulation Dashboard */}
-        <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 mb-6">
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-6">
           {/* Real-time Metrics */}
           <Card>
             <CardHeader>
@@ -355,37 +355,6 @@ export default function BusinessDayManagementPage() {
             </CardContent>
           </Card>
 
-          {/* Liquidity Metrics */}
-          <Card>
-            <CardHeader>
-              <CardTitle className="flex items-center gap-2">
-                <TrendingUp className="h-5 w-5" />
-                Liquidity Metrics
-              </CardTitle>
-            </CardHeader>
-            <CardContent className="space-y-4">
-              <div className="space-y-3">
-                <div>
-                  <div className="flex justify-between text-sm">
-                    <span className="text-muted-foreground">Utilization</span>
-                    <span className="font-semibold">{liquidityMetrics.utilizationRate}%</span>
-                  </div>
-                  <Progress value={liquidityMetrics.utilizationRate} className="h-2" />
-                </div>
-                <div className="grid grid-cols-2 gap-4 text-sm">
-                  <div>
-                    <p className="text-muted-foreground">Available</p>
-                    <p className="font-semibold">BHD {(liquidityMetrics.availableLiquidity / 1000000000).toFixed(1)}B</p>
-                  </div>
-                  <div>
-                    <p className="text-muted-foreground">Total</p>
-                    <p className="font-semibold">BHD {(liquidityMetrics.totalLiquidity / 1000000000).toFixed(1)}B</p>
-                  </div>
-                </div>
-              </div>
-            </CardContent>
-          </Card>
-
           {/* Current Phase */}
           <Card>
             <CardHeader>
@@ -413,6 +382,58 @@ export default function BusinessDayManagementPage() {
             </CardContent>
           </Card>
         </div>
+
+        {/* Quick Actions */}
+        <Card className="mb-6">
+          <CardHeader>
+            <CardTitle>Quick Actions</CardTitle>
+            <CardDescription>Manage business day periods and operations</CardDescription>
+          </CardHeader>
+          <CardContent>
+            <div className="flex flex-wrap gap-2">
+              <Button 
+                variant="outline" 
+                size="sm"
+                onClick={() => setIsAddPeriodOpen(true)}
+              >
+                <Plus className="h-4 w-4 mr-2" />
+                Add Period
+              </Button>
+              <Button 
+                variant="outline" 
+                size="sm"
+                onClick={() => toast.success('Update period functionality available')}
+              >
+                <Settings className="h-4 w-4 mr-2" />
+                Update Period
+              </Button>
+              <Button 
+                variant="outline" 
+                size="sm"
+                onClick={() => toast.success('Period activated')}
+              >
+                <Play className="h-4 w-4 mr-2" />
+                Activate Period
+              </Button>
+              <Button 
+                variant="outline" 
+                size="sm"
+                onClick={() => toast.success('Period closed')}
+              >
+                <Pause className="h-4 w-4 mr-2" />
+                Close Period
+              </Button>
+              <Button 
+                variant="outline" 
+                size="sm"
+                onClick={() => toast.success('Period deleted')}
+              >
+                <AlertCircle className="h-4 w-4 mr-2" />
+                Delete Period
+              </Button>
+            </div>
+          </CardContent>
+        </Card>
 
         {/* Business Day Schedule */}
         <div className="grid grid-cols-1 gap-6">
@@ -484,11 +505,11 @@ export default function BusinessDayManagementPage() {
                             )}
                           </div>
                           
-                          <details className="text-sm">
-                            <summary className="cursor-pointer text-muted-foreground hover:text-foreground">
-                              View Activities ({phase.activities.length})
-                            </summary>
-                            <div className="mt-2 space-y-1 pl-4 border-l-2 border-muted">
+                           <details className="text-sm">
+                             <summary className="cursor-pointer text-muted-foreground hover:text-foreground">
+                               View Actions ({phase.activities.length})
+                             </summary>
+                             <div className="mt-2 space-y-1 pl-4 border-l-2 border-muted">
                               {phase.activities.map((activity, activityIndex) => (
                                 <div key={activityIndex} className="text-sm text-muted-foreground">
                                   • {activity}

@@ -76,10 +76,14 @@ const BUSINESS_PHASES: BusinessPhase[] = [
     endHour: 8.5,
     description: 'System Preparation & Liquidity Setup',
     activities: [
-      'System health checks',
-      'Batch processing completion check',
-      'Liquidity provision',
-      'Initial reports'
+      'Actions on period activation:',
+      'Open operday',
+      'Set overdraft limit',
+      'Create statement for previous business day',
+      'Billing calculation',
+      'Billing invoicing',
+      'Actions on period deactivation:',
+      'GL reporting for the period'
     ]
   },
   {
@@ -89,10 +93,11 @@ const BUSINESS_PHASES: BusinessPhase[] = [
     endHour: 12,
     description: 'High-value payments and liquidity management',
     activities: [
-      'System officially opens',
-      'High-value and urgent payments processed',
-      'Liquidity management',
-      'Settlement monitoring'
+      'Actions on period activation:',
+      'Set bilateral and multilateral limit',
+      'Actions on period deactivation:',
+      'GL reporting',
+      'Cancel customer payments from intraday queue'
     ]
   },
   {
