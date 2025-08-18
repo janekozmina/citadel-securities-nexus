@@ -100,6 +100,51 @@ export const quickActionsConfig: Record<string, QuickAction[]> = {
       permissions: ['rtgs.bi.view']
     },
     {
+      id: 'cash-withdrawal',
+      label: 'Cash Withdrawal',
+      icon: DollarSign,
+      variant: 'default',
+      category: 'Operations',
+      description: 'Process cash withdrawal request',
+      permissions: ['rtgs.cash.withdraw']
+    },
+    {
+      id: 'cash-deposit',
+      label: 'Cash Deposit',
+      icon: Plus,
+      variant: 'default',
+      category: 'Operations', 
+      description: 'Process cash deposit transaction',
+      permissions: ['rtgs.cash.deposit']
+    },
+    {
+      id: 'vault-reconciliation',
+      label: 'Vault Reconciliation',
+      icon: Calculator,
+      variant: 'outline',
+      category: 'Operations',
+      description: 'Reconcile vault balances',
+      permissions: ['rtgs.cash.reconcile']
+    },
+    {
+      id: 'cash-transfer',
+      label: 'Cash Transfer',
+      icon: ArrowRightLeft,
+      variant: 'outline',
+      category: 'Operations',
+      description: 'Transfer cash between vaults',
+      permissions: ['rtgs.cash.transfer']
+    },
+    {
+      id: 'compliance-report',
+      label: 'Compliance Report',
+      icon: Shield,
+      variant: 'outline',
+      category: 'Compliance',
+      description: 'Generate compliance report',
+      permissions: ['rtgs.compliance.report']
+    },
+    {
       id: 'liquidity-analysis',
       label: 'Liquidity Analysis',
       icon: TrendingUp,
@@ -522,6 +567,7 @@ export const defaultQuickActions: Record<string, string[]> = {
   'account-statements': ['download-statement', 'request-statement', 'reconciliation-report', 'export-data'],
   'islamic-sukuk': ['register-new-sukuk', 'view-issuer-details', 'generate-sukuk-term-sheet', 'export-maturity-schedule'],
   'transfers': ['submit-transfer-instruction', 'amend-pending-instruction', 'cancel-instruction', 'download-instruction-report', 'notify-counterparty'],
+  'cash-operations': ['cash-withdrawal', 'cash-deposit', 'vault-reconciliation', 'cash-transfer', 'compliance-report'],
   'bi-reports': ['access-bi-full-view', 'refresh-data', 'export-data'],
   'default': ['export-data', 'refresh-data', 'advanced-search']
 };

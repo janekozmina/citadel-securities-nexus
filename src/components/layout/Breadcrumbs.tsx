@@ -29,7 +29,7 @@ const routeMap: Record<string, RouteInfo> = {
   '/rtgs/dispute-management': { path: '/rtgs/dispute-management', label: 'Dispute Management', parent: '/rtgs' },
   '/rtgs/billing': { path: '/rtgs/billing', label: 'Billing', parent: '/rtgs' },
   '/rtgs/financial-monitoring/bi-reports': { path: '/rtgs/financial-monitoring/bi-reports', label: 'BI Reports', parent: '/rtgs/financial-monitoring' },
-  '/rtgs/cash-operations': { path: '/rtgs/cash-operations', label: 'Cash Operations', parent: '/rtgs' },
+  '/rtgs/cb-operations/cash-operations': { path: '/rtgs/cb-operations/cash-operations', label: 'Cash Operations', parent: '/rtgs/central-bank-operations' },
   '/rtgs/real-time-cash-flow-overview': { path: '/rtgs/real-time-cash-flow-overview', label: 'Real-time Cash Flow Overview', parent: '/rtgs' },
   '/rtgs/payments': { path: '/rtgs/payments', label: 'RTGS Payments', parent: '/rtgs' },
   '/rtgs/accounts': { path: '/rtgs/accounts', label: 'RTGS Accounts', parent: '/rtgs' },
