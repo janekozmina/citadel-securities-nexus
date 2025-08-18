@@ -35,6 +35,17 @@ import CSDSettlementPage from "./pages/csd/CSDSettlementPage";
 import CSDCustodyPage from "./pages/csd/CSDCustodyPage";
 import CSDAccountManagementPage from "./pages/csd/CSDAccountManagementPage";
 import AccountStatementsPage from "./pages/csd/AccountStatementsPage";
+import ExposureSummaryPage from "./pages/csd/ExposureSummaryPage";
+import CorporateActionsSummaryPage from "./pages/csd/CorporateActionsSummaryPage";
+import CouponRewardPage from "./pages/csd/CouponRewardPage";
+import RedemptionsPage from "./pages/csd/RedemptionsPage";
+import EarlyRedemptionsPage from "./pages/csd/EarlyRedemptionsPage";
+import TransactionsSummaryPage from "./pages/csd/TransactionsSummaryPage";
+import DocumentsApprovalPage from "./pages/csd/DocumentsApprovalPage";
+import SettledTransactionsPage from "./pages/csd/SettledTransactionsPage";
+import PendingTransactionsPage from "./pages/csd/PendingTransactionsPage";
+import FailedTransactionsPage from "./pages/csd/FailedTransactionsPage";
+import TransfersDvpPage from "./pages/csd/TransfersDvpPage";
 import RegisterIslamicSukukPage from "./pages/csd/RegisterIslamicSukukPage";
 import TransfersPage from "./pages/csd/TransfersPage";
 import InstrumentTypesPage from "./pages/securities/InstrumentTypesPage";
@@ -194,7 +205,92 @@ const App = () => (
                   <AccountStatementsPage />
                 </MainLayout>
               </ProtectedRoute>
-            } />
+             } />
+             
+             {/* CSD Positions */}
+             <Route path="/csd/positions/exposure-summary" element={
+               <ProtectedRoute>
+                 <MainLayout>
+                   <ExposureSummaryPage />
+                 </MainLayout>
+               </ProtectedRoute>
+             } />
+             
+             {/* CSD Corporate Actions */}
+             <Route path="/csd/corporate-actions/summary" element={
+               <ProtectedRoute>
+                 <MainLayout>
+                   <CorporateActionsSummaryPage />
+                 </MainLayout>
+               </ProtectedRoute>
+             } />
+             <Route path="/csd/corporate-actions/coupon-reward" element={
+               <ProtectedRoute>
+                 <MainLayout>
+                   <CouponRewardPage />
+                 </MainLayout>
+               </ProtectedRoute>
+             } />
+             <Route path="/csd/corporate-actions/redemptions" element={
+               <ProtectedRoute>
+                 <MainLayout>
+                   <RedemptionsPage />
+                 </MainLayout>
+               </ProtectedRoute>
+             } />
+             <Route path="/csd/corporate-actions/early-redemptions" element={
+               <ProtectedRoute>
+                 <MainLayout>
+                   <EarlyRedemptionsPage />
+                 </MainLayout>
+               </ProtectedRoute>
+             } />
+             
+             {/* CSD Transactions */}
+             <Route path="/csd/transactions/summary" element={
+               <ProtectedRoute>
+                 <MainLayout>
+                   <TransactionsSummaryPage />
+                 </MainLayout>
+               </ProtectedRoute>
+             } />
+             <Route path="/csd/transactions/documents-approval" element={
+               <ProtectedRoute>
+                 <MainLayout>
+                   <DocumentsApprovalPage />
+                 </MainLayout>
+               </ProtectedRoute>
+             } />
+             <Route path="/csd/transactions/settled" element={
+               <ProtectedRoute>
+                 <MainLayout>
+                   <SettledTransactionsPage />
+                 </MainLayout>
+               </ProtectedRoute>
+             } />
+             <Route path="/csd/transactions/pending" element={
+               <ProtectedRoute>
+                 <MainLayout>
+                   <PendingTransactionsPage />
+                 </MainLayout>
+               </ProtectedRoute>
+             } />
+             <Route path="/csd/transactions/failed" element={
+               <ProtectedRoute>
+                 <MainLayout>
+                   <FailedTransactionsPage />
+                 </MainLayout>
+               </ProtectedRoute>
+             } />
+             <Route path="/csd/transactions/transfers" element={
+               <ProtectedRoute>
+                 <MainLayout>
+                   <TransfersDvpPage />
+                 </MainLayout>
+               </ProtectedRoute>
+             } />
+             
+             {/* Existing CSD Routes */}
             <Route path="/csd/instruments/register-islamic-sukuk" element={
               <ProtectedRoute>
                 <MainLayout>
