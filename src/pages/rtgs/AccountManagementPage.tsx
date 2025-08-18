@@ -23,6 +23,18 @@ const generateAccountData = () => {
     const currency = index < 3 ? primaryCurrency : currencies[index % currencies.length];
     const baseBalance = Math.floor(Math.random() * 100000) + 1000;
     
+    // Generate proper 8-character BIC code
+    const bankCode = portalConfig.banks.codes[bank];
+    let bic: string;
+    if (bankCode && bankCode.length >= 6) {
+      // Use existing bank code and ensure it's 8 characters
+      bic = bankCode.length === 8 ? bankCode : `${bankCode}BH`;
+    } else {
+      // Generate BIC: 4-letter bank identifier + 2-letter country (BH) + 2-letter location
+      const bankName = bank.replace(/[^A-Z]/g, '').substring(0, 4).padEnd(4, 'X');
+      bic = `${bankName}BHBM`;
+    }
+
     return {
       id: `000380004012030${String(index + 1).padStart(4, '0')}`,
       availableBalance: baseBalance,
@@ -34,7 +46,7 @@ const generateAccountData = () => {
       potentialBalance: baseBalance + Math.floor(Math.random() * 2000),
       accountType: index % 3 === 0 ? 'SA' : 'CA',
       participantName: bank,
-      bic: portalConfig.banks.codes[bank] || `BBMEBHBM${String(index + 1).padStart(3, '0')}`
+      bic: bic
     };
   });
 };
@@ -409,7 +421,7 @@ export default function AccountManagementPage() {
                           </TableCell>
                           <TableCell className="font-medium text-sm">{account.participantName}</TableCell>
                           <TableCell className={`text-right font-medium ${getBalanceColor(account.availableBalance)}`}>
-                            {account.currency === portalConfig.currencies.primary ? currencySymbol : account.currency} {account.availableBalance.toLocaleString()}
+                            {account.availableBalance.toLocaleString()}
                           </TableCell>
                           <TableCell>
                             <Badge variant="outline">{account.currency}</Badge>
@@ -417,7 +429,7 @@ export default function AccountManagementPage() {
                           <TableCell className="text-right">{account.debitTurnover.toLocaleString()}</TableCell>
                           <TableCell className="text-right">{account.creditTurnover.toLocaleString()}</TableCell>
                           <TableCell className="text-right">
-                            {account.currency === portalConfig.currencies.primary ? currencySymbol : account.currency} {account.potentialBalance.toLocaleString()}
+                            {account.potentialBalance.toLocaleString()}
                           </TableCell>
                           <TableCell>
                             <Badge variant="secondary">{account.accountType}</Badge>
