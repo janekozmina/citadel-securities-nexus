@@ -212,111 +212,102 @@ export default function BusinessDayManagementPage() {
             <h1 className="text-2xl font-bold">Business Day Management</h1>
             <p className="text-muted-foreground">Configure and monitor business day periods and schedules</p>
           </div>
-          
-          <div className="flex items-center gap-4">
-            
-            <Dialog open={isAddPeriodOpen} onOpenChange={setIsAddPeriodOpen}>
-              <DialogTrigger asChild>
-                <Button className="gap-2">
-                  <Plus className="h-4 w-4" />
-                  Add Period
-                </Button>
-              </DialogTrigger>
-              <DialogContent className="max-w-lg">
-                <DialogHeader>
-                  <DialogTitle>Add Business Period</DialogTitle>
-                  <DialogDescription>
-                    Configure a new business period with specific actions and timing
-                  </DialogDescription>
-                </DialogHeader>
-                
-                <div className="space-y-4 py-4">
-                  <div className="space-y-2">
-                    <Label htmlFor="name">Period Name *</Label>
-                    <Input 
-                      id="name"
-                      value={periodForm.name}
-                      onChange={(e) => setPeriodForm(prev => ({...prev, name: e.target.value}))}
-                      placeholder="e.g., Morning Settlement"
-                    />
-                  </div>
-
-                  <div className="space-y-2">
-                    <Label htmlFor="type">System Type *</Label>
-                    <Select value={periodForm.type} onValueChange={(value: 'rtgs' | 'csd') => setPeriodForm(prev => ({...prev, type: value}))}>
-                      <SelectTrigger>
-                        <SelectValue />
-                      </SelectTrigger>
-                      <SelectContent>
-                        <SelectItem value="rtgs">RTGS</SelectItem>
-                        <SelectItem value="csd">CSD</SelectItem>
-                      </SelectContent>
-                    </Select>
-                  </div>
-
-                  <div className="grid grid-cols-2 gap-4">
-                    <div className="space-y-2">
-                      <Label htmlFor="startTime">Start Time *</Label>
-                      <Select value={periodForm.startTime} onValueChange={(value) => setPeriodForm(prev => ({...prev, startTime: value}))}>
-                        <SelectTrigger>
-                          <SelectValue />
-                        </SelectTrigger>
-                        <SelectContent>
-                          {timeSlots.map((time) => (
-                            <SelectItem key={time} value={time}>{time}</SelectItem>
-                          ))}
-                        </SelectContent>
-                      </Select>
-                    </div>
-                    
-                    <div className="space-y-2">
-                      <Label htmlFor="endTime">End Time *</Label>
-                      <Select value={periodForm.endTime} onValueChange={(value) => setPeriodForm(prev => ({...prev, endTime: value}))}>
-                        <SelectTrigger>
-                          <SelectValue />
-                        </SelectTrigger>
-                        <SelectContent>
-                          {timeSlots.map((time) => (
-                            <SelectItem key={time} value={time}>{time}</SelectItem>
-                          ))}
-                        </SelectContent>
-                      </Select>
-                    </div>
-                  </div>
-
-                  <div className="space-y-2">
-                    <Label>Actions *</Label>
-                    <div className="space-y-2 max-h-32 overflow-y-auto">
-                      {predefinedActions[periodForm.type].map((action) => (
-                        <div key={action} className="flex items-center space-x-2">
-                          <input
-                            type="checkbox"
-                            id={action}
-                            checked={periodForm.actions.includes(action)}
-                            onChange={() => handleActionToggle(action)}
-                            className="rounded border-gray-300"
-                          />
-                          <Label htmlFor={action} className="text-sm font-normal cursor-pointer">
-                            {action}
-                          </Label>
-                        </div>
-                      ))}
-                    </div>
-                  </div>
-                </div>
-
-                <div className="flex justify-end gap-3">
-                  <Button variant="outline" onClick={() => setIsAddPeriodOpen(false)}>
-                    Cancel
-                  </Button>
-                  <Button onClick={handleAddPeriod}>
-                    Add Period
-                  </Button>
-                </div>
-              </DialogContent>
-            </Dialog>
-          </div>
         </div>
+
+        <Dialog open={isAddPeriodOpen} onOpenChange={setIsAddPeriodOpen}>
+          <DialogContent className="max-w-lg">
+            <DialogHeader>
+              <DialogTitle>Add Business Period</DialogTitle>
+              <DialogDescription>
+                Configure a new business period with specific actions and timing
+              </DialogDescription>
+            </DialogHeader>
+            
+            <div className="space-y-4 py-4">
+              <div className="space-y-2">
+                <Label htmlFor="name">Period Name *</Label>
+                <Input 
+                  id="name"
+                  value={periodForm.name}
+                  onChange={(e) => setPeriodForm(prev => ({...prev, name: e.target.value}))}
+                  placeholder="e.g., Morning Settlement"
+                />
+              </div>
+
+              <div className="space-y-2">
+                <Label htmlFor="type">System Type *</Label>
+                <Select value={periodForm.type} onValueChange={(value: 'rtgs' | 'csd') => setPeriodForm(prev => ({...prev, type: value}))}>
+                  <SelectTrigger>
+                    <SelectValue />
+                  </SelectTrigger>
+                  <SelectContent>
+                    <SelectItem value="rtgs">RTGS</SelectItem>
+                    <SelectItem value="csd">CSD</SelectItem>
+                  </SelectContent>
+                </Select>
+              </div>
+
+              <div className="grid grid-cols-2 gap-4">
+                <div className="space-y-2">
+                  <Label htmlFor="startTime">Start Time *</Label>
+                  <Select value={periodForm.startTime} onValueChange={(value) => setPeriodForm(prev => ({...prev, startTime: value}))}>
+                    <SelectTrigger>
+                      <SelectValue />
+                    </SelectTrigger>
+                    <SelectContent>
+                      {timeSlots.map((time) => (
+                        <SelectItem key={time} value={time}>{time}</SelectItem>
+                      ))}
+                    </SelectContent>
+                  </Select>
+                </div>
+                
+                <div className="space-y-2">
+                  <Label htmlFor="endTime">End Time *</Label>
+                  <Select value={periodForm.endTime} onValueChange={(value) => setPeriodForm(prev => ({...prev, endTime: value}))}>
+                    <SelectTrigger>
+                      <SelectValue />
+                    </SelectTrigger>
+                    <SelectContent>
+                      {timeSlots.map((time) => (
+                        <SelectItem key={time} value={time}>{time}</SelectItem>
+                      ))}
+                    </SelectContent>
+                  </Select>
+                </div>
+              </div>
+
+              <div className="space-y-2">
+                <Label>Actions *</Label>
+                <div className="space-y-2 max-h-32 overflow-y-auto">
+                  {predefinedActions[periodForm.type].map((action) => (
+                    <div key={action} className="flex items-center space-x-2">
+                      <input
+                        type="checkbox"
+                        id={action}
+                        checked={periodForm.actions.includes(action)}
+                        onChange={() => handleActionToggle(action)}
+                        className="rounded border-gray-300"
+                      />
+                      <Label htmlFor={action} className="text-sm font-normal cursor-pointer">
+                        {action}
+                      </Label>
+                    </div>
+                  ))}
+                </div>
+              </div>
+            </div>
+
+            <div className="flex justify-end gap-3">
+              <Button variant="outline" onClick={() => setIsAddPeriodOpen(false)}>
+                Cancel
+              </Button>
+              <Button onClick={handleAddPeriod}>
+                Add Period
+              </Button>
+            </div>
+          </DialogContent>
+        </Dialog>
 
         {/* Business Day Emulation Dashboard */}
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-6">
