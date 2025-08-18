@@ -12,7 +12,7 @@ export default function ExposureSummaryPage() {
   const exposureMetrics = [
     {
       title: 'Total Exposure',
-      value: 'BD 24.5M',
+      value: 'BHD 24.5M',
       change: '+2.3%',
       changeType: 'positive' as const,
       icon: DollarSign
@@ -41,19 +41,19 @@ export default function ExposureSummaryPage() {
   ];
 
   const exposureData = [
-    { counterparty: 'Bank A', sector: 'Banking', exposure: 'BD 5.2M', rating: 'AA-', limit: 'BD 8.0M', utilization: '65%' },
-    { counterparty: 'Corp B', sector: 'Manufacturing', exposure: 'BD 3.8M', rating: 'A+', limit: 'BD 5.0M', utilization: '76%' },
-    { counterparty: 'Bank C', sector: 'Banking', exposure: 'BD 4.1M', rating: 'A', limit: 'BD 6.0M', utilization: '68%' },
-    { counterparty: 'Gov D', sector: 'Government', exposure: 'BD 6.5M', rating: 'AAA', limit: 'BD 10.0M', utilization: '65%' },
-    { counterparty: 'Corp E', sector: 'Energy', exposure: 'BD 2.9M', rating: 'BBB+', limit: 'BD 4.0M', utilization: '73%' }
+    { counterparty: 'National Bank of Bahrain (NBB)', sector: 'Banking', exposure: 'BHD 5.2M', rating: 'AA-', limit: 'BHD 8.0M', utilization: '65%' },
+    { counterparty: 'Ahli United Bank B.S.C.', sector: 'Banking', exposure: 'BHD 3.8M', rating: 'A+', limit: 'BHD 5.0M', utilization: '76%' },
+    { counterparty: 'Bank of Bahrain and Kuwait (BBK)', sector: 'Banking', exposure: 'BHD 4.1M', rating: 'A', limit: 'BHD 6.0M', utilization: '68%' },
+    { counterparty: 'Gulf International Bank B.S.C. (GIB)', sector: 'Banking', exposure: 'BHD 6.5M', rating: 'AAA', limit: 'BHD 10.0M', utilization: '65%' },
+    { counterparty: 'Bahrain Islamic Bank B.S.C. (BisB)', sector: 'Banking', exposure: 'BHD 2.9M', rating: 'BBB+', limit: 'BHD 4.0M', utilization: '73%' }
   ];
 
   const chartData = [
-    { name: 'Banking', value: 42, exposure: 'BD 9.3M' },
-    { name: 'Government', value: 26, exposure: 'BD 6.5M' },
-    { name: 'Manufacturing', value: 15, exposure: 'BD 3.8M' },
-    { name: 'Energy', value: 12, exposure: 'BD 2.9M' },
-    { name: 'Others', value: 5, exposure: 'BD 1.2M' }
+    { name: 'Banking', value: 42, exposure: 'BHD 9.3M' },
+    { name: 'Government', value: 26, exposure: 'BHD 6.5M' },
+    { name: 'Manufacturing', value: 15, exposure: 'BHD 3.8M' },
+    { name: 'Energy', value: 12, exposure: 'BHD 2.9M' },
+    { name: 'Others', value: 5, exposure: 'BHD 1.2M' }
   ];
 
   return (

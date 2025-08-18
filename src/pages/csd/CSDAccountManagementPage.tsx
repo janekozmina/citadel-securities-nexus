@@ -18,13 +18,16 @@ const generateCSDAccountData = () => {
   const banks = portalConfig.banks.commercial;
   const currencies = portalConfig.currencies.supported;
   const primaryCurrency = portalConfig.currencies.primary;
+  const securityTypes = ['Treasury Bill', 'Islamic Sukuk', 'Treasury Bond'];
   
-  return banks.slice(0, 15).map((bank, index) => {
+  return Array.from({ length: 9000 }, (_, index) => {
+    const bank = banks[index % banks.length];
     const currency = index < 3 ? primaryCurrency : currencies[index % currencies.length];
     const baseHoldings = Math.floor(Math.random() * 50000000) + 5000000; // 5M to 55M
     
     return {
       id: `CSD${String(index + 1).padStart(4, '0')}`,
+      securityCode: securityTypes[index % securityTypes.length],
       securityHoldings: baseHoldings,
       currency: currency,
       marketValue: Math.floor(baseHoldings * (0.95 + Math.random() * 0.1)), // ±5% market fluctuation
@@ -397,6 +400,15 @@ export default function CSDAccountManagementPage() {
                         </TableHead>
                         <TableHead 
                           className="cursor-pointer hover:bg-slate-50"
+                          onClick={() => handleSort('securityCode')}
+                        >
+                          <div className="flex items-center gap-1">
+                            Security Code
+                            <ArrowUpDown className="h-3 w-3" />
+                          </div>
+                        </TableHead>
+                        <TableHead 
+                          className="cursor-pointer hover:bg-slate-50"
                           onClick={() => handleSort('securityHoldings')}
                         >
                           <div className="flex items-center gap-1">
@@ -419,20 +431,21 @@ export default function CSDAccountManagementPage() {
                             <Badge variant="outline">{account.participantCode}</Badge>
                           </TableCell>
                           <TableCell className="font-medium text-sm">{account.participantName}</TableCell>
+                          <TableCell className="font-medium text-sm">{account.securityCode}</TableCell>
                           <TableCell className={`text-right font-medium ${getHoldingsColor(account.securityHoldings)}`}>
-                            {formatCurrency(account.securityHoldings)}
+                            {account.securityHoldings.toLocaleString()}
                           </TableCell>
                           <TableCell>
                             <Badge variant="outline">{account.currency}</Badge>
                           </TableCell>
-                          <TableCell className="text-right">{formatCurrency(account.marketValue)}</TableCell>
+                          <TableCell className="text-right">{account.marketValue.toLocaleString()}</TableCell>
                           <TableCell className="text-center">
                             <Badge variant={account.pendingSettlements > 5 ? 'destructive' : 'secondary'}>
                               {account.pendingSettlements}
                             </Badge>
                           </TableCell>
                           <TableCell className="text-right">
-                            {formatCurrency(account.collateralPosted)}
+                            {account.collateralPosted.toLocaleString()}
                           </TableCell>
                           <TableCell>
                             <Badge variant="secondary">{account.accountType}</Badge>

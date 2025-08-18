@@ -248,7 +248,7 @@ export default function RegisterIslamicSukukPage() {
       key: 'profit_rate', 
       label: 'Profit Rate', 
       sortable: true,
-      render: (value: number) => `${value.toFixed(2)}%`
+      render: (value: number) => `${value.toFixed(5)}%`
     },
     { key: 'maturityDate', label: 'Maturity Date', sortable: true },
     { 
