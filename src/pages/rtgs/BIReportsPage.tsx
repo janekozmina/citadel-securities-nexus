@@ -9,7 +9,7 @@ export default function BIReportsPage() {
 
   const handleQuickActionClick = (actionId: string) => {
     if (actionId === 'access-bi-full-view') {
-      window.open('http://ifp.k8s1.cma.se/business-monitoring', '_blank');
+      window.open('http://superset.k8s1.moscow.cma.ru/superset/dashboard/p/JnOlGOxZlj0/', '_blank');
     }
   };
 
