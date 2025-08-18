@@ -12,7 +12,7 @@ export const portalConfig = {
   // Supported currencies and symbols
   currencies: {
     primary: 'BHD',
-    symbol: 'BD',
+    symbol: 'BHD',
     formatting: {
       thousands: ',',
       decimal: '.',
