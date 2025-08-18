@@ -33,7 +33,7 @@ const generateCSDAccountData = () => {
       availableForTrading: Math.floor(baseHoldings * (0.7 + Math.random() * 0.2)), // 70-90% available
       accountType: index % 4 === 0 ? 'CUSTODY' : index % 4 === 1 ? 'TRADING' : index % 4 === 2 ? 'SETTLEMENT' : 'OMNIBUS',
       participantName: bank,
-      participantCode: portalConfig.banks.codes[bank] || `P${String(index + 1).padStart(3, '0')}`
+      participantCode: portalConfig.banks.codes[bank] || `BBMEBHBM${String(index + 1).padStart(3, '0')}`
     };
   });
 };
@@ -382,7 +382,7 @@ export default function CSDAccountManagementPage() {
                           onClick={() => handleSort('participantCode')}
                         >
                           <div className="flex items-center gap-1">
-                            Participant Code
+                            BIC
                             <ArrowUpDown className="h-3 w-3" />
                           </div>
                         </TableHead>

@@ -34,7 +34,7 @@ const generateAccountData = () => {
       potentialBalance: baseBalance + Math.floor(Math.random() * 2000),
       accountType: index % 3 === 0 ? 'SA' : 'CA',
       participantName: bank,
-      bankCode: portalConfig.banks.codes[bank] || `B${String(index + 1).padStart(3, '0')}`
+      bic: portalConfig.banks.codes[bank] || `BBMEBHBM${String(index + 1).padStart(3, '0')}`
     };
   });
 };
@@ -85,7 +85,7 @@ export default function AccountManagementPage() {
     let filtered = accountsData.filter(account => {
       const matchesSearch = account.participantName.toLowerCase().includes(searchTerm.toLowerCase()) ||
                           account.id.includes(searchTerm) ||
-                          account.bankCode.toLowerCase().includes(searchTerm.toLowerCase());
+                          account.bic.toLowerCase().includes(searchTerm.toLowerCase());
       const matchesCurrency = filterCurrency === 'all' || account.currency === filterCurrency;
       const matchesAccountType = filterAccountType === 'all' || account.accountType === filterAccountType;
       const matchesRisk = riskFilter === 'all' || getRiskLevel(account.availableBalance) === riskFilter;
@@ -368,10 +368,10 @@ export default function AccountManagementPage() {
                         </TableHead>
                         <TableHead 
                           className="cursor-pointer hover:bg-slate-50"
-                          onClick={() => handleSort('bankCode')}
+                          onClick={() => handleSort('bic')}
                         >
                           <div className="flex items-center gap-1">
-                            Bank Code
+                            BIC
                             <ArrowUpDown className="h-3 w-3" />
                           </div>
                         </TableHead>
@@ -405,7 +405,7 @@ export default function AccountManagementPage() {
                         <TableRow key={account.id} className="hover:bg-slate-50">
                           <TableCell className="font-mono text-xs">{account.id}</TableCell>
                           <TableCell className="font-medium text-sm">
-                            <Badge variant="outline">{account.bankCode}</Badge>
+                            <Badge variant="outline">{account.bic}</Badge>
                           </TableCell>
                           <TableCell className="font-medium text-sm">{account.participantName}</TableCell>
                           <TableCell className={`text-right font-medium ${getBalanceColor(account.availableBalance)}`}>

@@ -215,6 +215,33 @@ export const quickActionsConfig: Record<string, QuickAction[]> = {
       category: 'Audit',
       description: 'View audit logs and trails',
       permissions: ['rtgs.audit']
+    },
+    {
+      id: 'show-total-balance',
+      label: 'Show Total',
+      icon: Eye,
+      variant: 'default',
+      category: 'Accounts',
+      description: 'Display total balance across all accounts',
+      permissions: ['rtgs.accounts.view']
+    },
+    {
+      id: 'set-overdraft',
+      label: 'Set Overdraft',
+      icon: Settings,
+      variant: 'outline',
+      category: 'Accounts',
+      description: 'Configure overdraft limits for accounts',
+      permissions: ['rtgs.accounts.manage']
+    },
+    {
+      id: 'suspend-account',
+      label: 'Suspend Account',
+      icon: Lock,
+      variant: 'destructive',
+      category: 'Accounts',
+      description: 'Suspend account operations',
+      permissions: ['rtgs.accounts.suspend']
     }
   ],
 
@@ -559,7 +586,7 @@ quickActionsConfig.csd = [...quickActionsConfig.csd, ...islamicSukukActions, ...
 // Default Quick Actions for each page type
 export const defaultQuickActions: Record<string, string[]> = {
   'balances-liquidity': ['liquidity-analysis', 'reserve-management', 'balance-alerts'],
-  'account-management': ['payment-processing', 'transaction-monitoring', 'financial-reports'],
+  'account-management': ['show-total-balance', 'set-overdraft', 'suspend-account'],
   'financial-monitoring': ['system-status', 'audit-trail', 'refresh-data'],
   'settlement-hub': ['settlement-monitoring', 'trade-matching', 'risk-monitoring'],
   'collateral-manager': ['collateral-management', 'margin-calculation', 'risk-assessment'],

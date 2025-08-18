@@ -18,7 +18,7 @@ export const portalConfig = {
       decimal: '.',
       precision: 3
     },
-    supported: ['BHD', 'USD', 'EUR', 'SAR', 'KWD', 'QAR', 'AED']
+    supported: ['BHD', 'USD']
   },
 
   // Bank names and identifiers for Bahrain
