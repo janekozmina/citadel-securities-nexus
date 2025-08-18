@@ -152,11 +152,6 @@ export default function AccountManagementPage() {
 
         <div className="flex h-full">
           <div className="flex-1 space-y-6 pr-6">
-            <div>
-              <h1 className="text-2xl font-bold">Account Management</h1>
-              <p className="text-muted-foreground">Manage participant accounts</p>
-            </div>
-
             {/* Top Metrics Cards */}
             <MetricCardsSection
               metricsConfig={[
