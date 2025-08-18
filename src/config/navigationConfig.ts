@@ -123,16 +123,6 @@ export const primaryNavigation: NavigationItem[] = [
     tags: ['collateral', 'risk', 'management']
   },
   {
-    id: 'reports',
-    title: 'Reports',
-    path: '/reports',
-    icon: FileText,
-    description: 'Reports and analytics',
-    system: 'COMMON',
-    keywords: ['reports', 'analytics', 'reporting', 'data', 'insights'],
-    tags: ['reporting', 'analytics']
-  },
-  {
     id: 'admin',
     title: 'Admin',
     path: '/admin',
@@ -253,13 +243,6 @@ export const secondaryNavigation: Record<string, NavigationItem[]> = {
       path: '/csd',
       icon: BarChart3,
       description: 'Central Securities Depository overview'
-    },
-    {
-      id: 'summary-hub',
-      title: 'Summary Hub',
-      path: '/csd/summary-hub',
-      icon: Grid3X3,
-      description: 'Central securities summary dashboard'
     },
     {
       id: 'operations-hub',
@@ -814,57 +797,6 @@ export const secondaryNavigation: Record<string, NavigationItem[]> = {
         }
       ]
     },
-    {
-      id: 'monitoring',
-      title: 'Monitoring',
-      path: '/csd/monitoring',
-      icon: Eye,
-      description: 'System monitoring',
-      children: [
-        {
-          id: 'system-monitoring',
-          title: 'System monitoring',
-          path: '/csd/monitoring/system',
-          icon: Monitor,
-          description: 'System health monitoring'
-        },
-        {
-          id: 'audit-log-activity',
-          title: 'Audit Log and Activity',
-          path: '/csd/monitoring/audit-log',
-          icon: FileText,
-          description: 'Audit logs and activity tracking'
-        },
-        {
-          id: 'suspicious-access-alerts',
-          title: 'Suspicious Access Attempt Alerts',
-          path: '/csd/monitoring/suspicious-access',
-          icon: AlertTriangle,
-          description: 'Security access alerts'
-        },
-        {
-          id: 'suspensions',
-          title: 'Suspensions',
-          path: '/csd/monitoring/suspensions',
-          icon: PauseCircle,
-          description: 'Account suspensions'
-        },
-        {
-          id: 'incoming-messages',
-          title: 'Incoming Messages',
-          path: '/csd/monitoring/incoming-messages',
-          icon: Inbox,
-          description: 'Incoming system messages'
-        },
-        {
-          id: 'outgoing-messages',
-          title: 'Outgoing Messages',
-          path: '/csd/monitoring/outgoing-messages',
-          icon: Send,
-          description: 'Outgoing system messages'
-        }
-      ]
-    }
   ],
 
   // CMS System Navigation
@@ -1085,7 +1017,58 @@ export const secondaryNavigation: Record<string, NavigationItem[]> = {
           title: 'System Logs',
           path: '/admin/audit/logs',
           icon: FileText,
-          description: 'Access system logs'
+          description: 'View system logs'
+        }
+      ]
+    },
+    {
+      id: 'monitoring',
+      title: 'Monitoring',
+      path: '/admin/monitoring',
+      icon: Eye,
+      description: 'System monitoring',
+      children: [
+        {
+          id: 'system-monitoring',
+          title: 'System monitoring',
+          path: '/admin/monitoring/system',
+          icon: Monitor,
+          description: 'System health monitoring'
+        },
+        {
+          id: 'audit-log-activity',
+          title: 'Audit Log and Activity',
+          path: '/admin/monitoring/audit-log',
+          icon: FileText,
+          description: 'Audit logs and activity tracking'
+        },
+        {
+          id: 'suspicious-access-alerts',
+          title: 'Suspicious Access Attempt Alerts',
+          path: '/admin/monitoring/suspicious-access',
+          icon: AlertTriangle,
+          description: 'Security access alerts'
+        },
+        {
+          id: 'suspensions',
+          title: 'Suspensions',
+          path: '/admin/monitoring/suspensions',
+          icon: PauseCircle,
+          description: 'Account suspensions'
+        },
+        {
+          id: 'incoming-messages',
+          title: 'Incoming Messages',
+          path: '/admin/monitoring/incoming-messages',
+          icon: Inbox,
+          description: 'Incoming system messages'
+        },
+        {
+          id: 'outgoing-messages',
+          title: 'Outgoing Messages',
+          path: '/admin/monitoring/outgoing-messages',
+          icon: Send,
+          description: 'Outgoing system messages'
         }
       ]
     }
