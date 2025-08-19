@@ -5,11 +5,9 @@ import { DataTable } from '@/components/common/DataTable';
 import { Card, CardContent } from '@/components/ui/card';
 import { QuickActionsManager } from '@/components/common/QuickActionsManager';
 import { QuickActions } from '@/components/common/QuickActions';
-import { useQuickActions } from '@/hooks/useQuickActions';
-import { Users, Building, CheckCircle, Clock, AlertTriangle, ExternalLink } from 'lucide-react';
+import { Users, Building, CheckCircle, Clock, AlertTriangle, ExternalLink, Activity, BarChart3 } from 'lucide-react';
 
 export default function ParticipantUnifiedPortalPage() {
-  const { activeActions } = useQuickActions('participant-unified-portal', 'participants');
   const participantMetrics = [
     {
       title: 'Active Participants',
@@ -136,18 +134,14 @@ export default function ParticipantUnifiedPortalPage() {
 
         <div className="xl:col-span-1 space-y-6">
           <QuickActions 
-            title="Quick Actions" 
-            actions={activeActions.map(action => ({
-              title: action.label,
-              description: action.description || `Quickly access ${action.label}`,
-              icon: action.icon,
-              path: action.id.startsWith('http') ? action.id : `/participants/${action.id}`,
-              variant: (action.variant === 'default' || action.variant === 'secondary' || action.variant === 'outline') 
-                ? action.variant 
-                : 'outline'
-            }))}
+            title="Participant Portal Actions" 
+            actions={[
+              { title: 'Access Portal', description: 'Open unified portal interface', icon: ExternalLink, path: 'https://participant-portal.cbb.gov.bh' },
+              { title: 'Monitor Sessions', description: 'View active user sessions', icon: Users, path: '#' },
+              { title: 'System Status', description: 'Check portal system health', icon: Activity, path: '#' },
+              { title: 'Generate Reports', description: 'Create portal usage reports', icon: BarChart3, path: '#' }
+            ]}
           />
-          <QuickActionsManager pageKey="participant-unified-portal" systemType="participants" />
         </div>
       </div>
     </div>

@@ -20,12 +20,15 @@ import {
   CheckCircle,
   Activity,
   TrendingUp,
-  BarChart3
+  BarChart3,
+  Edit,
+  X,
+  Trash
 } from 'lucide-react';
 import { toast } from 'sonner';
 import { useBusinessDayEmulation } from '@/hooks/useBusinessDayEmulation';
 import { PageHeader } from '@/components/common/PageHeader';
-import { QuickActionsManager } from '@/components/common/QuickActionsManager';
+import { QuickActions } from '@/components/common/QuickActions';
 
 interface BusinessPeriod {
   id: string;
@@ -467,9 +470,15 @@ export default function BusinessDayManagementPage() {
 
         {/* Right Sidebar with Quick Actions */}
         <div className="w-64 space-y-4">
-          <QuickActionsManager 
-            pageKey="business-day-management" 
-            systemType="rtgs"
+          <QuickActions 
+            title="Business Day Actions" 
+            actions={[
+              { title: 'Add Period', description: 'Add new business day period', icon: Plus, path: '#' },
+              { title: 'Update Period', description: 'Update existing period', icon: Edit, path: '#' },
+              { title: 'Activate Period', description: 'Activate selected period', icon: CheckCircle, path: '#' },
+              { title: 'Close Period', description: 'Close current period', icon: X, path: '#' },
+              { title: 'Delete Period', description: 'Delete selected period', icon: Trash, path: '#' }
+            ]}
           />
         </div>
       </div>

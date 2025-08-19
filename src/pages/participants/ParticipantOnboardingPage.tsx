@@ -5,11 +5,9 @@ import { DataTable } from '@/components/common/DataTable';
 import { Card, CardContent } from '@/components/ui/card';
 import { QuickActionsManager } from '@/components/common/QuickActionsManager';
 import { QuickActions } from '@/components/common/QuickActions';
-import { useQuickActions } from '@/hooks/useQuickActions';
-import { UserPlus, FileCheck, Clock, AlertCircle } from 'lucide-react';
+import { UserPlus, FileCheck, Clock, AlertCircle, CheckCircle } from 'lucide-react';
 
 export default function ParticipantOnboardingPage() {
-  const { activeActions } = useQuickActions('participant-onboarding', 'participants');
   const onboardingMetrics = [
     {
       title: 'Applications Pending',
@@ -185,18 +183,14 @@ export default function ParticipantOnboardingPage() {
 
         <div className="xl:col-span-1 space-y-6">
           <QuickActions 
-            title="Quick Actions" 
-            actions={activeActions.map(action => ({
-              title: action.label,
-              description: action.description || `Quickly access ${action.label}`,
-              icon: action.icon,
-              path: action.id.startsWith('http') ? action.id : `/participants/${action.id}`,
-              variant: (action.variant === 'default' || action.variant === 'secondary' || action.variant === 'outline') 
-                ? action.variant 
-                : 'outline'
-            }))}
+            title="Onboarding Actions" 
+            actions={[
+              { title: 'New Application', description: 'Start new participant application', icon: UserPlus, path: '#' },
+              { title: 'Review Documents', description: 'Review submitted documents', icon: FileCheck, path: '#' },
+              { title: 'Approve Application', description: 'Approve pending applications', icon: CheckCircle, path: '#' },
+              { title: 'Send Notifications', description: 'Send status notifications', icon: AlertCircle, path: '#' }
+            ]}
           />
-          <QuickActionsManager pageKey="participant-onboarding" systemType="participants" />
         </div>
       </div>
     </div>
