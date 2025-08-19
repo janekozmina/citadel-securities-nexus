@@ -110,7 +110,7 @@ export default function ParticipantUnifiedPortalPage() {
       />
 
       <div className="grid grid-cols-1 xl:grid-cols-4 gap-6 mb-8">
-        <div className="xl:col-span-3 space-y-6">
+        <div className="xl:col-span-3">
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
             {participantMetrics.map((metric, index) => (
               <Card key={index}>
@@ -129,48 +129,6 @@ export default function ParticipantUnifiedPortalPage() {
               </Card>
             ))}
           </div>
-
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-            <InteractiveChart
-              config={{
-                type: "pie",
-                title: "Participant Status Distribution",
-                data: participantStatusData,
-                height: 300
-              }}
-            />
-
-            <InteractiveChart
-              config={{
-                type: "bar",
-                title: "Portal Activity Trends",
-                data: [
-                  { name: 'Jan', value: 1200, color: 'hsl(var(--chart-1))' },
-                  { name: 'Feb', value: 1350, color: 'hsl(var(--chart-2))' },
-                  { name: 'Mar', value: 1100, color: 'hsl(var(--chart-3))' },
-                  { name: 'Apr', value: 1450, color: 'hsl(var(--chart-4))' },
-                  { name: 'May', value: 1600, color: 'hsl(var(--chart-5))' },
-                  { name: 'Jun', value: 1750, color: 'hsl(var(--chart-1))' }
-                ],
-                height: 300
-              }}
-            />
-          </div>
-
-          <DataTable
-            title="Participant Portal Access"
-            data={participantData}
-            columns={[
-              { key: 'participantId', label: 'Participant ID' },
-              { key: 'name', label: 'Institution Name' },
-              { key: 'type', label: 'Type' },
-              { key: 'status', label: 'Status', type: 'status' },
-              { key: 'lastLogin', label: 'Last Login', type: 'date' },
-              { key: 'sessionsToday', label: 'Sessions Today' },
-              { key: 'transactionsToday', label: 'Transactions Today' }
-            ]}
-            searchable
-          />
         </div>
 
         <div className="xl:col-span-1">

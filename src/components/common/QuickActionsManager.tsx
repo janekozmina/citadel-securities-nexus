@@ -22,6 +22,7 @@ import { Separator } from '@/components/ui/separator';
 import { Settings, Plus, Trash2, RotateCcw, Eye } from 'lucide-react';
 import { useQuickActions } from '@/hooks/useQuickActions';
 import type { QuickAction } from '@/config/quickActionsConfig';
+import { quickActionUrls } from '@/config/quickActionsConfig';
 
 interface QuickActionsManagerProps {
   pageKey: string;
@@ -56,6 +57,12 @@ export const QuickActionsManager = ({ pageKey, systemType, className, onActionCl
     // Handle specific action logic here
     if (onActionClick) {
       onActionClick(action.id);
+    }
+    
+    // Check if action has external URL
+    if (quickActionUrls[action.id]) {
+      window.open(quickActionUrls[action.id], '_blank');
+      return;
     }
     
     // Default behaviors for specific actions
