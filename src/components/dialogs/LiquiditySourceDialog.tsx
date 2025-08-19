@@ -5,6 +5,26 @@ import { Badge } from '@/components/ui/badge';
 import { Checkbox } from '@/components/ui/checkbox';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { Label } from '@/components/ui/label';
+import {
+  DndContext,
+  closestCenter,
+  KeyboardSensor,
+  PointerSensor,
+  useSensor,
+  useSensors,
+  DragEndEvent,
+} from '@dnd-kit/core';
+import {
+  arrayMove,
+  SortableContext,
+  sortableKeyboardCoordinates,
+  verticalListSortingStrategy,
+  useSortable,
+} from '@dnd-kit/sortable';
+import {
+  CSS,
+} from '@dnd-kit/utilities';
+import { GripVertical } from 'lucide-react';
 
 interface LiquiditySource {
   id: string;
@@ -13,12 +33,75 @@ interface LiquiditySource {
   color: string;
 }
 
+// Sortable Legend Item Component
+interface SortableLegendItemProps {
+  source: LiquiditySource;
+  isVisible: boolean;
+  onToggle: (sourceId: string) => void;
+  formatCurrency: (amount: number) => string;
+}
+
+function SortableLegendItem({ source, isVisible, onToggle, formatCurrency }: SortableLegendItemProps) {
+  const {
+    attributes,
+    listeners,
+    setNodeRef,
+    transform,
+    transition,
+    isDragging,
+  } = useSortable({ id: source.id });
+
+  const style = {
+    transform: CSS.Transform.toString(transform),
+    transition,
+    opacity: isDragging ? 0.5 : 1,
+  };
+
+  return (
+    <div
+      ref={setNodeRef}
+      style={style}
+      className={`flex items-center space-x-3 p-2 rounded-lg border bg-background ${
+        isDragging ? 'shadow-lg z-10' : 'hover:bg-muted/50'
+      }`}
+    >
+      <div
+        className="cursor-grab active:cursor-grabbing text-muted-foreground hover:text-foreground"
+        {...attributes}
+        {...listeners}
+      >
+        <GripVertical className="h-4 w-4" />
+      </div>
+      <Checkbox
+        id={source.id}
+        checked={isVisible}
+        onCheckedChange={() => onToggle(source.id)}
+      />
+      <div className="flex-1 flex items-center space-x-2">
+        <div
+          className="w-3 h-3 rounded-sm"
+          style={{ backgroundColor: source.color }}
+        />
+        <label 
+          htmlFor={source.id}
+          className="text-sm font-medium cursor-pointer flex-1"
+        >
+          {source.name}
+        </label>
+      </div>
+      <Badge variant="outline" className="text-xs">
+        {formatCurrency(source.value)}
+      </Badge>
+    </div>
+  );
+}
+
 interface LiquiditySourceDialogProps {
   onClose: () => void;
 }
 
 export function LiquiditySourceDialog({ onClose }: LiquiditySourceDialogProps) {
-  const [liquiditySources] = useState<LiquiditySource[]>([
+  const [liquiditySources, setLiquiditySources] = useState<LiquiditySource[]>([
     { id: 'central-bank', name: 'Central Bank Funding', value: 450000000, color: '#22c55e' },
     { id: 'commercial-deposits', name: 'Commercial Deposits', value: 280000000, color: '#3b82f6' },
     { id: 'interbank-loans', name: 'Interbank Loans', value: 180000000, color: '#f59e0b' },
@@ -32,6 +115,13 @@ export function LiquiditySourceDialog({ onClose }: LiquiditySourceDialogProps) {
   );
 
   const [priorityGroup, setPriorityGroup] = useState<string>('');
+
+  const sensors = useSensors(
+    useSensor(PointerSensor),
+    useSensor(KeyboardSensor, {
+      coordinateGetter: sortableKeyboardCoordinates,
+    })
+  );
 
   const totalLiquidity = liquiditySources
     .filter(source => visibleSources.has(source.id))
@@ -56,6 +146,19 @@ export function LiquiditySourceDialog({ onClose }: LiquiditySourceDialogProps) {
       minimumFractionDigits: 0,
       maximumFractionDigits: 0,
     }).format(amount);
+  };
+
+  const handleDragEnd = (event: DragEndEvent) => {
+    const { active, over } = event;
+
+    if (active.id !== over?.id) {
+      setLiquiditySources((items) => {
+        const oldIndex = items.findIndex((item) => item.id === active.id);
+        const newIndex = items.findIndex((item) => item.id === over?.id);
+
+        return arrayMove(items, oldIndex, newIndex);
+      });
+    }
   };
 
   const getStackedBarSegments = () => {
@@ -118,101 +221,97 @@ export function LiquiditySourceDialog({ onClose }: LiquiditySourceDialogProps) {
         </div>
       </div>
 
-      <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
-        {/* Stacked Bar Chart */}
-        <div className="lg:col-span-2">
-          <Card>
-            <CardHeader>
-              <CardTitle>Liquidity Sources Distribution</CardTitle>
-              <p className="text-sm text-muted-foreground">
-                Total Liquidity: {formatCurrency(totalLiquidity)}
-                {priorityGroup && (
-                  <span className="ml-2 text-blue-600">
-                    ({priorityGroup === 'net-transactions' ? 'Net transactions' :
-                      priorityGroup === 'governmental-payments' ? 'Governmental payments' :
-                      'Participant payments'} priority)
-                  </span>
-                )}
-              </p>
-            </CardHeader>
-            <CardContent>
-              <div className="space-y-4">
-                {/* Stacked Bar */}
-                <div className="relative h-12 bg-gray-100 rounded-lg overflow-hidden">
-                  {getStackedBarSegments().map((source, index) => {
-                    const leftOffset = getStackedBarSegments()
-                      .slice(0, index)
-                      .reduce((sum, s) => sum + s.percentage, 0);
-                    
-                    return (
-                      <div
-                        key={source.id}
-                        className="absolute top-0 h-full transition-all duration-300 hover:opacity-80"
-                        style={{
-                          left: `${leftOffset}%`,
-                          width: `${source.percentage}%`,
-                          backgroundColor: source.color
-                        }}
-                        title={`${source.name}: ${formatCurrency(source.value)}`}
-                      />
-                    );
-                  })}
-                </div>
-
-                {/* Value Labels */}
-                <div className="grid grid-cols-3 gap-2 text-sm">
-                  {getStackedBarSegments().map(source => (
-                    <div key={source.id} className="text-center">
-                      <div className="font-medium">{formatCurrency(source.value)}</div>
-                      <div className="text-muted-foreground text-xs">{source.name}</div>
-                    </div>
-                  ))}
-                </div>
-              </div>
-            </CardContent>
-          </Card>
-        </div>
-
-        {/* Interactive Legend */}
-        <div>
-          <Card>
-            <CardHeader>
-              <CardTitle>Source Types</CardTitle>
-              <p className="text-sm text-muted-foreground">
-                Click to toggle sources on/off
-              </p>
-            </CardHeader>
-            <CardContent>
-              <div className="space-y-3">
-                {liquiditySources.map(source => (
-                  <div key={source.id} className="flex items-center space-x-3">
-                    <Checkbox
-                      id={source.id}
-                      checked={visibleSources.has(source.id)}
-                      onCheckedChange={() => toggleSource(source.id)}
-                    />
-                    <div className="flex-1 flex items-center space-x-2">
-                      <div
-                        className="w-3 h-3 rounded-sm"
-                        style={{ backgroundColor: source.color }}
-                      />
-                      <label 
-                        htmlFor={source.id}
-                        className="text-sm font-medium cursor-pointer flex-1"
-                      >
-                        {source.name}
-                      </label>
-                    </div>
-                    <Badge variant="outline" className="text-xs">
-                      {formatCurrency(source.value)}
-                    </Badge>
+      <DndContext
+        sensors={sensors}
+        collisionDetection={closestCenter}
+        onDragEnd={handleDragEnd}
+      >
+        <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
+          {/* Stacked Bar Chart */}
+          <div className="lg:col-span-2">
+            <Card>
+              <CardHeader>
+                <CardTitle>Liquidity Sources Distribution</CardTitle>
+                <p className="text-sm text-muted-foreground">
+                  Total Liquidity: {formatCurrency(totalLiquidity)}
+                  {priorityGroup && (
+                    <span className="ml-2 text-blue-600">
+                      ({priorityGroup === 'net-transactions' ? 'Net transactions' :
+                        priorityGroup === 'governmental-payments' ? 'Governmental payments' :
+                        'Participant payments'} priority)
+                    </span>
+                  )}
+                </p>
+              </CardHeader>
+              <CardContent>
+                <div className="space-y-4">
+                  {/* Stacked Bar */}
+                  <div className="relative h-12 bg-gray-100 rounded-lg overflow-hidden">
+                    {getStackedBarSegments().map((source, index) => {
+                      const leftOffset = getStackedBarSegments()
+                        .slice(0, index)
+                        .reduce((sum, s) => sum + s.percentage, 0);
+                      
+                      return (
+                        <div
+                          key={source.id}
+                          className="absolute top-0 h-full transition-all duration-300 hover:opacity-80"
+                          style={{
+                            left: `${leftOffset}%`,
+                            width: `${source.percentage}%`,
+                            backgroundColor: source.color
+                          }}
+                          title={`${source.name}: ${formatCurrency(source.value)}`}
+                        />
+                      );
+                    })}
                   </div>
-                ))}
-              </div>
-            </CardContent>
-          </Card>
+
+                  {/* Value Labels */}
+                  <div className="grid grid-cols-3 gap-2 text-sm">
+                    {getStackedBarSegments().map(source => (
+                      <div key={source.id} className="text-center">
+                        <div className="font-medium">{formatCurrency(source.value)}</div>
+                        <div className="text-muted-foreground text-xs">{source.name}</div>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+              </CardContent>
+            </Card>
+          </div>
+
+          {/* Interactive Legend with Drag & Drop */}
+          <div>
+            <Card>
+              <CardHeader>
+                <CardTitle>Source Types</CardTitle>
+                <p className="text-sm text-muted-foreground">
+                  Drag to reorder • Click to toggle on/off
+                </p>
+              </CardHeader>
+              <CardContent>
+                <SortableContext
+                  items={liquiditySources.map(s => s.id)}
+                  strategy={verticalListSortingStrategy}
+                >
+                  <div className="space-y-2">
+                    {liquiditySources.map(source => (
+                      <SortableLegendItem
+                        key={source.id}
+                        source={source}
+                        isVisible={visibleSources.has(source.id)}
+                        onToggle={toggleSource}
+                        formatCurrency={formatCurrency}
+                      />
+                    ))}
+                  </div>
+                </SortableContext>
+              </CardContent>
+            </Card>
+          </div>
         </div>
-      </div>
+      </DndContext>
     </div>
   );
 }
