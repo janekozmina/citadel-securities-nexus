@@ -166,6 +166,15 @@ export const secondaryNavigation: Record<string, NavigationItem[]> = {
           tags: ['accounts', 'management']
         },
         {
+          id: 'account-management-2',
+          title: 'Account Management -2',
+          path: '/rtgs/financial-monitoring/account-management-2',
+          icon: Wallet,
+          description: 'Alternative account management view',
+          keywords: ['account', 'management', 'participants', 'balance', 'alternative'],
+          tags: ['accounts', 'management']
+        },
+        {
           id: 'balances-liquidity',
           title: 'Balances & Liquidity',
           path: '/rtgs/financial-monitoring/balances-liquidity',

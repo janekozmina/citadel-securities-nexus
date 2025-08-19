@@ -21,6 +21,7 @@ import RTGSPage from "./pages/rtgs/RTGSPage";
 import FinancialMonitoringPage from "./pages/rtgs/FinancialMonitoringPage";
 
 import AccountManagementPage from "./pages/rtgs/AccountManagementPage";
+import AccountManagement2Page from "./pages/rtgs/AccountManagement2Page";
 import BalancesLiquidityPage from "./pages/rtgs/BalancesLiquidityPage";
 import TransactionStatusPage from "./pages/rtgs/TransactionStatusPage";
 import BusinessDayManagementPage from "./pages/rtgs/BusinessDayManagementPage";
@@ -115,6 +116,13 @@ const App = () => (
               <ProtectedRoute>
                 <MainLayout>
                   <AccountManagementPage />
+                </MainLayout>
+              </ProtectedRoute>
+            } />
+            <Route path="/rtgs/financial-monitoring/account-management-2" element={
+              <ProtectedRoute>
+                <MainLayout>
+                  <AccountManagement2Page />
                 </MainLayout>
               </ProtectedRoute>
             } />
