@@ -132,6 +132,17 @@ export const primaryNavigation: NavigationItem[] = [
     roles: ['Admin', 'CBBOperator'],
     keywords: ['admin', 'administration', 'settings', 'config', 'management'],
     tags: ['administration', 'settings']
+  },
+  {
+    id: 'participants',
+    title: 'Participants',
+    path: '/participants',
+    icon: Users,
+    description: 'Participant management and portals',
+    system: 'COMMON',
+    roles: ['Admin', 'CBBOperator'],
+    keywords: ['participants', 'portals', 'onboarding', 'unified'],
+    tags: ['participants', 'management']
   }
 ];
 
@@ -793,6 +804,25 @@ export const secondaryNavigation: Record<string, NavigationItem[]> = {
   ],
 
   // CMS System Navigation
+  participants: [
+    {
+      id: 'participant-unified-portal',
+      title: 'Participant Unified Portal',
+      path: '/participants/unified-portal',
+      icon: Globe,
+      description: 'Unified portal access and monitoring',
+      keywords: ['unified', 'portal', 'access', 'monitoring']
+    },
+    {
+      id: 'participant-onboarding',
+      title: 'Participant Onboarding',
+      path: '/participants/onboarding',
+      icon: UserPlus,
+      description: 'Participant onboarding management',
+      keywords: ['onboarding', 'applications', 'setup']
+    }
+  ],
+
   cms: [
     {
       id: 'cms-dashboard',

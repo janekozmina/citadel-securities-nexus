@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { PageHeader } from '@/components/common/PageHeader';
 import { InteractiveChart } from '@/components/common/InteractiveChart';
 import { DataTable } from '@/components/common/DataTable';
@@ -6,9 +6,20 @@ import { Card, CardContent } from '@/components/ui/card';
 import { QuickActionsManager } from '@/components/common/QuickActionsManager';
 import { ArrowUpDown, DollarSign, TrendingUp, Clock } from 'lucide-react';
 import { getPageConfig } from '@/config/pageConfig';
+import { AuthHistoryDialog } from '@/components/dialogs/AuthHistoryDialog';
+import { DocumentHistoryDialog } from '@/components/dialogs/DocumentHistoryDialog';
+import {
+  ContextMenu,
+  ContextMenuContent,
+  ContextMenuItem,
+  ContextMenuTrigger,
+} from '@/components/ui/context-menu';
 
 export default function TransactionsSummaryPage() {
   const config = getPageConfig('csd', 'transactionsSummary');
+  const [authHistoryOpen, setAuthHistoryOpen] = useState(false);
+  const [documentHistoryOpen, setDocumentHistoryOpen] = useState(false);
+  const [selectedDocId, setSelectedDocId] = useState<string>('');
   const transactionMetrics = [
     {
       title: 'Total Transactions',
@@ -137,30 +148,87 @@ export default function TransactionsSummaryPage() {
             searchable
           />
 
-          <DataTable
-            title="Detailed Transaction Log"
-            data={detailedTransactionData}
-            columns={[
-              { key: 'docSecurities', label: 'Doc securities' },
-              { key: 'counterparty', label: 'Counterparty' },
-              { key: 'forAuthorization', label: 'For Authorization' },
-              { key: 'actionCode', label: 'ActionCode' },
-              { key: 'user', label: 'User' },
-              { key: 'docType', label: 'DocType' },
-              { key: 'docTypeBalance', label: 'DocTypeBalance' },
-              { key: 'ttc', label: 'TTC' },
-              { key: 'status', label: 'Status' },
-              { key: 'startingTime', label: 'StartingTime' },
-              { key: 'realTime', label: 'RealTime' }
-            ]}
-            searchable
-          />
+          <Card>
+            <CardContent className="p-6">
+              <h3 className="text-lg font-semibold mb-4">Detailed Transaction Log</h3>
+              <div className="overflow-x-auto">
+                <table className="w-full text-sm">
+                  <thead>
+                    <tr className="border-b">
+                      <th className="text-left p-2">Doc securities</th>
+                      <th className="text-left p-2">Counterparty</th>
+                      <th className="text-left p-2">For Authorization</th>
+                      <th className="text-left p-2">ActionCode</th>
+                      <th className="text-left p-2">User</th>
+                      <th className="text-left p-2">DocType</th>
+                      <th className="text-left p-2">DocTypeBalance</th>
+                      <th className="text-left p-2">TTC</th>
+                      <th className="text-left p-2">Status</th>
+                      <th className="text-left p-2">StartingTime</th>
+                      <th className="text-left p-2">RealTime</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {detailedTransactionData.map((row, index) => (
+                      <ContextMenu key={index}>
+                        <ContextMenuTrigger asChild>
+                          <tr className="border-b hover:bg-muted/50 cursor-context-menu">
+                            <td className="p-2">{row.docSecurities}</td>
+                            <td className="p-2">{row.counterparty}</td>
+                            <td className="p-2">{row.forAuthorization}</td>
+                            <td className="p-2">{row.actionCode}</td>
+                            <td className="p-2">{row.user}</td>
+                            <td className="p-2">{row.docType}</td>
+                            <td className="p-2">{row.docTypeBalance}</td>
+                            <td className="p-2">{row.ttc}</td>
+                            <td className="p-2">{row.status}</td>
+                            <td className="p-2">{row.startingTime}</td>
+                            <td className="p-2">{row.realTime}</td>
+                          </tr>
+                        </ContextMenuTrigger>
+                        <ContextMenuContent>
+                          <ContextMenuItem 
+                            onClick={() => {
+                              setSelectedDocId(row.docSecurities);
+                              setAuthHistoryOpen(true);
+                            }}
+                          >
+                            Show Auth History
+                          </ContextMenuItem>
+                          <ContextMenuItem 
+                            onClick={() => {
+                              setSelectedDocId(row.docSecurities);
+                              setDocumentHistoryOpen(true);
+                            }}
+                          >
+                            Show Document History
+                          </ContextMenuItem>
+                        </ContextMenuContent>
+                      </ContextMenu>
+                    ))}
+                  </tbody>
+                </table>
+              </div>
+            </CardContent>
+          </Card>
         </div>
 
         <div className="xl:col-span-1">
           <QuickActionsManager pageKey="transactions-summary" systemType="csd" />
         </div>
       </div>
+
+      <AuthHistoryDialog
+        open={authHistoryOpen}
+        onOpenChange={setAuthHistoryOpen}
+        docId={selectedDocId}
+      />
+
+      <DocumentHistoryDialog
+        open={documentHistoryOpen}
+        onOpenChange={setDocumentHistoryOpen}
+        docId={selectedDocId}
+      />
     </div>
   );
 }

@@ -462,6 +462,29 @@ export const quickActionsConfig: Record<string, QuickAction[]> = {
       description: 'Schedule automated reports',
       permissions: ['*.reports']
     }
+  ],
+
+  // Participant Portal Actions
+  'participant-unified-portal': [
+    {
+      id: 'access-unified-portal',
+      label: 'Access Unified Portal',
+      icon: ExternalLink,
+      variant: 'default',
+      category: 'Portal',
+      description: 'Access the unified participant portal'
+    }
+  ],
+
+  'participant-onboarding': [
+    {
+      id: 'access-onboarding-portal',
+      label: 'Access Onboarding Portal',
+      icon: ExternalLink,
+      variant: 'default',
+      category: 'Portal',
+      description: 'Access the participant onboarding portal'
+    }
   ]
 };
 
