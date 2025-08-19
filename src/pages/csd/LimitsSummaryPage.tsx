@@ -194,15 +194,13 @@ export default function LimitsSummaryPage() {
             columns={[
               { key: 'participantId', label: 'Participant ID' },
               { key: 'participantName', label: 'Participant Name' },
-              { key: 'limitType', label: 'Limit Type', type: 'custom',
-                render: (value) => <Badge className={getLimitTypeColor(value)}>{value}</Badge> },
+              { key: 'limitType', label: 'Limit Type' },
               { key: 'limitAmount', label: 'Limit Amount', type: 'currency' },
               { key: 'utilizedAmount', label: 'Utilized', type: 'currency' },
               { key: 'utilization', label: 'Utilization %' },
               { key: 'remainingLimit', label: 'Remaining', type: 'currency' },
-              { key: 'status', label: 'Status', type: 'custom',
-                render: (value, row) => getStatusBadge(row.utilization) },
-              { key: 'lastUpdate', label: 'Last Update', type: 'datetime' }
+              { key: 'status', label: 'Status', type: 'status' },
+              { key: 'lastUpdate', label: 'Last Update', type: 'date' }
             ]}
             searchable
           />

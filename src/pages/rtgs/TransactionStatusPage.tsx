@@ -39,7 +39,7 @@ export default function TransactionStatusPage() {
   const [transactions] = useState<TransactionData[]>(() => generateTransactionData());
   const [viewMode, setViewMode] = useState<'visual' | 'table'>('visual');
   const [statusFilter, setStatusFilter] = useState<'all' | 'Settled' | 'Rejected' | 'In Queue' | 'ILF/BUYBACK'>('all');
-  const [activeDialog, setActiveDialog] = useState<'general-transfer' | 'check-funds' | 'liquidity-source' | 'manual-gridlock' | null>(null);
+  const [activeDialog, setActiveDialog] = useState<'general-transfer' | 'check-funds' | 'liquidity-source' | 'manual-gridlock' | 'submit-transfer-instruction' | null>(null);
   
   // Create stats from business day emulation metrics instead of static data
   const stats = {
@@ -312,7 +312,7 @@ export default function TransactionStatusPage() {
             pageKey="transaction-status"
             systemType="rtgs"
             onActionClick={(actionId) => {
-              if (['general-transfer', 'check-funds', 'liquidity-source', 'manual-gridlock'].includes(actionId)) {
+              if (['general-transfer', 'check-funds', 'liquidity-source', 'manual-gridlock', 'submit-transfer-instruction'].includes(actionId)) {
                 setActiveDialog(actionId as any);
               }
             }}

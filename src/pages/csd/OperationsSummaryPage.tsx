@@ -186,16 +186,14 @@ export default function OperationsSummaryPage() {
             data={operationsData}
             columns={[
               { key: 'facilityId', label: 'Facility ID' },
-              { key: 'type', label: 'Type', type: 'custom',
-                render: (value) => <Badge className={getTypeColor(value)}>{value}</Badge> },
+              { key: 'type', label: 'Type' },
               { key: 'participant', label: 'Participant' },
               { key: 'amount', label: 'Amount', type: 'currency' },
               { key: 'rate', label: 'Rate' },
               { key: 'maturity', label: 'Maturity', type: 'date' },
               { key: 'utilization', label: 'Utilization' },
               { key: 'collateral', label: 'Collateral' },
-              { key: 'status', label: 'Status', type: 'custom',
-                render: (value) => getStatusBadge(value) }
+              { key: 'status', label: 'Status', type: 'status' }
             ]}
             searchable
           />

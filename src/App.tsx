@@ -24,6 +24,13 @@ import AccountManagementPage from "./pages/rtgs/AccountManagementPage";
 
 import BalancesLiquidityPage from "./pages/rtgs/BalancesLiquidityPage";
 import TransactionStatusPage from "./pages/rtgs/TransactionStatusPage";
+import AuctionsSummaryPage from "./pages/csd/AuctionsSummaryPage";
+import OperationsSummaryPage from "./pages/csd/OperationsSummaryPage";
+import ReservesSummaryPage from "./pages/csd/ReservesSummaryPage";
+import LimitsSummaryPage from "./pages/csd/LimitsSummaryPage";
+import TransactionReconciliationPage from "./pages/csd/TransactionReconciliationPage";
+import InvestorsSummaryPage from "./pages/csd/InvestorsSummaryPage";
+import CMSDashboardPage from "./pages/cms/CMSDashboardPage";
 import BusinessDayManagementPage from "./pages/rtgs/BusinessDayManagementPage";
 import BillingPage from "./pages/rtgs/BillingPage";
 import BIReportsPage from "./pages/rtgs/BIReportsPage";
@@ -307,8 +314,52 @@ const App = () => (
                    <TransfersDvpPage />
                  </MainLayout>
                </ProtectedRoute>
-             } />
-             
+              } />
+              
+              {/* CSD Summary Pages */}
+              <Route path="/csd/open-market-operations/auctions-summary" element={
+                <ProtectedRoute>
+                  <MainLayout>
+                    <AuctionsSummaryPage />
+                  </MainLayout>
+                </ProtectedRoute>
+              } />
+              <Route path="/csd/standing-facilities/operations-summary" element={
+                <ProtectedRoute>
+                  <MainLayout>
+                    <OperationsSummaryPage />
+                  </MainLayout>
+                </ProtectedRoute>
+              } />
+              <Route path="/csd/reserves-management/summary" element={
+                <ProtectedRoute>
+                  <MainLayout>
+                    <ReservesSummaryPage />
+                  </MainLayout>
+                </ProtectedRoute>
+              } />
+              <Route path="/csd/limits/summary" element={
+                <ProtectedRoute>
+                  <MainLayout>
+                    <LimitsSummaryPage />
+                  </MainLayout>
+                </ProtectedRoute>
+              } />
+              <Route path="/csd/reconciliation/transactions" element={
+                <ProtectedRoute>
+                  <MainLayout>
+                    <TransactionReconciliationPage />
+                  </MainLayout>
+                </ProtectedRoute>
+              } />
+              <Route path="/csd/investors-management/summary" element={
+                <ProtectedRoute>
+                  <MainLayout>
+                    <InvestorsSummaryPage />
+                  </MainLayout>
+                </ProtectedRoute>
+              } />
+              
               {/* CSD Instruments */}
             <Route path="/csd/instruments/register-cbb" element={
               <ProtectedRoute>
@@ -416,7 +467,7 @@ const App = () => (
             <Route path="/cms" element={
               <ProtectedRoute>
                 <MainLayout>
-                  <CMSPage />
+                  <CMSDashboardPage />
                 </MainLayout>
               </ProtectedRoute>
             } />

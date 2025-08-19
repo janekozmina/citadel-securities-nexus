@@ -97,7 +97,43 @@ export const quickActionsConfig: Record<string, QuickAction[]> = {
       variant: 'outline',
       category: 'Analytics',
       description: 'Open comprehensive business intelligence monitoring in a new tab',
-      permissions: ['rtgs.bi.view']
+       permissions: ['rtgs.bi.view']
+    },
+    // Business Day Management Actions
+    {
+      id: 'add-period',
+      label: 'Add Period',
+      icon: Plus,
+      category: 'business-day',
+      description: 'Add new business day period'
+    },
+    {
+      id: 'update-period',
+      label: 'Update Period',
+      icon: Edit,
+      category: 'business-day',
+      description: 'Update existing period settings'
+    },
+    {
+      id: 'activate-period',
+      label: 'Activate Period',
+      icon: Check,
+      category: 'business-day',
+      description: 'Activate selected period'
+    },
+    {
+      id: 'close-period',
+      label: 'Close Period',
+      icon: X,
+      category: 'business-day',
+      description: 'Close current active period'
+    },
+    {
+      id: 'delete-period',
+      label: 'Delete Period',
+      icon: Trash,
+      category: 'business-day',
+      description: 'Delete selected period'
     },
     {
       id: 'access-configuration-panel',
@@ -620,6 +656,7 @@ quickActionsConfig.csd = [...quickActionsConfig.csd, ...islamicSukukActions, ...
 
 // Default Quick Actions for each page type
 export const defaultQuickActions: Record<string, string[]> = {
+  'business-day-management': ['add-period', 'update-period', 'activate-period', 'close-period', 'delete-period'],
   'balances-liquidity': ['liquidity-analysis', 'reserve-management', 'balance-alerts'],
   'account-management': ['show-total-balance', 'set-overdraft', 'suspend-account'],
   'financial-monitoring': ['system-status', 'audit-trail', 'refresh-data'],

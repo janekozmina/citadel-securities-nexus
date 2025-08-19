@@ -190,14 +190,12 @@ export default function TransactionReconciliationPage() {
             data={reconciliationData}
             columns={[
               { key: 'transactionId', label: 'Transaction ID' },
-              { key: 'type', label: 'Type', type: 'custom',
-                render: (value) => <Badge className={getTypeColor(value)}>{value}</Badge> },
+              { key: 'type', label: 'Type' },
               { key: 'participant', label: 'Participant' },
               { key: 'amount', label: 'Amount', type: 'currency' },
-              { key: 'timestamp', label: 'Transaction Time', type: 'datetime' },
-              { key: 'status', label: 'Status', type: 'custom',
-                render: (value) => getStatusBadge(value) },
-              { key: 'reconciliationTime', label: 'Reconciled At', type: 'datetime' },
+              { key: 'timestamp', label: 'Transaction Time', type: 'date' },
+              { key: 'status', label: 'Status', type: 'status' },
+              { key: 'reconciliationTime', label: 'Reconciled At', type: 'date' },
               { key: 'variance', label: 'Variance', type: 'currency' },
               { key: 'reference', label: 'Reference' }
             ]}

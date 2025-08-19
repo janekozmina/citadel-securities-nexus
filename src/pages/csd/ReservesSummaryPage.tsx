@@ -178,8 +178,7 @@ export default function ReservesSummaryPage() {
               { key: 'actualReserves', label: 'Actual Reserves', type: 'currency' },
               { key: 'excessDeficit', label: 'Excess/Deficit', type: 'currency' },
               { key: 'complianceRatio', label: 'Compliance Ratio' },
-              { key: 'status', label: 'Status', type: 'custom',
-                render: (value, row) => getComplianceStatus(row.complianceRatio) },
+              { key: 'status', label: 'Status', type: 'status' },
               { key: 'lastUpdate', label: 'Last Update', type: 'date' }
             ]}
             searchable

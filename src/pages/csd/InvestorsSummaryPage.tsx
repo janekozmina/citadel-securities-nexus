@@ -198,14 +198,12 @@ export default function InvestorsSummaryPage() {
             columns={[
               { key: 'investorId', label: 'Investor ID' },
               { key: 'name', label: 'Name/Company' },
-              { key: 'type', label: 'Type', type: 'custom',
-                render: (value) => <Badge className={getInvestorTypeColor(value)}>{value}</Badge> },
+              { key: 'type', label: 'Type' },
               { key: 'registrationDate', label: 'Registration', type: 'date' },
               { key: 'portfolioValue', label: 'Portfolio Value', type: 'currency' },
               { key: 'holdingCount', label: 'Holdings' },
               { key: 'lastTransaction', label: 'Last Activity', type: 'date' },
-              { key: 'status', label: 'Status', type: 'custom',
-                render: (value) => getStatusBadge(value) },
+              { key: 'status', label: 'Status', type: 'status' },
               { key: 'custodian', label: 'Custodian' }
             ]}
             searchable
