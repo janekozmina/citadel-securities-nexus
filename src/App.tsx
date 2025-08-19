@@ -21,7 +21,7 @@ import RTGSPage from "./pages/rtgs/RTGSPage";
 import FinancialMonitoringPage from "./pages/rtgs/FinancialMonitoringPage";
 
 import AccountManagementPage from "./pages/rtgs/AccountManagementPage";
-import AccountManagement2Page from "./pages/rtgs/AccountManagement2Page";
+
 import BalancesLiquidityPage from "./pages/rtgs/BalancesLiquidityPage";
 import TransactionStatusPage from "./pages/rtgs/TransactionStatusPage";
 import BusinessDayManagementPage from "./pages/rtgs/BusinessDayManagementPage";
@@ -52,7 +52,7 @@ import RegisterIslamicSukukPage from "./pages/csd/RegisterIslamicSukukPage";
 import TransfersPage from "./pages/csd/TransfersPage";
 import InstrumentTypesPage from "./pages/securities/InstrumentTypesPage";
 import CollateralParametersPage from "./pages/collateral/CollateralParametersPage";
-import EligibilityCriteriaBuilderPage from "./pages/csd/EligibilityCriteriaBuilderPage";
+import EligibilityCriteriaBuilderPage from "./pages/cms/EligibilityCriteriaBuilderPage";
 
 // CMS Pages
 import CMSPage from "./pages/cms/CMSPage";
@@ -116,13 +116,6 @@ const App = () => (
               <ProtectedRoute>
                 <MainLayout>
                   <AccountManagementPage />
-                </MainLayout>
-              </ProtectedRoute>
-            } />
-            <Route path="/rtgs/financial-monitoring/account-management-2" element={
-              <ProtectedRoute>
-                <MainLayout>
-                  <AccountManagement2Page />
                 </MainLayout>
               </ProtectedRoute>
             } />
@@ -334,7 +327,7 @@ const App = () => (
                 </MainLayout>
               </ProtectedRoute>
             } />
-            <Route path="/csd/instruments/eligibility-criteria-builder" element={
+            <Route path="/cms/eligibility-criteria-builder" element={
               <ProtectedRoute>
                 <MainLayout>
                   <EligibilityCriteriaBuilderPage />

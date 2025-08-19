@@ -211,8 +211,7 @@ export default function CSDAccountManagementPage() {
           </div>
         </div>
 
-        <div className="flex h-full">
-          <div className="flex-1 space-y-6 pr-6">
+        <div className="space-y-6">
             {/* Filters Section - Only show for table view */}
             {viewMode === 'table' && (
               <Card className="bg-slate-50">
@@ -486,15 +485,6 @@ export default function CSDAccountManagementPage() {
               </CardContent>
             </Card>
             )}
-          </div>
-
-          {/* Right Sidebar with Quick Actions */}
-          <div className="w-64 space-y-4">
-            <QuickActionsManager
-              pageKey="account-management"
-              systemType="csd"
-            />
-          </div>
         </div>
       </div>
     </TooltipProvider>

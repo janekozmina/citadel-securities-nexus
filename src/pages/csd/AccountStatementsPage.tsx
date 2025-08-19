@@ -54,8 +54,8 @@ export default function AccountStatementsPage() {
         description={config.description}
       />
 
-      <div className="grid grid-cols-1 xl:grid-cols-4 gap-6 mb-8">
-        <div className="xl:col-span-3 space-y-6">
+      <div className="grid grid-cols-1 xl:grid-cols-5 gap-6 mb-8">
+        <div className="xl:col-span-4 space-y-6">
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
             {statementMetrics.map((metric, index) => (
               <Card key={index}>

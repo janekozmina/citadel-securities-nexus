@@ -1,283 +1,285 @@
+import { useState, useEffect } from 'react';
+import { MetricCardsSection } from '@/components/common/MetricCardsSection';
+import { ConfigurableDashboardSection } from '@/components/common/ConfigurableDashboardSection';
+import { QuickActionsManager } from '@/components/common/QuickActionsManager';
+import { PageHeader } from '@/components/common/PageHeader';
+import { useDashboardFilters } from '@/hooks/useDashboardFilters';
+import { getChartColors, chartColorSchemes, assignColorsToData } from '@/config/chartColors';
 
-import { useState } from 'react';
-import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
-import { Button } from '@/components/ui/button';
-import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from '@/components/ui/tooltip';
-import { FileText, TrendingUp, Calendar, Edit, Settings, Mail } from 'lucide-react';
-
-const SecuritiesLifecyclePage = () => {
-  const [activeSection, setActiveSection] = useState<string>('instrument-reference');
-
-  const instrumentData = [
-    { isin: "US0378331005", name: "Apple Inc.", issuer: "Apple Inc.", assetType: "Equity", currency: "USD", status: "Active", cfi: "ESVUFR", fisn: "APPLE", issueDate: "1980-12-12", maturity: "N/A", exCoupon: "N/A" },
-    { isin: "US30303M1027", name: "Meta Platforms Inc.", issuer: "Meta Platforms", assetType: "Equity", currency: "USD", status: "Active", cfi: "ESVUFR", fisn: "META", issueDate: "2012-05-18", maturity: "N/A", exCoupon: "N/A" },
-    { isin: "US88160R1014", name: "Tesla Inc.", issuer: "Tesla Inc.", assetType: "Equity", currency: "USD", status: "Active", cfi: "ESVUFR", fisn: "TESLA", issueDate: "2010-06-29", maturity: "N/A", exCoupon: "N/A" },
-    { isin: "US02079K3059", name: "Alphabet Inc.", issuer: "Alphabet Inc.", assetType: "Equity", currency: "USD", status: "Active", cfi: "ESVUFR", fisn: "GOOGL", issueDate: "2004-08-19", maturity: "N/A", exCoupon: "N/A" },
-    { isin: "US5949181045", name: "Microsoft Corp.", issuer: "Microsoft Corp.", assetType: "Equity", currency: "USD", status: "Active", cfi: "ESVUFR", fisn: "MSFT", issueDate: "1986-03-13", maturity: "N/A", exCoupon: "N/A" },
+// Mock data for Securities Lifecycle
+const generateMockLifecycleData = () => {
+  const securities = [
+    'Apple Inc.', 'Microsoft Corp.', 'Alphabet Inc.', 'Tesla Inc.', 'Meta Platforms',
+    'Amazon.com Inc.', 'Netflix Inc.', 'NVIDIA Corp.', 'Government Bond A', 'Corporate Bond B'
   ];
-
-  const issuanceData = {
-    volumeValue: [
-      { period: "Q1 2024", volume: 245, value: 12.5 },
-      { period: "Q2 2024", volume: 312, value: 18.2 },
-      { period: "Q3 2024", volume: 289, value: 15.8 },
-      { period: "Q4 2024", volume: 356, value: 22.1 },
-    ],
-    issuersByType: [
-      { type: "Corporate", count: 156, percentage: 65 },
-      { type: "Government", count: 45, percentage: 19 },
-      { type: "Municipal", count: 28, percentage: 12 },
-      { type: "Supranational", count: 11, percentage: 4 },
-    ],
-    assetClasses: [
-      { class: "Bonds", volume: 1850, percentage: 68 },
-      { class: "Equities", volume: 580, percentage: 21 },
-      { class: "ETFs", volume: 210, percentage: 8 },
-      { class: "Others", volume: 82, percentage: 3 },
-    ]
-  };
-
-  const renderInstrumentReference = () => (
-    <div className="flex h-full">
-      {/* Center Content */}
-      <div className="flex-1 space-y-6 pr-6">
-        <h2 className="text-2xl font-bold text-slate-900">Instrument Reference</h2>
-        
-        <Card>
-          <CardContent className="p-6">
-            <div className="overflow-x-auto">
-              <table className="w-full border-collapse">
-                <thead>
-                  <tr className="border-b">
-                    <th className="text-left p-3 font-semibold">ISIN</th>
-                    <th className="text-left p-3 font-semibold">Name</th>
-                    <th className="text-left p-3 font-semibold">Issuer</th>
-                    <th className="text-left p-3 font-semibold">Asset Type</th>
-                    <th className="text-left p-3 font-semibold">Currency</th>
-                    <th className="text-left p-3 font-semibold">Status</th>
-                    <th className="text-left p-3 font-semibold">CFI</th>
-                    <th className="text-left p-3 font-semibold">FISN</th>
-                    <th className="text-left p-3 font-semibold">Issue Date</th>
-                    <th className="text-left p-3 font-semibold">Maturity</th>
-                    <th className="text-left p-3 font-semibold">Ex-Coupon</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  {instrumentData.map((instrument, index) => (
-                    <tr key={index} className="border-b hover:bg-slate-50">
-                      <td className="p-3 font-mono text-sm">{instrument.isin}</td>
-                      <td className="p-3">{instrument.name}</td>
-                      <td className="p-3">{instrument.issuer}</td>
-                      <td className="p-3">{instrument.assetType}</td>
-                      <td className="p-3">{instrument.currency}</td>
-                      <td className="p-3">
-                        <span className="px-2 py-1 bg-green-100 text-green-800 rounded-full text-xs">
-                          {instrument.status}
-                        </span>
-                      </td>
-                      <td className="p-3 font-mono text-sm">{instrument.cfi}</td>
-                      <td className="p-3">{instrument.fisn}</td>
-                      <td className="p-3">{instrument.issueDate}</td>
-                      <td className="p-3">{instrument.maturity}</td>
-                      <td className="p-3">{instrument.exCoupon}</td>
-                    </tr>
-                  ))}
-                </tbody>
-              </table>
-            </div>
-          </CardContent>
-        </Card>
-      </div>
-
-      {/* Right Sidebar with Options */}
-      <div className="w-64 space-y-4">
-        <div className="bg-white border border-slate-200 rounded-lg p-4">
-          <h3 className="font-semibold text-slate-900 mb-4">Options</h3>
-          <div className="space-y-2">
-            <Button className="w-full justify-start">Add New Instrument</Button>
-            <Button variant="outline" className="w-full justify-start">Import Instruments</Button>
-            <Button variant="outline" className="w-full justify-start">Export Data</Button>
-            <Button variant="outline" className="w-full justify-start">Bulk Update</Button>
-            <Button variant="outline" className="w-full justify-start">Generate Report</Button>
-          </div>
-        </div>
-      </div>
-    </div>
-  );
-
-  const renderIssuance = () => (
-    <div className="space-y-6">
-      <h2 className="text-2xl font-bold text-slate-900">Issuance Dashboard</h2>
-      
-      <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
-        <Card>
-          <CardHeader>
-            <CardTitle>Volume & Value Trends</CardTitle>
-          </CardHeader>
-          <CardContent>
-            <div className="space-y-4">
-              {issuanceData.volumeValue.map((item, index) => (
-                <div key={index} className="flex justify-between items-center">
-                  <span className="font-semibold">{item.period}</span>
-                  <div className="text-right">
-                    <div className="text-sm text-slate-600">{item.volume} issues</div>
-                    <div className="text-lg font-bold">${item.value}B</div>
-                  </div>
-                </div>
-              ))}
-            </div>
-          </CardContent>
-        </Card>
-
-        <Card>
-          <CardHeader>
-            <CardTitle>Issuers by Type</CardTitle>
-          </CardHeader>
-          <CardContent>
-            <div className="space-y-3">
-              {issuanceData.issuersByType.map((issuer, index) => (
-                <div key={index} className="space-y-1">
-                  <div className="flex justify-between">
-                    <span>{issuer.type}</span>
-                    <span className="font-semibold">{issuer.count}</span>
-                  </div>
-                  <div className="w-full bg-slate-200 rounded-full h-2">
-                    <div 
-                      className="bg-blue-600 h-2 rounded-full" 
-                      style={{ width: `${issuer.percentage}%` }}
-                    ></div>
-                  </div>
-                </div>
-              ))}
-            </div>
-          </CardContent>
-        </Card>
-
-        <Card>
-          <CardHeader>
-            <CardTitle>Asset Classes Distribution</CardTitle>
-          </CardHeader>
-          <CardContent>
-            <div className="space-y-3">
-              {issuanceData.assetClasses.map((asset, index) => (
-                <div key={index} className="space-y-1">
-                  <div className="flex justify-between">
-                    <span>{asset.class}</span>
-                    <span className="font-semibold">{asset.volume}</span>
-                  </div>
-                  <div className="w-full bg-slate-200 rounded-full h-2">
-                    <div 
-                      className="bg-green-600 h-2 rounded-full" 
-                      style={{ width: `${asset.percentage}%` }}
-                    ></div>
-                  </div>
-                </div>
-              ))}
-            </div>
-          </CardContent>
-        </Card>
-      </div>
-    </div>
-  );
-
-  const renderCorporateActions = () => (
-    <div className="space-y-6">
-      <h2 className="text-2xl font-bold text-slate-900">Corporate Actions</h2>
-      
-      <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
-        <Card>
-          <CardHeader>
-            <CardTitle className="flex items-center gap-2">
-              <Edit className="h-5 w-5" />
-              Create/Edit Corporate Actions
-            </CardTitle>
-          </CardHeader>
-          <CardContent className="space-y-4">
-            <Button className="w-full justify-start" variant="outline">
-              <Calendar className="h-4 w-4 mr-2" />
-              Create Dividend Action
-            </Button>
-            <Button className="w-full justify-start" variant="outline">
-              <TrendingUp className="h-4 w-4 mr-2" />
-              Create Stock Split
-            </Button>
-            <Button className="w-full justify-start" variant="outline">
-              <FileText className="h-4 w-4 mr-2" />
-              Create Rights Issue
-            </Button>
-            <Button className="w-full justify-start" variant="outline">
-              <Settings className="h-4 w-4 mr-2" />
-              Edit Existing Action
-            </Button>
-          </CardContent>
-        </Card>
-
-        <Card>
-          <CardHeader>
-            <CardTitle className="flex items-center gap-2">
-              <Settings className="h-5 w-5" />
-              Automate Calculations
-            </CardTitle>
-          </CardHeader>
-          <CardContent className="space-y-4">
-            <div className="p-4 bg-blue-50 rounded-lg">
-              <h4 className="font-semibold text-blue-900">Automated Processing</h4>
-              <p className="text-sm text-blue-700 mt-1">
-                Entitlement calculations for coupons, dividends, splits, and mergers
-              </p>
-            </div>
-            <Button className="w-full">Configure Automation Rules</Button>
-            <Button variant="outline" className="w-full">View Processing Status</Button>
-          </CardContent>
-        </Card>
-
-        <Card>
-          <CardHeader>
-            <CardTitle className="flex items-center gap-2">
-              <Mail className="h-5 w-5" />
-              Notify Impacted Parties
-            </CardTitle>
-          </CardHeader>
-          <CardContent className="space-y-4">
-            <div className="space-y-3">
-              <div className="p-4 bg-yellow-50 rounded-lg">
-                <h4 className="font-semibold text-yellow-900">Dashboard Notifications</h4>
-                <p className="text-sm text-yellow-700 mt-1">
-                  Real-time alerts for pending actions
-                </p>
-              </div>
-              <div className="p-4 bg-green-50 rounded-lg">
-                <h4 className="font-semibold text-green-900">Email Notifications</h4>
-                <p className="text-sm text-green-700 mt-1">
-                  Automated email alerts to stakeholders
-                </p>
-              </div>
-            </div>
-            <Button className="w-full">Configure Notifications</Button>
-            <Button variant="outline" className="w-full">Send Test Alert</Button>
-          </CardContent>
-        </Card>
-      </div>
-    </div>
-  );
-
-  return (
-    <TooltipProvider>
-      <div className="space-y-6 p-6">
-        <div className="flex items-center justify-between">
-          <div>
-            <h1 className="text-2xl font-bold text-slate-900">Securities Lifecycle</h1>
-            <p className="text-slate-600">Manage instruments, issuance, and corporate actions</p>
-          </div>
-        </div>
-
-        {/* Main Content */}
-        {activeSection === 'instrument-reference' && renderInstrumentReference()}
-        {activeSection === 'issuance' && renderIssuance()}
-        {activeSection === 'corporate-actions' && renderCorporateActions()}
-      </div>
-    </TooltipProvider>
-  );
+  
+  const lifecycleStages = ['Pre-Issuance', 'Active Trading', 'Corporate Action', 'Maturity', 'Delisted'];
+  const securityTypes = ['Equity', 'Government Bond', 'Corporate Bond', 'ETF', 'Preferred Stock'];
+  const currencies = ['USD', 'EUR', 'GBP', 'BHD'];
+  
+  return Array.from({ length: 90 }, (_, i) => {
+    const security = securities[i % securities.length];
+    const issueDate = new Date(2018 + Math.floor(Math.random() * 6), Math.floor(Math.random() * 12), Math.floor(Math.random() * 28) + 1);
+    const maturityDate = new Date(issueDate.getFullYear() + Math.floor(Math.random() * 15) + 1, issueDate.getMonth(), issueDate.getDate());
+    
+    return {
+      id: `SEC-${String(i + 1).padStart(4, '0')}`,
+      securityName: security,
+      securityType: securityTypes[Math.floor(Math.random() * securityTypes.length)],
+      isin: `US${String(i + 1).padStart(8, '0')}${Math.floor(Math.random() * 10)}`,
+      lifecycleStage: lifecycleStages[Math.floor(Math.random() * lifecycleStages.length)],
+      issueDate: issueDate.toISOString().split('T')[0],
+      maturityDate: maturityDate.toISOString().split('T')[0],
+      currency: currencies[Math.floor(Math.random() * currencies.length)],
+      outstandingValue: Math.floor(Math.random() * 2000000000) + 50000000, // 50M to 2.05B
+      marketValue: Math.floor(Math.random() * 2000000000) + 50000000,
+      holders: Math.floor(Math.random() * 50000) + 100,
+      lastCorporateAction: Math.random() > 0.6 ? new Date(Date.now() - Math.random() * 365 * 24 * 60 * 60 * 1000).toISOString().split('T')[0] : null,
+      nextCorporateAction: Math.random() > 0.7 ? new Date(Date.now() + Math.random() * 365 * 24 * 60 * 60 * 1000).toISOString().split('T')[0] : null
+    };
+  });
 };
 
-export default SecuritiesLifecyclePage;
+const getLifecycleStats = (data: any[]) => {
+  const totalSecurities = data.length;
+  const activeSecurities = data.filter(s => s.lifecycleStage === 'Active Trading').length;
+  const totalOutstanding = data.reduce((sum, s) => sum + s.outstandingValue, 0);
+  const totalMarketValue = data.reduce((sum, s) => sum + s.marketValue, 0);
+  
+  // Lifecycle stage distribution
+  const stageStats = data.reduce((acc, s) => {
+    acc[s.lifecycleStage] = (acc[s.lifecycleStage] || 0) + 1;
+    return acc;
+  }, {} as Record<string, number>);
+  
+  // Security type distribution
+  const typeStats = data.reduce((acc, s) => {
+    acc[s.securityType] = (acc[s.securityType] || 0) + 1;
+    return acc;
+  }, {} as Record<string, number>);
+  
+  // Maturity profile
+  const currentYear = new Date().getFullYear();
+  const maturityProfile = data.reduce((acc, s) => {
+    const maturityYear = new Date(s.maturityDate).getFullYear();
+    if (maturityYear >= currentYear && maturityYear <= currentYear + 10) {
+      acc[maturityYear] = (acc[maturityYear] || 0) + s.outstandingValue;
+    }
+    return acc;
+  }, {} as Record<number, number>);
+  
+  return {
+    totalSecurities,
+    activeSecurities,
+    totalOutstanding,
+    totalMarketValue,
+    stageStats,
+    typeStats,
+    maturityProfile
+  };
+};
+
+const lifecycleConfig = {
+  defaultView: 'visual' as const,
+  searchFields: ['securityName', 'isin', 'securityType'] as (keyof ReturnType<typeof generateMockLifecycleData>[0])[],
+  filters: [
+    {
+      key: 'lifecycleStage' as keyof ReturnType<typeof generateMockLifecycleData>[0],
+      label: 'Lifecycle Stage',
+      options: ['Pre-Issuance', 'Active Trading', 'Corporate Action', 'Maturity', 'Delisted']
+    },
+    {
+      key: 'securityType' as keyof ReturnType<typeof generateMockLifecycleData>[0],
+      label: 'Security Type',
+      options: ['Equity', 'Government Bond', 'Corporate Bond', 'ETF', 'Preferred Stock']
+    },
+    {
+      key: 'currency' as keyof ReturnType<typeof generateMockLifecycleData>[0],
+      label: 'Currency',
+      options: ['USD', 'EUR', 'GBP', 'BHD']
+    }
+  ]
+};
+
+const lifecycleMetricsConfig = [
+  {
+    key: 'totalSecurities',
+    title: 'Total Securities',
+    iconName: 'FileText',
+    iconColor: 'text-blue-600',
+    textColor: 'text-blue-600'
+  },
+  {
+    key: 'activeSecurities',
+    title: 'Active Trading',
+    iconName: 'TrendingUp',
+    iconColor: 'text-green-600',
+    textColor: 'text-green-600'
+  },
+  {
+    key: 'totalOutstanding',
+    title: 'Total Outstanding',
+    valueFormatter: (value: number) => `USD ${(value / 1000000000).toFixed(1)}B`,
+    iconName: 'Building2',
+    iconColor: 'text-purple-600',
+    textColor: 'text-purple-600'
+  },
+  {
+    key: 'totalMarketValue',
+    title: 'Total Market Value',
+    valueFormatter: (value: number) => `USD ${(value / 1000000000).toFixed(1)}B`,
+    iconName: 'DollarSign',
+    iconColor: 'text-orange-600',
+    textColor: 'text-orange-600'
+  }
+];
+
+export default function SecuritiesLifecyclePage() {
+  const [lifecycle] = useState(generateMockLifecycleData());
+  const {
+    viewMode,
+    filteredData,
+    activeFilters,
+    searchTerm,
+    hasActiveFilters,
+    setFilter,
+    clearFilter,
+    clearAllFilters,
+    setSearchTerm,
+    setViewMode,
+    applyFilterAndSwitchView
+  } = useDashboardFilters(lifecycle, lifecycleConfig);
+
+  const stats = getLifecycleStats(filteredData);
+  const colors = getChartColors();
+
+  // Lifecycle Stage Distribution Chart
+  const stageData = Object.entries(stats.stageStats)
+    .map(([stage, count], index) => ({
+      name: stage,
+      value: count as number,
+      color: colors.getPieColors(5)[index]
+    }));
+
+  const stageChartConfig = {
+    type: 'pie' as const,
+    title: '',
+    height: 420,
+    data: stageData
+  };
+
+  // Maturity Profile Chart
+  const maturityData = Object.entries(stats.maturityProfile)
+    .sort(([a], [b]) => parseInt(a) - parseInt(b))
+    .slice(0, 8)
+    .map(([year, value], index) => ({
+      name: year,
+      value: Math.round((value as number) / 1000000), // Convert to millions
+      color: colors.getBarColors(8)[index]
+    }));
+
+  const maturityChartConfig = {
+    type: 'bar' as const,
+    title: '',
+    height: 420,
+    data: maturityData
+  };
+
+  useEffect(() => {
+    document.title = 'Securities Lifecycle | CBB Portal';
+  }, []);
+
+  const columns = [
+    { key: 'securityName', label: 'Security Name', sortable: true },
+    { key: 'isin', label: 'ISIN', sortable: true },
+    { key: 'securityType', label: 'Type', sortable: true },
+    { key: 'lifecycleStage', label: 'Lifecycle Stage', sortable: true },
+    { 
+      key: 'outstandingValue', 
+      label: 'Outstanding Value', 
+      sortable: true,
+      render: (value: number, row: any) => `${row.currency} ${(value / 1000000).toFixed(1)}M`
+    },
+    { key: 'issueDate', label: 'Issue Date', sortable: true },
+    { key: 'maturityDate', label: 'Maturity Date', sortable: true },
+    { 
+      key: 'holders', 
+      label: 'Holders', 
+      sortable: true,
+      render: (value: number) => value.toLocaleString()
+    }
+  ];
+
+  return (
+    <div className="space-y-6">
+      <PageHeader />
+      
+      <div className="flex gap-6">
+        <div className="flex-1 space-y-6">
+          {/* Top Metrics Cards */}
+          <MetricCardsSection
+            metricsConfig={lifecycleMetricsConfig}
+            data={filteredData}
+            stats={stats}
+            onMetricClick={applyFilterAndSwitchView}
+          />
+
+          {/* Dashboard Highlights */}
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+            <ConfigurableDashboardSection
+              title="Lifecycle Stage Distribution"
+              description="Securities breakdown by lifecycle stage"
+              data={filteredData}
+              chartConfig={stageChartConfig}
+              defaultView="visual"
+              showViewSwitcher={false}
+              titleFontSize="text-lg font-semibold"
+            />
+
+            <ConfigurableDashboardSection
+              title="Maturity Profile"
+              description="Outstanding value by maturity year"
+              data={filteredData}
+              chartConfig={maturityChartConfig}
+              defaultView="visual"
+              showViewSwitcher={false}
+              titleFontSize="text-lg font-semibold"
+            />
+          </div>
+
+          {/* Securities Lifecycle Table */}
+          <ConfigurableDashboardSection
+            title="Securities Lifecycle Registry"
+            description="Complete lifecycle tracking of all securities"
+            data={filteredData}
+            tableColumns={columns}
+            chartConfig={{
+              type: 'bar' as const,
+              title: '',
+              height: 400,
+              data: assignColorsToData([
+                { name: 'Pre-Issuance', value: filteredData.filter(s => s.lifecycleStage === 'Pre-Issuance').length },
+                { name: 'Active Trading', value: filteredData.filter(s => s.lifecycleStage === 'Active Trading').length },
+                { name: 'Corporate Action', value: filteredData.filter(s => s.lifecycleStage === 'Corporate Action').length },
+                { name: 'Maturity', value: filteredData.filter(s => s.lifecycleStage === 'Maturity').length },
+                { name: 'Delisted', value: filteredData.filter(s => s.lifecycleStage === 'Delisted').length }
+              ])
+            }}
+            defaultView={viewMode}
+            onChartClick={applyFilterAndSwitchView}
+            showViewSwitcher={true}
+            titleFontSize="text-lg font-semibold"
+          />
+        </div>
+
+        {/* Right Sidebar with Quick Actions */}
+        <div className="w-64 space-y-4">
+          <QuickActionsManager 
+            pageKey="securities-lifecycle"
+            systemType="csd"
+          />
+        </div>
+      </div>
+    </div>
+  );
+}
