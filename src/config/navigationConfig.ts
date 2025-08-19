@@ -369,13 +369,6 @@ export const secondaryNavigation: Record<string, NavigationItem[]> = {
           icon: Settings,
           description: 'Configure instrument type parameters'
         },
-        {
-          id: 'eligibility-criteria-builder',
-          title: 'Eligibility Criteria Builder',
-          path: '/csd/instruments/eligibility-criteria-builder',
-          icon: Filter,
-          description: 'Create and manage eligibility criteria for securities selection'
-        }
       ]
     },
     {
@@ -807,6 +800,15 @@ export const secondaryNavigation: Record<string, NavigationItem[]> = {
       path: '/cms',
       icon: BarChart3,
       description: 'Collateral management overview'
+    },
+    {
+      id: 'eligibility-criteria-builder',
+      title: 'Eligibility Criteria Builder',
+      path: '/cms/eligibility-criteria-builder',
+      icon: Filter,
+      description: 'Build custom criteria for securities eligibility',
+      keywords: ['eligibility', 'criteria', 'builder', 'securities', 'filter'],
+      tags: ['tools', 'configuration']
     },
     {
       id: 'cms-collateral',
