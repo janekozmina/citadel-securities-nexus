@@ -77,11 +77,18 @@ export function TransactionQuickActionsDialogs({
                         activeDialog === 'check-funds' ||
                         activeDialog === 'submit-transfer-instruction';
 
+  const getDialogSize = () => {
+    if (activeDialog === 'liquidity-source') {
+      return 'max-w-7xl'; // Extra wide for liquidity source
+    }
+    return isLargeDialog ? 'max-w-4xl' : 'max-w-2xl';
+  };
+
   return activeDialog === 'submit-transfer-instruction' ? (
     renderDialogContent()
   ) : (
     <Dialog open={!!activeDialog} onOpenChange={onClose}>
-      <DialogContent className={`${isLargeDialog ? 'max-w-4xl' : 'max-w-2xl'} max-h-[90vh] overflow-y-auto`}>
+      <DialogContent className={`${getDialogSize()} max-h-[90vh] overflow-y-auto`}>
         {activeDialog !== 'liquidity-source' && activeDialog !== 'manual-gridlock' && (
           <DialogHeader>
             <DialogTitle>{getDialogTitle()}</DialogTitle>

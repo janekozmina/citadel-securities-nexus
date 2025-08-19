@@ -158,13 +158,17 @@ export function LiquiditySourceDialog({ onClose }: LiquiditySourceDialogProps) {
 
         return arrayMove(items, oldIndex, newIndex);
       });
+      
+      // Clear priority group when user manually reorders to preserve drag order
+      setPriorityGroup('');
     }
   };
 
   const getStackedBarSegments = () => {
     let visibleSourcesData = liquiditySources.filter(source => visibleSources.has(source.id));
     
-    // Apply priority group sorting if selected
+    // Only apply priority group sorting if selected AND user hasn't manually reordered
+    // When priority group is cleared, the order should follow the drag-and-drop arrangement
     if (priorityGroup) {
       visibleSourcesData = [...visibleSourcesData].sort((a, b) => {
         if (priorityGroup === 'net-transactions') {
@@ -185,6 +189,9 @@ export function LiquiditySourceDialog({ onClose }: LiquiditySourceDialogProps) {
         }
         return 0;
       });
+    } else {
+      // When no priority group is selected, maintain the drag-and-drop order
+      // This ensures the stacked chart follows the legend order
     }
     
     const maxValue = totalLiquidity;
@@ -212,12 +219,18 @@ export function LiquiditySourceDialog({ onClose }: LiquiditySourceDialogProps) {
             <SelectTrigger>
               <SelectValue placeholder="Select priority group" />
             </SelectTrigger>
-            <SelectContent>
+            <SelectContent className="bg-background border shadow-lg z-50">
+              <SelectItem value="">Manual Order (Drag & Drop)</SelectItem>
               <SelectItem value="net-transactions">Net transactions</SelectItem>
               <SelectItem value="governmental-payments">Governmental payments</SelectItem>
               <SelectItem value="participant-payments">Participant payments</SelectItem>
             </SelectContent>
           </Select>
+          {!priorityGroup && (
+            <p className="text-xs text-muted-foreground mt-1">
+              Drag items in legend to reorder the chart
+            </p>
+          )}
         </div>
       </div>
 
