@@ -9,8 +9,8 @@ export default function BIReportsPage() {
   }, []);
 
   const handleQuickActionClick = (actionId: string) => {
-    if (actionId === 'access-bi-full-view') {
-      window.open('http://superset.k8s1.moscow.cma.ru/superset/dashboard/p/JnOlGOxZlj0/', '_blank');
+    if (actionId === 'access-bi-configuration') {
+      window.open('http://superset.k8s1.moscow.cma.ru/superset/dashboard/24a553bf-8ef4-4b78-b0c4-22ddeb63fd09/?permalink_key=JnOlGOxZlj0', '_blank');
     }
   };
 
@@ -69,6 +69,7 @@ export default function BIReportsPage() {
           <QuickActionsManager 
             pageKey="bi-reports" 
             systemType="common"
+            onActionClick={handleQuickActionClick}
           />
         </div>
       </div>

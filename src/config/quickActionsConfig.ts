@@ -445,6 +445,14 @@ export const quickActionsConfig: Record<string, QuickAction[]> = {
   // Common Quick Actions (available across all systems)
   common: [
     {
+      id: 'access-bi-configuration',
+      label: 'Access BI Configuration',
+      icon: Settings,
+      variant: 'default',
+      category: 'BI',
+      description: 'Access BI configuration dashboard',
+    },
+    {
       id: 'export-data',
       label: 'Export Data',
       icon: Download,
@@ -654,7 +662,6 @@ export const transfersActions: QuickAction[] = [
 // Add all specific actions to CSD system
 quickActionsConfig.csd = [...quickActionsConfig.csd, ...islamicSukukActions, ...accountStatementsActions, ...transfersActions];
 
-// Default Quick Actions for each page type
 export const defaultQuickActions: Record<string, string[]> = {
   'business-day-management': ['add-period', 'update-period', 'activate-period', 'close-period', 'delete-period'],
   'balances-liquidity': ['liquidity-analysis', 'reserve-management', 'balance-alerts'],
@@ -667,7 +674,7 @@ export const defaultQuickActions: Record<string, string[]> = {
   'islamic-sukuk': ['register-new-sukuk', 'view-issuer-details', 'generate-sukuk-term-sheet', 'export-maturity-schedule'],
   'transfers': ['submit-transfer-instruction', 'amend-pending-instruction', 'cancel-instruction', 'download-instruction-report', 'notify-counterparty'],
   'cash-operations': ['cash-withdrawal', 'cash-deposit', 'vault-reconciliation', 'cash-transfer', 'compliance-report'],
-  'bi-reports': ['access-bi-full-view', 'refresh-data', 'export-data'],
+  'bi-reports': ['access-bi-configuration'],
   'rtgs-configuration': ['access-configuration-panel'],
   'csd-configuration': ['export-data', 'refresh-data'],
   'participant-unified-portal': ['access-unified-portal'],
