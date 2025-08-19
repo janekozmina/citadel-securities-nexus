@@ -473,11 +473,11 @@ export default function BusinessDayManagementPage() {
           <QuickActions 
             title="Business Day Actions" 
             actions={[
-              { title: 'Add Period', description: 'Add new business day period', icon: Plus, path: '#' },
-              { title: 'Update Period', description: 'Update existing period', icon: Edit, path: '#' },
-              { title: 'Activate Period', description: 'Activate selected period', icon: CheckCircle, path: '#' },
-              { title: 'Close Period', description: 'Close current period', icon: X, path: '#' },
-              { title: 'Delete Period', description: 'Delete selected period', icon: Trash, path: '#' }
+              { title: 'Add Period', description: '', icon: Plus, path: '#' },
+              { title: 'Update Period', description: '', icon: Edit, path: '#' },
+              { title: 'Activate Period', description: '', icon: CheckCircle, path: '#' },
+              { title: 'Close Period', description: '', icon: X, path: '#' },
+              { title: 'Delete Period', description: '', icon: Trash, path: '#' }
             ]}
           />
         </div>
