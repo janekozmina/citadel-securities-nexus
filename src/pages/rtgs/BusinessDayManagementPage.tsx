@@ -28,7 +28,6 @@ import {
 import { toast } from 'sonner';
 import { useBusinessDayEmulation } from '@/hooks/useBusinessDayEmulation';
 import { PageHeader } from '@/components/common/PageHeader';
-import { QuickActionsManager } from '@/components/common/QuickActionsManager';
 
 interface BusinessPeriod {
   id: string;
@@ -470,31 +469,53 @@ export default function BusinessDayManagementPage() {
 
         {/* Right Sidebar with Quick Actions */}
         <div className="w-64 space-y-4">
-          <QuickActionsManager 
-            pageKey="business-day-management"
-            systemType="rtgs"
-            onActionClick={(actionId) => {
-              switch (actionId) {
-                case 'add-period':
-                  setIsAddPeriodOpen(true);
-                  break;
-                case 'update-period':
-                  toast.info('Update functionality coming soon');
-                  break;
-                case 'activate-period':
-                  toast.info('Select a period to activate');
-                  break;
-                case 'close-period':
-                  toast.info('Select a period to close');
-                  break;
-                case 'delete-period':
-                  toast.info('Select a period to delete');
-                  break;
-                default:
-                  break;
-              }
-            }}
-          />
+          <Card>
+            <CardHeader>
+              <CardTitle>Business Day Actions</CardTitle>
+            </CardHeader>
+            <CardContent className="space-y-3">
+              <Button
+                onClick={() => setIsAddPeriodOpen(true)}
+                className="w-full justify-start gap-2 h-12"
+                variant="default"
+              >
+                <Plus className="h-4 w-4" />
+                Add Period
+              </Button>
+              <Button
+                onClick={() => toast.info('Update functionality coming soon')}
+                className="w-full justify-start gap-2 h-12"
+                variant="outline"
+              >
+                <Edit className="h-4 w-4" />
+                Update Period
+              </Button>
+              <Button
+                onClick={() => toast.info('Select a period to activate')}
+                className="w-full justify-start gap-2 h-12"
+                variant="outline"
+              >
+                <CheckCircle className="h-4 w-4" />
+                Activate
+              </Button>
+              <Button
+                onClick={() => toast.info('Select a period to close')}
+                className="w-full justify-start gap-2 h-12"
+                variant="outline"
+              >
+                <X className="h-4 w-4" />
+                Close Period
+              </Button>
+              <Button
+                onClick={() => toast.info('Select a period to delete')}
+                className="w-full justify-start gap-2 h-12"
+                variant="destructive"
+              >
+                <Trash className="h-4 w-4" />
+                Delete Period
+              </Button>
+            </CardContent>
+          </Card>
         </div>
       </div>
     </div>
