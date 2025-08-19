@@ -79,6 +79,10 @@ import SystemConfigurationPage from "./pages/admin/SystemConfigurationPage";
 import RTGSConfigurationPage from "./pages/admin/RTGSConfigurationPage";
 import CSDConfigurationPage from "./pages/admin/CSDConfigurationPage";
 
+// Participants Pages
+import ParticipantUnifiedPortalPage from "./pages/participants/ParticipantUnifiedPortalPage";
+import ParticipantOnboardingPage from "./pages/participants/ParticipantOnboardingPage";
+
 const queryClient = new QueryClient();
 
 const App = () => (
@@ -485,6 +489,22 @@ const App = () => (
               <ProtectedRoute>
                 <MainLayout>
                   <CSDConfigurationPage />
+                </MainLayout>
+              </ProtectedRoute>
+            } />
+            
+            {/* Participants Routes */}
+            <Route path="/participants/unified-portal" element={
+              <ProtectedRoute>
+                <MainLayout>
+                  <ParticipantUnifiedPortalPage />
+                </MainLayout>
+              </ProtectedRoute>
+            } />
+            <Route path="/participants/onboarding" element={
+              <ProtectedRoute>
+                <MainLayout>
+                  <ParticipantOnboardingPage />
                 </MainLayout>
               </ProtectedRoute>
             } />
