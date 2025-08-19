@@ -211,12 +211,6 @@ export default function BusinessDayManagementPage() {
       
       <div className="flex h-full">
         <div className="flex-1 space-y-6 pr-6">
-          <div className="flex items-center justify-between">
-            <div>
-              <h1 className="text-2xl font-bold">Business Day Management</h1>
-              <p className="text-muted-foreground">Configure and monitor business day periods and schedules</p>
-            </div>
-          </div>
 
           <Dialog open={isAddPeriodOpen} onOpenChange={setIsAddPeriodOpen}>
             <DialogContent className="max-w-lg">
@@ -475,7 +469,7 @@ export default function BusinessDayManagementPage() {
         <div className="w-64 space-y-4">
           <QuickActionsManager 
             pageKey="business-day-management" 
-            systemType="rtgs" 
+            systemType="rtgs"
           />
         </div>
       </div>

@@ -221,12 +221,6 @@ export default function BillingPage() {
       
       <div className="flex h-full">
         <div className="flex-1 space-y-6 pr-6">
-          <div className="flex items-center justify-between">
-            <div>
-              <h1 className="text-2xl font-bold">Billing</h1>
-              <p className="text-muted-foreground">Billing and fee management</p>
-            </div>
-          </div>
           
           {/* Summary Cards */}
         <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
@@ -542,7 +536,7 @@ export default function BillingPage() {
         <div className="w-64 space-y-4">
           <QuickActionsManager 
             pageKey="billing" 
-            systemType="rtgs" 
+            systemType="rtgs"
           />
         </div>
       </div>

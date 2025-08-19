@@ -86,10 +86,6 @@ export default function CashOperationsPage() {
       
       <div className="flex h-full">
         <div className="flex-1 space-y-6 pr-6">
-          <div>
-            <h1 className="text-2xl font-bold">Cash Operations</h1>
-            <p className="text-muted-foreground">Central bank cash operations and liquidity management</p>
-          </div>
           
           {/* 1. Real-Time Cash Flow Overview */}
         <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
@@ -462,7 +458,7 @@ export default function CashOperationsPage() {
         <div className="w-64 space-y-4">
           <QuickActionsManager 
             pageKey="cash-operations" 
-            systemType="rtgs" 
+            systemType="rtgs"
             onActionClick={handleQuickActionClick}
           />
         </div>
