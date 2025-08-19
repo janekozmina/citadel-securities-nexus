@@ -132,7 +132,7 @@ export default function ParticipantUnifiedPortalPage() {
         </div>
 
         <div className="xl:col-span-1">
-          <QuickActionsManager pageKey="participant-unified-portal" systemType="common" />
+          <QuickActionsManager pageKey="participant-unified-portal" systemType="participants" />
         </div>
       </div>
     </div>

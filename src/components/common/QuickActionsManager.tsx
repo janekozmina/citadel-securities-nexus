@@ -26,7 +26,7 @@ import { quickActionUrls } from '@/config/quickActionsConfig';
 
 interface QuickActionsManagerProps {
   pageKey: string;
-  systemType: 'rtgs' | 'csd' | 'cms' | 'common';
+  systemType: 'rtgs' | 'csd' | 'cms' | 'common' | 'participants';
   className?: string;
   onActionClick?: (actionId: string) => void;
 }

@@ -15,15 +15,16 @@ const MAX_QUICK_ACTIONS = 6;
 const STORAGE_KEY_PREFIX = 'quickActions_';
 
 export const useQuickActions = (
-  pageKey: string,
-  systemType: 'rtgs' | 'csd' | 'cms' | 'common' = 'common'
+  pageKey: string, 
+  systemType: 'rtgs' | 'csd' | 'cms' | 'common' | 'participants' = 'common'
 ): UseQuickActionsReturn => {
   const storageKey = `${STORAGE_KEY_PREFIX}${pageKey}`;
   
   // Get available actions for the current system and common actions
   const availableActions = [
     ...quickActionsConfig[systemType] || [],
-    ...quickActionsConfig.common
+    // Only add common actions if not participants system (participants has specific actions only)
+    ...(systemType !== 'participants' ? quickActionsConfig.common : [])
   ];
 
   // Get default actions for this page

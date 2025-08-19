@@ -181,7 +181,7 @@ export default function ParticipantOnboardingPage() {
         </div>
 
         <div className="xl:col-span-1">
-          <QuickActionsManager pageKey="participant-onboarding" systemType="common" />
+          <QuickActionsManager pageKey="participant-onboarding" systemType="participants" />
         </div>
       </div>
     </div>

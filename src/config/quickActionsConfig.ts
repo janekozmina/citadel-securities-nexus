@@ -464,8 +464,8 @@ export const quickActionsConfig: Record<string, QuickAction[]> = {
     }
   ],
 
-  // Participant Portal Actions
-  'participant-unified-portal': [
+  // Participants System Quick Actions
+  participants: [
     {
       id: 'access-unified-portal',
       label: 'Access Unified Portal',
@@ -473,10 +473,7 @@ export const quickActionsConfig: Record<string, QuickAction[]> = {
       variant: 'default',
       category: 'Portal',
       description: 'Access the unified participant portal'
-    }
-  ],
-
-  'participant-onboarding': [
+    },
     {
       id: 'access-onboarding-portal',
       label: 'Access Onboarding Portal',
@@ -636,5 +633,7 @@ export const defaultQuickActions: Record<string, string[]> = {
   'bi-reports': ['access-bi-full-view', 'refresh-data', 'export-data'],
   'rtgs-configuration': ['access-configuration-panel'],
   'csd-configuration': ['export-data', 'refresh-data'],
+  'participant-unified-portal': ['access-unified-portal'],
+  'participant-onboarding': ['access-onboarding-portal'],
   'default': ['export-data', 'refresh-data', 'advanced-search']
 };
