@@ -114,7 +114,7 @@ export function LiquiditySourceDialog({ onClose }: LiquiditySourceDialogProps) {
     new Set(liquiditySources.map(source => source.id))
   );
 
-  const [priorityGroup, setPriorityGroup] = useState<string>('');
+  const [priorityGroup, setPriorityGroup] = useState<string>('manual');
 
   const sensors = useSensors(
     useSensor(PointerSensor),
@@ -160,7 +160,7 @@ export function LiquiditySourceDialog({ onClose }: LiquiditySourceDialogProps) {
       });
       
       // Clear priority group when user manually reorders to preserve drag order
-      setPriorityGroup('');
+      setPriorityGroup('manual');
     }
   };
 
@@ -169,7 +169,7 @@ export function LiquiditySourceDialog({ onClose }: LiquiditySourceDialogProps) {
     
     // Only apply priority group sorting if selected AND user hasn't manually reordered
     // When priority group is cleared, the order should follow the drag-and-drop arrangement
-    if (priorityGroup) {
+    if (priorityGroup && priorityGroup !== 'manual') {
       visibleSourcesData = [...visibleSourcesData].sort((a, b) => {
         if (priorityGroup === 'net-transactions') {
           // Sort by highest value first for net transactions
@@ -220,13 +220,13 @@ export function LiquiditySourceDialog({ onClose }: LiquiditySourceDialogProps) {
               <SelectValue placeholder="Select priority group" />
             </SelectTrigger>
             <SelectContent className="bg-background border shadow-lg z-50">
-              <SelectItem value="">Manual Order (Drag & Drop)</SelectItem>
+              <SelectItem value="manual">Manual Order (Drag & Drop)</SelectItem>
               <SelectItem value="net-transactions">Net transactions</SelectItem>
               <SelectItem value="governmental-payments">Governmental payments</SelectItem>
               <SelectItem value="participant-payments">Participant payments</SelectItem>
             </SelectContent>
           </Select>
-          {!priorityGroup && (
+          {(!priorityGroup || priorityGroup === 'manual') && (
             <p className="text-xs text-muted-foreground mt-1">
               Drag items in legend to reorder the chart
             </p>
@@ -247,7 +247,7 @@ export function LiquiditySourceDialog({ onClose }: LiquiditySourceDialogProps) {
                 <CardTitle>Liquidity Sources Distribution</CardTitle>
                 <p className="text-sm text-muted-foreground">
                   Total Liquidity: {formatCurrency(totalLiquidity)}
-                  {priorityGroup && (
+                  {priorityGroup && priorityGroup !== 'manual' && (
                     <span className="ml-2 text-blue-600">
                       ({priorityGroup === 'net-transactions' ? 'Net transactions' :
                         priorityGroup === 'governmental-payments' ? 'Governmental payments' :
