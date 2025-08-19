@@ -28,7 +28,7 @@ import {
 import { toast } from 'sonner';
 import { useBusinessDayEmulation } from '@/hooks/useBusinessDayEmulation';
 import { PageHeader } from '@/components/common/PageHeader';
-import { QuickActions } from '@/components/common/QuickActions';
+import { QuickActionsManager } from '@/components/common/QuickActionsManager';
 
 interface BusinessPeriod {
   id: string;
@@ -470,15 +470,30 @@ export default function BusinessDayManagementPage() {
 
         {/* Right Sidebar with Quick Actions */}
         <div className="w-64 space-y-4">
-          <QuickActions 
-            title="Business Day Actions" 
-            actions={[
-              { title: 'Add Period', description: '', icon: Plus, path: '#' },
-              { title: 'Update Period', description: '', icon: Edit, path: '#' },
-              { title: 'Activate Period', description: '', icon: CheckCircle, path: '#' },
-              { title: 'Close Period', description: '', icon: X, path: '#' },
-              { title: 'Delete Period', description: '', icon: Trash, path: '#' }
-            ]}
+          <QuickActionsManager 
+            pageKey="business-day-management"
+            systemType="rtgs"
+            onActionClick={(actionId) => {
+              switch (actionId) {
+                case 'add-period':
+                  setIsAddPeriodOpen(true);
+                  break;
+                case 'update-period':
+                  toast.info('Update functionality coming soon');
+                  break;
+                case 'activate-period':
+                  toast.info('Select a period to activate');
+                  break;
+                case 'close-period':
+                  toast.info('Select a period to close');
+                  break;
+                case 'delete-period':
+                  toast.info('Select a period to delete');
+                  break;
+                default:
+                  break;
+              }
+            }}
           />
         </div>
       </div>
