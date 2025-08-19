@@ -10,7 +10,7 @@ export default function CouponRewardPage() {
   const couponMetrics = [
     {
       title: 'Total Coupons Due',
-      value: 'BD 2.8M',
+      value: 'BHD 2.8M',
       change: '+5.2%',
       changeType: 'neutral' as const,
       icon: DollarSign
@@ -39,11 +39,11 @@ export default function CouponRewardPage() {
   ];
 
   const couponData = [
-    { security: 'GOV-TB-001', issuer: 'Government of Bahrain', couponRate: '3.50%', paymentDate: '2024-01-20', amount: 'BD 450,000', status: 'Scheduled' },
-    { security: 'CORP-BD-002', issuer: 'National Bank', couponRate: '4.25%', paymentDate: '2024-01-22', amount: 'BD 320,000', status: 'Pending Approval' },
-    { security: 'SUKUK-ISL-003', issuer: 'Islamic Development Bank', couponRate: '2.75%', paymentDate: '2024-01-25', amount: 'BD 180,000', status: 'Approved' },
-    { security: 'GOV-TB-004', issuer: 'Government of Bahrain', couponRate: '3.75%', paymentDate: '2024-01-28', amount: 'BD 650,000', status: 'Processed' },
-    { security: 'CORP-BD-005', issuer: 'Bahrain Petroleum', couponRate: '5.00%', paymentDate: '2024-01-30', amount: 'BD 280,000', status: 'Scheduled' }
+    { security: 'GOV-TB-001', issuer: 'Government of Bahrain', couponRate: '3.50%', paymentDate: '2024-01-20', amount: 'BHD 450,000', status: 'Scheduled' },
+    { security: 'CORP-BD-002', issuer: 'National Bank', couponRate: '4.25%', paymentDate: '2024-01-22', amount: 'BHD 320,000', status: 'Pending Approval' },
+    { security: 'SUKUK-ISL-003', issuer: 'Islamic Development Bank', couponRate: '2.75%', paymentDate: '2024-01-25', amount: 'BHD 180,000', status: 'Approved' },
+    { security: 'GOV-TB-004', issuer: 'Government of Bahrain', couponRate: '3.75%', paymentDate: '2024-01-28', amount: 'BHD 650,000', status: 'Processed' },
+    { security: 'CORP-BD-005', issuer: 'Bahrain Petroleum', couponRate: '5.00%', paymentDate: '2024-01-30', amount: 'BHD 280,000', status: 'Scheduled' }
   ];
 
   return (

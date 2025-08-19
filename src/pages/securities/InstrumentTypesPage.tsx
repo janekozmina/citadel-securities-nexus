@@ -64,21 +64,21 @@ interface InstrumentType {
 const generateUsageData = (period: string) => {
   const baseData = {
     'current-month': [
-      { period: 'Week 1', govBonds: 245, corpBonds: 189, equities: 134, sukuk: 87, mmkt: 45 },
-      { period: 'Week 2', govBonds: 267, corpBonds: 203, equities: 142, sukuk: 93, mmkt: 52 },
-      { period: 'Week 3', govBonds: 289, corpBonds: 218, equities: 156, sukuk: 98, mmkt: 48 },
-      { period: 'Week 4', govBonds: 301, corpBonds: 234, equities: 167, sukuk: 104, mmkt: 55 }
+      { period: 'Jan 15-21', govBonds: 245, corpBonds: 189, equities: 134, sukuk: 87, mmkt: 45 },
+      { period: 'Jan 22-28', govBonds: 267, corpBonds: 203, equities: 142, sukuk: 93, mmkt: 52 },
+      { period: 'Jan 29-Feb 4', govBonds: 289, corpBonds: 218, equities: 156, sukuk: 98, mmkt: 48 },
+      { period: 'Feb 5-11', govBonds: 301, corpBonds: 234, equities: 167, sukuk: 104, mmkt: 55 }
     ],
     'last-3-months': [
-      { period: 'Month 1', govBonds: 1245, corpBonds: 945, equities: 634, sukuk: 387, mmkt: 245 },
-      { period: 'Month 2', govBonds: 1367, corpBonds: 1034, equities: 698, sukuk: 423, mmkt: 267 },
-      { period: 'Month 3', govBonds: 1489, corpBonds: 1123, equities: 756, sukuk: 456, mmkt: 289 }
+      { period: 'Nov 2024', govBonds: 1245, corpBonds: 945, equities: 634, sukuk: 387, mmkt: 245 },
+      { period: 'Dec 2024', govBonds: 1367, corpBonds: 1034, equities: 698, sukuk: 423, mmkt: 267 },
+      { period: 'Jan 2025', govBonds: 1489, corpBonds: 1123, equities: 756, sukuk: 456, mmkt: 289 }
     ],
     'current-year': [
-      { period: 'Q1', govBonds: 4245, corpBonds: 3102, equities: 2088, sukuk: 1266, mmkt: 801 },
-      { period: 'Q2', govBonds: 4567, corpBonds: 3345, equities: 2234, sukuk: 1389, mmkt: 867 },
-      { period: 'Q3', govBonds: 4689, corpBonds: 3456, equities: 2356, sukuk: 1456, mmkt: 923 },
-      { period: 'Q4', govBonds: 4823, corpBonds: 3578, equities: 2456, sukuk: 1523, mmkt: 978 }
+      { period: 'Q1 2024', govBonds: 4245, corpBonds: 3102, equities: 2088, sukuk: 1266, mmkt: 801 },
+      { period: 'Q2 2024', govBonds: 4567, corpBonds: 3345, equities: 2234, sukuk: 1389, mmkt: 867 },
+      { period: 'Q3 2024', govBonds: 4689, corpBonds: 3456, equities: 2356, sukuk: 1456, mmkt: 923 },
+      { period: 'Q4 2024', govBonds: 4823, corpBonds: 3578, equities: 2456, sukuk: 1523, mmkt: 978 }
     ]
   };
   return baseData[period as keyof typeof baseData] || baseData['current-month'];

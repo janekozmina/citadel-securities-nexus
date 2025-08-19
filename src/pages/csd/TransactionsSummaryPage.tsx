@@ -19,33 +19,46 @@ export default function TransactionsSummaryPage() {
     },
     {
       title: 'Transaction Value',
-      value: 'BD 125.8M',
+      value: 'BHD 125.8M',
       change: '+8.5%',
       changeType: 'positive' as const,
       icon: DollarSign
     },
     {
       title: 'Settlement Rate',
-      value: '98.2%',
-      change: '+0.3%',
+      value: '100%',
+      change: '+1.8%',
       changeType: 'positive' as const,
       icon: TrendingUp
     },
     {
       title: 'Avg Settlement Time',
-      value: '2.4 hrs',
-      change: '-0.2 hrs',
+      value: '50 ms',
+      change: '-2.35 hrs',
       changeType: 'positive' as const,
       icon: Clock
     }
   ];
 
   const transactionData = [
-    { txnId: 'TXN001', type: 'DvP Transfer', counterparty: 'NBB', amount: 'BD 2,500,000', security: 'GOV-TB-001', status: 'Settled', settlementDate: '2024-01-18' },
-    { txnId: 'TXN002', type: 'Cross-Border', counterparty: 'External CSD', amount: 'BD 1,800,000', security: 'CORP-BD-002', status: 'Pending', settlementDate: '2024-01-19' },
-    { txnId: 'TXN003', type: 'Exchange Trade', counterparty: 'BHB', amount: 'BD 3,200,000', security: 'SUKUK-001', status: 'Processing', settlementDate: '2024-01-19' },
-    { txnId: 'TXN004', type: 'DvF Transfer', counterparty: 'AUB', amount: 'BD 1,500,000', security: 'GOV-TB-003', status: 'Settled', settlementDate: '2024-01-18' },
-    { txnId: 'TXN005', type: 'Repo Settlement', counterparty: 'BBK', amount: 'BD 2,100,000', security: 'BOND-004', status: 'Failed', settlementDate: '2024-01-18' }
+    { txnId: 'TXN001', type: 'DvP Transfer', buyer: 'National Bank of Bahrain', seller: 'Ahli United Bank', amount: 'BHD 2,500,000', security: 'GOV-TB-001', status: 'Settled', settlementDate: '2024-01-18' },
+    { txnId: 'TXN002', type: 'Cross-Border', buyer: 'Bahrain Islamic Bank', seller: 'External CSD', amount: 'BHD 1,800,000', security: 'CORP-BD-002', status: 'Pending', settlementDate: '2024-01-19' },
+    { txnId: 'TXN003', type: 'Exchange Trade', buyer: 'BBK', seller: 'Bahrain Development Bank', amount: 'BHD 3,200,000', security: 'SUKUK-001', status: 'Processing', settlementDate: '2024-01-19' },
+    { txnId: 'TXN004', type: 'DvF Transfer', buyer: 'Gulf International Bank', seller: 'Ithmaar Bank', amount: 'BHD 1,500,000', security: 'GOV-TB-003', status: 'Settled', settlementDate: '2024-01-18' },
+    { txnId: 'TXN005', type: 'Repo Settlement', buyer: 'Future Bank', seller: 'Al Salam Bank', amount: 'BHD 2,100,000', security: 'BOND-004', status: 'Failed', settlementDate: '2024-01-18' }
+  ];
+
+  const detailedTransactionData = [
+    { docSecurities: 'R153598POF', counterparty: 'PENSION-POF', forAuthorization: 'CONFIRMED', actionCode: 'CONF', user: 'SYSTUSER', docType: 'DEPOSIT', docTypeBalance: 'D', ttc: '100', status: 'WA', startingTime: 'Authorization', realTime: 'ProcessTime' },
+    { docSecurities: 'R153598POF', counterparty: 'PENSION-POF', forAuthorization: 'OPTIONNO', actionCode: 'CONF', user: 'SYSTUSER', docType: 'DEPOSIT', docTypeBalance: 'D', ttc: '100', status: 'A', startingTime: 'Settled', realTime: 'ExecutedTime' },
+    { docSecurities: 'R153598POF', counterparty: 'PENSION-POF', forAuthorization: 'DEPOSIT-XX', actionCode: 'CONF', user: 'SYSTUSER', docType: 'DEPOSIT', docTypeBalance: 'D', ttc: '100', status: 'A', startingTime: 'Settled', realTime: 'CompletedTime' },
+    { docSecurities: 'R153598POF', counterparty: 'PENSION-POF', forAuthorization: 'CONFIRMED', actionCode: 'CONF', user: 'SYSTUSER', docType: 'DEPOSIT', docTypeBalance: 'D', ttc: '100', status: 'A', startingTime: 'Settled', realTime: 'FinishedTime' },
+    { docSecurities: 'CTTIXXXXX18502', counterparty: 'LBANK', docType: 'DEPOSIT', docTypeBalance: 'D', ttc: '000', status: 'A', startingTime: 'Settled', realTime: 'ProcessedTime' },
+    { docSecurities: 'CTTIXXXXX18502', counterparty: 'LBANK', docType: 'DEPOSIT', docTypeBalance: 'D', ttc: '000', status: 'A', startingTime: 'Settled', realTime: 'ExecutedTime' },
+    { docSecurities: 'CTTIXXXXX18502', counterparty: 'LBANK', docType: 'DEPOSIT', docTypeBalance: 'D', ttc: '000', status: 'A', startingTime: 'Settled', realTime: 'CompletedTime' },
+    { docSecurities: 'R153598POF', counterparty: 'PENSION-POF', forAuthorization: 'OPTIONNO-CD-Trade', actionCode: 'F778', user: 'SYSTUSER', docType: 'DEPOSIT', docTypeBalance: 'C', ttc: '000', status: 'Smoke trade/free breakback', startingTime: '1,000', realTime: 'ProcessTime' },
+    { docSecurities: 'R153598POF', counterparty: 'PENSION-POF', forAuthorization: 'QUALIFIED', actionCode: 'QUALIFIED', user: 'QUALIFIED', docType: 'QUALIFIED', docTypeBalance: 'D', ttc: '000', status: 'A', startingTime: 'Settled', realTime: 'QualifiedTime' },
+    { docSecurities: 'R153598POF', counterparty: 'PENSION-POF', forAuthorization: 'QUALIFIED', actionCode: 'QUALIFIED', user: 'QUALIFIED', docType: 'QUALIFIED', docTypeBalance: 'D', ttc: '000', status: 'Settled', startingTime: '1,000', realTime: 'ExecutedTime' }
   ];
 
   const statusDistribution = [
@@ -114,11 +127,31 @@ export default function TransactionsSummaryPage() {
             columns={[
               { key: 'txnId', label: 'Transaction ID' },
               { key: 'type', label: 'Type' },
-              { key: 'counterparty', label: 'Counterparty' },
+              { key: 'buyer', label: 'Buyer' },
+              { key: 'seller', label: 'Seller' },
               { key: 'amount', label: 'Amount' },
               { key: 'security', label: 'Security' },
               { key: 'status', label: 'Status', type: 'status' },
               { key: 'settlementDate', label: 'Settlement Date', type: 'date' }
+            ]}
+            searchable
+          />
+
+          <DataTable
+            title="Detailed Transaction Log"
+            data={detailedTransactionData}
+            columns={[
+              { key: 'docSecurities', label: 'Doc securities' },
+              { key: 'counterparty', label: 'Counterparty' },
+              { key: 'forAuthorization', label: 'For Authorization' },
+              { key: 'actionCode', label: 'ActionCode' },
+              { key: 'user', label: 'User' },
+              { key: 'docType', label: 'DocType' },
+              { key: 'docTypeBalance', label: 'DocTypeBalance' },
+              { key: 'ttc', label: 'TTC' },
+              { key: 'status', label: 'Status' },
+              { key: 'startingTime', label: 'StartingTime' },
+              { key: 'realTime', label: 'RealTime' }
             ]}
             searchable
           />

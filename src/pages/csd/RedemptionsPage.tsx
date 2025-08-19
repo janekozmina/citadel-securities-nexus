@@ -10,7 +10,7 @@ export default function RedemptionsPage() {
   const redemptionMetrics = [
     {
       title: 'Total Redemptions',
-      value: 'BD 15.2M',
+      value: 'BHD 15.2M',
       change: '+8.5%',
       changeType: 'neutral' as const,
       icon: DollarSign
@@ -39,11 +39,11 @@ export default function RedemptionsPage() {
   ];
 
   const redemptionData = [
-    { security: 'GOV-TB-001', issuer: 'Government of Bahrain', maturityDate: '2024-01-20', redemptionAmount: 'BD 5,000,000', principal: 'BD 5,000,000', interest: 'BD 125,000', status: 'Matured' },
-    { security: 'CORP-BD-002', issuer: 'National Bank', maturityDate: '2024-01-25', redemptionAmount: 'BD 2,500,000', principal: 'BD 2,500,000', interest: 'BD 85,000', status: 'Scheduled' },
-    { security: 'GOV-TB-003', issuer: 'Government of Bahrain', maturityDate: '2024-01-28', redemptionAmount: 'BD 3,200,000', principal: 'BD 3,200,000', interest: 'BD 96,000', status: 'Processing' },
-    { security: 'SUKUK-ISL-004', issuer: 'Islamic Development Bank', maturityDate: '2024-01-30', redemptionAmount: 'BD 1,800,000', principal: 'BD 1,800,000', interest: 'BD 45,000', status: 'Approved' },
-    { security: 'CORP-BD-005', issuer: 'Bahrain Petroleum', maturityDate: '2024-02-02', redemptionAmount: 'BD 2,700,000', principal: 'BD 2,700,000', interest: 'BD 108,000', status: 'Pending' }
+    { security: 'GOV-TB-001', issuer: 'Government of Bahrain', maturityDate: '2024-01-20', redemptionAmount: 'BHD 5,000,000', principal: 'BHD 5,000,000', interest: 'BHD 125,000', status: 'Matured' },
+    { security: 'CORP-BD-002', issuer: 'National Bank', maturityDate: '2024-01-25', redemptionAmount: 'BHD 2,500,000', principal: 'BHD 2,500,000', interest: 'BHD 85,000', status: 'Scheduled' },
+    { security: 'GOV-TB-003', issuer: 'Government of Bahrain', maturityDate: '2024-01-28', redemptionAmount: 'BHD 3,200,000', principal: 'BHD 3,200,000', interest: 'BHD 96,000', status: 'Processing' },
+    { security: 'SUKUK-ISL-004', issuer: 'Islamic Development Bank', maturityDate: '2024-01-30', redemptionAmount: 'BHD 1,800,000', principal: 'BHD 1,800,000', interest: 'BHD 45,000', status: 'Approved' },
+    { security: 'CORP-BD-005', issuer: 'Bahrain Petroleum', maturityDate: '2024-02-02', redemptionAmount: 'BHD 2,700,000', principal: 'BHD 2,700,000', interest: 'BHD 108,000', status: 'Pending' }
   ];
 
   return (

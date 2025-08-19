@@ -40,11 +40,11 @@ export default function CorporateActionsSummaryPage() {
   ];
 
   const corporateActionsData = [
-    { security: 'GOV001', type: 'Coupon Payment', recordDate: '2024-01-15', payDate: '2024-01-20', amount: 'BD 250,000', status: 'Pending' },
-    { security: 'CORP002', type: 'Dividend', recordDate: '2024-01-12', payDate: '2024-01-18', amount: 'BD 180,000', status: 'Processed' },
-    { security: 'GOV003', type: 'Redemption', recordDate: '2024-01-10', payDate: '2024-01-25', amount: 'BD 1,200,000', status: 'Scheduled' },
-    { security: 'SUKUK001', type: 'Profit Distribution', recordDate: '2024-01-08', payDate: '2024-01-22', amount: 'BD 320,000', status: 'Pending' },
-    { security: 'BOND004', type: 'Early Redemption', recordDate: '2024-01-14', payDate: '2024-01-30', amount: 'BD 850,000', status: 'Approved' }
+    { security: 'GOV001', type: 'Coupon Payment', recordDate: '2024-01-15', payDate: '2024-01-20', amount: 'BHD 250,000', status: 'Pending' },
+    { security: 'CORP002', type: 'Dividend', recordDate: '2024-01-12', payDate: '2024-01-18', amount: 'BHD 180,000', status: 'Processed' },
+    { security: 'GOV003', type: 'Redemption', recordDate: '2024-01-10', payDate: '2024-01-25', amount: 'BHD 1,200,000', status: 'Scheduled' },
+    { security: 'SUKUK001', type: 'Profit Distribution', recordDate: '2024-01-08', payDate: '2024-01-22', amount: 'BHD 320,000', status: 'Pending' },
+    { security: 'BOND004', type: 'Early Redemption', recordDate: '2024-01-14', payDate: '2024-01-30', amount: 'BHD 850,000', status: 'Approved' }
   ];
 
   const typeDistribution = [

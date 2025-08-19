@@ -17,7 +17,7 @@ export default function EarlyRedemptionsPage() {
     },
     {
       title: 'Total Value',
-      value: 'BD 8.5M',
+      value: 'BHD 8.5M',
       change: '+15%',
       changeType: 'neutral' as const,
       icon: DollarSign
@@ -39,11 +39,11 @@ export default function EarlyRedemptionsPage() {
   ];
 
   const earlyRedemptionData = [
-    { security: 'GOV-TB-001', issuer: 'Government of Bahrain', requestDate: '2024-01-15', callDate: '2024-01-30', notionalAmount: 'BD 2,000,000', penalty: 'BD 50,000', netAmount: 'BD 1,950,000', status: 'Pending Review' },
-    { security: 'CORP-BD-002', issuer: 'National Bank', requestDate: '2024-01-12', callDate: '2024-01-25', notionalAmount: 'BD 1,500,000', penalty: 'BD 30,000', netAmount: 'BD 1,470,000', status: 'Approved' },
-    { security: 'SUKUK-ISL-003', issuer: 'Islamic Development Bank', requestDate: '2024-01-18', callDate: '2024-02-01', notionalAmount: 'BD 3,000,000', penalty: 'BD 75,000', netAmount: 'BD 2,925,000', status: 'Under Review' },
-    { security: 'GOV-TB-004', issuer: 'Government of Bahrain', requestDate: '2024-01-10', callDate: '2024-01-20', notionalAmount: 'BD 1,000,000', penalty: 'BD 20,000', netAmount: 'BD 980,000', status: 'Processed' },
-    { security: 'CORP-BD-005', issuer: 'Bahrain Petroleum', requestDate: '2024-01-20', callDate: '2024-02-05', notionalAmount: 'BD 1,000,000', penalty: 'BD 25,000', netAmount: 'BD 975,000', status: 'Rejected' }
+    { security: 'GOV-TB-001', issuer: 'Government of Bahrain', requestDate: '2024-01-15', callDate: '2024-01-30', notionalAmount: 'BHD 2,000,000', penalty: 'BHD 50,000', netAmount: 'BHD 1,950,000', status: 'Pending Review' },
+    { security: 'CORP-BD-002', issuer: 'National Bank', requestDate: '2024-01-12', callDate: '2024-01-25', notionalAmount: 'BHD 1,500,000', penalty: 'BHD 30,000', netAmount: 'BHD 1,470,000', status: 'Approved' },
+    { security: 'SUKUK-ISL-003', issuer: 'Islamic Development Bank', requestDate: '2024-01-18', callDate: '2024-02-01', notionalAmount: 'BHD 3,000,000', penalty: 'BHD 75,000', netAmount: 'BHD 2,925,000', status: 'Under Review' },
+    { security: 'GOV-TB-004', issuer: 'Government of Bahrain', requestDate: '2024-01-10', callDate: '2024-01-20', notionalAmount: 'BHD 1,000,000', penalty: 'BHD 20,000', netAmount: 'BHD 980,000', status: 'Processed' },
+    { security: 'CORP-BD-005', issuer: 'Bahrain Petroleum', requestDate: '2024-01-20', callDate: '2024-02-05', notionalAmount: 'BHD 1,000,000', penalty: 'BHD 25,000', netAmount: 'BHD 975,000', status: 'Rejected' }
   ];
 
   return (
