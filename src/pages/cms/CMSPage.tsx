@@ -87,26 +87,26 @@ const CMSPage = () => {
   const quickActions = [
     {
       title: 'Margin Call',
-      description: 'Process margin call notifications',
+      description: '',
       icon: AlertTriangle,
       path: '/cms/risk',
       variant: 'default' as const
     },
     {
       title: 'Collateral Valuation',
-      description: 'Update asset valuations',
+      description: '',
       icon: Calculator,
       path: '/cms/collateral'
     },
     {
       title: 'Risk Assessment',
-      description: 'Run portfolio risk analysis',
+      description: '',
       icon: BarChart3,
       path: '/cms/risk'
     },
     {
       title: 'Compliance Check',
-      description: 'Verify regulatory compliance',
+      description: '',
       icon: CheckCircle,
       path: '/cms/risk'
     }
