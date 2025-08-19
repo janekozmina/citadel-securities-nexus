@@ -55,7 +55,7 @@ export default function BIReportsPage() {
               </CardHeader>
               <CardContent className="p-0">
                 <iframe
-                  src="http://superset.k8s1.moscow.cma.ru/superset/explore/p/NwxvBKPPWY0/?standalone=1&height=100%"
+                  src="http://superset.k8s1.moscow.cma.ru/superset/explore/p/j3o4YJrjwl9/?standalone=1&height=100%"
                   className="w-full h-[400px] border-0"
                   title="Payment Instructions Created Monthly Top 5 Banks Report"
                 />
