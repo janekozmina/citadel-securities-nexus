@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { PageHeader } from '@/components/common/PageHeader';
 import { InteractiveChart } from '@/components/common/InteractiveChart';
 import { DataTable } from '@/components/common/DataTable';
@@ -8,6 +8,10 @@ import { AlertTriangle, TrendingUp, TrendingDown, DollarSign } from 'lucide-reac
 import { getPageConfig } from '@/config/pageConfig';
 
 export default function ExposureSummaryPage() {
+  useEffect(() => {
+    document.title = 'Exposure Summary | CBB Portal';
+  }, []);
+  
   const config = getPageConfig('csd', 'exposureSummary');
   const exposureMetrics = [
     {
@@ -57,11 +61,8 @@ export default function ExposureSummaryPage() {
   ];
 
   return (
-    <div className="page-container">
-      <PageHeader
-        title={config.title}
-        description={config.description}
-      />
+    <div className="space-y-6">
+      <PageHeader />
 
       <div className="grid grid-cols-1 xl:grid-cols-4 gap-6 mb-8">
         <div className="xl:col-span-3 space-y-6">
