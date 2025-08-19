@@ -439,62 +439,6 @@ export const secondaryNavigation: Record<string, NavigationItem[]> = {
           path: '/csd/transactions/documents-approval',
           icon: FileCheck,
           description: 'Document approval workflow'
-        },
-        {
-          id: 'settled-transactions',
-          title: 'Settled Transactions',
-          path: '/csd/transactions/settled',
-          icon: CheckCircle,
-          description: 'Completed transactions'
-        },
-        {
-          id: 'pending-transactions',
-          title: 'Pending Transactions',
-          path: '/csd/transactions/pending',
-          icon: Clock,
-          description: 'Pending transactions'
-        },
-        {
-          id: 'failed-transactions',
-          title: 'Failed Transactions',
-          path: '/csd/transactions/failed',
-          icon: XCircle,
-          description: 'Failed transactions'
-        },
-        {
-          id: 'transfers-dvf-dvp',
-          title: 'Transfers (DvF / DvP)',
-          path: '/csd/transactions/transfers',
-          icon: ArrowUpDown,
-          description: 'Delivery vs payment transfers'
-        },
-        {
-          id: 'cross-border-settlement',
-          title: 'Cross-Border Settlement',
-          path: '/csd/transactions/cross-border',
-          icon: Globe,
-          description: 'International settlements'
-        },
-        {
-          id: 'exchange-trades-settlement',
-          title: 'Exchange Trades Settlement',
-          path: '/csd/transactions/exchange-trades',
-          icon: TrendingUp,
-          description: 'Exchange trade settlements'
-        },
-        {
-          id: 'clearing-manager',
-          title: 'Clearing Manager',
-          path: '/csd/transactions/clearing-manager',
-          icon: ShieldCheck,
-          description: 'Clearing management'
-        },
-        {
-          id: 'payments-status',
-          title: 'Payments Status',
-          path: '/csd/transactions/payments-status',
-          icon: CreditCard,
-          description: 'Payment status tracking'
         }
       ]
     },
@@ -511,76 +455,6 @@ export const secondaryNavigation: Record<string, NavigationItem[]> = {
           path: '/csd/open-market-operations/auctions-summary',
           icon: BarChart3,
           description: 'Auctions overview'
-        },
-        {
-          id: 'active-auctions',
-          title: 'Active Auctions',
-          path: '/csd/open-market-operations/active-auctions',
-          icon: PlayCircle,
-          description: 'Currently active auctions'
-        },
-        {
-          id: 'cb-auction',
-          title: 'CB Auction',
-          path: '/csd/open-market-operations/cb-auction',
-          icon: Gavel,
-          description: 'Central Bank auctions'
-        },
-        {
-          id: 'repo-reverse-repo-auction',
-          title: 'Repo/Reverse Repo Auction',
-          path: '/csd/open-market-operations/repo-reverse-repo',
-          icon: RefreshCw,
-          description: 'Repo and reverse repo auctions'
-        },
-        {
-          id: 'deposit-auction',
-          title: 'Deposit Auction',
-          path: '/csd/open-market-operations/deposit-auction',
-          icon: Wallet,
-          description: 'Deposit auctions'
-        },
-        {
-          id: 'outright-auction',
-          title: 'Outright Auction',
-          path: '/csd/open-market-operations/outright-auction',
-          icon: Target,
-          description: 'Outright purchase auctions'
-        },
-        {
-          id: 'fx-auction',
-          title: 'FX Auction',
-          path: '/csd/open-market-operations/fx-auction',
-          icon: DollarSign,
-          description: 'Foreign exchange auctions'
-        },
-        {
-          id: 'fx-forward-auction',
-          title: 'FX Forward Auction',
-          path: '/csd/open-market-operations/fx-forward',
-          icon: TrendingUp,
-          description: 'FX forward auctions'
-        },
-        {
-          id: 'fx-swap-auction',
-          title: 'FX SWAP Auction',
-          path: '/csd/open-market-operations/fx-swap',
-          icon: ArrowUpDown,
-          description: 'FX swap auctions'
-        },
-        {
-          id: 'debt-switch-auction',
-          title: 'Debt Switch Auction',
-          path: '/csd/open-market-operations/debt-switch',
-          icon: RefreshCw,
-          description: 'Debt switch auctions'
-        },
-        {
-          id: 'buyback-auction',
-          title: 'Buyback Auction',
-          path: '/csd/open-market-operations/buyback',
-          icon: ArrowDownUp,
-          description: 'Buyback auctions'
         }
       ]
     },
@@ -597,92 +471,6 @@ export const secondaryNavigation: Record<string, NavigationItem[]> = {
           path: '/csd/standing-facilities/operations-summary',
           icon: BarChart3,
           description: 'Standing facilities overview'
-        },
-        {
-          id: 'islamic-liquidity-summary',
-          title: 'Islamic Liquidity Summary',
-          path: '/csd/standing-facilities/islamic-liquidity-summary',
-          icon: BookOpen,
-          description: 'Islamic liquidity overview'
-        },
-        {
-          id: 'ilf',
-          title: 'ILF',
-          path: '/csd/standing-facilities/ilf',
-          icon: Wallet,
-          description: 'Intraday Liquidity Facility'
-        },
-        {
-          id: 'floor-facilities',
-          title: 'Floor Facilities',
-          path: '/csd/standing-facilities/floor-facilities',
-          icon: TrendingDown,
-          description: 'Floor lending facilities'
-        },
-        {
-          id: 'lending-facilities',
-          title: 'Lending Facilities',
-          path: '/csd/standing-facilities/lending-facilities',
-          icon: CreditCard,
-          description: 'Lending facilities'
-        },
-        {
-          id: 'deposit-facilities',
-          title: 'Deposit Facilities',
-          path: '/csd/standing-facilities/deposit-facilities',
-          icon: Wallet,
-          description: 'Deposit facilities'
-        },
-        {
-          id: 'repo',
-          title: 'Repo',
-          path: '/csd/standing-facilities/repo',
-          icon: RefreshCw,
-          description: 'Repurchase agreements'
-        },
-        {
-          id: 'reverse-repo',
-          title: 'Reverse Repo',
-          path: '/csd/standing-facilities/reverse-repo',
-          icon: ArrowDownUp,
-          description: 'Reverse repurchase agreements'
-        },
-        {
-          id: 'islamic-deposits',
-          title: 'Islamic Deposits (Wakala/ Murabaha)',
-          path: '/csd/standing-facilities/islamic-deposits',
-          icon: BookOpen,
-          description: 'Islamic deposit products'
-        },
-        {
-          id: 'islamic-lending',
-          title: 'Islamic Lending against securities (ISLI)',
-          path: '/csd/standing-facilities/islamic-lending',
-          icon: Shield,
-          description: 'Islamic securities lending'
-        }
-      ]
-    },
-    {
-      id: 'liquidity-monitor',
-      title: 'Liquidity Monitor',
-      path: '/csd/liquidity-monitor',
-      icon: Activity,
-      description: 'Liquidity monitoring',
-      children: [
-        {
-          id: 'liquidity-position-summary',
-          title: 'Liquidity Position Summary',
-          path: '/csd/liquidity-monitor/position-summary',
-          icon: BarChart3,
-          description: 'Liquidity position overview'
-        },
-        {
-          id: 'liquidity-forecasting',
-          title: 'Liquidity Forecasting',
-          path: '/csd/liquidity-monitor/forecasting',
-          icon: TrendingUp,
-          description: 'Liquidity forecasting tools'
         }
       ]
     },
@@ -715,13 +503,6 @@ export const secondaryNavigation: Record<string, NavigationItem[]> = {
           path: '/csd/limits/summary',
           icon: BarChart3,
           description: 'Limits overview'
-        },
-        {
-          id: 'limits-alerts',
-          title: 'Limits Alerts',
-          path: '/csd/limits/alerts',
-          icon: AlertCircle,
-          description: 'Limit breach alerts'
         }
       ]
     },
@@ -754,50 +535,6 @@ export const secondaryNavigation: Record<string, NavigationItem[]> = {
           path: '/csd/investors-management/summary',
           icon: BarChart3,
           description: 'Investors overview'
-        }
-      ]
-    },
-    {
-      id: 'reporting',
-      title: 'Reporting',
-      path: '/csd/reporting',
-      icon: FileBarChart,
-      description: 'Reporting and analytics',
-      children: [
-        {
-          id: 'reporting-summary',
-          title: 'Summary',
-          path: '/csd/reporting/summary',
-          icon: BarChart3,
-          description: 'Reporting summary'
-        },
-        {
-          id: 'standard-reports',
-          title: 'Standard Reports',
-          path: '/csd/reporting/standard-reports',
-          icon: FileText,
-          description: 'Standard report templates'
-        },
-        {
-          id: 'ad-hoc-reports',
-          title: 'Ad-hoc Reports',
-          path: '/csd/reporting/ad-hoc-reports',
-          icon: Search,
-          description: 'Custom ad-hoc reports'
-        },
-        {
-          id: 'custom-reports',
-          title: 'Custom Reports',
-          path: '/csd/reporting/custom-reports',
-          icon: Settings,
-          description: 'Custom report builder'
-        },
-        {
-          id: 'gl-posting',
-          title: 'GL Posting',
-          path: '/csd/reporting/gl-posting',
-          icon: Calculator,
-          description: 'General ledger posting'
         }
       ]
     },
@@ -1030,29 +767,6 @@ export const secondaryNavigation: Record<string, NavigationItem[]> = {
         }
       ]
     },
-    {
-      id: 'audit-logs',
-      title: 'Audit & Logs',
-      path: '/admin/audit',
-      icon: Search,
-      description: 'System audit and logging',
-      children: [
-        {
-          id: 'audit-trail',
-          title: 'Audit Trail',
-          path: '/admin/audit/trail',
-          icon: Archive,
-          description: 'View system audit trail'
-        },
-        {
-          id: 'system-logs',
-          title: 'System Logs',
-          path: '/admin/audit/logs',
-          icon: FileText,
-          description: 'View system logs'
-        }
-      ]
-    }
   ]
 };
 
