@@ -48,6 +48,13 @@ import SettledTransactionsPage from "./pages/csd/SettledTransactionsPage";
 import PendingTransactionsPage from "./pages/csd/PendingTransactionsPage";
 import FailedTransactionsPage from "./pages/csd/FailedTransactionsPage";
 import TransfersDvpPage from "./pages/csd/TransfersDvpPage";
+import RegisterCBBInstrumentPage from "./pages/securities/RegisterCBBInstrumentPage";
+import RegisterTreasuryBillPage from "./pages/securities/RegisterTreasuryBillPage";
+import RegisterTreasuryBondPage from "./pages/securities/RegisterTreasuryBondPage";
+import SecuritiesIssuanceOtherPage from "./pages/securities/SecuritiesIssuanceOtherPage";
+import PrivatePlacementPage from "./pages/securities/PrivatePlacementPage";
+import StatusManagementPage from "./pages/securities/StatusManagementPage";
+import InstrumentsSummaryPage from "./pages/securities/InstrumentsSummaryPage";
 import RegisterIslamicSukukPage from "./pages/csd/RegisterIslamicSukukPage";
 import TransfersPage from "./pages/csd/TransfersPage";
 import InstrumentTypesPage from "./pages/securities/InstrumentTypesPage";
@@ -298,7 +305,56 @@ const App = () => (
                </ProtectedRoute>
              } />
              
-             {/* Existing CSD Routes */}
+              {/* CSD Instruments */}
+            <Route path="/csd/instruments/register-cbb" element={
+              <ProtectedRoute>
+                <MainLayout>
+                  <RegisterCBBInstrumentPage />
+                </MainLayout>
+              </ProtectedRoute>
+            } />
+            <Route path="/csd/instruments/register-treasury-bill" element={
+              <ProtectedRoute>
+                <MainLayout>
+                  <RegisterTreasuryBillPage />
+                </MainLayout>
+              </ProtectedRoute>
+            } />
+            <Route path="/csd/instruments/register-treasury-bond" element={
+              <ProtectedRoute>
+                <MainLayout>
+                  <RegisterTreasuryBondPage />
+                </MainLayout>
+              </ProtectedRoute>
+            } />
+            <Route path="/csd/instruments/securities-issuance-other" element={
+              <ProtectedRoute>
+                <MainLayout>
+                  <SecuritiesIssuanceOtherPage />
+                </MainLayout>
+              </ProtectedRoute>
+            } />
+            <Route path="/csd/instruments/private-placement" element={
+              <ProtectedRoute>
+                <MainLayout>
+                  <PrivatePlacementPage />
+                </MainLayout>
+              </ProtectedRoute>
+            } />
+            <Route path="/csd/instruments/status-management" element={
+              <ProtectedRoute>
+                <MainLayout>
+                  <StatusManagementPage />
+                </MainLayout>
+              </ProtectedRoute>
+            } />
+            <Route path="/csd/instruments/summary" element={
+              <ProtectedRoute>
+                <MainLayout>
+                  <InstrumentsSummaryPage />
+                </MainLayout>
+              </ProtectedRoute>
+            } />
             <Route path="/csd/instruments/register-islamic-sukuk" element={
               <ProtectedRoute>
                 <MainLayout>
