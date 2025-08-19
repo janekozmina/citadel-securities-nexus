@@ -280,12 +280,12 @@ export function LiquiditySourceDialog({ onClose }: LiquiditySourceDialogProps) {
                     })}
                   </div>
 
-                  {/* Value Labels */}
-                  <div className="grid grid-cols-3 gap-2 text-sm">
+                   {/* Value Labels */}
+                  <div className="flex flex-wrap gap-2 text-sm justify-center">
                     {getStackedBarSegments().map(source => (
-                      <div key={source.id} className="text-center">
+                      <div key={source.id} className="text-center min-w-[120px]">
                         <div className="font-medium">{formatCurrency(source.value)}</div>
-                        <div className="text-muted-foreground text-xs">{source.name}</div>
+                        <div className="text-muted-foreground text-xs truncate">{source.name}</div>
                       </div>
                     ))}
                   </div>

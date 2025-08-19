@@ -4,9 +4,12 @@ import { InteractiveChart } from '@/components/common/InteractiveChart';
 import { DataTable } from '@/components/common/DataTable';
 import { Card, CardContent } from '@/components/ui/card';
 import { QuickActionsManager } from '@/components/common/QuickActionsManager';
+import { QuickActions } from '@/components/common/QuickActions';
+import { useQuickActions } from '@/hooks/useQuickActions';
 import { Users, Building, CheckCircle, Clock, AlertTriangle, ExternalLink } from 'lucide-react';
 
 export default function ParticipantUnifiedPortalPage() {
+  const { activeActions } = useQuickActions('participant-unified-portal', 'participants');
   const participantMetrics = [
     {
       title: 'Active Participants',
@@ -131,7 +134,19 @@ export default function ParticipantUnifiedPortalPage() {
           </div>
         </div>
 
-        <div className="xl:col-span-1">
+        <div className="xl:col-span-1 space-y-6">
+          <QuickActions 
+            title="Quick Actions" 
+            actions={activeActions.map(action => ({
+              title: action.label,
+              description: action.description || `Quickly access ${action.label}`,
+              icon: action.icon,
+              path: action.id.startsWith('http') ? action.id : `/participants/${action.id}`,
+              variant: (action.variant === 'default' || action.variant === 'secondary' || action.variant === 'outline') 
+                ? action.variant 
+                : 'outline'
+            }))}
+          />
           <QuickActionsManager pageKey="participant-unified-portal" systemType="participants" />
         </div>
       </div>
