@@ -1,4 +1,4 @@
-import { useState, useMemo, useEffect } from 'react';
+import { useState, useMemo } from 'react';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
@@ -13,36 +13,46 @@ import { QuickActionsManager } from '@/components/common/QuickActionsManager';
 import { PageHeader } from '@/components/common/PageHeader';
 import { MetricCardsSection } from '@/components/common/MetricCardsSection';
 
-// Generate CSD account data using config
-const generateCSDAccountData = () => {
+// Generate account data using config
+const generateAccountData = () => {
   const banks = portalConfig.banks.commercial;
   const currencies = portalConfig.currencies.supported;
   const primaryCurrency = portalConfig.currencies.primary;
-  const securityTypes = ['Treasury Bill', 'Islamic Sukuk', 'Treasury Bond'];
   
-  return Array.from({ length: 9000 }, (_, index) => {
-    const bank = banks[index % banks.length];
+  return banks.slice(0, 15).map((bank, index) => {
     const currency = index < 3 ? primaryCurrency : currencies[index % currencies.length];
-    const baseHoldings = Math.floor(Math.random() * 50000000) + 5000000; // 5M to 55M
+    const baseBalance = Math.floor(Math.random() * 100000) + 1000;
     
+    // Generate proper 8-character BIC code
+    const bankCode = portalConfig.banks.codes[bank];
+    let bic: string;
+    if (bankCode && bankCode.length >= 6) {
+      // Use existing bank code and ensure it's 8 characters
+      bic = bankCode.length === 8 ? bankCode : `${bankCode}BH`;
+    } else {
+      // Generate BIC: 4-letter bank identifier + 2-letter country (BH) + 2-letter location
+      const bankName = bank.replace(/[^A-Z]/g, '').substring(0, 4).padEnd(4, 'X');
+      bic = `${bankName}BHBM`;
+    }
+
     return {
-      id: `CSD${String(index + 1).padStart(4, '0')}`,
-      securityCode: securityTypes[index % securityTypes.length],
-      securityHoldings: baseHoldings,
+      id: `000380004012030${String(index + 1).padStart(4, '0')}`,
+      availableBalance: baseBalance,
       currency: currency,
-      marketValue: Math.floor(baseHoldings * (0.95 + Math.random() * 0.1)), // ±5% market fluctuation
-      pendingSettlements: Math.floor(Math.random() * 10),
-      collateralPosted: Math.floor(baseHoldings * (0.1 + Math.random() * 0.2)), // 10-30% collateral
-      availableForTrading: Math.floor(baseHoldings * (0.7 + Math.random() * 0.2)), // 70-90% available
-      accountType: index % 4 === 0 ? 'CUSTODY' : index % 4 === 1 ? 'TRADING' : index % 4 === 2 ? 'SETTLEMENT' : 'OMNIBUS',
+      debitTurnover: Math.floor(Math.random() * 50000),
+      creditTurnover: Math.floor(Math.random() * 75000),
+      totalDebitQueue: Math.floor(Math.random() * 1000),
+      totalCreditQueue: baseBalance + Math.floor(Math.random() * 5000),
+      potentialBalance: baseBalance + Math.floor(Math.random() * 2000),
+      accountType: index % 3 === 0 ? 'SA' : 'CA',
       participantName: bank,
-      participantCode: portalConfig.banks.codes[bank] || `BBMEBHBM${String(index + 1).padStart(3, '0')}`
+      bic: bic
     };
   });
 };
 
-export default function CSDAccountManagementPage() {
-  const accountsData = useMemo(() => generateCSDAccountData(), []);
+export default function AccountManagement2Page() {
+  const accountsData = useMemo(() => generateAccountData(), []);
   const [filterCurrency, setFilterCurrency] = useState('all');
   const [filterAccountType, setFilterAccountType] = useState('all');
   const [searchTerm, setSearchTerm] = useState('');
@@ -53,19 +63,15 @@ export default function CSDAccountManagementPage() {
   const [riskFilter, setRiskFilter] = useState<'all' | 'low' | 'medium' | 'high'>('all');
   const itemsPerPage = 10;
 
-  useEffect(() => {
-    document.title = 'CSD Account Management | CBB Portal';
-  }, []);
-
-  const getHoldingsColor = (holdings: number) => {
-    if (holdings < 10000000) return 'text-red-600'; // Below 10M
-    if (holdings < 25000000) return 'text-yellow-600'; // 10M-25M
-    return 'text-green-600'; // Above 25M
+  const getBalanceColor = (balance: number) => {
+    if (balance < 5000) return 'text-red-600';
+    if (balance < 20000) return 'text-yellow-600';
+    return 'text-green-600';
   };
 
-  const getRiskLevel = (holdings: number) => {
-    if (holdings < 10000000) return 'high';
-    if (holdings < 25000000) return 'medium';
+  const getRiskLevel = (balance: number) => {
+    if (balance < 5000) return 'high';
+    if (balance < 20000) return 'medium';
     return 'low';
   };
 
@@ -81,7 +87,7 @@ export default function CSDAccountManagementPage() {
   const riskData = useMemo(() => {
     const risks = { low: 0, medium: 0, high: 0 };
     accountsData.forEach(account => {
-      const risk = getRiskLevel(account.securityHoldings);
+      const risk = getRiskLevel(account.availableBalance);
       risks[risk as keyof typeof risks]++;
     });
     return risks;
@@ -91,10 +97,10 @@ export default function CSDAccountManagementPage() {
     let filtered = accountsData.filter(account => {
       const matchesSearch = account.participantName.toLowerCase().includes(searchTerm.toLowerCase()) ||
                           account.id.includes(searchTerm) ||
-                          account.participantCode.toLowerCase().includes(searchTerm.toLowerCase());
+                          account.bic.toLowerCase().includes(searchTerm.toLowerCase());
       const matchesCurrency = filterCurrency === 'all' || account.currency === filterCurrency;
       const matchesAccountType = filterAccountType === 'all' || account.accountType === filterAccountType;
-      const matchesRisk = riskFilter === 'all' || getRiskLevel(account.securityHoldings) === riskFilter;
+      const matchesRisk = riskFilter === 'all' || getRiskLevel(account.availableBalance) === riskFilter;
       
       return matchesSearch && matchesCurrency && matchesAccountType && matchesRisk;
     });
@@ -136,83 +142,77 @@ export default function CSDAccountManagementPage() {
     }
   };
 
-  const totalHoldings = accountsData.reduce((sum, account) => sum + account.securityHoldings, 0);
-  const totalMarketValue = accountsData.reduce((sum, account) => sum + account.marketValue, 0);
+  const totalBalance = accountsData.reduce((sum, account) => sum + account.availableBalance, 0);
   const currencySymbol = portalConfig.currencies.symbol;
-
-  const formatCurrency = (amount: number) => {
-    return `${currencySymbol} ${amount.toLocaleString()}`;
-  };
 
   return (
     <TooltipProvider>
       <div className="space-y-6">
         <PageHeader />
 
-        {/* Top Metrics Cards */}
-        <MetricCardsSection
-          metricsConfig={[
-            {
-              key: 'totalAccounts',
-              title: 'Total Accounts',
-              iconName: 'Users'
-            },
-            {
-              key: 'totalHoldings',
-              title: 'Total Holdings',
-              valueFormatter: (value) => formatCurrency(value),
-              iconName: 'Building2'
-            },
-            {
-              key: 'totalMarketValue',
-              title: 'Total Market Value',
-              valueFormatter: (value) => formatCurrency(value),
-              iconName: 'TrendingUp',
-              iconColor: 'text-green-600',
-              textColor: 'text-green-600'
-            },
-            {
-              key: 'highRiskAccounts',
-              title: 'High Risk Accounts',
-              iconName: 'AlertTriangle',
-              iconColor: 'text-red-600',
-              textColor: 'text-red-600'
-            }
-          ]}
-          data={accountsData}
-          stats={{
-            totalAccounts: accountsData.length,
-            totalHoldings: totalHoldings,
-            totalMarketValue: totalMarketValue,
-            highRiskAccounts: riskData.high
-          }}
-        />
-
-        {/* View Mode Toggle */}
-        <div className="flex items-center gap-2 min-h-[40px] mb-6">
-          <span className="text-sm font-medium text-slate-700">View Mode:</span>
-          <div className="flex gap-2">
-            <Button
-              variant={viewMode === 'table' ? 'default' : 'outline'}
-              size="sm"
-              onClick={() => setViewMode('table')}
-            >
-              <TableIcon className="h-4 w-4 mr-2" />
-              Table
-            </Button>
-            <Button
-              variant={viewMode === 'visual' ? 'default' : 'outline'}
-              size="sm"
-              onClick={() => setViewMode('visual')}
-            >
-              <BarChart3 className="h-4 w-4 mr-2" />
-              Dashboard
-            </Button>
-          </div>
-        </div>
-
         <div className="flex h-full">
           <div className="flex-1 space-y-6 pr-6">
+            {/* Top Metrics Cards */}
+            <MetricCardsSection
+              metricsConfig={[
+                {
+                  key: 'totalAccounts',
+                  title: 'Total Accounts',
+                  iconName: 'Users'
+                },
+                {
+                  key: 'totalBalance',
+                  title: 'Total Balance',
+                  valueFormatter: (value) => `${currencySymbol} ${value.toLocaleString()}`,
+                  iconName: 'DollarSign'
+                },
+                {
+                  key: 'activeAccounts',
+                  title: 'Active Accounts',
+                  iconName: 'CheckCircle',
+                  iconColor: 'text-green-600',
+                  textColor: 'text-green-600'
+                },
+                {
+                  key: 'highRiskAccounts',
+                  title: 'High Risk Accounts',
+                  iconName: 'AlertTriangle',
+                  iconColor: 'text-red-600',
+                  textColor: 'text-red-600'
+                }
+              ]}
+              data={accountsData}
+              stats={{
+                totalAccounts: accountsData.length,
+                totalBalance: totalBalance,
+                activeAccounts: accountsData.filter(a => a.availableBalance > 0).length,
+                highRiskAccounts: riskData.high
+              }}
+            />
+
+            {/* View Mode Toggle - Fixed positioning */}
+            <div className="flex items-center gap-2 min-h-[40px] mb-6">
+              <span className="text-sm font-medium text-slate-700">View Mode:</span>
+              <div className="flex gap-2">
+                <Button
+                  variant={viewMode === 'table' ? 'default' : 'outline'}
+                  size="sm"
+                  onClick={() => setViewMode('table')}
+                >
+                  <TableIcon className="h-4 w-4 mr-2" />
+                  Table
+                </Button>
+                <Button
+                  variant={viewMode === 'visual' ? 'default' : 'outline'}
+                  size="sm"
+                  onClick={() => setViewMode('visual')}
+                >
+                  <BarChart3 className="h-4 w-4 mr-2" />
+                  Dashboard
+                </Button>
+              </div>
+            </div>
+
             {/* Filters Section - Only show for table view */}
             {viewMode === 'table' && (
               <Card className="bg-slate-50">
@@ -236,10 +236,8 @@ export default function CSDAccountManagementPage() {
                       </SelectTrigger>
                       <SelectContent>
                         <SelectItem value="all">All Types</SelectItem>
-                        <SelectItem value="CUSTODY">Custody</SelectItem>
-                        <SelectItem value="TRADING">Trading</SelectItem>
-                        <SelectItem value="SETTLEMENT">Settlement</SelectItem>
-                        <SelectItem value="OMNIBUS">Omnibus</SelectItem>
+                        <SelectItem value="SA">SA</SelectItem>
+                        <SelectItem value="CA">CA</SelectItem>
                       </SelectContent>
                     </Select>
                     <Select value={riskFilter} onValueChange={(value: 'all' | 'low' | 'medium' | 'high') => setRiskFilter(value)}>
@@ -281,7 +279,7 @@ export default function CSDAccountManagementPage() {
                   <CardHeader>
                     <CardTitle className="flex items-center gap-2">
                       <AlertTriangle className="h-5 w-5" />
-                      Securities Holdings Risk Indicator
+                      Potential Balance Risk Indicator
                     </CardTitle>
                   </CardHeader>
                   <CardContent>
@@ -302,7 +300,7 @@ export default function CSDAccountManagementPage() {
                           <XCircle className="h-4 w-4 text-red-500" />
                         </div>
                         <div className="text-2xl font-bold text-red-600 mb-1">{riskData.high}</div>
-                        <div className="text-sm text-gray-600">Below 10M holdings</div>
+                        <div className="text-sm text-gray-600">Below 5K threshold</div>
                         <Progress 
                           value={(riskData.high / accountsData.length) * 100} 
                           className="mt-2 h-2"
@@ -325,7 +323,7 @@ export default function CSDAccountManagementPage() {
                           <AlertTriangle className="h-4 w-4 text-yellow-500" />
                         </div>
                         <div className="text-2xl font-bold text-yellow-600 mb-1">{riskData.medium}</div>
-                        <div className="text-sm text-gray-600">10M-25M range</div>
+                        <div className="text-sm text-gray-600">5K-20K range</div>
                         <Progress 
                           value={(riskData.medium / accountsData.length) * 100} 
                           className="mt-2 h-2"
@@ -348,7 +346,7 @@ export default function CSDAccountManagementPage() {
                           <CheckCircle className="h-4 w-4 text-green-500" />
                         </div>
                         <div className="text-2xl font-bold text-green-600 mb-1">{riskData.low}</div>
-                        <div className="text-sm text-gray-600">Above 25M holdings</div>
+                        <div className="text-sm text-gray-600">Above 20K threshold</div>
                         <Progress 
                           value={(riskData.low / accountsData.length) * 100} 
                           className="mt-2 h-2"
@@ -364,7 +362,7 @@ export default function CSDAccountManagementPage() {
             {viewMode === 'table' && (
             <Card>
               <CardHeader>
-                <CardTitle>CSD Account Management</CardTitle>
+                <CardTitle>Account Management</CardTitle>
               </CardHeader>
               <CardContent>
                 <div className="overflow-x-auto">
@@ -382,7 +380,7 @@ export default function CSDAccountManagementPage() {
                         </TableHead>
                         <TableHead 
                           className="cursor-pointer hover:bg-slate-50"
-                          onClick={() => handleSort('participantCode')}
+                          onClick={() => handleSort('bic')}
                         >
                           <div className="flex items-center gap-1">
                             BIC
@@ -400,89 +398,121 @@ export default function CSDAccountManagementPage() {
                         </TableHead>
                         <TableHead 
                           className="cursor-pointer hover:bg-slate-50"
-                          onClick={() => handleSort('securityCode')}
+                          onClick={() => handleSort('availableBalance')}
                         >
                           <div className="flex items-center gap-1">
-                            Security Code
+                            Available Balance
                             <ArrowUpDown className="h-3 w-3" />
                           </div>
                         </TableHead>
                         <TableHead 
                           className="cursor-pointer hover:bg-slate-50"
-                          onClick={() => handleSort('securityHoldings')}
+                          onClick={() => handleSort('debitTurnover')}
                         >
                           <div className="flex items-center gap-1">
-                            Security Holdings
+                            Debit Turnover
                             <ArrowUpDown className="h-3 w-3" />
                           </div>
                         </TableHead>
-                        <TableHead>Currency</TableHead>
-                        <TableHead>Market Value</TableHead>
-                        <TableHead>Pending Settlements</TableHead>
-                        <TableHead>Collateral Posted</TableHead>
-                        <TableHead>Account Type</TableHead>
+                        <TableHead 
+                          className="cursor-pointer hover:bg-slate-50"
+                          onClick={() => handleSort('creditTurnover')}
+                        >
+                          <div className="flex items-center gap-1">
+                            Credit Turnover
+                            <ArrowUpDown className="h-3 w-3" />
+                          </div>
+                        </TableHead>
+                        <TableHead 
+                          className="cursor-pointer hover:bg-slate-50"
+                          onClick={() => handleSort('totalCreditQueue')}
+                        >
+                          <div className="flex items-center gap-1">
+                            Queue (Credit)
+                            <ArrowUpDown className="h-3 w-3" />
+                          </div>
+                        </TableHead>
+                        <TableHead>Actions</TableHead>
                       </TableRow>
                     </TableHeader>
                     <TableBody>
                       {paginatedAccounts.map((account) => (
-                        <TableRow key={account.id} className="hover:bg-slate-50">
+                        <TableRow key={account.id}>
                           <TableCell className="font-mono text-xs">{account.id}</TableCell>
-                          <TableCell className="font-medium text-sm">
-                            <Badge variant="outline">{account.participantCode}</Badge>
-                          </TableCell>
-                          <TableCell className="font-medium text-sm">{account.participantName}</TableCell>
-                          <TableCell className="font-medium text-sm">{account.securityCode}</TableCell>
-                          <TableCell className={`text-right font-medium ${getHoldingsColor(account.securityHoldings)}`}>
-                            {account.securityHoldings.toLocaleString()}
-                          </TableCell>
+                          <TableCell className="font-mono text-xs">{account.bic}</TableCell>
+                          <TableCell className="font-medium">{account.participantName}</TableCell>
                           <TableCell>
-                            <Badge variant="outline">{account.currency}</Badge>
+                            <span className={getBalanceColor(account.availableBalance)}>
+                              {currencySymbol} {account.availableBalance.toLocaleString()}
+                            </span>
                           </TableCell>
-                          <TableCell className="text-right">{account.marketValue.toLocaleString()}</TableCell>
-                          <TableCell className="text-center">
-                            <Badge variant={account.pendingSettlements > 5 ? 'destructive' : 'secondary'}>
-                              {account.pendingSettlements}
-                            </Badge>
-                          </TableCell>
-                          <TableCell className="text-right">
-                            {account.collateralPosted.toLocaleString()}
-                          </TableCell>
+                          <TableCell>{currencySymbol} {account.debitTurnover.toLocaleString()}</TableCell>
+                          <TableCell>{currencySymbol} {account.creditTurnover.toLocaleString()}</TableCell>
+                          <TableCell>{account.totalCreditQueue.toLocaleString()}</TableCell>
                           <TableCell>
-                            <Badge variant="secondary">{account.accountType}</Badge>
+                            <div className="flex gap-1">
+                              <Button size="sm" variant="outline">
+                                <Eye className="h-3 w-3" />
+                              </Button>
+                              <Button size="sm" variant="outline">
+                                <Calculator className="h-3 w-3" />
+                              </Button>
+                              <Button size="sm" variant="outline">
+                                <Pause className="h-3 w-3" />
+                              </Button>
+                            </div>
                           </TableCell>
                         </TableRow>
                       ))}
                     </TableBody>
                   </Table>
                 </div>
-                
+
                 {/* Pagination */}
-                <div className="flex items-center justify-between mt-4">
-                  <div className="text-sm text-slate-600">
-                    Showing {((currentPage - 1) * itemsPerPage) + 1} to {Math.min(currentPage * itemsPerPage, filteredAndSortedAccounts.length)} of {filteredAndSortedAccounts.length} accounts
+                {totalPages > 1 && (
+                  <div className="flex items-center justify-between mt-4">
+                    <div className="text-sm text-muted-foreground">
+                      Showing {((currentPage - 1) * itemsPerPage) + 1} to {Math.min(currentPage * itemsPerPage, filteredAndSortedAccounts.length)} of {filteredAndSortedAccounts.length} entries
+                    </div>
+                    <div className="flex gap-2">
+                      <Button 
+                        variant="outline" 
+                        size="sm" 
+                        onClick={() => setCurrentPage(1)}
+                        disabled={currentPage === 1}
+                      >
+                        First
+                      </Button>
+                      <Button 
+                        variant="outline" 
+                        size="sm" 
+                        onClick={() => setCurrentPage(currentPage - 1)}
+                        disabled={currentPage === 1}
+                      >
+                        Previous
+                      </Button>
+                      <span className="flex items-center px-3 text-sm">
+                        Page {currentPage} of {totalPages}
+                      </span>
+                      <Button 
+                        variant="outline" 
+                        size="sm" 
+                        onClick={() => setCurrentPage(currentPage + 1)}
+                        disabled={currentPage === totalPages}
+                      >
+                        Next
+                      </Button>
+                      <Button 
+                        variant="outline" 
+                        size="sm" 
+                        onClick={() => setCurrentPage(totalPages)}
+                        disabled={currentPage === totalPages}
+                      >
+                        Last
+                      </Button>
+                    </div>
                   </div>
-                  <div className="flex gap-2">
-                    <Button 
-                      variant="outline" 
-                      size="sm"
-                      disabled={currentPage === 1}
-                      onClick={() => setCurrentPage(currentPage - 1)}
-                    >
-                      Previous
-                    </Button>
-                    <span className="flex items-center px-3 text-sm">
-                      Page {currentPage} of {totalPages}
-                    </span>
-                    <Button 
-                      variant="outline" 
-                      size="sm"
-                      disabled={currentPage === totalPages}
-                      onClick={() => setCurrentPage(currentPage + 1)}
-                    >
-                      Next
-                    </Button>
-                  </div>
-                </div>
+                )}
               </CardContent>
             </Card>
             )}
@@ -490,9 +520,9 @@ export default function CSDAccountManagementPage() {
 
           {/* Right Sidebar with Quick Actions */}
           <div className="w-64 space-y-4">
-            <QuickActionsManager
-              pageKey="account-management"
-              systemType="csd"
+            <QuickActionsManager 
+              pageKey="account-management-2" 
+              systemType="rtgs"
             />
           </div>
         </div>
