@@ -68,8 +68,7 @@ export default function BIReportsPage() {
         <div className="w-64 space-y-4">
           <QuickActionsManager 
             pageKey="bi-reports" 
-            systemType="rtgs"
-            onActionClick={handleQuickActionClick}
+            systemType="common"
           />
         </div>
       </div>

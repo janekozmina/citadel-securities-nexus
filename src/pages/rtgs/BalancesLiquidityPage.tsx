@@ -91,7 +91,6 @@ export default function BalancesLiquidityPage() {
     { key: 'institution', label: 'Institution', type: 'text' as const },
     { key: 'reserveType', label: 'Reserve Type', type: 'text' as const },
     { key: 'amount', label: 'Amount', type: 'number' as const },
-    { key: 'rate', label: 'Rate (%)', type: 'number' as const },
     { key: 'currency', label: 'Currency', type: 'text' as const },
   ];
 
@@ -165,13 +164,13 @@ export default function BalancesLiquidityPage() {
               </Card>
             </div>
 
-            {/* Reserved Accounts Table */}
+            {/* Reserves Table */}
             <DataTable
-              title="Reserved Accounts"
+              title="Reserves"
               icon={DollarSign}
               columns={reserveColumns}
               data={reservesData}
-              searchPlaceholder="Search reserved accounts..."
+              searchPlaceholder="Search reserves..."
               itemsPerPage={8}
               filters={[
                 {
