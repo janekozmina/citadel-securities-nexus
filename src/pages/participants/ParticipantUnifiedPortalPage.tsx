@@ -82,17 +82,6 @@ export default function ParticipantUnifiedPortalPage() {
     <div className="space-y-6">
       <div className="flex h-full">
         <div className="flex-1 space-y-6 pr-6">
-          {/* Always Visible Quick Action */}
-          <div className="flex justify-end">
-            <Button 
-              onClick={() => window.open('http://ifp.k8s1.cma.se/login', '_blank')}
-              className="flex items-center gap-2"
-            >
-              <ExternalLink className="h-4 w-4" />
-              Access Participants Portal
-            </Button>
-          </div>
-
           {/* Metrics Cards */}
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
             {participantMetrics.map((metric, index) => (
