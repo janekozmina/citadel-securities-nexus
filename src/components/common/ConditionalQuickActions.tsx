@@ -27,17 +27,12 @@ export const ConditionalQuickActions: React.FC<ConditionalQuickActionsProps> = (
   }
 
   if (layout.quickActionsPosition === 'right-sidebar') {
-    const baseClasses = layout.quickActionsFixed 
-      ? "fixed right-20 top-32 w-64 h-[calc(100vh-12rem)] z-20"
-      : "w-64 space-y-4";
-    
-    const containerClasses = layout.quickActionsFixed
-      ? "space-y-4 h-full overflow-y-auto"
-      : "";
+    if (layout.quickActionsFixed) {
+      const baseClasses = "fixed right-20 top-32 w-64 h-[calc(100vh-12rem)] z-20";
+      const containerClasses = "space-y-4 h-full overflow-y-auto";
 
-    return (
-      <div className={`${baseClasses} ${className || ''}`}>
-        {layout.quickActionsFixed ? (
+      return (
+        <div className={`${baseClasses} ${className || ''}`}>
           <div className={containerClasses}>
             <QuickActionsManager 
               pageKey={pageKey}
@@ -45,15 +40,20 @@ export const ConditionalQuickActions: React.FC<ConditionalQuickActionsProps> = (
               onActionClick={onActionClick}
             />
           </div>
-        ) : (
+        </div>
+      );
+    } else {
+      // Inline positioning - same as BalancesLiquidityPage approach
+      return (
+        <div className={`w-64 space-y-4 ${className || ''}`}>
           <QuickActionsManager 
             pageKey={pageKey}
             systemType={systemType}
             onActionClick={onActionClick}
           />
-        )}
-      </div>
-    );
+        </div>
+      );
+    }
   }
 
   return null;

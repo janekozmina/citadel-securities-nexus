@@ -14,12 +14,17 @@ const pageLayoutConfigs: Record<string, Partial<PageLayoutConfig>> = {
   'account-management': {
     showQuickActions: true,
     quickActionsPosition: 'right-sidebar',
-    quickActionsFixed: true // Fixed positioning to avoid AlertsPanel overlap
+    quickActionsFixed: false // Use inline positioning like balances-liquidity
+  },
+  'balances-liquidity': {
+    showQuickActions: true,
+    quickActionsPosition: 'right-sidebar',
+    quickActionsFixed: false // Use inline positioning
   },
   'business-day-management': {
     showQuickActions: true,
     quickActionsPosition: 'right-sidebar',
-    quickActionsFixed: true // Fixed positioning like account management
+    quickActionsFixed: false // Use inline positioning like balances-liquidity
   },
   'transaction-status': {
     showQuickActions: true,
