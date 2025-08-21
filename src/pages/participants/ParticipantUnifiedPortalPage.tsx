@@ -1,11 +1,14 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { InteractiveChart } from '@/components/common/InteractiveChart';
-import { DataTable } from '@/components/common/DataTable';
 import { Card, CardContent } from '@/components/ui/card';
 import { ConditionalQuickActions } from '@/components/common/ConditionalQuickActions';
-import { Users, Building, CheckCircle, Clock, AlertTriangle, TrendingUp } from 'lucide-react';
+import { Button } from '@/components/ui/button';
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
+import { Users, Building, CheckCircle, Clock, ExternalLink } from 'lucide-react';
 
 export default function ParticipantUnifiedPortalPage() {
+  const [selectedPeriod, setSelectedPeriod] = useState('today');
+
   const participantMetrics = [
     {
       title: 'Active Participants',
@@ -37,80 +40,59 @@ export default function ParticipantUnifiedPortalPage() {
     }
   ];
 
-  const participantStatusData = [
-    { name: 'Active', value: 75, color: 'hsl(var(--chart-1))' },
-    { name: 'Pending', value: 15, color: 'hsl(var(--chart-2))' },
-    { name: 'Suspended', value: 8, color: 'hsl(var(--chart-3))' },
-    { name: 'Inactive', value: 2, color: 'hsl(var(--chart-4))' }
-  ];
-
-  const participantActivityData = [
-    { name: 'Jan', transactions: 1200, sessions: 340, color: 'hsl(var(--chart-1))' },
-    { name: 'Feb', transactions: 1350, sessions: 390, color: 'hsl(var(--chart-2))' },
-    { name: 'Mar', transactions: 1100, sessions: 320, color: 'hsl(var(--chart-3))' },
-    { name: 'Apr', transactions: 1450, sessions: 420, color: 'hsl(var(--chart-4))' },
-    { name: 'May', transactions: 1600, sessions: 450, color: 'hsl(var(--chart-5))' },
-    { name: 'Jun', transactions: 1750, sessions: 480, color: 'hsl(var(--chart-1))' }
-  ];
-
-  const participantActivityChartData = participantActivityData.map(item => ({
-    name: item.name,
-    value: item.sessions, // Using sessions as the primary value for line chart
-    color: item.color
-  }));
-
-  const participantData = [
-    { 
-      participantId: 'NBB001', 
-      name: 'National Bank of Bahrain', 
-      type: 'Commercial Bank', 
-      status: 'Active', 
-      lastLogin: '2025-01-18 14:30', 
-      sessionsToday: '8',
-      transactionsToday: '45'
-    },
-    { 
-      participantId: 'AUB002', 
-      name: 'Ahli United Bank', 
-      type: 'Commercial Bank', 
-      status: 'Active', 
-      lastLogin: '2025-01-18 13:45', 
-      sessionsToday: '6',
-      transactionsToday: '32'
-    },
-    { 
-      participantId: 'BIB003', 
-      name: 'Bahrain Islamic Bank', 
-      type: 'Islamic Bank', 
-      status: 'Active', 
-      lastLogin: '2025-01-18 15:15', 
-      sessionsToday: '7',
-      transactionsToday: '28'
-    },
-    { 
-      participantId: 'BBK004', 
-      name: 'Bank of Bahrain and Kuwait', 
-      type: 'Commercial Bank', 
-      status: 'Pending', 
-      lastLogin: '2025-01-17 16:20', 
-      sessionsToday: '0',
-      transactionsToday: '0'
-    },
-    { 
-      participantId: 'GIB005', 
-      name: 'Gulf International Bank', 
-      type: 'Investment Bank', 
-      status: 'Active', 
-      lastLogin: '2025-01-18 12:10', 
-      sessionsToday: '4',
-      transactionsToday: '18'
+  // Generate activity data based on selected period
+  const getActivityData = (period: string) => {
+    switch (period) {
+      case 'today':
+        return [
+          { name: '08:00', value: 12, color: 'hsl(var(--chart-1))' },
+          { name: '10:00', value: 18, color: 'hsl(var(--chart-2))' },
+          { name: '12:00', value: 24, color: 'hsl(var(--chart-3))' },
+          { name: '14:00', value: 32, color: 'hsl(var(--chart-4))' },
+          { name: '16:00', value: 28, color: 'hsl(var(--chart-5))' },
+          { name: '18:00', value: 15, color: 'hsl(var(--chart-1))' }
+        ];
+      case 'week':
+        return [
+          { name: 'Mon', value: 340, color: 'hsl(var(--chart-1))' },
+          { name: 'Tue', value: 390, color: 'hsl(var(--chart-2))' },
+          { name: 'Wed', value: 320, color: 'hsl(var(--chart-3))' },
+          { name: 'Thu', value: 420, color: 'hsl(var(--chart-4))' },
+          { name: 'Fri', value: 450, color: 'hsl(var(--chart-5))' },
+          { name: 'Sat', value: 280, color: 'hsl(var(--chart-1))' },
+          { name: 'Sun', value: 200, color: 'hsl(var(--chart-2))' }
+        ];
+      case 'month':
+        return [
+          { name: 'Jan', value: 1200, color: 'hsl(var(--chart-1))' },
+          { name: 'Feb', value: 1350, color: 'hsl(var(--chart-2))' },
+          { name: 'Mar', value: 1100, color: 'hsl(var(--chart-3))' },
+          { name: 'Apr', value: 1450, color: 'hsl(var(--chart-4))' },
+          { name: 'May', value: 1600, color: 'hsl(var(--chart-5))' },
+          { name: 'Jun', value: 1750, color: 'hsl(var(--chart-1))' }
+        ];
+      default:
+        return [];
     }
-  ];
+  };
+
+  const activityData = getActivityData(selectedPeriod);
 
   return (
     <div className="space-y-6">
       <div className="flex h-full">
         <div className="flex-1 space-y-6 pr-6">
+          {/* Always Visible Quick Action */}
+          <div className="flex justify-end">
+            <Button 
+              onClick={() => window.open('http://ifp.k8s1.cma.se/login', '_blank')}
+              className="flex items-center gap-2"
+            >
+              <ExternalLink className="h-4 w-4" />
+              Access Participants Portal
+            </Button>
+          </div>
+
           {/* Metrics Cards */}
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
             {participantMetrics.map((metric, index) => (
@@ -131,42 +113,32 @@ export default function ParticipantUnifiedPortalPage() {
             ))}
           </div>
 
-          {/* Participants Activity Dashboard */}
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-            <InteractiveChart
-              config={{
-                type: "pie",
-                title: "Participant Status Distribution",
-                data: participantStatusData,
-                height: 300
-              }}
-            />
-
-            <InteractiveChart
-              config={{
-                type: "line",
-                title: "Daily Portal Activity",
-                data: participantActivityChartData,
-                height: 300
-              }}
-            />
-          </div>
-
-          {/* Participants Data Table */}
-          <DataTable
-            title="Active Participants"
-            data={participantData}
-            columns={[
-              { key: 'participantId', label: 'Participant ID' },
-              { key: 'name', label: 'Institution Name' },
-              { key: 'type', label: 'Type' },
-              { key: 'status', label: 'Status', type: 'status' },
-              { key: 'lastLogin', label: 'Last Login', type: 'text' },
-              { key: 'sessionsToday', label: 'Sessions Today' },
-              { key: 'transactionsToday', label: 'Transactions Today' }
-            ]}
-            searchable
-          />
+          {/* Activity Chart with Period Controls */}
+          <Card>
+            <CardContent className="p-6">
+              <div className="flex items-center justify-between mb-4">
+                <h3 className="text-lg font-semibold">Participant Portal Activity</h3>
+                <Select value={selectedPeriod} onValueChange={setSelectedPeriod}>
+                  <SelectTrigger className="w-32">
+                    <SelectValue />
+                  </SelectTrigger>
+                  <SelectContent>
+                    <SelectItem value="today">Today</SelectItem>
+                    <SelectItem value="week">This Week</SelectItem>
+                    <SelectItem value="month">This Month</SelectItem>
+                  </SelectContent>
+                </Select>
+              </div>
+              <InteractiveChart
+                config={{
+                  type: "line",
+                  title: "",
+                  data: activityData,
+                  height: 300
+                }}
+              />
+            </CardContent>
+          </Card>
         </div>
 
         {/* Right Sidebar with Conditional Quick Actions */}

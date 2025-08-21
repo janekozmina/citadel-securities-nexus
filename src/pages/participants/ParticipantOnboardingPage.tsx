@@ -2,7 +2,8 @@ import React from 'react';
 import { DataTable } from '@/components/common/DataTable';
 import { Card, CardContent } from '@/components/ui/card';
 import { ConditionalQuickActions } from '@/components/common/ConditionalQuickActions';
-import { UserPlus, FileCheck, Clock, AlertCircle } from 'lucide-react';
+import { Button } from '@/components/ui/button';
+import { UserPlus, FileCheck, Clock, AlertCircle, ExternalLink } from 'lucide-react';
 
 export default function ParticipantOnboardingPage() {
   const onboardingMetrics = [
@@ -110,6 +111,17 @@ export default function ParticipantOnboardingPage() {
     <div className="space-y-6">
       <div className="flex h-full">
         <div className="flex-1 space-y-6 pr-6">
+          {/* Always Visible Quick Action */}
+          <div className="flex justify-end">
+            <Button 
+              onClick={() => window.open('http://ddw.k8s1.cma.se/', '_blank')}
+              className="flex items-center gap-2"
+            >
+              <ExternalLink className="h-4 w-4" />
+              Access Onboarding Portal
+            </Button>
+          </div>
+
           {/* Metrics Cards */}
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
             {onboardingMetrics.map((metric, index) => (
