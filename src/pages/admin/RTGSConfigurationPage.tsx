@@ -119,15 +119,8 @@ export default function RTGSConfigurationPage() {
         </div>
       </div>
 
-      <QuickActionsManager
-        pageKey="rtgs-configuration"
-        systemType="rtgs"
-        className="mb-6"
-      />
-
-      <div className="grid grid-cols-1 lg:grid-cols-4 gap-6">
-        {/* Main Configuration Cards */}
-        <div className="lg:col-span-3 space-y-6">
+      <div className="flex flex-1 gap-6">
+        <div className="flex-1 space-y-6">
           {/* System Status Cards */}
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
             <Card>
@@ -272,8 +265,13 @@ export default function RTGSConfigurationPage() {
           </Card>
         </div>
 
-        {/* Alerts & Compliance Panel */}
-        <div className="lg:col-span-1">
+        {/* Right Sidebar with Quick Actions and Alerts */}
+        <div className="w-64 space-y-4">
+          <QuickActionsManager 
+            pageKey="rtgs-configuration" 
+            systemType="rtgs" 
+          />
+          
           <Card className="h-fit">
             <CardHeader>
               <CardTitle className="flex items-center gap-2 text-lg">
