@@ -1,5 +1,5 @@
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
-import { PieChart, Pie, Cell, ResponsiveContainer, Legend, Tooltip, BarChart, Bar, XAxis, YAxis } from 'recharts';
+import { PieChart, Pie, Cell, ResponsiveContainer, Legend, Tooltip, BarChart, Bar, XAxis, YAxis, LineChart, Line } from 'recharts';
 
 export interface ChartSegment {
   name: string;
@@ -137,12 +137,37 @@ export function InteractiveChart({ config, className = "", showCard = true, titl
     </BarChart>
   );
 
+  const renderLineChart = () => (
+    <LineChart 
+      data={config.data} 
+      margin={{ top: 20, right: 30, bottom: 40, left: 20 }}
+    >
+      <XAxis 
+        dataKey="name" 
+        tick={{ fontSize: 12 }}
+        interval={0}
+      />
+      <YAxis tick={{ fontSize: 12 }} />
+      <Tooltip formatter={(value: any) => [value.toLocaleString(), 'Activity']} />
+      <Line 
+        type="monotone" 
+        dataKey="value" 
+        stroke="hsl(var(--primary))" 
+        strokeWidth={2}
+        dot={{ fill: "hsl(var(--primary))", strokeWidth: 2, r: 4 }}
+        activeDot={{ r: 6, stroke: "hsl(var(--primary))", strokeWidth: 2, fill: "hsl(var(--background))" }}
+      />
+    </LineChart>
+  );
+
   const renderChart = () => {
     switch (config.type) {
       case 'pie':
         return renderPieChart();
       case 'bar':
         return renderBarChart();
+      case 'line':
+        return renderLineChart();
       default:
         return renderPieChart();
     }
