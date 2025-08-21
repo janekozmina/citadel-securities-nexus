@@ -95,6 +95,7 @@ const routeMap: Record<string, RouteInfo> = {
   
   // Admin Routes
   '/admin': { path: '/admin', label: 'Administration' },
+  '/admin/dashboard': { path: '/admin/dashboard', label: 'Admin Dashboard', parent: '/admin' },
   '/admin/integrations': { path: '/admin/integrations', label: 'Integrations Management', parent: '/admin' },
   '/admin/market-data': { path: '/admin/market-data', label: 'Market Data', parent: '/admin' },
   '/admin/static-data': { path: '/admin/static-data', label: 'Static Data Management', parent: '/admin' },

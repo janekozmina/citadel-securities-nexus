@@ -31,7 +31,9 @@ const pageLayoutConfigs: Record<string, Partial<PageLayoutConfig>> = {
     quickActionsPosition: 'inline' // Hardcoded Quick Actions on this page
   },
   'bi-reports': {
-    showQuickActions: false // No Quick Actions on BI Reports page
+    showQuickActions: true, // Show Quick Actions with BI Configuration
+    quickActionsPosition: 'right-sidebar',
+    quickActionsFixed: false
   }
 };
 
