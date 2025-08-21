@@ -1,465 +1,317 @@
 import { useEffect, useState } from 'react';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
-import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle, DialogTrigger } from '@/components/ui/dialog';
-import { Button } from '@/components/ui/button';
-import { Input } from '@/components/ui/input';
-import { Label } from '@/components/ui/label';
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
-import { Textarea } from '@/components/ui/textarea';
 import { Badge } from '@/components/ui/badge';
 import { 
+  Server, 
+  Globe, 
   Shield, 
-  FileText, 
-  Settings, 
-  DollarSign, 
-  RefreshCw, 
-  Database,
-  BookOpen,
-  Gavel,
-  Users,
-  CreditCard,
+  Activity,
+  Clock,
   AlertTriangle,
-  Plus
+  CheckCircle,
+  XCircle,
+  User,
+  FileText,
+  Calendar,
+  Zap
 } from 'lucide-react';
-import { toast } from 'sonner';
 import { QuickActionsManager } from '@/components/common/QuickActionsManager';
 
-const configItems = [
-  { 
-    title: 'Authorizations', 
-    description: 'Configure authorization rules and permissions',
-    icon: Shield,
-    items: ['Payment authorization limits', 'User access controls', 'API permissions']
+const configurationChanges = [
+  {
+    id: '1',
+    timestamp: '2025-01-21 14:30:00',
+    user: 'Ahmed Hassan',
+    action: 'Updated Payment Limits',
+    description: 'Increased daily limit for Tier 1 banks to BHD 50M',
+    approvalRef: 'APR-2025-001',
+    status: 'approved'
   },
-  { 
-    title: 'NBB pending changes', 
-    description: 'Manage database pending changes',
-    icon: FileText,
-    items: ['Schema changes', 'Data migrations', 'Pending updates']
+  {
+    id: '2',
+    timestamp: '2025-01-21 11:15:00', 
+    user: 'Sarah Mohamed',
+    action: 'SSL Certificate Renewal',
+    description: 'Renewed SSL certificates for production nodes',
+    approvalRef: 'APR-2025-002',
+    status: 'approved'
   },
-  { 
-    title: 'API gateway', 
-    description: 'Configure API gateway settings',
-    icon: Settings,
-    items: ['Rate limiting', 'Authentication', 'Routing rules']
+  {
+    id: '3',
+    timestamp: '2025-01-20 16:45:00',
+    user: 'Khalid Omar',
+    action: 'Interface Configuration',
+    description: 'Added new SWIFT message format support',
+    approvalRef: 'APR-2025-003', 
+    status: 'pending'
   },
-  { 
-    title: 'Billing', 
-    description: 'Set up billing configurations',
-    icon: DollarSign,
-    items: ['Fee structures', 'Billing cycles', 'Payment methods']
+  {
+    id: '4',
+    timestamp: '2025-01-19 09:20:00',
+    user: 'Fatima Ali',
+    action: 'Security Update',
+    description: 'Enabled TLS 1.3 for all external connections',
+    approvalRef: 'APR-2025-004',
+    status: 'approved'
   },
-  { 
-    title: 'Business days', 
-    description: 'Define business day calendars',
-    icon: RefreshCw,
-    items: ['Holidays', 'Working hours', 'Time zones']
-  },
-  { 
-    title: 'Central addressing schema', 
-    description: 'Configure addressing and routing',
-    icon: Database,
-    items: ['BIC codes', 'Routing tables', 'Network addresses']
-  },
-  { 
-    title: 'Dictionaries', 
-    description: 'Manage data dictionaries',
-    icon: BookOpen,
-    items: ['Currency codes', 'Country codes', 'Message types']
-  },
-  { 
-    title: 'Disputes', 
-    description: 'Configure dispute management',
-    icon: Gavel,
-    items: ['Dispute categories', 'Resolution workflows', 'SLA settings']
-  },
-  { 
-    title: 'Maintenance', 
-    description: 'System maintenance settings',
-    icon: Settings,
-    items: ['Maintenance windows', 'Backup schedules', 'Update policies']
-  },
-  { 
-    title: 'Messages', 
-    description: 'Configure message formats and routing',
-    icon: FileText,
-    items: ['Message templates', 'Validation rules', 'Format definitions']
-  },
-  { 
-    title: 'Participants', 
-    description: 'Manage system participants',
-    icon: Users,
-    items: ['Bank registration', 'Participant profiles', 'Connection settings']
-  },
-  { 
-    title: 'Payments', 
-    description: 'Configure payment processing',
-    icon: CreditCard,
-    items: ['Payment types', 'Processing rules', 'Limits and controls']
-  },
-  { 
-    title: 'Reports', 
-    description: 'Set up reporting configurations',
-    icon: FileText,
-    items: ['Report templates', 'Scheduling', 'Distribution lists']
-  },
-  { 
-    title: 'Requests to pay', 
-    description: 'Configure payment request settings',
-    icon: DollarSign,
-    items: ['Request formats', 'Approval workflows', 'Notification rules']
-  },
-  { 
-    title: 'Stand-in mode', 
-    description: 'Configure stand-in processing',
-    icon: AlertTriangle,
-    items: ['Fallback rules', 'Processing limits', 'Recovery procedures']
-  },
-  { 
-    title: 'System tables', 
-    description: 'Manage system reference tables',
-    icon: Database,
-    items: ['Reference data', 'Configuration tables', 'Lookup values']
+  {
+    id: '5',
+    timestamp: '2025-01-18 13:10:00',
+    user: 'Omar Khalil',
+    action: 'Node Configuration',
+    description: 'Activated standby node for redundancy',
+    approvalRef: 'APR-2025-005',
+    status: 'approved'
   }
 ];
 
-interface ParticipantFormData {
-  bankName: string;
-  bicCode: string;
-  type: string;
-  status: string;
-  contactPerson: string;
-  email: string;
-  phone: string;
-  address: string;
-  connectionType: string;
-  ipAddress: string;
-  port: string;
-  certificate: string;
-}
+const complianceAlerts = [
+  {
+    id: '1',
+    type: 'warning',
+    title: 'SSL Certificate Expiring',
+    description: 'Primary SSL certificate expires in 15 days',
+    severity: 'medium',
+    dueDate: '2025-02-05'
+  },
+  {
+    id: '2', 
+    type: 'error',
+    title: 'Version Mismatch',
+    description: 'pacs.008 message format is outdated',
+    severity: 'high',
+    dueDate: '2025-01-25'
+  },
+  {
+    id: '3',
+    type: 'info',
+    title: 'Pending Config Approval',
+    description: '2 configuration changes awaiting approval',
+    severity: 'low',
+    dueDate: '2025-01-23'
+  }
+];
+
+const getAlertIcon = (type: string) => {
+  switch (type) {
+    case 'error':
+      return <XCircle className="h-4 w-4 text-red-500" />;
+    case 'warning':
+      return <AlertTriangle className="h-4 w-4 text-yellow-500" />;
+    case 'info':
+      return <CheckCircle className="h-4 w-4 text-blue-500" />;
+    default:
+      return <Activity className="h-4 w-4 text-gray-500" />;
+  }
+};
 
 export default function RTGSConfigurationPage() {
   useEffect(() => {
     document.title = 'RTGS Configuration | Unified Portal';
   }, []);
 
-  const [isParticipantDialogOpen, setIsParticipantDialogOpen] = useState(false);
-  const [participantForm, setParticipantForm] = useState<ParticipantFormData>({
-    bankName: '',
-    bicCode: '',
-    type: 'conventional',
-    status: 'active',
-    contactPerson: '',
-    email: '',
-    phone: '',
-    address: '',
-    connectionType: 'direct',
-    ipAddress: '',
-    port: '',
-    certificate: ''
-  });
-
-  const bahrainiBanks = [
-    'Ahli United Bank',
-    'Arab Banking Corporation (Bank ABC)',
-    'Gulf International Bank (GIB)',
-    'National Bank of Bahrain (NBB)',
-    'Bank of Bahrain and Kuwait (BBK)',
-    'Ithmaar Bank',
-    'Al Baraka',
-    'Al-Salam Bank',
-    'Bahrain Islamic Bank',
-    'Khaleeji Bank',
-    'National Bank of Bahrain (NBB)',
-    'Citibank Bahrain',
-    'HSBC Bank Middle East (Bahrain)',
-    'Standard Chartered Bank (Bahrain)',
-    'ICICI Bank (Bahrain)',
-    'State Bank of India (Bahrain)',
-    'Bank Melli Iran',
-    'Saderat Bank of Iran',
-    'Future Bank',
-    'BMI Bank',
-    'Addax Bank',
-    'Allied Bank (Wholesale)',
-    'APICORP',
-    'Askari Bank (Wholesale)',
-    'Alubaf Arab International Bank',
-    'The Arab Investment Company (TAIC)',
-    'ABC Islamic Bank'
-  ];
-
-  const handleParticipantSubmit = () => {
-    // Validate required fields
-    if (!participantForm.bankName || !participantForm.bicCode || !participantForm.contactPerson) {
-      toast.error('Please fill in all required fields');
-      return;
-    }
-
-    // Simulate saving
-    toast.success('Participant configuration saved successfully');
-    setIsParticipantDialogOpen(false);
-    setParticipantForm({
-      bankName: '',
-      bicCode: '',
-      type: 'conventional',
-      status: 'active',
-      contactPerson: '',
-      email: '',
-      phone: '',
-      address: '',
-      connectionType: 'direct',
-      ipAddress: '',
-      port: '',
-      certificate: ''
-    });
-  };
-
   return (
-    <main className="space-y-6">
-      <section className="space-y-4">
-        <div className="flex items-center justify-between">
-          <div>
-            <h1 className="text-2xl font-bold">RTGS Configuration</h1>
-            <p className="text-muted-foreground">Configure various RTGS-related forms and settings</p>
+    <div className="space-y-6">
+      <div className="flex items-center justify-between">
+        <div>
+          <h1 className="text-2xl font-bold">RTGS Configuration</h1>
+          <p className="text-muted-foreground">System configuration and management overview</p>
+        </div>
+      </div>
+
+      <QuickActionsManager
+        pageKey="rtgs-configuration"
+        systemType="rtgs"
+        className="mb-6"
+      />
+
+      <div className="grid grid-cols-1 lg:grid-cols-4 gap-6">
+        {/* Main Configuration Cards */}
+        <div className="lg:col-span-3 space-y-6">
+          {/* System Status Cards */}
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+            <Card>
+              <CardHeader className="pb-3">
+                <CardTitle className="flex items-center gap-2 text-lg">
+                  <Server className="h-5 w-5 text-blue-600" />
+                  Nodes & Components
+                </CardTitle>
+              </CardHeader>
+              <CardContent className="space-y-3">
+                <div className="flex items-center justify-between">
+                  <span className="text-sm text-muted-foreground">Active Nodes</span>
+                  <Badge className="bg-green-100 text-green-800">5 Active</Badge>
+                </div>
+                <div className="flex items-center justify-between">
+                  <span className="text-sm text-muted-foreground">Standby Nodes</span>
+                  <Badge variant="secondary">1 Standby</Badge>
+                </div>
+                <div className="flex items-center justify-between">
+                  <span className="text-sm text-muted-foreground">Load Balancer</span>
+                  <Badge className="bg-green-100 text-green-800">Operational</Badge>
+                </div>
+              </CardContent>
+            </Card>
+
+            <Card>
+              <CardHeader className="pb-3">
+                <CardTitle className="flex items-center gap-2 text-lg">
+                  <Globe className="h-5 w-5 text-green-600" />
+                  Interfaces
+                </CardTitle>
+              </CardHeader>
+              <CardContent className="space-y-3">
+                <div className="flex items-center justify-between">
+                  <span className="text-sm text-muted-foreground">SWIFT ISO 20022</span>
+                  <Badge className="bg-green-100 text-green-800">Connected</Badge>
+                </div>
+                <div className="flex items-center justify-between">
+                  <span className="text-sm text-muted-foreground">ACH Interface</span>
+                  <Badge className="bg-green-100 text-green-800">Connected</Badge>
+                </div>
+                <div className="flex items-center justify-between">
+                  <span className="text-sm text-muted-foreground">IPS Integration</span>
+                  <Badge className="bg-green-100 text-green-800">Connected</Badge>
+                </div>
+              </CardContent>
+            </Card>
+
+            <Card>
+              <CardHeader className="pb-3">
+                <CardTitle className="flex items-center gap-2 text-lg">
+                  <Shield className="h-5 w-5 text-purple-600" />
+                  Security
+                </CardTitle>
+              </CardHeader>
+              <CardContent className="space-y-3">
+                <div className="flex items-center justify-between">
+                  <span className="text-sm text-muted-foreground">TLS Version</span>
+                  <Badge className="bg-green-100 text-green-800">1.3 Enabled</Badge>
+                </div>
+                <div className="flex items-center justify-between">
+                  <span className="text-sm text-muted-foreground">2FA Status</span>
+                  <Badge className="bg-green-100 text-green-800">Active</Badge>
+                </div>
+                <div className="flex items-center justify-between">
+                  <span className="text-sm text-muted-foreground">Encryption</span>
+                  <Badge className="bg-green-100 text-green-800">AES-256</Badge>
+                </div>
+              </CardContent>
+            </Card>
+
+            <Card>
+              <CardHeader className="pb-3">
+                <CardTitle className="flex items-center gap-2 text-lg">
+                  <Activity className="h-5 w-5 text-orange-600" />
+                  Current Config Version
+                </CardTitle>
+              </CardHeader>
+              <CardContent className="space-y-3">
+                <div className="flex items-center justify-between">
+                  <span className="text-sm text-muted-foreground">Version</span>
+                  <Badge variant="outline">v.2025.2</Badge>
+                </div>
+                <div className="flex items-center justify-between">
+                  <span className="text-sm text-muted-foreground">Last Updated</span>
+                  <span className="text-sm">21 Aug 2025</span>
+                </div>
+                <div className="flex items-center justify-between">
+                  <span className="text-sm text-muted-foreground">Status</span>
+                  <Badge className="bg-green-100 text-green-800">Stable</Badge>
+                </div>
+              </CardContent>
+            </Card>
           </div>
-          
-          <Dialog open={isParticipantDialogOpen} onOpenChange={setIsParticipantDialogOpen}>
-            <DialogTrigger asChild>
-              <Button className="gap-2">
-                <Plus className="h-4 w-4" />
-                Add Participant
-              </Button>
-            </DialogTrigger>
-            <DialogContent className="max-w-2xl max-h-[90vh] overflow-y-auto">
-              <DialogHeader>
-                <DialogTitle>Participant Configuration</DialogTitle>
-                <DialogDescription>
-                  Configure a new participant in the RTGS system
-                </DialogDescription>
-              </DialogHeader>
+
+          {/* Configuration Change Log */}
+          <Card>
+            <CardHeader>
+              <CardTitle className="flex items-center gap-2">
+                <FileText className="h-5 w-5" />
+                Configuration Change Log
+              </CardTitle>
+              <CardDescription>Recent configuration changes and approval history</CardDescription>
+            </CardHeader>
+            <CardContent>
+              <div className="space-y-4">
+                {configurationChanges.map((change) => (
+                  <div key={change.id} className="flex items-start gap-4 p-4 border rounded-lg">
+                    <div className="p-2 bg-blue-50 rounded-lg">
+                      <Clock className="h-4 w-4 text-blue-600" />
+                    </div>
+                    <div className="flex-1 min-w-0">
+                      <div className="flex items-center gap-2 mb-1">
+                        <h4 className="font-medium text-sm">{change.action}</h4>
+                        <Badge 
+                          variant={change.status === 'approved' ? 'default' : 'secondary'}
+                          className={change.status === 'approved' ? 'bg-green-100 text-green-800' : 'bg-yellow-100 text-yellow-800'}
+                        >
+                          {change.status}
+                        </Badge>
+                      </div>
+                      <p className="text-sm text-muted-foreground mb-2">{change.description}</p>
+                      <div className="flex items-center gap-4 text-xs text-muted-foreground">
+                        <span className="flex items-center gap-1">
+                          <User className="h-3 w-3" />
+                          {change.user}
+                        </span>
+                        <span className="flex items-center gap-1">
+                          <Calendar className="h-3 w-3" />
+                          {change.timestamp}
+                        </span>
+                        <span className="flex items-center gap-1">
+                          <FileText className="h-3 w-3" />
+                          {change.approvalRef}
+                        </span>
+                      </div>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </CardContent>
+          </Card>
+        </div>
+
+        {/* Alerts & Compliance Panel */}
+        <div className="lg:col-span-1">
+          <Card className="h-fit">
+            <CardHeader>
+              <CardTitle className="flex items-center gap-2 text-lg">
+                <Zap className="h-5 w-5 text-red-600" />
+                Alerts & Compliance
+              </CardTitle>
+            </CardHeader>
+            <CardContent className="space-y-4">
+              {complianceAlerts.map((alert) => (
+                <div key={alert.id} className="p-3 border rounded-lg">
+                  <div className="flex items-start gap-2 mb-2">
+                    {getAlertIcon(alert.type)}
+                    <div className="flex-1 min-w-0">
+                      <h4 className="font-medium text-sm">{alert.title}</h4>
+                      <p className="text-xs text-muted-foreground mt-1">{alert.description}</p>
+                    </div>
+                  </div>
+                  <div className="flex items-center justify-between mt-2">
+                    <Badge 
+                      variant={alert.severity === 'high' ? 'destructive' : alert.severity === 'medium' ? 'secondary' : 'outline'}
+                      className="text-xs"
+                    >
+                      {alert.severity}
+                    </Badge>
+                    <span className="text-xs text-muted-foreground">{alert.dueDate}</span>
+                  </div>
+                </div>
+              ))}
               
-              <div className="grid gap-6 py-4">
-                {/* Basic Information */}
-                <div className="space-y-4">
-                  <h3 className="font-semibold text-sm text-muted-foreground uppercase tracking-wider">Basic Information</h3>
-                  
-                  <div className="grid grid-cols-2 gap-4">
-                    <div className="space-y-2">
-                      <Label htmlFor="bankName">Bank Name *</Label>
-                      <Select value={participantForm.bankName} onValueChange={(value) => setParticipantForm(prev => ({...prev, bankName: value}))}>
-                        <SelectTrigger>
-                          <SelectValue placeholder="Select bank" />
-                        </SelectTrigger>
-                        <SelectContent>
-                          {bahrainiBanks.map((bank) => (
-                            <SelectItem key={bank} value={bank}>{bank}</SelectItem>
-                          ))}
-                        </SelectContent>
-                      </Select>
-                    </div>
-                    
-                    <div className="space-y-2">
-                      <Label htmlFor="bicCode">BIC Code *</Label>
-                      <Input 
-                        id="bicCode"
-                        value={participantForm.bicCode}
-                        onChange={(e) => setParticipantForm(prev => ({...prev, bicCode: e.target.value}))}
-                        placeholder="BMIBMABBXXX"
-                      />
-                    </div>
-                  </div>
-
-                  <div className="grid grid-cols-2 gap-4">
-                    <div className="space-y-2">
-                      <Label htmlFor="type">Bank Type</Label>
-                      <Select value={participantForm.type} onValueChange={(value) => setParticipantForm(prev => ({...prev, type: value}))}>
-                        <SelectTrigger>
-                          <SelectValue />
-                        </SelectTrigger>
-                        <SelectContent>
-                          <SelectItem value="conventional">Conventional</SelectItem>
-                          <SelectItem value="islamic">Islamic</SelectItem>
-                          <SelectItem value="development">Development</SelectItem>
-                          <SelectItem value="foreign">Foreign</SelectItem>
-                          <SelectItem value="investment">Investment</SelectItem>
-                          <SelectItem value="wholesale">Wholesale</SelectItem>
-                        </SelectContent>
-                      </Select>
-                    </div>
-                    
-                    <div className="space-y-2">
-                      <Label htmlFor="status">Status</Label>
-                      <Select value={participantForm.status} onValueChange={(value) => setParticipantForm(prev => ({...prev, status: value}))}>
-                        <SelectTrigger>
-                          <SelectValue />
-                        </SelectTrigger>
-                        <SelectContent>
-                          <SelectItem value="active">Active</SelectItem>
-                          <SelectItem value="inactive">Inactive</SelectItem>
-                          <SelectItem value="suspended">Suspended</SelectItem>
-                          <SelectItem value="pending">Pending Approval</SelectItem>
-                        </SelectContent>
-                      </Select>
-                    </div>
-                  </div>
-                </div>
-
-                {/* Contact Information */}
-                <div className="space-y-4">
-                  <h3 className="font-semibold text-sm text-muted-foreground uppercase tracking-wider">Contact Information</h3>
-                  
-                  <div className="grid grid-cols-2 gap-4">
-                    <div className="space-y-2">
-                      <Label htmlFor="contactPerson">Contact Person *</Label>
-                      <Input 
-                        id="contactPerson"
-                        value={participantForm.contactPerson}
-                        onChange={(e) => setParticipantForm(prev => ({...prev, contactPerson: e.target.value}))}
-                        placeholder="John Doe"
-                      />
-                    </div>
-                    
-                    <div className="space-y-2">
-                      <Label htmlFor="email">Email</Label>
-                      <Input 
-                        id="email"
-                        type="email"
-                        value={participantForm.email}
-                        onChange={(e) => setParticipantForm(prev => ({...prev, email: e.target.value}))}
-                        placeholder="john.doe@bank.bh"
-                      />
-                    </div>
-                  </div>
-
-                  <div className="grid grid-cols-2 gap-4">
-                    <div className="space-y-2">
-                      <Label htmlFor="phone">Phone</Label>
-                      <Input 
-                        id="phone"
-                        value={participantForm.phone}
-                        onChange={(e) => setParticipantForm(prev => ({...prev, phone: e.target.value}))}
-                        placeholder="+973 1234 5678"
-                      />
-                    </div>
-                    
-                    <div className="space-y-2">
-                      <Label htmlFor="address">Address</Label>
-                      <Textarea 
-                        id="address"
-                        value={participantForm.address}
-                        onChange={(e) => setParticipantForm(prev => ({...prev, address: e.target.value}))}
-                        placeholder="Bank address in Bahrain"
-                        rows={2}
-                      />
-                    </div>
-                  </div>
-                </div>
-
-                {/* Technical Configuration */}
-                <div className="space-y-4">
-                  <h3 className="font-semibold text-sm text-muted-foreground uppercase tracking-wider">Technical Configuration</h3>
-                  
-                  <div className="grid grid-cols-2 gap-4">
-                    <div className="space-y-2">
-                      <Label htmlFor="connectionType">Connection Type</Label>
-                      <Select value={participantForm.connectionType} onValueChange={(value) => setParticipantForm(prev => ({...prev, connectionType: value}))}>
-                        <SelectTrigger>
-                          <SelectValue />
-                        </SelectTrigger>
-                        <SelectContent>
-                          <SelectItem value="direct">Direct Connection</SelectItem>
-                          <SelectItem value="swift">SWIFT Network</SelectItem>
-                          <SelectItem value="vpn">VPN Tunnel</SelectItem>
-                          <SelectItem value="dedicated">Dedicated Line</SelectItem>
-                        </SelectContent>
-                      </Select>
-                    </div>
-                    
-                    <div className="space-y-2">
-                      <Label htmlFor="ipAddress">IP Address</Label>
-                      <Input 
-                        id="ipAddress"
-                        value={participantForm.ipAddress}
-                        onChange={(e) => setParticipantForm(prev => ({...prev, ipAddress: e.target.value}))}
-                        placeholder="192.168.1.100"
-                      />
-                    </div>
-                  </div>
-
-                  <div className="grid grid-cols-2 gap-4">
-                    <div className="space-y-2">
-                      <Label htmlFor="port">Port</Label>
-                      <Input 
-                        id="port"
-                        value={participantForm.port}
-                        onChange={(e) => setParticipantForm(prev => ({...prev, port: e.target.value}))}
-                        placeholder="8443"
-                      />
-                    </div>
-                    
-                    <div className="space-y-2">
-                      <Label htmlFor="certificate">Certificate</Label>
-                      <Input 
-                        id="certificate"
-                        value={participantForm.certificate}
-                        onChange={(e) => setParticipantForm(prev => ({...prev, certificate: e.target.value}))}
-                        placeholder="Certificate fingerprint"
-                      />
-                    </div>
-                  </div>
-                </div>
+              <div className="pt-2 border-t">
+                <a href="#" className="text-sm text-blue-600 hover:text-blue-800 font-medium">
+                  View Full Audit Log →
+                </a>
               </div>
-
-              <div className="flex justify-end gap-3">
-                <Button variant="outline" onClick={() => setIsParticipantDialogOpen(false)}>
-                  Cancel
-                </Button>
-                <Button onClick={handleParticipantSubmit}>
-                  Save Participant
-                </Button>
-              </div>
-            </DialogContent>
-          </Dialog>
+            </CardContent>
+          </Card>
         </div>
-
-        <QuickActionsManager
-          pageKey="rtgs-configuration"
-          systemType="rtgs"
-          className="mb-6"
-        />
-
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
-          {configItems.map((item) => {
-            const IconComponent = item.icon;
-            
-            return (
-              <Card key={item.title} className="hover:shadow-md transition-shadow cursor-pointer">
-                <CardHeader className="pb-3">
-                  <div className="flex items-center gap-3">
-                    <div className="p-2 bg-primary/10 rounded-lg">
-                      <IconComponent className="h-5 w-5 text-primary" />
-                    </div>
-                    <div>
-                      <CardTitle className="text-lg">{item.title}</CardTitle>
-                    </div>
-                  </div>
-                  <CardDescription className="text-sm">{item.description}</CardDescription>
-                </CardHeader>
-                <CardContent>
-                  <div className="space-y-2">
-                    {item.items.map((subItem, index) => (
-                      <Badge key={index} variant="secondary" className="mr-2 mb-1 text-xs">
-                        {subItem}
-                      </Badge>
-                    ))}
-                  </div>
-                </CardContent>
-              </Card>
-            );
-          })}
-        </div>
-      </section>
-    </main>
+      </div>
+    </div>
   );
 }
