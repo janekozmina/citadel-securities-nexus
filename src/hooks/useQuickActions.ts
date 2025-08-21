@@ -31,8 +31,8 @@ export const useQuickActions = (
   const defaultActions = defaultQuickActions[pageKey] || defaultQuickActions.default;
   
   const [activeActionIds, setActiveActionIds] = useState<string[]>(() => {
-    // For transaction-status and account-management pages, always use the new defaults
-    if (pageKey === 'transaction-status' || pageKey === 'account-management') {
+    // For these pages, always use the new defaults
+    if (pageKey === 'transaction-status' || pageKey === 'account-management' || pageKey === 'business-day-management') {
       return defaultActions;
     }
     
@@ -49,9 +49,9 @@ export const useQuickActions = (
     return defaultActions;
   });
 
-  // Save to localStorage whenever activeActionIds changes (except for transaction-status and account-management pages)
+  // Save to localStorage whenever activeActionIds changes (except for pages with fixed defaults)
   useEffect(() => {
-    if (pageKey !== 'transaction-status' && pageKey !== 'account-management') {
+    if (pageKey !== 'transaction-status' && pageKey !== 'account-management' && pageKey !== 'business-day-management') {
       localStorage.setItem(storageKey, JSON.stringify(activeActionIds));
     }
   }, [activeActionIds, storageKey, pageKey]);
