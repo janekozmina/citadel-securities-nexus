@@ -9,9 +9,9 @@ import { TooltipProvider } from '@/components/ui/tooltip';
 import { Progress } from '@/components/ui/progress';
 import { ArrowUpDown, Calculator, Pause, Eye, BarChart3, TableIcon, AlertTriangle, CheckCircle, XCircle } from 'lucide-react';
 import portalConfig from '@/config/portalConfig';
-import { QuickActionsManager } from '@/components/common/QuickActionsManager';
 import { PageHeader } from '@/components/common/PageHeader';
 import { MetricCardsSection } from '@/components/common/MetricCardsSection';
+import { ConditionalQuickActions } from '@/components/common/ConditionalQuickActions';
 
 // Generate account data using config
 const generateAccountData = () => {
@@ -505,13 +505,11 @@ export default function AccountManagementPage() {
             )}
           </div>
 
-          {/* Right Sidebar with Quick Actions */}
-          <div className="w-64 space-y-4">
-            <QuickActionsManager 
-              pageKey="account-management" 
-              systemType="rtgs" 
-            />
-          </div>
+        {/* Right Sidebar with Quick Actions */}
+        <ConditionalQuickActions 
+          pageKey="account-management"
+          systemType="rtgs"
+        />
         </div>
       </div>
     </TooltipProvider>
