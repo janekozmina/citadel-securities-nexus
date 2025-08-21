@@ -532,7 +532,8 @@ export const quickActionsConfig: Record<string, QuickAction[]> = {
 // Quick Action URLs mapping
 export const quickActionUrls: Record<string, string> = {
   'access-unified-portal': 'http://ifp.k8s1.cma.se/login',
-  'access-onboarding-portal': 'http://ddw.k8s1.cma.se/'
+  'access-onboarding-portal': 'http://ddw.k8s1.cma.se/',
+  'access-configuration-panel': 'http://cn-dmrtgs-app01:5443/'
 };
 
 // Account Statements specific actions
