@@ -261,53 +261,22 @@ export default function RTGSConfigurationPage() {
                   </div>
                 ))}
               </div>
-            </CardContent>
-          </Card>
-        </div>
-
-        {/* Right Sidebar with Quick Actions and Alerts */}
-        <div className="w-64 space-y-4">
-          <QuickActionsManager 
-            pageKey="rtgs-configuration" 
-            systemType="rtgs" 
-          />
-          
-          <Card className="h-fit">
-            <CardHeader>
-              <CardTitle className="flex items-center gap-2 text-lg">
-                <Zap className="h-5 w-5 text-red-600" />
-                Alerts & Compliance
-              </CardTitle>
-            </CardHeader>
-            <CardContent className="space-y-4">
-              {complianceAlerts.map((alert) => (
-                <div key={alert.id} className="p-3 border rounded-lg">
-                  <div className="flex items-start gap-2 mb-2">
-                    {getAlertIcon(alert.type)}
-                    <div className="flex-1 min-w-0">
-                      <h4 className="font-medium text-sm">{alert.title}</h4>
-                      <p className="text-xs text-muted-foreground mt-1">{alert.description}</p>
-                    </div>
-                  </div>
-                  <div className="flex items-center justify-between mt-2">
-                    <Badge 
-                      variant={alert.severity === 'high' ? 'destructive' : alert.severity === 'medium' ? 'secondary' : 'outline'}
-                      className="text-xs"
-                    >
-                      {alert.severity}
-                    </Badge>
-                    <span className="text-xs text-muted-foreground">{alert.dueDate}</span>
-                  </div>
-                </div>
-              ))}
               
-              <div className="pt-2 border-t">
+              <div className="pt-4 border-t mt-6">
                 <a href="/admin/config/rtgs/audit-log" className="text-sm text-blue-600 hover:text-blue-800 font-medium">
                   View Configuration Change Log →
                 </a>
               </div>
             </CardContent>
           </Card>
+        </div>
+
+        {/* Right Sidebar with Quick Actions */}
+        <div className="w-64 space-y-4">
+          <QuickActionsManager 
+            pageKey="rtgs-configuration" 
+            systemType="rtgs" 
+          />
         </div>
       </div>
     </div>
