@@ -159,10 +159,8 @@ export function LiquiditySourceDialog({ onClose }: LiquiditySourceDialogProps) {
         return arrayMove(items, oldIndex, newIndex);
       });
       
-      // Only clear priority group if it's not 'manual' to preserve dropdown selection
-      if (priorityGroup !== 'manual') {
-        setPriorityGroup('manual');
-      }
+      // Don't change priority group - let user keep their selected option even after dragging
+      // This preserves the dropdown selection as requested
     }
   };
 
