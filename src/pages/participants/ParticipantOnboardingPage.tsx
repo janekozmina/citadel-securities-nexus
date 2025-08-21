@@ -1,11 +1,8 @@
 import React from 'react';
-import { PageHeader } from '@/components/common/PageHeader';
-import { InteractiveChart } from '@/components/common/InteractiveChart';
 import { DataTable } from '@/components/common/DataTable';
 import { Card, CardContent } from '@/components/ui/card';
-import { QuickActionsManager } from '@/components/common/QuickActionsManager';
-import { QuickActions } from '@/components/common/QuickActions';
-import { UserPlus, FileCheck, Clock, AlertCircle, CheckCircle } from 'lucide-react';
+import { ConditionalQuickActions } from '@/components/common/ConditionalQuickActions';
+import { UserPlus, FileCheck, Clock, AlertCircle } from 'lucide-react';
 
 export default function ParticipantOnboardingPage() {
   const onboardingMetrics = [
@@ -110,14 +107,10 @@ export default function ParticipantOnboardingPage() {
   ];
 
   return (
-    <div className="page-container">
-      <PageHeader
-        title="Participant Onboarding"
-        description="Manage and track participant onboarding applications and processes"
-      />
-
-      <div className="grid grid-cols-1 xl:grid-cols-4 gap-6 mb-8">
-        <div className="xl:col-span-3 space-y-6">
+    <div className="space-y-6">
+      <div className="flex h-full">
+        <div className="flex-1 space-y-6 pr-6">
+          {/* Metrics Cards */}
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
             {onboardingMetrics.map((metric, index) => (
               <Card key={index}>
@@ -137,33 +130,7 @@ export default function ParticipantOnboardingPage() {
             ))}
           </div>
 
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-            <InteractiveChart
-              config={{
-                type: "pie",
-                title: "Applications by Stage",
-                data: onboardingStatusData,
-                height: 300
-              }}
-            />
-
-            <InteractiveChart
-              config={{
-                type: "bar",
-                title: "Monthly Onboarding Progress",
-                data: [
-                  { name: 'Jan', value: 8, color: 'hsl(var(--chart-1))' },
-                  { name: 'Feb', value: 12, color: 'hsl(var(--chart-2))' },
-                  { name: 'Mar', value: 6, color: 'hsl(var(--chart-3))' },
-                  { name: 'Apr', value: 10, color: 'hsl(var(--chart-4))' },
-                  { name: 'May', value: 15, color: 'hsl(var(--chart-5))' },
-                  { name: 'Jun', value: 9, color: 'hsl(var(--chart-1))' }
-                ],
-                height: 300
-              }}
-            />
-          </div>
-
+          {/* Active Onboarding Applications Table */}
           <DataTable
             title="Active Onboarding Applications"
             data={onboardingData}
@@ -181,17 +148,11 @@ export default function ParticipantOnboardingPage() {
           />
         </div>
 
-        <div className="xl:col-span-1 space-y-6">
-          <QuickActions 
-            title="Onboarding Actions" 
-            actions={[
-              { title: 'New Application', description: 'Start new participant application', icon: UserPlus, path: '#' },
-              { title: 'Review Documents', description: 'Review submitted documents', icon: FileCheck, path: '#' },
-              { title: 'Approve Application', description: 'Approve pending applications', icon: CheckCircle, path: '#' },
-              { title: 'Send Notifications', description: 'Send status notifications', icon: AlertCircle, path: '#' }
-            ]}
-          />
-        </div>
+        {/* Right Sidebar with Conditional Quick Actions */}
+        <ConditionalQuickActions 
+          pageKey="participant-onboarding"
+          systemType="participants"
+        />
       </div>
     </div>
   );

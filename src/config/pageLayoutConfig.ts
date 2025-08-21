@@ -39,6 +39,16 @@ const pageLayoutConfigs: Record<string, Partial<PageLayoutConfig>> = {
     showQuickActions: true,
     quickActionsPosition: 'right-sidebar',
     quickActionsFixed: false // Use inline positioning like balances-liquidity
+  },
+  'participant-unified-portal': {
+    showQuickActions: true,
+    quickActionsPosition: 'right-sidebar',
+    quickActionsFixed: false // Use inline positioning like balances-liquidity
+  },
+  'participant-onboarding': {
+    showQuickActions: true,
+    quickActionsPosition: 'right-sidebar',
+    quickActionsFixed: false // Use inline positioning like balances-liquidity
   }
 };
 

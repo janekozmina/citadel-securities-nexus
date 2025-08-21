@@ -525,6 +525,62 @@ export const quickActionsConfig: Record<string, QuickAction[]> = {
       variant: 'default',
       category: 'Portal',
       description: 'Access the participant onboarding portal'
+    },
+    {
+      id: 'monitor-sessions',
+      label: 'Monitor Sessions',
+      icon: Users,
+      variant: 'outline',
+      category: 'Monitoring',
+      description: 'View active participant sessions'
+    },
+    {
+      id: 'system-status',
+      label: 'System Status',
+      icon: Activity,
+      variant: 'outline',
+      category: 'Monitoring',
+      description: 'Check portal system health'
+    },
+    {
+      id: 'generate-reports',
+      label: 'Generate Reports',
+      icon: BarChart3,
+      variant: 'outline',
+      category: 'Reports',
+      description: 'Create portal usage reports'
+    },
+    {
+      id: 'new-application',
+      label: 'New Application',
+      icon: Plus,
+      variant: 'default',
+      category: 'Onboarding',
+      description: 'Start new participant application'
+    },
+    {
+      id: 'review-documents',
+      label: 'Review Documents',
+      icon: FileText,
+      variant: 'outline',
+      category: 'Onboarding',
+      description: 'Review submitted documents'
+    },
+    {
+      id: 'approve-application',
+      label: 'Approve Application',
+      icon: Check,
+      variant: 'outline',
+      category: 'Onboarding',
+      description: 'Approve pending applications'
+    },
+    {
+      id: 'send-notifications',
+      label: 'Send Notifications',
+      icon: Send,
+      variant: 'outline',
+      category: 'Onboarding',
+      description: 'Send status notifications'
     }
   ]
 };

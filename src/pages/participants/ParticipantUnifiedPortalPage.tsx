@@ -1,11 +1,9 @@
 import React from 'react';
-import { PageHeader } from '@/components/common/PageHeader';
 import { InteractiveChart } from '@/components/common/InteractiveChart';
 import { DataTable } from '@/components/common/DataTable';
 import { Card, CardContent } from '@/components/ui/card';
-import { QuickActionsManager } from '@/components/common/QuickActionsManager';
-import { QuickActions } from '@/components/common/QuickActions';
-import { Users, Building, CheckCircle, Clock, AlertTriangle, ExternalLink, Activity, BarChart3 } from 'lucide-react';
+import { ConditionalQuickActions } from '@/components/common/ConditionalQuickActions';
+import { Users, Building, CheckCircle, Clock, AlertTriangle, TrendingUp } from 'lucide-react';
 
 export default function ParticipantUnifiedPortalPage() {
   const participantMetrics = [
@@ -54,6 +52,12 @@ export default function ParticipantUnifiedPortalPage() {
     { name: 'May', transactions: 1600, sessions: 450, color: 'hsl(var(--chart-5))' },
     { name: 'Jun', transactions: 1750, sessions: 480, color: 'hsl(var(--chart-1))' }
   ];
+
+  const participantActivityChartData = participantActivityData.map(item => ({
+    name: item.name,
+    value: item.sessions, // Using sessions as the primary value for line chart
+    color: item.color
+  }));
 
   const participantData = [
     { 
@@ -104,14 +108,10 @@ export default function ParticipantUnifiedPortalPage() {
   ];
 
   return (
-    <div className="page-container">
-      <PageHeader
-        title="Participant Unified Portal"
-        description="Monitor and manage participant access to the unified portal system"
-      />
-
-      <div className="grid grid-cols-1 xl:grid-cols-4 gap-6 mb-8">
-        <div className="xl:col-span-3">
+    <div className="space-y-6">
+      <div className="flex h-full">
+        <div className="flex-1 space-y-6 pr-6">
+          {/* Metrics Cards */}
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
             {participantMetrics.map((metric, index) => (
               <Card key={index}>
@@ -130,19 +130,50 @@ export default function ParticipantUnifiedPortalPage() {
               </Card>
             ))}
           </div>
-        </div>
 
-        <div className="xl:col-span-1 space-y-6">
-          <QuickActions 
-            title="Participant Portal Actions" 
-            actions={[
-              { title: 'Access Portal', description: 'Open unified portal interface', icon: ExternalLink, path: 'https://participant-portal.cbb.gov.bh' },
-              { title: 'Monitor Sessions', description: 'View active user sessions', icon: Users, path: '#' },
-              { title: 'System Status', description: 'Check portal system health', icon: Activity, path: '#' },
-              { title: 'Generate Reports', description: 'Create portal usage reports', icon: BarChart3, path: '#' }
+          {/* Participants Activity Dashboard */}
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+            <InteractiveChart
+              config={{
+                type: "pie",
+                title: "Participant Status Distribution",
+                data: participantStatusData,
+                height: 300
+              }}
+            />
+
+            <InteractiveChart
+              config={{
+                type: "line",
+                title: "Daily Portal Activity",
+                data: participantActivityChartData,
+                height: 300
+              }}
+            />
+          </div>
+
+          {/* Participants Data Table */}
+          <DataTable
+            title="Active Participants"
+            data={participantData}
+            columns={[
+              { key: 'participantId', label: 'Participant ID' },
+              { key: 'name', label: 'Institution Name' },
+              { key: 'type', label: 'Type' },
+              { key: 'status', label: 'Status', type: 'status' },
+              { key: 'lastLogin', label: 'Last Login', type: 'text' },
+              { key: 'sessionsToday', label: 'Sessions Today' },
+              { key: 'transactionsToday', label: 'Transactions Today' }
             ]}
+            searchable
           />
         </div>
+
+        {/* Right Sidebar with Conditional Quick Actions */}
+        <ConditionalQuickActions 
+          pageKey="participant-unified-portal"
+          systemType="participants"
+        />
       </div>
     </div>
   );

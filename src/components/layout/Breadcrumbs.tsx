@@ -111,6 +111,11 @@ const routeMap: Record<string, RouteInfo> = {
   '/login': { path: '/login', label: 'Login' },
   '/mfa': { path: '/mfa', label: 'Multi-Factor Authentication', parent: '/login' },
   
+  // Participants Routes
+  '/participants': { path: '/participants', label: 'Participants' },
+  '/participants/unified-portal': { path: '/participants/unified-portal', label: 'Unified Portal', parent: '/participants' },
+  '/participants/onboarding': { path: '/participants/onboarding', label: 'Onboarding', parent: '/participants' },
+  
   // Master Data
   '/masterdata': { path: '/masterdata', label: 'Master Data' },
   
