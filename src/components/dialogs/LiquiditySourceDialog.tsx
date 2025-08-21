@@ -159,8 +159,10 @@ export function LiquiditySourceDialog({ onClose }: LiquiditySourceDialogProps) {
         return arrayMove(items, oldIndex, newIndex);
       });
       
-      // Clear priority group when user manually reorders to preserve drag order
-      setPriorityGroup('manual');
+      // Only clear priority group if it's not 'manual' to preserve dropdown selection
+      if (priorityGroup !== 'manual') {
+        setPriorityGroup('manual');
+      }
     }
   };
 

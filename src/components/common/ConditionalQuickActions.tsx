@@ -28,7 +28,7 @@ export const ConditionalQuickActions: React.FC<ConditionalQuickActionsProps> = (
 
   if (layout.quickActionsPosition === 'right-sidebar') {
     const baseClasses = layout.quickActionsFixed 
-      ? "fixed right-20 top-48 w-64 h-[calc(100vh-16rem)] z-20"
+      ? "fixed right-20 top-64 w-64 h-[calc(100vh-20rem)] z-20"
       : "w-64 space-y-4";
     
     const containerClasses = layout.quickActionsFixed

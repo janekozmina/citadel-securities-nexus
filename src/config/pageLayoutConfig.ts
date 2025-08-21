@@ -19,7 +19,7 @@ const pageLayoutConfigs: Record<string, Partial<PageLayoutConfig>> = {
   'business-day-management': {
     showQuickActions: true,
     quickActionsPosition: 'right-sidebar',
-    quickActionsFixed: false // Use inline Quick Actions for this page
+    quickActionsFixed: true // Fixed positioning like account management
   },
   'transaction-status': {
     showQuickActions: true,
