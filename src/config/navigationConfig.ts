@@ -661,18 +661,32 @@ export const secondaryNavigation: Record<string, NavigationItem[]> = {
       description: 'Manage system users',
       children: [
         {
-          id: 'user-accounts',
-          title: 'User Accounts',
-          path: '/admin/users/accounts',
+          id: 'rtgs-user-accounts',
+          title: 'RTGS User Accounts',
+          path: '/admin/users/rtgs-accounts',
           icon: UserCheck,
-          description: 'Manage user accounts'
+          description: 'Manage RTGS user accounts'
         },
         {
-          id: 'role-permissions',
-          title: 'Roles & Permissions',
-          path: '/admin/users/roles',
+          id: 'csd-cms-user-accounts',
+          title: 'CSD / CMS User Accounts',
+          path: '/admin/users/csd-cms-accounts',
+          icon: UserCheck,
+          description: 'Manage CSD and CMS user accounts'
+        },
+        {
+          id: 'rtgs-role-permissions',
+          title: 'RTGS Roles & Permissions',
+          path: '/admin/users/rtgs-roles',
           icon: Key,
-          description: 'Configure user roles and permissions'
+          description: 'Configure RTGS roles and permissions'
+        },
+        {
+          id: 'csd-cms-role-permissions',
+          title: 'CSD / CMS Roles & Permissions',
+          path: '/admin/users/csd-cms-roles',
+          icon: Key,
+          description: 'Configure CSD and CMS roles and permissions'
         }
       ]
     },

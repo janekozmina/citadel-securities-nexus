@@ -29,6 +29,7 @@ interface User {
   firstName: string;
   lastName: string;
   role: string;
+  system: 'CSD' | 'CMS';
   status: 'active' | 'inactive' | 'locked' | 'pending';
   lastLogin: string;
   createdDate: string;
@@ -39,7 +40,7 @@ interface User {
 
 const CSDUserAccountsPage = () => {
   useEffect(() => {
-    document.title = 'CSD User Accounts Management | Unified Portal';
+    document.title = 'CSD / CMS User Accounts Management | Unified Portal';
   }, []);
 
   const [users, setUsers] = useState<User[]>([
@@ -50,6 +51,7 @@ const CSDUserAccountsPage = () => {
       firstName: 'Jane',
       lastName: 'Smith',
       role: 'CSD Administrator',
+      system: 'CSD',
       status: 'active',
       lastLogin: '2024-01-15 08:45',
       createdDate: '2024-01-05',
@@ -64,6 +66,7 @@ const CSDUserAccountsPage = () => {
       firstName: 'Ahmed',
       lastName: 'Hassan',
       role: 'Settlement Operator',
+      system: 'CSD',
       status: 'active',
       lastLogin: '2024-01-15 09:30',
       createdDate: '2024-01-08',
@@ -78,23 +81,70 @@ const CSDUserAccountsPage = () => {
       firstName: 'Sarah',
       lastName: 'Mohamed',
       role: 'Custody Officer',
+      system: 'CSD',
       status: 'inactive',
       lastLogin: '2024-01-12 14:20',
       createdDate: '2024-01-02',
       department: 'Custody Services',
       mfaEnabled: true
+    },
+    {
+      id: '4',
+      username: 'ali.ahmed',
+      email: 'ali.ahmed@cms.bh',
+      firstName: 'Ali',
+      lastName: 'Ahmed',
+      role: 'CMS Administrator',
+      system: 'CMS',
+      status: 'active',
+      lastLogin: '2024-01-15 10:15',
+      createdDate: '2024-01-03',
+      department: 'Collateral Management',
+      phone: '+973 1111 2222',
+      mfaEnabled: true
+    },
+    {
+      id: '5',
+      username: 'fatima.hassan',
+      email: 'fatima.hassan@cms.bh',
+      firstName: 'Fatima',
+      lastName: 'Hassan',
+      role: 'Risk Manager',
+      system: 'CMS',
+      status: 'active',
+      lastLogin: '2024-01-15 09:45',
+      createdDate: '2024-01-06',
+      department: 'Risk Management',
+      phone: '+973 3333 4444',
+      mfaEnabled: true
+    },
+    {
+      id: '6',
+      username: 'omar.khalil',
+      email: 'omar.khalil@cms.bh',
+      firstName: 'Omar',
+      lastName: 'Khalil',
+      role: 'Collateral Analyst',
+      system: 'CMS',
+      status: 'pending',
+      lastLogin: 'Never',
+      createdDate: '2024-01-14',
+      department: 'Collateral Operations',
+      mfaEnabled: false
     }
   ]);
 
   const [searchTerm, setSearchTerm] = useState('');
   const [statusFilter, setStatusFilter] = useState<string>('all');
+  const [systemFilter, setSystemFilter] = useState<string>('all');
 
   const filteredUsers = users.filter(user => {
     const matchesSearch = user.username.toLowerCase().includes(searchTerm.toLowerCase()) ||
                          user.email.toLowerCase().includes(searchTerm.toLowerCase()) ||
                          `${user.firstName} ${user.lastName}`.toLowerCase().includes(searchTerm.toLowerCase());
     const matchesStatus = statusFilter === 'all' || user.status === statusFilter;
-    return matchesSearch && matchesStatus;
+    const matchesSystem = systemFilter === 'all' || user.system === systemFilter;
+    return matchesSearch && matchesStatus && matchesSystem;
   });
 
   const getStatusIcon = (status: string) => {
@@ -135,8 +185,8 @@ const CSDUserAccountsPage = () => {
     <div className="space-y-6">
       <div className="flex items-center justify-between">
         <div>
-          <h1 className="text-2xl font-bold">CSD User Accounts</h1>
-          <p className="text-muted-foreground">Manage CSD system user accounts and access</p>
+          <h1 className="text-2xl font-bold">CSD / CMS User Accounts</h1>
+          <p className="text-muted-foreground">Manage CSD and CMS system user accounts and access</p>
         </div>
         <Button className="gap-2">
           <UserPlus className="h-4 w-4" />
@@ -149,7 +199,7 @@ const CSDUserAccountsPage = () => {
           <div className="flex items-center justify-between">
             <CardTitle className="flex items-center gap-2">
               <Users className="h-5 w-5" />
-              CSD User Accounts
+              CSD / CMS User Accounts
             </CardTitle>
             <div className="flex items-center gap-4">
               <div className="relative">
@@ -161,6 +211,16 @@ const CSDUserAccountsPage = () => {
                   className="pl-10 w-64"
                 />
               </div>
+              <Select value={systemFilter} onValueChange={setSystemFilter}>
+                <SelectTrigger className="w-32">
+                  <SelectValue />
+                </SelectTrigger>
+                <SelectContent>
+                  <SelectItem value="all">All Systems</SelectItem>
+                  <SelectItem value="CSD">CSD</SelectItem>
+                  <SelectItem value="CMS">CMS</SelectItem>
+                </SelectContent>
+              </Select>
               <Select value={statusFilter} onValueChange={setStatusFilter}>
                 <SelectTrigger className="w-32">
                   <SelectValue />
@@ -183,6 +243,7 @@ const CSDUserAccountsPage = () => {
                 <TableRow>
                   <TableHead>User</TableHead>
                   <TableHead>Role</TableHead>
+                  <TableHead>System</TableHead>
                   <TableHead>Department</TableHead>
                   <TableHead>Status</TableHead>
                   <TableHead>Last Login</TableHead>
@@ -202,6 +263,14 @@ const CSDUserAccountsPage = () => {
                     </TableCell>
                     <TableCell>
                       <Badge variant="outline">{user.role}</Badge>
+                    </TableCell>
+                    <TableCell>
+                      <Badge 
+                        variant="outline"
+                        className={user.system === 'CSD' ? 'bg-green-100 text-green-800' : 'bg-purple-100 text-purple-800'}
+                      >
+                        {user.system}
+                      </Badge>
                     </TableCell>
                     <TableCell>{user.department}</TableCell>
                     <TableCell>
@@ -275,7 +344,7 @@ const CSDUserAccountsPage = () => {
 
       <Card>
         <CardHeader>
-          <CardTitle>CSD System Access Summary</CardTitle>
+          <CardTitle>CSD / CMS System Access Summary</CardTitle>
         </CardHeader>
         <CardContent>
           <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
@@ -283,17 +352,17 @@ const CSDUserAccountsPage = () => {
               <div className="text-2xl font-bold text-green-600">45</div>
               <div className="text-sm text-green-800">Active CSD Users</div>
             </div>
+            <div className="p-4 bg-purple-50 rounded-lg">
+              <div className="text-2xl font-bold text-purple-600">28</div>
+              <div className="text-sm text-purple-800">Active CMS Users</div>
+            </div>
             <div className="p-4 bg-blue-50 rounded-lg">
-              <div className="text-2xl font-bold text-blue-600">12</div>
+              <div className="text-2xl font-bold text-blue-600">15</div>
               <div className="text-sm text-blue-800">Settlement Operators</div>
             </div>
-            <div className="p-4 bg-yellow-50 rounded-lg">
-              <div className="text-2xl font-bold text-yellow-600">8</div>
-              <div className="text-sm text-yellow-800">Custody Officers</div>
-            </div>
-            <div className="p-4 bg-purple-50 rounded-lg">
-              <div className="text-2xl font-bold text-purple-600">15</div>
-              <div className="text-sm text-purple-800">Market Participants</div>
+            <div className="p-4 bg-orange-50 rounded-lg">
+              <div className="text-2xl font-bold text-orange-600">8</div>
+              <div className="text-sm text-orange-800">Risk Managers</div>
             </div>
           </div>
         </CardContent>

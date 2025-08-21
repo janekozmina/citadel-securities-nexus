@@ -34,6 +34,11 @@ const pageLayoutConfigs: Record<string, Partial<PageLayoutConfig>> = {
     showQuickActions: true, // Show Quick Actions with BI Configuration
     quickActionsPosition: 'right-sidebar',
     quickActionsFixed: false
+  },
+  'rtgs-configuration': {
+    showQuickActions: true,
+    quickActionsPosition: 'right-sidebar',
+    quickActionsFixed: false // Use inline positioning like balances-liquidity
   }
 };
 

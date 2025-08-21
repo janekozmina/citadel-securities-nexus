@@ -90,6 +90,13 @@ import CSDConfigurationPage from "./pages/admin/CSDConfigurationPage";
 import ParticipantUnifiedPortalPage from "./pages/participants/ParticipantUnifiedPortalPage";
 import ParticipantOnboardingPage from "./pages/participants/ParticipantOnboardingPage";
 
+// New User Management Pages
+import RTGSUserAccountsPage from "./pages/admin/RTGSUserAccountsPage";
+import CSDUserAccountsPage from "./pages/admin/CSDUserAccountsPage";
+import RTGSRolesPermissionsPage from "./pages/admin/RTGSRolesPermissionsPage";
+import CSDCMSRolesPermissionsPage from "./pages/admin/CSDCMSRolesPermissionsPage";
+import AdminDashboardPage from "./pages/admin/AdminDashboardPage";
+
 const queryClient = new QueryClient();
 
 const App = () => (
@@ -497,7 +504,7 @@ const App = () => (
             <Route path="/admin" element={
               <ProtectedRoute>
                 <MainLayout>
-                  <AdminPage />
+                  <AdminDashboardPage />
                 </MainLayout>
               </ProtectedRoute>
             } />
@@ -508,17 +515,31 @@ const App = () => (
                 </MainLayout>
               </ProtectedRoute>
             } />
-            <Route path="/admin/users/accounts" element={
+            <Route path="/admin/users/rtgs-accounts" element={
               <ProtectedRoute>
                 <MainLayout>
-                  <UserAccountsManagementPage />
+                  <RTGSUserAccountsPage />
                 </MainLayout>
               </ProtectedRoute>
             } />
-            <Route path="/admin/users/roles" element={
+            <Route path="/admin/users/csd-cms-accounts" element={
               <ProtectedRoute>
                 <MainLayout>
-                  <RolesPermissionsPage />
+                  <CSDUserAccountsPage />
+                </MainLayout>
+              </ProtectedRoute>
+            } />
+            <Route path="/admin/users/rtgs-roles" element={
+              <ProtectedRoute>
+                <MainLayout>
+                  <RTGSRolesPermissionsPage />
+                </MainLayout>
+              </ProtectedRoute>
+            } />
+            <Route path="/admin/users/csd-cms-roles" element={
+              <ProtectedRoute>
+                <MainLayout>
+                  <CSDCMSRolesPermissionsPage />
                 </MainLayout>
               </ProtectedRoute>
             } />

@@ -304,8 +304,8 @@ export default function RTGSConfigurationPage() {
               ))}
               
               <div className="pt-2 border-t">
-                <a href="#" className="text-sm text-blue-600 hover:text-blue-800 font-medium">
-                  View Full Audit Log →
+                <a href="/admin/config/rtgs/audit-log" className="text-sm text-blue-600 hover:text-blue-800 font-medium">
+                  View Configuration Change Log →
                 </a>
               </div>
             </CardContent>
