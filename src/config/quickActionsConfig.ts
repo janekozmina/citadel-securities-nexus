@@ -363,6 +363,33 @@ export const quickActionsConfig: Record<string, QuickAction[]> = {
       category: 'Risk',
       description: 'Monitor settlement risks',
       permissions: ['csd.risk']
+    },
+    {
+      id: 'export-exposure-report',
+      label: 'Export Exposure Report',
+      icon: Download,
+      variant: 'outline',
+      category: 'Reports',
+      description: 'Export detailed exposure analysis report',
+      permissions: ['csd.exposure.export']
+    },
+    {
+      id: 'set-alert-threshold',
+      label: 'Set Alert/Threshold',
+      icon: AlertTriangle,
+      variant: 'outline',
+      category: 'Risk',
+      description: 'Configure exposure alerts and thresholds',
+      permissions: ['csd.exposure.alerts']
+    },
+    {
+      id: 'simulate-exposure-change',
+      label: 'Simulate Exposure Change',
+      icon: Calculator,
+      variant: 'default',
+      category: 'Analysis',
+      description: 'Run exposure change simulations',
+      permissions: ['csd.exposure.simulate']
     }
   ],
 
@@ -734,6 +761,7 @@ export const defaultQuickActions: Record<string, string[]> = {
   'bi-reports': ['access-bi-configuration'],
   'rtgs-configuration': ['access-configuration-panel'],
   'csd-configuration': ['export-data', 'refresh-data'],
+  'exposure-summary': ['export-exposure-report', 'set-alert-threshold', 'simulate-exposure-change'],
   'participant-unified-portal': ['access-unified-portal'],
   'participant-onboarding': ['access-onboarding-portal'],
   'default': ['export-data', 'refresh-data', 'advanced-search']
