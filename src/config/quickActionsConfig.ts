@@ -383,13 +383,40 @@ export const quickActionsConfig: Record<string, QuickAction[]> = {
       permissions: ['csd.exposure.alerts']
     },
     {
-      id: 'simulate-exposure-change',
-      label: 'Simulate Exposure Change',
-      icon: Calculator,
+      id: 'register-new',
+      label: 'Register New',
+      icon: Plus,
       variant: 'default',
-      category: 'Analysis',
-      description: 'Run exposure change simulations',
-      permissions: ['csd.exposure.simulate']
+      category: 'Registration',
+      description: 'Register new instrument',
+      permissions: ['csd.instruments.create']
+    },
+    {
+      id: 'download-registry',
+      label: 'Download Registry',
+      icon: Download,
+      variant: 'outline',
+      category: 'Data',
+      description: 'Download instruments registry',
+      permissions: ['csd.instruments.export']
+    },
+    {
+      id: 'view-calendar',
+      label: 'View Calendar',
+      icon: Calendar,
+      variant: 'outline',
+      category: 'Schedule',
+      description: 'View issuance calendar',
+      permissions: ['csd.instruments.schedule']
+    },
+    {
+      id: 'set-alerts',
+      label: 'Set Alerts',
+      icon: AlertCircle,
+      variant: 'outline',
+      category: 'Monitoring',
+      description: 'Configure instrument alerts',
+      permissions: ['csd.instruments.alerts']
     }
   ],
 
@@ -755,7 +782,11 @@ export const defaultQuickActions: Record<string, string[]> = {
   'collateral-manager': ['collateral-management', 'margin-calculation', 'risk-assessment'],
   'transaction-status': ['general-transfer', 'check-funds', 'liquidity-source', 'manual-gridlock'],
   'account-statements': ['download-statement', 'request-statement', 'reconciliation-report', 'export-data'],
-  'islamic-sukuk': ['register-new-sukuk', 'view-issuer-details', 'generate-sukuk-term-sheet', 'export-maturity-schedule'],
+  'islamic-sukuk': ['register-new', 'download-registry', 'view-calendar', 'set-alerts'],
+  'instruments-summary': ['register-new', 'download-registry', 'view-calendar', 'set-alerts'],
+  'register-cbb-instrument': ['register-new', 'download-registry', 'view-calendar', 'set-alerts'],
+  'register-treasury-bill': ['register-new', 'download-registry', 'view-calendar', 'set-alerts'],
+  'register-treasury-bond': ['register-new', 'download-registry', 'view-calendar', 'set-alerts'],
   'transfers': ['submit-transfer-instruction', 'amend-pending-instruction', 'cancel-instruction', 'download-instruction-report', 'notify-counterparty'],
   'cash-operations': ['cash-withdrawal', 'cash-deposit', 'vault-reconciliation', 'cash-transfer', 'compliance-report'],
   'bi-reports': ['access-bi-configuration'],
