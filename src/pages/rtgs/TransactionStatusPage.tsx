@@ -21,11 +21,12 @@ import {
   TableIcon,
   BarChart3
 } from 'lucide-react';
-import { PieChart, Pie, Cell, ResponsiveContainer, Legend, Tooltip } from 'recharts';
+import { PieChart, Pie, Cell, ResponsiveContainer, Legend, Tooltip, LineChart, Line, XAxis, YAxis } from 'recharts';
 import { InteractiveChart } from '@/components/common/InteractiveChart';
 import { transactionStatusChartConfig } from '@/config/dashboardConfigs';
 import { updateChartDataWithStats } from '@/utils/chartUtils';
 import portalConfig from '@/config/portalConfig';
+import { RTGS_TRANSACTION_COUNTS } from '@/config/simulationConfig';
 
 const COLORS = {
   'Settled': '#22c55e',
@@ -35,7 +36,7 @@ const COLORS = {
 };
 
 export default function TransactionStatusPage() {
-  const { transactionMetrics } = useBusinessDayEmulation();
+  const { transactionMetrics, emulatedDay } = useBusinessDayEmulation();
   const [transactions] = useState<TransactionData[]>(() => generateTransactionData());
   const [viewMode, setViewMode] = useState<'visual' | 'table'>('visual');
   const [statusFilter, setStatusFilter] = useState<'all' | 'Settled' | 'Rejected' | 'In Queue' | 'ILF/BUYBACK'>('all');
@@ -64,6 +65,48 @@ export default function TransactionStatusPage() {
       volume: Math.round(transactionMetrics.totalVolume * 0.02) // ~2% of total volume ILF
     }
   };
+
+  // Generate daily trend data for line chart
+  const generateDailyTrendData = () => {
+    const currentHour = emulatedDay.emulatedTime.getHours();
+    const currentMinute = emulatedDay.emulatedTime.getMinutes();
+    const businessStartHour = 8;
+    const businessEndHour = 17;
+    
+    const trendData = [];
+    
+    // Generate data for business hours (8 AM to 5 PM)
+    for (let hour = businessStartHour; hour <= businessEndHour; hour++) {
+      const hourIndex = hour - businessStartHour;
+      let cumulativeVolume = 0;
+      
+      if (hourIndex < RTGS_TRANSACTION_COUNTS.length) {
+        const transactionCount = RTGS_TRANSACTION_COUNTS[hourIndex];
+        // Average transaction value approximation (2.4M BHD)
+        cumulativeVolume = transactionCount * 2400000;
+        
+        // If this is the current hour, adjust for current minute progress
+        if (hour === currentHour && currentHour >= businessStartHour && currentHour <= businessEndHour) {
+          const hourProgress = currentMinute / 60;
+          const nextHourIndex = hourIndex + 1;
+          const nextHourCount = nextHourIndex < RTGS_TRANSACTION_COUNTS.length ? 
+            RTGS_TRANSACTION_COUNTS[nextHourIndex] : RTGS_TRANSACTION_COUNTS[hourIndex];
+          const hourlyIncrement = (nextHourCount - transactionCount) * hourProgress;
+          cumulativeVolume += hourlyIncrement * 2400000;
+        }
+      }
+      
+      trendData.push({
+        time: `${hour.toString().padStart(2, '0')}:00`,
+        volume: Math.round(cumulativeVolume),
+        formattedVolume: formatVolume(cumulativeVolume)
+      });
+    }
+    
+    return trendData;
+  };
+
+  const dailyTrendData = generateDailyTrendData();
 
   useEffect(() => {
     document.title = 'Transaction Status Amount / Volume | CBB Portal';
@@ -249,19 +292,61 @@ export default function TransactionStatusPage() {
                 </Card>
               </div>
 
-              {/* Interactive Pie Chart */}
-              <InteractiveChart
-                config={{
-                  ...updateChartDataWithStats(transactionStatusChartConfig, stats),
-                  onSegmentClick: (filterKey, filterValue) => {
-                    if (filterKey && filterValue) {
-                      setStatusFilter(filterValue as any);
-                      setViewMode('table');
+              {/* Charts Section - Two charts side by side */}
+              <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+                {/* Transaction Status Distribution - Pie Chart */}
+                <InteractiveChart
+                  config={{
+                    ...updateChartDataWithStats(transactionStatusChartConfig, stats),
+                    onSegmentClick: (filterKey, filterValue) => {
+                      if (filterKey && filterValue) {
+                        setStatusFilter(filterValue as any);
+                        setViewMode('table');
+                      }
                     }
-                  }
-                }}
-                pieChartSize="large"
-              />
+                  }}
+                  pieChartSize="medium"
+                />
+
+                {/* Daily Transaction Amount Trend - Line Chart */}
+                <Card>
+                  <CardHeader>
+                    <CardTitle>Daily Transaction Volume Trend</CardTitle>
+                    <p className="text-sm text-muted-foreground">
+                      Cumulative transaction amounts throughout the business day
+                    </p>
+                  </CardHeader>
+                  <CardContent>
+                    <div className="h-[320px]">
+                      <ResponsiveContainer width="100%" height="100%">
+                        <LineChart data={dailyTrendData} margin={{ top: 20, right: 30, bottom: 40, left: 20 }}>
+                          <XAxis 
+                            dataKey="time" 
+                            tick={{ fontSize: 12 }}
+                            interval="preserveStartEnd"
+                          />
+                          <YAxis 
+                            tick={{ fontSize: 12 }}
+                            tickFormatter={(value) => formatVolume(value)}
+                          />
+                          <Tooltip 
+                            formatter={(value: any) => [formatCurrency(value), 'Volume']}
+                            labelFormatter={(label) => `Time: ${label}`}
+                          />
+                          <Line 
+                            type="monotone" 
+                            dataKey="volume" 
+                            stroke="hsl(var(--primary))" 
+                            strokeWidth={3}
+                            dot={{ fill: "hsl(var(--primary))", strokeWidth: 2, r: 4 }}
+                            activeDot={{ r: 6, stroke: "hsl(var(--primary))", strokeWidth: 2, fill: "hsl(var(--background))" }}
+                          />
+                        </LineChart>
+                      </ResponsiveContainer>
+                    </div>
+                  </CardContent>
+                </Card>
+              </div>
             </div>
           )}
 
