@@ -94,8 +94,11 @@ export default function TransactionStatusPage() {
     
     const trendData = [];
     
-    // Generate data for business hours (8 AM to 5 PM)
-    for (let hour = businessStartHour; hour <= businessEndHour; hour++) {
+    // Only generate data up to current emulated time
+    const maxHour = Math.min(currentHour, businessEndHour);
+    
+    // Generate data for business hours up to current time
+    for (let hour = businessStartHour; hour <= maxHour; hour++) {
       const hourIndex = hour - businessStartHour;
       let cumulativeVolume = 0;
       
@@ -312,7 +315,7 @@ export default function TransactionStatusPage() {
                 {/* Daily Transaction Amount Trend - Line Chart */}
                 <Card>
                   <CardHeader>
-                    <CardTitle>Daily Transaction Volume Trend</CardTitle>
+                    <CardTitle>Daily Transaction Volume</CardTitle>
                     <p className="text-sm text-muted-foreground">
                       Cumulative transaction amounts throughout the business day
                     </p>
