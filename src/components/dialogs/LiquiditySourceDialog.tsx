@@ -115,6 +115,7 @@ export function LiquiditySourceDialog({ onClose }: LiquiditySourceDialogProps) {
   );
 
   const [priorityGroup, setPriorityGroup] = useState<string>('manual');
+  const [hasManuallyReordered, setHasManuallyReordered] = useState<boolean>(false);
 
   const sensors = useSensors(
     useSensor(PointerSensor),
@@ -159,17 +160,16 @@ export function LiquiditySourceDialog({ onClose }: LiquiditySourceDialogProps) {
         return arrayMove(items, oldIndex, newIndex);
       });
       
-      // Reset to manual when user drags items to reflect their intended order
-      setPriorityGroup('manual');
+      // Mark that user has manually reordered, but keep dropdown selection
+      setHasManuallyReordered(true);
     }
   };
 
   const getStackedBarSegments = () => {
     let visibleSourcesData = liquiditySources.filter(source => visibleSources.has(source.id));
     
-    // Only apply priority group sorting if selected AND user hasn't manually reordered
-    // When priority group is cleared, the order should follow the drag-and-drop arrangement
-    if (priorityGroup && priorityGroup !== 'manual') {
+    // Apply priority group sorting if selected AND user hasn't manually reordered
+    if (priorityGroup && priorityGroup !== 'manual' && !hasManuallyReordered) {
       visibleSourcesData = [...visibleSourcesData].sort((a, b) => {
         if (priorityGroup === 'net-transactions') {
           // Sort by highest value first for net transactions
@@ -189,10 +189,8 @@ export function LiquiditySourceDialog({ onClose }: LiquiditySourceDialogProps) {
         }
         return 0;
       });
-    } else {
-      // When no priority group is selected, maintain the drag-and-drop order
-      // This ensures the stacked chart follows the legend order
     }
+    // If manual or user has reordered, use the current liquiditySources order
     
     const maxValue = totalLiquidity;
     
@@ -215,7 +213,10 @@ export function LiquiditySourceDialog({ onClose }: LiquiditySourceDialogProps) {
       <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-6">
         <div>
           <Label htmlFor="priority-group">Priority Group</Label>
-          <Select value={priorityGroup} onValueChange={setPriorityGroup}>
+          <Select value={priorityGroup} onValueChange={(value) => {
+            setPriorityGroup(value);
+            setHasManuallyReordered(false); // Reset manual reordering when priority changes
+          }}>
             <SelectTrigger>
               <SelectValue placeholder="Select priority group" />
             </SelectTrigger>
@@ -226,7 +227,7 @@ export function LiquiditySourceDialog({ onClose }: LiquiditySourceDialogProps) {
               <SelectItem value="participant-payments">Participant payments</SelectItem>
             </SelectContent>
           </Select>
-          {(!priorityGroup || priorityGroup === 'manual') && (
+          {(!priorityGroup || priorityGroup === 'manual' || hasManuallyReordered) && (
             <p className="text-xs text-muted-foreground mt-1">
               Drag items in legend to reorder the chart
             </p>
