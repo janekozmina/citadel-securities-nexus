@@ -159,8 +159,8 @@ export function LiquiditySourceDialog({ onClose }: LiquiditySourceDialogProps) {
         return arrayMove(items, oldIndex, newIndex);
       });
       
-      // Don't change priority group - let user keep their selected option even after dragging
-      // This preserves the dropdown selection as requested
+      // Reset to manual when user drags items to reflect their intended order
+      setPriorityGroup('manual');
     }
   };
 
