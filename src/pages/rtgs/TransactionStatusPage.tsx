@@ -42,6 +42,25 @@ export default function TransactionStatusPage() {
   const [statusFilter, setStatusFilter] = useState<'all' | 'Settled' | 'Rejected' | 'In Queue' | 'ILF/BUYBACK'>('all');
   const [activeDialog, setActiveDialog] = useState<'general-transfer' | 'check-funds' | 'liquidity-source' | 'manual-gridlock' | 'submit-transfer-instruction' | null>(null);
   
+  // Move utility functions to the top
+  const formatCurrency = (amount: number) => {
+    return `${portalConfig.currencies.primary} ${amount.toLocaleString('en-BH', {
+      minimumFractionDigits: 0,
+      maximumFractionDigits: 0
+    })}`;
+  };
+
+  const formatVolume = (amount: number) => {
+    if (amount >= 1000000000) {
+      return `${(amount / 1000000000).toFixed(1)}B`;
+    } else if (amount >= 1000000) {
+      return `${(amount / 1000000).toFixed(1)}M`;
+    } else if (amount >= 1000) {
+      return `${(amount / 1000).toFixed(1)}K`;
+    }
+    return amount.toLocaleString();
+  };
+  
   // Create stats from business day emulation metrics instead of static data
   const stats = {
     total: {
@@ -111,24 +130,6 @@ export default function TransactionStatusPage() {
   useEffect(() => {
     document.title = 'Transaction Status Amount / Volume | CBB Portal';
   }, []);
-
-  const formatCurrency = (amount: number) => {
-    return `${portalConfig.currencies.primary} ${amount.toLocaleString('en-BH', {
-      minimumFractionDigits: 0,
-      maximumFractionDigits: 0
-    })}`;
-  };
-
-  const formatVolume = (amount: number) => {
-    if (amount >= 1000000000) {
-      return `${(amount / 1000000000).toFixed(1)}B`;
-    } else if (amount >= 1000000) {
-      return `${(amount / 1000000).toFixed(1)}M`;
-    } else if (amount >= 1000) {
-      return `${(amount / 1000).toFixed(1)}K`;
-    }
-    return amount.toLocaleString();
-  };
 
   const pieData = [
     { name: 'Settled', value: stats.settled.count, color: COLORS['Settled'] },
