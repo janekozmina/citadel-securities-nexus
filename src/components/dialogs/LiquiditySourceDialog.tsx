@@ -102,19 +102,18 @@ interface LiquiditySourceDialogProps {
 
 export function LiquiditySourceDialog({ onClose }: LiquiditySourceDialogProps) {
   const [liquiditySources, setLiquiditySources] = useState<LiquiditySource[]>([
-    { id: 'central-bank', name: 'Central Bank Funding', value: 450000000, color: '#22c55e' },
-    { id: 'commercial-deposits', name: 'Commercial Deposits', value: 280000000, color: '#3b82f6' },
-    { id: 'interbank-loans', name: 'Interbank Loans', value: 180000000, color: '#f59e0b' },
-    { id: 'repo-agreements', name: 'Repo Agreements', value: 120000000, color: '#8b5cf6' },
-    { id: 'overnight-facilities', name: 'Overnight Facilities', value: 90000000, color: '#ef4444' },
-    { id: 'standing-facilities', name: 'Standing Facilities', value: 60000000, color: '#06b6d4' }
+    { id: 'available-balance', name: 'Available Balance', value: 450000000, color: '#22c55e' },
+    { id: 'ilf', name: 'ILF', value: 280000000, color: '#3b82f6' },
+    { id: 'overdraft-net-system', name: 'Overdraft for Net System', value: 180000000, color: '#f59e0b' },
+    { id: 'reserve-high-priority', name: 'Reserve for High Priority Operations', value: 120000000, color: '#8b5cf6' },
+    { id: 'overdraft-governmental', name: 'Overdraft for Governmental Operations', value: 90000000, color: '#ef4444' }
   ]);
 
   const [visibleSources, setVisibleSources] = useState<Set<string>>(
     new Set(liquiditySources.map(source => source.id))
   );
 
-  const [priorityGroup, setPriorityGroup] = useState<string>('manual');
+  const [priorityGroup, setPriorityGroup] = useState<string>('net-transactions');
   const [hasManuallyReordered, setHasManuallyReordered] = useState<boolean>(false);
 
   const sensors = useSensors(
@@ -168,21 +167,21 @@ export function LiquiditySourceDialog({ onClose }: LiquiditySourceDialogProps) {
   const getStackedBarSegments = () => {
     let visibleSourcesData = liquiditySources.filter(source => visibleSources.has(source.id));
     
-    // Apply priority group sorting if selected AND user hasn't manually reordered
-    if (priorityGroup && priorityGroup !== 'manual' && !hasManuallyReordered) {
+     // Apply priority group sorting if selected AND user hasn't manually reordered
+     if (priorityGroup && !hasManuallyReordered) {
       visibleSourcesData = [...visibleSourcesData].sort((a, b) => {
         if (priorityGroup === 'net-transactions') {
           // Sort by highest value first for net transactions
           return b.value - a.value;
         } else if (priorityGroup === 'governmental-payments') {
-          // Prioritize central bank and repo agreements for governmental
-          const govPriority = { 'central-bank': 1, 'repo-agreements': 2 };
+          // Prioritize available balance and governmental overdraft for governmental
+          const govPriority = { 'available-balance': 1, 'overdraft-governmental': 2 };
           const aPriority = govPriority[a.id as keyof typeof govPriority] || 999;
           const bPriority = govPriority[b.id as keyof typeof govPriority] || 999;
           return aPriority - bPriority;
         } else if (priorityGroup === 'participant-payments') {
-          // Prioritize commercial deposits and interbank loans for participants
-          const partPriority = { 'commercial-deposits': 1, 'interbank-loans': 2 };
+          // Prioritize ILF and net system overdraft for participants
+          const partPriority = { 'ilf': 1, 'overdraft-net-system': 2 };
           const aPriority = partPriority[a.id as keyof typeof partPriority] || 999;
           const bPriority = partPriority[b.id as keyof typeof partPriority] || 999;
           return aPriority - bPriority;
@@ -221,13 +220,12 @@ export function LiquiditySourceDialog({ onClose }: LiquiditySourceDialogProps) {
               <SelectValue placeholder="Select priority group" />
             </SelectTrigger>
             <SelectContent className="bg-background border shadow-lg z-50">
-              <SelectItem value="manual">Manual Order (Drag & Drop)</SelectItem>
               <SelectItem value="net-transactions">Net transactions</SelectItem>
               <SelectItem value="governmental-payments">Governmental payments</SelectItem>
               <SelectItem value="participant-payments">Participant payments</SelectItem>
             </SelectContent>
           </Select>
-          {(!priorityGroup || priorityGroup === 'manual' || hasManuallyReordered) && (
+          {hasManuallyReordered && (
             <p className="text-xs text-muted-foreground mt-1">
               Drag items in legend to reorder the chart
             </p>
@@ -248,13 +246,13 @@ export function LiquiditySourceDialog({ onClose }: LiquiditySourceDialogProps) {
                 <CardTitle>Liquidity Sources Distribution</CardTitle>
                 <p className="text-sm text-muted-foreground">
                   Total Liquidity: {formatCurrency(totalLiquidity)}
-                  {priorityGroup && priorityGroup !== 'manual' && (
-                    <span className="ml-2 text-blue-600">
-                      ({priorityGroup === 'net-transactions' ? 'Net transactions' :
-                        priorityGroup === 'governmental-payments' ? 'Governmental payments' :
-                        'Participant payments'} priority)
-                    </span>
-                  )}
+                   {priorityGroup && (
+                     <span className="ml-2 text-blue-600">
+                       ({priorityGroup === 'net-transactions' ? 'Net transactions' :
+                         priorityGroup === 'governmental-payments' ? 'Governmental payments' :
+                         'Participant payments'} priority)
+                     </span>
+                   )}
                 </p>
               </CardHeader>
               <CardContent>
