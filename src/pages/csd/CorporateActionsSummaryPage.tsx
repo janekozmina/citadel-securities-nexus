@@ -83,18 +83,16 @@ export default function CorporateActionsSummaryPage() {
           </div>
 
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-            <div className="flex justify-center items-center">
-              <div className="w-full max-w-md">
-                <InteractiveChart
-                  config={{
-                    type: "pie",
-                    title: "Actions by Type",
-                    data: typeDistribution.map((item, index) => ({ ...item, color: `hsl(var(--chart-${index + 1}))` })),
-                    height: 300
-                  }}
-                />
-              </div>
-            </div>
+            <InteractiveChart
+              config={{
+                type: "pie",
+                title: "Actions by Type",
+                data: typeDistribution.map((item, index) => ({ ...item, color: `hsl(var(--chart-${index + 1}))` })),
+                height: 300
+              }}
+              pieChartSize="medium"
+              className="h-full"
+            />
 
             <InteractiveChart
               config={{
@@ -108,6 +106,7 @@ export default function CorporateActionsSummaryPage() {
                 ],
                 height: 300
               }}
+              className="h-full"
             />
           </div>
 
