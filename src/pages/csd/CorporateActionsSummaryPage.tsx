@@ -88,9 +88,9 @@ export default function CorporateActionsSummaryPage() {
                 type: "pie",
                 title: "Actions by Type",
                 data: typeDistribution.map((item, index) => ({ ...item, color: `hsl(var(--chart-${index + 1}))` })),
-                height: 350
+                height: 400
               }}
-              pieChartSize="large"
+              pieChartSize="medium"
               className="h-full"
             />
 
