@@ -219,6 +219,7 @@ export default function StatusManagementPage() {
               defaultView="visual"
               showViewSwitcher={false}
               titleFontSize="text-lg font-semibold"
+              pieChartSize="medium"
             />
 
             <ConfigurableDashboardSection

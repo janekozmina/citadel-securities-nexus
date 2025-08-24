@@ -225,6 +225,7 @@ export default function InstrumentsSummaryPage() {
             defaultView="visual"
             showViewSwitcher={false}
             titleFontSize="text-lg font-semibold"
+            pieChartSize="medium"
           />
 
           <ConfigurableDashboardSection

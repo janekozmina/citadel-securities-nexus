@@ -109,6 +109,7 @@ export default function ExposureSummaryPage() {
                 data: securityTypeData,
                 height: 400
               }}
+              pieChartSize="medium"
               className="h-full"
             />
 

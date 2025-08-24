@@ -230,6 +230,7 @@ export default function SecuritiesIssuanceOtherPage() {
               defaultView="visual"
               showViewSwitcher={false}
               titleFontSize="text-lg font-semibold"
+              pieChartSize="medium"
             />
 
             <ConfigurableDashboardSection

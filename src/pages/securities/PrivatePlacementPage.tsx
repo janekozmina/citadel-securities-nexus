@@ -231,6 +231,7 @@ export default function PrivatePlacementPage() {
               defaultView="visual"
               showViewSwitcher={false}
               titleFontSize="text-lg font-semibold"
+              pieChartSize="medium"
             />
 
             <ConfigurableDashboardSection
