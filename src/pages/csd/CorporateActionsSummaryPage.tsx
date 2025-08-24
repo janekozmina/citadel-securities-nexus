@@ -83,14 +83,18 @@ export default function CorporateActionsSummaryPage() {
           </div>
 
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-            <InteractiveChart
-              config={{
-                type: "pie",
-                title: "Actions by Type",
-                data: typeDistribution.map((item, index) => ({ ...item, color: `hsl(var(--chart-${index + 1}))` })),
-                height: 300
-              }}
-            />
+            <div className="flex justify-center items-center">
+              <div className="w-full max-w-md">
+                <InteractiveChart
+                  config={{
+                    type: "pie",
+                    title: "Actions by Type",
+                    data: typeDistribution.map((item, index) => ({ ...item, color: `hsl(var(--chart-${index + 1}))` })),
+                    height: 300
+                  }}
+                />
+              </div>
+            </div>
 
             <InteractiveChart
               config={{
