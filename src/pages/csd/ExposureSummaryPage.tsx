@@ -107,8 +107,9 @@ export default function ExposureSummaryPage() {
                 type: "pie",
                 title: "Exposure Breakdown by Security Type",
                 data: securityTypeData,
-                height: 300
+                height: 400
               }}
+              className="h-full"
             />
 
             <InteractiveChart
@@ -116,8 +117,9 @@ export default function ExposureSummaryPage() {
                 type: "bar",
                 title: "Exposure Breakdown by Maturity Bucket",
                 data: maturityBucketData,
-                height: 300
+                height: 400
               }}
+              className="h-full"
             />
           </div>
 
