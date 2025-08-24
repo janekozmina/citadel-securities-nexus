@@ -439,6 +439,62 @@ export const secondaryNavigation: Record<string, NavigationItem[]> = {
           path: '/csd/transactions/documents-approval',
           icon: FileCheck,
           description: 'Document approval workflow'
+        },
+        {
+          id: 'settled-transactions',
+          title: 'Settled Transactions',
+          path: '/csd/transactions/settled',
+          icon: CheckCircle,
+          description: 'View completed and settled transactions'
+        },
+        {
+          id: 'pending-transactions',
+          title: 'Pending Transactions',
+          path: '/csd/transactions/pending',
+          icon: Clock,
+          description: 'Monitor pending transactions'
+        },
+        {
+          id: 'failed-transactions',
+          title: 'Failed Transactions',
+          path: '/csd/transactions/failed',
+          icon: XCircle,
+          description: 'Review and manage failed transactions'
+        },
+        {
+          id: 'transfers-dvp',
+          title: 'Transfers (DvF / DvP)',
+          path: '/csd/transactions/transfers',
+          icon: ArrowDownUp,
+          description: 'Delivery versus payment transfers'
+        },
+        {
+          id: 'cross-border-settlement',
+          title: 'Cross-Border Settlement',
+          path: '/csd/transactions/cross-border-settlement',
+          icon: Globe,
+          description: 'Cross-border securities settlement'
+        },
+        {
+          id: 'exchange-trades-settlement',
+          title: 'Exchange Trades Settlement',
+          path: '/csd/transactions/exchange-trades-settlement',
+          icon: TrendingUp,
+          description: 'Settlement of exchange-traded securities'
+        },
+        {
+          id: 'clearing-manager',
+          title: 'Clearing Manager',
+          path: '/csd/transactions/clearing-manager',
+          icon: Shield,
+          description: 'Clearing operations management'
+        },
+        {
+          id: 'payments-status',
+          title: 'Payments Status',
+          path: '/csd/transactions/payments-status',
+          icon: CreditCard,
+          description: 'Payment processing status monitoring'
         }
       ]
     },
