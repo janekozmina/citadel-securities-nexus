@@ -54,7 +54,10 @@ import DocumentsApprovalPage from "./pages/csd/DocumentsApprovalPage";
 import SettledTransactionsPage from "./pages/csd/SettledTransactionsPage";
 import PendingTransactionsPage from "./pages/csd/PendingTransactionsPage";
 import FailedTransactionsPage from "./pages/csd/FailedTransactionsPage";
-import TransfersDvpPage from "./pages/csd/TransfersDvpPage";
+import CrossBorderSettlementPage from "./pages/csd/CrossBorderSettlementPage";
+import ExchangeTradesSettlementPage from "./pages/csd/ExchangeTradesSettlementPage";
+import ClearingManagerPage from "./pages/csd/ClearingManagerPage";
+import PaymentsStatusPage from "./pages/csd/PaymentsStatusPage";
 import RegisterCBBInstrumentPage from "./pages/securities/RegisterCBBInstrumentPage";
 import RegisterTreasuryBillPage from "./pages/securities/RegisterTreasuryBillPage";
 import RegisterTreasuryBondPage from "./pages/securities/RegisterTreasuryBondPage";
@@ -315,16 +318,48 @@ const App = () => (
                  </MainLayout>
                </ProtectedRoute>
              } />
-             <Route path="/csd/transactions/transfers" element={
-               <ProtectedRoute>
-                 <MainLayout>
-                   <TransfersDvpPage />
-                 </MainLayout>
-               </ProtectedRoute>
+              <Route path="/csd/transactions/transfers" element={
+                <ProtectedRoute>
+                  <MainLayout>
+                    <TransfersPage />
+                  </MainLayout>
+                </ProtectedRoute>
               } />
-              
-              {/* CSD Summary Pages */}
-              <Route path="/csd/open-market-operations/auctions-summary" element={
+
+              <Route path="/csd/transactions/cross-border-settlement" element={
+                <ProtectedRoute>
+                  <MainLayout>
+                    <CrossBorderSettlementPage />
+                  </MainLayout>
+                </ProtectedRoute>
+              } />
+
+              <Route path="/csd/transactions/exchange-trades-settlement" element={
+                <ProtectedRoute>
+                  <MainLayout>
+                    <ExchangeTradesSettlementPage />
+                  </MainLayout>
+                </ProtectedRoute>
+              } />
+
+              <Route path="/csd/transactions/clearing-manager" element={
+                <ProtectedRoute>
+                  <MainLayout>
+                    <ClearingManagerPage />
+                  </MainLayout>
+                </ProtectedRoute>
+              } />
+
+              <Route path="/csd/transactions/payments-status" element={
+                <ProtectedRoute>
+                  <MainLayout>
+                    <PaymentsStatusPage />
+                  </MainLayout>
+                </ProtectedRoute>
+              } />
+               
+               {/* CSD Summary Pages */}
+               <Route path="/csd/open-market-operations/auctions-summary" element={
                 <ProtectedRoute>
                   <MainLayout>
                     <AuctionsSummaryPage />
