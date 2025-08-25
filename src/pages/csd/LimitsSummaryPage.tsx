@@ -2,7 +2,7 @@ import React from 'react';
 import { PageHeader } from '@/components/common/PageHeader';
 import { InteractiveChart } from '@/components/common/InteractiveChart';
 import { DataTable } from '@/components/common/DataTable';
-import { Card, CardContent } from '@/components/ui/card';
+import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import { QuickActionsManager } from '@/components/common/QuickActionsManager';
 import { Lock, AlertTriangle, CheckCircle, Activity, BarChart3, Users } from 'lucide-react';
@@ -169,14 +169,24 @@ export default function LimitsSummaryPage() {
           </div>
 
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-            <InteractiveChart
-              config={{
-                type: "pie",
-                title: "Limit Status Distribution",
-                data: limitStatusData,
-                height: 300
-              }}
-            />
+            <Card>
+              <CardHeader>
+                <CardTitle className="flex items-center gap-2">
+                  <BarChart3 className="h-5 w-5" />
+                  Limit Status Distribution
+                </CardTitle>
+              </CardHeader>
+              <CardContent>
+                <InteractiveChart
+                  config={{
+                    type: "pie",
+                    title: "",
+                    data: limitStatusData,
+                    height: 280
+                  }}
+                />
+              </CardContent>
+            </Card>
 
             <InteractiveChart
               config={{

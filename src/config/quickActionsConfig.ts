@@ -293,6 +293,15 @@ export const quickActionsConfig: Record<string, QuickAction[]> = {
   // CSD Quick Actions
   csd: [
     {
+      id: 'configure-alert',
+      label: 'Configure New Alert',
+      icon: Plus,
+      variant: 'default',
+      category: 'Alerts',
+      description: 'Configure new limit alert settings',
+      permissions: ['csd.limits.alerts']
+    },
+    {
       id: 'settlement-monitoring',
       label: 'Settlement Monitoring',
       icon: Clock,
@@ -788,6 +797,7 @@ export const defaultQuickActions: Record<string, string[]> = {
   'register-treasury-bill': ['register-new', 'download-registry', 'view-calendar', 'set-alerts'],
   'register-treasury-bond': ['register-new', 'download-registry', 'view-calendar', 'set-alerts'],
   'transfers': ['submit-transfer-instruction', 'amend-pending-instruction', 'cancel-instruction', 'download-instruction-report', 'notify-counterparty'],
+  'limits-alerts': ['configure-alert'],
   'cash-operations': ['cash-withdrawal', 'cash-deposit', 'vault-reconciliation', 'cash-transfer', 'compliance-report'],
   'bi-reports': ['access-bi-configuration'],
   'rtgs-configuration': ['access-configuration-panel'],
