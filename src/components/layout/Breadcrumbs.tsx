@@ -162,6 +162,18 @@ const routeMap: Record<string, RouteInfo> = {
   '/csd/open-market-operations/fx-swap-auction': { path: '/csd/open-market-operations/fx-swap-auction', label: 'FX SWAP Auction', parent: '/csd/open-market-operations' },
   '/csd/open-market-operations/debt-switch-auction': { path: '/csd/open-market-operations/debt-switch-auction', label: 'Debt Switch Auction', parent: '/csd/open-market-operations' },
   '/csd/open-market-operations/buyback-auction': { path: '/csd/open-market-operations/buyback-auction', label: 'Buyback Auction', parent: '/csd/open-market-operations' },
+  
+  // Standing Facilities Routes
+  '/csd/standing-facilities': { path: '/csd/standing-facilities', label: 'Standing Facilities', parent: '/csd' },
+  '/csd/standing-facilities/islamic-liquidity-summary': { path: '/csd/standing-facilities/islamic-liquidity-summary', label: 'Islamic Liquidity Summary', parent: '/csd/standing-facilities' },
+  '/csd/standing-facilities/ilf': { path: '/csd/standing-facilities/ilf', label: 'ILF', parent: '/csd/standing-facilities' },
+  '/csd/standing-facilities/floor-facilities': { path: '/csd/standing-facilities/floor-facilities', label: 'Floor Facilities', parent: '/csd/standing-facilities' },
+  '/csd/standing-facilities/lending-facilities': { path: '/csd/standing-facilities/lending-facilities', label: 'Lending Facilities', parent: '/csd/standing-facilities' },
+  '/csd/standing-facilities/deposit-facilities': { path: '/csd/standing-facilities/deposit-facilities', label: 'Deposit Facilities', parent: '/csd/standing-facilities' },
+  '/csd/standing-facilities/repo': { path: '/csd/standing-facilities/repo', label: 'Repo', parent: '/csd/standing-facilities' },
+  '/csd/standing-facilities/reverse-repo': { path: '/csd/standing-facilities/reverse-repo', label: 'Reverse Repo', parent: '/csd/standing-facilities' },
+  '/csd/standing-facilities/islamic-deposits': { path: '/csd/standing-facilities/islamic-deposits', label: 'Islamic Deposits', parent: '/csd/standing-facilities' },
+  '/csd/standing-facilities/islamic-lending-securities': { path: '/csd/standing-facilities/islamic-lending-securities', label: 'Islamic Lending against Securities (ISLI)', parent: '/csd/standing-facilities' },
 };
 
 export function Breadcrumbs() {
