@@ -183,6 +183,11 @@ const routeMap: Record<string, RouteInfo> = {
   // Reserves Management Routes
   '/csd/reserves-management': { path: '/csd/reserves-management', label: 'Reserves Management', parent: '/csd' },
   '/csd/reserves-management/summary': { path: '/csd/reserves-management/summary', label: 'Reserves Summary', parent: '/csd/reserves-management' },
+  
+  // Limits Routes  
+  '/csd/limits': { path: '/csd/limits', label: 'Limits', parent: '/csd' },
+  '/csd/limits/summary': { path: '/csd/limits/summary', label: 'Limits Summary', parent: '/csd/limits' },
+  '/csd/limits/alerts': { path: '/csd/limits/alerts', label: 'Limits Alerts', parent: '/csd/limits' },
 };
 
 export function Breadcrumbs() {

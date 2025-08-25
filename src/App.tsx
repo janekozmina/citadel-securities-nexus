@@ -28,6 +28,7 @@ import AuctionsSummaryPage from "./pages/csd/AuctionsSummaryPage";
 import OperationsSummaryPage from "./pages/csd/OperationsSummaryPage";
 import ReservesSummaryPage from "./pages/csd/ReservesSummaryPage";
 import LimitsSummaryPage from "./pages/csd/LimitsSummaryPage";
+import LimitsAlertsPage from "./pages/csd/LimitsAlertsPage";
 import TransactionReconciliationPage from "./pages/csd/TransactionReconciliationPage";
 import InvestorsSummaryPage from "./pages/csd/InvestorsSummaryPage";
 import CMSDashboardPage from "./pages/cms/CMSDashboardPage";
@@ -409,6 +410,13 @@ const App = () => (
                 <ProtectedRoute>
                   <MainLayout>
                     <LimitsSummaryPage />
+                  </MainLayout>
+                </ProtectedRoute>
+              } />
+              <Route path="/csd/limits/alerts" element={
+                <ProtectedRoute>
+                  <MainLayout>
+                    <LimitsAlertsPage />
                   </MainLayout>
                 </ProtectedRoute>
               } />

@@ -347,6 +347,7 @@ export default function LimitsAlertsPage() {
             </CardHeader>
             <CardContent>
               <DataTable
+                title="Alert Configurations"
                 data={alertConfigData}
                 columns={[
                   { key: 'alertName', label: 'Alert Name' },
