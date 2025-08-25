@@ -612,6 +612,78 @@ const App = () => (
               </ProtectedRoute>
             } />
             
+            {/* OMO Routes */}
+            <Route path="/omo/active-auctions" element={
+              <ProtectedRoute>
+                <MainLayout>
+                  <ActiveAuctionsPage />
+                </MainLayout>
+              </ProtectedRoute>
+            } />
+            <Route path="/omo/cb-auction" element={
+              <ProtectedRoute>
+                <MainLayout>
+                  <CBAuctionPage />
+                </MainLayout>
+              </ProtectedRoute>
+            } />
+            <Route path="/omo/repo-reverse-repo-auction" element={
+              <ProtectedRoute>
+                <MainLayout>
+                  <RepoReverseRepoAuctionPage />
+                </MainLayout>
+              </ProtectedRoute>
+            } />
+            <Route path="/omo/deposit-auction" element={
+              <ProtectedRoute>
+                <MainLayout>
+                  <DepositAuctionPage />
+                </MainLayout>
+              </ProtectedRoute>
+            } />
+            <Route path="/omo/outright-auction" element={
+              <ProtectedRoute>
+                <MainLayout>
+                  <OutrightAuctionPage />
+                </MainLayout>
+              </ProtectedRoute>
+            } />
+            <Route path="/omo/fx-auction" element={
+              <ProtectedRoute>
+                <MainLayout>
+                  <FXAuctionPage />
+                </MainLayout>
+              </ProtectedRoute>
+            } />
+            <Route path="/omo/fx-forward-auction" element={
+              <ProtectedRoute>
+                <MainLayout>
+                  <FXForwardAuctionPage />
+                </MainLayout>
+              </ProtectedRoute>
+            } />
+            <Route path="/omo/fx-swap-auction" element={
+              <ProtectedRoute>
+                <MainLayout>
+                  <FXSwapAuctionPage />
+                </MainLayout>
+              </ProtectedRoute>
+            } />
+            <Route path="/omo/debt-switch-auction" element={
+              <ProtectedRoute>
+                <MainLayout>
+                  <DebtSwitchAuctionPage />
+                </MainLayout>
+              </ProtectedRoute>
+            } />
+            <Route path="/omo/buyback-auction" element={
+              <ProtectedRoute>
+                <MainLayout>
+                  <BuybackAuctionPage />
+                </MainLayout>
+              </ProtectedRoute>
+            } />
+            
             {/* Participants Routes */}
             <Route path="/participants/unified-portal" element={
               <ProtectedRoute>
