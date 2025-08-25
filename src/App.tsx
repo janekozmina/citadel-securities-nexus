@@ -399,27 +399,21 @@ const App = () => (
                   </MainLayout>
                 </ProtectedRoute>
               } />
-              <Route path="/csd/reserves-management/summary" element={
-                <ProtectedRoute>
-                  <MainLayout>
-                    <ReservesSummaryPage />
-                  </MainLayout>
-                </ProtectedRoute>
-              } />
-              <Route path="/csd/limits/summary" element={
-                <ProtectedRoute>
-                  <MainLayout>
-                    <LimitsSummaryPage />
-                  </MainLayout>
-                </ProtectedRoute>
-              } />
-              <Route path="/csd/limits/alerts" element={
-                <ProtectedRoute>
-                  <MainLayout>
-                    <LimitsAlertsPage />
-                  </MainLayout>
-                </ProtectedRoute>
-              } />
+            {/* Limits Routes */}
+            <Route path="/csd/limits/summary" element={
+              <ProtectedRoute>
+                <MainLayout>
+                  <LimitsSummaryPage />
+                </MainLayout>
+              </ProtectedRoute>
+            } />
+            <Route path="/csd/limits/alerts" element={
+              <ProtectedRoute>
+                <MainLayout>
+                  <LimitsAlertsPage />
+                </MainLayout>
+              </ProtectedRoute>
+            } />
               <Route path="/csd/reconciliation/transactions" element={
                 <ProtectedRoute>
                   <MainLayout>
