@@ -59,6 +59,11 @@ export const QuickActionsManager = ({ pageKey, systemType, className, onActionCl
       onActionClick(action.id);
     }
     
+    // Handle configure-alert action
+    if (action.id === 'configure-alert') {
+      return; // onActionClick handler will handle this
+    }
+    
     // Check if action has external URL
     if (quickActionUrls[action.id]) {
       window.open(quickActionUrls[action.id], '_blank');
