@@ -87,7 +87,7 @@ export default function CrossBorderSettlementPage() {
                 type: "pie",
                 title: "Settlement by Region",
                 data: regionDistribution,
-                height: 300
+                height: 400
               }}
               pieChartSize="medium"
               className="h-full"

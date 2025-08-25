@@ -113,8 +113,9 @@ export default function TransactionsSummaryPage() {
                 type: "pie",
                 title: "Transaction Status Distribution",
                 data: statusDistribution,
-                height: 300
+                height: 400
               }}
+              pieChartSize="medium"
             />
 
             <InteractiveChart

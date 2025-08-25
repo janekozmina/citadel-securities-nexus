@@ -38,11 +38,11 @@ export default function FailedTransactionsPage() {
   ];
 
   const failedData = [
-    { txnId: 'TXN020', type: 'DvP Transfer', counterparty: 'Test Bank', amount: 'BD 800,000', security: 'GOV-TB-010', failTime: '2024-01-18 16:30', reason: 'Insufficient Securities', retryCount: 2, status: 'Under Review' },
-    { txnId: 'TXN021', type: 'Cross-Border', counterparty: 'External CSD', amount: 'BD 1,200,000', security: 'CORP-BD-011', failTime: '2024-01-18 14:15', reason: 'Network Timeout', retryCount: 3, status: 'Retry Scheduled' },
-    { txnId: 'TXN022', type: 'Exchange Trade', counterparty: 'BHB', amount: 'BD 2,500,000', security: 'SUKUK-003', failTime: '2024-01-18 11:45', reason: 'Invalid Instruction', retryCount: 1, status: 'Investigation' },
-    { txnId: 'TXN023', type: 'Repo Settlement', counterparty: 'Investment Corp', amount: 'BD 1,800,000', security: 'BOND-012', failTime: '2024-01-17 15:20', reason: 'Settlement Cut-off', retryCount: 0, status: 'Manual Review' },
-    { txnId: 'TXN024', type: 'DvF Transfer', counterparty: 'Islamic Finance', amount: 'BD 900,000', security: 'GOV-TB-013', failTime: '2024-01-17 13:10', reason: 'Duplicate Transaction', retryCount: 1, status: 'Resolved' }
+    { txnId: 'TXN020', type: 'DvP Transfer', counterparty: 'Test Bank', amount: 'BHD 800,000', security: 'GOV-TB-010', failTime: '2024-01-18 16:30', reason: 'Insufficient Securities', retryCount: 2, status: 'Under Review' },
+    { txnId: 'TXN021', type: 'Cross-Border', counterparty: 'External CSD', amount: 'BHD 1,200,000', security: 'CORP-BD-011', failTime: '2024-01-18 14:15', reason: 'Network Timeout', retryCount: 3, status: 'Retry Scheduled' },
+    { txnId: 'TXN022', type: 'Exchange Trade', counterparty: 'BHB', amount: 'BHD 2,500,000', security: 'SUKUK-003', failTime: '2024-01-18 11:45', reason: 'Invalid Instruction', retryCount: 1, status: 'Investigation' },
+    { txnId: 'TXN023', type: 'Repo Settlement', counterparty: 'Investment Corp', amount: 'BHD 1,800,000', security: 'BOND-012', failTime: '2024-01-17 15:20', reason: 'Settlement Cut-off', retryCount: 0, status: 'Manual Review' },
+    { txnId: 'TXN024', type: 'DvF Transfer', counterparty: 'Islamic Finance', amount: 'BHD 900,000', security: 'GOV-TB-013', failTime: '2024-01-17 13:10', reason: 'Duplicate Transaction', retryCount: 1, status: 'Resolved' }
   ];
 
   return (

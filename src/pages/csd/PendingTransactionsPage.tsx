@@ -17,7 +17,7 @@ export default function PendingTransactionsPage() {
     },
     {
       title: 'Total Value',
-      value: 'BD 12.8M',
+      value: 'BHD 12.8M',
       change: '+2.5M',
       changeType: 'neutral' as const,
       icon: DollarSign
@@ -39,11 +39,11 @@ export default function PendingTransactionsPage() {
   ];
 
   const pendingData = [
-    { txnId: 'TXN010', type: 'DvP Transfer', counterparty: 'BMMI Bank', amount: 'BD 1,200,000', security: 'GOV-TB-005', submitTime: '2024-01-18 09:30', waitTime: '8.5 hrs', reason: 'Insufficient Collateral' },
-    { txnId: 'TXN011', type: 'Cross-Border', counterparty: 'External CSD', amount: 'BD 2,800,000', security: 'CORP-BD-006', submitTime: '2024-01-18 11:15', waitTime: '6.3 hrs', reason: 'Awaiting Confirmation' },
-    { txnId: 'TXN012', type: 'Exchange Trade', counterparty: 'BHB', amount: 'BD 1,500,000', security: 'SUKUK-002', submitTime: '2024-01-18 13:20', waitTime: '4.2 hrs', reason: 'Settlement Validation' },
-    { txnId: 'TXN013', type: 'DvF Transfer', counterparty: 'Islamic Bank', amount: 'BD 3,100,000', security: 'GOV-TB-007', submitTime: '2024-01-18 14:45', waitTime: '2.8 hrs', reason: 'Document Review' },
-    { txnId: 'TXN014', type: 'Repo Settlement', counterparty: 'Investment Bank', amount: 'BD 2,200,000', security: 'BOND-008', submitTime: '2024-01-18 15:30', waitTime: '2.1 hrs', reason: 'Counterparty Approval' }
+    { txnId: 'TXN010', type: 'DvP Transfer', counterparty: 'BMMI Bank', amount: 'BHD 1,200,000', security: 'GOV-TB-005', submitTime: '2024-01-18 09:30', waitTime: '8.5 hrs', reason: 'Insufficient Collateral' },
+    { txnId: 'TXN011', type: 'Cross-Border', counterparty: 'External CSD', amount: 'BHD 2,800,000', security: 'CORP-BD-006', submitTime: '2024-01-18 11:15', waitTime: '6.3 hrs', reason: 'Awaiting Confirmation' },
+    { txnId: 'TXN012', type: 'Exchange Trade', counterparty: 'BHB', amount: 'BHD 1,500,000', security: 'SUKUK-002', submitTime: '2024-01-18 13:20', waitTime: '4.2 hrs', reason: 'Settlement Validation' },
+    { txnId: 'TXN013', type: 'DvF Transfer', counterparty: 'Islamic Bank', amount: 'BHD 3,100,000', security: 'GOV-TB-007', submitTime: '2024-01-18 14:45', waitTime: '2.8 hrs', reason: 'Document Review' },
+    { txnId: 'TXN014', type: 'Repo Settlement', counterparty: 'Investment Bank', amount: 'BHD 2,200,000', security: 'BOND-008', submitTime: '2024-01-18 15:30', waitTime: '2.1 hrs', reason: 'Counterparty Approval' }
   ];
 
   return (

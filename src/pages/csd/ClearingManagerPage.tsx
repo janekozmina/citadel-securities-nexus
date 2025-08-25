@@ -39,11 +39,11 @@ export default function ClearingManagerPage() {
   ];
 
   const clearingData = [
-    { clearingId: 'CLR001', member: 'NBB', trade: 'EQUITY-001', amount: 'BD 2,500,000', margin: 'BD 125,000', status: 'Cleared', clearingTime: '14:25:12', riskScore: 'Low' },
-    { clearingId: 'CLR002', member: 'AUB', trade: 'BOND-002', amount: 'BD 1,800,000', margin: 'BD 180,000', status: 'Pending', clearingTime: '-', riskScore: 'Medium' },
-    { clearingId: 'CLR003', member: 'BBK', trade: 'SUKUK-003', amount: 'BD 3,200,000', margin: 'BD 160,000', status: 'Cleared', clearingTime: '13:45:33', riskScore: 'Low' },
-    { clearingId: 'CLR004', member: 'BHB', trade: 'GOVT-TB', amount: 'BD 5,000,000', margin: 'BD 250,000', status: 'Cleared', clearingTime: '15:10:08', riskScore: 'Very Low' },
-    { clearingId: 'CLR005', member: 'GIB', trade: 'EQUITY-004', amount: 'BD 1,200,000', margin: 'BD 120,000', status: 'Risk Review', clearingTime: '-', riskScore: 'High' }
+    { clearingId: 'CLR001', member: 'NBB', trade: 'EQUITY-001', amount: 'BHD 2,500,000', margin: 'BHD 125,000', status: 'Cleared', clearingTime: '14:25:12', riskScore: 'Low' },
+    { clearingId: 'CLR002', member: 'AUB', trade: 'BOND-002', amount: 'BHD 1,800,000', margin: 'BHD 180,000', status: 'Pending', clearingTime: '-', riskScore: 'Medium' },
+    { clearingId: 'CLR003', member: 'BBK', trade: 'SUKUK-003', amount: 'BHD 3,200,000', margin: 'BHD 160,000', status: 'Cleared', clearingTime: '13:45:33', riskScore: 'Low' },
+    { clearingId: 'CLR004', member: 'BHB', trade: 'GOVT-TB', amount: 'BHD 5,000,000', margin: 'BHD 250,000', status: 'Cleared', clearingTime: '15:10:08', riskScore: 'Very Low' },
+    { clearingId: 'CLR005', member: 'GIB', trade: 'EQUITY-004', amount: 'BHD 1,200,000', margin: 'BHD 120,000', status: 'Risk Review', clearingTime: '-', riskScore: 'High' }
   ];
 
   const memberDistribution = [
@@ -86,7 +86,7 @@ export default function ClearingManagerPage() {
                 type: "pie",
                 title: "Clearing by Member Tier",
                 data: memberDistribution,
-                height: 300
+                height: 400
               }}
               pieChartSize="medium"
               className="h-full"

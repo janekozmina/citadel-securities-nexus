@@ -17,7 +17,7 @@ export default function ExchangeTradesSettlementPage() {
     },
     {
       title: 'Settlement Value',
-      value: 'BD 78.4M',
+      value: 'BHD 78.4M',
       change: '+18.5%',
       changeType: 'positive' as const,
       icon: DollarSign
@@ -39,11 +39,11 @@ export default function ExchangeTradesSettlementPage() {
   ];
 
   const exchangeTradesData = [
-    { tradeId: 'ET001', exchange: 'BSE', security: 'EQUITY-001', buyer: 'NBB Fund', seller: 'AUB Invest', amount: 'BD 850,000', quantity: '10,000', settlementDate: '2024-01-18', status: 'Settled' },
-    { tradeId: 'ET002', exchange: 'BSE', security: 'SUKUK-002', buyer: 'BBK Capital', seller: 'BHB Asset', amount: 'BD 1,200,000', quantity: '5,000', settlementDate: '2024-01-18', status: 'Pending' },
-    { tradeId: 'ET003', exchange: 'BSE', security: 'BOND-003', buyer: 'GIB', seller: 'SICO', amount: 'BD 2,100,000', quantity: '7,500', settlementDate: '2024-01-17', status: 'Settled' },
-    { tradeId: 'ET004', exchange: 'OTC', security: 'GOVT-TB-001', buyer: 'AAIB', seller: 'KFH Bahrain', amount: 'BD 3,500,000', quantity: '15,000', settlementDate: '2024-01-17', status: 'Settled' },
-    { tradeId: 'ET005', exchange: 'BSE', security: 'EQUITY-004', buyer: 'Investcorp', seller: 'Al Salam Bank', amount: 'BD 950,000', quantity: '8,200', settlementDate: '2024-01-18', status: 'In Progress' }
+    { tradeId: 'ET001', exchange: 'BSE', security: 'EQUITY-001', buyer: 'NBB Fund', seller: 'AUB Invest', amount: 'BHD 850,000', quantity: '10,000', settlementDate: '2024-01-18', status: 'Settled' },
+    { tradeId: 'ET002', exchange: 'BSE', security: 'SUKUK-002', buyer: 'BBK Capital', seller: 'BHB Asset', amount: 'BHD 1,200,000', quantity: '5,000', settlementDate: '2024-01-18', status: 'Pending' },
+    { tradeId: 'ET003', exchange: 'BSE', security: 'BOND-003', buyer: 'GIB', seller: 'SICO', amount: 'BHD 2,100,000', quantity: '7,500', settlementDate: '2024-01-17', status: 'Settled' },
+    { tradeId: 'ET004', exchange: 'OTC', security: 'GOVT-TB-001', buyer: 'AAIB', seller: 'KFH Bahrain', amount: 'BHD 3,500,000', quantity: '15,000', settlementDate: '2024-01-17', status: 'Settled' },
+    { tradeId: 'ET005', exchange: 'BSE', security: 'EQUITY-004', buyer: 'Investcorp', seller: 'Al Salam Bank', amount: 'BHD 950,000', quantity: '8,200', settlementDate: '2024-01-18', status: 'In Progress' }
   ];
 
   const exchangeDistribution = [
@@ -86,7 +86,7 @@ export default function ExchangeTradesSettlementPage() {
                 type: "pie",
                 title: "Settlement by Exchange",
                 data: exchangeDistribution,
-                height: 300
+                height: 400
               }}
               pieChartSize="medium"
               className="h-full"

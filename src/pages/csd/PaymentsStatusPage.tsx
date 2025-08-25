@@ -39,10 +39,10 @@ export default function PaymentsStatusPage() {
   ];
 
   const paymentsData = [
-    { paymentId: 'PAY001', type: 'DvP Settlement', participant: 'NBB', amount: 'BD 2,500,000', currency: 'BHD', status: 'Completed', initTime: '09:15:22', completionTime: '09:18:45' },
-    { paymentId: 'PAY002', type: 'Coupon Payment', participant: 'AUB', amount: 'BD 185,000', currency: 'BHD', status: 'Pending', initTime: '10:30:15', completionTime: '-' },
-    { paymentId: 'PAY003', type: 'Redemption', participant: 'BBK', amount: 'BD 1,200,000', currency: 'BHD', status: 'Completed', initTime: '11:45:33', completionTime: '11:47:12' },
-    { paymentId: 'PAY004', type: 'Dividend', participant: 'BHB', amount: 'BD 95,000', currency: 'BHD', status: 'Failed', initTime: '13:20:08', completionTime: '-' },
+    { paymentId: 'PAY001', type: 'DvP Settlement', participant: 'NBB', amount: 'BHD 2,500,000', currency: 'BHD', status: 'Completed', initTime: '09:15:22', completionTime: '09:18:45' },
+    { paymentId: 'PAY002', type: 'Coupon Payment', participant: 'AUB', amount: 'BHD 185,000', currency: 'BHD', status: 'Pending', initTime: '10:30:15', completionTime: '-' },
+    { paymentId: 'PAY003', type: 'Redemption', participant: 'BBK', amount: 'BHD 1,200,000', currency: 'BHD', status: 'Completed', initTime: '11:45:33', completionTime: '11:47:12' },
+    { paymentId: 'PAY004', type: 'Dividend', participant: 'BHB', amount: 'BHD 95,000', currency: 'BHD', status: 'Failed', initTime: '13:20:08', completionTime: '-' },
     { paymentId: 'PAY005', type: 'Cross-Border', participant: 'GIB', amount: 'USD 850,000', currency: 'USD', status: 'In Progress', initTime: '14:35:42', completionTime: '-' }
   ];
 
@@ -87,7 +87,7 @@ export default function PaymentsStatusPage() {
                 type: "pie",
                 title: "Payments by Type",
                 data: paymentTypeDistribution,
-                height: 300
+                height: 400
               }}
               pieChartSize="medium"
               className="h-full"
