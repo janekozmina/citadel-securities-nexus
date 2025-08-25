@@ -122,6 +122,8 @@ import RepoPage from '@/pages/csd/standing-facilities/RepoPage';
 import ReverseRepoPage from '@/pages/csd/standing-facilities/ReverseRepoPage';
 import IslamicDepositsPage from '@/pages/csd/standing-facilities/IslamicDepositsPage';
 import IslamicLendingSecuritiesPage from '@/pages/csd/standing-facilities/IslamicLendingSecuritiesPage';
+import LiquidityPositionSummaryPage from '@/pages/csd/liquidity-monitor/LiquidityPositionSummaryPage';
+import LiquidityForecastingPage from '@/pages/csd/liquidity-monitor/LiquidityForecastingPage';
 
 const queryClient = new QueryClient();
 
@@ -756,6 +758,22 @@ const App = () => (
               <ProtectedRoute>
                 <MainLayout>
                   <IslamicLendingSecuritiesPage />
+                </MainLayout>
+              </ProtectedRoute>
+            } />
+            
+            {/* Liquidity Monitor Routes */}
+            <Route path="/csd/liquidity-monitor/liquidity-position-summary" element={
+              <ProtectedRoute>
+                <MainLayout>
+                  <LiquidityPositionSummaryPage />
+                </MainLayout>
+              </ProtectedRoute>
+            } />
+            <Route path="/csd/liquidity-monitor/liquidity-forecasting" element={
+              <ProtectedRoute>
+                <MainLayout>
+                  <LiquidityForecastingPage />
                 </MainLayout>
               </ProtectedRoute>
             } />

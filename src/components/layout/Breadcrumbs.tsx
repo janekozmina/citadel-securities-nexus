@@ -174,6 +174,11 @@ const routeMap: Record<string, RouteInfo> = {
   '/csd/standing-facilities/reverse-repo': { path: '/csd/standing-facilities/reverse-repo', label: 'Reverse Repo', parent: '/csd/standing-facilities' },
   '/csd/standing-facilities/islamic-deposits': { path: '/csd/standing-facilities/islamic-deposits', label: 'Islamic Deposits', parent: '/csd/standing-facilities' },
   '/csd/standing-facilities/islamic-lending-securities': { path: '/csd/standing-facilities/islamic-lending-securities', label: 'Islamic Lending against Securities (ISLI)', parent: '/csd/standing-facilities' },
+  
+  // Liquidity Monitor Routes
+  '/csd/liquidity-monitor': { path: '/csd/liquidity-monitor', label: 'Liquidity Monitor', parent: '/csd' },
+  '/csd/liquidity-monitor/liquidity-position-summary': { path: '/csd/liquidity-monitor/liquidity-position-summary', label: 'Liquidity Position Summary', parent: '/csd/liquidity-monitor' },
+  '/csd/liquidity-monitor/liquidity-forecasting': { path: '/csd/liquidity-monitor/liquidity-forecasting', label: 'Liquidity Forecasting', parent: '/csd/liquidity-monitor' },
 };
 
 export function Breadcrumbs() {

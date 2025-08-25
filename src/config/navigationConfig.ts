@@ -650,6 +650,29 @@ export const secondaryNavigation: Record<string, NavigationItem[]> = {
       ]
     },
     {
+      id: 'liquidity-monitor',
+      title: 'Liquidity Monitor',
+      path: '/csd/liquidity-monitor',
+      icon: Activity,
+      description: 'Real-time liquidity monitoring and forecasting',
+      children: [
+        {
+          id: 'liquidity-position-summary',
+          title: 'Liquidity Position Summary',
+          path: '/csd/liquidity-monitor/liquidity-position-summary',
+          icon: BarChart3,
+          description: 'Comprehensive liquidity position analysis'
+        },
+        {
+          id: 'liquidity-forecasting', 
+          title: 'Liquidity Forecasting',
+          path: '/csd/liquidity-monitor/liquidity-forecasting',
+          icon: TrendingUp,
+          description: 'AI-powered liquidity forecasting and scenario analysis'
+        }
+      ]
+    },
+    {
       id: 'reserves-management',
       title: 'Reserves management',
       path: '/csd/reserves-management',
