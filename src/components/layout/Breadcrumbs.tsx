@@ -188,6 +188,14 @@ const routeMap: Record<string, RouteInfo> = {
   '/csd/limits': { path: '/csd/limits', label: 'Limits', parent: '/csd' },
   '/csd/limits/summary': { path: '/csd/limits/summary', label: 'Limits Summary', parent: '/csd/limits' },
   '/csd/limits/alerts': { path: '/csd/limits/alerts', label: 'Limits Alerts', parent: '/csd/limits' },
+  
+  // Reconciliation Routes
+  '/csd/reconciliation': { path: '/csd/reconciliation', label: 'Reconciliation', parent: '/csd' },
+  '/csd/reconciliation/transactions': { path: '/csd/reconciliation/transactions', label: 'Transaction Reconciliation', parent: '/csd/reconciliation' },
+  
+  // Investors Management Routes
+  '/csd/investors-management': { path: '/csd/investors-management', label: 'Investors Management', parent: '/csd' },
+  '/csd/investors-management/summary': { path: '/csd/investors-management/summary', label: 'Investors Summary', parent: '/csd/investors-management' },
 };
 
 export function Breadcrumbs() {

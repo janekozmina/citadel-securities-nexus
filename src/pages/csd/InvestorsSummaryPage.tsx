@@ -2,10 +2,10 @@ import React from 'react';
 import { PageHeader } from '@/components/common/PageHeader';
 import { InteractiveChart } from '@/components/common/InteractiveChart';
 import { DataTable } from '@/components/common/DataTable';
-import { Card, CardContent } from '@/components/ui/card';
+import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import { QuickActionsManager } from '@/components/common/QuickActionsManager';
-import { Users, DollarSign, TrendingUp, Building, UserCheck, Activity } from 'lucide-react';
+import { Users, DollarSign, TrendingUp, Building, UserCheck, Activity, PieChart } from 'lucide-react';
 
 export default function InvestorsSummaryPage() {
   const investorMetrics = [
@@ -173,14 +173,24 @@ export default function InvestorsSummaryPage() {
           </div>
 
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-            <InteractiveChart
-              config={{
-                type: "pie",
-                title: "Investor Type Distribution (%)",
-                data: investorTypeData,
-                height: 300
-              }}
-            />
+            <Card>
+              <CardHeader>
+                <CardTitle className="flex items-center gap-2">
+                  <PieChart className="h-5 w-5" />
+                  Investor Type Distribution (%)
+                </CardTitle>
+              </CardHeader>
+              <CardContent>
+                <InteractiveChart
+                  config={{
+                    type: "pie",
+                    title: "",
+                    data: investorTypeData,
+                    height: 280
+                  }}
+                />
+              </CardContent>
+            </Card>
 
             <InteractiveChart
               config={{

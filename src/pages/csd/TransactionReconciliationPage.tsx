@@ -2,10 +2,10 @@ import React from 'react';
 import { PageHeader } from '@/components/common/PageHeader';
 import { InteractiveChart } from '@/components/common/InteractiveChart';
 import { DataTable } from '@/components/common/DataTable';
-import { Card, CardContent } from '@/components/ui/card';
+import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import { QuickActionsManager } from '@/components/common/QuickActionsManager';
-import { CheckCircle, AlertTriangle, XCircle, Clock, FileCheck, Activity } from 'lucide-react';
+import { CheckCircle, AlertTriangle, XCircle, Clock, FileCheck, Activity, BarChart3 } from 'lucide-react';
 
 export default function TransactionReconciliationPage() {
   const reconciliationMetrics = [
@@ -162,14 +162,24 @@ export default function TransactionReconciliationPage() {
           </div>
 
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-            <InteractiveChart
-              config={{
-                type: "pie",
-                title: "Reconciliation Status Distribution",
-                data: reconciliationStatusData,
-                height: 300
-              }}
-            />
+            <Card>
+              <CardHeader>
+                <CardTitle className="flex items-center gap-2">
+                  <BarChart3 className="h-5 w-5" />
+                  Reconciliation Status Distribution
+                </CardTitle>
+              </CardHeader>
+              <CardContent>
+                <InteractiveChart
+                  config={{
+                    type: "pie",
+                    title: "",
+                    data: reconciliationStatusData,
+                    height: 280
+                  }}
+                />
+              </CardContent>
+            </Card>
 
             <InteractiveChart
               config={{
