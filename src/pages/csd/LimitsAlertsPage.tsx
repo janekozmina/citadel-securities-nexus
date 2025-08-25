@@ -265,6 +265,13 @@ export default function LimitsAlertsPage() {
         description="Configure and monitor limit alerts across all participants and risk categories"
       />
 
+      <div className="flex justify-end mb-4">
+        <Button onClick={() => handleConfigureAlert()} className="gap-2">
+          <Plus className="h-4 w-4" />
+          Configure New Alert
+        </Button>
+      </div>
+
       <div className="grid grid-cols-1 xl:grid-cols-4 gap-6 mb-8">
         <div className="xl:col-span-3 space-y-6">
           {/* Metrics Cards */}
@@ -315,9 +322,20 @@ export default function LimitsAlertsPage() {
           {/* Alert Configuration Management */}
           <Card>
             <CardHeader>
-              <div className="flex items-center gap-2">
-                <Settings className="h-5 w-5" />
-                <CardTitle>Alert Configurations</CardTitle>
+              <div className="flex items-center justify-between">
+                <div className="flex items-center gap-2">
+                  <Settings className="h-5 w-5" />
+                  <CardTitle>Alert Configurations</CardTitle>
+                </div>
+                <Button 
+                  variant="outline" 
+                  size="sm"
+                  onClick={() => handleConfigureAlert()}
+                  className="gap-2"
+                >
+                  <Plus className="h-4 w-4" />
+                  Add Configuration
+                </Button>
               </div>
             </CardHeader>
             <CardContent>
