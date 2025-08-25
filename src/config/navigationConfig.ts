@@ -501,16 +501,79 @@ export const secondaryNavigation: Record<string, NavigationItem[]> = {
     {
       id: 'open-market-operations',
       title: 'Open Market Operations',
-      path: '/csd/open-market-operations',
+      path: '/omo',
       icon: TrendingUp,
       description: 'Open market operations',
       children: [
         {
-          id: 'auctions-summary',
-          title: 'Auctions Summary',
-          path: '/csd/open-market-operations/auctions-summary',
-          icon: BarChart3,
-          description: 'Auctions overview'
+          id: 'active-auctions',
+          title: 'Active Auctions',
+          path: '/omo/active-auctions',
+          icon: Activity,
+          description: 'Currently active auctions'
+        },
+        {
+          id: 'cb-auction',
+          title: 'CB Auction',
+          path: '/omo/cb-auction',
+          icon: Building2,
+          description: 'Central Bank auction operations'
+        },
+        {
+          id: 'repo-reverse-repo-auction',
+          title: 'Repo/Reverse Repo Auction',
+          path: '/omo/repo-reverse-repo-auction',
+          icon: RefreshCw,
+          description: 'Repurchase and reverse repurchase agreement auctions'
+        },
+        {
+          id: 'deposit-auction',
+          title: 'Deposit Auction',
+          path: '/omo/deposit-auction',
+          icon: Banknote,
+          description: 'Deposit facility auctions'
+        },
+        {
+          id: 'outright-auction',
+          title: 'Outright Auction',
+          path: '/omo/outright-auction',
+          icon: TrendingUp,
+          description: 'Outright purchase and sale auctions'
+        },
+        {
+          id: 'fx-auction',
+          title: 'FX Auction',
+          path: '/omo/fx-auction',
+          icon: Globe,
+          description: 'Foreign exchange auctions'
+        },
+        {
+          id: 'fx-forward-auction',
+          title: 'FX Forward Auction',
+          path: '/omo/fx-forward-auction',
+          icon: Clock,
+          description: 'Foreign exchange forward auctions'
+        },
+        {
+          id: 'fx-swap-auction',
+          title: 'FX SWAP Auction',
+          path: '/omo/fx-swap-auction',
+          icon: RefreshCw,
+          description: 'Foreign exchange swap auctions'
+        },
+        {
+          id: 'debt-switch-auction',
+          title: 'Debt Switch Auction',
+          path: '/omo/debt-switch-auction',
+          icon: Layers,
+          description: 'Debt switching operations'
+        },
+        {
+          id: 'buyback-auction',
+          title: 'Buyback Auction',
+          path: '/omo/buyback-auction',
+          icon: Wallet,
+          description: 'Security buyback auctions'
         }
       ]
     },
