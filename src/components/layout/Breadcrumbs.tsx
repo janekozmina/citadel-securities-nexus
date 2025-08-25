@@ -149,6 +149,19 @@ const routeMap: Record<string, RouteInfo> = {
   
   // Reports
   '/reports': { path: '/reports', label: 'Reports' },
+  
+  // OMO Routes
+  '/csd/open-market-operations': { path: '/csd/open-market-operations', label: 'Open Market Operations', parent: '/csd' },
+  '/csd/open-market-operations/active-auctions': { path: '/csd/open-market-operations/active-auctions', label: 'Active Auctions', parent: '/csd/open-market-operations' },
+  '/csd/open-market-operations/cb-auction': { path: '/csd/open-market-operations/cb-auction', label: 'CB Auction', parent: '/csd/open-market-operations' },
+  '/csd/open-market-operations/repo-reverse-repo-auction': { path: '/csd/open-market-operations/repo-reverse-repo-auction', label: 'Repo/Reverse Repo Auction', parent: '/csd/open-market-operations' },
+  '/csd/open-market-operations/deposit-auction': { path: '/csd/open-market-operations/deposit-auction', label: 'Deposit Auction', parent: '/csd/open-market-operations' },
+  '/csd/open-market-operations/outright-auction': { path: '/csd/open-market-operations/outright-auction', label: 'Outright Auction', parent: '/csd/open-market-operations' },
+  '/csd/open-market-operations/fx-auction': { path: '/csd/open-market-operations/fx-auction', label: 'FX Auction', parent: '/csd/open-market-operations' },
+  '/csd/open-market-operations/fx-forward-auction': { path: '/csd/open-market-operations/fx-forward-auction', label: 'FX Forward Auction', parent: '/csd/open-market-operations' },
+  '/csd/open-market-operations/fx-swap-auction': { path: '/csd/open-market-operations/fx-swap-auction', label: 'FX SWAP Auction', parent: '/csd/open-market-operations' },
+  '/csd/open-market-operations/debt-switch-auction': { path: '/csd/open-market-operations/debt-switch-auction', label: 'Debt Switch Auction', parent: '/csd/open-market-operations' },
+  '/csd/open-market-operations/buyback-auction': { path: '/csd/open-market-operations/buyback-auction', label: 'Buyback Auction', parent: '/csd/open-market-operations' },
 };
 
 export function Breadcrumbs() {

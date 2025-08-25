@@ -613,70 +613,70 @@ const App = () => (
             } />
             
             {/* OMO Routes */}
-            <Route path="/omo/active-auctions" element={
+            <Route path="/csd/open-market-operations/active-auctions" element={
               <ProtectedRoute>
                 <MainLayout>
                   <ActiveAuctionsPage />
                 </MainLayout>
               </ProtectedRoute>
             } />
-            <Route path="/omo/cb-auction" element={
+            <Route path="/csd/open-market-operations/cb-auction" element={
               <ProtectedRoute>
                 <MainLayout>
                   <CBAuctionPage />
                 </MainLayout>
               </ProtectedRoute>
             } />
-            <Route path="/omo/repo-reverse-repo-auction" element={
+            <Route path="/csd/open-market-operations/repo-reverse-repo-auction" element={
               <ProtectedRoute>
                 <MainLayout>
                   <RepoReverseRepoAuctionPage />
                 </MainLayout>
               </ProtectedRoute>
             } />
-            <Route path="/omo/deposit-auction" element={
+            <Route path="/csd/open-market-operations/deposit-auction" element={
               <ProtectedRoute>
                 <MainLayout>
                   <DepositAuctionPage />
                 </MainLayout>
               </ProtectedRoute>
             } />
-            <Route path="/omo/outright-auction" element={
+            <Route path="/csd/open-market-operations/outright-auction" element={
               <ProtectedRoute>
                 <MainLayout>
                   <OutrightAuctionPage />
                 </MainLayout>
               </ProtectedRoute>
             } />
-            <Route path="/omo/fx-auction" element={
+            <Route path="/csd/open-market-operations/fx-auction" element={
               <ProtectedRoute>
                 <MainLayout>
                   <FXAuctionPage />
                 </MainLayout>
               </ProtectedRoute>
             } />
-            <Route path="/omo/fx-forward-auction" element={
+            <Route path="/csd/open-market-operations/fx-forward-auction" element={
               <ProtectedRoute>
                 <MainLayout>
                   <FXForwardAuctionPage />
                 </MainLayout>
               </ProtectedRoute>
             } />
-            <Route path="/omo/fx-swap-auction" element={
+            <Route path="/csd/open-market-operations/fx-swap-auction" element={
               <ProtectedRoute>
                 <MainLayout>
                   <FXSwapAuctionPage />
                 </MainLayout>
               </ProtectedRoute>
             } />
-            <Route path="/omo/debt-switch-auction" element={
+            <Route path="/csd/open-market-operations/debt-switch-auction" element={
               <ProtectedRoute>
                 <MainLayout>
                   <DebtSwitchAuctionPage />
                 </MainLayout>
               </ProtectedRoute>
             } />
-            <Route path="/omo/buyback-auction" element={
+            <Route path="/csd/open-market-operations/buyback-auction" element={
               <ProtectedRoute>
                 <MainLayout>
                   <BuybackAuctionPage />
