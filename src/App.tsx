@@ -58,6 +58,18 @@ import CrossBorderSettlementPage from "./pages/csd/CrossBorderSettlementPage";
 import ExchangeTradesSettlementPage from "./pages/csd/ExchangeTradesSettlementPage";
 import ClearingManagerPage from "./pages/csd/ClearingManagerPage";
 import PaymentsStatusPage from "./pages/csd/PaymentsStatusPage";
+
+// OMO Pages
+import ActiveAuctionsPage from "./pages/omo/ActiveAuctionsPage";
+import CBAuctionPage from "./pages/omo/CBAuctionPage";
+import RepoReverseRepoAuctionPage from "./pages/omo/RepoReverseRepoAuctionPage";
+import DepositAuctionPage from "./pages/omo/DepositAuctionPage";
+import OutrightAuctionPage from "./pages/omo/OutrightAuctionPage";
+import FXAuctionPage from "./pages/omo/FXAuctionPage";
+import FXForwardAuctionPage from "./pages/omo/FXForwardAuctionPage";
+import FXSwapAuctionPage from "./pages/omo/FXSwapAuctionPage";
+import DebtSwitchAuctionPage from "./pages/omo/DebtSwitchAuctionPage";
+import BuybackAuctionPage from "./pages/omo/BuybackAuctionPage";
 import RegisterCBBInstrumentPage from "./pages/securities/RegisterCBBInstrumentPage";
 import RegisterTreasuryBillPage from "./pages/securities/RegisterTreasuryBillPage";
 import RegisterTreasuryBondPage from "./pages/securities/RegisterTreasuryBondPage";
