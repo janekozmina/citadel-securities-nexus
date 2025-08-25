@@ -179,6 +179,10 @@ const routeMap: Record<string, RouteInfo> = {
   '/csd/liquidity-monitor': { path: '/csd/liquidity-monitor', label: 'Liquidity Monitor', parent: '/csd' },
   '/csd/liquidity-monitor/liquidity-position-summary': { path: '/csd/liquidity-monitor/liquidity-position-summary', label: 'Liquidity Position Summary', parent: '/csd/liquidity-monitor' },
   '/csd/liquidity-monitor/liquidity-forecasting': { path: '/csd/liquidity-monitor/liquidity-forecasting', label: 'Liquidity Forecasting', parent: '/csd/liquidity-monitor' },
+  
+  // Reserves Management Routes
+  '/csd/reserves-management': { path: '/csd/reserves-management', label: 'Reserves Management', parent: '/csd' },
+  '/csd/reserves-management/summary': { path: '/csd/reserves-management/summary', label: 'Reserves Summary', parent: '/csd/reserves-management' },
 };
 
 export function Breadcrumbs() {

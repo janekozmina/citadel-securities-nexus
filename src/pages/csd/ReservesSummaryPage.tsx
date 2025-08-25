@@ -2,10 +2,11 @@ import React from 'react';
 import { PageHeader } from '@/components/common/PageHeader';
 import { InteractiveChart } from '@/components/common/InteractiveChart';
 import { DataTable } from '@/components/common/DataTable';
-import { Card, CardContent } from '@/components/ui/card';
+import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import { QuickActionsManager } from '@/components/common/QuickActionsManager';
-import { Vault, DollarSign, Percent, TrendingUp, Activity, Shield } from 'lucide-react';
+import { Breadcrumbs } from '@/components/layout/Breadcrumbs';
+import { Vault, DollarSign, Percent, TrendingUp, Activity, Shield, Calculator } from 'lucide-react';
 
 export default function ReservesSummaryPage() {
   const reserveMetrics = [
@@ -114,8 +115,67 @@ export default function ReservesSummaryPage() {
     }
   ];
 
+  const reserveCalculationsData = [
+    {
+      calculationType: 'Daily Reserve Requirement',
+      baseAmount: 8500000000,
+      reserveRate: 0.125,
+      calculatedAmount: 1062500000,
+      actualAmount: 1150000000,
+      variance: 87500000,
+      status: 'Surplus',
+      calculatedDate: '2025-01-18',
+      nextReviewDate: '2025-01-25'
+    },
+    {
+      calculationType: 'Maintenance Period Average',
+      baseAmount: 8200000000,
+      reserveRate: 0.125,
+      calculatedAmount: 1025000000,
+      actualAmount: 1080000000,
+      variance: 55000000,
+      status: 'Surplus',
+      calculatedDate: '2025-01-17',
+      nextReviewDate: '2025-01-24'
+    },
+    {
+      calculationType: 'Weekly Adjustment',
+      baseAmount: 7900000000,
+      reserveRate: 0.125,
+      calculatedAmount: 987500000,
+      actualAmount: 950000000,
+      variance: -37500000,
+      status: 'Deficit',
+      calculatedDate: '2025-01-16',
+      nextReviewDate: '2025-01-23'
+    },
+    {
+      calculationType: 'Monthly Reconciliation',
+      baseAmount: 8100000000,
+      reserveRate: 0.125,
+      calculatedAmount: 1012500000,
+      actualAmount: 1025000000,
+      variance: 12500000,
+      status: 'Surplus',
+      calculatedDate: '2025-01-15',
+      nextReviewDate: '2025-02-15'
+    },
+    {
+      calculationType: 'Special Assessment',
+      baseAmount: 5500000000,
+      reserveRate: 0.15,
+      calculatedAmount: 825000000,
+      actualAmount: 810000000,
+      variance: -15000000,
+      status: 'Deficit',
+      calculatedDate: '2025-01-14',
+      nextReviewDate: '2025-01-21'
+    }
+  ];
+
   return (
     <div className="page-container">
+      <Breadcrumbs />
       <PageHeader
         title="Reserves Summary"
         description="Monitor bank reserve requirements and compliance across the financial system"
@@ -145,14 +205,24 @@ export default function ReservesSummaryPage() {
           </div>
 
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-            <InteractiveChart
-              config={{
-                type: "pie",
-                title: "Reserve Composition (%)",
-                data: reserveTypeData,
-                height: 300
-              }}
-            />
+            <Card>
+              <CardHeader>
+                <CardTitle className="flex items-center gap-2">
+                  <Vault className="h-5 w-5" />
+                  Reserve Composition (%)
+                </CardTitle>
+              </CardHeader>
+              <CardContent>
+                <InteractiveChart
+                  config={{
+                    type: "pie",
+                    title: "",
+                    data: reserveTypeData,
+                    height: 280
+                  }}
+                />
+              </CardContent>
+            </Card>
 
             <InteractiveChart
               config={{
@@ -182,6 +252,24 @@ export default function ReservesSummaryPage() {
               { key: 'lastUpdate', label: 'Last Update', type: 'date' }
             ]}
             searchable
+          />
+
+          <DataTable
+            title="Reserves Calculations"
+            data={reserveCalculationsData}
+            columns={[
+              { key: 'calculationType', label: 'Calculation Type' },
+              { key: 'baseAmount', label: 'Base Amount', type: 'currency' },
+              { key: 'reserveRate', label: 'Reserve Rate (%)', type: 'number' },
+              { key: 'calculatedAmount', label: 'Calculated Amount', type: 'currency' },
+              { key: 'actualAmount', label: 'Actual Amount', type: 'currency' },
+              { key: 'variance', label: 'Variance', type: 'currency' },
+              { key: 'status', label: 'Status', type: 'status' },
+              { key: 'calculatedDate', label: 'Calculated Date', type: 'date' },
+              { key: 'nextReviewDate', label: 'Next Review', type: 'date' }
+            ]}
+            searchable
+            icon={Calculator}
           />
         </div>
 
