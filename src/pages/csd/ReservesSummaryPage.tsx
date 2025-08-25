@@ -5,7 +5,6 @@ import { DataTable } from '@/components/common/DataTable';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import { QuickActionsManager } from '@/components/common/QuickActionsManager';
-import { Breadcrumbs } from '@/components/layout/Breadcrumbs';
 import { Vault, DollarSign, Percent, TrendingUp, Activity, Shield, Calculator } from 'lucide-react';
 
 export default function ReservesSummaryPage() {
@@ -175,7 +174,6 @@ export default function ReservesSummaryPage() {
 
   return (
     <div className="page-container">
-      <Breadcrumbs />
       <PageHeader
         title="Reserves Summary"
         description="Monitor bank reserve requirements and compliance across the financial system"
