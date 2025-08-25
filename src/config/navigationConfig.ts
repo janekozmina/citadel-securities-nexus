@@ -585,11 +585,67 @@ export const secondaryNavigation: Record<string, NavigationItem[]> = {
       description: 'Standing facilities management',
       children: [
         {
-          id: 'standing-operations-summary',
-          title: 'Operations Summary',
-          path: '/csd/standing-facilities/operations-summary',
+          id: 'islamic-liquidity-summary',
+          title: 'Islamic Liquidity Summary',
+          path: '/csd/standing-facilities/islamic-liquidity-summary',
           icon: BarChart3,
-          description: 'Standing facilities overview'
+          description: 'Islamic liquidity overview'
+        },
+        {
+          id: 'ilf',
+          title: 'ILF',
+          path: '/csd/standing-facilities/ilf',
+          icon: DollarSign,
+          description: 'Islamic Liquidity Facility'
+        },
+        {
+          id: 'floor-facilities',
+          title: 'Floor Facilities',
+          path: '/csd/standing-facilities/floor-facilities',
+          icon: TrendingDown,
+          description: 'Floor facility operations'
+        },
+        {
+          id: 'lending-facilities',
+          title: 'Lending Facilities',
+          path: '/csd/standing-facilities/lending-facilities',
+          icon: Wallet,
+          description: 'Lending facility operations'
+        },
+        {
+          id: 'deposit-facilities',
+          title: 'Deposit Facilities',
+          path: '/csd/standing-facilities/deposit-facilities',
+          icon: Archive,
+          description: 'Deposit facility operations'
+        },
+        {
+          id: 'repo',
+          title: 'Repo',
+          path: '/csd/standing-facilities/repo',
+          icon: RefreshCw,
+          description: 'Repurchase agreement operations'
+        },
+        {
+          id: 'reverse-repo',
+          title: 'Reverse Repo',
+          path: '/csd/standing-facilities/reverse-repo',
+          icon: RefreshCw,
+          description: 'Reverse repurchase agreement operations'
+        },
+        {
+          id: 'islamic-deposits',
+          title: 'Islamic Deposits (Wakala/ Murabaha)',
+          path: '/csd/standing-facilities/islamic-deposits',
+          icon: BookOpen,
+          description: 'Islamic deposit facilities'
+        },
+        {
+          id: 'islamic-lending-securities',
+          title: 'Islamic Lending against securities (ISLI)',
+          path: '/csd/standing-facilities/islamic-lending-securities',
+          icon: ShieldCheck,
+          description: 'Islamic securities lending facility'
         }
       ]
     },

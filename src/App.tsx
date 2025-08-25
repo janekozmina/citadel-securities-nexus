@@ -112,6 +112,17 @@ import RTGSRolesPermissionsPage from "./pages/admin/RTGSRolesPermissionsPage";
 import CSDCMSRolesPermissionsPage from "./pages/admin/CSDCMSRolesPermissionsPage";
 import AdminDashboardPage from "./pages/admin/AdminDashboardPage";
 
+// Standing Facilities Pages
+import IslamicLiquiditySummaryPage from '@/pages/csd/standing-facilities/IslamicLiquiditySummaryPage';
+import ILFPage from '@/pages/csd/standing-facilities/ILFPage';
+import FloorFacilitiesPage from '@/pages/csd/standing-facilities/FloorFacilitiesPage';
+import LendingFacilitiesPage from '@/pages/csd/standing-facilities/LendingFacilitiesPage';
+import DepositFacilitiesPage from '@/pages/csd/standing-facilities/DepositFacilitiesPage';
+import RepoPage from '@/pages/csd/standing-facilities/RepoPage';
+import ReverseRepoPage from '@/pages/csd/standing-facilities/ReverseRepoPage';
+import IslamicDepositsPage from '@/pages/csd/standing-facilities/IslamicDepositsPage';
+import IslamicLendingSecuritiesPage from '@/pages/csd/standing-facilities/IslamicLendingSecuritiesPage';
+
 const queryClient = new QueryClient();
 
 const App = () => (
@@ -680,6 +691,71 @@ const App = () => (
               <ProtectedRoute>
                 <MainLayout>
                   <BuybackAuctionPage />
+                </MainLayout>
+              </ProtectedRoute>
+            } />
+            
+            {/* Standing Facilities Routes */}
+            <Route path="/csd/standing-facilities/islamic-liquidity-summary" element={
+              <ProtectedRoute>
+                <MainLayout>
+                  <IslamicLiquiditySummaryPage />
+                </MainLayout>
+              </ProtectedRoute>
+            } />
+            <Route path="/csd/standing-facilities/ilf" element={
+              <ProtectedRoute>
+                <MainLayout>
+                  <ILFPage />
+                </MainLayout>
+              </ProtectedRoute>
+            } />
+            <Route path="/csd/standing-facilities/floor-facilities" element={
+              <ProtectedRoute>
+                <MainLayout>
+                  <FloorFacilitiesPage />
+                </MainLayout>
+              </ProtectedRoute>
+            } />
+            <Route path="/csd/standing-facilities/lending-facilities" element={
+              <ProtectedRoute>
+                <MainLayout>
+                  <LendingFacilitiesPage />
+                </MainLayout>
+              </ProtectedRoute>
+            } />
+            <Route path="/csd/standing-facilities/deposit-facilities" element={
+              <ProtectedRoute>
+                <MainLayout>
+                  <DepositFacilitiesPage />
+                </MainLayout>
+              </ProtectedRoute>
+            } />
+            <Route path="/csd/standing-facilities/repo" element={
+              <ProtectedRoute>
+                <MainLayout>
+                  <RepoPage />
+                </MainLayout>
+              </ProtectedRoute>
+            } />
+            <Route path="/csd/standing-facilities/reverse-repo" element={
+              <ProtectedRoute>
+                <MainLayout>
+                  <ReverseRepoPage />
+                </MainLayout>
+              </ProtectedRoute>
+            } />
+            <Route path="/csd/standing-facilities/islamic-deposits" element={
+              <ProtectedRoute>
+                <MainLayout>
+                  <IslamicDepositsPage />
+                </MainLayout>
+              </ProtectedRoute>
+            } />
+            <Route path="/csd/standing-facilities/islamic-lending-securities" element={
+              <ProtectedRoute>
+                <MainLayout>
+                  <IslamicLendingSecuritiesPage />
                 </MainLayout>
               </ProtectedRoute>
             } />
