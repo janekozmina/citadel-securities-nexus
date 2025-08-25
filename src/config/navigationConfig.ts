@@ -701,6 +701,13 @@ export const secondaryNavigation: Record<string, NavigationItem[]> = {
           path: '/csd/limits/summary',
           icon: BarChart3,
           description: 'Limits overview'
+        },
+        {
+          id: 'limits-alerts',
+          title: 'Limits Alerts',
+          path: '/csd/limits/alerts',
+          icon: Bell,
+          description: 'Configure and manage limit alerts'
         }
       ]
     },
