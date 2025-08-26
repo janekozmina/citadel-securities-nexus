@@ -4,11 +4,14 @@ import { InteractiveChart } from '@/components/common/InteractiveChart';
 import { DataTable } from '@/components/common/DataTable';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
+import { Button } from '@/components/ui/button';
 import { QuickActionsManager } from '@/components/common/QuickActionsManager';
-import { toast } from '@/components/ui/use-toast';
-import { Shield, DollarSign, Activity, AlertTriangle, TrendingUp, Users, Building2, Target, BarChart3 } from 'lucide-react';
+import { useToast } from '@/hooks/use-toast';
+import { Shield, DollarSign, Activity, AlertTriangle, TrendingUp, Users, Building2, Target, BarChart3, CheckCircle2 } from 'lucide-react';
 
 export default function CMSDashboardPage() {
+  const { toast } = useToast();
+
   const handleQuickAction = (actionId: string) => {
     switch (actionId) {
       case 'monitor-health':
@@ -267,6 +270,40 @@ export default function CMSDashboardPage() {
           title="CMS Dashboard"
           description="Central Bank Collateral Management System overview and monitoring"
         />
+
+        {/* Quick Actions */}
+        <Card>
+          <CardHeader>
+            <CardTitle>Quick Actions</CardTitle>
+          </CardHeader>
+          <CardContent>
+            <div className="flex flex-wrap gap-3">
+              <Button 
+                onClick={() => handleQuickAction('monitor-health')}
+                className="flex items-center gap-2"
+              >
+                <Activity className="h-4 w-4" />
+                Monitor Health
+              </Button>
+              <Button 
+                onClick={() => handleQuickAction('acknowledge-alerts')}
+                variant="secondary"
+                className="flex items-center gap-2"
+              >
+                <CheckCircle2 className="h-4 w-4" />
+                Acknowledge Alerts
+              </Button>
+              <Button 
+                onClick={() => handleQuickAction('drill-details')}
+                variant="outline"
+                className="flex items-center gap-2"
+              >
+                <Target className="h-4 w-4" />
+                Drill into Details
+              </Button>
+            </div>
+          </CardContent>
+        </Card>
 
         {/* Summary Metrics */}
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">

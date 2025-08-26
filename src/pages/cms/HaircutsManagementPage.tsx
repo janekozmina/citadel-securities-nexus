@@ -9,11 +9,12 @@ import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from 
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
-import { toast } from '@/components/ui/use-toast';
-import { Shield, Star, TrendingUp, AlertTriangle, DollarSign, Target } from 'lucide-react';
+import { useToast } from '@/hooks/use-toast';
+import { Shield, Star, TrendingUp, AlertTriangle, DollarSign, Target, Plus, Settings } from 'lucide-react';
 import { useState } from 'react';
 
 export default function HaircutsManagementPage() {
+  const { toast } = useToast();
   const [setHaircutsOpen, setSetHaircutsOpen] = useState(false);
   const [selectedAsset, setSelectedAsset] = useState('');
   const [haircutRate, setHaircutRate] = useState('');
@@ -233,6 +234,40 @@ export default function HaircutsManagementPage() {
           title="Haircuts Management"
           description="Master list of accepted collateral with eligibility rules and haircut schedules"
         />
+
+        {/* Quick Actions */}
+        <Card>
+          <CardHeader>
+            <CardTitle>Quick Actions</CardTitle>
+          </CardHeader>
+          <CardContent>
+            <div className="flex flex-wrap gap-3">
+              <Button 
+                onClick={() => handleQuickAction('add-asset')}
+                className="flex items-center gap-2"
+              >
+                <Plus className="h-4 w-4" />
+                Add Asset
+              </Button>
+              <Button 
+                onClick={() => handleQuickAction('set-haircuts')}
+                variant="secondary"
+                className="flex items-center gap-2"
+              >
+                <Settings className="h-4 w-4" />
+                Set Haircuts
+              </Button>
+              <Button 
+                onClick={() => handleQuickAction('update-ratings')}
+                variant="outline"
+                className="flex items-center gap-2"
+              >
+                <Star className="h-4 w-4" />
+                Update Ratings
+              </Button>
+            </div>
+          </CardContent>
+        </Card>
 
         {/* Summary Metrics */}
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">

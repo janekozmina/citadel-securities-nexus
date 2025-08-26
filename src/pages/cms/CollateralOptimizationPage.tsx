@@ -4,11 +4,14 @@ import { DataTable } from '@/components/common/DataTable';
 import { InteractiveChart } from '@/components/common/InteractiveChart';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
+import { Button } from '@/components/ui/button';
 import { QuickActionsManager } from '@/components/common/QuickActionsManager';
-import { toast } from '@/components/ui/use-toast';
+import { useToast } from '@/hooks/use-toast';
 import { Zap, RefreshCw, TrendingUp, Target, AlertTriangle, Settings } from 'lucide-react';
 
 export default function CollateralOptimizationPage() {
+  const { toast } = useToast();
+
   const handleQuickAction = (actionId: string) => {
     switch (actionId) {
       case 'initiate-pledge':
@@ -246,6 +249,64 @@ export default function CollateralOptimizationPage() {
           title="Collateral Optimization"
           description="Manage daily collateral flows, substitution requests, and optimization proposals"
         />
+
+        {/* Quick Actions */}
+        <Card>
+          <CardHeader>
+            <CardTitle>Quick Actions</CardTitle>
+          </CardHeader>
+          <CardContent>
+            <div className="flex flex-wrap gap-2">
+              <Button 
+                onClick={() => handleQuickAction('initiate-pledge')}
+                className="flex items-center gap-2"
+              >
+                <Zap className="h-4 w-4" />
+                Initiate Pledge
+              </Button>
+              <Button 
+                onClick={() => handleQuickAction('approve-substitution')}
+                variant="secondary"
+                className="flex items-center gap-2"
+              >
+                <RefreshCw className="h-4 w-4" />
+                Approve Substitution
+              </Button>
+              <Button 
+                onClick={() => handleQuickAction('collateral-revaluation')}
+                variant="outline"
+                className="flex items-center gap-2"
+              >
+                <TrendingUp className="h-4 w-4" />
+                Collateral Revaluation
+              </Button>
+              <Button 
+                onClick={() => handleQuickAction('collateral-execution')}
+                variant="outline"
+                className="flex items-center gap-2"
+              >
+                <Target className="h-4 w-4" />
+                Collateral Execution
+              </Button>
+              <Button 
+                onClick={() => handleQuickAction('initiate-margin-call')}
+                variant="destructive"
+                className="flex items-center gap-2"
+              >
+                <AlertTriangle className="h-4 w-4" />
+                Initiate Margin Call
+              </Button>
+              <Button 
+                onClick={() => handleQuickAction('run-optimizer')}
+                variant="secondary"
+                className="flex items-center gap-2"
+              >
+                <Settings className="h-4 w-4" />
+                Run Optimizer
+              </Button>
+            </div>
+          </CardContent>
+        </Card>
 
         {/* Summary Metrics */}
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
