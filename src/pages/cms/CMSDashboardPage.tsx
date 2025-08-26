@@ -271,40 +271,6 @@ export default function CMSDashboardPage() {
           description="Central Bank Collateral Management System overview and monitoring"
         />
 
-        {/* Visible Quick Actions */}
-        <Card>
-          <CardHeader>
-            <CardTitle>Quick Actions</CardTitle>
-          </CardHeader>
-          <CardContent>
-            <div className="flex flex-wrap gap-3">
-              <Button 
-                onClick={() => handleQuickAction('monitor-health')}
-                className="flex items-center gap-2"
-              >
-                <Activity className="h-4 w-4" />
-                Monitor Health
-              </Button>
-              <Button 
-                onClick={() => handleQuickAction('acknowledge-alerts')}
-                variant="secondary"
-                className="flex items-center gap-2"
-              >
-                <CheckCircle2 className="h-4 w-4" />
-                Acknowledge Alerts
-              </Button>
-              <Button 
-                onClick={() => handleQuickAction('drill-details')}
-                variant="outline"
-                className="flex items-center gap-2"
-              >
-                <Target className="h-4 w-4" />
-                Drill into Details
-              </Button>
-            </div>
-          </CardContent>
-        </Card>
-
         {/* Summary Metrics */}
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
           {cmsMetrics.map((metric, index) => (

@@ -235,40 +235,6 @@ export default function HaircutsManagementPage() {
           description="Master list of accepted collateral with eligibility rules and haircut schedules"
         />
 
-        {/* Visible Quick Actions */}
-        <Card>
-          <CardHeader>
-            <CardTitle>Quick Actions</CardTitle>
-          </CardHeader>
-          <CardContent>
-            <div className="flex flex-wrap gap-3">
-              <Button 
-                onClick={() => handleQuickAction('add-asset')}
-                className="flex items-center gap-2"
-              >
-                <Plus className="h-4 w-4" />
-                Add Asset
-              </Button>
-              <Button 
-                onClick={() => handleQuickAction('set-haircuts')}
-                variant="secondary"
-                className="flex items-center gap-2"
-              >
-                <Settings className="h-4 w-4" />
-                Set Haircuts
-              </Button>
-              <Button 
-                onClick={() => handleQuickAction('update-ratings')}
-                variant="outline"
-                className="flex items-center gap-2"
-              >
-                <Star className="h-4 w-4" />
-                Update Ratings
-              </Button>
-            </div>
-          </CardContent>
-        </Card>
-
         {/* Summary Metrics */}
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
           {haircutsMetrics.map((metric, index) => (

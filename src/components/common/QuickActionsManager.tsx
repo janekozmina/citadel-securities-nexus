@@ -216,7 +216,7 @@ export const QuickActionsManager = ({ pageKey, systemType, className, onActionCl
         </div>
       </div>
 
-      {/* Active Quick Actions */}
+      {/* VISIBLE Quick Action Buttons */}
       <div className="space-y-2">
         {activeActions.map((action) => (
           <Button
@@ -226,11 +226,11 @@ export const QuickActionsManager = ({ pageKey, systemType, className, onActionCl
             onClick={() => handleActionClick(action)}
           >
             <action.icon className="h-4 w-4 mr-2 flex-shrink-0 mt-0.5" />
-            <span className="break-words">{action.label}</span>
+            <span className="break-words text-sm">{action.label}</span>
           </Button>
         ))}
         {activeActions.length === 0 && (
-          <div className="text-center text-muted-foreground text-sm py-4">
+          <div className="text-center text-muted-foreground text-sm py-4 border-2 border-dashed rounded-lg">
             No quick actions configured
           </div>
         )}
