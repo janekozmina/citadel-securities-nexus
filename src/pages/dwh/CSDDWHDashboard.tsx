@@ -1,7 +1,9 @@
 import { useEffect } from 'react';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
+import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table';
+import { Badge } from '@/components/ui/badge';
 import { PageHeader } from '@/components/common/PageHeader';
-import { Database, BarChart3, Server, Activity } from 'lucide-react';
+import { Database, BarChart3, Server, Activity, FileText, Clock, CheckCircle } from 'lucide-react';
 
 export default function CSDDWHDashboard() {
   useEffect(() => {
@@ -36,6 +38,58 @@ export default function CSDDWHDashboard() {
       change: '+189',
       changeType: 'positive' as const,
       icon: Activity
+    }
+  ];
+
+  const consolidatedReports = [
+    {
+      name: 'Daily Liquidity Utilization Report',
+      status: 'Generated',
+      lastUpdated: '2024-01-26 06:00',
+      frequency: 'Daily',
+      nextRun: '2024-01-27 06:00'
+    },
+    {
+      name: 'Intraday Liquidity Coverage Report',
+      status: 'Generating',
+      lastUpdated: '2024-01-26 12:45',
+      frequency: 'Intraday',
+      nextRun: '2024-01-26 18:00'
+    },
+    {
+      name: 'Settlement Timeliness & Failures Report',
+      status: 'Generated',
+      lastUpdated: '2024-01-26 17:30',
+      frequency: 'Daily',
+      nextRun: '2024-01-27 17:30'
+    },
+    {
+      name: 'Systemic Risk Contribution Report',
+      status: 'Generated',
+      lastUpdated: '2024-01-26 08:15',
+      frequency: 'Weekly',
+      nextRun: '2024-02-02 08:15'
+    },
+    {
+      name: 'End-of-Day Liquidity & Collateral Summary',
+      status: 'Generated',
+      lastUpdated: '2024-01-26 18:00',
+      frequency: 'Daily',
+      nextRun: '2024-01-27 18:00'
+    },
+    {
+      name: 'Liquidity Risk Heatmap',
+      status: 'Pending',
+      lastUpdated: '2024-01-25 16:00',
+      frequency: 'Daily',
+      nextRun: '2024-01-26 20:00'
+    },
+    {
+      name: 'High-Value Payment & Securities Oversight Report',
+      status: 'Generated',
+      lastUpdated: '2024-01-26 19:15',
+      frequency: 'Daily',
+      nextRun: '2024-01-27 19:15'
     }
   ];
 
@@ -157,6 +211,53 @@ export default function CSDDWHDashboard() {
           </CardContent>
         </Card>
       </div>
+
+      {/* Consolidated Reports */}
+      <Card>
+        <CardHeader>
+          <CardTitle className="flex items-center gap-2">
+            <FileText className="h-5 w-5" />
+            Consolidated Reports
+          </CardTitle>
+        </CardHeader>
+        <CardContent>
+          <Table>
+            <TableHeader>
+              <TableRow>
+                <TableHead>Report Name</TableHead>
+                <TableHead>Status</TableHead>
+                <TableHead>Last Updated</TableHead>
+                <TableHead>Frequency</TableHead>
+                <TableHead>Next Run</TableHead>
+              </TableRow>
+            </TableHeader>
+            <TableBody>
+              {consolidatedReports.map((report, index) => (
+                <TableRow key={index}>
+                  <TableCell className="font-medium">{report.name}</TableCell>
+                  <TableCell>
+                    <Badge 
+                      variant={
+                        report.status === 'Generated' ? 'default' : 
+                        report.status === 'Generating' ? 'secondary' : 
+                        'destructive'
+                      }
+                      className="flex items-center gap-1 w-fit"
+                    >
+                      {report.status === 'Generated' && <CheckCircle className="h-3 w-3" />}
+                      {report.status === 'Generating' && <Clock className="h-3 w-3" />}
+                      {report.status}
+                    </Badge>
+                  </TableCell>
+                  <TableCell className="text-muted-foreground">{report.lastUpdated}</TableCell>
+                  <TableCell>{report.frequency}</TableCell>
+                  <TableCell className="text-muted-foreground">{report.nextRun}</TableCell>
+                </TableRow>
+              ))}
+            </TableBody>
+          </Table>
+        </CardContent>
+      </Card>
     </div>
   );
 }
