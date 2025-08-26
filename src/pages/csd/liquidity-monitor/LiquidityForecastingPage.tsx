@@ -15,6 +15,8 @@ export default function LiquidityForecastingPage() {
   const [isRunningForecast, setIsRunningForecast] = useState(false);
   const [customScenarioDialogOpen, setCustomScenarioDialogOpen] = useState(false);
   const [compareHistoricalDialogOpen, setCompareHistoricalDialogOpen] = useState(false);
+  const [lastForecastRun, setLastForecastRun] = useState<string | null>(null);
+  const [recentlyUpdated, setRecentlyUpdated] = useState<string[]>([]);
   const [customScenario, setCustomScenario] = useState(`# Custom Liquidity Scenario
 import numpy as np
 import pandas as pd
@@ -56,14 +58,55 @@ print(f"Risk Level: {'High' if scenario_result['predicted_liquidity'] < 30000000
 
   const handleRunForecast = () => {
     setIsRunningForecast(true);
-    // Simulate forecast run
+    setRecentlyUpdated([]);
+    
+    // Simulate forecast run with actual data updates
     setTimeout(() => {
+      const now = new Date();
+      const timeString = now.toLocaleTimeString();
+      
+      // Generate new random values for scenarios
+      const newScenarios = forecastData.scenarios.map(scenario => ({
+        ...scenario,
+        predictedLiquidity: Number((scenario.predictedLiquidity + (Math.random() - 0.5) * 5).toFixed(1)),
+        confidence: Math.min(0.95, Math.max(0.65, scenario.confidence + (Math.random() - 0.5) * 0.1))
+      }));
+      
+      // Update weekly forecast with new predictions
+      const newWeeklyForecast = forecastData.weeklyForecast.map(week => ({
+        ...week,
+        predicted: Number((week.predicted + (Math.random() - 0.5) * 3).toFixed(1)),
+        confidence: Math.min(0.95, Math.max(0.65, week.confidence + (Math.random() - 0.5) * 0.08))
+      }));
+      
+      // Update cash flow predictions
+      const newCashFlowPredictions = forecastData.cashFlowPredictions.map(prediction => ({
+        ...prediction,
+        amount: prediction.amount.startsWith('+') 
+          ? `+${(Math.random() * 50 + 20).toFixed(1)}M`
+          : `-${(Math.random() * 40 + 30).toFixed(1)}M`,
+        confidence: Math.min(0.95, Math.max(0.70, prediction.confidence + (Math.random() - 0.5) * 0.1))
+      }));
+      
+      setForecastData(prev => ({
+        ...prev,
+        scenarios: newScenarios,
+        weeklyForecast: newWeeklyForecast,
+        cashFlowPredictions: newCashFlowPredictions
+      }));
+      
+      setLastForecastRun(timeString);
+      setRecentlyUpdated(['scenarios', 'weekly', 'cashflow']);
       setIsRunningForecast(false);
-      // Update forecast data here
+      
+      // Remove highlighting after 5 seconds
+      setTimeout(() => {
+        setRecentlyUpdated([]);
+      }, 5000);
     }, 3000);
   };
 
-  const forecastData = {
+  const [forecastData, setForecastData] = useState({
     models: [
       { name: 'LSTM Neural Network', code: 'LSTM-v2.1', accuracy: 0.87, status: 'Active' },
       { name: 'Random Forest Ensemble', code: 'RF-v1.8', accuracy: 0.83, status: 'Active' },
@@ -136,7 +179,7 @@ print(f"Risk Level: {'High' if scenario_result['predicted_liquidity'] < 30000000
         probability: 0.31
       }
     ]
-  };
+  });
 
   const getSeverityColor = (severity: string) => {
     switch (severity) {
@@ -179,6 +222,12 @@ print(f"Risk Level: {'High' if scenario_result['predicted_liquidity'] < 30000000
                     <Play className="h-4 w-4" />
                     {isRunningForecast ? 'Running Forecast...' : 'Run New Forecast'}
                   </Button>
+                  {lastForecastRun && (
+                    <div className="flex items-center gap-2 px-3 py-2 bg-green-50 border border-green-200 rounded-md">
+                      <div className="w-2 h-2 bg-green-500 rounded-full animate-pulse"></div>
+                      <span className="text-sm text-green-700">Last run: {lastForecastRun}</span>
+                    </div>
+                  )}
                   <Dialog open={customScenarioDialogOpen} onOpenChange={setCustomScenarioDialogOpen}>
                     <DialogTrigger asChild>
                       <Button variant="outline" className="gap-2">
@@ -311,7 +360,17 @@ print(f"Risk Level: {'High' if scenario_result['predicted_liquidity'] < 30000000
             <TabsContent value="scenarios">
               <div className="space-y-6">
                 {/* Scenario Cards */}
-                <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
+                <div className={`grid grid-cols-1 lg:grid-cols-3 gap-6 transition-all duration-500 ${
+                  recentlyUpdated.includes('scenarios') ? 'ring-2 ring-blue-400 ring-opacity-50 bg-blue-50/50 p-4 rounded-lg' : ''
+                }`}>
+                  {recentlyUpdated.includes('scenarios') && (
+                    <div className="col-span-full mb-4">
+                      <div className="flex items-center gap-2 text-blue-600">
+                        <div className="w-2 h-2 bg-blue-500 rounded-full animate-pulse"></div>
+                        <span className="text-sm font-medium">Scenarios updated with new forecast data</span>
+                      </div>
+                    </div>
+                  )}
                   {forecastData.scenarios.map((scenario, index) => (
                     <Card key={index} className="relative overflow-hidden border-l-4" 
                           style={{ borderLeftColor: scenario.riskLevel === 'High' ? '#ef4444' : scenario.riskLevel === 'Low' ? '#22c55e' : '#3b82f6' }}>
@@ -360,13 +419,25 @@ print(f"Risk Level: {'High' if scenario_result['predicted_liquidity'] < 30000000
                 </div>
 
                 {/* 4-Week Forecast Table */}
-                <Card>
+                <Card className={`transition-all duration-500 ${
+                  recentlyUpdated.includes('weekly') ? 'ring-2 ring-green-400 ring-opacity-50 bg-green-50/50' : ''
+                }`}>
                   <CardHeader>
-                    <CardTitle className="flex items-center gap-2">
-                      <Calendar className="h-5 w-5" />
-                      4-Week Forecast
-                    </CardTitle>
-                    <CardDescription>Predicted liquidity levels for the next four weeks</CardDescription>
+                    <div className="flex items-center justify-between">
+                      <div>
+                        <CardTitle className="flex items-center gap-2">
+                          <Calendar className="h-5 w-5" />
+                          4-Week Forecast
+                        </CardTitle>
+                        <CardDescription>Predicted liquidity levels for the next four weeks</CardDescription>
+                      </div>
+                      {recentlyUpdated.includes('weekly') && (
+                        <div className="flex items-center gap-2 text-green-600">
+                          <div className="w-2 h-2 bg-green-500 rounded-full animate-pulse"></div>
+                          <span className="text-sm font-medium">Updated</span>
+                        </div>
+                      )}
+                    </div>
                   </CardHeader>
                   <CardContent>
                     <div className="space-y-4">
@@ -459,13 +530,25 @@ print(f"Risk Level: {'High' if scenario_result['predicted_liquidity'] < 30000000
             </TabsContent>
 
             <TabsContent value="cashflow">
-              <Card>
+              <Card className={`transition-all duration-500 ${
+                recentlyUpdated.includes('cashflow') ? 'ring-2 ring-purple-400 ring-opacity-50 bg-purple-50/50' : ''
+              }`}>
                 <CardHeader>
-                  <CardTitle className="flex items-center gap-2">
-                    <Clock className="h-5 w-5" />
-                    Intraday Cash Flow Predictions
-                  </CardTitle>
-                  <CardDescription>Predicted cash flows throughout the trading day</CardDescription>
+                  <div className="flex items-center justify-between">
+                    <div>
+                      <CardTitle className="flex items-center gap-2">
+                        <Clock className="h-5 w-5" />
+                        Intraday Cash Flow Predictions
+                      </CardTitle>
+                      <CardDescription>Predicted cash flows throughout the trading day</CardDescription>
+                    </div>
+                    {recentlyUpdated.includes('cashflow') && (
+                      <div className="flex items-center gap-2 text-purple-600">
+                        <div className="w-2 h-2 bg-purple-500 rounded-full animate-pulse"></div>
+                        <span className="text-sm font-medium">Updated</span>
+                      </div>
+                    )}
+                  </div>
                 </CardHeader>
                 <CardContent>
                   <div className="space-y-4">
