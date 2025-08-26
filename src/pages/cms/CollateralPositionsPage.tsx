@@ -195,32 +195,6 @@ export default function CollateralPositionsPage() {
           description="View all pledged collateral by counterparty, asset type, and current valuation"
         />
 
-        {/* Quick Actions */}
-        <Card>
-          <CardHeader>
-            <CardTitle>Quick Actions</CardTitle>
-          </CardHeader>
-          <CardContent>
-            <div className="flex flex-wrap gap-3">
-              <Button 
-                onClick={() => handleQuickAction('query-positions')}
-                className="flex items-center gap-2"
-              >
-                <Search className="h-4 w-4" />
-                Query Positions
-              </Button>
-              <Button 
-                onClick={() => handleQuickAction('analyze-exposures')}
-                variant="secondary"
-                className="flex items-center gap-2"
-              >
-                <BarChart3 className="h-4 w-4" />
-                Analyze Exposures
-              </Button>
-            </div>
-          </CardContent>
-        </Card>
-
         {/* Summary Metrics */}
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
           {positionsMetrics.map((metric, index) => (
