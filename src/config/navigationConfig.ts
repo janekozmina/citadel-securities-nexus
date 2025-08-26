@@ -781,6 +781,51 @@ export const secondaryNavigation: Record<string, NavigationItem[]> = {
       description: 'Collateral management overview'
     },
     {
+      id: 'haircuts-management',
+      title: 'Haircuts Management',
+      path: '/cms/haircuts-management',
+      icon: Calculator,
+      description: 'Master list of accepted collateral and haircut schedules',
+      keywords: ['haircuts', 'collateral', 'assets', 'eligibility', 'ratings'],
+      tags: ['collateral', 'configuration']
+    },
+    {
+      id: 'collateral-positions',
+      title: 'Collateral Positions',
+      path: '/cms/collateral-positions',
+      icon: PieChart,
+      description: 'View all pledged collateral positions',
+      keywords: ['collateral', 'positions', 'counterparty', 'exposure', 'value'],
+      tags: ['collateral', 'monitoring']
+    },
+    {
+      id: 'collateral-optimization',
+      title: 'Collateral Optimization',
+      path: '/cms/collateral-optimization',
+      icon: TrendingUp,
+      description: 'Manage daily collateral flows and optimization',
+      keywords: ['optimization', 'substitution', 'margin', 'calls', 'forecasting'],
+      tags: ['collateral', 'optimization']
+    },
+    {
+      id: 'reporting-analytics',
+      title: 'Reporting & Analytics',
+      path: '/cms/reporting-analytics',
+      icon: FileBarChart,
+      description: 'Regulatory and custom reporting',
+      keywords: ['reports', 'regulatory', 'analytics', 'custom'],
+      tags: ['reporting', 'analytics']
+    },
+    {
+      id: 'bi-reports',
+      title: 'BI Reports',
+      path: '/cms/bi-reports',
+      icon: BarChart3,
+      description: 'Business intelligence dashboards and analytics',
+      keywords: ['bi', 'business', 'intelligence', 'dashboards', 'analytics'],
+      tags: ['reporting', 'analytics']
+    },
+    {
       id: 'eligibility-criteria-builder',
       title: 'Eligibility Criteria Builder',
       path: '/cms/eligibility-criteria-builder',
