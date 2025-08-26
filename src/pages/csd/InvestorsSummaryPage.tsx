@@ -8,6 +8,31 @@ import { QuickActionsManager } from '@/components/common/QuickActionsManager';
 import { Users, DollarSign, TrendingUp, Building, UserCheck, Activity, PieChart } from 'lucide-react';
 
 export default function InvestorsSummaryPage() {
+  
+  const handleQuickAction = (actionId: string) => {
+    switch (actionId) {
+      case 'new-investor':
+        console.log('Opening New Investor dialog...');
+        // TODO: Implement new investor dialog
+        break;
+      case 'modify-investor':
+        console.log('Opening Modify Investor dialog...');
+        // TODO: Implement modify investor dialog
+        break;
+      case 'view-investor-portfolio':
+        console.log('Opening Investor Portfolio view...');
+        // TODO: Implement portfolio view
+        break;
+      case 'export-investor-report':
+        console.log('Exporting Investor Report...');
+        // TODO: Implement export functionality
+        break;
+      default:
+        console.log(`Quick action clicked: ${actionId}`);
+        break;
+    }
+  };
+
   const investorMetrics = [
     {
       title: 'Total Investors',
@@ -221,7 +246,11 @@ export default function InvestorsSummaryPage() {
         </div>
 
         <div className="xl:col-span-1">
-          <QuickActionsManager pageKey="investors-summary" systemType="csd" />
+          <QuickActionsManager 
+            pageKey="investors-summary" 
+            systemType="csd" 
+            onActionClick={handleQuickAction}
+          />
         </div>
       </div>
     </div>

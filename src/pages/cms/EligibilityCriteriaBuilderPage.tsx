@@ -22,6 +22,29 @@ const EligibilityCriteriaBuilderPage = () => {
   const [isBuilderOpen, setIsBuilderOpen] = useState(false);
   const [editingCriteria, setEditingCriteria] = useState<EligibilityCriteria | null>(null);
 
+  const handleQuickAction = (actionId: string) => {
+    switch (actionId) {
+      case 'create-criteria':
+        handleCreateNew();
+        break;
+      case 'test-criteria':
+        console.log('Testing criteria...');
+        // TODO: Implement test criteria functionality
+        break;
+      case 'import-criteria':
+        console.log('Importing criteria...');
+        // TODO: Implement import criteria functionality
+        break;
+      case 'export-criteria':
+        console.log('Exporting criteria...');
+        // TODO: Implement export criteria functionality
+        break;
+      default:
+        console.log(`Quick action clicked: ${actionId}`);
+        break;
+    }
+  };
+
   // Mock data for existing criteria
   const existingCriteria: EligibilityCriteria[] = [
     {
@@ -154,7 +177,11 @@ const EligibilityCriteriaBuilderPage = () => {
       </div>
 
       <div className="xl:col-span-1">
-        <QuickActionsManager pageKey="eligibility-criteria-builder" systemType="cms" />
+        <QuickActionsManager 
+          pageKey="eligibility-criteria-builder" 
+          systemType="cms" 
+          onActionClick={handleQuickAction}
+        />
       </div>
     </div>
   );
