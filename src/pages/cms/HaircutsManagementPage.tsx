@@ -10,7 +10,7 @@ import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { useToast } from '@/hooks/use-toast';
-import { Shield, Star, TrendingUp, AlertTriangle, DollarSign, Target, Plus, Settings } from 'lucide-react';
+import { Shield, Star, TrendingUp, AlertTriangle, DollarSign, Target, Plus, Settings, Edit, Building2 } from 'lucide-react';
 import { useState } from 'react';
 
 export default function HaircutsManagementPage() {
@@ -18,6 +18,22 @@ export default function HaircutsManagementPage() {
   const [setHaircutsOpen, setSetHaircutsOpen] = useState(false);
   const [selectedAsset, setSelectedAsset] = useState('');
   const [haircutRate, setHaircutRate] = useState('');
+  const [ilfMatrixOpen, setIlfMatrixOpen] = useState(false);
+  const [repoMatrixOpen, setRepoMatrixOpen] = useState(false);
+  const [ilfMatrix, setIlfMatrix] = useState([
+    { assetClass: 'Government Securities', aaa: '0.5', aa: '1.0', a: '2.0', bbb: '5.0', below: 'Not Eligible' },
+    { assetClass: 'Islamic Bonds (Sukuk)', aaa: '2.0', aa: '3.0', a: '5.0', bbb: '8.0', below: '15.0' },
+    { assetClass: 'Bank Deposits', aaa: '1.0', aa: '1.5', a: '2.5', bbb: '6.0', below: 'Not Eligible' },
+    { assetClass: 'Corporate Sukuk', aaa: '3.0', aa: '4.0', a: '7.0', bbb: '12.0', below: '20.0' },
+    { assetClass: 'Equity Securities', aaa: '15.0', aa: '20.0', a: '25.0', bbb: '35.0', below: '45.0' }
+  ]);
+  const [repoMatrix, setRepoMatrix] = useState([
+    { assetClass: 'Government Securities', aaa: '1.0', aa: '2.0', a: '3.5', bbb: '8.0', below: 'Not Eligible' },
+    { assetClass: 'Corporate Bonds', aaa: '4.0', aa: '6.0', a: '8.5', bbb: '15.0', below: '25.0' },
+    { assetClass: 'Bank Securities', aaa: '3.0', aa: '4.0', a: '6.0', bbb: '12.0', below: 'Not Eligible' },
+    { assetClass: 'Municipal Bonds', aaa: '2.5', aa: '3.5', a: '5.5', bbb: '10.0', below: '18.0' },
+    { assetClass: 'Equity Securities', aaa: '20.0', aa: '25.0', a: '30.0', bbb: '40.0', below: '50.0' }
+  ]);
 
   const handleQuickAction = (actionId: string) => {
     switch (actionId) {
@@ -58,6 +74,34 @@ export default function HaircutsManagementPage() {
       setSelectedAsset('');
       setHaircutRate('');
     }
+  };
+
+  const handleIlfMatrixUpdate = (rowIndex: number, rating: string, value: string) => {
+    const updatedMatrix = [...ilfMatrix];
+    updatedMatrix[rowIndex] = { ...updatedMatrix[rowIndex], [rating]: value };
+    setIlfMatrix(updatedMatrix);
+  };
+
+  const handleRepoMatrixUpdate = (rowIndex: number, rating: string, value: string) => {
+    const updatedMatrix = [...repoMatrix];
+    updatedMatrix[rowIndex] = { ...updatedMatrix[rowIndex], [rating]: value };
+    setRepoMatrix(updatedMatrix);
+  };
+
+  const saveIlfMatrix = () => {
+    toast({
+      title: "ILF Matrix Updated",
+      description: "Islamic Lending Facility haircut matrix has been successfully updated.",
+    });
+    setIlfMatrixOpen(false);
+  };
+
+  const saveRepoMatrix = () => {
+    toast({
+      title: "REPO Matrix Updated", 
+      description: "REPO haircut matrix has been successfully updated.",
+    });
+    setRepoMatrixOpen(false);
   };
 
   const haircutsMetrics = [
@@ -263,9 +307,31 @@ export default function HaircutsManagementPage() {
         {/* Haircut Schedule Matrix */}
         <Card>
           <CardHeader>
-            <CardTitle className="flex items-center gap-2">
-              <Target className="h-5 w-5" />
-              Haircut Schedule by Asset Class & Credit Rating
+            <CardTitle className="flex items-center justify-between">
+              <div className="flex items-center gap-2">
+                <Target className="h-5 w-5" />
+                Haircut Schedule by Asset Class & Credit Rating
+              </div>
+              <div className="flex gap-2">
+                <Button
+                  variant="outline"
+                  size="sm"
+                  onClick={() => setIlfMatrixOpen(true)}
+                  className="flex items-center gap-2"
+                >
+                  <Building2 className="h-4 w-4" />
+                  Edit ILF Matrix
+                </Button>
+                <Button
+                  variant="outline"
+                  size="sm"
+                  onClick={() => setRepoMatrixOpen(true)}
+                  className="flex items-center gap-2"
+                >
+                  <Edit className="h-4 w-4" />
+                  Edit REPO Matrix
+                </Button>
+              </div>
             </CardTitle>
           </CardHeader>
           <CardContent>
@@ -348,6 +414,162 @@ export default function HaircutsManagementPage() {
               </Button>
               <Button onClick={handleSetHaircuts}>
                 Update Haircuts
+              </Button>
+            </div>
+          </div>
+        </DialogContent>
+      </Dialog>
+
+      {/* ILF Haircut Matrix Dialog */}
+      <Dialog open={ilfMatrixOpen} onOpenChange={setIlfMatrixOpen}>
+        <DialogContent className="max-w-4xl">
+          <DialogHeader>
+            <DialogTitle className="flex items-center gap-2">
+              <Building2 className="h-5 w-5" />
+              Edit ILF (Islamic Lending Facility) Haircut Matrix
+            </DialogTitle>
+          </DialogHeader>
+          <div className="space-y-4 py-4">
+            <div className="overflow-x-auto">
+              <table className="w-full border-collapse border border-border">
+                <thead>
+                  <tr className="bg-muted">
+                    <th className="border border-border p-3 text-left font-medium">Asset Class</th>
+                    <th className="border border-border p-3 text-center font-medium">AAA</th>
+                    <th className="border border-border p-3 text-center font-medium">AA</th>
+                    <th className="border border-border p-3 text-center font-medium">A</th>
+                    <th className="border border-border p-3 text-center font-medium">BBB</th>
+                    <th className="border border-border p-3 text-center font-medium">Below BBB</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {ilfMatrix.map((row, rowIndex) => (
+                    <tr key={rowIndex}>
+                      <td className="border border-border p-3 font-medium">{row.assetClass}</td>
+                      <td className="border border-border p-2">
+                        <Input
+                          value={row.aaa}
+                          onChange={(e) => handleIlfMatrixUpdate(rowIndex, 'aaa', e.target.value)}
+                          className="text-center"
+                        />
+                      </td>
+                      <td className="border border-border p-2">
+                        <Input
+                          value={row.aa}
+                          onChange={(e) => handleIlfMatrixUpdate(rowIndex, 'aa', e.target.value)}
+                          className="text-center"
+                        />
+                      </td>
+                      <td className="border border-border p-2">
+                        <Input
+                          value={row.a}
+                          onChange={(e) => handleIlfMatrixUpdate(rowIndex, 'a', e.target.value)}
+                          className="text-center"
+                        />
+                      </td>
+                      <td className="border border-border p-2">
+                        <Input
+                          value={row.bbb}
+                          onChange={(e) => handleIlfMatrixUpdate(rowIndex, 'bbb', e.target.value)}
+                          className="text-center"
+                        />
+                      </td>
+                      <td className="border border-border p-2">
+                        <Input
+                          value={row.below}
+                          onChange={(e) => handleIlfMatrixUpdate(rowIndex, 'below', e.target.value)}
+                          className="text-center"
+                        />
+                      </td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </div>
+            <div className="flex justify-end gap-2 pt-4">
+              <Button variant="outline" onClick={() => setIlfMatrixOpen(false)}>
+                Cancel
+              </Button>
+              <Button onClick={saveIlfMatrix}>
+                Save ILF Matrix
+              </Button>
+            </div>
+          </div>
+        </DialogContent>
+      </Dialog>
+
+      {/* REPO Haircut Matrix Dialog */}
+      <Dialog open={repoMatrixOpen} onOpenChange={setRepoMatrixOpen}>
+        <DialogContent className="max-w-4xl">
+          <DialogHeader>
+            <DialogTitle className="flex items-center gap-2">
+              <Edit className="h-5 w-5" />
+              Edit REPO Haircut Matrix
+            </DialogTitle>
+          </DialogHeader>
+          <div className="space-y-4 py-4">
+            <div className="overflow-x-auto">
+              <table className="w-full border-collapse border border-border">
+                <thead>
+                  <tr className="bg-muted">
+                    <th className="border border-border p-3 text-left font-medium">Asset Class</th>
+                    <th className="border border-border p-3 text-center font-medium">AAA</th>
+                    <th className="border border-border p-3 text-center font-medium">AA</th>
+                    <th className="border border-border p-3 text-center font-medium">A</th>
+                    <th className="border border-border p-3 text-center font-medium">BBB</th>
+                    <th className="border border-border p-3 text-center font-medium">Below BBB</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {repoMatrix.map((row, rowIndex) => (
+                    <tr key={rowIndex}>
+                      <td className="border border-border p-3 font-medium">{row.assetClass}</td>
+                      <td className="border border-border p-2">
+                        <Input
+                          value={row.aaa}
+                          onChange={(e) => handleRepoMatrixUpdate(rowIndex, 'aaa', e.target.value)}
+                          className="text-center"
+                        />
+                      </td>
+                      <td className="border border-border p-2">
+                        <Input
+                          value={row.aa}
+                          onChange={(e) => handleRepoMatrixUpdate(rowIndex, 'aa', e.target.value)}
+                          className="text-center"
+                        />
+                      </td>
+                      <td className="border border-border p-2">
+                        <Input
+                          value={row.a}
+                          onChange={(e) => handleRepoMatrixUpdate(rowIndex, 'a', e.target.value)}
+                          className="text-center"
+                        />
+                      </td>
+                      <td className="border border-border p-2">
+                        <Input
+                          value={row.bbb}
+                          onChange={(e) => handleRepoMatrixUpdate(rowIndex, 'bbb', e.target.value)}
+                          className="text-center"
+                        />
+                      </td>
+                      <td className="border border-border p-2">
+                        <Input
+                          value={row.below}
+                          onChange={(e) => handleRepoMatrixUpdate(rowIndex, 'below', e.target.value)}
+                          className="text-center"
+                        />
+                      </td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </div>
+            <div className="flex justify-end gap-2 pt-4">
+              <Button variant="outline" onClick={() => setRepoMatrixOpen(false)}>
+                Cancel
+              </Button>
+              <Button onClick={saveRepoMatrix}>
+                Save REPO Matrix
               </Button>
             </div>
           </div>
