@@ -23,16 +23,21 @@ export const useQuickActions = (
   // Get available actions for the current system and common actions
   const availableActions = [
     ...quickActionsConfig[systemType] || [],
-    // Only add common actions if not participants system (participants has specific actions only)
+    // Always include common actions unless it's participants system
     ...(systemType !== 'participants' ? quickActionsConfig.common : [])
   ];
+
+  // If systemType is 'common', use only common actions
+  const finalAvailableActions = systemType === 'common' 
+    ? quickActionsConfig.common 
+    : availableActions;
 
   // Get default actions for this page
   const defaultActions = defaultQuickActions[pageKey] || defaultQuickActions.default;
   
   const [activeActionIds, setActiveActionIds] = useState<string[]>(() => {
     // For these pages, always use the new defaults
-    if (pageKey === 'transaction-status' || pageKey === 'account-management' || pageKey === 'business-day-management' || pageKey === 'investors-summary' || pageKey === 'eligibility-criteria-builder') {
+    if (pageKey === 'transaction-status' || pageKey === 'account-management' || pageKey === 'business-day-management' || pageKey === 'investors-summary' || pageKey === 'eligibility-criteria-builder' || pageKey === 'dwh-dashboard') {
       return defaultActions;
     }
     
@@ -51,14 +56,14 @@ export const useQuickActions = (
 
   // Save to localStorage whenever activeActionIds changes (except for pages with fixed defaults)
   useEffect(() => {
-    if (pageKey !== 'transaction-status' && pageKey !== 'account-management' && pageKey !== 'business-day-management' && pageKey !== 'investors-summary' && pageKey !== 'eligibility-criteria-builder') {
+    if (pageKey !== 'transaction-status' && pageKey !== 'account-management' && pageKey !== 'business-day-management' && pageKey !== 'investors-summary' && pageKey !== 'eligibility-criteria-builder' && pageKey !== 'dwh-dashboard') {
       localStorage.setItem(storageKey, JSON.stringify(activeActionIds));
     }
   }, [activeActionIds, storageKey, pageKey]);
 
   // Get active actions with their full configuration
   const activeActions = activeActionIds
-    .map(id => availableActions.find(action => action.id === id))
+    .map(id => finalAvailableActions.find(action => action.id === id))
     .filter((action): action is QuickAction => action !== undefined);
 
   const addAction = useCallback((actionId: string) => {
@@ -86,7 +91,7 @@ export const useQuickActions = (
 
   return {
     activeActions,
-    availableActions,
+    availableActions: finalAvailableActions,
     addAction,
     removeAction,
     resetToDefaults,
