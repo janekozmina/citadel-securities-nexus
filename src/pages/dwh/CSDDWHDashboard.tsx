@@ -46,51 +46,32 @@ export default function CSDDWHDashboard() {
     {
       name: 'Daily Liquidity Utilization Report',
       status: 'Generated',
-      lastUpdated: '2024-01-26 06:00',
-      frequency: 'Daily',
-      nextRun: '2024-01-27 06:00'
-    },
-    {
-      name: 'Intraday Liquidity Coverage Report',
-      status: 'Generating',
-      lastUpdated: '2024-01-26 12:45',
-      frequency: 'Intraday',
-      nextRun: '2024-01-26 18:00'
+      lastUpdated: '2025-08-26 06:00',
+      frequency: 'Daily'
     },
     {
       name: 'Settlement Timeliness & Failures Report',
       status: 'Generated',
-      lastUpdated: '2024-01-26 17:30',
-      frequency: 'Daily',
-      nextRun: '2024-01-27 17:30'
-    },
-    {
-      name: 'Systemic Risk Contribution Report',
-      status: 'Generated',
-      lastUpdated: '2024-01-26 08:15',
-      frequency: 'Weekly',
-      nextRun: '2024-02-02 08:15'
+      lastUpdated: '2025-08-26 17:30',
+      frequency: 'Daily'
     },
     {
       name: 'End-of-Day Liquidity & Collateral Summary',
       status: 'Generated',
-      lastUpdated: '2024-01-26 18:00',
-      frequency: 'Daily',
-      nextRun: '2024-01-27 18:00'
+      lastUpdated: '2025-08-26 18:00',
+      frequency: 'Daily'
     },
     {
       name: 'Liquidity Risk Heatmap',
       status: 'Pending',
-      lastUpdated: '2024-01-25 16:00',
-      frequency: 'Daily',
-      nextRun: '2024-01-26 20:00'
+      lastUpdated: '2025-08-25 16:00',
+      frequency: 'Daily'
     },
     {
       name: 'High-Value Payment & Securities Oversight Report',
       status: 'Generated',
-      lastUpdated: '2024-01-26 19:15',
-      frequency: 'Daily',
-      nextRun: '2024-01-27 19:15'
+      lastUpdated: '2025-08-26 19:15',
+      frequency: 'Daily'
     }
   ];
 
@@ -237,7 +218,6 @@ export default function CSDDWHDashboard() {
                     <TableHead>Status</TableHead>
                     <TableHead>Last Updated</TableHead>
                     <TableHead>Frequency</TableHead>
-                    <TableHead>Next Run</TableHead>
                   </TableRow>
                 </TableHeader>
                 <TableBody>
@@ -260,7 +240,6 @@ export default function CSDDWHDashboard() {
                       </TableCell>
                       <TableCell className="text-muted-foreground">{report.lastUpdated}</TableCell>
                       <TableCell>{report.frequency}</TableCell>
-                      <TableCell className="text-muted-foreground">{report.nextRun}</TableCell>
                     </TableRow>
                   ))}
                 </TableBody>
