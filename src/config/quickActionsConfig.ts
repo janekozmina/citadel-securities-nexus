@@ -918,6 +918,7 @@ export const defaultQuickActions: Record<string, string[]> = {
   'investors-summary': ['new-investor', 'modify-investor', 'view-investor-portfolio', 'export-investor-report'],
   'bi-reports': ['access-bi-configuration', 'refresh-bi-data', 'export-bi-report', 'schedule-bi-report'],
   'cms-dashboard': ['monitor-health', 'acknowledge-alerts', 'drill-details', 'export-dashboard'],
+  'dwh-dashboard': ['access-bi-configuration', 'export-data', 'refresh-data'],
   'haircuts-management': ['add-asset', 'set-haircuts', 'update-ratings', 'export-schedule'],
   'collateral-positions': ['query-positions', 'analyze-exposures', 'collateral-valuation', 'export-positions'],
   'collateral-optimization': ['initiate-pledge', 'approve-substitution', 'collateral-revaluation', 'initiate-margin-call', 'run-optimizer', 'collateral-execution'],
