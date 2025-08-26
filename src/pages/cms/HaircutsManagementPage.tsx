@@ -3,27 +3,59 @@ import { PageHeader } from '@/components/common/PageHeader';
 import { DataTable } from '@/components/common/DataTable';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
+import { Button } from '@/components/ui/button';
 import { QuickActionsManager } from '@/components/common/QuickActionsManager';
+import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from '@/components/ui/dialog';
+import { Input } from '@/components/ui/input';
+import { Label } from '@/components/ui/label';
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
+import { toast } from '@/components/ui/use-toast';
 import { Shield, Star, TrendingUp, AlertTriangle, DollarSign, Target } from 'lucide-react';
+import { useState } from 'react';
 
 export default function HaircutsManagementPage() {
+  const [setHaircutsOpen, setSetHaircutsOpen] = useState(false);
+  const [selectedAsset, setSelectedAsset] = useState('');
+  const [haircutRate, setHaircutRate] = useState('');
+
   const handleQuickAction = (actionId: string) => {
     switch (actionId) {
       case 'add-asset':
-        console.log('Opening Add Asset dialog...');
+        toast({
+          title: "Add Asset",
+          description: "Opening new asset registration form...",
+        });
         break;
       case 'set-haircuts':
-        console.log('Opening Set Haircuts dialog...');
+        setSetHaircutsOpen(true);
         break;
       case 'update-ratings':
-        console.log('Updating credit ratings...');
+        toast({
+          title: "Credit Ratings Update",
+          description: "Initiating credit ratings update process...",
+        });
         break;
       case 'export-schedule':
-        console.log('Exporting haircut schedules...');
+        toast({
+          title: "Export Started",
+          description: "Haircut schedule export has been initiated.",
+        });
         break;
       default:
         console.log(`Quick action clicked: ${actionId}`);
         break;
+    }
+  };
+
+  const handleSetHaircuts = () => {
+    if (selectedAsset && haircutRate) {
+      toast({
+        title: "Haircuts Updated",
+        description: `Haircut rate set to ${haircutRate}% for ${selectedAsset}`,
+      });
+      setSetHaircutsOpen(false);
+      setSelectedAsset('');
+      setHaircutRate('');
     }
   };
 
@@ -273,6 +305,53 @@ export default function HaircutsManagementPage() {
           onActionClick={handleQuickAction}
         />
       </div>
+
+      {/* Set Haircuts Dialog */}
+      <Dialog open={setHaircutsOpen} onOpenChange={setSetHaircutsOpen}>
+        <DialogContent>
+          <DialogHeader>
+            <DialogTitle>Set Haircuts</DialogTitle>
+          </DialogHeader>
+          <div className="space-y-4 py-4">
+            <div className="space-y-2">
+              <Label htmlFor="asset">Asset Class</Label>
+              <Select value={selectedAsset} onValueChange={setSelectedAsset}>
+                <SelectTrigger>
+                  <SelectValue placeholder="Select asset class" />
+                </SelectTrigger>
+                <SelectContent>
+                  <SelectItem value="government-bonds">Government Bonds</SelectItem>
+                  <SelectItem value="corporate-bonds">Corporate Bonds</SelectItem>
+                  <SelectItem value="equities">Equities</SelectItem>
+                  <SelectItem value="cash-deposits">Cash Deposits</SelectItem>
+                  <SelectItem value="islamic-sukuk">Islamic Sukuk</SelectItem>
+                </SelectContent>
+              </Select>
+            </div>
+            <div className="space-y-2">
+              <Label htmlFor="rate">Haircut Rate (%)</Label>
+              <Input
+                id="rate"
+                type="number"
+                step="0.1"
+                min="0"
+                max="100"
+                value={haircutRate}
+                onChange={(e) => setHaircutRate(e.target.value)}
+                placeholder="Enter haircut rate"
+              />
+            </div>
+            <div className="flex justify-end gap-2">
+              <Button variant="outline" onClick={() => setSetHaircutsOpen(false)}>
+                Cancel
+              </Button>
+              <Button onClick={handleSetHaircuts}>
+                Update Haircuts
+              </Button>
+            </div>
+          </div>
+        </DialogContent>
+      </Dialog>
     </div>
   );
 }

@@ -5,22 +5,35 @@ import { InteractiveChart } from '@/components/common/InteractiveChart';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import { QuickActionsManager } from '@/components/common/QuickActionsManager';
+import { toast } from '@/components/ui/use-toast';
 import { PieChart, Building2, DollarSign, TrendingUp, AlertCircle, Activity } from 'lucide-react';
 
 export default function CollateralPositionsPage() {
   const handleQuickAction = (actionId: string) => {
     switch (actionId) {
       case 'query-positions':
-        console.log('Opening Position Query dialog...');
+        toast({
+          title: "Position Query",
+          description: "Opening advanced position query interface...",
+        });
         break;
       case 'analyze-exposures':
-        console.log('Opening Exposure Analysis...');
+        toast({
+          title: "Exposure Analysis",
+          description: "Launching comprehensive exposure analysis tool...",
+        });
         break;
       case 'collateral-valuation':
-        console.log('Running Collateral Valuation...');
+        toast({
+          title: "Valuation Started",
+          description: "Real-time collateral valuation process initiated...",
+        });
         break;
       case 'export-positions':
-        console.log('Exporting Position Report...');
+        toast({
+          title: "Export Started",
+          description: "Collateral positions export has been initiated.",
+        });
         break;
       default:
         console.log(`Quick action clicked: ${actionId}`);

@@ -5,28 +5,47 @@ import { InteractiveChart } from '@/components/common/InteractiveChart';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import { QuickActionsManager } from '@/components/common/QuickActionsManager';
+import { toast } from '@/components/ui/use-toast';
 import { Zap, RefreshCw, TrendingUp, Target, AlertTriangle, Settings } from 'lucide-react';
 
 export default function CollateralOptimizationPage() {
   const handleQuickAction = (actionId: string) => {
     switch (actionId) {
       case 'initiate-pledge':
-        console.log('Opening Initiate Pledge dialog...');
+        toast({
+          title: "Pledge Initiated",
+          description: "New collateral pledge process has been started...",
+        });
         break;
       case 'approve-substitution':
-        console.log('Opening Approve Substitution dialog...');
+        toast({
+          title: "Substitution Approved",
+          description: "Collateral substitution request has been approved.",
+        });
         break;
       case 'collateral-revaluation':
-        console.log('Running Collateral Revaluation...');
+        toast({
+          title: "Revaluation Started",
+          description: "Market-to-market collateral revaluation in progress...",
+        });
         break;
       case 'initiate-margin-call':
-        console.log('Initiating Margin Call...');
+        toast({
+          title: "Margin Call Initiated",
+          description: "Margin call notification sent to counterparty.",
+        });
         break;
       case 'run-optimizer':
-        console.log('Running Optimization Engine...');
+        toast({
+          title: "Optimizer Running",
+          description: "Collateral optimization engine is analyzing positions...",
+        });
         break;
       case 'collateral-execution':
-        console.log('Executing Collateral Operations...');
+        toast({
+          title: "Execution Started",
+          description: "Collateral execution workflow has been initiated.",
+        });
         break;
       default:
         console.log(`Quick action clicked: ${actionId}`);

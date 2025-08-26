@@ -131,6 +131,8 @@ import CollateralPositionsPage from './pages/cms/CollateralPositionsPage';
 import CollateralOptimizationPage from './pages/cms/CollateralOptimizationPage';
 import ReportingAnalyticsPage from './pages/cms/ReportingAnalyticsPage';
 import CMSBIReportsPage from './pages/cms/BIReportsPage';
+import CustodyHubPage from '@/pages/custody/CustodyHubPage';
+import CSDTargetPageComponent from '@/pages/csd/BIReportsPage';
 
 const queryClient = new QueryClient();
 
@@ -389,10 +391,18 @@ const App = () => (
                 </ProtectedRoute>
               } />
 
-              <Route path="/csd/transactions/payments-status" element={
+                <Route path="/csd/transactions/payments-status" element={
                 <ProtectedRoute>
                   <MainLayout>
                     <PaymentsStatusPage />
+                  </MainLayout>
+                </ProtectedRoute>
+              } />
+
+              <Route path="/csd/bi-reports" element={
+                <ProtectedRoute>
+                  <MainLayout>
+                    <CSDTargetPageComponent />
                   </MainLayout>
                 </ProtectedRoute>
               } />

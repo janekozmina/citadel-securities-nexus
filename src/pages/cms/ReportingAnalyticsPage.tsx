@@ -253,25 +253,6 @@ export default function ReportingAnalyticsPage() {
           ))}
         </div>
 
-        {/* Report Frequency Chart */}
-        <Card>
-          <CardHeader>
-            <CardTitle className="flex items-center gap-2">
-              <BarChart3 className="h-5 w-5" />
-              Report Frequency Distribution
-            </CardTitle>
-          </CardHeader>
-          <CardContent>
-            <InteractiveChart
-              config={{
-                type: "pie",
-                title: "",
-                data: reportFrequencyData,
-                height: 300
-              }}
-            />
-          </CardContent>
-        </Card>
 
         {/* Regulatory Reports */}
         <Card>

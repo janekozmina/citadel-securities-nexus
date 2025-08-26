@@ -5,22 +5,35 @@ import { DataTable } from '@/components/common/DataTable';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import { QuickActionsManager } from '@/components/common/QuickActionsManager';
+import { toast } from '@/components/ui/use-toast';
 import { Shield, DollarSign, Activity, AlertTriangle, TrendingUp, Users, Building2, Target, BarChart3 } from 'lucide-react';
 
 export default function CMSDashboardPage() {
   const handleQuickAction = (actionId: string) => {
     switch (actionId) {
       case 'monitor-health':
-        console.log('Opening System Health Monitor...');
+        toast({
+          title: "System Health Monitor",
+          description: "Opening comprehensive system health dashboard...",
+        });
         break;
       case 'acknowledge-alerts':
-        console.log('Acknowledging system alerts...');
+        toast({
+          title: "Alerts Acknowledged",
+          description: "All pending system alerts have been acknowledged.",
+        });
         break;
       case 'drill-details':
-        console.log('Drilling into operation details...');
+        toast({
+          title: "Drilling into Details",
+          description: "Opening detailed operation analysis view...",
+        });
         break;
       case 'export-dashboard':
-        console.log('Exporting dashboard data...');
+        toast({
+          title: "Export Started",
+          description: "Dashboard data export has been initiated.",
+        });
         break;
       default:
         console.log(`Quick action clicked: ${actionId}`);
