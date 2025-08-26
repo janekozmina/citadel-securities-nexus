@@ -885,5 +885,6 @@ export const defaultQuickActions: Record<string, string[]> = {
   'collateral-positions': ['query-positions', 'analyze-exposures', 'collateral-valuation', 'export-positions'],
   'collateral-optimization': ['initiate-pledge', 'approve-substitution', 'collateral-revaluation', 'initiate-margin-call', 'run-optimizer', 'collateral-execution'],
   'reporting-analytics': ['generate-regulatory-report', 'build-custom-report', 'schedule-report', 'export-analytics'],
+  'eligibility-criteria-builder': ['create-criteria', 'test-criteria', 'import-criteria', 'export-criteria'],
   'default': ['export-data', 'refresh-data', 'advanced-search']
 };

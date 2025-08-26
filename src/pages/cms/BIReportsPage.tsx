@@ -12,7 +12,7 @@ export default function BIReportsPage() {
   const handleQuickAction = (actionId: string) => {
     switch (actionId) {
       case 'access-bi-configuration':
-        window.open('http://cms-bi-server:8080/', '_blank');
+        window.open('http://superset.k8s1.moscow.cma.ru/superset/dashboard/24a553bf-8ef4-4b78-b0c4-22ddeb63fd09/?permalink_key=JnOlGOxZlj0', '_blank');
         break;
       case 'refresh-bi-data':
         console.log('Refreshing BI Data Sources...');
@@ -251,31 +251,6 @@ export default function BIReportsPage() {
           ))}
         </div>
 
-        {/* BI Configuration Access */}
-        <Card>
-          <CardHeader>
-            <CardTitle className="flex items-center gap-2">
-              <Settings className="h-5 w-5" />
-              BI Configuration Access
-            </CardTitle>
-          </CardHeader>
-          <CardContent>
-            <div className="flex items-center justify-between p-4 bg-muted/50 rounded-lg">
-              <div>
-                <h4 className="font-medium">CMS Business Intelligence Server</h4>
-                <p className="text-sm text-muted-foreground">Access advanced BI tools and dashboard configuration</p>
-                <p className="text-xs text-muted-foreground mt-1">Server: cms-bi-server:8080</p>
-              </div>
-              <Button 
-                onClick={() => window.open('http://cms-bi-server:8080/', '_blank')}
-                className="flex items-center gap-2"
-              >
-                <ExternalLink className="h-4 w-4" />
-                Access BI Portal
-              </Button>
-            </div>
-          </CardContent>
-        </Card>
 
         {/* Usage Chart */}
         <Card>
