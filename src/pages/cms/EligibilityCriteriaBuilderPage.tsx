@@ -4,6 +4,7 @@ import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table';
 import { Badge } from '@/components/ui/badge';
+import { QuickActionsManager } from '@/components/common/QuickActionsManager';
 import { Plus, Edit2, Trash2, Filter } from 'lucide-react';
 import { EligibilityCriteriaBuilderDialog } from '@/components/dialogs/EligibilityCriteriaBuilderDialog';
 
@@ -85,20 +86,14 @@ const EligibilityCriteriaBuilderPage = () => {
   };
 
   return (
-    <div className="space-y-6">
-      <PageHeader
-        title="Eligibility Criteria Builder"
-        description="Create and manage eligibility criteria for securities selection"
-      />
+    <div className="grid grid-cols-1 xl:grid-cols-4 gap-6">
+      <div className="xl:col-span-3 space-y-6">
+        <PageHeader
+          title="Eligibility Criteria Builder"
+          description="Create and manage eligibility criteria for securities selection"
+        />
 
-      <div className="flex justify-end items-center">
-        <Button onClick={handleCreateNew}>
-          <Plus className="h-4 w-4 mr-2" />
-          Create New Criteria
-        </Button>
-      </div>
-
-      <Card>
+        <Card>
         <CardHeader>
           <CardTitle>Existing Eligibility Criteria</CardTitle>
         </CardHeader>
@@ -156,6 +151,11 @@ const EligibilityCriteriaBuilderPage = () => {
         onClose={() => setIsBuilderOpen(false)}
         editingCriteria={editingCriteria}
       />
+      </div>
+
+      <div className="xl:col-span-1">
+        <QuickActionsManager pageKey="eligibility-criteria-builder" systemType="cms" />
+      </div>
     </div>
   );
 };

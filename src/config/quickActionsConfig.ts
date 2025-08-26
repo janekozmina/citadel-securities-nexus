@@ -779,8 +779,81 @@ export const transfersActions: QuickAction[] = [
   }
 ];
 
-// Add all specific actions to CSD system
-quickActionsConfig.csd = [...quickActionsConfig.csd, ...islamicSukukActions, ...accountStatementsActions, ...transfersActions];
+// Investors Management specific actions
+export const investorsManagementActions: QuickAction[] = [
+  {
+    id: 'new-investor',
+    label: 'New Investor',
+    icon: Plus,
+    category: 'management',
+    description: 'Register a new investor',
+    permissions: ['csd.investors.create']
+  },
+  {
+    id: 'modify-investor',
+    label: 'Modify Investor',
+    icon: Edit,
+    category: 'management',
+    description: 'Modify existing investor details',
+    permissions: ['csd.investors.edit']
+  },
+  {
+    id: 'view-investor-portfolio',
+    label: 'View Portfolio',
+    icon: Eye,
+    category: 'information',
+    description: 'View investor portfolio details',
+    permissions: ['csd.investors.view']
+  },
+  {
+    id: 'export-investor-report',
+    label: 'Export Report',
+    icon: Download,
+    category: 'reports',
+    description: 'Export investor summary report',
+    permissions: ['csd.investors.export']
+  }
+];
+
+// Eligibility Criteria Builder specific actions
+export const eligibilityCriteriaActions: QuickAction[] = [
+  {
+    id: 'create-criteria',
+    label: 'Create New Criteria',
+    icon: Plus,
+    category: 'management',
+    description: 'Create new eligibility criteria',
+    permissions: ['cms.criteria.create']
+  },
+  {
+    id: 'test-criteria',
+    label: 'Test Criteria',
+    icon: Activity,
+    category: 'validation',
+    description: 'Test criteria against sample data',
+    permissions: ['cms.criteria.test']
+  },
+  {
+    id: 'import-criteria',
+    label: 'Import Criteria',
+    icon: Upload,
+    category: 'management',
+    description: 'Import criteria from file',
+    permissions: ['cms.criteria.import']
+  },
+  {
+    id: 'export-criteria',
+    label: 'Export Criteria',
+    icon: Download,
+    category: 'reports',
+    description: 'Export criteria configuration',
+    permissions: ['cms.criteria.export']
+  }
+];
+
+// Add all specific actions to CSD and CMS systems
+quickActionsConfig.csd = [...quickActionsConfig.csd, ...islamicSukukActions, ...accountStatementsActions, ...transfersActions, ...investorsManagementActions];
+quickActionsConfig.cms = [...quickActionsConfig.cms, ...eligibilityCriteriaActions];
 
 export const defaultQuickActions: Record<string, string[]> = {
   'business-day-management': ['add-period', 'update-period', 'activate-period', 'close-period', 'delete-period'],
@@ -805,5 +878,7 @@ export const defaultQuickActions: Record<string, string[]> = {
   'exposure-summary': ['export-exposure-report', 'set-alert-threshold', 'simulate-exposure-change'],
   'participant-unified-portal': ['access-unified-portal'],
   'participant-onboarding': ['access-onboarding-portal'],
+  'investors-summary': ['new-investor', 'modify-investor', 'view-investor-portfolio', 'export-investor-report'],
+  'eligibility-criteria-builder': ['create-criteria', 'test-criteria', 'import-criteria', 'export-criteria'],
   'default': ['export-data', 'refresh-data', 'advanced-search']
 };

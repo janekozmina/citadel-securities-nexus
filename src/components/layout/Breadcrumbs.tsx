@@ -112,11 +112,6 @@ const routeMap: Record<string, RouteInfo> = {
   '/collateral/optimization': { path: '/collateral/optimization', label: 'Collateral Optimization', parent: '/csd' },
   '/collateral/haircut-matrix': { path: '/collateral/haircut-matrix', label: 'Collateral Parameters', parent: '/cms/collateral' },
   
-  // CMS Routes
-  '/cms': { path: '/cms', label: 'CMS' },
-  '/cms/collateral': { path: '/cms/collateral', label: 'Collateral Management', parent: '/cms' },
-  '/cms/risk': { path: '/cms/risk', label: 'Risk Management', parent: '/cms' },
-  
   // Knowledge Hub
   '/knowledge': { path: '/knowledge', label: 'Knowledge Hub' },
   '/knowledge/search': { path: '/knowledge/search', label: 'Documentation Search', parent: '/knowledge' },
@@ -197,6 +192,11 @@ const routeMap: Record<string, RouteInfo> = {
   // Investors Management Routes
   '/csd/investors-management': { path: '/csd/investors-management', label: 'Investors Management', parent: '/csd' },
   '/csd/investors-management/summary': { path: '/csd/investors-management/summary', label: 'Investors Summary', parent: '/csd/investors-management' },
+  
+  // CMS Routes
+  '/cms': { path: '/cms', label: 'CMS' },
+  '/cms/collateral': { path: '/cms/collateral', label: 'Collateral Management', parent: '/cms' },
+  '/cms/eligibility-criteria-builder': { path: '/cms/eligibility-criteria-builder', label: 'Eligibility Criteria Builder', parent: '/cms' },
 };
 
 export function Breadcrumbs() {
