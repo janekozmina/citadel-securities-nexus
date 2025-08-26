@@ -211,6 +211,52 @@ export default function TransactionReconciliationPage() {
             ]}
             searchable
           />
+          
+          {/* Transaction Reconciliation Process Diagram */}
+          <Card>
+            <CardHeader>
+              <CardTitle className="flex items-center gap-2">
+                <FileCheck className="h-5 w-5" />
+                Transaction Reconciliation Process Flow
+              </CardTitle>
+            </CardHeader>
+            <CardContent>
+              <div className="w-full bg-muted/30 p-6 rounded-lg">
+                <div className="mermaid-container">
+                  <h3 className="text-lg font-semibold mb-4">Process Flow:</h3>
+                  <div className="grid grid-cols-1 md:grid-cols-3 gap-4 text-sm">
+                    <div className="space-y-2">
+                      <h4 className="font-medium text-primary">Initial Processing</h4>
+                      <div className="pl-2 border-l-2 border-blue-200">
+                        <p>1. Transaction Initiated</p>
+                        <p>2. Pre-Validation Check</p>
+                        <p>3. Transaction Processing</p>
+                        <p>4. Settlement Engine</p>
+                      </div>
+                    </div>
+                    <div className="space-y-2">
+                      <h4 className="font-medium text-primary">Reconciliation</h4>
+                      <div className="pl-2 border-l-2 border-green-200">
+                        <p>1. Generate Confirmation</p>
+                        <p>2. Reconciliation Check</p>
+                        <p>3. Match Validation</p>
+                        <p>4. Status Update</p>
+                      </div>
+                    </div>
+                    <div className="space-y-2">
+                      <h4 className="font-medium text-primary">Exception Handling</h4>
+                      <div className="pl-2 border-l-2 border-orange-200">
+                        <p>1. Flag Investigation</p>
+                        <p>2. Generate Alerts</p>
+                        <p>3. Manual Review</p>
+                        <p>4. Resolution Action</p>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </CardContent>
+          </Card>
         </div>
 
         <div className="xl:col-span-1">

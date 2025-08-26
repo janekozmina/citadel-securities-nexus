@@ -407,6 +407,13 @@ const App = () => (
                   </MainLayout>
                 </ProtectedRoute>
               } />
+              <Route path="/csd/reserves-management/summary" element={
+                <ProtectedRoute>
+                  <MainLayout>
+                    <ReservesSummaryPage />
+                  </MainLayout>
+                </ProtectedRoute>
+              } />
             {/* Limits Routes */}
             <Route path="/csd/limits/summary" element={
               <ProtectedRoute>

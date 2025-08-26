@@ -273,24 +273,31 @@ export const secondaryNavigation: Record<string, NavigationItem[]> = {
     },
     {
       id: 'accounts-balances',
-      title: 'Accounts and Balances',
+      title: 'Accounts & Balances',
       path: '/csd/accounts-balances',
-      icon: Calculator,
+      icon: Wallet,
       description: 'Account and balance management',
       children: [
         {
           id: 'account-management',
           title: 'Account Management',
           path: '/csd/accounts-balances/summary',
+          icon: Settings,
+          description: 'Manage participant accounts'
+        },
+        {
+          id: 'balances-overview',
+          title: 'Balances Overview',
+          path: '/csd/accounts-balances/overview',
           icon: BarChart3,
-          description: 'CSD account management and balances overview'
+          description: 'Comprehensive balance overview'
         },
         {
           id: 'account-statements',
           title: 'Account Statements',
           path: '/csd/accounts-balances/statements',
           icon: FileText,
-          description: 'Account statement generation'
+          description: 'View and generate account statements'
         }
       ]
     },
