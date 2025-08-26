@@ -51,8 +51,8 @@ export default function BalancesOverviewPage() {
       servicer: 'RTGS',
       participant: 'EBILLEAD',
       participantName: 'Emirates NBD Bank',
-      instrument: 'AED',
-      instrumentName: 'AED',
+      instrument: 'BHD',
+      instrumentName: 'BHD',
       balanceType: 'AVAI',
       balanceName: 'Available Balance',
       income: -221319100.00,
@@ -79,14 +79,14 @@ export default function BalancesOverviewPage() {
     },
     {
       id: 5,
-      account: 'CB-AED',
-      accountName: 'CB-AED',
+      account: 'CB-BHD',
+      accountName: 'CB-BHD',
       type: 'CASH',
       servicer: 'RTGS',
       participant: 'CBAUAEAB',
       participantName: 'Central Bank',
-      instrument: 'AED',
-      instrumentName: 'AED',
+      instrument: 'BHD',
+      instrumentName: 'BHD',
       balanceType: 'BLOK',
       balanceName: 'Blocked',
       income: 0.00,
@@ -149,7 +149,7 @@ export default function BalancesOverviewPage() {
     {
       id: 1,
       participant: 'Central Bank',
-      currency: 'AED',
+      currency: 'BHD',
       totalAvailable: 778132050.86,
       totalBlocked: 0.00,
       totalIssued: 8000000000.00,
@@ -158,7 +158,7 @@ export default function BalancesOverviewPage() {
     {
       id: 2,
       participant: 'Emirates NBD Bank',
-      currency: 'AED',
+      currency: 'BHD',
       totalAvailable: -245865614.69,
       totalBlocked: 1000000.00,
       totalIssued: 0.00,
@@ -167,7 +167,7 @@ export default function BalancesOverviewPage() {
     {
       id: 3,
       participant: 'Abu Dhabi Commercial Bank',
-      currency: 'AED',
+      currency: 'BHD',
       totalAvailable: 999995000.00,
       totalBlocked: 0.00,
       totalIssued: 0.00,
@@ -239,7 +239,7 @@ export default function BalancesOverviewPage() {
 
   const groupedBalancesColumns = [
     { key: 'participant', label: 'Participant', type: 'text' as const, sortable: true },
-    { key: 'currency', label: 'Currency', type: 'text' as const, filterable: true },
+    { key: 'currency', label: 'Instrument', type: 'text' as const, filterable: true },
     { key: 'totalAvailable', label: 'Total Available', type: 'currency' as const, sortable: true },
     { key: 'totalBlocked', label: 'Total Blocked', type: 'currency' as const, sortable: true },
     { key: 'totalIssued', label: 'Total Issued', type: 'currency' as const, sortable: true },
@@ -262,15 +262,15 @@ export default function BalancesOverviewPage() {
       trend: '+1.2%'
     },
     {
-      title: 'Net AED Position',
-      value: '8.5B',
+      title: 'Net BHD Position',
+      value: '11.2B',
       description: 'Total net position',
       icon: DollarSign,
       trend: '+5.7%'
     },
     {
       title: 'Active Instruments',
-      value: '45',
+      value: '95',
       description: 'Total instruments',
       icon: BarChart3,
       trend: '+3.1%'
