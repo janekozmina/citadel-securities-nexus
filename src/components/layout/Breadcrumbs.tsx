@@ -80,6 +80,7 @@ const routeMap: Record<string, RouteInfo> = {
   '/csd/corporate-actions/redemptions': { path: '/csd/corporate-actions/redemptions', label: 'Redemptions', parent: '/csd/corporate-actions' },
   '/csd/corporate-actions/early-redemptions': { path: '/csd/corporate-actions/early-redemptions', label: 'Early Redemptions', parent: '/csd/corporate-actions' },
   '/csd/accounts-balances/summary': { path: '/csd/accounts-balances/summary', label: 'Account Management', parent: '/csd/accounts-balances' },
+  '/csd/accounts-balances/overview': { path: '/csd/accounts-balances/overview', label: 'Balances Overview', parent: '/csd/accounts-balances' },
   '/operations': { path: '/operations', label: 'Operations', parent: '/csd' },
   '/securities': { path: '/securities', label: 'Securities Lifecycle', parent: '/csd' },
   '/securities/instrument-reference': { path: '/securities/instrument-reference', label: 'Instrument Reference', parent: '/securities' },

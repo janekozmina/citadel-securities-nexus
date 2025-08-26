@@ -125,6 +125,7 @@ import IslamicDepositsPage from '@/pages/csd/standing-facilities/IslamicDeposits
 import IslamicLendingSecuritiesPage from '@/pages/csd/standing-facilities/IslamicLendingSecuritiesPage';
 import LiquidityPositionSummaryPage from '@/pages/csd/liquidity-monitor/LiquidityPositionSummaryPage';
 import LiquidityForecastingPage from '@/pages/csd/liquidity-monitor/LiquidityForecastingPage';
+import BalancesOverviewPage from './pages/csd/BalancesOverviewPage';
 
 const queryClient = new QueryClient();
 
@@ -258,6 +259,13 @@ const App = () => (
               <ProtectedRoute>
                 <MainLayout>
                   <CSDAccountManagementPage />
+                </MainLayout>
+              </ProtectedRoute>
+            } />
+            <Route path="/csd/accounts-balances/overview" element={
+              <ProtectedRoute>
+                <MainLayout>
+                  <BalancesOverviewPage />
                 </MainLayout>
               </ProtectedRoute>
             } />
