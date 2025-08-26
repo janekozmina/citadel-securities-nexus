@@ -195,7 +195,12 @@ const routeMap: Record<string, RouteInfo> = {
   
   // CMS Routes
   '/cms': { path: '/cms', label: 'CMS' },
-  '/cms/collateral': { path: '/cms/collateral', label: 'Collateral Management', parent: '/cms' },
+  '/cms/dashboard': { path: '/cms/dashboard', label: 'CMS Dashboard', parent: '/cms' },
+  '/cms/haircuts-management': { path: '/cms/haircuts-management', label: 'Haircuts Management', parent: '/cms' },
+  '/cms/collateral-positions': { path: '/cms/collateral-positions', label: 'Collateral Positions', parent: '/cms' },
+  '/cms/collateral-optimization': { path: '/cms/collateral-optimization', label: 'Collateral Optimization', parent: '/cms' },
+  '/cms/reporting-analytics': { path: '/cms/reporting-analytics', label: 'Reporting & Analytics', parent: '/cms' },
+  '/cms/bi-reports': { path: '/cms/bi-reports', label: 'BI Reports', parent: '/cms' },
   '/cms/eligibility-criteria-builder': { path: '/cms/eligibility-criteria-builder', label: 'Eligibility Criteria Builder', parent: '/cms' },
 };
 

@@ -126,6 +126,11 @@ import IslamicLendingSecuritiesPage from '@/pages/csd/standing-facilities/Islami
 import LiquidityPositionSummaryPage from '@/pages/csd/liquidity-monitor/LiquidityPositionSummaryPage';
 import LiquidityForecastingPage from '@/pages/csd/liquidity-monitor/LiquidityForecastingPage';
 import BalancesOverviewPage from './pages/csd/BalancesOverviewPage';
+import HaircutsManagementPage from './pages/cms/HaircutsManagementPage';
+import CollateralPositionsPage from './pages/cms/CollateralPositionsPage';
+import CollateralOptimizationPage from './pages/cms/CollateralOptimizationPage';
+import ReportingAnalyticsPage from './pages/cms/ReportingAnalyticsPage';
+import BIReportsPage from './pages/cms/BIReportsPage';
 
 const queryClient = new QueryClient();
 

@@ -879,6 +879,11 @@ export const defaultQuickActions: Record<string, string[]> = {
   'participant-unified-portal': ['access-unified-portal'],
   'participant-onboarding': ['access-onboarding-portal'],
   'investors-summary': ['new-investor', 'modify-investor', 'view-investor-portfolio', 'export-investor-report'],
-  'eligibility-criteria-builder': ['create-criteria', 'test-criteria', 'import-criteria', 'export-criteria'],
+  'bi-reports': ['access-bi-configuration', 'refresh-bi-data', 'export-bi-report', 'schedule-bi-report'],
+  'cms-dashboard': ['monitor-health', 'acknowledge-alerts', 'drill-details', 'export-dashboard'],
+  'haircuts-management': ['add-asset', 'set-haircuts', 'update-ratings', 'export-schedule'],
+  'collateral-positions': ['query-positions', 'analyze-exposures', 'collateral-valuation', 'export-positions'],
+  'collateral-optimization': ['initiate-pledge', 'approve-substitution', 'collateral-revaluation', 'initiate-margin-call', 'run-optimizer', 'collateral-execution'],
+  'reporting-analytics': ['generate-regulatory-report', 'build-custom-report', 'schedule-report', 'export-analytics'],
   'default': ['export-data', 'refresh-data', 'advanced-search']
 };
