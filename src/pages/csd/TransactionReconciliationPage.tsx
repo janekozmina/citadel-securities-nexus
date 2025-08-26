@@ -11,8 +11,8 @@ export default function TransactionReconciliationPage() {
   const reconciliationMetrics = [
     {
       title: 'Total Transactions',
-      value: '1,247',
-      change: '+89',
+      value: '1,233',
+      change: '+85',
       changeType: 'positive' as const,
       icon: Activity
     },
@@ -26,13 +26,13 @@ export default function TransactionReconciliationPage() {
     {
       title: 'Pending',
       value: '35',
-      change: '+4',
+      change: '0',
       changeType: 'neutral' as const,
       icon: Clock
     },
     {
       title: 'Failed',
-      value: '14',
+      value: '0',
       change: '0',
       changeType: 'positive' as const,
       icon: XCircle
@@ -41,16 +41,15 @@ export default function TransactionReconciliationPage() {
 
   const reconciliationStatusData = [
     { name: 'Reconciled', value: 1198, color: 'hsl(var(--chart-1))' },
-    { name: 'Pending', value: 35, color: 'hsl(var(--chart-2))' },
-    { name: 'Failed', value: 14, color: 'hsl(var(--chart-3))' }
+    { name: 'Pending', value: 35, color: 'hsl(var(--chart-2))' }
   ];
 
   const dailyReconciliationData = [
-    { name: 'Mon', reconciled: 245, pending: 8, failed: 3, color: 'hsl(var(--chart-1))' },
-    { name: 'Tue', reconciled: 267, pending: 6, failed: 2, color: 'hsl(var(--chart-2))' },
-    { name: 'Wed', reconciled: 198, pending: 12, failed: 4, color: 'hsl(var(--chart-3))' },
-    { name: 'Thu', reconciled: 234, pending: 5, failed: 3, color: 'hsl(var(--chart-4))' },
-    { name: 'Fri', reconciled: 254, pending: 4, failed: 2, color: 'hsl(var(--chart-5))' }
+    { name: 'Mon', reconciled: 248, pending: 8, failed: 0, color: 'hsl(var(--chart-1))' },
+    { name: 'Tue', reconciled: 269, pending: 6, failed: 0, color: 'hsl(var(--chart-2))' },
+    { name: 'Wed', reconciled: 202, pending: 12, failed: 0, color: 'hsl(var(--chart-3))' },
+    { name: 'Thu', reconciled: 237, pending: 5, failed: 0, color: 'hsl(var(--chart-4))' },
+    { name: 'Fri', reconciled: 256, pending: 4, failed: 0, color: 'hsl(var(--chart-5))' }
   ];
 
   const getStatusBadge = (status: string) => {
@@ -102,9 +101,9 @@ export default function TransactionReconciliationPage() {
       participant: 'Arab Banking Corporation',
       amount: 1750000,
       timestamp: '2025-01-18 15:38:45',
-      status: 'Failed',
+      status: 'Reconciled',
       reconciliationTime: '2025-01-18 15:41:22',
-      variance: 25000,
+      variance: 0,
       reference: 'TRD-ABC-001245'
     },
     {

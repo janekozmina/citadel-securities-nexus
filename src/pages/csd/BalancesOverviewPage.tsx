@@ -278,16 +278,15 @@ export default function BalancesOverviewPage() {
   ];
 
   return (
-    <div className="space-y-6">
-      <QuickActionsManager pageKey="balances-overview" systemType="csd" />
-      
-      <PageHeader 
-        title="Balances Overview"
-        description="Comprehensive view of all account balances across the system"
-      />
+    <div className="grid grid-cols-1 xl:grid-cols-4 gap-6">
+      <div className="xl:col-span-3 space-y-6">
+        <PageHeader 
+          title="Balances Overview"
+          description="Comprehensive view of all account balances across the system"
+        />
 
-      {/* Summary Metrics */}
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+        {/* Summary Metrics */}
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
         {summaryMetrics.map((metric, index) => (
           <Card key={index}>
             <CardContent className="p-6">
@@ -365,6 +364,11 @@ export default function BalancesOverviewPage() {
           />
         </CardContent>
       </Card>
+      </div>
+
+      <div className="xl:col-span-1">
+        <QuickActionsManager pageKey="balances-overview" systemType="csd" />
+      </div>
     </div>
   );
 }
