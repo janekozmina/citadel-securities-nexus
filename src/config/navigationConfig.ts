@@ -123,6 +123,17 @@ export const primaryNavigation: NavigationItem[] = [
     tags: ['collateral', 'risk', 'management']
   },
   {
+    id: 'dwh',
+    title: 'DWH',
+    path: '/dwh',
+    icon: Database,
+    description: 'Data Warehouse and Business Intelligence',
+    system: 'COMMON',
+    roles: ['Admin', 'CBBOperator', 'BankOperator', 'Analyst'],
+    keywords: ['dwh', 'data', 'warehouse', 'bi', 'business', 'intelligence', 'reports'],
+    tags: ['data', 'reporting', 'analytics']
+  },
+  {
     id: 'admin',
     title: 'Administration',
     path: '/admin',
@@ -212,15 +223,6 @@ export const secondaryNavigation: Record<string, NavigationItem[]> = {
           keywords: ['billing', 'fees', 'charges', 'invoicing', 'payment'],
           tags: ['billing', 'fees']
         },
-        {
-          id: 'bi-reports',
-          title: 'BI Reports',
-          path: '/rtgs/financial-monitoring/bi-reports',
-          icon: BarChart3,
-          description: 'Business intelligence reports',
-          keywords: ['bi', 'business', 'intelligence', 'reports', 'analytics'],
-          tags: ['reporting', 'analytics']
-        }
       ]
     },
     {
@@ -817,15 +819,6 @@ export const secondaryNavigation: Record<string, NavigationItem[]> = {
       tags: ['reporting', 'analytics']
     },
     {
-      id: 'bi-reports',
-      title: 'BI Reports',
-      path: '/cms/bi-reports',
-      icon: BarChart3,
-      description: 'Business intelligence dashboards and analytics',
-      keywords: ['bi', 'business', 'intelligence', 'dashboards', 'analytics'],
-      tags: ['reporting', 'analytics']
-    },
-    {
       id: 'eligibility-criteria-builder',
       title: 'Eligibility Criteria Builder',
       path: '/cms/eligibility-criteria-builder',
@@ -898,6 +891,44 @@ export const secondaryNavigation: Record<string, NavigationItem[]> = {
           description: 'Monitor compliance status'
         }
       ]
+    }
+  ],
+
+  // DWH Navigation
+  dwh: [
+    {
+      id: 'dwh-dashboard',
+      title: 'DWH Dashboard',
+      path: '/dwh',
+      icon: BarChart3,
+      description: 'Data warehouse overview and access'
+    },
+    {
+      id: 'rtgs-bi-reports',
+      title: 'RTGS BI Reports',
+      path: '/dwh/rtgs-bi-reports',
+      icon: BarChart3,
+      description: 'RTGS business intelligence reports',
+      keywords: ['rtgs', 'bi', 'business', 'intelligence', 'reports', 'analytics'],
+      tags: ['reporting', 'analytics', 'rtgs']
+    },
+    {
+      id: 'csd-bi-reports',
+      title: 'CSD BI Reports',
+      path: '/dwh/csd-bi-reports',
+      icon: BarChart3,
+      description: 'CSD business intelligence reports',
+      keywords: ['csd', 'bi', 'business', 'intelligence', 'reports', 'analytics'],
+      tags: ['reporting', 'analytics', 'csd']
+    },
+    {
+      id: 'cms-bi-reports',
+      title: 'CMS BI Reports',
+      path: '/dwh/cms-bi-reports',
+      icon: BarChart3,
+      description: 'CMS business intelligence reports',
+      keywords: ['cms', 'bi', 'business', 'intelligence', 'reports', 'analytics'],
+      tags: ['reporting', 'analytics', 'cms']
     }
   ],
 

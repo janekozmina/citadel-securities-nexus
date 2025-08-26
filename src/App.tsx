@@ -131,6 +131,8 @@ import CollateralPositionsPage from './pages/cms/CollateralPositionsPage';
 import CollateralOptimizationPage from './pages/cms/CollateralOptimizationPage';
 import ReportingAnalyticsPage from './pages/cms/ReportingAnalyticsPage';
 import CMSBIReportsPage from './pages/cms/BIReportsPage';
+import CSDDWHDashboard from './pages/dwh/CSDDWHDashboard';
+import CSDBIReportsPage from './pages/dwh/CSDBIReportsPage';
 import CustodyHubPage from '@/pages/custody/CustodyHubPage';
 import CSDTargetPageComponent from '@/pages/csd/BIReportsPage';
 
@@ -206,13 +208,6 @@ const App = () => (
               <ProtectedRoute>
                 <MainLayout>
                   <BillingPage />
-                </MainLayout>
-              </ProtectedRoute>
-            } />
-            <Route path="/rtgs/financial-monitoring/bi-reports" element={
-              <ProtectedRoute>
-                <MainLayout>
-                  <BIReportsPage />
                 </MainLayout>
               </ProtectedRoute>
             } />
@@ -841,6 +836,36 @@ const App = () => (
               <ProtectedRoute>
                 <MainLayout>
                   <LiquidityForecastingPage />
+                </MainLayout>
+              </ProtectedRoute>
+            } />
+            
+            {/* DWH Routes */}
+            <Route path="/dwh" element={
+              <ProtectedRoute>
+                <MainLayout>
+                  <CSDDWHDashboard />
+                </MainLayout>
+              </ProtectedRoute>
+            } />
+            <Route path="/dwh/rtgs-bi-reports" element={
+              <ProtectedRoute>
+                <MainLayout>
+                  <BIReportsPage />
+                </MainLayout>
+              </ProtectedRoute>
+            } />
+            <Route path="/dwh/csd-bi-reports" element={
+              <ProtectedRoute>
+                <MainLayout>
+                  <CSDBIReportsPage />
+                </MainLayout>
+              </ProtectedRoute>
+            } />
+            <Route path="/dwh/cms-bi-reports" element={
+              <ProtectedRoute>
+                <MainLayout>
+                  <CMSBIReportsPage />
                 </MainLayout>
               </ProtectedRoute>
             } />

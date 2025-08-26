@@ -222,8 +222,8 @@ export default function BIReportsPage() {
     <div className="grid grid-cols-1 xl:grid-cols-4 gap-6">
       <div className="xl:col-span-3 space-y-6">
         <PageHeader 
-          title="BI Reports"
-          description="Business Intelligence dashboards and analytics for collateral management system"
+          title="CMS BI Reports"
+          description="Collateral Management System business intelligence dashboards and analytics"
         />
 
         {/* Summary Metrics */}

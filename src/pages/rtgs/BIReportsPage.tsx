@@ -5,7 +5,7 @@ import { PageHeader } from '@/components/common/PageHeader';
 
 export default function BIReportsPage() {
   useEffect(() => {
-    document.title = 'BI Reports | CBB Portal';
+    document.title = 'RTGS BI Reports | CBB Portal';
   }, []);
 
   const handleQuickActionClick = (actionId: string) => {
@@ -16,7 +16,10 @@ export default function BIReportsPage() {
 
   return (
     <div className="space-y-6">
-      <PageHeader />
+      <PageHeader 
+        title="RTGS BI Reports"
+        description="Real-Time Gross Settlement business intelligence reports and analytics"
+      />
 
       <div className="flex h-full">
         <div className="flex-1 space-y-6 pr-6">
