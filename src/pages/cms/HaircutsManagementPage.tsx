@@ -193,51 +193,83 @@ export default function HaircutsManagementPage() {
     }
   ];
 
-  const haircutScheduleData = [
+  const haircutMatrixData = [
     {
       id: 1,
-      assetClass: 'Government Securities',
-      aaa: '1.0%',
-      aa: '2.0%',
-      a: '3.5%',
-      bbb: '8.0%',
-      below: 'Not Eligible'
+      collateralType: 'Government bond',
+      operation: 'ILF (Intraday Liquidity Facility)',
+      '0-1year': { value: '0.5%', risk: 'Low' },
+      '1-3years': { value: '1%', risk: 'Low' },
+      '3-5years': { value: '1.5%', risk: 'Low' },
+      '5-7years': { value: '2%', risk: 'Low' },
+      '7-10years': { value: '3%', risk: 'Medium' },
+      '10+years': { value: '5%', risk: 'Medium' }
     },
     {
       id: 2,
-      assetClass: 'Corporate Bonds',
-      aaa: '4.0%',
-      aa: '6.0%',
-      a: '8.5%',
-      bbb: '15.0%',
-      below: '25.0%'
+      collateralType: 'Corporate Bonds',
+      operation: 'Repo Operations (>14)',
+      '0-1year': { value: '1%', risk: 'Low' },
+      '1-3years': { value: '1.5%', risk: 'Low' },
+      '3-5years': { value: '2.5%', risk: 'Medium' },
+      '5-7years': { value: '3.5%', risk: 'Medium' },
+      '7-10years': { value: '4.5%', risk: 'Medium' },
+      '10+years': { value: '6%', risk: 'Medium' }
     },
     {
       id: 3,
-      assetClass: 'Bank Securities',
-      aaa: '3.0%',
-      aa: '4.0%',
-      a: '6.0%',
-      bbb: '12.0%',
-      below: 'Not Eligible'
+      collateralType: 'Central Bank Bills',
+      operation: 'ILF (Intraday Liquidity Facility)',
+      '0-1year': { value: '0.3%', risk: 'Low' },
+      '1-3years': { value: '0.6%', risk: 'Low' },
+      '3-5years': { value: '1.2%', risk: 'Low' },
+      '5-7years': { value: '1.8%', risk: 'Low' },
+      '7-10years': { value: '2.5%', risk: 'Medium' },
+      '10+years': { value: '4%', risk: 'Medium' }
     },
     {
       id: 4,
-      assetClass: 'Islamic Securities',
-      aaa: '5.0%',
-      aa: '7.0%',
-      a: '12.0%',
-      bbb: '18.0%',
-      below: '30.0%'
+      collateralType: 'Sukuks (Islamic bonds)',
+      operation: 'Repo Operations (>14)',
+      '0-1year': { value: '1.2%', risk: 'Low' },
+      '1-3years': { value: '1.8%', risk: 'Low' },
+      '3-5years': { value: '2.8%', risk: 'Medium' },
+      '5-7years': { value: '3.8%', risk: 'Medium' },
+      '7-10years': { value: '5%', risk: 'Medium' },
+      '10+years': { value: '9%', risk: 'Medium' }
     },
     {
       id: 5,
-      assetClass: 'Equity Securities',
-      aaa: '20.0%',
-      aa: '25.0%',
-      a: '30.0%',
-      bbb: '40.0%',
-      below: '50.0%'
+      collateralType: 'Senior tranche of MBS',
+      operation: 'Repo Operations (>14)',
+      '0-1year': { value: '20%', risk: 'High' },
+      '1-3years': { value: '20%', risk: 'High' },
+      '3-5years': { value: '20%', risk: 'High' },
+      '5-7years': { value: '20%', risk: 'High' },
+      '7-10years': { value: '20%', risk: 'High' },
+      '10+years': { value: '20%', risk: 'High' }
+    },
+    {
+      id: 6,
+      collateralType: 'Junior tranche of MBS',
+      operation: 'Repo Operations (>14)',
+      '0-1year': { value: '40%', risk: 'High' },
+      '1-3years': { value: '40%', risk: 'High' },
+      '3-5years': { value: '40%', risk: 'High' },
+      '5-7years': { value: '40%', risk: 'High' },
+      '7-10years': { value: '40%', risk: 'High' },
+      '10+years': { value: '40%', risk: 'High' }
+    },
+    {
+      id: 7,
+      collateralType: 'Senior tranche of ABS (performing loans)',
+      operation: 'Repo Operations (>14)',
+      '0-1year': { value: '20%', risk: 'High' },
+      '1-3years': { value: '20%', risk: 'High' },
+      '3-5years': { value: '20%', risk: 'High' },
+      '5-7years': { value: '20%', risk: 'High' },
+      '7-10years': { value: '20%', risk: 'High' },
+      '10+years': { value: '20%', risk: 'High' }
     }
   ];
 
@@ -262,14 +294,34 @@ export default function HaircutsManagementPage() {
     }
   ];
 
-  const scheduleColumns = [
-    { key: 'assetClass', label: 'Asset Class', type: 'text' as const, sortable: true },
-    { key: 'aaa', label: 'AAA', type: 'text' as const },
-    { key: 'aa', label: 'AA', type: 'text' as const },
-    { key: 'a', label: 'A', type: 'text' as const },
-    { key: 'bbb', label: 'BBB', type: 'text' as const },
-    { key: 'below', label: 'Below BBB', type: 'text' as const }
+  const [editingCell, setEditingCell] = useState<{rowId: number, period: string} | null>(null);
+  
+  const maturityPeriods = [
+    { key: '0-1year', label: '0-1 year' },
+    { key: '1-3years', label: '1-3 years' },
+    { key: '3-5years', label: '3-5 years' },
+    { key: '5-7years', label: '5-7 years' },
+    { key: '7-10years', label: '7-10 years' },
+    { key: '10+years', label: '10+ years' }
   ];
+
+  const getRiskColor = (risk: string) => {
+    switch (risk) {
+      case 'Low': return 'bg-green-50 border-green-200 text-green-700';
+      case 'Medium': return 'bg-yellow-50 border-yellow-200 text-yellow-700';
+      case 'High': return 'bg-red-50 border-red-200 text-red-700';
+      default: return 'bg-gray-50 border-gray-200 text-gray-700';
+    }
+  };
+
+  const handleCellEdit = (rowId: number, period: string, newValue: string) => {
+    // Update the matrix data here
+    toast({
+      title: "Haircut Updated",
+      description: `Haircut rate updated to ${newValue}`,
+    });
+    setEditingCell(null);
+  };
 
   return (
     <div className="grid grid-cols-1 xl:grid-cols-4 gap-6">
@@ -304,44 +356,90 @@ export default function HaircutsManagementPage() {
           ))}
         </div>
 
-        {/* Haircut Schedule Matrix */}
+        {/* Haircut Matrix Configuration */}
         <Card>
           <CardHeader>
             <CardTitle className="flex items-center justify-between">
               <div className="flex items-center gap-2">
                 <Target className="h-5 w-5" />
-                Haircut Schedule by Asset Class & Credit Rating
-              </div>
-              <div className="flex gap-2">
-                <Button
-                  variant="outline"
-                  size="sm"
-                  onClick={() => setIlfMatrixOpen(true)}
-                  className="flex items-center gap-2"
-                >
-                  <Building2 className="h-4 w-4" />
-                  Edit ILF Matrix
-                </Button>
-                <Button
-                  variant="outline"
-                  size="sm"
-                  onClick={() => setRepoMatrixOpen(true)}
-                  className="flex items-center gap-2"
-                >
-                  <Edit className="h-4 w-4" />
-                  Edit REPO Matrix
-                </Button>
+                Haircut Matrix Configuration
               </div>
             </CardTitle>
+            <p className="text-sm text-muted-foreground mt-1">
+              Configure haircut percentages for different collateral types and maturity periods
+            </p>
           </CardHeader>
           <CardContent>
-            <DataTable
-              title="Haircut Matrix"
-              columns={scheduleColumns}
-              data={haircutScheduleData}
-              searchable={false}
-              itemsPerPage={10}
-            />
+            <div className="overflow-x-auto">
+              <table className="w-full border-collapse">
+                <thead>
+                  <tr className="border-b">
+                    <th className="text-left p-3 font-medium text-muted-foreground">
+                      Collateral Type / Repo Operation
+                    </th>
+                    {maturityPeriods.map((period) => (
+                      <th key={period.key} className="text-center p-3 font-medium text-muted-foreground min-w-[100px]">
+                        {period.label}
+                      </th>
+                    ))}
+                    <th className="text-center p-3 font-medium text-muted-foreground">Actions</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {haircutMatrixData.map((row) => (
+                    <tr key={row.id} className="border-b hover:bg-muted/50">
+                      <td className="p-3">
+                        <div>
+                          <div className="font-medium">{row.collateralType}</div>
+                          <div className="text-sm text-blue-600">{row.operation}</div>
+                        </div>
+                      </td>
+                      {maturityPeriods.map((period) => {
+                        const cellData = row[period.key as keyof typeof row] as {value: string, risk: string};
+                        const isEditing = editingCell?.rowId === row.id && editingCell?.period === period.key;
+                        
+                        return (
+                          <td key={period.key} className="p-2 text-center">
+                            {isEditing ? (
+                              <Input
+                                value={cellData.value}
+                                onChange={(e) => handleCellEdit(row.id, period.key, e.target.value)}
+                                onBlur={() => setEditingCell(null)}
+                                onKeyDown={(e) => {
+                                  if (e.key === 'Enter') {
+                                    setEditingCell(null);
+                                  }
+                                }}
+                                className="w-16 h-8 text-center text-xs"
+                                autoFocus
+                              />
+                            ) : (
+                              <div
+                                className={`inline-flex flex-col items-center gap-1 px-2 py-1 rounded border cursor-pointer transition-colors hover:bg-opacity-80 ${getRiskColor(cellData.risk)}`}
+                                onClick={() => setEditingCell({rowId: row.id, period: period.key})}
+                              >
+                                <span className="text-xs font-medium">{cellData.value}</span>
+                                <Badge 
+                                  variant={cellData.risk === 'Low' ? 'default' : cellData.risk === 'Medium' ? 'secondary' : 'destructive'}
+                                  className="text-[10px] px-1 h-4"
+                                >
+                                  {cellData.risk}
+                                </Badge>
+                              </div>
+                            )}
+                          </td>
+                        );
+                      })}
+                      <td className="p-3 text-center">
+                        <Button variant="outline" size="sm" className="h-8 w-8 p-0">
+                          <Edit className="h-4 w-4" />
+                        </Button>
+                      </td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </div>
           </CardContent>
         </Card>
 
