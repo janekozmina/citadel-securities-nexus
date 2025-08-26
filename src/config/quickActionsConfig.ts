@@ -426,6 +426,43 @@ export const quickActionsConfig: Record<string, QuickAction[]> = {
       category: 'Monitoring',
       description: 'Configure instrument alerts',
       permissions: ['csd.instruments.alerts']
+    },
+    // Reserve Management Actions
+    {
+      id: 'update-reserve-ratios',
+      label: 'Update Reserve Ratios',
+      icon: Calculator,
+      variant: 'default',
+      category: 'Configuration',
+      description: 'Configure MCB and MLA ratios for participants',
+      permissions: ['csd.reserves.config']
+    },
+    {
+      id: 'generate-compliance-report',
+      label: 'Generate Compliance Report',
+      icon: FileText,
+      variant: 'outline',
+      category: 'Reports',
+      description: 'Generate daily compliance report',
+      permissions: ['csd.reserves.reports']
+    },
+    {
+      id: 'send-notification',
+      label: 'Send Notification',
+      icon: Send,
+      variant: 'outline',
+      category: 'Communication',
+      description: 'Send reserve requirement notifications',
+      permissions: ['csd.reserves.notify']
+    },
+    {
+      id: 'manual-adjustment',
+      label: 'Manual Adjustment',
+      icon: Edit,
+      variant: 'outline',
+      category: 'Operations',
+      description: 'Perform manual reserve adjustments',
+      permissions: ['csd.reserves.adjust']
     }
   ],
 
@@ -886,5 +923,6 @@ export const defaultQuickActions: Record<string, string[]> = {
   'collateral-optimization': ['initiate-pledge', 'approve-substitution', 'collateral-revaluation', 'initiate-margin-call', 'run-optimizer', 'collateral-execution'],
   'reporting-analytics': ['generate-regulatory-report', 'build-custom-report', 'schedule-report', 'export-analytics'],
   'eligibility-criteria-builder': ['create-criteria', 'test-criteria', 'import-criteria', 'export-criteria'],
+  'reserves-summary': ['update-reserve-ratios', 'generate-compliance-report', 'send-notification', 'manual-adjustment'],
   'default': ['export-data', 'refresh-data', 'advanced-search']
 };
