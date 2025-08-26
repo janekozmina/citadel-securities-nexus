@@ -872,7 +872,7 @@ export const defaultQuickActions: Record<string, string[]> = {
   'transfers': ['submit-transfer-instruction', 'amend-pending-instruction', 'cancel-instruction', 'download-instruction-report', 'notify-counterparty'],
   'limits-alerts': ['configure-alert'],
   'cash-operations': ['cash-withdrawal', 'cash-deposit', 'vault-reconciliation', 'cash-transfer', 'compliance-report'],
-  'bi-reports': ['access-bi-configuration'],
+  
   'rtgs-configuration': ['access-configuration-panel'],
   'csd-configuration': ['export-data', 'refresh-data'],
   'exposure-summary': ['export-exposure-report', 'set-alert-threshold', 'simulate-exposure-change'],

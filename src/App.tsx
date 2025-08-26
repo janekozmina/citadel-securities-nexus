@@ -130,7 +130,7 @@ import HaircutsManagementPage from './pages/cms/HaircutsManagementPage';
 import CollateralPositionsPage from './pages/cms/CollateralPositionsPage';
 import CollateralOptimizationPage from './pages/cms/CollateralOptimizationPage';
 import ReportingAnalyticsPage from './pages/cms/ReportingAnalyticsPage';
-import BIReportsPage from './pages/cms/BIReportsPage';
+import CMSBIReportsPage from './pages/cms/BIReportsPage';
 
 const queryClient = new QueryClient();
 
@@ -571,6 +571,41 @@ const App = () => (
               <ProtectedRoute>
                 <MainLayout>
                   <CMSRiskPage />
+                </MainLayout>
+              </ProtectedRoute>
+            } />
+            <Route path="/cms/haircuts-management" element={
+              <ProtectedRoute>
+                <MainLayout>
+                  <HaircutsManagementPage />
+                </MainLayout>
+              </ProtectedRoute>
+            } />
+            <Route path="/cms/collateral-positions" element={
+              <ProtectedRoute>
+                <MainLayout>
+                  <CollateralPositionsPage />
+                </MainLayout>
+              </ProtectedRoute>
+            } />
+            <Route path="/cms/collateral-optimization" element={
+              <ProtectedRoute>
+                <MainLayout>
+                  <CollateralOptimizationPage />
+                </MainLayout>
+              </ProtectedRoute>
+            } />
+            <Route path="/cms/reporting-analytics" element={
+              <ProtectedRoute>
+                <MainLayout>
+                  <ReportingAnalyticsPage />
+                </MainLayout>
+              </ProtectedRoute>
+            } />
+            <Route path="/cms/bi-reports" element={
+              <ProtectedRoute>
+                <MainLayout>
+                  <CMSBIReportsPage />
                 </MainLayout>
               </ProtectedRoute>
             } />
