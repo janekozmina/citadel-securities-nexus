@@ -146,6 +146,8 @@ export default function RegisterCBBInstrumentPage() {
   } = useDashboardFilters(cbbInstruments, cbbInstrumentConfig);
 
   const stats = getCBBInstrumentStats(filteredData);
+  // Override total outstanding to 227.7M
+  const adjustedStats = { ...stats, totalOutstanding: 227700000 };
   const colors = getChartColors();
 
   // Instrument Type Distribution Chart
@@ -217,7 +219,7 @@ export default function RegisterCBBInstrumentPage() {
           <MetricCardsSection
             metricsConfig={cbbInstrumentMetricsConfig}
             data={filteredData}
-            stats={stats}
+            stats={adjustedStats}
             onMetricClick={applyFilterAndSwitchView}
           />
 

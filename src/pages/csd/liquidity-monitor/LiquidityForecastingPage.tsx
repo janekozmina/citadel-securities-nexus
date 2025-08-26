@@ -1,269 +1,399 @@
-import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
+import { useState } from 'react';
+import { PageHeader } from '@/components/common/PageHeader';
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
+import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
+import { Progress } from '@/components/ui/progress';
+import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle, DialogTrigger, DialogFooter } from '@/components/ui/dialog';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
-import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
-import { PageHeader } from '@/components/common/PageHeader';
-import { 
-  TrendingUp, 
-  TrendingDown, 
-  Brain, 
-  Calendar,
-  Target,
-  AlertCircle,
-  LineChart,
-  BarChart3,
-  Clock,
-  Zap,
-  Settings,
-  Download,
-  Play,
-  RefreshCw,
-  Layers,
-  Activity
-} from 'lucide-react';
+import { Textarea } from '@/components/ui/textarea';
+import { Label } from '@/components/ui/label';
+import { Brain, TrendingUp, AlertTriangle, BarChart3, Zap, Clock, Target, Layers, Play, GitBranch, History, Eye, Code, Calendar } from 'lucide-react';
 
-const LiquidityForecastingPage = () => {
+export default function LiquidityForecastingPage() {
+  const [isRunningForecast, setIsRunningForecast] = useState(false);
+  const [customScenarioDialogOpen, setCustomScenarioDialogOpen] = useState(false);
+  const [compareHistoricalDialogOpen, setCompareHistoricalDialogOpen] = useState(false);
+  const [customScenario, setCustomScenario] = useState(`# Custom Liquidity Scenario
+import numpy as np
+import pandas as pd
+from datetime import datetime, timedelta
+
+def custom_scenario():
+    """
+    Define custom scenario parameters for liquidity forecasting
+    """
+    # Market stress parameters
+    market_volatility = 0.25  # 25% increase in volatility
+    settlement_delays = 0.15  # 15% probability of delays
+    
+    # Liquidity shocks
+    withdrawal_shock = -50000000  # 50M BHD sudden withdrawal
+    margin_calls = 15000000      # 15M BHD additional margin
+    
+    # Calculate scenario impact
+    base_liquidity = get_base_liquidity()
+    stressed_liquidity = base_liquidity * (1 - market_volatility)
+    
+    return {
+        'scenario_name': 'Custom Stress Test',
+        'probability': 0.15,
+        'predicted_liquidity': stressed_liquidity + withdrawal_shock + margin_calls,
+        'risk_factors': [
+            'Market volatility spike',
+            'Large withdrawal event',
+            'Increased margin requirements'
+        ]
+    }
+
+# Execute scenario
+scenario_result = custom_scenario()
+print(f"Predicted Liquidity: {scenario_result['predicted_liquidity']:,.2f} BHD")
+print(f"Risk Level: {'High' if scenario_result['predicted_liquidity'] < 30000000 else 'Medium'}")
+`);
+  const [selectedHistoricalPeriod, setSelectedHistoricalPeriod] = useState('');
+
+  const handleRunForecast = () => {
+    setIsRunningForecast(true);
+    // Simulate forecast run
+    setTimeout(() => {
+      setIsRunningForecast(false);
+      // Update forecast data here
+    }, 3000);
+  };
+
   const forecastData = {
+    models: [
+      { name: 'LSTM Neural Network', code: 'LSTM-v2.1', accuracy: 0.87, status: 'Active' },
+      { name: 'Random Forest Ensemble', code: 'RF-v1.8', accuracy: 0.83, status: 'Active' },
+      { name: 'ARIMA-GARCH Hybrid', code: 'AG-v3.2', accuracy: 0.79, status: 'Standby' }
+    ],
     scenarios: [
       {
         name: 'Base Case',
-        probability: 65,
-        liquidityLevel: 42800000000,
-        riskScore: 'Low',
-        confidence: 87,
+        probability: 0.65,
+        predictedLiquidity: 42.8,
+        riskLevel: 'Low',
+        confidence: 0.87,
         keyFactors: ['Normal market conditions', 'Standard settlement flows', 'Regular auction activity']
       },
       {
         name: 'Stress Scenario',
-        probability: 25,
-        liquidityLevel: 28500000000,
-        riskScore: 'High',
-        confidence: 72,
+        probability: 0.25,
+        predictedLiquidity: 28.5,
+        riskLevel: 'High',
+        confidence: 0.72,
         keyFactors: ['Market volatility spike', 'Increased margin calls', 'Settlement delays']
       },
       {
         name: 'Optimistic Case',
-        probability: 10,
-        liquidityLevel: 58200000000,
-        riskScore: 'Very Low',
-        confidence: 91,
+        probability: 0.10,
+        predictedLiquidity: 58.2,
+        riskLevel: 'Very Low',
+        confidence: 0.91,
         keyFactors: ['Favorable market conditions', 'High inflows', 'Reduced redemptions']
       }
     ],
     weeklyForecast: [
-      { period: 'Week 1', baseCase: 42.8, stressCase: 28.5, optimistic: 58.2, actual: null },
-      { period: 'Week 2', baseCase: 44.2, stressCase: 29.8, optimistic: 59.7, actual: null },
-      { period: 'Week 3', baseCase: 43.5, stressCase: 27.9, optimistic: 57.8, actual: null },
-      { period: 'Week 4', baseCase: 45.1, stressCase: 31.2, optimistic: 61.4, actual: null }
+      { week: 'Week 1', predicted: 42.8, actual: null, confidence: 0.87 },
+      { week: 'Week 2', predicted: 44.2, actual: null, confidence: 0.84 },
+      { week: 'Week 3', predicted: 41.5, actual: null, confidence: 0.81 },
+      { week: 'Week 4', predicted: 43.1, actual: null, confidence: 0.79 }
     ],
-    mlPredictions: {
-      nextDayAccuracy: 94.2,
-      weeklyAccuracy: 87.8,
-      monthlyAccuracy: 79.5,
-      lastUpdate: '2024-01-15 09:15:00',
-      modelsRunning: 5,
-      trainingDataPoints: 125847
+    mlInsights: {
+      performance: {
+        accuracy: 0.87,
+        precision: 0.84,
+        recall: 0.89,
+        f1Score: 0.86
+      },
+      modelStatus: 'Optimal',
+      lastTraining: '2025-01-15',
+      nextTraining: '2025-02-01',
+      dataPoints: 15420,
+      features: 42
     },
     cashFlowPredictions: [
-      { time: '10:00', predictedIn: 2800000000, predictedOut: 1900000000, confidence: 92 },
-      { time: '11:00', predictedIn: 3200000000, predictedOut: 2400000000, confidence: 89 },
-      { time: '12:00', predictedIn: 4100000000, predictedOut: 3800000000, confidence: 85 },
-      { time: '13:00', predictedIn: 2900000000, predictedOut: 2100000000, confidence: 88 },
-      { time: '14:00', predictedIn: 3600000000, predictedOut: 2800000000, confidence: 91 }
+      { time: '09:00', prediction: 'High Inflow', amount: '+45.2M', confidence: 0.92 },
+      { time: '11:30', prediction: 'Moderate Outflow', amount: '-18.7M', confidence: 0.78 },
+      { time: '14:00', prediction: 'Settlement Peak', amount: '-67.3M', confidence: 0.95 },
+      { time: '16:30', prediction: 'Recovery Inflow', amount: '+32.1M', confidence: 0.83 }
     ],
     riskAlerts: [
       {
+        id: 1,
         severity: 'Medium',
-        message: 'Predicted liquidity shortfall in Week 3 stress scenario',
-        impact: '$14.6B below minimum threshold',
-        probability: 25,
-        recommendation: 'Consider pre-positioning additional collateral'
+        message: 'Settlement concentration risk detected for 14:00-15:00 window',
+        recommendation: 'Consider pre-positioning additional liquidity',
+        probability: 0.23
       },
       {
+        id: 2,
         severity: 'Low',
-        message: 'Seasonal pattern detected - Q1 typically shows 8% increase',
-        impact: 'Positive impact on base case forecast',
-        probability: 78,
-        recommendation: 'Leverage seasonal trends for optimization'
+        message: 'Slight increase in volatility expected mid-week',
+        recommendation: 'Monitor margin requirements closely',
+        probability: 0.31
       }
     ]
   };
 
   const getSeverityColor = (severity: string) => {
     switch (severity) {
-      case 'High': return 'bg-red-100 text-red-800 border-red-200';
-      case 'Medium': return 'bg-amber-100 text-amber-800 border-amber-200';
-      case 'Low': return 'bg-green-100 text-green-800 border-green-200';
-      default: return 'bg-slate-100 text-slate-800 border-slate-200';
+      case 'High': return 'text-red-600';
+      case 'Medium': return 'text-yellow-600';
+      case 'Low': return 'text-green-600';
+      default: return 'text-muted-foreground';
     }
   };
 
-  const getRiskColor = (risk: string) => {
-    switch (risk) {
-      case 'Very Low': return 'text-emerald-600';
-      case 'Low': return 'text-green-600';
-      case 'Medium': return 'text-amber-600';
+  const getRiskColor = (riskLevel: string) => {
+    switch (riskLevel) {
       case 'High': return 'text-red-600';
-      default: return 'text-slate-600';
+      case 'Medium': return 'text-yellow-600';
+      case 'Low': return 'text-green-600';
+      case 'Very Low': return 'text-emerald-600';
+      default: return 'text-muted-foreground';
     }
   };
 
   return (
     <div className="space-y-6">
       <PageHeader 
-        title="Liquidity Forecasting"
-        description="Advanced AI-powered liquidity forecasting and scenario analysis"
+        title="Liquidity Forecasting (AI/ML-powered)"
+        description="Advanced ML-powered liquidity forecasting and scenario analysis for the Central Securities Depository"
       />
 
       <div className="flex gap-6">
-        {/* Main Content */}
         <div className="flex-1 space-y-6">
-          {/* Controls */}
-          <div className="flex gap-4 items-center">
-            <Select defaultValue="7days">
-              <SelectTrigger className="w-48">
-                <SelectValue placeholder="Forecast Period" />
-              </SelectTrigger>
-              <SelectContent>
-                <SelectItem value="1day">Next Day</SelectItem>
-                <SelectItem value="7days">Next 7 Days</SelectItem>
-                <SelectItem value="30days">Next 30 Days</SelectItem>
-                <SelectItem value="90days">Next Quarter</SelectItem>
-              </SelectContent>
-            </Select>
-            
-            <Select defaultValue="all">
-              <SelectTrigger className="w-48">
-                <SelectValue placeholder="Scenario Type" />
-              </SelectTrigger>
-              <SelectContent>
-                <SelectItem value="all">All Scenarios</SelectItem>
-                <SelectItem value="base">Base Case Only</SelectItem>
-                <SelectItem value="stress">Stress Test</SelectItem>
-                <SelectItem value="custom">Custom Scenario</SelectItem>
-              </SelectContent>
-            </Select>
-
-            <Button className="gap-2">
-              <Play className="h-4 w-4" />
-              Run Forecast
-            </Button>
-          </div>
+          {/* Model Status and Actions */}
+          <Card>
+            <CardHeader className="pb-3">
+              <div className="flex items-center justify-between">
+                <div>
+                  <CardTitle className="text-lg">Active ML Models</CardTitle>
+                  <CardDescription>Currently deployed forecasting models</CardDescription>
+                </div>
+                <div className="flex gap-2">
+                  <Button onClick={handleRunForecast} disabled={isRunningForecast} className="gap-2">
+                    <Play className="h-4 w-4" />
+                    {isRunningForecast ? 'Running Forecast...' : 'Run New Forecast'}
+                  </Button>
+                  <Dialog open={customScenarioDialogOpen} onOpenChange={setCustomScenarioDialogOpen}>
+                    <DialogTrigger asChild>
+                      <Button variant="outline" className="gap-2">
+                        <Code className="h-4 w-4" />
+                        Create Custom Scenario
+                      </Button>
+                    </DialogTrigger>
+                    <DialogContent className="max-w-4xl max-h-[80vh] overflow-y-auto">
+                      <DialogHeader>
+                        <DialogTitle>Create Custom Scenario</DialogTitle>
+                        <DialogDescription>
+                          Define a custom liquidity scenario using Python code
+                        </DialogDescription>
+                      </DialogHeader>
+                      <div className="space-y-4">
+                        <div>
+                          <Label>Scenario Code</Label>
+                          <Textarea
+                            value={customScenario}
+                            onChange={(e) => setCustomScenario(e.target.value)}
+                            placeholder="Enter Python code for custom scenario..."
+                            className="min-h-[400px] font-mono text-sm"
+                          />
+                        </div>
+                      </div>
+                      <DialogFooter>
+                        <Button variant="outline" onClick={() => setCustomScenarioDialogOpen(false)}>
+                          Cancel
+                        </Button>
+                        <Button onClick={() => setCustomScenarioDialogOpen(false)}>
+                          Execute Scenario
+                        </Button>
+                      </DialogFooter>
+                    </DialogContent>
+                  </Dialog>
+                  <Dialog open={compareHistoricalDialogOpen} onOpenChange={setCompareHistoricalDialogOpen}>
+                    <DialogTrigger asChild>
+                      <Button variant="outline" className="gap-2">
+                        <History className="h-4 w-4" />
+                        Compare Historical
+                      </Button>
+                    </DialogTrigger>
+                    <DialogContent>
+                      <DialogHeader>
+                        <DialogTitle>Compare Historical Data</DialogTitle>
+                        <DialogDescription>
+                          Select historical periods to compare with current forecasts
+                        </DialogDescription>
+                      </DialogHeader>
+                      <div className="space-y-4">
+                        <div>
+                          <Label>Historical Period</Label>
+                          <Select value={selectedHistoricalPeriod} onValueChange={setSelectedHistoricalPeriod}>
+                            <SelectTrigger>
+                              <SelectValue placeholder="Select period to compare" />
+                            </SelectTrigger>
+                            <SelectContent>
+                              <SelectItem value="last-week">Last Week</SelectItem>
+                              <SelectItem value="last-month">Last Month</SelectItem>
+                              <SelectItem value="last-quarter">Last Quarter</SelectItem>
+                              <SelectItem value="stress-period-2023">Stress Period (Mar 2023)</SelectItem>
+                              <SelectItem value="high-volatility-2024">High Volatility (Sep 2024)</SelectItem>
+                              <SelectItem value="custom">Custom Range</SelectItem>
+                            </SelectContent>
+                          </Select>
+                        </div>
+                        {selectedHistoricalPeriod === 'custom' && (
+                          <div className="grid grid-cols-2 gap-4">
+                            <div>
+                              <Label>Start Date</Label>
+                              <Button variant="outline" className="w-full justify-start gap-2">
+                                <Calendar className="h-4 w-4" />
+                                Select start date
+                              </Button>
+                            </div>
+                            <div>
+                              <Label>End Date</Label>
+                              <Button variant="outline" className="w-full justify-start gap-2">
+                                <Calendar className="h-4 w-4" />
+                                Select end date
+                              </Button>
+                            </div>
+                          </div>
+                        )}
+                      </div>
+                      <DialogFooter>
+                        <Button variant="outline" onClick={() => setCompareHistoricalDialogOpen(false)}>
+                          Cancel
+                        </Button>
+                        <Button 
+                          onClick={() => setCompareHistoricalDialogOpen(false)}
+                          disabled={!selectedHistoricalPeriod}
+                        >
+                          Compare Data
+                        </Button>
+                      </DialogFooter>
+                    </DialogContent>
+                  </Dialog>
+                </div>
+              </div>
+            </CardHeader>
+            <CardContent>
+              <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+                {forecastData.models.map((model, index) => (
+                  <div key={index} className="p-4 border rounded-lg">
+                    <div className="flex items-center justify-between mb-2">
+                      <div className="font-medium">{model.name}</div>
+                      <Badge variant={model.status === 'Active' ? 'default' : 'secondary'}>
+                        {model.status}
+                      </Badge>
+                    </div>
+                    <div className="text-sm text-muted-foreground mb-1">Code: {model.code}</div>
+                    <div className="text-sm text-muted-foreground">
+                      Accuracy: {(model.accuracy * 100).toFixed(1)}%
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </CardContent>
+          </Card>
 
           <Tabs defaultValue="scenarios" className="space-y-6">
             <TabsList className="grid w-full grid-cols-4">
               <TabsTrigger value="scenarios">Scenarios</TabsTrigger>
-              <TabsTrigger value="ml-insights">ML Insights</TabsTrigger>
-              <TabsTrigger value="cash-flows">Cash Flow Predictions</TabsTrigger>
-              <TabsTrigger value="risk-alerts">Risk Alerts</TabsTrigger>
+              <TabsTrigger value="insights">ML Insights</TabsTrigger>
+              <TabsTrigger value="cashflow">Cash Flow Predictions</TabsTrigger>
+              <TabsTrigger value="alerts">Risk Alerts</TabsTrigger>
             </TabsList>
 
-            <TabsContent value="scenarios" className="space-y-6">
-              {/* Scenario Analysis */}
-              <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-                {forecastData.scenarios.map((scenario, index) => (
-                  <Card key={index} className="relative overflow-hidden">
-                    <CardHeader className="pb-3">
-                      <div className="flex justify-between items-start">
-                        <CardTitle className="text-lg">{scenario.name}</CardTitle>
-                        <Badge variant="outline" className="text-xs">
-                          {scenario.probability}% probability
-                        </Badge>
-                      </div>
-                    </CardHeader>
-                    <CardContent>
-                      <div className="space-y-4">
-                        <div>
-                          <p className="text-sm text-slate-600 mb-1">Predicted Liquidity</p>
-                          <p className="text-2xl font-bold text-slate-900">
-                            ${(scenario.liquidityLevel / 1000000000).toFixed(1)}B
-                          </p>
+            <TabsContent value="scenarios">
+              <div className="space-y-6">
+                {/* Scenario Cards */}
+                <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
+                  {forecastData.scenarios.map((scenario, index) => (
+                    <Card key={index} className="relative overflow-hidden border-l-4" 
+                          style={{ borderLeftColor: scenario.riskLevel === 'High' ? '#ef4444' : scenario.riskLevel === 'Low' ? '#22c55e' : '#3b82f6' }}>
+                      <CardHeader className="pb-4">
+                        <div className="flex items-center justify-between mb-2">
+                          <CardTitle className="text-xl font-bold">{scenario.name}</CardTitle>
+                          <Badge variant="secondary" className="text-xs font-medium px-2 py-1">
+                            {(scenario.probability * 100).toFixed(0)}% probability
+                          </Badge>
+                        </div>
+                        <div className="text-sm text-muted-foreground">Predicted Liquidity</div>
+                        <div className="text-3xl font-bold text-primary">
+                          ${scenario.predictedLiquidity}B
+                        </div>
+                      </CardHeader>
+                      <CardContent className="space-y-4">
+                        <div className="grid grid-cols-2 gap-4">
+                          <div>
+                            <div className="text-xs text-muted-foreground mb-1">Risk Level</div>
+                            <div className={`font-semibold text-sm ${getRiskColor(scenario.riskLevel)}`}>
+                              {scenario.riskLevel}
+                            </div>
+                          </div>
+                          <div>
+                            <div className="text-xs text-muted-foreground mb-1">Confidence</div>
+                            <div className="font-semibold text-sm text-blue-600">
+                              {(scenario.confidence * 100).toFixed(0)}%
+                            </div>
+                          </div>
                         </div>
                         
-                        <div className="flex justify-between items-center">
-                          <span className="text-sm text-slate-600">Risk Level</span>
-                          <span className={`font-semibold ${getRiskColor(scenario.riskScore)}`}>
-                            {scenario.riskScore}
-                          </span>
-                        </div>
-                        
-                        <div className="flex justify-between items-center">
-                          <span className="text-sm text-slate-600">Confidence</span>
-                          <span className="font-semibold text-blue-600">{scenario.confidence}%</span>
-                        </div>
-
                         <div>
-                          <p className="text-sm font-medium text-slate-700 mb-2">Key Factors:</p>
-                          <ul className="space-y-1">
-                            {scenario.keyFactors.map((factor, i) => (
-                              <li key={i} className="text-xs text-slate-600 flex items-start gap-2">
-                                <div className="w-1 h-1 bg-slate-400 rounded-full mt-2 flex-shrink-0"></div>
-                                {factor}
+                          <div className="text-sm font-medium text-muted-foreground mb-3">Key Factors:</div>
+                          <ul className="space-y-2">
+                            {scenario.keyFactors.map((factor, factorIndex) => (
+                              <li key={factorIndex} className="text-sm text-muted-foreground flex items-start gap-2">
+                                <div className="w-1.5 h-1.5 bg-primary rounded-full mt-2 flex-shrink-0"></div>
+                                <span className="leading-relaxed">{factor}</span>
                               </li>
                             ))}
                           </ul>
                         </div>
-                      </div>
-                    </CardContent>
-                  </Card>
-                ))}
-              </div>
+                      </CardContent>
+                    </Card>
+                  ))}
+                </div>
 
-              {/* Weekly Forecast Chart */}
-              <Card>
-                <CardHeader>
-                  <CardTitle className="flex items-center gap-2">
-                    <LineChart className="h-5 w-5" />
-                    4-Week Liquidity Forecast
-                  </CardTitle>
-                </CardHeader>
-                <CardContent>
-                  <div className="overflow-x-auto">
-                    <table className="w-full">
-                      <thead>
-                        <tr className="border-b border-slate-200">
-                          <th className="text-left p-3 font-semibold text-slate-700">Period</th>
-                          <th className="text-right p-3 font-semibold text-emerald-700">Base Case (65%)</th>
-                          <th className="text-right p-3 font-semibold text-red-700">Stress Case (25%)</th>
-                          <th className="text-right p-3 font-semibold text-blue-700">Optimistic (10%)</th>
-                          <th className="text-center p-3 font-semibold text-slate-700">Trend</th>
-                        </tr>
-                      </thead>
-                      <tbody>
-                        {forecastData.weeklyForecast.map((week, index) => (
-                          <tr key={index} className="border-b border-slate-100 hover:bg-slate-50">
-                            <td className="p-3 font-medium">{week.period}</td>
-                            <td className="p-3 text-right font-semibold text-emerald-600">
-                              ${week.baseCase}B
-                            </td>
-                            <td className="p-3 text-right font-semibold text-red-600">
-                              ${week.stressCase}B
-                            </td>
-                            <td className="p-3 text-right font-semibold text-blue-600">
-                              ${week.optimistic}B
-                            </td>
-                            <td className="p-3 text-center">
-                              {index > 0 && week.baseCase > forecastData.weeklyForecast[index-1].baseCase ? (
-                                <TrendingUp className="h-4 w-4 text-emerald-600 mx-auto" />
-                              ) : index > 0 ? (
-                                <TrendingDown className="h-4 w-4 text-red-600 mx-auto" />
-                              ) : (
-                                <div className="w-4 h-4 mx-auto"></div>
-                              )}
-                            </td>
-                          </tr>
-                        ))}
-                      </tbody>
-                    </table>
-                  </div>
-                </CardContent>
-              </Card>
+                {/* 4-Week Forecast Table */}
+                <Card>
+                  <CardHeader>
+                    <CardTitle className="flex items-center gap-2">
+                      <Calendar className="h-5 w-5" />
+                      4-Week Forecast
+                    </CardTitle>
+                    <CardDescription>Predicted liquidity levels for the next four weeks</CardDescription>
+                  </CardHeader>
+                  <CardContent>
+                    <div className="space-y-4">
+                      {forecastData.weeklyForecast.map((week, index) => (
+                        <div key={index} className="flex items-center justify-between p-4 border rounded-lg">
+                          <div className="flex items-center gap-4">
+                            <div className="font-medium">{week.week}</div>
+                            <div className="text-sm text-muted-foreground">
+                              Predicted: <span className="font-medium text-primary">${week.predicted}B</span>
+                            </div>
+                          </div>
+                          <div className="flex items-center gap-4">
+                            <div className="text-sm text-muted-foreground">
+                              Confidence: <span className="font-medium">{(week.confidence * 100).toFixed(0)}%</span>
+                            </div>
+                            <Progress value={week.confidence * 100} className="w-20" />
+                          </div>
+                        </div>
+                      ))}
+                    </div>
+                  </CardContent>
+                </Card>
+              </div>
             </TabsContent>
 
-            <TabsContent value="ml-insights" className="space-y-6">
-              {/* ML Model Performance */}
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+            <TabsContent value="insights">
+              <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
                 <Card>
                   <CardHeader>
                     <CardTitle className="flex items-center gap-2">
@@ -272,26 +402,24 @@ const LiquidityForecastingPage = () => {
                     </CardTitle>
                   </CardHeader>
                   <CardContent className="space-y-4">
-                    <div className="flex justify-between items-center">
-                      <span className="text-sm text-slate-600">Next Day Accuracy</span>
-                      <span className="font-bold text-emerald-600">{forecastData.mlPredictions.nextDayAccuracy}%</span>
-                    </div>
-                    <div className="flex justify-between items-center">
-                      <span className="text-sm text-slate-600">Weekly Accuracy</span>
-                      <span className="font-bold text-blue-600">{forecastData.mlPredictions.weeklyAccuracy}%</span>
-                    </div>
-                    <div className="flex justify-between items-center">
-                      <span className="text-sm text-slate-600">Monthly Accuracy</span>
-                      <span className="font-bold text-amber-600">{forecastData.mlPredictions.monthlyAccuracy}%</span>
-                    </div>
-                    <div className="pt-2 border-t">
-                      <div className="flex justify-between items-center mb-2">
-                        <span className="text-sm text-slate-600">Active Models</span>
-                        <span className="font-semibold">{forecastData.mlPredictions.modelsRunning}</span>
+                    <div className="grid grid-cols-2 gap-4">
+                      <div className="text-center p-4 bg-muted/50 rounded-lg">
+                        <div className="text-2xl font-bold text-primary">{(forecastData.mlInsights.performance.accuracy * 100).toFixed(1)}%</div>
+                        <div className="text-sm text-muted-foreground">Accuracy</div>
                       </div>
-                      <div className="flex justify-between items-center">
-                        <span className="text-sm text-slate-600">Training Data Points</span>
-                        <span className="font-semibold">{forecastData.mlPredictions.trainingDataPoints.toLocaleString()}</span>
+                      <div className="text-center p-4 bg-muted/50 rounded-lg">
+                        <div className="text-2xl font-bold text-primary">{(forecastData.mlInsights.performance.f1Score * 100).toFixed(1)}%</div>
+                        <div className="text-sm text-muted-foreground">F1 Score</div>
+                      </div>
+                    </div>
+                    <div className="space-y-2">
+                      <div className="flex justify-between">
+                        <span className="text-sm text-muted-foreground">Precision</span>
+                        <span className="text-sm font-medium">{(forecastData.mlInsights.performance.precision * 100).toFixed(1)}%</span>
+                      </div>
+                      <div className="flex justify-between">
+                        <span className="text-sm text-muted-foreground">Recall</span>
+                        <span className="text-sm font-medium">{(forecastData.mlInsights.performance.recall * 100).toFixed(1)}%</span>
                       </div>
                     </div>
                   </CardContent>
@@ -300,122 +428,100 @@ const LiquidityForecastingPage = () => {
                 <Card>
                   <CardHeader>
                     <CardTitle className="flex items-center gap-2">
-                      <Zap className="h-5 w-5" />
+                      <Target className="h-5 w-5" />
                       Model Status
                     </CardTitle>
                   </CardHeader>
                   <CardContent className="space-y-4">
-                    <div className="flex justify-between items-center">
-                      <span className="text-sm">LSTM Neural Network</span>
-                      <Badge className="bg-emerald-100 text-emerald-800">Active</Badge>
+                    <div className="flex items-center justify-between">
+                      <span className="text-sm text-muted-foreground">Status</span>
+                      <Badge variant="default">{forecastData.mlInsights.modelStatus}</Badge>
                     </div>
-                    <div className="flex justify-between items-center">
-                      <span className="text-sm">Random Forest</span>
-                      <Badge className="bg-emerald-100 text-emerald-800">Active</Badge>
+                    <div className="flex items-center justify-between">
+                      <span className="text-sm text-muted-foreground">Last Training</span>
+                      <span className="text-sm font-medium">{forecastData.mlInsights.lastTraining}</span>
                     </div>
-                    <div className="flex justify-between items-center">
-                      <span className="text-sm">ARIMA Time Series</span>
-                      <Badge className="bg-emerald-100 text-emerald-800">Active</Badge>
+                    <div className="flex items-center justify-between">
+                      <span className="text-sm text-muted-foreground">Next Training</span>
+                      <span className="text-sm font-medium">{forecastData.mlInsights.nextTraining}</span>
                     </div>
-                    <div className="flex justify-between items-center">
-                      <span className="text-sm">Ensemble Model</span>
-                      <Badge className="bg-blue-100 text-blue-800">Training</Badge>
+                    <div className="flex items-center justify-between">
+                      <span className="text-sm text-muted-foreground">Data Points</span>
+                      <span className="text-sm font-medium">{forecastData.mlInsights.dataPoints.toLocaleString()}</span>
                     </div>
-                    <div className="pt-2 border-t">
-                      <div className="text-xs text-slate-600">
-                        Last Updated: {forecastData.mlPredictions.lastUpdate}
-                      </div>
+                    <div className="flex items-center justify-between">
+                      <span className="text-sm text-muted-foreground">Features</span>
+                      <span className="text-sm font-medium">{forecastData.mlInsights.features}</span>
                     </div>
                   </CardContent>
                 </Card>
               </div>
             </TabsContent>
 
-            <TabsContent value="cash-flows" className="space-y-6">
-              {/* Intraday Cash Flow Predictions */}
+            <TabsContent value="cashflow">
               <Card>
                 <CardHeader>
                   <CardTitle className="flex items-center gap-2">
-                    <Activity className="h-5 w-5" />
+                    <Clock className="h-5 w-5" />
                     Intraday Cash Flow Predictions
                   </CardTitle>
+                  <CardDescription>Predicted cash flows throughout the trading day</CardDescription>
                 </CardHeader>
                 <CardContent>
-                  <div className="overflow-x-auto">
-                    <table className="w-full">
-                      <thead>
-                        <tr className="border-b border-slate-200">
-                          <th className="text-left p-3 font-semibold text-slate-700">Time</th>
-                          <th className="text-right p-3 font-semibold text-emerald-700">Predicted Inflow</th>
-                          <th className="text-right p-3 font-semibold text-red-700">Predicted Outflow</th>
-                          <th className="text-right p-3 font-semibold text-slate-700">Net Flow</th>
-                          <th className="text-center p-3 font-semibold text-slate-700">Confidence</th>
-                        </tr>
-                      </thead>
-                      <tbody>
-                        {forecastData.cashFlowPredictions.map((prediction, index) => {
-                          const netFlow = prediction.predictedIn - prediction.predictedOut;
-                          return (
-                            <tr key={index} className="border-b border-slate-100 hover:bg-slate-50">
-                              <td className="p-3 font-medium">{prediction.time}</td>
-                              <td className="p-3 text-right font-semibold text-emerald-600">
-                                +${(prediction.predictedIn / 1000000000).toFixed(1)}B
-                              </td>
-                              <td className="p-3 text-right font-semibold text-red-600">
-                                -${(prediction.predictedOut / 1000000000).toFixed(1)}B
-                              </td>
-                              <td className="p-3 text-right font-bold">
-                                <span className={netFlow >= 0 ? 'text-emerald-600' : 'text-red-600'}>
-                                  {netFlow >= 0 ? '+' : ''}${(netFlow / 1000000000).toFixed(1)}B
-                                </span>
-                              </td>
-                              <td className="p-3 text-center">
-                                <div className="flex items-center justify-center gap-2">
-                                  <div className={`w-2 h-2 rounded-full ${
-                                    prediction.confidence >= 90 ? 'bg-emerald-500' :
-                                    prediction.confidence >= 80 ? 'bg-amber-500' : 'bg-red-500'
-                                  }`}></div>
-                                  <span className="text-sm font-medium">{prediction.confidence}%</span>
-                                </div>
-                              </td>
-                            </tr>
-                          );
-                        })}
-                      </tbody>
-                    </table>
+                  <div className="space-y-4">
+                    {forecastData.cashFlowPredictions.map((prediction, index) => (
+                      <div key={index} className="flex items-center justify-between p-4 border rounded-lg">
+                        <div className="flex items-center gap-4">
+                          <div className="font-mono text-sm bg-muted px-2 py-1 rounded">
+                            {prediction.time}
+                          </div>
+                          <div>
+                            <div className="font-medium">{prediction.prediction}</div>
+                            <div className="text-sm text-muted-foreground">
+                              Confidence: {(prediction.confidence * 100).toFixed(0)}%
+                            </div>
+                          </div>
+                        </div>
+                        <div className="text-right">
+                          <div className={`font-bold ${prediction.amount.startsWith('+') ? 'text-green-600' : 'text-red-600'}`}>
+                            {prediction.amount}
+                          </div>
+                        </div>
+                      </div>
+                    ))}
                   </div>
                 </CardContent>
               </Card>
             </TabsContent>
 
-            <TabsContent value="risk-alerts" className="space-y-6">
-              {/* Risk Alerts */}
+            <TabsContent value="alerts">
               <div className="space-y-4">
                 {forecastData.riskAlerts.map((alert, index) => (
-                  <Card key={index} className="border-l-4 border-l-amber-500">
-                    <CardContent className="p-4">
-                      <div className="flex justify-between items-start mb-3">
-                        <div className="flex items-center gap-2">
-                          <AlertCircle className="h-5 w-5 text-amber-600" />
-                          <Badge className={getSeverityColor(alert.severity)}>
-                            {alert.severity} Risk
-                          </Badge>
-                        </div>
-                        <div className="text-right">
-                          <div className="text-sm text-slate-600">Probability</div>
-                          <div className="font-bold text-slate-900">{alert.probability}%</div>
-                        </div>
-                      </div>
-                      
-                      <h4 className="font-semibold text-slate-900 mb-2">{alert.message}</h4>
-                      <p className="text-sm text-slate-600 mb-2">{alert.impact}</p>
-                      
-                      <div className="mt-3 p-3 bg-blue-50 rounded-lg">
-                        <div className="flex items-start gap-2">
-                          <Target className="h-4 w-4 text-blue-600 mt-0.5" />
-                          <div>
-                            <p className="text-sm font-medium text-blue-900">Recommendation</p>
-                            <p className="text-sm text-blue-700">{alert.recommendation}</p>
+                  <Card key={index}>
+                    <CardContent className="p-6">
+                      <div className="flex items-start gap-4">
+                        <AlertTriangle className={`h-5 w-5 mt-0.5 ${getSeverityColor(alert.severity)}`} />
+                        <div className="flex-1">
+                          <div className="flex items-center gap-2 mb-2">
+                            <Badge variant={alert.severity === 'High' ? 'destructive' : alert.severity === 'Medium' ? 'default' : 'secondary'}>
+                              {alert.severity}
+                            </Badge>
+                            <span className="text-sm text-muted-foreground">
+                              {(alert.probability * 100).toFixed(0)}% probability
+                            </span>
+                          </div>
+                          <div className="font-medium mb-2">{alert.message}</div>
+                          <div className="text-sm text-muted-foreground mb-3">
+                            <strong>Recommendation:</strong> {alert.recommendation}
+                          </div>
+                          <div className="flex gap-2">
+                            <Button size="sm" variant="outline">
+                              <Eye className="h-4 w-4 mr-1" />
+                              View Details
+                            </Button>
+                            <Button size="sm" variant="outline">
+                              Take Action
+                            </Button>
                           </div>
                         </div>
                       </div>
@@ -427,39 +533,24 @@ const LiquidityForecastingPage = () => {
           </Tabs>
         </div>
 
-        {/* Right Sidebar - Quick Actions */}
-        <div className="w-80 space-y-4">
+        {/* Right Sidebar */}
+        <div className="w-80 space-y-6">
           <Card>
             <CardHeader>
-              <CardTitle className="flex items-center gap-2 text-lg">
-                <Settings className="h-5 w-5" />
-                Forecast Actions
-              </CardTitle>
+              <CardTitle className="text-lg">Forecast Actions</CardTitle>
             </CardHeader>
-            <CardContent className="space-y-3">
-              <Button className="w-full justify-start gap-2" size="sm">
+            <CardContent className="space-y-4">
+              <Button className="w-full gap-2">
                 <Play className="h-4 w-4" />
-                Run New Forecast
-              </Button>
-              <Button variant="outline" className="w-full justify-start gap-2" size="sm">
-                <RefreshCw className="h-4 w-4" />
-                Update ML Models
-              </Button>
-              <Button variant="outline" className="w-full justify-start gap-2" size="sm">
-                <Download className="h-4 w-4" />
-                Export Forecast Report
-              </Button>
-              <Button variant="outline" className="w-full justify-start gap-2" size="sm">
-                <Calendar className="h-4 w-4" />
                 Schedule Auto-Forecast
               </Button>
-              <Button variant="outline" className="w-full justify-start gap-2" size="sm">
-                <Layers className="h-4 w-4" />
-                Create Custom Scenario
+              <Button variant="outline" className="w-full gap-2">
+                <GitBranch className="h-4 w-4" />
+                Model Settings
               </Button>
-              <Button variant="outline" className="w-full justify-start gap-2" size="sm">
+              <Button variant="outline" className="w-full gap-2">
                 <BarChart3 className="h-4 w-4" />
-                Compare Historical
+                Export Results
               </Button>
             </CardContent>
           </Card>
@@ -468,21 +559,23 @@ const LiquidityForecastingPage = () => {
             <CardHeader>
               <CardTitle className="text-lg">Model Training</CardTitle>
             </CardHeader>
-            <CardContent className="space-y-3">
-              <div className="flex justify-between items-center">
-                <span className="text-sm">Last Training</span>
-                <span className="text-xs text-slate-600">2 hours ago</span>
+            <CardContent className="space-y-4">
+              <div className="text-sm space-y-2">
+                <div className="flex justify-between">
+                  <span className="text-muted-foreground">Last Update:</span>
+                  <span className="font-medium">Jan 15, 2025</span>
+                </div>
+                <div className="flex justify-between">
+                  <span className="text-muted-foreground">Next Training:</span>
+                  <span className="font-medium">Feb 1, 2025</span>
+                </div>
+                <div className="flex justify-between">
+                  <span className="text-muted-foreground">Model Version:</span>
+                  <span className="font-medium">v2.1.3</span>
+                </div>
               </div>
-              <div className="flex justify-between items-center">
-                <span className="text-sm">Next Training</span>
-                <span className="text-xs text-slate-600">In 6 hours</span>
-              </div>
-              <div className="flex justify-between items-center">
-                <span className="text-sm">Training Status</span>
-                <Badge className="bg-emerald-100 text-emerald-800">Complete</Badge>
-              </div>
-              <Button variant="outline" size="sm" className="w-full mt-3">
-                <Brain className="h-4 w-4 mr-2" />
+              <Button variant="outline" className="w-full gap-2">
+                <Zap className="h-4 w-4" />
                 Retrain Models
               </Button>
             </CardContent>
@@ -492,22 +585,20 @@ const LiquidityForecastingPage = () => {
             <CardHeader>
               <CardTitle className="text-lg">Forecast Alerts</CardTitle>
             </CardHeader>
-            <CardContent className="space-y-3">
-              <div className="p-3 border-l-4 border-l-amber-500 bg-amber-50">
-                <div className="flex items-start gap-2">
-                  <div className="w-2 h-2 bg-amber-500 rounded-full mt-2"></div>
-                  <div>
-                    <p className="text-sm font-medium text-amber-800">Medium Risk Alert</p>
-                    <p className="text-xs text-amber-600">Stress scenario shows potential shortfall</p>
+            <CardContent>
+              <div className="space-y-3">
+                <div className="flex items-center gap-3 p-3 bg-yellow-50 border border-yellow-200 rounded-lg">
+                  <AlertTriangle className="h-4 w-4 text-yellow-600" />
+                  <div className="text-sm">
+                    <div className="font-medium text-yellow-800">Settlement Risk</div>
+                    <div className="text-yellow-700">High volume expected at 14:00</div>
                   </div>
                 </div>
-              </div>
-              <div className="p-3 border-l-4 border-l-blue-500 bg-blue-50">
-                <div className="flex items-start gap-2">
-                  <div className="w-2 h-2 bg-blue-500 rounded-full mt-2"></div>
-                  <div>
-                    <p className="text-sm font-medium text-blue-800">Seasonal Pattern</p>
-                    <p className="text-xs text-blue-600">Q1 increase trend detected</p>
+                <div className="flex items-center gap-3 p-3 bg-blue-50 border border-blue-200 rounded-lg">
+                  <TrendingUp className="h-4 w-4 text-blue-600" />
+                  <div className="text-sm">
+                    <div className="font-medium text-blue-800">Forecast Update</div>
+                    <div className="text-blue-700">New predictions available</div>
                   </div>
                 </div>
               </div>
@@ -517,6 +608,4 @@ const LiquidityForecastingPage = () => {
       </div>
     </div>
   );
-};
-
-export default LiquidityForecastingPage;
+}
