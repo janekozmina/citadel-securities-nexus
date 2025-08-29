@@ -545,6 +545,33 @@ export const quickActionsConfig: Record<string, QuickAction[]> = {
   // Common Quick Actions (available across all systems)
   common: [
     {
+      id: 'create-auction',
+      label: 'Create Auction', 
+      icon: Plus,
+      variant: 'default',
+      category: 'OMO',
+      description: 'Create a new auction',
+      permissions: ['omo.auction.create']
+    },
+    {
+      id: 'create-bid',
+      label: 'Create Bid',
+      icon: TrendingUp,
+      variant: 'default', 
+      category: 'OMO',
+      description: 'Submit a new bid for auction',
+      permissions: ['omo.bid.create']
+    },
+    {
+      id: 'submit-auction-participant',
+      label: 'Submit from Participant',
+      icon: Send,
+      variant: 'outline',
+      category: 'OMO',
+      description: 'Submit auction from participant view',
+      permissions: ['omo.auction.submit']
+    },
+    {
       id: 'access-bi-configuration',
       label: 'Access BI Configuration',
       icon: Settings,
@@ -893,6 +920,7 @@ quickActionsConfig.csd = [...quickActionsConfig.csd, ...islamicSukukActions, ...
 quickActionsConfig.cms = [...quickActionsConfig.cms, ...eligibilityCriteriaActions];
 
 export const defaultQuickActions: Record<string, string[]> = {
+  'auction-summary': ['create-auction', 'create-bid', 'submit-auction-participant'],
   'business-day-management': ['add-period', 'update-period', 'activate-period', 'close-period', 'delete-period'],
   'balances-liquidity': ['liquidity-analysis', 'reserve-management', 'balance-alerts'],
   'account-management': ['show-total-balance', 'set-overdraft', 'suspend-account'],

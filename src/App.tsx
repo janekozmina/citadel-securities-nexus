@@ -24,7 +24,7 @@ import AccountManagementPage from "./pages/rtgs/AccountManagementPage";
 
 import BalancesLiquidityPage from "./pages/rtgs/BalancesLiquidityPage";
 import TransactionStatusPage from "./pages/rtgs/TransactionStatusPage";
-import AuctionsSummaryPage from "./pages/csd/AuctionsSummaryPage";
+import AuctionSummaryPage from "./pages/omo/AuctionSummaryPage";
 import OperationsSummaryPage from "./pages/csd/OperationsSummaryPage";
 import ReservesSummaryPage from "./pages/csd/ReservesSummaryPage";
 import LimitsSummaryPage from "./pages/csd/LimitsSummaryPage";
@@ -402,14 +402,14 @@ const App = () => (
                 </ProtectedRoute>
               } />
                
-               {/* CSD Summary Pages */}
-               <Route path="/csd/open-market-operations/auctions-summary" element={
-                <ProtectedRoute>
-                  <MainLayout>
-                    <AuctionsSummaryPage />
-                  </MainLayout>
-                </ProtectedRoute>
-              } />
+               {/* OMO Routes */}
+               <Route path="/omo/auction-summary" element={
+                 <ProtectedRoute>
+                   <MainLayout>
+                     <AuctionSummaryPage />
+                   </MainLayout>
+                 </ProtectedRoute>
+               } />
               <Route path="/csd/standing-facilities/operations-summary" element={
                 <ProtectedRoute>
                   <MainLayout>

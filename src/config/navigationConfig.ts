@@ -515,6 +515,13 @@ export const secondaryNavigation: Record<string, NavigationItem[]> = {
       description: 'Open market operations',
       children: [
         {
+          id: 'auction-summary',
+          title: 'Auction Summary',
+          path: '/omo/auction-summary',
+          icon: BarChart3,
+          description: 'Consolidated view of all auction types'
+        },
+        {
           id: 'active-auctions',
           title: 'Active Auctions',
           path: '/csd/open-market-operations/active-auctions',
