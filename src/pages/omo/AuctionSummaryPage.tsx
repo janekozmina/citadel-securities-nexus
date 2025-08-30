@@ -6,15 +6,25 @@ import { DataTable } from '@/components/common/DataTable';
 import { ConditionalQuickActions } from '@/components/common/ConditionalQuickActions';
 import { Button } from '@/components/ui/button';
 import AuctionWizardDialog from '@/components/dialogs/AuctionWizardDialog';
+import { CreateBidDialog } from '@/components/dialogs/CreateBidDialog';
+import { ParticipantSubmissionDialog } from '@/components/dialogs/ParticipantSubmissionDialog';
 import { BarChart3, Activity, DollarSign, Users, Plus } from 'lucide-react';
 
 const AuctionSummaryPage = () => {
   const [showAuctionWizard, setShowAuctionWizard] = useState(false);
+  const [showCreateBid, setShowCreateBid] = useState(false);
+  const [showParticipantSubmission, setShowParticipantSubmission] = useState(false);
   
   const handleAction = (actionId: string) => {
     switch (actionId) {
       case 'create-auction':
         setShowAuctionWizard(true);
+        break;
+      case 'create-bid':
+        setShowCreateBid(true);
+        break;
+      case 'submit-auction-participant':
+        setShowParticipantSubmission(true);
         break;
       default:
         console.log(`Action triggered: ${actionId}`);
@@ -234,6 +244,18 @@ const AuctionSummaryPage = () => {
       <AuctionWizardDialog 
         open={showAuctionWizard}
         onOpenChange={setShowAuctionWizard}
+      />
+      
+      {/* Create Bid Dialog */}
+      <CreateBidDialog 
+        open={showCreateBid}
+        onOpenChange={setShowCreateBid}
+      />
+      
+      {/* Participant Submission Dialog */}
+      <ParticipantSubmissionDialog 
+        open={showParticipantSubmission}
+        onOpenChange={setShowParticipantSubmission}
       />
     </div>
   );
