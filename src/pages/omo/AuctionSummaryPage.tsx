@@ -1,9 +1,8 @@
 import { PageHeader } from '@/components/common/PageHeader';
-import { Breadcrumbs } from '@/components/layout/Breadcrumbs';
-import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
+import { Card, CardContent } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import { DataTable } from '@/components/common/DataTable';
-import { QuickActionsManager } from '@/components/common/QuickActionsManager';
+import { ConditionalQuickActions } from '@/components/common/ConditionalQuickActions';
 import { BarChart3, Activity, DollarSign, Users } from 'lucide-react';
 
 const AuctionSummaryPage = () => {
@@ -124,14 +123,15 @@ const AuctionSummaryPage = () => {
   ];
 
   return (
-    <div className="space-y-6">
-      <PageHeader
-        title="Auction Summary"
-        description="Consolidated view of all auction types and market operations"
-      />
-      
-      {/* Summary Metrics */}
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+    <div className="flex h-full">
+      <div className="flex-1 space-y-6 pr-6">
+        <PageHeader
+          title="Auction Summary"
+          description="Consolidated view of all auction types and market operations"
+        />
+        
+        {/* Summary Metrics */}
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
         {summaryMetrics.map((metric) => {
           const IconComponent = metric.icon;
           return (
@@ -155,71 +155,65 @@ const AuctionSummaryPage = () => {
         })}
       </div>
 
-      {/* Consolidated Auction Tables */}
-      <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-        {/* Primary Market */}
-        <Card>
-          <CardHeader>
-            <CardTitle>Primary Market Auctions</CardTitle>
-          </CardHeader>
-          <CardContent>
-            <DataTable
-              title="Primary Market"
-              columns={primaryMarketColumns}
-              data={primaryMarketData}
-              itemsPerPage={5}
-            />
-          </CardContent>
-        </Card>
+        {/* Consolidated Auction Tables */}
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+          {/* Primary Market */}
+          <Card>
+            <CardContent className="p-6">
+              <DataTable
+                title="Primary Market Auctions"
+                columns={primaryMarketColumns}
+                data={primaryMarketData}
+                itemsPerPage={5}
+              />
+            </CardContent>
+          </Card>
 
-        {/* Repo Auctions */}
-        <Card>
-          <CardHeader>
-            <CardTitle>Repo Operations</CardTitle>
-          </CardHeader>
-          <CardContent>
-            <DataTable
-              title="Repo Operations"
-              columns={repoColumns}
-              data={repoData}
-              itemsPerPage={5}
-            />
-          </CardContent>
-        </Card>
+          {/* Repo Auctions */}
+          <Card>
+            <CardContent className="p-6">
+              <DataTable
+                title="Repo Operations"
+                columns={repoColumns}
+                data={repoData}
+                itemsPerPage={5}
+              />
+            </CardContent>
+          </Card>
 
-        {/* Deposit Auctions */}
-        <Card>
-          <CardHeader>
-            <CardTitle>Deposit Facilities</CardTitle>
-          </CardHeader>
-          <CardContent>
-            <DataTable
-              title="Deposit Facilities"
-              columns={depositColumns}
-              data={depositData}
-              itemsPerPage={5}
-            />
-          </CardContent>
-        </Card>
+          {/* Deposit Auctions */}
+          <Card>
+            <CardContent className="p-6">
+              <DataTable
+                title="Deposit Facilities"
+                columns={depositColumns}
+                data={depositData}
+                itemsPerPage={5}
+              />
+            </CardContent>
+          </Card>
 
-        {/* FX Auctions */}
-        <Card>
-          <CardHeader>
-            <CardTitle>FX Operations</CardTitle>
-          </CardHeader>
-          <CardContent>
-            <DataTable
-              title="FX Operations"
-              columns={fxColumns}
-              data={fxData}
-              itemsPerPage={5}
-            />
-          </CardContent>
-        </Card>
+          {/* FX Auctions */}
+          <Card>
+            <CardContent className="p-6">
+              <DataTable
+                title="FX Operations"
+                columns={fxColumns}
+                data={fxData}
+                itemsPerPage={5}
+              />
+            </CardContent>
+          </Card>
+        </div>
       </div>
 
-      {/* Quick Actions */}
-      <QuickActionsManager pageKey="auction-summary" systemType="common" />
+      {/* Quick Actions Sidebar */}
+      <div className="w-64">
+        <ConditionalQuickActions 
+          pageKey="auction-summary"
+          systemType="common"
+        />
+      </div>
     </div>
   );
 };
