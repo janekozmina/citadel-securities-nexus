@@ -19,7 +19,8 @@ import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Checkbox } from '@/components/ui/checkbox';
 import { DataTable } from '@/components/common/DataTable';
 import { Badge } from '@/components/ui/badge';
-import { Calendar, CalendarDays, Clock, Coins, Users } from 'lucide-react';
+import { Separator } from '@/components/ui/separator';
+import { Calendar, CalendarDays, Clock, Coins, Users, PlayCircle, RotateCcw } from 'lucide-react';
 
 interface AuctionWizardDialogProps {
   open: boolean;
@@ -36,6 +37,17 @@ interface ParticipantData {
 
 const AuctionWizardDialog: React.FC<AuctionWizardDialogProps> = ({ open, onOpenChange }) => {
   const [currentStep, setCurrentStep] = useState(1);
+  const [isAuctionCreated, setIsAuctionCreated] = useState(false);
+  const [simulationResults, setSimulationResults] = useState({
+    satisfied: 2,
+    partlySatisfied: 1,
+    rejected: 1,
+    satisfiedValue: 50000000,
+    rejectedValue: 10000000,
+    winnerPrice: 5.80000,
+    minPrice: 5.50000,
+    maxPrice: 6.00000
+  });
   const [auctionData, setAuctionData] = useState({
     profile: 'Government Primary Auction',
     type: 'IPOO',
@@ -86,11 +98,15 @@ const AuctionWizardDialog: React.FC<AuctionWizardDialogProps> = ({ open, onOpenC
     { number: 1, title: 'General Auction Parameters', icon: Calendar },
     { number: 2, title: 'Invited Participants', icon: Users },
     { number: 3, title: 'Auction Prices and Amounts', icon: Coins },
-    { number: 4, title: 'Organizer', icon: CalendarDays }
+    { number: 4, title: 'Organizer', icon: CalendarDays },
+    { number: 5, title: 'Run Simulation', icon: PlayCircle }
   ];
 
   const nextStep = () => {
-    if (currentStep < 4) {
+    if (currentStep < 5) {
+      if (currentStep === 4) {
+        setIsAuctionCreated(true);
+      }
       setCurrentStep(currentStep + 1);
     }
   };
@@ -105,6 +121,27 @@ const AuctionWizardDialog: React.FC<AuctionWizardDialogProps> = ({ open, onOpenC
     console.log('Auction created:', auctionData);
     onOpenChange(false);
     setCurrentStep(1);
+    setIsAuctionCreated(false);
+  };
+
+  const runSimulation = () => {
+    // Generate random simulation results
+    const randomSatisfied = Math.floor(Math.random() * 3) + 1;
+    const randomRejected = Math.floor(Math.random() * 2) + 1;
+    const randomSatisfiedValue = Math.floor(Math.random() * 40000000) + 30000000;
+    const randomRejectedValue = Math.floor(Math.random() * 20000000) + 5000000;
+    const randomWinnerPrice = (Math.random() * 1.5 + 5.0).toFixed(5);
+    
+    setSimulationResults({
+      satisfied: randomSatisfied,
+      partlySatisfied: Math.floor(Math.random() * 2),
+      rejected: randomRejected,
+      satisfiedValue: randomSatisfiedValue,
+      rejectedValue: randomRejectedValue,
+      winnerPrice: parseFloat(randomWinnerPrice),
+      minPrice: 5.50000,
+      maxPrice: 6.00000
+    });
   };
 
   const renderStepContent = () => {
@@ -409,6 +446,302 @@ const AuctionWizardDialog: React.FC<AuctionWizardDialogProps> = ({ open, onOpenC
           </div>
         );
 
+      case 5:
+        return (
+          <div className="space-y-6">
+            {isAuctionCreated && (
+              <div className="mb-4 p-4 bg-green-50 border border-green-200 rounded-lg">
+                <div className="flex items-center gap-2 text-green-800">
+                  <PlayCircle className="h-5 w-5" />
+                  <span className="font-medium">Auction Created Successfully!</span>
+                </div>
+                <p className="text-sm text-green-600 mt-1">You can now run simulations to see various auction results.</p>
+              </div>
+            )}
+            
+            <Card>
+              <CardHeader>
+                <CardTitle className="flex items-center justify-between">
+                  <div className="flex items-center gap-2">
+                    <PlayCircle className="h-5 w-5" />
+                    Auction Results Calculations
+                  </div>
+                  <div className="text-sm text-muted-foreground">
+                    Auction Code: {auctionData.code}
+                  </div>
+                </CardTitle>
+                <p className="text-sm text-muted-foreground">
+                  Quotation Method: {auctionData.quotationType} - Instrument Code: {auctionData.instrument}
+                </p>
+              </CardHeader>
+              <CardContent className="space-y-6">
+                {/* Auction Summary */}
+                <div className="grid grid-cols-3 gap-6">
+                  <Card>
+                    <CardHeader className="pb-2">
+                      <CardTitle className="text-sm">Issued Summary</CardTitle>
+                    </CardHeader>
+                    <CardContent className="space-y-2">
+                      <div className="flex justify-between text-sm">
+                        <span>Registration Date</span>
+                        <span>July 14, 2025</span>
+                      </div>
+                      <div className="flex justify-between text-sm">
+                        <span>Issue Date</span>
+                        <span>July 14, 2025</span>
+                      </div>
+                    </CardContent>
+                  </Card>
+                  
+                  <Card>
+                    <CardHeader className="pb-2">
+                      <CardTitle className="text-sm">Auction Summary</CardTitle>
+                    </CardHeader>
+                    <CardContent className="space-y-2">
+                      <div className="flex justify-between text-sm">
+                        <span>Auction Amount</span>
+                        <span>0</span>
+                      </div>
+                      <div className="flex justify-between text-sm">
+                        <span>Orders Amount</span>
+                        <span>60,000,000</span>
+                      </div>
+                    </CardContent>
+                  </Card>
+                  
+                  <Card>
+                    <CardHeader className="pb-2">
+                      <CardTitle className="text-sm">Concurrent Orders Price Summary</CardTitle>
+                    </CardHeader>
+                    <CardContent className="space-y-2">
+                      <div className="flex justify-between text-sm">
+                        <span>Orders Min Price</span>
+                        <span>5.00000</span>
+                      </div>
+                      <div className="flex justify-between text-sm">
+                        <span>Orders Max Price</span>
+                        <span>6.00000</span>
+                      </div>
+                      <div className="flex justify-between text-sm">
+                        <span>Orders Avg Price</span>
+                        <span>5.66667</span>
+                      </div>
+                    </CardContent>
+                  </Card>
+                </div>
+
+                {/* Calculation Parameters */}
+                <div className="grid grid-cols-2 gap-6">
+                  <Card>
+                    <CardHeader className="pb-2">
+                      <CardTitle className="text-sm">Amount Calculations</CardTitle>
+                    </CardHeader>
+                    <CardContent className="space-y-2">
+                      <div className="flex items-center gap-2 text-sm">
+                        <span>Calculate to satisfy following quantity</span>
+                        <Input className="w-24 h-8" value="50,000,000" readOnly />
+                        <Checkbox defaultChecked />
+                        <span>Use</span>
+                      </div>
+                      <div className="flex items-center gap-2 text-sm">
+                        <span>Calculate to satisfy following amount</span>
+                        <Input className="w-24 h-8" value="50,000,000" readOnly />
+                      </div>
+                    </CardContent>
+                  </Card>
+                  
+                  <Card>
+                    <CardHeader className="pb-2">
+                      <CardTitle className="text-sm">Cut off Price Calculations</CardTitle>
+                    </CardHeader>
+                    <CardContent className="space-y-2">
+                      <div className="flex items-center gap-2 text-sm">
+                        <span>Cut Off Price/Rate</span>
+                        <Input className="w-24 h-8" value="5.50000" readOnly />
+                        <Checkbox defaultChecked />
+                        <span>Use</span>
+                      </div>
+                      <div className="flex items-center gap-2 text-sm">
+                        <span>Abs Value Per 1 Unit</span>
+                        <Input className="w-32 h-8" value="1.000000000000000" readOnly />
+                      </div>
+                    </CardContent>
+                  </Card>
+                </div>
+
+                {/* Calculated Bids Table */}
+                <Card>
+                  <CardHeader className="pb-2">
+                    <CardTitle className="text-sm">Calculated Bids</CardTitle>
+                  </CardHeader>
+                  <CardContent>
+                    <div className="overflow-x-auto">
+                      <table className="w-full text-sm">
+                        <thead>
+                          <tr className="border-b">
+                            <th className="text-left p-2">ID</th>
+                            <th className="text-left p-2">DocId</th>
+                            <th className="text-left p-2">IssueCode</th>
+                            <th className="text-left p-2">QuotationMethodCode</th>
+                            <th className="text-left p-2">PriceQual</th>
+                            <th className="text-left p-2">PriceType</th>
+                            <th className="text-left p-2">AuctionPriceCurrencyCode</th>
+                          </tr>
+                        </thead>
+                        <tbody>
+                          <tr className="border-b">
+                            <td className="p-2">302</td>
+                            <td className="p-2">14,862</td>
+                            <td className="p-2">TESTGOVBOND06</td>
+                            <td className="p-2">PYIEL</td>
+                            <td className="p-2">YIEL</td>
+                            <td className="p-2">P</td>
+                            <td className="p-2"></td>
+                          </tr>
+                          <tr className="border-b">
+                            <td className="p-2">301</td>
+                            <td className="p-2">14,861</td>
+                            <td className="p-2">TESTGOVBOND06</td>
+                            <td className="p-2">PYIEL</td>
+                            <td className="p-2">YIEL</td>
+                            <td className="p-2">P</td>
+                            <td className="p-2"></td>
+                          </tr>
+                          <tr>
+                            <td className="p-2">300</td>
+                            <td className="p-2">14,860</td>
+                            <td className="p-2">TESTGOVBOND06</td>
+                            <td className="p-2">PYIEL</td>
+                            <td className="p-2">YIEL</td>
+                            <td className="p-2">P</td>
+                            <td className="p-2"></td>
+                          </tr>
+                        </tbody>
+                      </table>
+                    </div>
+                  </CardContent>
+                </Card>
+
+                {/* Calculation Summary */}
+                <div className="grid grid-cols-3 gap-6">
+                  <Card>
+                    <CardHeader className="pb-2">
+                      <CardTitle className="text-sm">Satisfied Orders Qty Summary</CardTitle>
+                    </CardHeader>
+                    <CardContent className="space-y-2">
+                      <div className="flex justify-between text-sm">
+                        <span>Satisfied Orders</span>
+                        <Badge variant="outline" className="bg-green-50 text-green-700">{simulationResults.satisfied}</Badge>
+                      </div>
+                      <div className="flex justify-between text-sm">
+                        <span>Partly Satisfied Orders</span>
+                        <Badge variant="outline">{simulationResults.partlySatisfied}</Badge>
+                      </div>
+                      <div className="flex justify-between text-sm">
+                        <span>Sum</span>
+                        <Badge variant="outline">{simulationResults.satisfied + simulationResults.partlySatisfied}</Badge>
+                      </div>
+                    </CardContent>
+                  </Card>
+                  
+                  <Card>
+                    <CardHeader className="pb-2">
+                      <CardTitle className="text-sm">Rejected Orders Qty Summary</CardTitle>
+                    </CardHeader>
+                    <CardContent className="space-y-2">
+                      <div className="flex justify-between text-sm">
+                        <span>Rejected Orders</span>
+                        <Badge variant="outline" className="bg-red-50 text-red-700">{simulationResults.rejected}</Badge>
+                      </div>
+                      <div className="flex justify-between text-sm">
+                        <span>Partly Rejected Orders</span>
+                        <Badge variant="outline">0</Badge>
+                      </div>
+                      <div className="flex justify-between text-sm">
+                        <span>Sum</span>
+                        <Badge variant="outline">{simulationResults.rejected}</Badge>
+                      </div>
+                    </CardContent>
+                  </Card>
+                  
+                  <Card>
+                    <CardHeader className="pb-2">
+                      <CardTitle className="text-sm">Winner Price/Rate</CardTitle>
+                    </CardHeader>
+                    <CardContent className="space-y-2">
+                      <div className="flex justify-between text-sm">
+                        <span>Minimum Price/Rate</span>
+                        <span>{simulationResults.minPrice.toFixed(5)}</span>
+                      </div>
+                      <div className="flex justify-between text-sm">
+                        <span>Maximum Price/Rate</span>
+                        <span>{simulationResults.maxPrice.toFixed(5)}</span>
+                      </div>
+                      <div className="flex justify-between text-sm">
+                        <span>WA Price/Rate</span>
+                        <span className="font-medium">{simulationResults.winnerPrice.toFixed(5)}</span>
+                      </div>
+                    </CardContent>
+                  </Card>
+                </div>
+
+                {/* Additional Info */}
+                <div className="grid grid-cols-2 gap-6">
+                  <Card>
+                    <CardHeader className="pb-2">
+                      <CardTitle className="text-sm">Satisfied Orders Value Summary</CardTitle>
+                    </CardHeader>
+                    <CardContent>
+                      <div className="flex justify-between text-sm">
+                        <span>Satisfied Orders Value</span>
+                        <Badge variant="outline" className="bg-green-50 text-green-700">
+                          {simulationResults.satisfiedValue.toLocaleString()}
+                        </Badge>
+                      </div>
+                    </CardContent>
+                  </Card>
+                  
+                  <Card>
+                    <CardHeader className="pb-2">
+                      <CardTitle className="text-sm">Rejected Orders Value Summary</CardTitle>
+                    </CardHeader>
+                    <CardContent>
+                      <div className="flex justify-between text-sm">
+                        <span>Rejected Orders Value</span>
+                        <Badge variant="outline" className="bg-red-50 text-red-700">
+                          {simulationResults.rejectedValue.toLocaleString()}
+                        </Badge>
+                      </div>
+                    </CardContent>
+                  </Card>
+                </div>
+
+                {/* Action Buttons */}
+                <div className="flex justify-center gap-3 pt-4 border-t">
+                  <Button variant="outline" size="sm">
+                    Print...
+                  </Button>
+                  <Button 
+                    variant="outline" 
+                    size="sm" 
+                    onClick={runSimulation}
+                    className="flex items-center gap-2"
+                  >
+                    <RotateCcw className="h-4 w-4" />
+                    Simulate
+                  </Button>
+                  <Button variant="outline" size="sm">
+                    Save Simulation
+                  </Button>
+                  <Button variant="outline" size="sm">
+                    Load Simulation
+                  </Button>
+                </div>
+              </CardContent>
+            </Card>
+          </div>
+        );
+
       default:
         return null;
     }
@@ -479,11 +812,20 @@ const AuctionWizardDialog: React.FC<AuctionWizardDialogProps> = ({ open, onOpenC
               </>
             ) : currentStep === 4 ? (
               <>
+                <Button onClick={nextStep}>
+                  Run Simulation &gt;
+                </Button>
                 <Button variant="outline" onClick={handleFinish}>
                   Finish
                 </Button>
                 <Button variant="outline" onClick={() => onOpenChange(false)}>
                   Cancel
+                </Button>
+              </>
+            ) : currentStep === 5 ? (
+              <>
+                <Button variant="outline" onClick={handleFinish}>
+                  Close
                 </Button>
               </>
             ) : (
