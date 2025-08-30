@@ -235,14 +235,12 @@ const AuctionWizardDialog: React.FC<AuctionWizardDialogProps> = ({ open, onOpenC
                 </CardTitle>
               </CardHeader>
               <CardContent>
-                <div className="mb-4">
-                  <Input placeholder="Search..." className="max-w-sm" />
-                </div>
                 <DataTable
                   title=""
                   columns={participantColumns}
                   data={participants}
                   itemsPerPage={10}
+                  searchPlaceholder="Search participants..."
                 />
               </CardContent>
             </Card>
@@ -418,8 +416,8 @@ const AuctionWizardDialog: React.FC<AuctionWizardDialogProps> = ({ open, onOpenC
 
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
-      <DialogContent className="max-w-6xl w-full h-[85vh] overflow-y-auto">
-        <DialogHeader className="flex flex-row items-center gap-4 space-y-0">
+      <DialogContent className="max-w-6xl w-full h-[85vh] flex flex-col p-6">
+        <DialogHeader className="flex flex-row items-center gap-4 space-y-0 mb-4">
           <div className="flex items-center gap-2">
             <Coins className="h-6 w-6 text-primary" />
             <DialogTitle>Auction Wizard</DialogTitle>
@@ -427,7 +425,7 @@ const AuctionWizardDialog: React.FC<AuctionWizardDialogProps> = ({ open, onOpenC
         </DialogHeader>
 
         {/* Step Indicator */}
-        <div className="flex items-center justify-between mb-6">
+        <div className="flex items-center justify-between mb-6 flex-shrink-0">
           {steps.map((step, index) => {
             const IconComponent = step.icon;
             return (
@@ -453,12 +451,12 @@ const AuctionWizardDialog: React.FC<AuctionWizardDialogProps> = ({ open, onOpenC
         </div>
 
         {/* Step Content */}
-        <div className="flex-1 min-h-[400px]">
+        <div className="flex-1 overflow-y-auto mb-6">
           {renderStepContent()}
         </div>
 
         {/* Navigation Buttons */}
-        <div className="flex justify-between pt-6 border-t">
+        <div className="flex justify-between pt-4 border-t flex-shrink-0">
           <Button 
             variant="outline" 
             onClick={prevStep}
