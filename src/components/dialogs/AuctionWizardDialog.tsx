@@ -235,8 +235,11 @@ const AuctionWizardDialog: React.FC<AuctionWizardDialogProps> = ({ open, onOpenC
                 </CardTitle>
               </CardHeader>
               <CardContent>
+                <div className="mb-4">
+                  <Input placeholder="Search..." className="max-w-sm" />
+                </div>
                 <DataTable
-                  title="Invited Participants"
+                  title=""
                   columns={participantColumns}
                   data={participants}
                   itemsPerPage={10}
@@ -415,7 +418,7 @@ const AuctionWizardDialog: React.FC<AuctionWizardDialogProps> = ({ open, onOpenC
 
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
-      <DialogContent className="max-w-4xl max-h-[90vh] overflow-y-auto">
+      <DialogContent className="max-w-6xl w-full h-[85vh] overflow-y-auto">
         <DialogHeader className="flex flex-row items-center gap-4 space-y-0">
           <div className="flex items-center gap-2">
             <Coins className="h-6 w-6 text-primary" />
@@ -450,7 +453,7 @@ const AuctionWizardDialog: React.FC<AuctionWizardDialogProps> = ({ open, onOpenC
         </div>
 
         {/* Step Content */}
-        <div className="flex-1">
+        <div className="flex-1 min-h-[400px]">
           {renderStepContent()}
         </div>
 
@@ -464,7 +467,19 @@ const AuctionWizardDialog: React.FC<AuctionWizardDialogProps> = ({ open, onOpenC
             &lt; Back
           </Button>
           <div className="flex gap-2">
-            {currentStep === 4 ? (
+            {currentStep === 3 ? (
+              <>
+                <Button onClick={nextStep}>
+                  Next &gt;
+                </Button>
+                <Button variant="outline" onClick={handleFinish}>
+                  Finish
+                </Button>
+                <Button variant="outline" onClick={() => onOpenChange(false)}>
+                  Cancel
+                </Button>
+              </>
+            ) : currentStep === 4 ? (
               <>
                 <Button variant="outline" onClick={handleFinish}>
                   Finish
@@ -477,9 +492,6 @@ const AuctionWizardDialog: React.FC<AuctionWizardDialogProps> = ({ open, onOpenC
               <>
                 <Button onClick={nextStep}>
                   Next &gt;
-                </Button>
-                <Button variant="outline" onClick={handleFinish}>
-                  Finish
                 </Button>
                 <Button variant="outline" onClick={() => onOpenChange(false)}>
                   Cancel

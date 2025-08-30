@@ -10,6 +10,16 @@ import { BarChart3, Activity, DollarSign, Users, Plus } from 'lucide-react';
 
 const AuctionSummaryPage = () => {
   const [showAuctionWizard, setShowAuctionWizard] = useState(false);
+  
+  const handleAction = (actionId: string) => {
+    switch (actionId) {
+      case 'create-auction':
+        setShowAuctionWizard(true);
+        break;
+      default:
+        console.log(`Action triggered: ${actionId}`);
+    }
+  };
   // Summary metrics for auctions
   const summaryMetrics = [
     {
@@ -134,13 +144,6 @@ const AuctionSummaryPage = () => {
           description="Consolidated view of all auction types and market operations"
         />
         
-        <div className="flex justify-end mb-6">
-          <Button onClick={() => setShowAuctionWizard(true)} className="flex items-center gap-2">
-            <Plus className="h-4 w-4" />
-            Create Auction
-          </Button>
-        </div>
-        
         {/* Summary Metrics */}
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
         {summaryMetrics.map((metric) => {
@@ -223,6 +226,7 @@ const AuctionSummaryPage = () => {
         <ConditionalQuickActions 
           pageKey="auction-summary"
           systemType="common"
+          onActionClick={handleAction}
         />
       </div>
       
