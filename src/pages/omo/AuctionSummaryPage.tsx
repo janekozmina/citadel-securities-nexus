@@ -1,11 +1,15 @@
+import { useState } from 'react';
 import { PageHeader } from '@/components/common/PageHeader';
 import { Card, CardContent } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import { DataTable } from '@/components/common/DataTable';
 import { ConditionalQuickActions } from '@/components/common/ConditionalQuickActions';
-import { BarChart3, Activity, DollarSign, Users } from 'lucide-react';
+import { Button } from '@/components/ui/button';
+import AuctionWizardDialog from '@/components/dialogs/AuctionWizardDialog';
+import { BarChart3, Activity, DollarSign, Users, Plus } from 'lucide-react';
 
 const AuctionSummaryPage = () => {
+  const [showAuctionWizard, setShowAuctionWizard] = useState(false);
   // Summary metrics for auctions
   const summaryMetrics = [
     {
@@ -130,6 +134,13 @@ const AuctionSummaryPage = () => {
           description="Consolidated view of all auction types and market operations"
         />
         
+        <div className="flex justify-end mb-6">
+          <Button onClick={() => setShowAuctionWizard(true)} className="flex items-center gap-2">
+            <Plus className="h-4 w-4" />
+            Create Auction
+          </Button>
+        </div>
+        
         {/* Summary Metrics */}
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
         {summaryMetrics.map((metric) => {
@@ -156,7 +167,7 @@ const AuctionSummaryPage = () => {
       </div>
 
         {/* Consolidated Auction Tables */}
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+        <div className="space-y-6">
           {/* Primary Market */}
           <Card>
             <CardContent className="p-6">
@@ -214,6 +225,12 @@ const AuctionSummaryPage = () => {
           systemType="common"
         />
       </div>
+      
+      {/* Auction Wizard Dialog */}
+      <AuctionWizardDialog 
+        open={showAuctionWizard}
+        onOpenChange={setShowAuctionWizard}
+      />
     </div>
   );
 };

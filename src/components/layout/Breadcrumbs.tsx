@@ -37,6 +37,7 @@ const routeMap: Record<string, RouteInfo> = {
   '/rtgs/monitoring': { path: '/rtgs/monitoring', label: 'RTGS Monitoring', parent: '/rtgs' },
   
   // OMO Routes
+  '/omo': { path: '/omo', label: 'Open Market Operations' },
   '/omo/auction-summary': { path: '/omo/auction-summary', label: 'Auction Summary', parent: '/omo' },
   
   // CSD Routes
