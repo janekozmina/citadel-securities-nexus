@@ -49,6 +49,11 @@ const pageLayoutConfigs: Record<string, Partial<PageLayoutConfig>> = {
     showQuickActions: true,
     quickActionsPosition: 'right-sidebar',
     quickActionsFixed: false // Use inline positioning like balances-liquidity
+  },
+  'auction-summary': {
+    showQuickActions: true,
+    quickActionsPosition: 'right-sidebar',
+    quickActionsFixed: false
   }
 };
 
