@@ -41,30 +41,30 @@ const AuctionSummaryPage = () => {
 
   // Primary Market auctions data
   const primaryMarketData = [
-    { id: 'PM001', instrument: 'Treasury Bill 91D', amount: 'BHD 50M', coverage: '2.1x', status: 'Active', maturity: '2024-03-15' },
-    { id: 'PM002', instrument: 'Treasury Bond 5Y', amount: 'BHD 100M', coverage: '2.8x', status: 'Pending', maturity: '2029-01-20' },
-    { id: 'PM003', instrument: 'Islamic Sukuk 3Y', amount: 'BHD 75M', coverage: '3.2x', status: 'Closed', maturity: '2027-06-10' }
+    { docId: '289', issueCode: 'TESTCBBILL001', auctionCode: 'A03', stepName: 'Closed', status: 'Closed', resultName: 'AC' },
+    { docId: '290', issueCode: 'TESTCBBILL002', auctionCode: 'A04', stepName: 'Active', status: 'Active', resultName: 'PD' },
+    { docId: '291', issueCode: 'TESTCBBOND001', auctionCode: 'A05', stepName: 'Pending', status: 'Pending', resultName: '-' }
   ];
 
   // Repo auctions data
   const repoData = [
-    { id: 'RP001', type: 'Repo 7D', amount: 'BHD 25M', rate: '3.25%', status: 'Active', maturity: '2024-01-08' },
-    { id: 'RP002', type: 'Reverse Repo 14D', amount: 'BHD 40M', rate: '3.15%', status: 'Active', maturity: '2024-01-15' },
-    { id: 'RP003', type: 'Repo 1M', amount: 'BHD 60M', rate: '3.35%', status: 'Pending', maturity: '2024-02-01' }
+    { docId: '292', issueCode: 'REPO001', auctionCode: 'R01', stepName: 'Active', status: 'Active', resultName: 'AC', settlDate: '2024-01-08', cutOffDate: '2024-01-07', announced: 'Yes' },
+    { docId: '293', issueCode: 'REPO002', auctionCode: 'R02', stepName: 'Closed', status: 'Closed', resultName: 'AC', settlDate: '2024-01-15', cutOffDate: '2024-01-14', announced: 'Yes' },
+    { docId: '294', issueCode: 'REPO003', auctionCode: 'R03', stepName: 'Pending', status: 'Pending', resultName: '-', settlDate: '2024-02-01', cutOffDate: '2024-01-31', announced: 'No' }
   ];
 
   // Deposit auctions data
   const depositData = [
-    { id: 'DP001', type: 'Term Deposit 3M', amount: 'BHD 30M', rate: '3.75%', status: 'Active', maturity: '2024-04-01' },
-    { id: 'DP002', type: 'Islamic Deposit 6M', amount: 'BHD 45M', rate: '3.85%', status: 'Closed', maturity: '2024-07-01' },
-    { id: 'DP003', type: 'Overnight Deposit', amount: 'BHD 20M', rate: '3.00%', status: 'Active', maturity: '2024-01-02' }
+    { docId: '295', issueCode: 'DEP001', auctionCode: 'D01', stepName: 'Active', status: 'Active', resultName: 'AC', settlDate: '2024-04-01', cutOffDate: '2024-03-31', announced: 'Yes' },
+    { docId: '296', issueCode: 'DEP002', auctionCode: 'D02', stepName: 'Closed', status: 'Closed', resultName: 'AC', settlDate: '2024-07-01', cutOffDate: '2024-06-30', announced: 'Yes' },
+    { docId: '297', issueCode: 'DEP003', auctionCode: 'D03', stepName: 'Active', status: 'Active', resultName: 'PD', settlDate: '2024-01-02', cutOffDate: '2024-01-01', announced: 'No' }
   ];
 
   // FX auctions data
   const fxData = [
-    { id: 'FX001', type: 'USD/BHD Spot', amount: 'USD 10M', rate: '0.377', status: 'Active', settlement: '2024-01-03' },
-    { id: 'FX002', type: 'EUR/BHD Forward', amount: 'EUR 5M', rate: '0.345', status: 'Pending', settlement: '2024-01-15' },
-    { id: 'FX003', type: 'USD/BHD Swap', amount: 'USD 15M', rate: '0.378', status: 'Active', settlement: '2024-01-10' }
+    { docId: '298', issueCode: 'FX001', auctionCode: 'F01', stepName: 'Active', status: 'Active', resultName: 'AC', settlDate: '2024-01-03', cutOffDate: '2024-01-02', announced: 'Yes' },
+    { docId: '299', issueCode: 'FX002', auctionCode: 'F02', stepName: 'Pending', status: 'Pending', resultName: '-', settlDate: '2024-01-15', cutOffDate: '2024-01-14', announced: 'No' },
+    { docId: '300', issueCode: 'FX003', auctionCode: 'F03', stepName: 'Active', status: 'Active', resultName: 'AC', settlDate: '2024-01-10', cutOffDate: '2024-01-09', announced: 'Yes' }
   ];
 
   const getStatusBadge = (status: string) => {
@@ -79,39 +79,48 @@ const AuctionSummaryPage = () => {
   };
 
   const primaryMarketColumns = [
-    { key: 'id', label: 'Auction ID' },
-    { key: 'instrument', label: 'Instrument' },
-    { key: 'amount', label: 'Amount' },
-    { key: 'coverage', label: 'Coverage' },
+    { key: 'docId', label: 'DocId' },
+    { key: 'issueCode', label: 'IssueCode' },
+    { key: 'auctionCode', label: 'AuctionCode' },
+    { key: 'stepName', label: 'StepName' },
     { key: 'status', label: 'Status' },
-    { key: 'maturity', label: 'Maturity' }
+    { key: 'resultName', label: 'ResultName' }
   ];
 
   const repoColumns = [
-    { key: 'id', label: 'Auction ID' },
-    { key: 'type', label: 'Type' },
-    { key: 'amount', label: 'Amount' },
-    { key: 'rate', label: 'Rate' },
+    { key: 'docId', label: 'DocId' },
+    { key: 'issueCode', label: 'IssueCode' },
+    { key: 'auctionCode', label: 'AuctionCode' },
+    { key: 'stepName', label: 'StepName' },
     { key: 'status', label: 'Status' },
-    { key: 'maturity', label: 'Maturity' }
+    { key: 'resultName', label: 'ResultName' },
+    { key: 'settlDate', label: 'SettlDate' },
+    { key: 'cutOffDate', label: 'CutOffDate' },
+    { key: 'announced', label: 'Announced' }
   ];
 
   const depositColumns = [
-    { key: 'id', label: 'Auction ID' },
-    { key: 'type', label: 'Type' },
-    { key: 'amount', label: 'Amount' },
-    { key: 'rate', label: 'Rate' },
+    { key: 'docId', label: 'DocId' },
+    { key: 'issueCode', label: 'IssueCode' },
+    { key: 'auctionCode', label: 'AuctionCode' },
+    { key: 'stepName', label: 'StepName' },
     { key: 'status', label: 'Status' },
-    { key: 'maturity', label: 'Maturity' }
+    { key: 'resultName', label: 'ResultName' },
+    { key: 'settlDate', label: 'SettlDate' },
+    { key: 'cutOffDate', label: 'CutOffDate' },
+    { key: 'announced', label: 'Announced' }
   ];
 
   const fxColumns = [
-    { key: 'id', label: 'Auction ID' },
-    { key: 'type', label: 'Type' },
-    { key: 'amount', label: 'Amount' },
-    { key: 'rate', label: 'Rate' },
+    { key: 'docId', label: 'DocId' },
+    { key: 'issueCode', label: 'IssueCode' },
+    { key: 'auctionCode', label: 'AuctionCode' },
+    { key: 'stepName', label: 'StepName' },
     { key: 'status', label: 'Status' },
-    { key: 'settlement', label: 'Settlement' }
+    { key: 'resultName', label: 'ResultName' },
+    { key: 'settlDate', label: 'SettlDate' },
+    { key: 'cutOffDate', label: 'CutOffDate' },
+    { key: 'announced', label: 'Announced' }
   ];
 
   return (
