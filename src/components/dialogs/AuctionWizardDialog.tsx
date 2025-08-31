@@ -194,6 +194,7 @@ const AuctionWizardDialog: React.FC<AuctionWizardDialogProps> = ({ open, onOpenC
                     <SelectContent>
                       <SelectItem value="TESTGOVBOND06 (TESTGOVBOND06)">TESTGOVBOND06 (TESTGOVBOND06)</SelectItem>
                       <SelectItem value="TESTCBBILL001">TESTCBBILL001</SelectItem>
+                      <SelectItem value="TESTCCBOND01">TESTCCBOND01</SelectItem>
                     </SelectContent>
                   </Select>
                 </div>

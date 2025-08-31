@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { PageHeader } from '@/components/common/PageHeader';
-import { Card, CardContent } from '@/components/ui/card';
+import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import { DataTable } from '@/components/common/DataTable';
 import { ConditionalQuickActions } from '@/components/common/ConditionalQuickActions';
@@ -8,7 +8,8 @@ import { Button } from '@/components/ui/button';
 import AuctionWizardDialog from '@/components/dialogs/AuctionWizardDialog';
 import { CreateBidDialog } from '@/components/dialogs/CreateBidDialog';
 import { ParticipantSubmissionDialog } from '@/components/dialogs/ParticipantSubmissionDialog';
-import { BarChart3, Activity, DollarSign, Users, Plus } from 'lucide-react';
+import { BarChart3, Activity, DollarSign, Users, Plus, TrendingUp, PieChart } from 'lucide-react';
+import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, PieChart as RechartsPieChart, Cell, Pie } from 'recharts';
 
 const AuctionSummaryPage = () => {
   const [showAuctionWizard, setShowAuctionWizard] = useState(false);
@@ -30,7 +31,25 @@ const AuctionSummaryPage = () => {
         console.log(`Action triggered: ${actionId}`);
     }
   };
-  // Summary metrics for auctions
+
+  // Chart data for Bid Distribution
+  const bidDistributionData = [
+    { range: '5.0-5.2%', bids: 2 },
+    { range: '5.2-5.4%', bids: 5 },
+    { range: '5.4-5.6%', bids: 8 },
+    { range: '5.6-5.8%', bids: 12 },
+    { range: '5.8-6.0%', bids: 7 },
+    { range: '6.0-6.2%', bids: 3 },
+  ];
+
+  // Chart data for Participant Distribution
+  const participantDistributionData = [
+    { name: 'Banks', value: 45, color: '#0088FE' },
+    { name: 'Non-Banks', value: 30, color: '#00C49F' },
+    { name: 'International', value: 25, color: '#FFBB28' },
+  ];
+
+   // Summary metrics for auctions
   const summaryMetrics = [
     {
       title: 'Active Auctions',
@@ -178,6 +197,73 @@ const AuctionSummaryPage = () => {
           );
         })}
       </div>
+
+        {/* Dashboard Charts */}
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+          {/* Bid Distribution Chart */}
+          <Card>
+            <CardHeader>
+              <CardTitle className="flex items-center gap-2">
+                <BarChart3 className="h-5 w-5" />
+                Bid Distribution by Interest Rate
+              </CardTitle>
+            </CardHeader>
+            <CardContent>
+              <ResponsiveContainer width="100%" height={300}>
+                <BarChart data={bidDistributionData}>
+                  <CartesianGrid strokeDasharray="3 3" />
+                  <XAxis dataKey="range" />
+                  <YAxis />
+                  <Tooltip />
+                  <Bar dataKey="bids" fill="hsl(var(--primary))" />
+                </BarChart>
+              </ResponsiveContainer>
+            </CardContent>
+          </Card>
+
+          {/* Participant Distribution Chart */}
+          <Card>
+            <CardHeader>
+              <CardTitle className="flex items-center gap-2">
+                <PieChart className="h-5 w-5" />
+                Winning Bids by Participant Group
+              </CardTitle>
+            </CardHeader>
+            <CardContent>
+              <ResponsiveContainer width="100%" height={300}>
+                <RechartsPieChart>
+                  <Pie
+                    data={participantDistributionData}
+                    cx="50%"
+                    cy="50%"
+                    innerRadius={60}
+                    outerRadius={120}
+                    paddingAngle={5}
+                    dataKey="value"
+                  >
+                    {participantDistributionData.map((entry, index) => (
+                      <Cell key={`cell-${index}`} fill={entry.color} />
+                    ))}
+                  </Pie>
+                  <Tooltip />
+                </RechartsPieChart>
+              </ResponsiveContainer>
+              <div className="flex justify-center mt-4 gap-4">
+                {participantDistributionData.map((entry, index) => (
+                  <div key={index} className="flex items-center gap-2">
+                    <div 
+                      className="w-3 h-3 rounded-full"
+                      style={{ backgroundColor: entry.color }}
+                    />
+                    <span className="text-sm text-muted-foreground">
+                      {entry.name}: {entry.value}%
+                    </span>
+                  </div>
+                ))}
+              </div>
+            </CardContent>
+          </Card>
+        </div>
 
         {/* Consolidated Auction Tables */}
         <div className="space-y-6">

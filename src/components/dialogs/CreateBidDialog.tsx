@@ -17,8 +17,7 @@ export const CreateBidDialog = ({ open, onOpenChange }: CreateBidDialogProps) =>
   const { toast } = useToast();
   const [formData, setFormData] = useState({
     auctionCode: '',
-    instrumentType: '',
-    bidAmount: '',
+    positionAccount: '',
     bidPrice: '',
     bidYield: '',
     participantId: '',
@@ -61,10 +60,10 @@ export const CreateBidDialog = ({ open, onOpenChange }: CreateBidDialogProps) =>
   };
 
   const handleSubmit = () => {
-    if (!formData.bidPrice || !formData.bidAmount) {
+    if (!formData.bidPrice) {
       toast({
         title: "Missing Information",
-        description: "Please provide bid price and amount",
+        description: "Please provide bid price",
         variant: "destructive"
       });
       return;
@@ -79,8 +78,7 @@ export const CreateBidDialog = ({ open, onOpenChange }: CreateBidDialogProps) =>
     // Reset form
     setFormData({
       auctionCode: '',
-      instrumentType: '',
-      bidAmount: '',
+      positionAccount: '',
       bidPrice: '',
       bidYield: '',
       participantId: '',
@@ -120,15 +118,17 @@ export const CreateBidDialog = ({ open, onOpenChange }: CreateBidDialogProps) =>
                   </Select>
                 </div>
                 <div>
-                  <Label htmlFor="instrumentType">Instrument Type</Label>
-                  <Select onValueChange={(value) => setFormData(prev => ({ ...prev, instrumentType: value }))}>
+                  <Label htmlFor="positionAccount">Position Account</Label>
+                  <Select onValueChange={(value) => setFormData(prev => ({ ...prev, positionAccount: value }))}>
                     <SelectTrigger>
-                      <SelectValue placeholder="Select type" />
+                      <SelectValue placeholder="Select position account" />
                     </SelectTrigger>
                     <SelectContent>
-                      <SelectItem value="mtb">Treasury Bill (MTB)</SelectItem>
-                      <SelectItem value="bond">Treasury Bond</SelectItem>
-                      <SelectItem value="sukuk">Islamic Sukuk</SelectItem>
+                      <SelectItem value="P001">P001 - ABC Bank</SelectItem>
+                      <SelectItem value="P002">P002 - XYZ Financial</SelectItem>
+                      <SelectItem value="P003">P003 - DEF Securities</SelectItem>
+                      <SelectItem value="P004">P004 - Emirates NBD</SelectItem>
+                      <SelectItem value="P005">P005 - HSBC Bank</SelectItem>
                     </SelectContent>
                   </Select>
                 </div>
@@ -142,17 +142,6 @@ export const CreateBidDialog = ({ open, onOpenChange }: CreateBidDialogProps) =>
               <CardTitle className="text-sm">Bid Parameters (Main Quotation Type: Price)</CardTitle>
             </CardHeader>
             <CardContent className="space-y-4">
-              <div>
-                <Label htmlFor="bidAmount">Bid Amount (BHD)</Label>
-                <Input
-                  id="bidAmount"
-                  type="number"
-                  placeholder="Enter bid amount"
-                  value={formData.bidAmount}
-                  onChange={(e) => setFormData(prev => ({ ...prev, bidAmount: e.target.value }))}
-                />
-              </div>
-
               <div className="grid grid-cols-2 gap-4">
                 <div>
                   <Label htmlFor="bidPrice">Price (per $100 face value)</Label>
