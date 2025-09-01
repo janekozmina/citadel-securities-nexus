@@ -54,6 +54,11 @@ const pageLayoutConfigs: Record<string, Partial<PageLayoutConfig>> = {
     showQuickActions: true,
     quickActionsPosition: 'right-sidebar',
     quickActionsFixed: false
+  },
+  'auction-calendar': {
+    showQuickActions: false,
+    quickActionsPosition: 'right-sidebar',
+    quickActionsFixed: false
   }
 };
 
