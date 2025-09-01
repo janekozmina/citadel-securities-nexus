@@ -39,6 +39,7 @@ const routeMap: Record<string, RouteInfo> = {
   // OMO Routes
   '/omo': { path: '/omo', label: 'Open Market Operations' },
   '/omo/auction-summary': { path: '/omo/auction-summary', label: 'Auction Summary', parent: '/omo' },
+  '/omo/auction-calendar': { path: '/omo/auction-calendar', label: 'Auction Calendar', parent: '/omo' },
   
   // CSD Routes
   '/csd': { path: '/csd', label: 'CSD' },

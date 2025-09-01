@@ -68,6 +68,9 @@ const AuctionSummaryPage = () => {
       case 'submit-auction-participant':
         setShowParticipantSubmission(true);
         break;
+      case 'access-calendar':
+        window.location.href = '/omo/auction-calendar';
+        break;
       default:
         console.log(`Action triggered: ${actionId}`);
     }

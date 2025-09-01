@@ -25,6 +25,7 @@ import AccountManagementPage from "./pages/rtgs/AccountManagementPage";
 import BalancesLiquidityPage from "./pages/rtgs/BalancesLiquidityPage";
 import TransactionStatusPage from "./pages/rtgs/TransactionStatusPage";
 import AuctionSummaryPage from "./pages/omo/AuctionSummaryPage";
+import AuctionCalendarPage from "./pages/omo/AuctionCalendarPage";
 import OperationsSummaryPage from "./pages/csd/OperationsSummaryPage";
 import ReservesSummaryPage from "./pages/csd/ReservesSummaryPage";
 import LimitsSummaryPage from "./pages/csd/LimitsSummaryPage";
@@ -407,6 +408,13 @@ const App = () => (
                  <ProtectedRoute>
                    <MainLayout>
                      <AuctionSummaryPage />
+                   </MainLayout>
+                 </ProtectedRoute>
+               } />
+               <Route path="/omo/auction-calendar" element={
+                 <ProtectedRoute>
+                   <MainLayout>
+                     <AuctionCalendarPage />
                    </MainLayout>
                  </ProtectedRoute>
                } />

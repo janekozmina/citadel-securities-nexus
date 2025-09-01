@@ -522,6 +522,13 @@ export const secondaryNavigation: Record<string, NavigationItem[]> = {
           description: 'Consolidated view of all auction types'
         },
         {
+          id: 'auction-calendar',
+          title: 'Auction Calendar',
+          path: '/omo/auction-calendar',
+          icon: Calendar,
+          description: 'Comprehensive auction calendar with timeline view'
+        },
+        {
           id: 'active-auctions',
           title: 'Active Auctions',
           path: '/csd/open-market-operations/active-auctions',

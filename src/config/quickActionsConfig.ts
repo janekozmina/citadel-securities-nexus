@@ -543,95 +543,43 @@ export const quickActionsConfig: Record<string, QuickAction[]> = {
   ],
 
   // Common Quick Actions (available across all systems)
+  // Common system actions (used across multiple pages)
   common: [
     {
       id: 'create-auction',
-      label: 'Create Auction', 
+      label: 'Create Auction',
       icon: Plus,
       variant: 'default',
-      category: 'OMO',
-      description: 'Create a new auction',
-      permissions: ['omo.auction.create']
+      category: 'Operations',
+      description: 'Create new auction',
+      permissions: ['auction.create']
     },
     {
       id: 'create-bid',
       label: 'Create Bid',
-      icon: TrendingUp,
-      variant: 'default', 
-      category: 'OMO',
-      description: 'Submit a new bid for auction',
-      permissions: ['omo.bid.create']
+      icon: DollarSign,
+      variant: 'outline',
+      category: 'Operations',
+      description: 'Submit new bid',
+      permissions: ['auction.bid']
     },
     {
       id: 'submit-auction-participant',
-      label: 'Submit from Participant',
+      label: 'Submit Bid (Participant)',
       icon: Send,
       variant: 'outline',
-      category: 'OMO',
-      description: 'Submit auction from participant view',
-      permissions: ['omo.auction.submit']
+      category: 'Participant',
+      description: 'Submit bid as participant',
+      permissions: ['auction.participant']
     },
     {
-      id: 'access-bi-configuration',
-      label: 'Access BI Configuration',
-      icon: Settings,
-      variant: 'default',
-      category: 'BI',
-      description: 'Access BI configuration dashboard',
-    },
-    {
-      id: 'export-data',
-      label: 'Export Data',
-      icon: Download,
-      variant: 'outline',
-      category: 'Data',
-      description: 'Export current data to Excel/CSV',
-      permissions: ['*.export']
-    },
-    {
-      id: 'import-data',
-      label: 'Import Data',
-      icon: Upload,
-      variant: 'outline',
-      category: 'Data',
-      description: 'Import data from files',
-      permissions: ['*.import']
-    },
-    {
-      id: 'refresh-data',
-      label: 'Refresh Data',
-      icon: RefreshCw,
-      variant: 'outline',
-      category: 'Data',
-      description: 'Refresh current view',
-      permissions: ['*.view']
-    },
-    {
-      id: 'advanced-search',
-      label: 'Advanced Search',
-      icon: Search,
-      variant: 'outline',
-      category: 'Search',
-      description: 'Open advanced search filters',
-      permissions: ['*.search']
-    },
-    {
-      id: 'save-view',
-      label: 'Save View',
-      icon: Save,
-      variant: 'outline',
-      category: 'Preferences',
-      description: 'Save current view settings',
-      permissions: ['*.preferences']
-    },
-    {
-      id: 'schedule-report',
-      label: 'Schedule Report',
+      id: 'access-calendar',
+      label: 'Access Calendar',
       icon: Calendar,
       variant: 'outline',
-      category: 'Reports',
-      description: 'Schedule automated reports',
-      permissions: ['*.reports']
+      category: 'Planning',
+      description: 'View auction calendar and schedule',
+      permissions: ['auction.calendar']
     }
   ],
 
@@ -920,7 +868,8 @@ quickActionsConfig.csd = [...quickActionsConfig.csd, ...islamicSukukActions, ...
 quickActionsConfig.cms = [...quickActionsConfig.cms, ...eligibilityCriteriaActions];
 
 export const defaultQuickActions: Record<string, string[]> = {
-  'auction-summary': ['create-auction', 'create-bid', 'submit-auction-participant'],
+  'auction-summary': ['create-auction', 'create-bid', 'submit-auction-participant', 'access-calendar'],
+  'auction-calendar': ['create-auction', 'create-bid', 'submit-auction-participant'],
   'business-day-management': ['add-period', 'update-period', 'activate-period', 'close-period', 'delete-period'],
   'balances-liquidity': ['liquidity-analysis', 'reserve-management', 'balance-alerts'],
   'account-management': ['show-total-balance', 'set-overdraft', 'suspend-account'],
