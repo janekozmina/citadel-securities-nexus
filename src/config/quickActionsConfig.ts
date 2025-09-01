@@ -902,5 +902,5 @@ export const defaultQuickActions: Record<string, string[]> = {
   'reporting-analytics': ['generate-regulatory-report', 'build-custom-report', 'schedule-report', 'export-analytics'],
   'eligibility-criteria-builder': ['create-criteria', 'test-criteria', 'import-criteria', 'export-criteria'],
   'reserves-summary': ['update-reserve-ratios', 'generate-compliance-report', 'send-notification', 'manual-adjustment'],
-  'default': ['export-data', 'refresh-data', 'advanced-search']
+  'default': ['export-data', 'refresh-data', 'advanced-search', 'access-calendar']
 };
