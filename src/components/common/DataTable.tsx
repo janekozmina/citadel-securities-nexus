@@ -20,6 +20,7 @@ interface Column {
   type?: 'text' | 'number' | 'currency' | 'status' | 'date';
   filterable?: boolean;
   sortable?: boolean;
+  sticky?: 'left' | 'right';
   render?: (value: any, item: any) => React.ReactNode;
 }
 
@@ -205,49 +206,61 @@ export const DataTable = ({
       </CardHeader>
       
       <CardContent>
-        <div className="overflow-x-auto">
-          <Table>
-            <TableHeader>
-              <TableRow>
-                {columns.map((column) => (
-                  <TableHead 
-                    key={column.key}
-                    className={column.sortable !== false ? "cursor-pointer hover:bg-muted/50" : ""}
-                    onClick={() => column.sortable !== false && handleSort(column.key)}
-                  >
-                    <div className="flex items-center gap-1">
-                      {column.label}
-                      {column.sortable !== false && (
-                        <ArrowUpDown className="h-3 w-3" />
-                      )}
-                    </div>
-                  </TableHead>
-                ))}
-              </TableRow>
-            </TableHeader>
-            <TableBody>
-              {paginatedData.length > 0 ? (
-                paginatedData.map((row, index) => (
-                  <TableRow key={index} className="hover:bg-muted/50">
-                    {columns.map((column) => (
-                      <TableCell key={column.key}>
-                        {column.render 
-                          ? column.render(row[column.key], row)
-                          : formatValue(row[column.key], column.type)
-                        }
-                      </TableCell>
-                    ))}
-                  </TableRow>
-                ))
-              ) : (
+        <div className="relative">
+          <div className="overflow-x-auto">
+            <Table>
+              <TableHeader>
                 <TableRow>
-                  <TableCell colSpan={columns.length} className="text-center py-8 text-muted-foreground">
-                    No data found
-                  </TableCell>
+                  {columns.map((column) => (
+                    <TableHead 
+                      key={column.key}
+                      className={`
+                        ${column.sortable !== false ? "cursor-pointer hover:bg-muted/50" : ""}
+                        ${column.sticky === 'right' ? "sticky right-0 bg-background shadow-lg z-10 min-w-[120px]" : ""}
+                        ${column.sticky === 'left' ? "sticky left-0 bg-background shadow-lg z-10" : ""}
+                      `}
+                      onClick={() => column.sortable !== false && handleSort(column.key)}
+                    >
+                      <div className="flex items-center gap-1">
+                        {column.label}
+                        {column.sortable !== false && (
+                          <ArrowUpDown className="h-3 w-3" />
+                        )}
+                      </div>
+                    </TableHead>
+                  ))}
                 </TableRow>
-              )}
-            </TableBody>
-          </Table>
+              </TableHeader>
+              <TableBody>
+                {paginatedData.length > 0 ? (
+                  paginatedData.map((row, index) => (
+                    <TableRow key={index} className="hover:bg-muted/50">
+                      {columns.map((column) => (
+                        <TableCell 
+                          key={column.key}
+                          className={`
+                            ${column.sticky === 'right' ? "sticky right-0 bg-background shadow-lg z-10" : ""}
+                            ${column.sticky === 'left' ? "sticky left-0 bg-background shadow-lg z-10" : ""}
+                          `}
+                        >
+                          {column.render 
+                            ? column.render(row[column.key], row)
+                            : formatValue(row[column.key], column.type)
+                          }
+                        </TableCell>
+                      ))}
+                    </TableRow>
+                  ))
+                ) : (
+                  <TableRow>
+                    <TableCell colSpan={columns.length} className="text-center py-8 text-muted-foreground">
+                      No data found
+                    </TableCell>
+                  </TableRow>
+                )}
+              </TableBody>
+            </Table>
+          </div>
         </div>
 
         {/* Pagination */}

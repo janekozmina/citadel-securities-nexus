@@ -260,6 +260,8 @@ const AuctionSummaryPage = () => {
     { 
       key: 'actions', 
       label: 'Actions',
+      sticky: 'right' as const,
+      sortable: false,
       render: (value: any, item: any) => renderActionButtons(item)
     }
   ];
@@ -277,6 +279,8 @@ const AuctionSummaryPage = () => {
     { 
       key: 'actions', 
       label: 'Actions',
+      sticky: 'right' as const,
+      sortable: false,
       render: (value: any, item: any) => renderActionButtons(item)
     }
   ];
@@ -294,6 +298,8 @@ const AuctionSummaryPage = () => {
     { 
       key: 'actions', 
       label: 'Actions',
+      sticky: 'right' as const,
+      sortable: false,
       render: (value: any, item: any) => renderActionButtons(item)
     }
   ];
@@ -311,6 +317,8 @@ const AuctionSummaryPage = () => {
     { 
       key: 'actions', 
       label: 'Actions',
+      sticky: 'right' as const,
+      sortable: false,
       render: (value: any, item: any) => renderActionButtons(item)
     }
   ];
