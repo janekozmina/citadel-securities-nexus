@@ -445,14 +445,30 @@ const SimulateAuctionDialog: React.FC<SimulateAuctionDialogProps> = ({
             <CardHeader className="pb-2">
               <CardTitle className="text-sm">Amount Calculations</CardTitle>
             </CardHeader>
-            <CardContent className="space-y-2">
-              <div className="flex justify-between text-sm">
-                <span>Offered Amount</span>
-                <span>75,000,000</span>
+            <CardContent className="space-y-4">
+              <div className="flex items-center justify-between gap-4">
+                <span className="text-sm">Calculate to satisfy following quantity</span>
+                <div className="flex items-center gap-2">
+                  <Input
+                    type="text"
+                    value="50,000,000"
+                    className="w-32 h-8 text-sm"
+                    readOnly
+                  />
+                  <div className="flex items-center gap-1">
+                    <Checkbox id="use-quantity" defaultChecked />
+                    <label htmlFor="use-quantity" className="text-sm">Use</label>
+                  </div>
+                </div>
               </div>
-              <div className="flex justify-between text-sm">
-                <span>Rejected Amount</span>
-                <span>{simulationResults.rejectedValue.toLocaleString()}</span>
+              <div className="flex items-center justify-between gap-4">
+                <span className="text-sm">Calculate to satisfy following amount</span>
+                <Input
+                  type="text"
+                  value="50,000,000"
+                  className="w-32 h-8 text-sm"
+                  readOnly
+                />
               </div>
             </CardContent>
           </Card>
@@ -462,14 +478,30 @@ const SimulateAuctionDialog: React.FC<SimulateAuctionDialogProps> = ({
             <CardHeader className="pb-2">
               <CardTitle className="text-sm">Cut off Price Calculations</CardTitle>
             </CardHeader>
-            <CardContent className="space-y-2">
-              <div className="flex justify-between text-sm">
-                <span>Cut off Price/Rate</span>
-                <span>{simulationResults.winnerPrice.toFixed(5)}</span>
+            <CardContent className="space-y-4">
+              <div className="flex items-center justify-between gap-4">
+                <span className="text-sm">Cut Off Price/Rate</span>
+                <div className="flex items-center gap-2">
+                  <Input
+                    type="text"
+                    value="5.50000"
+                    className="w-32 h-8 text-sm"
+                    readOnly
+                  />
+                  <div className="flex items-center gap-1">
+                    <Checkbox id="use-cutoff" defaultChecked />
+                    <label htmlFor="use-cutoff" className="text-sm">Use</label>
+                  </div>
+                </div>
               </div>
-              <div className="flex justify-between text-sm">
-                <span>Coverage Ratio</span>
-                <span>1.33</span>
+              <div className="flex items-center justify-between gap-4">
+                <span className="text-sm">Abs Value Per 1 Unit</span>
+                <Input
+                  type="text"
+                  value="1.000000000000"
+                  className="w-32 h-8 text-sm"
+                  readOnly
+                />
               </div>
             </CardContent>
           </Card>
