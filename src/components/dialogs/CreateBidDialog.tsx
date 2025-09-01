@@ -158,11 +158,11 @@ export const CreateBidDialog = ({ open, onOpenChange }: CreateBidDialogProps) =>
                       type="button"
                       variant="outline"
                       size="sm"
-                      onClick={calculatePrice}
+                      onClick={calculateYield}
                       className="flex items-center gap-1"
                     >
                       <Calculator className="h-3 w-3" />
-                      Calc Price
+                      Calc Yield
                     </Button>
                   </div>
                 </div>
@@ -181,11 +181,11 @@ export const CreateBidDialog = ({ open, onOpenChange }: CreateBidDialogProps) =>
                       type="button"
                       variant="outline"
                       size="sm"
-                      onClick={calculateYield}
+                      onClick={calculatePrice}
                       className="flex items-center gap-1"
                     >
                       <Calculator className="h-3 w-3" />
-                      Calc Yield
+                      Calc Price
                     </Button>
                   </div>
                 </div>

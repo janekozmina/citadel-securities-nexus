@@ -9,7 +9,7 @@ import AuctionWizardDialog from '@/components/dialogs/AuctionWizardDialog';
 import { CreateBidDialog } from '@/components/dialogs/CreateBidDialog';
 import { ParticipantSubmissionDialog } from '@/components/dialogs/ParticipantSubmissionDialog';
 import SimulateAuctionDialog from '@/components/dialogs/SimulateAuctionDialog';
-import { BarChart3, Activity, DollarSign, Users, Plus, TrendingUp, PieChart, X, Play, CheckCircle } from 'lucide-react';
+import { BarChart3, Activity, DollarSign, Users, Plus, TrendingUp, PieChart, X, Play, CheckCircle, FolderOpen } from 'lucide-react';
 import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, PieChart as RechartsPieChart, Cell, Pie } from 'recharts';
 import {
   AlertDialog as AlertDialogComponent,
@@ -110,6 +110,13 @@ const AuctionSummaryPage = () => {
 
   const handleAuctionAction = (auction: any, action: string) => {
     switch (action) {
+      case 'open':
+        updateAuctionStatus(auction.auctionCode, 'Active', 'Active');
+        toast({
+          title: "Auction Opened",
+          description: `Auction ${auction.auctionCode} has been opened successfully.`,
+        });
+        break;
       case 'close':
         updateAuctionStatus(auction.auctionCode, 'Closed', 'Closed');
         toast({
@@ -207,29 +214,38 @@ const AuctionSummaryPage = () => {
       <Button 
         size="sm" 
         variant="outline" 
+        onClick={() => handleAuctionAction(auction, 'open')}
+        className="h-8 w-8 p-0"
+        title="Open"
+      >
+        <FolderOpen className="h-3 w-3" />
+      </Button>
+      <Button 
+        size="sm" 
+        variant="outline" 
         onClick={() => handleAuctionAction(auction, 'close')}
-        className="h-7 px-2"
+        className="h-8 w-8 p-0"
+        title="Close"
       >
         <X className="h-3 w-3" />
-        Close
       </Button>
       <Button 
         size="sm" 
         variant="outline" 
         onClick={() => handleAuctionAction(auction, 'simulate')}
-        className="h-7 px-2"
+        className="h-8 w-8 p-0"
+        title="Simulate"
       >
         <Play className="h-3 w-3" />
-        Simulate
       </Button>
       <Button 
         size="sm" 
         variant="outline" 
         onClick={() => handleAuctionAction(auction, 'finish')}
-        className="h-7 px-2"
+        className="h-8 w-8 p-0"
+        title="Finish"
       >
         <CheckCircle className="h-3 w-3" />
-        Finish
       </Button>
     </div>
   );

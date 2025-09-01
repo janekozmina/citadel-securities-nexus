@@ -176,6 +176,74 @@ const SimulateAuctionDialog: React.FC<SimulateAuctionDialogProps> = ({
         </DialogHeader>
 
         <div className="flex-1 overflow-y-auto space-y-6">
+          {/* Amount Calculations */}
+          <Card>
+            <CardHeader>
+              <CardTitle className="text-sm">Amount Calculations</CardTitle>
+            </CardHeader>
+            <CardContent className="space-y-4">
+              <div className="grid grid-cols-2 gap-4">
+                <div>
+                  <label className="text-sm text-muted-foreground">Calculate to satisfy following quantity</label>
+                  <div className="flex gap-2 items-center">
+                    <Input
+                      type="text"
+                      defaultValue="50,000,000"
+                      className="bg-blue-50 border-blue-200"
+                    />
+                    <div className="flex items-center">
+                      <Checkbox defaultChecked className="mr-2 h-4 w-4" />
+                      <span className="text-sm">Use</span>
+                    </div>
+                  </div>
+                </div>
+                <div>
+                  <label className="text-sm text-muted-foreground">Calculate to satisfy following amount</label>
+                  <Input
+                    type="text"
+                    defaultValue="50,000,000"
+                    disabled
+                    className="bg-gray-50 text-gray-500"
+                  />
+                </div>
+              </div>
+            </CardContent>
+          </Card>
+
+          {/* Cut off Price Calculations */}
+          <Card>
+            <CardHeader>
+              <CardTitle className="text-sm">Cut off Price Calculations</CardTitle>
+            </CardHeader>
+            <CardContent className="space-y-4">
+              <div className="grid grid-cols-2 gap-4">
+                <div>
+                  <label className="text-sm text-muted-foreground">Cut Off Price/Rate</label>
+                  <div className="flex gap-2 items-center">
+                    <Input
+                      type="number"
+                      step="0.00001"
+                      defaultValue="5.50000"
+                    />
+                    <div className="flex items-center">
+                      <Checkbox defaultChecked className="mr-2 h-4 w-4" />
+                      <span className="text-sm">Use</span>
+                    </div>
+                  </div>
+                </div>
+                <div>
+                  <label className="text-sm text-muted-foreground">Abs Value Per 1 Unit</label>
+                  <Input
+                    type="number"
+                    defaultValue="1.000000000000"
+                    disabled
+                    className="bg-gray-50 text-gray-500"
+                  />
+                </div>
+              </div>
+            </CardContent>
+          </Card>
+
           {/* Bids Summary Charts */}
           <Card>
             <CardHeader>

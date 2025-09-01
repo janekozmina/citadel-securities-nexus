@@ -184,7 +184,7 @@ export const ParticipantSubmissionDialog = ({ open, onOpenChange }: ParticipantS
                       id="bidYield"
                       type="number"
                       step="0.001"
-                      placeholder="e.g., 1.750"
+                      placeholder="e.g., 11.89"
                       value={formData.bidYield}
                       onChange={(e) => setFormData(prev => ({ ...prev, bidYield: e.target.value }))}
                     />
@@ -200,9 +200,6 @@ export const ParticipantSubmissionDialog = ({ open, onOpenChange }: ParticipantS
                       Calc Yield
                     </Button>
                   </div>
-                  <p className="text-xs text-muted-foreground mt-1">
-                    For MTB instruments (91-day calculation)
-                  </p>
                 </div>
               </div>
 
