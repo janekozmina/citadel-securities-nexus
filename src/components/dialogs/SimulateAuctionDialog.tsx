@@ -461,15 +461,6 @@ const SimulateAuctionDialog: React.FC<SimulateAuctionDialogProps> = ({
                   </div>
                 </div>
               </div>
-              <div className="flex items-center justify-between gap-4">
-                <span className="text-sm">Calculate to satisfy following amount</span>
-                <Input
-                  type="text"
-                  value="50,000,000"
-                  className="w-32 h-8 text-sm"
-                  readOnly
-                />
-              </div>
             </CardContent>
           </Card>
 
@@ -493,15 +484,6 @@ const SimulateAuctionDialog: React.FC<SimulateAuctionDialogProps> = ({
                     <label htmlFor="use-cutoff" className="text-sm">Use</label>
                   </div>
                 </div>
-              </div>
-              <div className="flex items-center justify-between gap-4">
-                <span className="text-sm">Abs Value Per 1 Unit</span>
-                <Input
-                  type="text"
-                  value="1.000000000000"
-                  className="w-32 h-8 text-sm"
-                  readOnly
-                />
               </div>
             </CardContent>
           </Card>
