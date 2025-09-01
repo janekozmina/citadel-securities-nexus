@@ -300,8 +300,8 @@ const AuctionSummaryPage = () => {
   ];
 
   return (
-    <div className="flex h-full">
-      <div className="flex-1 space-y-6 pr-6">
+    <div className="grid grid-cols-1 xl:grid-cols-4 gap-6">
+      <div className="xl:col-span-3 space-y-6">
         <PageHeader
           title="Auction Summary"
           description="Consolidated view of all auction types and market operations"
@@ -441,8 +441,7 @@ const AuctionSummaryPage = () => {
         </div>
       </div>
 
-      {/* Quick Actions Sidebar - Fixed width mismatch */}
-      <div className="w-80 flex-shrink-0">
+      <div className="xl:col-span-1">
         <ConditionalQuickActions 
           pageKey="auction-summary"
           systemType="common"
