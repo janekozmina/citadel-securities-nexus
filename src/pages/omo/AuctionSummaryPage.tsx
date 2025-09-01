@@ -8,13 +8,29 @@ import { Button } from '@/components/ui/button';
 import AuctionWizardDialog from '@/components/dialogs/AuctionWizardDialog';
 import { CreateBidDialog } from '@/components/dialogs/CreateBidDialog';
 import { ParticipantSubmissionDialog } from '@/components/dialogs/ParticipantSubmissionDialog';
-import { BarChart3, Activity, DollarSign, Users, Plus, TrendingUp, PieChart } from 'lucide-react';
+import SimulateAuctionDialog from '@/components/dialogs/SimulateAuctionDialog';
+import { BarChart3, Activity, DollarSign, Users, Plus, TrendingUp, PieChart, X, Play, CheckCircle } from 'lucide-react';
 import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, PieChart as RechartsPieChart, Cell, Pie } from 'recharts';
+import {
+  AlertDialog as AlertDialogComponent,
+  AlertDialogAction,
+  AlertDialogCancel,
+  AlertDialogContent,
+  AlertDialogDescription,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogTitle,
+} from '@/components/ui/alert-dialog';
+import { toast } from '@/hooks/use-toast';
 
 const AuctionSummaryPage = () => {
   const [showAuctionWizard, setShowAuctionWizard] = useState(false);
   const [showCreateBid, setShowCreateBid] = useState(false);
   const [showParticipantSubmission, setShowParticipantSubmission] = useState(false);
+  const [showSimulateAuction, setShowSimulateAuction] = useState(false);
+  const [selectedAuction, setSelectedAuction] = useState<any>(null);
+  const [showFinishConfirm, setShowFinishConfirm] = useState(false);
+  const [auctionToFinish, setAuctionToFinish] = useState<any>(null);
   
   const handleAction = (actionId: string) => {
     switch (actionId) {
@@ -29,6 +45,41 @@ const AuctionSummaryPage = () => {
         break;
       default:
         console.log(`Action triggered: ${actionId}`);
+    }
+  };
+
+  const handleAuctionAction = (auction: any, action: string) => {
+    switch (action) {
+      case 'close':
+        // Update auction status to closed
+        auction.status = 'Closed';
+        auction.stepName = 'Closed';
+        toast({
+          title: "Auction Closed",
+          description: `Auction ${auction.auctionCode} has been closed successfully.`,
+        });
+        break;
+      case 'simulate':
+        setSelectedAuction(auction);
+        setShowSimulateAuction(true);
+        break;
+      case 'finish':
+        setAuctionToFinish(auction);
+        setShowFinishConfirm(true);
+        break;
+    }
+  };
+
+  const confirmFinishAuction = () => {
+    if (auctionToFinish) {
+      auctionToFinish.status = 'Finished';
+      auctionToFinish.stepName = 'Finished';
+      toast({
+        title: "Auction Finished",
+        description: `Auction ${auctionToFinish.auctionCode} has been finished successfully.`,
+      });
+      setShowFinishConfirm(false);
+      setAuctionToFinish(null);
     }
   };
 
@@ -120,13 +171,50 @@ const AuctionSummaryPage = () => {
     return <Badge variant={config.variant} className={config.color}>{status}</Badge>;
   };
 
+  const renderActionButtons = (auction: any) => (
+    <div className="flex gap-1">
+      <Button 
+        size="sm" 
+        variant="outline" 
+        onClick={() => handleAuctionAction(auction, 'close')}
+        className="h-7 px-2"
+      >
+        <X className="h-3 w-3" />
+        Close
+      </Button>
+      <Button 
+        size="sm" 
+        variant="outline" 
+        onClick={() => handleAuctionAction(auction, 'simulate')}
+        className="h-7 px-2"
+      >
+        <Play className="h-3 w-3" />
+        Simulate
+      </Button>
+      <Button 
+        size="sm" 
+        variant="outline" 
+        onClick={() => handleAuctionAction(auction, 'finish')}
+        className="h-7 px-2"
+      >
+        <CheckCircle className="h-3 w-3" />
+        Finish
+      </Button>
+    </div>
+  );
+
   const primaryMarketColumns = [
     { key: 'docId', label: 'DocId' },
     { key: 'issueCode', label: 'IssueCode' },
     { key: 'auctionCode', label: 'AuctionCode' },
     { key: 'stepName', label: 'StepName' },
     { key: 'status', label: 'Status' },
-    { key: 'resultName', label: 'ResultName' }
+    { key: 'resultName', label: 'ResultName' },
+    { 
+      key: 'actions', 
+      label: 'Actions',
+      render: (value: any, item: any) => renderActionButtons(item)
+    }
   ];
 
   const repoColumns = [
@@ -138,7 +226,12 @@ const AuctionSummaryPage = () => {
     { key: 'resultName', label: 'ResultName' },
     { key: 'settlDate', label: 'SettlDate' },
     { key: 'cutOffDate', label: 'CutOffDate' },
-    { key: 'announced', label: 'Announced' }
+    { key: 'announced', label: 'Announced' },
+    { 
+      key: 'actions', 
+      label: 'Actions',
+      render: (value: any, item: any) => renderActionButtons(item)
+    }
   ];
 
   const depositColumns = [
@@ -150,7 +243,12 @@ const AuctionSummaryPage = () => {
     { key: 'resultName', label: 'ResultName' },
     { key: 'settlDate', label: 'SettlDate' },
     { key: 'cutOffDate', label: 'CutOffDate' },
-    { key: 'announced', label: 'Announced' }
+    { key: 'announced', label: 'Announced' },
+    { 
+      key: 'actions', 
+      label: 'Actions',
+      render: (value: any, item: any) => renderActionButtons(item)
+    }
   ];
 
   const fxColumns = [
@@ -162,7 +260,12 @@ const AuctionSummaryPage = () => {
     { key: 'resultName', label: 'ResultName' },
     { key: 'settlDate', label: 'SettlDate' },
     { key: 'cutOffDate', label: 'CutOffDate' },
-    { key: 'announced', label: 'Announced' }
+    { key: 'announced', label: 'Announced' },
+    { 
+      key: 'actions', 
+      label: 'Actions',
+      render: (value: any, item: any) => renderActionButtons(item)
+    }
   ];
 
   return (
@@ -343,6 +446,31 @@ const AuctionSummaryPage = () => {
         open={showParticipantSubmission}
         onOpenChange={setShowParticipantSubmission}
       />
+      
+      {/* Simulate Auction Dialog */}
+      <SimulateAuctionDialog 
+        open={showSimulateAuction}
+        onOpenChange={setShowSimulateAuction}
+        auction={selectedAuction}
+      />
+
+      {/* Finish Confirmation Dialog */}
+      <AlertDialogComponent open={showFinishConfirm} onOpenChange={setShowFinishConfirm}>
+        <AlertDialogContent>
+          <AlertDialogHeader>
+            <AlertDialogTitle>Confirm Auction Finish</AlertDialogTitle>
+            <AlertDialogDescription>
+              Are you sure you want to finish auction {auctionToFinish?.auctionCode}? This action cannot be undone.
+            </AlertDialogDescription>
+          </AlertDialogHeader>
+          <AlertDialogFooter>
+            <AlertDialogCancel>Cancel</AlertDialogCancel>
+            <AlertDialogAction onClick={confirmFinishAuction}>
+              Finish Auction
+            </AlertDialogAction>
+          </AlertDialogFooter>
+        </AlertDialogContent>
+      </AlertDialogComponent>
     </div>
   );
 };
