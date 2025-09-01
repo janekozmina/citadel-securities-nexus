@@ -32,6 +32,31 @@ const AuctionSummaryPage = () => {
   const [showFinishConfirm, setShowFinishConfirm] = useState(false);
   const [auctionToFinish, setAuctionToFinish] = useState<any>(null);
   
+  // State for auction data
+  const [primaryMarketData, setPrimaryMarketData] = useState([
+    { docId: '289', issueCode: 'TESTCBBILL001', auctionCode: 'A03', stepName: 'Closed', status: 'Closed', resultName: 'AC' },
+    { docId: '290', issueCode: 'TESTCBBILL002', auctionCode: 'A04', stepName: 'Active', status: 'Active', resultName: 'PD' },
+    { docId: '291', issueCode: 'TESTCBBOND001', auctionCode: 'A05', stepName: 'Pending', status: 'Pending', resultName: '-' }
+  ]);
+  
+  const [repoData, setRepoData] = useState([
+    { docId: '292', issueCode: 'REPO001', auctionCode: 'R01', stepName: 'Active', status: 'Active', resultName: 'AC', settlDate: '2024-01-08', cutOffDate: '2024-01-07', announced: 'Yes' },
+    { docId: '293', issueCode: 'REPO002', auctionCode: 'R02', stepName: 'Closed', status: 'Closed', resultName: 'AC', settlDate: '2024-01-15', cutOffDate: '2024-01-14', announced: 'Yes' },
+    { docId: '294', issueCode: 'REPO003', auctionCode: 'R03', stepName: 'Pending', status: 'Pending', resultName: '-', settlDate: '2024-02-01', cutOffDate: '2024-01-31', announced: 'No' }
+  ]);
+  
+  const [depositData, setDepositData] = useState([
+    { docId: '295', issueCode: 'DEP001', auctionCode: 'D01', stepName: 'Active', status: 'Active', resultName: 'AC', settlDate: '2024-04-01', cutOffDate: '2024-03-31', announced: 'Yes' },
+    { docId: '296', issueCode: 'DEP002', auctionCode: 'D02', stepName: 'Closed', status: 'Closed', resultName: 'AC', settlDate: '2024-07-01', cutOffDate: '2024-06-30', announced: 'Yes' },
+    { docId: '297', issueCode: 'DEP003', auctionCode: 'D03', stepName: 'Active', status: 'Active', resultName: 'PD', settlDate: '2024-01-02', cutOffDate: '2024-01-01', announced: 'No' }
+  ]);
+  
+  const [fxData, setFxData] = useState([
+    { docId: '298', issueCode: 'FX001', auctionCode: 'F01', stepName: 'Active', status: 'Active', resultName: 'AC', settlDate: '2024-01-03', cutOffDate: '2024-01-02', announced: 'Yes' },
+    { docId: '299', issueCode: 'FX002', auctionCode: 'F02', stepName: 'Pending', status: 'Pending', resultName: '-', settlDate: '2024-01-15', cutOffDate: '2024-01-14', announced: 'No' },
+    { docId: '300', issueCode: 'FX003', auctionCode: 'F03', stepName: 'Active', status: 'Active', resultName: 'AC', settlDate: '2024-01-10', cutOffDate: '2024-01-09', announced: 'Yes' }
+  ]);
+  
   const handleAction = (actionId: string) => {
     switch (actionId) {
       case 'create-auction':
@@ -48,12 +73,45 @@ const AuctionSummaryPage = () => {
     }
   };
 
+  const updateAuctionStatus = (auctionCode: string, newStatus: string, newStepName: string) => {
+    // Update in all data arrays
+    setPrimaryMarketData(prev => 
+      prev.map(item => 
+        item.auctionCode === auctionCode 
+          ? { ...item, status: newStatus, stepName: newStepName }
+          : item
+      )
+    );
+    
+    setRepoData(prev => 
+      prev.map(item => 
+        item.auctionCode === auctionCode 
+          ? { ...item, status: newStatus, stepName: newStepName }
+          : item
+      )
+    );
+    
+    setDepositData(prev => 
+      prev.map(item => 
+        item.auctionCode === auctionCode 
+          ? { ...item, status: newStatus, stepName: newStepName }
+          : item
+      )
+    );
+    
+    setFxData(prev => 
+      prev.map(item => 
+        item.auctionCode === auctionCode 
+          ? { ...item, status: newStatus, stepName: newStepName }
+          : item
+      )
+    );
+  };
+
   const handleAuctionAction = (auction: any, action: string) => {
     switch (action) {
       case 'close':
-        // Update auction status to closed
-        auction.status = 'Closed';
-        auction.stepName = 'Closed';
+        updateAuctionStatus(auction.auctionCode, 'Closed', 'Closed');
         toast({
           title: "Auction Closed",
           description: `Auction ${auction.auctionCode} has been closed successfully.`,
@@ -72,8 +130,7 @@ const AuctionSummaryPage = () => {
 
   const confirmFinishAuction = () => {
     if (auctionToFinish) {
-      auctionToFinish.status = 'Finished';
-      auctionToFinish.stepName = 'Finished';
+      updateAuctionStatus(auctionToFinish.auctionCode, 'Finished', 'Finished');
       toast({
         title: "Auction Finished",
         description: `Auction ${auctionToFinish.auctionCode} has been finished successfully.`,
@@ -132,33 +189,7 @@ const AuctionSummaryPage = () => {
     }
   ];
 
-  // Primary Market auctions data
-  const primaryMarketData = [
-    { docId: '289', issueCode: 'TESTCBBILL001', auctionCode: 'A03', stepName: 'Closed', status: 'Closed', resultName: 'AC' },
-    { docId: '290', issueCode: 'TESTCBBILL002', auctionCode: 'A04', stepName: 'Active', status: 'Active', resultName: 'PD' },
-    { docId: '291', issueCode: 'TESTCBBOND001', auctionCode: 'A05', stepName: 'Pending', status: 'Pending', resultName: '-' }
-  ];
-
-  // Repo auctions data
-  const repoData = [
-    { docId: '292', issueCode: 'REPO001', auctionCode: 'R01', stepName: 'Active', status: 'Active', resultName: 'AC', settlDate: '2024-01-08', cutOffDate: '2024-01-07', announced: 'Yes' },
-    { docId: '293', issueCode: 'REPO002', auctionCode: 'R02', stepName: 'Closed', status: 'Closed', resultName: 'AC', settlDate: '2024-01-15', cutOffDate: '2024-01-14', announced: 'Yes' },
-    { docId: '294', issueCode: 'REPO003', auctionCode: 'R03', stepName: 'Pending', status: 'Pending', resultName: '-', settlDate: '2024-02-01', cutOffDate: '2024-01-31', announced: 'No' }
-  ];
-
-  // Deposit auctions data
-  const depositData = [
-    { docId: '295', issueCode: 'DEP001', auctionCode: 'D01', stepName: 'Active', status: 'Active', resultName: 'AC', settlDate: '2024-04-01', cutOffDate: '2024-03-31', announced: 'Yes' },
-    { docId: '296', issueCode: 'DEP002', auctionCode: 'D02', stepName: 'Closed', status: 'Closed', resultName: 'AC', settlDate: '2024-07-01', cutOffDate: '2024-06-30', announced: 'Yes' },
-    { docId: '297', issueCode: 'DEP003', auctionCode: 'D03', stepName: 'Active', status: 'Active', resultName: 'PD', settlDate: '2024-01-02', cutOffDate: '2024-01-01', announced: 'No' }
-  ];
-
-  // FX auctions data
-  const fxData = [
-    { docId: '298', issueCode: 'FX001', auctionCode: 'F01', stepName: 'Active', status: 'Active', resultName: 'AC', settlDate: '2024-01-03', cutOffDate: '2024-01-02', announced: 'Yes' },
-    { docId: '299', issueCode: 'FX002', auctionCode: 'F02', stepName: 'Pending', status: 'Pending', resultName: '-', settlDate: '2024-01-15', cutOffDate: '2024-01-14', announced: 'No' },
-    { docId: '300', issueCode: 'FX003', auctionCode: 'F03', stepName: 'Active', status: 'Active', resultName: 'AC', settlDate: '2024-01-10', cutOffDate: '2024-01-09', announced: 'Yes' }
-  ];
+  // Data arrays are now managed by state above
 
   const getStatusBadge = (status: string) => {
     const statusConfig = {

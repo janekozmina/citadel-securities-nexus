@@ -79,6 +79,25 @@ const SimulateAuctionDialog: React.FC<SimulateAuctionDialogProps> = ({
   };
 
   const loadSimulation = () => {
+    // Load different simulation results to show change
+    const loadedResults = {
+      satisfied: Math.floor(Math.random() * 4) + 1,
+      partlySatisfied: Math.floor(Math.random() * 3),
+      rejected: Math.floor(Math.random() * 3) + 1,
+      satisfiedValue: Math.floor(Math.random() * 30000000) + 40000000,
+      partlySatisfiedValue: Math.floor(Math.random() * 15000000) + 20000000,
+      rejectedValue: Math.floor(Math.random() * 15000000) + 8000000,
+      partlyRejectedValue: Math.floor(Math.random() * 8000000) + 3000000,
+      winnerPrice: (Math.random() * 1.0 + 5.2).toFixed(5),
+      minPrice: 5.50000,
+      maxPrice: 6.00000
+    };
+    
+    setSimulationResults({
+      ...loadedResults,
+      winnerPrice: parseFloat(loadedResults.winnerPrice)
+    });
+    
     const lastSimulationDate = new Date().toLocaleDateString();
     toast({
       title: "Simulation Loaded",
