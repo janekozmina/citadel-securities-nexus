@@ -176,6 +176,53 @@ const SimulateAuctionDialog: React.FC<SimulateAuctionDialogProps> = ({
         </DialogHeader>
 
         <div className="flex-1 overflow-y-auto space-y-6">
+          {/* Amount Calculations */}
+          <Card>
+            <CardHeader className="pb-2">
+              <CardTitle className="text-sm">Amount Calculations</CardTitle>
+            </CardHeader>
+            <CardContent className="space-y-4">
+              <div className="flex items-center justify-between gap-4">
+                <span className="text-sm">Calculate to satisfy following quantity</span>
+                <div className="flex items-center gap-2">
+                  <Input
+                    type="text"
+                    value="50,000,000"
+                    className="w-32 h-8 text-sm"
+                    readOnly
+                  />
+                  <div className="flex items-center gap-1">
+                    <Checkbox id="use-quantity" defaultChecked />
+                    <label htmlFor="use-quantity" className="text-sm">Use</label>
+                  </div>
+                </div>
+              </div>
+            </CardContent>
+          </Card>
+
+          {/* Cut off Price Calculations */}
+          <Card>
+            <CardHeader className="pb-2">
+              <CardTitle className="text-sm">Cut off Price Calculations</CardTitle>
+            </CardHeader>
+            <CardContent className="space-y-4">
+              <div className="flex items-center justify-between gap-4">
+                <span className="text-sm">Cut Off Price/Rate</span>
+                <div className="flex items-center gap-2">
+                  <Input
+                    type="text"
+                    value="5.50000"
+                    className="w-32 h-8 text-sm"
+                    readOnly
+                  />
+                  <div className="flex items-center gap-1">
+                    <Checkbox id="use-cutoff" defaultChecked />
+                    <label htmlFor="use-cutoff" className="text-sm">Use</label>
+                  </div>
+                </div>
+              </div>
+            </CardContent>
+          </Card>
 
           {/* Bids Summary Charts */}
           <Card>
@@ -439,54 +486,6 @@ const SimulateAuctionDialog: React.FC<SimulateAuctionDialogProps> = ({
               </CardContent>
             </Card>
           </div>
-
-          {/* Amount Calculations */}
-          <Card>
-            <CardHeader className="pb-2">
-              <CardTitle className="text-sm">Amount Calculations</CardTitle>
-            </CardHeader>
-            <CardContent className="space-y-4">
-              <div className="flex items-center justify-between gap-4">
-                <span className="text-sm">Calculate to satisfy following quantity</span>
-                <div className="flex items-center gap-2">
-                  <Input
-                    type="text"
-                    value="50,000,000"
-                    className="w-32 h-8 text-sm"
-                    readOnly
-                  />
-                  <div className="flex items-center gap-1">
-                    <Checkbox id="use-quantity" defaultChecked />
-                    <label htmlFor="use-quantity" className="text-sm">Use</label>
-                  </div>
-                </div>
-              </div>
-            </CardContent>
-          </Card>
-
-          {/* Cut off Price Calculations */}
-          <Card>
-            <CardHeader className="pb-2">
-              <CardTitle className="text-sm">Cut off Price Calculations</CardTitle>
-            </CardHeader>
-            <CardContent className="space-y-4">
-              <div className="flex items-center justify-between gap-4">
-                <span className="text-sm">Cut Off Price/Rate</span>
-                <div className="flex items-center gap-2">
-                  <Input
-                    type="text"
-                    value="5.50000"
-                    className="w-32 h-8 text-sm"
-                    readOnly
-                  />
-                  <div className="flex items-center gap-1">
-                    <Checkbox id="use-cutoff" defaultChecked />
-                    <label htmlFor="use-cutoff" className="text-sm">Use</label>
-                  </div>
-                </div>
-              </div>
-            </CardContent>
-          </Card>
 
           {/* Additional Info */}
           <div className="grid grid-cols-2 gap-6">
