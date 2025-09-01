@@ -300,8 +300,8 @@ const AuctionSummaryPage = () => {
   ];
 
   return (
-    <div className="flex h-full">
-      <div className="flex-1 space-y-6 pr-6">
+    <div className="flex gap-6 min-h-screen">
+      <div className="flex-1 space-y-6">
         <PageHeader
           title="Auction Summary"
           description="Consolidated view of all auction types and market operations"
@@ -451,13 +451,15 @@ const AuctionSummaryPage = () => {
         </div>
       </div>
 
-      {/* Quick Actions Sidebar */}
-      <div className="w-64">
-        <ConditionalQuickActions 
-          pageKey="auction-summary"
-          systemType="common"
-          onActionClick={handleAction}
-        />
+      {/* Quick Actions Sidebar - Fixed positioning */}
+      <div className="w-64 flex-shrink-0">
+        <div className="sticky top-6">
+          <ConditionalQuickActions 
+            pageKey="auction-summary"
+            systemType="common"
+            onActionClick={handleAction}
+          />
+        </div>
       </div>
       
       {/* Auction Wizard Dialog */}
