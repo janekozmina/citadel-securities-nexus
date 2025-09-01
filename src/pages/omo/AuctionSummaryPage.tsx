@@ -300,8 +300,8 @@ const AuctionSummaryPage = () => {
   ];
 
   return (
-    <div className="flex gap-6 min-h-screen">
-      <div className="flex-1 space-y-6">
+    <div className="flex h-full">
+      <div className="flex-1 space-y-6 pr-6">
         <PageHeader
           title="Auction Summary"
           description="Consolidated view of all auction types and market operations"
@@ -309,37 +309,36 @@ const AuctionSummaryPage = () => {
         
         {/* Summary Metrics */}
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-        {summaryMetrics.map((metric) => {
-          const IconComponent = metric.icon;
-          return (
-            <Card key={metric.title}>
-              <CardContent className="p-6">
-                <div className="flex items-center justify-between">
-                  <div>
-                    <p className="text-sm font-medium text-muted-foreground">
-                      {metric.title}
-                    </p>
-                    <p className="text-2xl font-bold">{metric.value}</p>
-                    <p className={`text-sm ${metric.trend === 'up' ? 'text-green-600' : 'text-red-600'}`}>
-                      {metric.change}
-                    </p>
+          {summaryMetrics.map((metric, index) => (
+            <Card key={index}>
+              <CardContent className="flex items-center p-6">
+                <div className="flex items-center space-x-4">
+                  <div className="p-3 rounded-full bg-primary/10">
+                    <metric.icon className="h-6 w-6 text-primary" />
                   </div>
-                  <IconComponent className="h-8 w-8 text-muted-foreground" />
+                  <div>
+                    <p className="text-sm font-medium text-muted-foreground">{metric.title}</p>
+                    <div className="flex items-center space-x-2">
+                      <p className="text-2xl font-bold">{metric.value}</p>
+                      <div className={`flex items-center text-sm ${metric.trend === 'up' ? 'text-green-600' : 'text-red-600'}`}>
+                        <TrendingUp className="h-3 w-3 mr-1" />
+                        {metric.change}
+                      </div>
+                    </div>
+                  </div>
                 </div>
               </CardContent>
             </Card>
-          );
-        })}
-      </div>
+          ))}
+        </div>
 
-        {/* Dashboard Charts */}
+        {/* Charts */}
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-          {/* Bid Distribution Chart */}
           <Card>
             <CardHeader>
               <CardTitle className="flex items-center gap-2">
                 <BarChart3 className="h-5 w-5" />
-                Bid Distribution by Interest Rate
+                Bid Distribution
               </CardTitle>
             </CardHeader>
             <CardContent>
@@ -349,18 +348,17 @@ const AuctionSummaryPage = () => {
                   <XAxis dataKey="range" />
                   <YAxis />
                   <Tooltip />
-                  <Bar dataKey="bids" fill="hsl(var(--primary))" />
+                  <Bar dataKey="bids" fill="#0088FE" />
                 </BarChart>
               </ResponsiveContainer>
             </CardContent>
           </Card>
 
-          {/* Participant Distribution Chart */}
           <Card>
             <CardHeader>
               <CardTitle className="flex items-center gap-2">
                 <PieChart className="h-5 w-5" />
-                Winning Bids by Participant Group
+                Participant Distribution
               </CardTitle>
             </CardHeader>
             <CardContent>
@@ -370,9 +368,10 @@ const AuctionSummaryPage = () => {
                     data={participantDistributionData}
                     cx="50%"
                     cy="50%"
-                    innerRadius={60}
-                    outerRadius={120}
-                    paddingAngle={5}
+                    labelLine={false}
+                    label={({ name, percent }) => `${name} ${(percent * 100).toFixed(0)}%`}
+                    outerRadius={80}
+                    fill="#8884d8"
                     dataKey="value"
                   >
                     {participantDistributionData.map((entry, index) => (
@@ -382,84 +381,73 @@ const AuctionSummaryPage = () => {
                   <Tooltip />
                 </RechartsPieChart>
               </ResponsiveContainer>
-              <div className="flex justify-center mt-4 gap-4">
-                {participantDistributionData.map((entry, index) => (
-                  <div key={index} className="flex items-center gap-2">
-                    <div 
-                      className="w-3 h-3 rounded-full"
-                      style={{ backgroundColor: entry.color }}
-                    />
-                    <span className="text-sm text-muted-foreground">
-                      {entry.name}: {entry.value}%
-                    </span>
-                  </div>
-                ))}
-              </div>
             </CardContent>
           </Card>
         </div>
 
-        {/* Consolidated Auction Tables */}
+        {/* Auction Tables */}
         <div className="space-y-6">
-          {/* Primary Market */}
           <Card>
-            <CardContent className="p-6">
+            <CardHeader>
+              <CardTitle>Primary Market Auctions</CardTitle>
+            </CardHeader>
+            <CardContent>
               <DataTable
                 title="Primary Market Auctions"
-                columns={primaryMarketColumns}
                 data={primaryMarketData}
-                itemsPerPage={5}
+                columns={primaryMarketColumns}
               />
             </CardContent>
           </Card>
 
-          {/* Repo Auctions */}
           <Card>
-            <CardContent className="p-6">
+            <CardHeader>
+              <CardTitle>Repo/Reverse Repo Auctions</CardTitle>
+            </CardHeader>
+            <CardContent>
               <DataTable
-                title="Repo Operations"
-                columns={repoColumns}
+                title="Repo/Reverse Repo Auctions"
                 data={repoData}
-                itemsPerPage={5}
+                columns={repoColumns}
               />
             </CardContent>
           </Card>
 
-          {/* Deposit Auctions */}
           <Card>
-            <CardContent className="p-6">
+            <CardHeader>
+              <CardTitle>Deposit Auctions</CardTitle>
+            </CardHeader>
+            <CardContent>
               <DataTable
-                title="Deposit Facilities"
-                columns={depositColumns}
+                title="Deposit Auctions"
                 data={depositData}
-                itemsPerPage={5}
+                columns={depositColumns}
               />
             </CardContent>
           </Card>
 
-          {/* FX Auctions */}
           <Card>
-            <CardContent className="p-6">
+            <CardHeader>
+              <CardTitle>FX Auctions</CardTitle>
+            </CardHeader>
+            <CardContent>
               <DataTable
-                title="FX Operations"
-                columns={fxColumns}
+                title="FX Auctions"
                 data={fxData}
-                itemsPerPage={5}
+                columns={fxColumns}
               />
             </CardContent>
           </Card>
         </div>
       </div>
 
-      {/* Quick Actions Sidebar - Fixed positioning */}
-      <div className="w-64 flex-shrink-0">
-        <div className="sticky top-6">
-          <ConditionalQuickActions 
-            pageKey="auction-summary"
-            systemType="common"
-            onActionClick={handleAction}
-          />
-        </div>
+      {/* Quick Actions Sidebar */}
+      <div className="w-64">
+        <ConditionalQuickActions 
+          pageKey="auction-summary"
+          systemType="common"
+          onActionClick={handleAction}
+        />
       </div>
       
       {/* Auction Wizard Dialog */}
