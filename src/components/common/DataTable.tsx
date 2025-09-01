@@ -20,6 +20,7 @@ interface Column {
   type?: 'text' | 'number' | 'currency' | 'status' | 'date';
   filterable?: boolean;
   sortable?: boolean;
+  render?: (value: any, item: any) => React.ReactNode;
 }
 
 interface FilterOption {
@@ -230,7 +231,10 @@ export const DataTable = ({
                   <TableRow key={index} className="hover:bg-muted/50">
                     {columns.map((column) => (
                       <TableCell key={column.key}>
-                        {formatValue(row[column.key], column.type)}
+                        {column.render 
+                          ? column.render(row[column.key], row)
+                          : formatValue(row[column.key], column.type)
+                        }
                       </TableCell>
                     ))}
                   </TableRow>
