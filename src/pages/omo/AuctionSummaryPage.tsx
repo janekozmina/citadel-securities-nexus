@@ -300,8 +300,8 @@ const AuctionSummaryPage = () => {
   ];
 
   return (
-    <div className="flex min-h-screen bg-background">
-      <div className="flex-1 space-y-6 p-6">
+    <div className="flex h-full">
+      <div className="flex-1 space-y-6 pr-6">
         <PageHeader
           title="Auction Summary"
           description="Consolidated view of all auction types and market operations"
@@ -441,16 +441,13 @@ const AuctionSummaryPage = () => {
         </div>
       </div>
 
-      {/* Quick Actions Sidebar - Fixed and prominent */}
-      <div className="w-80 flex-shrink-0 p-6 border-l bg-muted/30">
-        <div className="sticky top-6">
-          <ConditionalQuickActions 
-            pageKey="auction-summary"
-            systemType="common"
-            onActionClick={handleAction}
-            className="shadow-lg"
-          />
-        </div>
+      {/* Quick Actions Sidebar - Following exact same pattern as InstrumentsSummaryPage */}
+      <div className="w-64">
+        <ConditionalQuickActions 
+          pageKey="auction-summary"
+          systemType="common"
+          onActionClick={handleAction}
+        />
       </div>
       
       {/* Auction Wizard Dialog */}
