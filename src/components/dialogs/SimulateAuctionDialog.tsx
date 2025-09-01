@@ -450,10 +450,6 @@ const SimulateAuctionDialog: React.FC<SimulateAuctionDialogProps> = ({
                 <span>Offered Amount</span>
                 <span>75,000,000</span>
               </div>
-              <div className="flex justify-between text-sm">
-                <span>Rejected Amount</span>
-                <span>{simulationResults.rejectedValue.toLocaleString()}</span>
-              </div>
             </CardContent>
           </Card>
 
@@ -466,10 +462,6 @@ const SimulateAuctionDialog: React.FC<SimulateAuctionDialogProps> = ({
               <div className="flex justify-between text-sm">
                 <span>Cut off Price/Rate</span>
                 <span>{simulationResults.winnerPrice.toFixed(5)}</span>
-              </div>
-              <div className="flex justify-between text-sm">
-                <span>Coverage Ratio</span>
-                <span>1.33</span>
               </div>
             </CardContent>
           </Card>
