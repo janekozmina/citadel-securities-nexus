@@ -441,8 +441,8 @@ const AuctionSummaryPage = () => {
         </div>
       </div>
 
-      {/* Quick Actions Sidebar - Following exact same pattern as InstrumentsSummaryPage */}
-      <div className="w-64">
+      {/* Quick Actions Sidebar - Fixed width mismatch */}
+      <div className="w-80 flex-shrink-0">
         <ConditionalQuickActions 
           pageKey="auction-summary"
           systemType="common"

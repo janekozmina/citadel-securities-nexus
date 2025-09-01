@@ -57,9 +57,10 @@ export const ConditionalQuickActions: React.FC<ConditionalQuickActionsProps> = (
         </div>
       );
     } else {
-      // Inline positioning - same as BalancesLiquidityPage approach
+      // Inline positioning - use full width of container with visible styling
       return (
-        <div className={`w-80 bg-background border rounded-lg shadow-lg p-4 ${className || ''}`}>
+        <div className={`w-full bg-card border rounded-lg shadow-md p-6 ${className || ''}`}>
+          <h3 className="text-lg font-semibold mb-4 text-card-foreground">Quick Actions</h3>
           <QuickActionsManager 
             pageKey={pageKey}
             systemType={systemType}
