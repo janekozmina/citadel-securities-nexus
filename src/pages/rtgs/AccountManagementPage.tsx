@@ -147,11 +147,11 @@ export default function AccountManagementPage() {
 
   return (
     <TooltipProvider>
-      <div className="space-y-6">
+      <div className="space-y-6 min-h-screen">
         <PageHeader />
 
-        <div className="flex gap-6">
-          <div className="flex-1 space-y-6">
+        <div className="flex gap-6 min-w-fit">
+          <div className="flex-1 min-w-0 max-w-[calc(100vw-320px)] space-y-6">
             {/* Top Metrics Cards */}
             <MetricCardsSection
               metricsConfig={[
