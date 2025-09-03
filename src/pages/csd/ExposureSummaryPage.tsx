@@ -163,7 +163,7 @@ export default function ExposureSummaryPage() {
         </div>
 
         {/* Quick Actions Sidebar */}
-        <div className="w-64">
+        <div className="w-64 space-y-4">
           <ConditionalQuickActions 
             pageKey="exposure-summary"
             systemType="csd"

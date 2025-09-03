@@ -488,10 +488,12 @@ const RTGSAccountsPage = () => {
           </div>
 
           {/* Right Sidebar with Quick Actions */}
-          <ConditionalQuickActions 
-            pageKey="account-management" 
-            systemType="rtgs"
-          />
+          <div className="w-64 space-y-4">
+            <ConditionalQuickActions 
+              pageKey="account-management" 
+              systemType="rtgs"
+            />
+          </div>
         </div>
       </div>
     </TooltipProvider>

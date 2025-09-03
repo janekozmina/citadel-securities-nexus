@@ -469,31 +469,33 @@ export default function BusinessDayManagementPage() {
         </div>
 
         {/* Right Sidebar with Quick Actions */}
-        <ConditionalQuickActions 
-          pageKey="business-day-management"
-          systemType="rtgs"
-          onActionClick={(actionId) => {
-            switch (actionId) {
-              case 'add-period':
-                setIsAddPeriodOpen(true);
-                break;
-              case 'update-period':
-                toast.info('Update functionality coming soon');
-                break;
-              case 'activate-period':
-                toast.info('Select a period to activate');
-                break;
-              case 'close-period':
-                toast.info('Select a period to close');
-                break;
-              case 'delete-period':
-                toast.info('Select a period to delete');
-                break;
-              default:
-                break;
-            }
-          }}
-        />
+        <div className="w-64 space-y-4">
+          <ConditionalQuickActions 
+            pageKey="business-day-management"
+            systemType="rtgs"
+            onActionClick={(actionId) => {
+              switch (actionId) {
+                case 'add-period':
+                  setIsAddPeriodOpen(true);
+                  break;
+                case 'update-period':
+                  toast.info('Update functionality coming soon');
+                  break;
+                case 'activate-period':
+                  toast.info('Select a period to activate');
+                  break;
+                case 'close-period':
+                  toast.info('Select a period to close');
+                  break;
+                case 'delete-period':
+                  toast.info('Select a period to delete');
+                  break;
+                default:
+                  break;
+              }
+            }}
+          />
+        </div>
       </div>
     </div>
   );

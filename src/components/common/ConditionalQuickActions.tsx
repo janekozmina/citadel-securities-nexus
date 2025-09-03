@@ -57,16 +57,13 @@ export const ConditionalQuickActions: React.FC<ConditionalQuickActionsProps> = (
         </div>
       );
     } else {
-      // Inline positioning - use full width of container with visible styling
+      // Non-fixed sidebar positioning - no extra card wrapper needed
       return (
-        <div className={`w-full bg-card border rounded-lg shadow-md p-6 ${className || ''}`}>
-          <h3 className="text-lg font-semibold mb-4 text-card-foreground">Quick Actions</h3>
-          <QuickActionsManager 
-            pageKey={pageKey}
-            systemType={systemType}
-            onActionClick={onActionClick}
-          />
-        </div>
+        <QuickActionsManager 
+          pageKey={pageKey}
+          systemType={systemType}
+          onActionClick={onActionClick}
+        />
       );
     }
   }
