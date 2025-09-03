@@ -150,8 +150,8 @@ export default function AccountManagementPage() {
       <div className="space-y-6">
         <PageHeader />
 
-        <div className="flex h-full">
-          <div className="flex-1 space-y-6 pr-6">
+        <div className="flex h-full min-h-screen">
+          <div className="flex-1 space-y-6 pr-6 max-w-none">
             {/* Top Metrics Cards */}
             <MetricCardsSection
               metricsConfig={[
