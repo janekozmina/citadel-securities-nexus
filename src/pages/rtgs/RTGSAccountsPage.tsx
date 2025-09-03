@@ -11,7 +11,7 @@ import { ArrowUpDown, Calculator, Pause, Eye, BarChart3, TableIcon, AlertTriangl
 import portalConfig from '@/config/portalConfig';
 import { PageHeader } from '@/components/common/PageHeader';
 import { MetricCardsSection } from '@/components/common/MetricCardsSection';
-import { ConditionalQuickActions } from '@/components/common/ConditionalQuickActions';
+import { QuickActionsManager } from '@/components/common/QuickActionsManager';
 
 // Generate account data using config
 const generateAccountData = () => {
@@ -489,7 +489,7 @@ const RTGSAccountsPage = () => {
 
           {/* Right Sidebar with Quick Actions */}
           <div className="w-64 space-y-4">
-            <ConditionalQuickActions 
+            <QuickActionsManager 
               pageKey="account-management" 
               systemType="rtgs"
             />
