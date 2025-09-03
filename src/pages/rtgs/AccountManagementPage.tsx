@@ -150,7 +150,7 @@ export default function AccountManagementPage() {
       <div className="space-y-6">
         <PageHeader />
 
-        <div className="flex gap-6 min-h-screen">
+        <div className="flex gap-6">
           <div className="flex-1 space-y-6">
             {/* Top Metrics Cards */}
             <MetricCardsSection
@@ -190,8 +190,8 @@ export default function AccountManagementPage() {
               }}
             />
 
-            {/* View Mode Toggle - Fixed positioning */}
-            <div className="flex items-center gap-2 min-h-[40px] mb-6">
+            {/* View Mode Toggle */}
+            <div className="flex items-center gap-2 mb-6">
               <span className="text-sm font-medium text-slate-700">View Mode:</span>
               <div className="flex gap-2">
                 <Button
@@ -213,297 +213,294 @@ export default function AccountManagementPage() {
               </div>
             </div>
 
-            {/* Content Area with Fixed Height */}
-            <div className="min-h-[600px]">
-              {/* Filters Section - Only show for table view */}
-              {viewMode === 'table' && (
-                <Card className="bg-slate-50 mb-6">
-                  <CardContent className="p-4">
-                    <div className="flex gap-2 items-center">
-                      <span className="text-sm font-medium text-slate-700">Filters:</span>
-                      <Select value={filterCurrency} onValueChange={setFilterCurrency}>
-                        <SelectTrigger className="w-32">
-                          <SelectValue placeholder="Currency" />
-                        </SelectTrigger>
-                        <SelectContent>
-                          <SelectItem value="all">All Currencies</SelectItem>
-                          {portalConfig.currencies.supported.map(currency => (
-                            <SelectItem key={currency} value={currency}>{currency}</SelectItem>
-                          ))}
-                        </SelectContent>
-                      </Select>
-                      <Select value={filterAccountType} onValueChange={setFilterAccountType}>
-                        <SelectTrigger className="w-32">
-                          <SelectValue placeholder="Account Type" />
-                        </SelectTrigger>
-                        <SelectContent>
-                          <SelectItem value="all">All Types</SelectItem>
-                          <SelectItem value="SA">SA</SelectItem>
-                          <SelectItem value="CA">CA</SelectItem>
-                        </SelectContent>
-                      </Select>
-                      <Select value={riskFilter} onValueChange={(value: 'all' | 'low' | 'medium' | 'high') => setRiskFilter(value)}>
-                        <SelectTrigger className="w-32">
-                          <SelectValue placeholder="Risk Level" />
-                        </SelectTrigger>
-                        <SelectContent>
-                          <SelectItem value="all">All Risk Levels</SelectItem>
-                          <SelectItem value="high">High Risk</SelectItem>
-                          <SelectItem value="medium">Medium Risk</SelectItem>
-                          <SelectItem value="low">Low Risk</SelectItem>
-                        </SelectContent>
-                      </Select>
-                      <Input 
-                        placeholder="Search accounts..." 
-                        className="w-48" 
-                        value={searchTerm}
-                        onChange={(e) => setSearchTerm(e.target.value)}
-                      />
-                      {riskFilter !== 'all' && (
-                        <Button
-                          variant="outline"
-                          size="sm"
-                          onClick={() => setRiskFilter('all')}
-                        >
-                          Clear Risk Filter
-                        </Button>
-                      )}
+            {/* Filters Section - Only show for table view */}
+            {viewMode === 'table' && (
+              <Card className="bg-slate-50">
+                <CardContent className="p-4">
+                  <div className="flex gap-2 items-center">
+                    <span className="text-sm font-medium text-slate-700">Filters:</span>
+                    <Select value={filterCurrency} onValueChange={setFilterCurrency}>
+                      <SelectTrigger className="w-32">
+                        <SelectValue placeholder="Currency" />
+                      </SelectTrigger>
+                      <SelectContent>
+                        <SelectItem value="all">All Currencies</SelectItem>
+                        {portalConfig.currencies.supported.map(currency => (
+                          <SelectItem key={currency} value={currency}>{currency}</SelectItem>
+                        ))}
+                      </SelectContent>
+                    </Select>
+                    <Select value={filterAccountType} onValueChange={setFilterAccountType}>
+                      <SelectTrigger className="w-32">
+                        <SelectValue placeholder="Account Type" />
+                      </SelectTrigger>
+                      <SelectContent>
+                        <SelectItem value="all">All Types</SelectItem>
+                        <SelectItem value="SA">SA</SelectItem>
+                        <SelectItem value="CA">CA</SelectItem>
+                      </SelectContent>
+                    </Select>
+                    <Select value={riskFilter} onValueChange={(value: 'all' | 'low' | 'medium' | 'high') => setRiskFilter(value)}>
+                      <SelectTrigger className="w-32">
+                        <SelectValue placeholder="Risk Level" />
+                      </SelectTrigger>
+                      <SelectContent>
+                        <SelectItem value="all">All Risk Levels</SelectItem>
+                        <SelectItem value="high">High Risk</SelectItem>
+                        <SelectItem value="medium">Medium Risk</SelectItem>
+                        <SelectItem value="low">Low Risk</SelectItem>
+                      </SelectContent>
+                    </Select>
+                    <Input 
+                      placeholder="Search accounts..." 
+                      className="w-48" 
+                      value={searchTerm}
+                      onChange={(e) => setSearchTerm(e.target.value)}
+                    />
+                    {riskFilter !== 'all' && (
+                      <Button
+                        variant="outline"
+                        size="sm"
+                        onClick={() => setRiskFilter('all')}
+                      >
+                        Clear Risk Filter
+                      </Button>
+                    )}
+                  </div>
+                </CardContent>
+              </Card>
+            )}
+
+            {/* Risk Dashboard View */}
+            {viewMode === 'visual' && (
+              <div className="space-y-6">
+                {/* Risk Indicator Gauge */}
+                <Card>
+                  <CardHeader>
+                    <CardTitle className="flex items-center gap-2">
+                      <AlertTriangle className="h-5 w-5" />
+                      Potential Balance Risk Indicator
+                    </CardTitle>
+                  </CardHeader>
+                  <CardContent>
+                    <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+                      {/* High Risk */}
+                      <div 
+                        className="cursor-pointer p-4 border rounded-lg hover:shadow-md transition-shadow"
+                        onClick={() => {
+                          setRiskFilter('high');
+                          setViewMode('table');
+                        }}
+                      >
+                        <div className="flex items-center justify-between mb-2">
+                          <div className="flex items-center gap-2">
+                            <div className="w-3 h-3 bg-red-500 rounded-full"></div>
+                            <span className="font-medium text-red-700">High Risk</span>
+                          </div>
+                          <XCircle className="h-4 w-4 text-red-500" />
+                        </div>
+                        <div className="text-2xl font-bold text-red-600 mb-1">{riskData.high}</div>
+                        <div className="text-sm text-gray-600">Below 5K threshold</div>
+                        <Progress 
+                          value={(riskData.high / accountsData.length) * 100} 
+                          className="mt-2 h-2"
+                        />
+                      </div>
+
+                      {/* Medium Risk */}
+                      <div 
+                        className="cursor-pointer p-4 border rounded-lg hover:shadow-md transition-shadow"
+                        onClick={() => {
+                          setRiskFilter('medium');
+                          setViewMode('table');
+                        }}
+                      >
+                        <div className="flex items-center justify-between mb-2">
+                          <div className="flex items-center gap-2">
+                            <div className="w-3 h-3 bg-yellow-500 rounded-full"></div>
+                            <span className="font-medium text-yellow-700">Medium Risk</span>
+                          </div>
+                          <AlertTriangle className="h-4 w-4 text-yellow-500" />
+                        </div>
+                        <div className="text-2xl font-bold text-yellow-600 mb-1">{riskData.medium}</div>
+                        <div className="text-sm text-gray-600">5K-20K range</div>
+                        <Progress 
+                          value={(riskData.medium / accountsData.length) * 100} 
+                          className="mt-2 h-2"
+                        />
+                      </div>
+
+                      {/* Low Risk */}
+                      <div 
+                        className="cursor-pointer p-4 border rounded-lg hover:shadow-md transition-shadow"
+                        onClick={() => {
+                          setRiskFilter('low');
+                          setViewMode('table');
+                        }}
+                      >
+                        <div className="flex items-center justify-between mb-2">
+                          <div className="flex items-center gap-2">
+                            <div className="w-3 h-3 bg-green-500 rounded-full"></div>
+                            <span className="font-medium text-green-700">Low Risk</span>
+                          </div>
+                          <CheckCircle className="h-4 w-4 text-green-500" />
+                        </div>
+                        <div className="text-2xl font-bold text-green-600 mb-1">{riskData.low}</div>
+                        <div className="text-sm text-gray-600">Above 20K threshold</div>
+                        <Progress 
+                          value={(riskData.low / accountsData.length) * 100} 
+                          className="mt-2 h-2"
+                        />
+                      </div>
                     </div>
                   </CardContent>
                 </Card>
-              )}
+              </div>
+            )}
 
-              {/* Risk Dashboard View */}
-              {viewMode === 'visual' && (
-                <div className="space-y-6">
-                  {/* Risk Indicator Gauge */}
-                  <Card>
-                    <CardHeader>
-                      <CardTitle className="flex items-center gap-2">
-                        <AlertTriangle className="h-5 w-5" />
-                        Potential Balance Risk Indicator
-                      </CardTitle>
-                    </CardHeader>
-                    <CardContent>
-                      <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-                        {/* High Risk */}
-                        <div 
-                          className="cursor-pointer p-4 border rounded-lg hover:shadow-md transition-shadow"
-                          onClick={() => {
-                            setRiskFilter('high');
-                            setViewMode('table');
-                          }}
+            {/* Accounts Table */}
+            {viewMode === 'table' && (
+            <Card>
+              <CardHeader>
+                <CardTitle>Account Management</CardTitle>
+              </CardHeader>
+              <CardContent>
+                <div className="overflow-x-auto">
+                  <Table>
+                    <TableHeader>
+                      <TableRow>
+                        <TableHead 
+                          className="cursor-pointer hover:bg-slate-50"
+                          onClick={() => handleSort('id')}
                         >
-                          <div className="flex items-center justify-between mb-2">
-                            <div className="flex items-center gap-2">
-                              <div className="w-3 h-3 bg-red-500 rounded-full"></div>
-                              <span className="font-medium text-red-700">High Risk</span>
-                            </div>
-                            <XCircle className="h-4 w-4 text-red-500" />
+                          <div className="flex items-center gap-1">
+                            Account Code
+                            <ArrowUpDown className="h-3 w-3" />
                           </div>
-                          <div className="text-2xl font-bold text-red-600 mb-1">{riskData.high}</div>
-                          <div className="text-sm text-gray-600">Below 5K threshold</div>
-                          <Progress 
-                            value={(riskData.high / accountsData.length) * 100} 
-                            className="mt-2 h-2"
-                          />
-                        </div>
-
-                        {/* Medium Risk */}
-                        <div 
-                          className="cursor-pointer p-4 border rounded-lg hover:shadow-md transition-shadow"
-                          onClick={() => {
-                            setRiskFilter('medium');
-                            setViewMode('table');
-                          }}
+                        </TableHead>
+                        <TableHead 
+                          className="cursor-pointer hover:bg-slate-50"
+                          onClick={() => handleSort('bic')}
                         >
-                          <div className="flex items-center justify-between mb-2">
-                            <div className="flex items-center gap-2">
-                              <div className="w-3 h-3 bg-yellow-500 rounded-full"></div>
-                              <span className="font-medium text-yellow-700">Medium Risk</span>
-                            </div>
-                            <AlertTriangle className="h-4 w-4 text-yellow-500" />
+                          <div className="flex items-center gap-1">
+                            BIC
+                            <ArrowUpDown className="h-3 w-3" />
                           </div>
-                          <div className="text-2xl font-bold text-yellow-600 mb-1">{riskData.medium}</div>
-                          <div className="text-sm text-gray-600">5K-20K range</div>
-                          <Progress 
-                            value={(riskData.medium / accountsData.length) * 100} 
-                            className="mt-2 h-2"
-                          />
-                        </div>
-
-                        {/* Low Risk */}
-                        <div 
-                          className="cursor-pointer p-4 border rounded-lg hover:shadow-md transition-shadow"
-                          onClick={() => {
-                            setRiskFilter('low');
-                            setViewMode('table');
-                          }}
+                        </TableHead>
+                        <TableHead 
+                          className="cursor-pointer hover:bg-slate-50"
+                          onClick={() => handleSort('participantName')}
                         >
-                          <div className="flex items-center justify-between mb-2">
-                            <div className="flex items-center gap-2">
-                              <div className="w-3 h-3 bg-green-500 rounded-full"></div>
-                              <span className="font-medium text-green-700">Low Risk</span>
-                            </div>
-                            <CheckCircle className="h-4 w-4 text-green-500" />
+                          <div className="flex items-center gap-1">
+                            Participant
+                            <ArrowUpDown className="h-3 w-3" />
                           </div>
-                          <div className="text-2xl font-bold text-green-600 mb-1">{riskData.low}</div>
-                          <div className="text-sm text-gray-600">Above 20K threshold</div>
-                          <Progress 
-                            value={(riskData.low / accountsData.length) * 100} 
-                            className="mt-2 h-2"
-                          />
-                        </div>
-                      </div>
-                    </CardContent>
-                  </Card>
-                </div>
-              )}
-
-              {/* Accounts Table */}
-              {viewMode === 'table' && (
-              <Card>
-                <CardHeader>
-                  <CardTitle>Account Management</CardTitle>
-                </CardHeader>
-                <CardContent>
-                  <div className="overflow-x-auto">
-                    <Table>
-                      <TableHeader>
-                        <TableRow>
-                          <TableHead 
-                            className="cursor-pointer hover:bg-slate-50"
-                            onClick={() => handleSort('id')}
-                          >
-                            <div className="flex items-center gap-1">
-                              Account Code
-                              <ArrowUpDown className="h-3 w-3" />
+                        </TableHead>
+                        <TableHead 
+                          className="cursor-pointer hover:bg-slate-50"
+                          onClick={() => handleSort('availableBalance')}
+                        >
+                          <div className="flex items-center gap-1">
+                            Available Balance
+                            <ArrowUpDown className="h-3 w-3" />
+                          </div>
+                        </TableHead>
+                        <TableHead>Currency</TableHead>
+                        <TableHead>Debit Turnover</TableHead>
+                        <TableHead>Credit Turnover</TableHead>
+                        <TableHead>Total Debit Queue</TableHead>
+                        <TableHead>Total Credit Queue</TableHead>
+                        <TableHead>Potential Balance</TableHead>
+                        <TableHead>Account Type</TableHead>
+                        <TableHead>Risk Level</TableHead>
+                        <TableHead>Actions</TableHead>
+                      </TableRow>
+                    </TableHeader>
+                    <TableBody>
+                      {paginatedAccounts.map((account) => (
+                        <TableRow key={account.id}>
+                          <TableCell className="font-medium">{account.id}</TableCell>
+                          <TableCell className="font-mono text-sm">{account.bic}</TableCell>
+                          <TableCell>{account.participantName}</TableCell>
+                          <TableCell className={getBalanceColor(account.availableBalance)}>
+                            {currencySymbol} {account.availableBalance.toLocaleString()}
+                          </TableCell>
+                          <TableCell>{account.currency}</TableCell>
+                          <TableCell>{currencySymbol} {account.debitTurnover.toLocaleString()}</TableCell>
+                          <TableCell>{currencySymbol} {account.creditTurnover.toLocaleString()}</TableCell>
+                          <TableCell>{currencySymbol} {account.totalDebitQueue.toLocaleString()}</TableCell>
+                          <TableCell>{currencySymbol} {account.totalCreditQueue.toLocaleString()}</TableCell>
+                          <TableCell>{currencySymbol} {account.potentialBalance.toLocaleString()}</TableCell>
+                          <TableCell>
+                            <Badge variant={account.accountType === 'SA' ? 'default' : 'secondary'}>
+                              {account.accountType}
+                            </Badge>
+                          </TableCell>
+                          <TableCell>
+                            <div className="flex items-center gap-2">
+                              <div 
+                                className={`w-2 h-2 rounded-full ${getRiskColor(getRiskLevel(account.availableBalance))}`}
+                              />
+                              <span className="capitalize text-sm">
+                                {getRiskLevel(account.availableBalance)}
+                              </span>
                             </div>
-                          </TableHead>
-                          <TableHead 
-                            className="cursor-pointer hover:bg-slate-50"
-                            onClick={() => handleSort('bic')}
-                          >
-                            <div className="flex items-center gap-1">
-                              BIC
-                              <ArrowUpDown className="h-3 w-3" />
+                          </TableCell>
+                          <TableCell>
+                            <div className="flex gap-2">
+                              <Button size="sm" variant="outline">
+                                <Calculator className="h-3 w-3" />
+                              </Button>
+                              <Button size="sm" variant="outline">
+                                <Pause className="h-3 w-3" />
+                              </Button>
+                              <Button size="sm" variant="outline">
+                                <Eye className="h-3 w-3" />
+                              </Button>
                             </div>
-                          </TableHead>
-                          <TableHead 
-                            className="cursor-pointer hover:bg-slate-50"
-                            onClick={() => handleSort('participantName')}
-                          >
-                            <div className="flex items-center gap-1">
-                              Participant
-                              <ArrowUpDown className="h-3 w-3" />
-                            </div>
-                          </TableHead>
-                          <TableHead 
-                            className="cursor-pointer hover:bg-slate-50"
-                            onClick={() => handleSort('availableBalance')}
-                          >
-                            <div className="flex items-center gap-1">
-                              Available Balance
-                              <ArrowUpDown className="h-3 w-3" />
-                            </div>
-                          </TableHead>
-                          <TableHead>Currency</TableHead>
-                          <TableHead>Debit Turnover</TableHead>
-                          <TableHead>Credit Turnover</TableHead>
-                          <TableHead>Total Debit Queue</TableHead>
-                          <TableHead>Total Credit Queue</TableHead>
-                          <TableHead>Potential Balance</TableHead>
-                          <TableHead>Account Type</TableHead>
-                          <TableHead>Risk Level</TableHead>
-                          <TableHead>Actions</TableHead>
+                          </TableCell>
                         </TableRow>
-                      </TableHeader>
-                      <TableBody>
-                        {paginatedAccounts.map((account) => (
-                          <TableRow key={account.id}>
-                            <TableCell className="font-medium">{account.id}</TableCell>
-                            <TableCell className="font-mono text-sm">{account.bic}</TableCell>
-                            <TableCell>{account.participantName}</TableCell>
-                            <TableCell className={getBalanceColor(account.availableBalance)}>
-                              {currencySymbol} {account.availableBalance.toLocaleString()}
-                            </TableCell>
-                            <TableCell>{account.currency}</TableCell>
-                            <TableCell>{currencySymbol} {account.debitTurnover.toLocaleString()}</TableCell>
-                            <TableCell>{currencySymbol} {account.creditTurnover.toLocaleString()}</TableCell>
-                            <TableCell>{currencySymbol} {account.totalDebitQueue.toLocaleString()}</TableCell>
-                            <TableCell>{currencySymbol} {account.totalCreditQueue.toLocaleString()}</TableCell>
-                            <TableCell>{currencySymbol} {account.potentialBalance.toLocaleString()}</TableCell>
-                            <TableCell>
-                              <Badge variant={account.accountType === 'SA' ? 'default' : 'secondary'}>
-                                {account.accountType}
-                              </Badge>
-                            </TableCell>
-                            <TableCell>
-                              <div className="flex items-center gap-2">
-                                <div 
-                                  className={`w-2 h-2 rounded-full ${getRiskColor(getRiskLevel(account.availableBalance))}`}
-                                />
-                                <span className="capitalize text-sm">
-                                  {getRiskLevel(account.availableBalance)}
-                                </span>
-                              </div>
-                            </TableCell>
-                            <TableCell>
-                              <div className="flex gap-2">
-                                <Button size="sm" variant="outline">
-                                  <Calculator className="h-3 w-3" />
-                                </Button>
-                                <Button size="sm" variant="outline">
-                                  <Pause className="h-3 w-3" />
-                                </Button>
-                                <Button size="sm" variant="outline">
-                                  <Eye className="h-3 w-3" />
-                                </Button>
-                              </div>
-                            </TableCell>
-                          </TableRow>
-                        ))}
-                      </TableBody>
-                    </Table>
-                  </div>
+                      ))}
+                    </TableBody>
+                  </Table>
+                </div>
 
-                  {/* Pagination */}
-                  {totalPages > 1 && (
-                    <div className="flex justify-between items-center mt-4">
-                      <div className="text-sm text-gray-500">
-                        Showing {Math.min(filteredAndSortedAccounts.length, itemsPerPage)} of {filteredAndSortedAccounts.length} accounts
-                      </div>
-                      <div className="flex gap-2">
-                        <Button
-                          variant="outline"
-                          size="sm"
-                          onClick={() => setCurrentPage(prev => Math.max(1, prev - 1))}
-                          disabled={currentPage === 1}
-                        >
-                          Previous
-                        </Button>
-                        <span className="text-sm flex items-center px-3">
-                          Page {currentPage} of {totalPages}
-                        </span>
-                        <Button
-                          variant="outline"
-                          size="sm"
-                          onClick={() => setCurrentPage(prev => Math.min(totalPages, prev + 1))}
-                          disabled={currentPage === totalPages}
-                        >
-                          Next
-                        </Button>
-                      </div>
+                {/* Pagination */}
+                {totalPages > 1 && (
+                  <div className="flex justify-between items-center mt-4">
+                    <div className="text-sm text-gray-500">
+                      Showing {Math.min(filteredAndSortedAccounts.length, itemsPerPage)} of {filteredAndSortedAccounts.length} accounts
                     </div>
-                  )}
-                </CardContent>
-              </Card>
-              )}
-            </div>
+                    <div className="flex gap-2">
+                      <Button
+                        variant="outline"
+                        size="sm"
+                        onClick={() => setCurrentPage(prev => Math.max(1, prev - 1))}
+                        disabled={currentPage === 1}
+                      >
+                        Previous
+                      </Button>
+                      <span className="text-sm flex items-center px-3">
+                        Page {currentPage} of {totalPages}
+                      </span>
+                      <Button
+                        variant="outline"
+                        size="sm"
+                        onClick={() => setCurrentPage(prev => Math.min(totalPages, prev + 1))}
+                        disabled={currentPage === totalPages}
+                      >
+                        Next
+                      </Button>
+                    </div>
+                  </div>
+                )}
+              </CardContent>
+            </Card>
+            )}
           </div>
 
-          {/* Right Sidebar with Quick Actions - Fixed positioning */}
-          <div className="w-64 shrink-0 sticky top-6 h-fit">
+          {/* Right Sidebar with Quick Actions - Always visible */}
+          <div className="w-64 shrink-0">
             <QuickActionsManager 
               pageKey="account-management"
               systemType="rtgs"
