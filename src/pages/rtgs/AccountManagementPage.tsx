@@ -11,7 +11,7 @@ import { ArrowUpDown, Calculator, Pause, Eye, BarChart3, TableIcon, AlertTriangl
 import portalConfig from '@/config/portalConfig';
 import { PageHeader } from '@/components/common/PageHeader';
 import { MetricCardsSection } from '@/components/common/MetricCardsSection';
-import { ConditionalQuickActions } from '@/components/common/ConditionalQuickActions';
+import { QuickActionsManager } from '@/components/common/QuickActionsManager';
 
 // Generate account data using config
 const generateAccountData = () => {
@@ -191,7 +191,7 @@ export default function AccountManagementPage() {
             />
 
             {/* View Mode Toggle - Fixed positioning */}
-            <div className="flex items-center gap-2 min-h-[40px] mb-6">
+            <div className="flex items-center gap-2 min-h-[40px]">
               <span className="text-sm font-medium text-slate-700">View Mode:</span>
               <div className="flex gap-2">
                 <Button
@@ -506,10 +506,12 @@ export default function AccountManagementPage() {
           </div>
 
         {/* Right Sidebar with Quick Actions */}
-        <ConditionalQuickActions 
-          pageKey="account-management"
-          systemType="rtgs"
-        />
+        <div className="w-64 space-y-4">
+          <QuickActionsManager 
+            pageKey="account-management"
+            systemType="rtgs"
+          />
+        </div>
         </div>
       </div>
     </TooltipProvider>
