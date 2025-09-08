@@ -86,6 +86,7 @@ export const primaryNavigation: NavigationItem[] = [
     icon: Home,
     description: 'Main dashboard and overview',
     system: 'COMMON',
+    roles: ['Admin', 'CBBOperator', 'BankOperator', 'Broker', 'Custodian', 'Auditor'],
     keywords: ['home', 'dashboard', 'overview', 'main', 'portal'],
     tags: ['navigation', 'dashboard']
   },
@@ -118,9 +119,20 @@ export const primaryNavigation: NavigationItem[] = [
     icon: Building2,
     description: 'Central Securities Depository',
     system: 'CSD',
-    roles: ['Admin', 'CBBOperator', 'BankOperator', 'Broker', 'Custodian', 'CSDParticipant'],
+    roles: ['Admin', 'CBBOperator', 'BankOperator', 'Broker', 'Custodian'],
     keywords: ['csd', 'securities', 'depository', 'trading', 'custody', 'clearing'],
     tags: ['securities', 'trading', 'custody']
+  },
+  {
+    id: 'participant-csd',
+    title: 'CSD',
+    path: '/participant/csd-dashboard',
+    icon: Building2,
+    description: 'CSD Participant Services',
+    system: 'CSD',
+    roles: ['CSDParticipant'],
+    keywords: ['csd', 'participant', 'securities', 'operations'],
+    tags: ['securities', 'participant']
   },
   {
     id: 'cms',
@@ -131,7 +143,7 @@ export const primaryNavigation: NavigationItem[] = [
     system: 'CMS',
     roles: ['Admin', 'CBBOperator', 'BankOperator', 'Custodian'],
     keywords: ['cms', 'collateral', 'management', 'risk', 'margin'],
-    tags: ['collateral', 'risk', 'management']
+    tags: ['collateral', 'risk', 'margin']
   },
   {
     id: 'dwh',
@@ -1028,53 +1040,40 @@ export const secondaryNavigation: Record<string, NavigationItem[]> = {
     }
   ],
 
-  // Participant Navigation (CSD Participant specific)
-  participant: [
+  // CSD Participant Navigation
+  'participant-csd': [
     {
-      id: 'participant-home',
-      title: 'Home',
-      path: '/participant/home',
-      icon: Home,
-      description: 'Participant dashboard and overview'
+      id: 'participant-csd-dashboard',
+      title: 'CSD Dashboard',
+      path: '/participant/csd-dashboard',
+      icon: BarChart3,
+      description: 'Participant CSD dashboard and overview'
     },
     {
-      id: 'participant-csd',
-      title: 'CSD',
-      path: '/participant/csd-dashboard',
-      icon: Building2,
-      description: 'CSD operations and services',
-      children: [
-        {
-          id: 'participant-csd-dashboard',
-          title: 'CSD Dashboard', 
-          path: '/participant/csd-dashboard',
-          icon: BarChart3,
-          description: 'Participant CSD dashboard'
-        },
-        {
-          id: 'participant-operations',
-          title: 'Operations Hub',
-          path: '/participant/operations-hub', 
-          icon: Target,
-          description: 'Participant operations center'
-        },
-        {
-          id: 'participant-auctions',
-          title: 'Auctions Summary',
-          path: '/participant/auctions-summary',
-          icon: Gavel,
-          description: 'Auction participation summary'
-        },
-        {
-          id: 'participant-reporting',
-          title: 'Reporting',
-          path: '/participant/reporting',
-          icon: FileText,
-          description: 'Participant reports and analytics'
-        }
-      ]
+      id: 'participant-operations-hub',
+      title: 'Operations Hub',
+      path: '/participant/operations-hub',
+      icon: Target,
+      description: 'Participant operations center'
+    },
+    {
+      id: 'participant-auctions-summary',
+      title: 'Auctions Summary',
+      path: '/participant/auctions-summary',
+      icon: Gavel,
+      description: 'Auction participation summary'
+    },
+    {
+      id: 'participant-reporting',
+      title: 'Reporting',
+      path: '/participant/reporting',
+      icon: FileText,
+      description: 'Participant reports and analytics'
     }
-  ]
+  ],
+
+  // Participant Navigation (CSD Participant specific) - REMOVE THIS SECTION
+  participant: []
 };
 
 const navigationConfig = {

@@ -71,7 +71,13 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
     if (mfaGenerator.validateCode(code)) {
       setIsMFAVerified(true);
       localStorage.setItem('csd_mfa_verified', 'true');
-      navigate('/');
+      
+      // Redirect based on user role
+      if (user?.role === 'CSDParticipant') {
+        navigate('/participant');
+      } else {
+        navigate('/');
+      }
       return true;
     }
     return false;
