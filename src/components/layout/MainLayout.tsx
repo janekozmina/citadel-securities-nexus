@@ -131,7 +131,8 @@ function MainLayoutContent({ children }: MainLayoutProps) {
         </div>
       </div>
       
-      <AlertsPanel alerts={getPageAlerts()} />
+      {/* Hide AlertsPanel for CSD Participants */}
+      {user?.role !== 'CSDParticipant' && <AlertsPanel alerts={getPageAlerts()} />}
       <Chatbot />
     </div>
   );
