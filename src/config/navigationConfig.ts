@@ -90,6 +90,17 @@ export const primaryNavigation: NavigationItem[] = [
     tags: ['navigation', 'dashboard']
   },
   {
+    id: 'participant-home',
+    title: 'Home',
+    path: '/participant',
+    icon: Home,
+    description: 'Participant dashboard and overview',
+    system: 'COMMON',
+    roles: ['CSDParticipant'],
+    keywords: ['home', 'participant', 'dashboard'],
+    tags: ['navigation', 'participant']
+  },
+  {
     id: 'rtgs',
     title: 'RTGS',
     path: '/rtgs',
@@ -107,7 +118,7 @@ export const primaryNavigation: NavigationItem[] = [
     icon: Building2,
     description: 'Central Securities Depository',
     system: 'CSD',
-    roles: ['Admin', 'CBBOperator', 'BankOperator', 'Broker', 'Custodian'],
+    roles: ['Admin', 'CBBOperator', 'BankOperator', 'Broker', 'Custodian', 'CSDParticipant'],
     keywords: ['csd', 'securities', 'depository', 'trading', 'custody', 'clearing'],
     tags: ['securities', 'trading', 'custody']
   },
@@ -1012,7 +1023,39 @@ export const secondaryNavigation: Record<string, NavigationItem[]> = {
           path: '/admin/config/csd',
           icon: Settings,
           description: 'Configure CSD system parameters'
-        }
+  },
+
+  // Participant Navigation (CSD Participant specific)
+  participant: [
+    {
+      id: 'participant-csd-dashboard',
+      title: 'CSD Dashboard', 
+      path: '/participant/csd-dashboard',
+      icon: BarChart3,
+      description: 'Participant CSD dashboard'
+    },
+    {
+      id: 'participant-operations',
+      title: 'Operations Hub',
+      path: '/participant/operations-hub', 
+      icon: Target,
+      description: 'Participant operations center'
+    },
+    {
+      id: 'participant-auctions',
+      title: 'Auctions Summary',
+      path: '/participant/auctions-summary',
+      icon: Gavel,
+      description: 'Auction participation summary'
+    },
+    {
+      id: 'participant-reporting',
+      title: 'Reporting',
+      path: '/participant/reporting',
+      icon: FileText,
+      description: 'Participant reports and analytics'
+    }
+  ]
       ]
     },
   ]

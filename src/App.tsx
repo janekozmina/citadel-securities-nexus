@@ -137,6 +137,13 @@ import CSDBIReportsPage from './pages/dwh/CSDBIReportsPage';
 import CustodyHubPage from '@/pages/custody/CustodyHubPage';
 import CSDTargetPageComponent from '@/pages/csd/BIReportsPage';
 
+// Participant Pages
+import ParticipantHomePage from './pages/participant/ParticipantHomePage';
+import ParticipantCSDDashboard from './pages/participant/ParticipantCSDDashboard';
+import ParticipantOperationsHub from './pages/participant/ParticipantOperationsHub';
+import ParticipantAuctionsSummary from './pages/participant/ParticipantAuctionsSummary';
+import ParticipantReporting from './pages/participant/ParticipantReporting';
+
 const queryClient = new QueryClient();
 
 const App = () => (
@@ -156,6 +163,43 @@ const App = () => (
               <ProtectedRoute>
                 <MainLayout>
                   <HomePage />
+                </MainLayout>
+              </ProtectedRoute>
+            } />
+            
+            {/* Participant Routes */}
+            <Route path="/participant" element={
+              <ProtectedRoute>
+                <MainLayout>
+                  <ParticipantHomePage />
+                </MainLayout>
+              </ProtectedRoute>
+            } />
+            <Route path="/participant/csd-dashboard" element={
+              <ProtectedRoute>
+                <MainLayout>
+                  <ParticipantCSDDashboard />
+                </MainLayout>
+              </ProtectedRoute>
+            } />
+            <Route path="/participant/operations-hub" element={
+              <ProtectedRoute>
+                <MainLayout>
+                  <ParticipantOperationsHub />
+                </MainLayout>
+              </ProtectedRoute>
+            } />
+            <Route path="/participant/auctions-summary" element={
+              <ProtectedRoute>
+                <MainLayout>
+                  <ParticipantAuctionsSummary />
+                </MainLayout>
+              </ProtectedRoute>
+            } />
+            <Route path="/participant/reporting" element={
+              <ProtectedRoute>
+                <MainLayout>
+                  <ParticipantReporting />
                 </MainLayout>
               </ProtectedRoute>
             } />

@@ -1,0 +1,230 @@
+import { useState } from 'react';
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
+import { Badge } from '@/components/ui/badge';
+import { Button } from '@/components/ui/button';
+import { 
+  Building2, 
+  TrendingUp, 
+  Clock, 
+  CheckCircle, 
+  AlertCircle, 
+  DollarSign,
+  BarChart3,
+  Target,
+  Bell,
+  Calendar,
+  Activity
+} from 'lucide-react';
+import { useAuth } from '@/contexts/AuthContext';
+
+const ParticipantHomePage = () => {
+  const { user } = useAuth();
+  const [activeTab, setActiveTab] = useState('overview');
+
+  // Mock data for participant dashboard
+  const accountSummary = {
+    totalHoldings: 125750000,
+    activeInstruments: 15,
+    pendingTransactions: 3,
+    settledToday: 12,
+    availableCredit: 50000000
+  };
+
+  const recentActivities = [
+    { id: 1, type: 'Settlement', instrument: 'GOVT-TB-001', amount: 10000000, status: 'Completed', time: '14:30' },
+    { id: 2, type: 'DvP Transfer', instrument: 'CORP-BD-045', amount: 5000000, status: 'Pending', time: '13:45' },
+    { id: 3, type: 'Repo Operation', instrument: 'GOVT-BND-012', amount: 25000000, status: 'Completed', time: '11:20' },
+    { id: 4, type: 'Corporate Action', instrument: 'SUKUK-ISL-003', amount: 2500000, status: 'Processing', time: '10:15' }
+  ];
+
+  const upcomingEvents = [
+    { id: 1, event: 'Treasury Bill Auction', date: '2024-01-15', time: '10:00 AM' },
+    { id: 2, event: 'Corporate Action: Dividend Payment', date: '2024-01-16', time: '09:00 AM' },
+    { id: 3, event: 'Bond Redemption', date: '2024-01-20', time: '02:00 PM' }
+  ];
+
+  const getStatusColor = (status: string) => {
+    switch (status.toLowerCase()) {
+      case 'completed': return 'default';
+      case 'pending': return 'secondary';
+      case 'processing': return 'outline';
+      case 'failed': return 'destructive';
+      default: return 'secondary';
+    }
+  };
+
+  return (
+    <div className="space-y-6">
+      {/* Header */}
+      <div className="flex justify-between items-center">
+        <div>
+          <h1 className="text-3xl font-bold">Welcome, {user?.name}</h1>
+          <p className="text-muted-foreground">Central Securities Depository - Participant Portal</p>
+        </div>
+        <div className="flex items-center gap-2">
+          <Badge variant="secondary" className="px-3 py-1">
+            <Building2 className="w-3 h-3 mr-1" />
+            CSD Participant
+          </Badge>
+        </div>
+      </div>
+
+      {/* Key Metrics */}
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-6">
+        <Card>
+          <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
+            <CardTitle className="text-sm font-medium">Total Holdings</CardTitle>
+            <DollarSign className="h-4 w-4 text-muted-foreground" />
+          </CardHeader>
+          <CardContent>
+            <div className="text-2xl font-bold">BHD {accountSummary.totalHoldings.toLocaleString()}</div>
+            <p className="text-xs text-muted-foreground">Market value</p>
+          </CardContent>
+        </Card>
+
+        <Card>
+          <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
+            <CardTitle className="text-sm font-medium">Active Instruments</CardTitle>
+            <BarChart3 className="h-4 w-4 text-muted-foreground" />
+          </CardHeader>
+          <CardContent>
+            <div className="text-2xl font-bold">{accountSummary.activeInstruments}</div>
+            <p className="text-xs text-muted-foreground">Securities held</p>
+          </CardContent>
+        </Card>
+
+        <Card>
+          <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
+            <CardTitle className="text-sm font-medium">Pending Transactions</CardTitle>
+            <Clock className="h-4 w-4 text-muted-foreground" />
+          </CardHeader>
+          <CardContent>
+            <div className="text-2xl font-bold">{accountSummary.pendingTransactions}</div>
+            <p className="text-xs text-muted-foreground">Awaiting settlement</p>
+          </CardContent>
+        </Card>
+
+        <Card>
+          <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
+            <CardTitle className="text-sm font-medium">Settled Today</CardTitle>
+            <CheckCircle className="h-4 w-4 text-muted-foreground" />
+          </CardHeader>
+          <CardContent>
+            <div className="text-2xl font-bold">{accountSummary.settledToday}</div>
+            <p className="text-xs text-muted-foreground">Transactions</p>
+          </CardContent>
+        </Card>
+
+        <Card>
+          <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
+            <CardTitle className="text-sm font-medium">Available Credit</CardTitle>
+            <Target className="h-4 w-4 text-muted-foreground" />
+          </CardHeader>
+          <CardContent>
+            <div className="text-2xl font-bold">BHD {accountSummary.availableCredit.toLocaleString()}</div>
+            <p className="text-xs text-muted-foreground">Credit facility</p>
+          </CardContent>
+        </Card>
+      </div>
+
+      {/* Main Content */}
+      <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+        {/* Recent Activities */}
+        <Card>
+          <CardHeader>
+            <CardTitle className="flex items-center gap-2">
+              <Activity className="h-5 w-5" />
+              Recent Activities
+            </CardTitle>
+            <CardDescription>Your latest transactions and operations</CardDescription>
+          </CardHeader>
+          <CardContent>
+            <div className="space-y-3">
+              {recentActivities.map((activity) => (
+                <div key={activity.id} className="flex justify-between items-center p-3 rounded-lg border">
+                  <div className="flex-1">
+                    <div className="flex items-center gap-2">
+                      <span className="font-medium">{activity.type}</span>
+                      <Badge variant={getStatusColor(activity.status)} className="text-xs">
+                        {activity.status}
+                      </Badge>
+                    </div>
+                    <p className="text-sm text-muted-foreground">{activity.instrument}</p>
+                  </div>
+                  <div className="text-right">
+                    <p className="font-medium">BHD {activity.amount.toLocaleString()}</p>
+                    <p className="text-xs text-muted-foreground">{activity.time}</p>
+                  </div>
+                </div>
+              ))}
+            </div>
+            <Button variant="outline" className="w-full mt-4">
+              View All Activities
+            </Button>
+          </CardContent>
+        </Card>
+
+        {/* Upcoming Events */}
+        <Card>
+          <CardHeader>
+            <CardTitle className="flex items-center gap-2">
+              <Calendar className="h-5 w-5" />
+              Upcoming Events
+            </CardTitle>
+            <CardDescription>Important dates and scheduled activities</CardDescription>
+          </CardHeader>
+          <CardContent>
+            <div className="space-y-3">
+              {upcomingEvents.map((event) => (
+                <div key={event.id} className="flex items-center gap-3 p-3 rounded-lg border">
+                  <div className="flex-shrink-0">
+                    <Bell className="h-4 w-4 text-primary" />
+                  </div>
+                  <div className="flex-1">
+                    <p className="font-medium">{event.event}</p>
+                    <p className="text-sm text-muted-foreground">
+                      {event.date} at {event.time}
+                    </p>
+                  </div>
+                </div>
+              ))}
+            </div>
+            <Button variant="outline" className="w-full mt-4">
+              View Calendar
+            </Button>
+          </CardContent>
+        </Card>
+      </div>
+
+      {/* Quick Actions */}
+      <Card>
+        <CardHeader>
+          <CardTitle>Quick Actions</CardTitle>
+          <CardDescription>Common operations and tasks</CardDescription>
+        </CardHeader>
+        <CardContent>
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+            <Button variant="outline" className="h-20 flex-col gap-2">
+              <TrendingUp className="h-5 w-5" />
+              <span className="text-sm">New Transfer</span>
+            </Button>
+            <Button variant="outline" className="h-20 flex-col gap-2">
+              <BarChart3 className="h-5 w-5" />
+              <span className="text-sm">View Portfolio</span>
+            </Button>
+            <Button variant="outline" className="h-20 flex-col gap-2">
+              <Clock className="h-5 w-5" />
+              <span className="text-sm">Auction Bids</span>
+            </Button>
+            <Button variant="outline" className="h-20 flex-col gap-2">
+              <AlertCircle className="h-5 w-5" />
+              <span className="text-sm">Reports</span>
+            </Button>
+          </div>
+        </CardContent>
+      </Card>
+    </div>
+  );
+};
+
+export default ParticipantHomePage;

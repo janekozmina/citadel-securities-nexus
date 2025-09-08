@@ -195,6 +195,17 @@ export const portalConfig = {
       label: 'Auditor',
       color: 'muted',
       allowedSystems: ['RTGS', 'CSD', 'CMS']
+    },
+    CSDParticipant: {
+      permissions: [
+        'csd.dashboard',
+        'csd.operations',
+        'csd.auctions.view',
+        'csd.reporting.view'
+      ],
+      label: 'CSD Participant',
+      color: 'primary',
+      allowedSystems: ['CSD']
     }
   },
 
@@ -266,6 +277,13 @@ export const portalConfig = {
         role: 'BankOperator',
         name: 'NBB Operator',
         department: 'Treasury Operations'
+      },
+      {
+        email: 'csdparticipant@demo.com',
+        password: 'CMA!@#$',
+        role: 'CSDParticipant',
+        name: 'CSD Participant',
+        department: 'Securities Operations'
       }
     ],
     mfaCodes: ['123456', '000000'] // Demo MFA codes
