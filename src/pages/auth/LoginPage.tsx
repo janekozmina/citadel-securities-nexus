@@ -59,10 +59,13 @@ const LoginPage = () => {
       case 'regulator':
         role = 'Regulator';
         break;
+      case 'csdparticipant':
+        role = 'CSDParticipant';
+        break;
       default:
         toast({
           title: 'Invalid Role',
-          description: 'Valid roles: admin, issuer, custodian, broker, participant, regulator',
+          description: 'Valid roles: admin, issuer, custodian, broker, participant, regulator, csdparticipant',
           variant: 'destructive',
         });
         return;

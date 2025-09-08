@@ -2,7 +2,7 @@ import React, { createContext, useContext, useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { mfaGenerator } from '@/utils/mfaGenerator';
 
-export type UserRole = 'Admin' | 'Issuer' | 'Custodian' | 'Broker' | 'Participant' | 'Regulator';
+export type UserRole = 'Admin' | 'Issuer' | 'Custodian' | 'Broker' | 'Participant' | 'Regulator' | 'CSDParticipant';
 
 interface User {
   id: string;

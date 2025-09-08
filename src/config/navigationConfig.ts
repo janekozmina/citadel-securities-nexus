@@ -1023,41 +1023,57 @@ export const secondaryNavigation: Record<string, NavigationItem[]> = {
           path: '/admin/config/csd',
           icon: Settings,
           description: 'Configure CSD system parameters'
-  },
+        }
+      ]
+    }
+  ],
 
   // Participant Navigation (CSD Participant specific)
   participant: [
     {
-      id: 'participant-csd-dashboard',
-      title: 'CSD Dashboard', 
+      id: 'participant-home',
+      title: 'Home',
+      path: '/participant/home',
+      icon: Home,
+      description: 'Participant dashboard and overview'
+    },
+    {
+      id: 'participant-csd',
+      title: 'CSD',
       path: '/participant/csd-dashboard',
-      icon: BarChart3,
-      description: 'Participant CSD dashboard'
-    },
-    {
-      id: 'participant-operations',
-      title: 'Operations Hub',
-      path: '/participant/operations-hub', 
-      icon: Target,
-      description: 'Participant operations center'
-    },
-    {
-      id: 'participant-auctions',
-      title: 'Auctions Summary',
-      path: '/participant/auctions-summary',
-      icon: Gavel,
-      description: 'Auction participation summary'
-    },
-    {
-      id: 'participant-reporting',
-      title: 'Reporting',
-      path: '/participant/reporting',
-      icon: FileText,
-      description: 'Participant reports and analytics'
-    }
-  ]
+      icon: Building2,
+      description: 'CSD operations and services',
+      children: [
+        {
+          id: 'participant-csd-dashboard',
+          title: 'CSD Dashboard', 
+          path: '/participant/csd-dashboard',
+          icon: BarChart3,
+          description: 'Participant CSD dashboard'
+        },
+        {
+          id: 'participant-operations',
+          title: 'Operations Hub',
+          path: '/participant/operations-hub', 
+          icon: Target,
+          description: 'Participant operations center'
+        },
+        {
+          id: 'participant-auctions',
+          title: 'Auctions Summary',
+          path: '/participant/auctions-summary',
+          icon: Gavel,
+          description: 'Auction participation summary'
+        },
+        {
+          id: 'participant-reporting',
+          title: 'Reporting',
+          path: '/participant/reporting',
+          icon: FileText,
+          description: 'Participant reports and analytics'
+        }
       ]
-    },
+    }
   ]
 };
 

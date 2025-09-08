@@ -175,6 +175,13 @@ const App = () => (
                 </MainLayout>
               </ProtectedRoute>
             } />
+            <Route path="/participant/home" element={
+              <ProtectedRoute>
+                <MainLayout>
+                  <ParticipantHomePage />
+                </MainLayout>
+              </ProtectedRoute>
+            } />
             <Route path="/participant/csd-dashboard" element={
               <ProtectedRoute>
                 <MainLayout>
