@@ -22,6 +22,7 @@ import {
   Layers,
   CreditCard
 } from 'lucide-react';
+import { ParticipantQuickActionsDialogs } from '@/components/participant/ParticipantQuickActionsDialogs';
 
 const ParticipantOperationsHub = () => {
   const [selectedOperation, setSelectedOperation] = useState('');
@@ -33,6 +34,8 @@ const ParticipantOperationsHub = () => {
       operations: [
         { id: 'dvp-instruction', name: 'DvP Instruction', description: 'Delivery vs Payment instruction' },
         { id: 'dvf-instruction', name: 'DvF Instruction', description: 'Delivery vs Fund instruction' },
+        { id: 'rvp-when-issued', name: 'RVP (When-Issued)', description: 'Receipt versus payment for when-issued securities' },
+        { id: 'dvp-when-issued', name: 'DVP (When-Issued)', description: 'Delivery versus payment for when-issued securities' },
         { id: 'free-instruction', name: 'Free Instruction', description: 'Free delivery instruction' },
         { id: 'intrabank-dvp', name: 'Intrabank DvP', description: 'Internal DvP operations' },
         { id: 'multiple-dvp', name: 'Multiple directions DvP', description: 'Multi-party DvP transactions' }
@@ -42,8 +45,8 @@ const ParticipantOperationsHub = () => {
       title: 'Liquidity Operations',
       icon: DollarSign,
       operations: [
-        { id: 'one-way-liquidity', name: 'One-way Liquidity Operations', description: 'Unidirectional liquidity provision' },
-        { id: 'no-borrowing-back', name: 'No Borrowing Back', description: 'Restricted borrowing operations' },
+        { id: 'ilf-facility', name: 'ILF (Intraday Liquidity Facility)', description: 'Intraday liquidity management facility' },
+        { id: 'overnight-liquidity', name: 'Overnight Liquidity Facility', description: 'Overnight liquidity facility operations' },
         { id: 'intrabank-facility', name: 'Intrabank borrowing facility (by instrument)', description: 'Internal borrowing by instrument' },
         { id: 'unallocated-facility', name: 'Unallocated borrowing facility', description: 'General purpose borrowing' },
         { id: 'ilf-pool', name: 'ILF (Pool)', description: 'Intraday Liquidity Facility pool' },
@@ -217,22 +220,10 @@ const ParticipantOperationsHub = () => {
                 </CardTitle>
                 <CardDescription>Initiate a delivery vs payment transfer</CardDescription>
               </CardHeader>
-              <CardContent className="space-y-4">
-                <div className="space-y-2">
-                  <Label htmlFor="instrument">Instrument</Label>
-                  <Input id="instrument" placeholder="Select instrument..." />
-                </div>
-                <div className="space-y-2">
-                  <Label htmlFor="amount">Amount</Label>
-                  <Input id="amount" type="number" placeholder="Enter amount..." />
-                </div>
-                <div className="space-y-2">
-                  <Label htmlFor="counterparty">Counterparty</Label>
-                  <Input id="counterparty" placeholder="Select counterparty..." />
-                </div>
-                <Button className="w-full">
+              <CardContent>
+                <Button className="w-full" onClick={() => setSelectedOperation('dvp-transfer')}>
                   <Send className="w-4 h-4 mr-2" />
-                  Submit Transfer
+                  Open DvP Transfer Form
                 </Button>
               </CardContent>
             </Card>
@@ -245,22 +236,42 @@ const ParticipantOperationsHub = () => {
                 </CardTitle>
                 <CardDescription>Initiate a repurchase agreement</CardDescription>
               </CardHeader>
-              <CardContent className="space-y-4">
-                <div className="space-y-2">
-                  <Label htmlFor="repo-instrument">Instrument</Label>
-                  <Input id="repo-instrument" placeholder="Select instrument..." />
-                </div>
-                <div className="space-y-2">
-                  <Label htmlFor="repo-amount">Amount</Label>
-                  <Input id="repo-amount" type="number" placeholder="Enter amount..." />
-                </div>
-                <div className="space-y-2">
-                  <Label htmlFor="repo-rate">Rate (%)</Label>
-                  <Input id="repo-rate" type="number" step="0.01" placeholder="Enter rate..." />
-                </div>
-                <Button className="w-full">
+              <CardContent>
+                <Button className="w-full" onClick={() => setSelectedOperation('repo-pledge')}>
                   <RefreshCw className="w-4 h-4 mr-2" />
-                  Submit Repo
+                  Open Repo Pledge Form
+                </Button>
+              </CardContent>
+            </Card>
+
+            <Card>
+              <CardHeader>
+                <CardTitle className="flex items-center gap-2">
+                  <ArrowUpDown className="h-5 w-5" />
+                  General Transfer
+                </CardTitle>
+                <CardDescription>Initiate a general funds transfer</CardDescription>
+              </CardHeader>
+              <CardContent>
+                <Button className="w-full" onClick={() => setSelectedOperation('general-transfer')}>
+                  <ArrowUpDown className="w-4 h-4 mr-2" />
+                  Open Transfer Form
+                </Button>
+              </CardContent>
+            </Card>
+
+            <Card>
+              <CardHeader>
+                <CardTitle className="flex items-center gap-2">
+                  <DollarSign className="h-5 w-5" />
+                  Check Funds
+                </CardTitle>
+                <CardDescription>Check available funds and balances</CardDescription>
+              </CardHeader>
+              <CardContent>
+                <Button className="w-full" onClick={() => setSelectedOperation('check-funds')}>
+                  <DollarSign className="w-4 h-4 mr-2" />
+                  Check Funds
                 </Button>
               </CardContent>
             </Card>
@@ -273,22 +284,10 @@ const ParticipantOperationsHub = () => {
                 </CardTitle>
                 <CardDescription>Calculate position requirements</CardDescription>
               </CardHeader>
-              <CardContent className="space-y-4">
-                <div className="space-y-2">
-                  <Label htmlFor="calc-instrument">Instrument</Label>
-                  <Input id="calc-instrument" placeholder="Select instrument..." />
-                </div>
-                <div className="space-y-2">
-                  <Label htmlFor="calc-operation">Operation Type</Label>
-                  <Input id="calc-operation" placeholder="Select operation..." />
-                </div>
-                <div className="space-y-2">
-                  <Label htmlFor="calc-amount">Amount</Label>
-                  <Input id="calc-amount" type="number" placeholder="Enter amount..." />
-                </div>
+              <CardContent>
                 <Button variant="outline" className="w-full">
                   <Calculator className="w-4 h-4 mr-2" />
-                  Calculate
+                  Coming Soon
                 </Button>
               </CardContent>
             </Card>
@@ -297,7 +296,7 @@ const ParticipantOperationsHub = () => {
       </Tabs>
 
       {/* Selection Dialog */}
-      {selectedOperation && (
+      {selectedOperation && !['dvp-transfer', 'repo-pledge', 'general-transfer', 'check-funds'].includes(selectedOperation) && (
         <Card className="mt-6">
           <CardHeader>
             <CardTitle>Operation Details: {selectedOperation}</CardTitle>
@@ -321,6 +320,12 @@ const ParticipantOperationsHub = () => {
           </CardContent>
         </Card>
       )}
+      
+      {/* Quick Actions Dialogs */}
+      <ParticipantQuickActionsDialogs 
+        activeDialog={['dvp-transfer', 'repo-pledge', 'general-transfer', 'check-funds'].includes(selectedOperation) ? selectedOperation : null}
+        onClose={() => setSelectedOperation('')}
+      />
     </div>
   );
 };

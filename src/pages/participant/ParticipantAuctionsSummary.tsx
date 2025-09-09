@@ -397,7 +397,7 @@ const ParticipantAuctionsSummary = () => {
                     <p className="text-sm text-muted-foreground mb-4">
                       View upcoming auctions and important dates
                     </p>
-                    <Button variant="outline">
+                    <Button variant="outline" onClick={() => window.open('/auction-calendar', '_blank')}>
                       <Calendar className="w-4 h-4 mr-2" />
                       View Full Calendar
                     </Button>

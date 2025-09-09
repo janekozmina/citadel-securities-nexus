@@ -39,7 +39,7 @@ const ParticipantHomePage = () => {
 
   const upcomingEvents = [
     { id: 1, event: 'Treasury Bill Auction', date: '2024-01-15', time: '10:00 AM' },
-    { id: 2, event: 'Corporate Action: Dividend Payment', date: '2024-01-16', time: '09:00 AM' },
+    { id: 2, event: 'Interbank Repo TRN RR4343 / CITI Maturity 15 000 000 BHD', date: '2024-01-16', time: '09:00 AM' },
     { id: 3, event: 'Bond Redemption', date: '2024-01-20', time: '02:00 PM' }
   ];
 
@@ -189,7 +189,7 @@ const ParticipantHomePage = () => {
                 </div>
               ))}
             </div>
-            <Button variant="outline" className="w-full mt-4">
+            <Button variant="outline" className="w-full mt-4" onClick={() => window.open('/participant/auctions-summary?tab=calendar', '_blank')}>
               View Calendar
             </Button>
           </CardContent>

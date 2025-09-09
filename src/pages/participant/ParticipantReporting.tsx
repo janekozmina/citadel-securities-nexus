@@ -31,6 +31,7 @@ const ParticipantReporting = () => {
       icon: PieChart,
       reports: [
         { id: 'portfolio-summary', name: 'Portfolio Summary Report', description: 'Comprehensive portfolio holdings overview' },
+        { id: 'statement-holdings', name: 'Statement of Holdings', description: 'Detailed statement of securities holdings' },
         { id: 'position-statement', name: 'Position Statement', description: 'Detailed position by instrument type' },
         { id: 'holdings-analysis', name: 'Holdings Analysis', description: 'Analysis of securities holdings' },
         { id: 'exposure-report', name: 'Exposure Report', description: 'Risk exposure analysis' }
@@ -41,6 +42,12 @@ const ParticipantReporting = () => {
       icon: BarChart3,
       reports: [
         { id: 'transaction-summary', name: 'Transaction Summary', description: 'Summary of all transactions' },
+        { id: 'statements-transactions', name: 'Statements of Transactions', description: 'Detailed transaction statements' },
+        { id: 'statements-pending', name: 'Statements of Pending Transactions', description: 'Report of all pending transactions' },
+        { id: 'daily-incoming-outgoing', name: 'Daily Incoming/Outgoing Messages Report', description: 'Daily message flow report' },
+        { id: 'daily-message-statistics', name: 'Daily Message Statistics Report', description: 'Statistical analysis of daily messages' },
+        { id: 'user-activity', name: 'User Activity Report', description: 'User activity and access report' },
+        { id: 'rejected-messages', name: 'Summary of the Messages Rejected', description: 'Report of rejected messages with reasons' },
         { id: 'settlement-report', name: 'Settlement Report', description: 'Detailed settlement information' },
         { id: 'failed-transactions', name: 'Failed Transactions Report', description: 'Analysis of failed transactions' },
         { id: 'dvp-activity', name: 'DvP Activity Report', description: 'Delivery vs Payment activity' }
