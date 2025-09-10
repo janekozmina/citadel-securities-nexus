@@ -103,34 +103,26 @@ export function NestedSidebar({ isOpen, onToggle }: NestedSidebarProps) {
       }
       
       // Handle Participant-style navigation (secondaryNavigation structure)
-      if (secondaryNavigation[primaryItem.id]) {
-        const secondaryItems = secondaryNavigation[primaryItem.id];
+      // Search through ALL secondary navigation sections to find matching route
+      for (const [sectionKey, sectionItems] of Object.entries(secondaryNavigation)) {
+        const matchingItem = sectionItems.find(item => 
+          currentPath === item.path || currentPath.startsWith(item.path + '/')
+        );
         
-        // For participant navigation, find which secondary section matches
-        // by checking if any of its items match the current path
-        for (const secondaryKey of Object.keys(secondaryNavigation)) {
-          if (secondaryKey.startsWith('participant-')) {
-            const sectionItems = secondaryNavigation[secondaryKey];
-            const matchingItem = sectionItems.find(item => 
-              currentPath.startsWith(item.path)
+        if (matchingItem) {
+          // Expand the section that contains the matching item
+          toExpand.add(sectionKey);
+          
+          // Also expand the specific item if it has children
+          if (matchingItem.children) {
+            const childItem = matchingItem.children.find(child =>
+              currentPath === child.path || currentPath.startsWith(child.path + '/')
             );
-            
-            if (matchingItem) {
-              // Expand the section (e.g., 'participant-dictionaries')
-              toExpand.add(secondaryKey);
-              
-              // Also expand the specific item if it has children
-              if (matchingItem.children) {
-                const childItem = matchingItem.children.find(child =>
-                  currentPath.startsWith(child.path)
-                );
-                if (childItem) {
-                  toExpand.add(childItem.id);
-                }
-              }
-              break;
+            if (childItem) {
+              toExpand.add(childItem.id);
             }
           }
+          break; // Found the match, no need to continue searching
         }
       }
     }
