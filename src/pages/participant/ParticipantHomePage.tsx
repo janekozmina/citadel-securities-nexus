@@ -64,7 +64,7 @@ const ParticipantHomePage = () => {
       <div className="flex justify-between items-center">
         <div>
           <h1 className="text-3xl font-bold">Welcome, {user?.name}</h1>
-          <p className="text-muted-foreground">Unified Portal - CSD & RTGS Operations</p>
+          <p className="text-muted-foreground">Participant Portal - CSD & RTGS Operations</p>
         </div>
       </div>
 

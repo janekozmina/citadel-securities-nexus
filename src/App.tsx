@@ -144,7 +144,16 @@ import ParticipantRTGSDashboard from './pages/participant/ParticipantRTGSDashboa
 import ParticipantOperationsHub from './pages/participant/ParticipantOperationsHub';
 import ParticipantRTGSOperationsHub from './pages/participant/ParticipantRTGSOperationsHub';
 import ParticipantGCCOperations from './pages/participant/ParticipantGCCOperations';
+import ParticipantTransactionHistory from './pages/participant/ParticipantTransactionHistory';
 import AfterHoursLimitsPage from './pages/participant/monitoring/AfterHoursLimitsPage';
+import PaymentSearchPage from './pages/participant/monitoring/PaymentSearchPage';
+import MessageAuditPage from './pages/participant/monitoring/MessageAuditPage';
+import ReconciliationPage from './pages/participant/monitoring/ReconciliationPage';
+import TransactionsMonitoringPage from './pages/participant/monitoring/TransactionsMonitoringPage';
+import AuthorizationQueuePage from './pages/participant/monitoring/AuthorizationQueuePage';
+import GCCTransactionsPage from './pages/participant/monitoring/GCCTransactionsPage';
+import ExchangeRatesPage from './pages/participant/monitoring/ExchangeRatesPage';
+import BillingResultsPage from './pages/participant/monitoring/BillingResultsPage';
 import ParticipantAuctionsSummary from './pages/participant/ParticipantAuctionsSummary';
 import ParticipantReporting from './pages/participant/ParticipantReporting';
 

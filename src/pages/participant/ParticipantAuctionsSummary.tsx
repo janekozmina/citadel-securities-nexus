@@ -17,6 +17,7 @@ import {
   FileText,
   Activity
 } from 'lucide-react';
+import AuctionCalendar from '@/components/common/AuctionCalendar';
 
 const ParticipantAuctionsSummary = () => {
   const [selectedAuction, setSelectedAuction] = useState('');
@@ -160,10 +161,6 @@ const ParticipantAuctionsSummary = () => {
           <h1 className="text-3xl font-bold">Auctions Summary</h1>
           <p className="text-muted-foreground">Central Bank Securities Auctions - Participant View</p>
         </div>
-        <Badge variant="secondary" className="px-3 py-1">
-          <Gavel className="w-3 h-3 mr-1" />
-          Participant Portal
-        </Badge>
       </div>
 
       {/* Key Statistics */}
@@ -379,33 +376,7 @@ const ParticipantAuctionsSummary = () => {
         </TabsContent>
 
         <TabsContent value="calendar">
-          <Card>
-            <CardHeader>
-              <CardTitle className="flex items-center gap-2">
-                <Calendar className="h-5 w-5" />
-                Auction Calendar
-              </CardTitle>
-              <CardDescription>Upcoming auction schedule</CardDescription>
-            </CardHeader>
-            <CardContent>
-              <div className="space-y-4">
-                <div className="grid gap-4">
-                  {/* Calendar view placeholder - would integrate with a calendar component */}
-                  <div className="p-8 text-center border rounded-lg">
-                    <Calendar className="h-12 w-12 mx-auto mb-4 text-muted-foreground" />
-                    <h3 className="text-lg font-medium mb-2">Auction Calendar</h3>
-                    <p className="text-sm text-muted-foreground mb-4">
-                      View upcoming auctions and important dates
-                    </p>
-                    <Button variant="outline" onClick={() => window.open('/auction-calendar', '_blank')}>
-                      <Calendar className="w-4 h-4 mr-2" />
-                      View Full Calendar
-                    </Button>
-                  </div>
-                </div>
-              </div>
-            </CardContent>
-          </Card>
+          <AuctionCalendar />
         </TabsContent>
       </Tabs>
     </div>

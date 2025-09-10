@@ -35,10 +35,6 @@ const ParticipantRTGSDashboard = () => {
           <h1 className="text-2xl font-bold text-slate-900">RTGS Dashboard</h1>
           <p className="text-slate-600">Monitor your real-time gross settlement operations and account positions.</p>
         </div>
-        <Badge variant="outline" className="bg-green-50 text-green-700">
-          <CheckCircle className="w-3 h-3 mr-1" />
-          System Online
-        </Badge>
       </div>
 
       {/* Key Metrics */}

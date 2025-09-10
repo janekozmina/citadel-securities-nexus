@@ -33,10 +33,6 @@ const ParticipantRTGSOperationsHub = () => {
           <h1 className="text-2xl font-bold text-slate-900">RTGS Operations Hub</h1>
           <p className="text-slate-600">Execute RTGS transactions and manage payment operations.</p>
         </div>
-        <Badge variant="outline" className="bg-green-50 text-green-700">
-          <CheckCircle className="w-3 h-3 mr-1" />
-          System Online
-        </Badge>
       </div>
 
       {/* Quick Stats */}
@@ -102,10 +98,10 @@ const ParticipantRTGSOperationsHub = () => {
               className="h-24 flex-col gap-2"
               onClick={() => setActiveDialog('institution-transfer')}
             >
-              <Building2 className="h-6 w-6 text-blue-600" />
+              <Building2 className="h-6 w-6 text-muted-foreground" />
               <div className="text-center">
                 <div className="font-medium text-sm">Institution Transfer</div>
-                <div className="text-xs text-slate-600">Bank-to-bank transfer</div>
+                <div className="text-xs text-muted-foreground">Bank-to-bank transfer</div>
               </div>
             </Button>
 
@@ -114,10 +110,10 @@ const ParticipantRTGSOperationsHub = () => {
               className="h-24 flex-col gap-2"
               onClick={() => setActiveDialog('institution-cover-transfer')}
             >
-              <Send className="h-6 w-6 text-green-600" />
+              <Send className="h-6 w-6 text-muted-foreground" />
               <div className="text-center">
                 <div className="font-medium text-sm">Institution Cover Transfer</div>
-                <div className="text-xs text-slate-600">Cover payment instruction</div>
+                <div className="text-xs text-muted-foreground">Cover payment instruction</div>
               </div>
             </Button>
 
@@ -126,10 +122,10 @@ const ParticipantRTGSOperationsHub = () => {
               className="h-24 flex-col gap-2"
               onClick={() => setActiveDialog('customer-credit-transfer')}
             >
-              <CreditCard className="h-6 w-6 text-purple-600" />
+              <CreditCard className="h-6 w-6 text-muted-foreground" />
               <div className="text-center">
                 <div className="font-medium text-sm">Single Customer Credit Transfer</div>
-                <div className="text-xs text-slate-600">Customer payment</div>
+                <div className="text-xs text-muted-foreground">Customer payment</div>
               </div>
             </Button>
 
@@ -138,7 +134,7 @@ const ParticipantRTGSOperationsHub = () => {
               className="h-24 flex-col gap-2"
               onClick={() => setActiveDialog('free-format-message')}
             >
-              <MessageSquare className="h-6 w-6 text-amber-600" />
+              <MessageSquare className="h-6 w-6 text-muted-foreground" />
               <div className="text-center">
                 <div className="font-medium text-sm">Free Format Message</div>
                 <div className="text-xs text-slate-600">General communication</div>

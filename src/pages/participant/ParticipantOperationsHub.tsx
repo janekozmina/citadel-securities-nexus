@@ -120,10 +120,6 @@ const ParticipantOperationsHub = () => {
           <h1 className="text-3xl font-bold">Operations Hub</h1>
           <p className="text-muted-foreground">Central Securities Depository Operations Center</p>
         </div>
-        <Badge variant="secondary" className="px-3 py-1">
-          <Target className="w-3 h-3 mr-1" />
-          Participant Portal
-        </Badge>
       </div>
 
       <Tabs defaultValue="operations" className="w-full">

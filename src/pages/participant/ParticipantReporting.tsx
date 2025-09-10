@@ -173,10 +173,6 @@ const ParticipantReporting = () => {
               <SelectItem value="year">This Year</SelectItem>
             </SelectContent>
           </Select>
-          <Badge variant="secondary" className="px-3 py-1">
-            <FileText className="w-3 h-3 mr-1" />
-            Participant Portal
-          </Badge>
         </div>
       </div>
 
