@@ -48,6 +48,7 @@ import {
   Zap,
   RefreshCw,
   AlertCircle,
+  Star,
   Flag,
   Coins,
   Receipt,
