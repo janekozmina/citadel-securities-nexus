@@ -198,7 +198,7 @@ export const primaryNavigation: NavigationItem[] = [
     icon: Monitor,
     description: 'Monitoring and operational tools',
     system: 'COMMON',
-    roles: ['BankOperator'],
+    roles: ['Admin', 'CBBOperator', 'BankOperator', 'Broker', 'Custodian', 'Auditor'],
     keywords: ['monitoring', 'tools', 'operations'],
     tags: ['monitoring', 'tools']
   },
@@ -209,7 +209,7 @@ export const primaryNavigation: NavigationItem[] = [
     icon: BookOpen,
     description: 'Master data and configuration dictionaries',
     system: 'COMMON',
-    roles: ['BankOperator'],
+    roles: ['Admin', 'CBBOperator', 'BankOperator', 'Broker', 'Custodian', 'Auditor'],
     keywords: ['dictionaries', 'master', 'data', 'configuration'],
     tags: ['dictionaries', 'data']
   }
