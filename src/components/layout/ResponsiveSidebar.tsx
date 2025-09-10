@@ -35,10 +35,33 @@ export function ResponsiveSidebar({ isOpen, onToggle }: ResponsiveSidebarProps) 
   const getAccessibleItems = (items: NavigationItem[]): NavigationItem[] => {
     return items.filter(item => {
       console.log('Filtering item:', item.title, 'Roles required:', item.roles, 'User role:', user?.role);
+      
+      // If no roles specified, show to everyone
       if (!item.roles || item.roles.length === 0) return true;
-      if (user?.role && item.roles.includes(user.role)) return true;
-      console.log('Item filtered out:', item.title);
-      return false; // Changed from canAccessRoute to false for stricter filtering
+      
+      // Special handling for participant-only pages
+      const participantOnlyPages = [
+        'participant-monitoring', 
+        'participant-dictionaries', 
+        'participant-reports', 
+        'participant-knowledge-hub', 
+        'participant-onboarding', 
+        'participant-requests', 
+        'participant-administration'
+      ];
+      
+      // If it's a participant-only page
+      if (participantOnlyPages.includes(item.id)) {
+        // Only show to CSDParticipant
+        const hasAccess = user?.role === 'CSDParticipant';
+        console.log('Participant-only page:', item.title, 'Access:', hasAccess);
+        return hasAccess;
+      }
+      
+      // For all other pages, show if user role is in the allowed roles
+      const hasAccess = user?.role && item.roles.includes(user.role);
+      console.log('Regular page:', item.title, 'Access:', hasAccess);
+      return hasAccess;
     });
   };
 
@@ -312,7 +335,9 @@ export function ResponsiveSidebar({ isOpen, onToggle }: ResponsiveSidebarProps) 
               <div className="w-8 h-8 bg-primary rounded-lg flex items-center justify-center">
                 <span className="text-white font-bold text-sm">CBB</span>
               </div>
-              <span className="text-white font-semibold">Portal</span>
+              <span className="text-white font-semibold">
+                {user?.role === 'CSDParticipant' ? 'Participant Portal' : 'Unified Portal'}
+              </span>
             </div>
           )}
           
