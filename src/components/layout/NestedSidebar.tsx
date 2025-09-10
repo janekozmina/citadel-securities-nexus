@@ -29,9 +29,26 @@ export function NestedSidebar({ isOpen, onToggle }: NestedSidebarProps) {
   // Filter items based on user permissions
   const getAccessibleItems = (items: NavigationItem[]): NavigationItem[] => {
     return items.filter(item => {
+      // If no roles specified, show to everyone
       if (!item.roles || item.roles.length === 0) return true;
-      if (user?.role && item.roles.includes(user.role)) return true;
-      return canAccessRoute(item.roles);
+      
+      // Special handling for participant-only pages - ONLY show to CSDParticipant
+      const participantOnlyPages = [
+        'participant-monitoring', 
+        'participant-dictionaries', 
+        'participant-reports', 
+        'participant-knowledge-hub', 
+        'participant-onboarding', 
+        'participant-requests', 
+        'participant-administration'
+      ];
+      
+      if (participantOnlyPages.includes(item.id)) {
+        return user?.role === 'CSDParticipant';
+      }
+      
+      // For all other pages, check if user role is in allowed roles
+      return user?.role && item.roles.includes(user.role);
     });
   };
 
@@ -192,7 +209,12 @@ export function NestedSidebar({ isOpen, onToggle }: NestedSidebarProps) {
         {/* Header */}
         <div className="flex items-center justify-between p-4 border-b border-white/20">
           <div className="flex items-center gap-2">
-            <span className="text-white font-semibold">Participant Portal</span>
+            <div className="w-8 h-8 bg-primary rounded-lg flex items-center justify-center">
+              <span className="text-white font-bold text-sm">CBB</span>
+            </div>
+            <span className="text-white font-semibold">
+              {user?.role === 'CSDParticipant' ? 'Participant Portal' : 'Unified Portal'}
+            </span>
           </div>
           
           <Button
