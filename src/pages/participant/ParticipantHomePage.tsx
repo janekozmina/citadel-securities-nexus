@@ -64,13 +64,7 @@ const ParticipantHomePage = () => {
       <div className="flex justify-between items-center">
         <div>
           <h1 className="text-3xl font-bold">Welcome, {user?.name}</h1>
-          <p className="text-muted-foreground">Central Securities Depository - Participant Portal</p>
-        </div>
-        <div className="flex items-center gap-2">
-          <Badge variant="secondary" className="px-3 py-1">
-            <Building2 className="w-3 h-3 mr-1" />
-            CSD Participant
-          </Badge>
+          <p className="text-muted-foreground">Unified Portal - CSD & RTGS Operations</p>
         </div>
       </div>
 
@@ -133,15 +127,15 @@ const ParticipantHomePage = () => {
       </div>
 
       {/* Main Content */}
-      <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+      <div className="grid grid-cols-1 lg:grid-cols-2 xl:grid-cols-4 gap-6">
         {/* Recent Activities */}
-        <Card>
+        <Card className="xl:col-span-1">
           <CardHeader>
             <CardTitle className="flex items-center gap-2">
               <Activity className="h-5 w-5" />
               Recent Activities
             </CardTitle>
-            <CardDescription>Your latest transactions and operations</CardDescription>
+            <CardDescription>Latest CSD & RTGS operations</CardDescription>
           </CardHeader>
           <CardContent>
             <div className="space-y-3">
@@ -169,33 +163,119 @@ const ParticipantHomePage = () => {
           </CardContent>
         </Card>
 
-        {/* Upcoming Events */}
-        <Card>
+        {/* Business Day Schedule */}
+        <Card className="xl:col-span-1">
           <CardHeader>
             <CardTitle className="flex items-center gap-2">
-              <Calendar className="h-5 w-5" />
-              Upcoming Events
+              <Clock className="h-5 w-5" />
+              Business Day Schedule
             </CardTitle>
-            <CardDescription>Important dates and scheduled activities</CardDescription>
+            <CardDescription>Current system phases</CardDescription>
           </CardHeader>
           <CardContent>
             <div className="space-y-3">
-              {upcomingEvents.map((event) => (
-                <div key={event.id} className="flex items-center gap-3 p-3 rounded-lg border">
-                  <div className="flex-shrink-0">
-                    <Bell className="h-4 w-4 text-primary" />
-                  </div>
-                  <div className="flex-1">
-                    <p className="font-medium">{event.event}</p>
-                    <p className="text-sm text-muted-foreground">
-                      {event.date} at {event.time}
-                    </p>
-                  </div>
+              <div className="flex justify-between items-center p-3 rounded-lg bg-green-50 border border-green-200">
+                <div>
+                  <p className="font-medium">CSD Operations</p>
+                  <p className="text-sm text-muted-foreground">Active Phase</p>
                 </div>
-              ))}
+                <Badge variant="default" className="bg-green-600">Online</Badge>
+              </div>
+              <div className="flex justify-between items-center p-3 rounded-lg bg-blue-50 border border-blue-200">
+                <div>
+                  <p className="font-medium">RTGS System</p>
+                  <p className="text-sm text-muted-foreground">Settlement Phase</p>
+                </div>
+                <Badge variant="default" className="bg-blue-600">Active</Badge>
+              </div>
+              <div className="flex justify-between items-center p-3 rounded-lg bg-amber-50 border border-amber-200">
+                <div>
+                  <p className="font-medium">End of Day</p>
+                  <p className="text-sm text-muted-foreground">17:30 BRT</p>
+                </div>
+                <Badge variant="secondary">Scheduled</Badge>
+              </div>
             </div>
-            <Button variant="outline" className="w-full mt-4" onClick={() => window.open('/participant/auctions-summary?tab=calendar', '_blank')}>
-              View Calendar
+          </CardContent>
+        </Card>
+
+        {/* Alerts and Notifications */}
+        <Card className="xl:col-span-1">
+          <CardHeader>
+            <CardTitle className="flex items-center gap-2">
+              <Bell className="h-5 w-5" />
+              Alerts & Notifications
+            </CardTitle>
+            <CardDescription>Recent alerts and messages</CardDescription>
+          </CardHeader>
+          <CardContent>
+            <div className="space-y-3">
+              <div className="flex items-start gap-3 p-3 rounded-lg bg-yellow-50 border border-yellow-200">
+                <AlertCircle className="h-4 w-4 text-yellow-600 mt-0.5" />
+                <div>
+                  <p className="font-medium text-sm">Limit Alert</p>
+                  <p className="text-xs text-muted-foreground">Daily limit usage: 67%</p>
+                  <p className="text-xs text-muted-foreground">2 hours ago</p>
+                </div>
+              </div>
+              <div className="flex items-start gap-3 p-3 rounded-lg bg-blue-50 border border-blue-200">
+                <CheckCircle className="h-4 w-4 text-blue-600 mt-0.5" />
+                <div>
+                  <p className="font-medium text-sm">Settlement Complete</p>
+                  <p className="text-xs text-muted-foreground">RTGS batch settled</p>
+                  <p className="text-xs text-muted-foreground">15 minutes ago</p>
+                </div>
+              </div>
+              <div className="flex items-start gap-3 p-3 rounded-lg bg-green-50 border border-green-200">
+                <Bell className="h-4 w-4 text-green-600 mt-0.5" />
+                <div>
+                  <p className="font-medium text-sm">Auction Reminder</p>
+                  <p className="text-xs text-muted-foreground">TB auction in 2 hours</p>
+                  <p className="text-xs text-muted-foreground">1 hour ago</p>
+                </div>
+              </div>
+            </div>
+            <Button variant="outline" className="w-full mt-4">
+              View All Alerts
+            </Button>
+          </CardContent>
+        </Card>
+
+        {/* Authorizations Requested */}
+        <Card className="xl:col-span-1">
+          <CardHeader>
+            <CardTitle className="flex items-center gap-2">
+              <FileText className="h-5 w-5" />
+              Authorizations Requested
+            </CardTitle>
+            <CardDescription>Pending approvals</CardDescription>
+          </CardHeader>
+          <CardContent>
+            <div className="space-y-3">
+              <div className="flex justify-between items-center p-3 rounded-lg border">
+                <div>
+                  <p className="font-medium text-sm">Institution Transfer</p>
+                  <p className="text-xs text-muted-foreground">BHD 500,000</p>
+                </div>
+                <Badge variant="outline" className="text-xs">Pending</Badge>
+              </div>
+              <div className="flex justify-between items-center p-3 rounded-lg border">
+                <div>
+                  <p className="font-medium text-sm">DvP Settlement</p>
+                  <p className="text-xs text-muted-foreground">GOVT-TB-001</p>
+                </div>
+                <Badge variant="outline" className="text-xs">Pending</Badge>
+              </div>
+              <div className="flex justify-between items-center p-3 rounded-lg border">
+                <div>
+                  <p className="font-medium text-sm">Repo Operation</p>
+                  <p className="text-xs text-muted-foreground">BHD 250,000</p>
+                </div>
+                <Badge variant="outline" className="text-xs">Pending</Badge>
+              </div>
+            </div>
+            <Button variant="outline" className="w-full mt-4">
+              View Authorization Queue
             </Button>
           </CardContent>
         </Card>

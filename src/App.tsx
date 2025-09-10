@@ -212,6 +212,20 @@ const App = () => (
                 </MainLayout>
               </ProtectedRoute>
             } />
+            <Route path="/participant/gcc-operations" element={
+              <ProtectedRoute>
+                <MainLayout>
+                  <ParticipantGCCOperations />
+                </MainLayout>
+              </ProtectedRoute>
+            } />
+            <Route path="/participant/monitoring/after-hours-limits" element={
+              <ProtectedRoute>
+                <MainLayout>
+                  <AfterHoursLimitsPage />
+                </MainLayout>
+              </ProtectedRoute>
+            } />
             <Route path="/participant/auctions-summary" element={
               <ProtectedRoute>
                 <MainLayout>

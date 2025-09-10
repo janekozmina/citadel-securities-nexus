@@ -1098,11 +1098,83 @@ export const secondaryNavigation: Record<string, NavigationItem[]> = {
       path: '/participant/rtgs-operations-hub',
       icon: Target,
       description: 'RTGS operations and transfers'
+    },
+    {
+      id: 'participant-gcc-operations',
+      title: 'GCC Operations',
+      path: '/participant/gcc-operations',
+      icon: Globe,
+      description: 'GCC multi-currency operations'
     }
   ],
 
-  // Remove the old empty participant navigation section
-  };
+  // Monitoring Tools Navigation (same level as CSD/RTGS)
+  'participant-monitoring': [
+    {
+      id: 'participant-payment-search',
+      title: 'Payment Search',
+      path: '/participant/monitoring/payment-search',
+      icon: Search,
+      description: 'Search payment transactions'
+    },
+    {
+      id: 'participant-message-audit',
+      title: 'Message Audit',
+      path: '/participant/monitoring/message-audit',
+      icon: MessageSquare,
+      description: 'Audit message logs'
+    },
+    {
+      id: 'participant-reconciliation',
+      title: 'Reconciliation',
+      path: '/participant/monitoring/reconciliation',
+      icon: CheckSquare2,
+      description: 'Account reconciliation'
+    },
+    {
+      id: 'participant-transactions',
+      title: 'Transactions',
+      path: '/participant/monitoring/transactions',
+      icon: ArrowUpDown,
+      description: 'Transaction monitoring'
+    },
+    {
+      id: 'participant-authorization-queue',
+      title: 'Authorization Queue',
+      path: '/participant/monitoring/authorization-queue',
+      icon: FileText,
+      description: 'Authorization management'
+    },
+    {
+      id: 'participant-gcc-transactions',
+      title: 'GCC Transactions',
+      path: '/participant/monitoring/gcc-transactions',
+      icon: Globe,
+      description: 'GCC transaction monitoring'
+    },
+    {
+      id: 'participant-exchange-rates',
+      title: 'Exchange Rates',
+      path: '/participant/monitoring/exchange-rates',
+      icon: TrendingUp,
+      description: 'Current exchange rates'
+    },
+    {
+      id: 'participant-billing-results',
+      title: 'Billing Results',
+      path: '/participant/monitoring/billing-results',
+      icon: Receipt,
+      description: 'Billing information'
+    },
+    {
+      id: 'participant-after-hours-limits',
+      title: 'After Hours Limits',
+      path: '/participant/monitoring/after-hours-limits',
+      icon: Clock,
+      description: 'After business hours limits'
+    }
+  ]
+};
   
   const navigationConfig = {
     primaryNavigation,
