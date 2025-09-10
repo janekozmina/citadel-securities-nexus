@@ -18,9 +18,11 @@ import {
   Activity
 } from 'lucide-react';
 import AuctionCalendar from '@/components/common/AuctionCalendar';
+import { CreateBidDialog } from '@/components/dialogs/CreateBidDialog';
 
 const ParticipantAuctionsSummary = () => {
   const [selectedAuction, setSelectedAuction] = useState('');
+  const [isBidDialogOpen, setIsBidDialogOpen] = useState(false);
 
   // Mock auction data
   const auctionStats = {
@@ -294,7 +296,7 @@ const ParticipantAuctionsSummary = () => {
                           View Details
                         </Button>
                         {auction.status === 'Active' && (
-                          <Button size="sm">
+                          <Button size="sm" onClick={() => setIsBidDialogOpen(true)}>
                             {auction.myBid ? 'Modify Bid' : 'Place Bid'}
                           </Button>
                         )}
@@ -379,6 +381,12 @@ const ParticipantAuctionsSummary = () => {
           <AuctionCalendar />
         </TabsContent>
       </Tabs>
+
+      {/* Bid Dialog */}
+      <CreateBidDialog 
+        open={isBidDialogOpen} 
+        onOpenChange={setIsBidDialogOpen} 
+      />
     </div>
   );
 };
