@@ -1174,6 +1174,87 @@ export const secondaryNavigation: Record<string, NavigationItem[]> = {
       icon: Clock,
       description: 'After business hours limits'
     }
+  ],
+
+  // Dictionaries Navigation (same level as CSD/RTGS)
+  'participant-dictionaries': [
+    {
+      id: 'participant-positions',
+      title: 'Positions',
+      path: '/participant/dictionaries/positions',
+      icon: BarChart3,
+      description: 'Manage position definitions'
+    },
+    {
+      id: 'participant-participants',
+      title: 'Participants',
+      path: '/participant/dictionaries/participants',
+      icon: Users,
+      description: 'Manage participant information'
+    },
+    {
+      id: 'participant-correspondents',
+      title: 'Correspondents',
+      path: '/participant/dictionaries/correspondents',
+      icon: Building2,
+      description: 'Manage correspondent banks'
+    },
+    {
+      id: 'participant-reject-codes',
+      title: 'Reject Codes',
+      path: '/participant/dictionaries/reject-codes',
+      icon: AlertCircle,
+      description: 'Manage rejection code definitions'
+    },
+    {
+      id: 'participant-transaction-codes',
+      title: 'Transaction Type Codes',
+      path: '/participant/dictionaries/transaction-codes',
+      icon: FileText,
+      description: 'Manage transaction type codes'
+    },
+    {
+      id: 'participant-currencies',
+      title: 'Currencies',
+      path: '/participant/dictionaries/currencies',
+      icon: Globe,
+      description: 'Manage currency definitions'
+    },
+    {
+      id: 'participant-accounts',
+      title: 'Participant Accounts',
+      path: '/participant/dictionaries/accounts',
+      icon: CreditCard,
+      description: 'Manage participant account information'
+    },
+    {
+      id: 'participant-nostro-vostro-loro',
+      title: 'Nostro, Vostro & Loro Accounts',
+      path: '/participant/dictionaries/nostro-vostro-loro',
+      icon: Wallet,
+      description: 'Manage correspondent account types'
+    },
+    {
+      id: 'participant-special-accounts',
+      title: 'Special Accounts',
+      path: '/participant/dictionaries/special-accounts',
+      icon: Star,
+      description: 'Manage special account definitions'
+    },
+    {
+      id: 'participant-priorities',
+      title: 'Priorities',
+      path: '/participant/dictionaries/priorities',
+      icon: Target,
+      description: 'Manage transaction priorities'
+    },
+    {
+      id: 'participant-billing-configurations',
+      title: 'Billing Configurations',
+      path: '/participant/dictionaries/billing-configurations',
+      icon: Calculator,
+      description: 'Manage billing configurations'
+    }
   ]
 };
   

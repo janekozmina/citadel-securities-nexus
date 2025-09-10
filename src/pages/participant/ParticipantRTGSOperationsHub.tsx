@@ -98,7 +98,6 @@ const ParticipantRTGSOperationsHub = () => {
               className="h-24 flex-col gap-2"
               onClick={() => setActiveDialog('institution-transfer')}
             >
-              <Building2 className="h-6 w-6 text-muted-foreground" />
               <div className="text-center">
                 <div className="font-medium text-sm">Institution Transfer</div>
                 <div className="text-xs text-muted-foreground">Bank-to-bank transfer</div>
@@ -110,7 +109,6 @@ const ParticipantRTGSOperationsHub = () => {
               className="h-24 flex-col gap-2"
               onClick={() => setActiveDialog('institution-cover-transfer')}
             >
-              <Send className="h-6 w-6 text-muted-foreground" />
               <div className="text-center">
                 <div className="font-medium text-sm">Institution Cover Transfer</div>
                 <div className="text-xs text-muted-foreground">Cover payment instruction</div>
@@ -122,7 +120,6 @@ const ParticipantRTGSOperationsHub = () => {
               className="h-24 flex-col gap-2"
               onClick={() => setActiveDialog('customer-credit-transfer')}
             >
-              <CreditCard className="h-6 w-6 text-muted-foreground" />
               <div className="text-center">
                 <div className="font-medium text-sm">Single Customer Credit Transfer</div>
                 <div className="text-xs text-muted-foreground">Customer payment</div>
@@ -134,10 +131,9 @@ const ParticipantRTGSOperationsHub = () => {
               className="h-24 flex-col gap-2"
               onClick={() => setActiveDialog('free-format-message')}
             >
-              <MessageSquare className="h-6 w-6 text-muted-foreground" />
               <div className="text-center">
                 <div className="font-medium text-sm">Free Format Message</div>
-                <div className="text-xs text-slate-600">General communication</div>
+                <div className="text-xs text-muted-foreground">General communication</div>
               </div>
             </Button>
           </div>

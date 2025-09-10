@@ -99,10 +99,9 @@ const ParticipantGCCOperations = () => {
               className="h-24 flex-col gap-2"
               onClick={() => setActiveDialog('gcc-institution-transfer')}
             >
-              <Building2 className="h-6 w-6 text-blue-600" />
               <div className="text-center">
                 <div className="font-medium text-sm">GCC Multi Currency Institution Transfer</div>
-                <div className="text-xs text-slate-600">Inter-bank GCC transfer</div>
+                <div className="text-xs text-muted-foreground">Inter-bank GCC transfer</div>
               </div>
             </Button>
 
@@ -111,10 +110,9 @@ const ParticipantGCCOperations = () => {
               className="h-24 flex-col gap-2"
               onClick={() => setActiveDialog('gcc-customer-transfer')}
             >
-              <CreditCard className="h-6 w-6 text-green-600" />
               <div className="text-center">
                 <div className="font-medium text-sm">GCC Multi Currency Customer Transfer</div>
-                <div className="text-xs text-slate-600">Customer cross-border payment</div>
+                <div className="text-xs text-muted-foreground">Customer cross-border payment</div>
               </div>
             </Button>
           </div>
