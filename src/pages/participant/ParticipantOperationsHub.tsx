@@ -296,7 +296,13 @@ const ParticipantOperationsHub = () => {
       </Tabs>
 
       {/* Selection Dialog */}
-      {selectedOperation && !['dvp-transfer', 'repo-pledge', 'general-transfer', 'check-funds'].includes(selectedOperation) && (
+      {selectedOperation && ![
+        'dvp-transfer', 'repo-pledge', 'general-transfer', 'check-funds',
+        'rvf-instruction', 'dvf-instruction', 'house-transfer', 'rvp-instruction', 
+        'rvp-when-issued', 'dvp-instruction', 'dvp-when-issued',
+        'interbank-repo-receive', 'interbank-repo-deliver', 
+        'islamic-repo-receive', 'islamic-repo-deliver'
+      ].includes(selectedOperation) && (
         <Card className="mt-6">
           <CardHeader>
             <CardTitle>Operation Details: {selectedOperation}</CardTitle>
@@ -323,7 +329,13 @@ const ParticipantOperationsHub = () => {
       
       {/* Quick Actions Dialogs */}
       <ParticipantQuickActionsDialogs 
-        activeDialog={['dvp-transfer', 'repo-pledge', 'general-transfer', 'check-funds'].includes(selectedOperation) ? selectedOperation : null}
+        activeDialog={[
+          'dvp-transfer', 'repo-pledge', 'general-transfer', 'check-funds',
+          'rvf-instruction', 'dvf-instruction', 'house-transfer', 'rvp-instruction', 
+          'rvp-when-issued', 'dvp-instruction', 'dvp-when-issued',
+          'interbank-repo-receive', 'interbank-repo-deliver', 
+          'islamic-repo-receive', 'islamic-repo-deliver'
+        ].includes(selectedOperation) ? selectedOperation : null}
         onClose={() => setSelectedOperation('')}
       />
     </div>
