@@ -137,6 +137,17 @@ export const primaryNavigation: NavigationItem[] = [
     tags: ['securities', 'participant']
   },
   {
+    id: 'participant-csd-cms-monitoring',  
+    title: 'CSD/CMS Monitoring',
+    path: '/participant/csd-cms-monitoring',
+    icon: Monitor,
+    description: 'CSD/CMS Monitoring and Analytics',
+    system: 'CSD',
+    roles: ['CSDParticipant'],
+    keywords: ['csd', 'cms', 'monitoring', 'analytics'],
+    tags: ['monitoring', 'csd', 'cms']
+  },
+  {
     id: 'participant-rtgs',
     title: 'RTGS',
     path: '/participant/rtgs-dashboard',
@@ -1184,6 +1195,59 @@ export const secondaryNavigation: Record<string, NavigationItem[]> = {
       path: '/participant/gcc-operations',
       icon: Globe,
       description: 'GCC multi-currency operations'
+    }
+  ],
+
+  // CSD/CMS Monitoring Navigation
+  'participant-csd-cms-monitoring': [
+    {
+      id: 'csd-cms-dashboards',
+      title: 'Dashboards',
+      path: '/participant/csd-cms-monitoring/dashboards',
+      icon: BarChart3,
+      description: 'CSD/CMS monitoring dashboards'
+    },
+    {
+      id: 'csd-cms-balances',
+      title: 'Balances',
+      path: '/participant/csd-cms-monitoring/balances',
+      icon: Wallet,
+      description: 'Account balances overview'
+    },
+    {
+      id: 'csd-cms-view-instruments',
+      title: 'View Instruments',
+      path: '/participant/csd-cms-monitoring/view-instruments',
+      icon: FileText,
+      description: 'View available instruments'
+    },
+    {
+      id: 'csd-cms-corporate-actions',
+      title: 'Corporate Actions',
+      path: '/participant/csd-cms-monitoring/corporate-actions',
+      icon: Building2,
+      description: 'Corporate actions with multi view'
+    },
+    {
+      id: 'csd-cms-financial-calculator',
+      title: 'Financial Calculator',
+      path: '/participant/csd-cms-monitoring/financial-calculator',
+      icon: Calculator,
+      description: 'Financial calculation tools'
+    },
+    {
+      id: 'csd-cms-transactions-all',
+      title: 'Transactions All',
+      path: '/participant/csd-cms-monitoring/transactions-all',
+      icon: ArrowUpDown,
+      description: 'All transaction records'
+    },
+    {
+      id: 'csd-cms-collaterals',
+      title: 'Collaterals',
+      path: '/participant/csd-cms-monitoring/collaterals',
+      icon: Shield,
+      description: 'Collateral management'
     }
   ],
 

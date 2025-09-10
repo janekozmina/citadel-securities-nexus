@@ -176,6 +176,15 @@ import ParticipantOnboardingPage from './pages/participant/ParticipantOnboarding
 import ParticipantRequestsPage from './pages/participant/ParticipantRequestsPage';
 import ParticipantAdministrationPage from './pages/participant/ParticipantAdministrationPage';
 
+// CSD/CMS Monitoring Pages
+import DashboardsPage from './pages/participant/csd-cms-monitoring/DashboardsPage';
+import BalancesPage from './pages/participant/csd-cms-monitoring/BalancesPage';
+import ViewInstrumentsPage from './pages/participant/csd-cms-monitoring/ViewInstrumentsPage';
+import CorporateActionsPage from './pages/participant/csd-cms-monitoring/CorporateActionsPage';
+import FinancialCalculatorPage from './pages/participant/csd-cms-monitoring/FinancialCalculatorPage';
+import TransactionsAllPage from './pages/participant/csd-cms-monitoring/TransactionsAllPage';
+import CollateralsPage from './pages/participant/csd-cms-monitoring/CollateralsPage';
+
 const queryClient = new QueryClient();
 
 const App = () => (
