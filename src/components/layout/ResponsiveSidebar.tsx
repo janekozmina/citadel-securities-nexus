@@ -34,6 +34,8 @@ export function ResponsiveSidebar({ isOpen, onToggle }: ResponsiveSidebarProps) 
   // Filter items based on user permissions
   const getAccessibleItems = (items: NavigationItem[]): NavigationItem[] => {
     return items.filter(item => {
+      console.log('DEBUG - Filtering item:', item.title, 'Item ID:', item.id, 'Required roles:', item.roles, 'Current user role:', user?.role);
+      
       // If no roles specified, show to everyone
       if (!item.roles || item.roles.length === 0) return true;
       
@@ -49,11 +51,15 @@ export function ResponsiveSidebar({ isOpen, onToggle }: ResponsiveSidebarProps) 
       ];
       
       if (participantOnlyPages.includes(item.id)) {
-        return user?.role === 'CSDParticipant';
+        const shouldShow = user?.role === 'CSDParticipant';
+        console.log('DEBUG - Participant-only page:', item.title, 'Should show to current user:', shouldShow);
+        return shouldShow;
       }
       
       // For all other pages, check if user role is in allowed roles
-      return user?.role && item.roles.includes(user.role);
+      const shouldShow = user?.role && item.roles.includes(user.role);
+      console.log('DEBUG - Regular page:', item.title, 'Should show to current user:', shouldShow);
+      return shouldShow;
     });
   };
 
@@ -330,6 +336,9 @@ export function ResponsiveSidebar({ isOpen, onToggle }: ResponsiveSidebarProps) 
               <span className="text-white font-semibold">
                 {user?.role === 'CSDParticipant' ? 'Participant Portal' : 'Unified Portal'}
               </span>
+              <div className="text-xs text-white/60 mt-1">
+                User: {user?.name} | Role: {user?.role}
+              </div>
             </div>
           )}
           
