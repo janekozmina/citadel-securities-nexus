@@ -148,7 +148,7 @@ const ParticipantOnboardingPage = () => {
         </div>
         <Button onClick={handleExternalOnboarding} className="flex items-center gap-2">
           <ExternalLink className="w-4 h-4" />
-          Access External Onboarding
+          Access
         </Button>
       </div>
 
@@ -209,7 +209,7 @@ const ParticipantOnboardingPage = () => {
             </div>
             <Button onClick={handleExternalOnboarding}>
               <ExternalLink className="w-4 h-4 mr-2" />
-              Launch Platform
+              Access
             </Button>
           </div>
         </CardContent>

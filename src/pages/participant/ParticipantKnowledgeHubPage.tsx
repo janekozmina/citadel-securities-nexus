@@ -94,7 +94,7 @@ const ParticipantKnowledgeHubPage = () => {
         </div>
         <Button onClick={handleExternalKnowledgeHub} className="flex items-center gap-2">
           <ExternalLink className="w-4 h-4" />
-          Access External Knowledge Hub
+          Access
         </Button>
       </div>
 
@@ -136,7 +136,7 @@ const ParticipantKnowledgeHubPage = () => {
             </div>
             <Button onClick={handleExternalKnowledgeHub}>
               <ExternalLink className="w-4 h-4 mr-2" />
-              Launch Knowledge Hub
+              Access
             </Button>
           </div>
         </CardContent>
