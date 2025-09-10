@@ -189,10 +189,24 @@ const App = () => (
                 </MainLayout>
               </ProtectedRoute>
             } />
+            <Route path="/participant/rtgs-dashboard" element={
+              <ProtectedRoute>
+                <MainLayout>
+                  <ParticipantRTGSDashboard />
+                </MainLayout>
+              </ProtectedRoute>
+            } />
             <Route path="/participant/operations-hub" element={
               <ProtectedRoute>
                 <MainLayout>
                   <ParticipantOperationsHub />
+                </MainLayout>
+              </ProtectedRoute>
+            } />
+            <Route path="/participant/rtgs-operations-hub" element={
+              <ProtectedRoute>
+                <MainLayout>
+                  <ParticipantRTGSOperationsHub />
                 </MainLayout>
               </ProtectedRoute>
             } />

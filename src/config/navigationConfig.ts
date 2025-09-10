@@ -135,6 +135,17 @@ export const primaryNavigation: NavigationItem[] = [
     tags: ['securities', 'participant']
   },
   {
+    id: 'participant-rtgs',
+    title: 'RTGS',
+    path: '/participant/rtgs-dashboard',
+    icon: Banknote,
+    description: 'RTGS Participant Services',
+    system: 'RTGS',
+    roles: ['CSDParticipant'],
+    keywords: ['rtgs', 'participant', 'payments', 'operations'],
+    tags: ['payments', 'participant']
+  },
+  {
     id: 'cms',
     title: 'CMS',
     path: '/cms',
@@ -1069,6 +1080,24 @@ export const secondaryNavigation: Record<string, NavigationItem[]> = {
       path: '/participant/reporting',
       icon: FileText,
       description: 'Participant reports and analytics'
+    }
+  ],
+
+  // RTGS Participant Navigation
+  'participant-rtgs': [
+    {
+      id: 'participant-rtgs-dashboard',
+      title: 'RTGS Dashboard',
+      path: '/participant/rtgs-dashboard',
+      icon: BarChart3,
+      description: 'Participant RTGS dashboard and overview'
+    },
+    {
+      id: 'participant-rtgs-operations',
+      title: 'Operations Hub',
+      path: '/participant/rtgs-operations-hub',
+      icon: Target,
+      description: 'RTGS operations and transfers'
     }
   ],
 

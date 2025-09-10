@@ -279,7 +279,7 @@ export const portalConfig = {
         department: 'Treasury Operations'
       },
       {
-        email: 'csdparticipant@demo.com',
+        email: 'participant@demo.com',
         password: 'CMA!@#$',
         role: 'CSDParticipant',
         name: 'CSD Participant',
