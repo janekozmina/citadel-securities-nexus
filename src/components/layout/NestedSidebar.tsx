@@ -192,7 +192,7 @@ export function NestedSidebar({ isOpen, onToggle }: NestedSidebarProps) {
         {/* Header */}
         <div className="flex items-center justify-between p-4 border-b border-white/20">
           <div className="flex items-center gap-2">
-            <span className="text-white font-semibold">Central Bank Portal</span>
+            <span className="text-white font-semibold">Participant Portal</span>
           </div>
           
           <Button

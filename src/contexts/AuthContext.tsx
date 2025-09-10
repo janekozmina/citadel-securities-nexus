@@ -37,6 +37,10 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
   const navigate = useNavigate();
 
   useEffect(() => {
+    // Clear any existing session on mount to ensure fresh login
+    localStorage.removeItem('csd_user');
+    localStorage.removeItem('csd_mfa_verified');
+    
     // Check for existing session
     const savedUser = localStorage.getItem('csd_user');
     const savedMFA = localStorage.getItem('csd_mfa_verified');
@@ -49,13 +53,18 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
   }, []);
 
   const login = async (email: string, password: string, role: UserRole): Promise<boolean> => {
-    // Mock authentication - in real app, this would call an API
-    if (password === 'CMA!@#$') {
+    // Import portalConfig for proper validation
+    const portalConfig = (await import('@/config/portalConfig')).default;
+    
+    // Find user in portalConfig
+    const foundUser = portalConfig.demo.users.find(u => u.email === email && u.password === password);
+    
+    if (foundUser) {
       const mockUser: User = {
         id: '1',
         username: email,
-        role,
-        name: role
+        role: foundUser.role as UserRole,
+        name: foundUser.name
       };
       
       setUser(mockUser);

@@ -1101,13 +1101,12 @@ export const secondaryNavigation: Record<string, NavigationItem[]> = {
     }
   ],
 
-  // Participant Navigation (CSD Participant specific) - REMOVE THIS SECTION
-  participant: []
-};
-
-const navigationConfig = {
-  primaryNavigation,
-  secondaryNavigation
-};
-
-export default navigationConfig;
+  // Remove the old empty participant navigation section
+  };
+  
+  const navigationConfig = {
+    primaryNavigation,
+    secondaryNavigation
+  };
+  
+  export default navigationConfig;
