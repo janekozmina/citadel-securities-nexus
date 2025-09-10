@@ -1240,7 +1240,7 @@ export const secondaryNavigation: Record<string, NavigationItem[]> = {
     },
     {
       id: 'participant-after-hours-limits',
-      title: 'After Hours Limits',
+      title: 'After business hours limits',
       path: '/participant/monitoring/after-hours-limits',
       icon: Clock,
       description: 'After business hours limits'

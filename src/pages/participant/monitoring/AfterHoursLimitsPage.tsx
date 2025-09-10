@@ -79,7 +79,7 @@ const AfterHoursLimitsPage = () => {
   const [editForm, setEditForm] = useState<Partial<LimitSetting>>({});
 
   useEffect(() => {
-    document.title = 'After Hours Limits | Participant Portal';
+    document.title = 'After business hours limits | Participant Portal';
   }, []);
 
   const handleEdit = (limit: LimitSetting) => {
@@ -124,7 +124,7 @@ const AfterHoursLimitsPage = () => {
       {/* Header */}
       <div className="flex items-center justify-between">
         <div>
-          <h1 className="text-2xl font-bold text-slate-900">After Business Hours Limits</h1>
+          <h1 className="text-2xl font-bold text-slate-900">After business hours limits</h1>
           <p className="text-slate-600">Manage transaction limits for after business hours operations.</p>
         </div>
         <Badge variant="outline" className="bg-blue-50 text-blue-700">
@@ -305,7 +305,7 @@ const AfterHoursLimitsPage = () => {
             <Clock className="h-5 w-5" />
             Recent Limit Activities
           </CardTitle>
-          <CardDescription>Recent changes and notifications related to after hours limits</CardDescription>
+          <CardDescription>Recent changes and notifications related to after business hours limits</CardDescription>
         </CardHeader>
         <CardContent>
           <div className="space-y-4">
@@ -336,7 +336,7 @@ const AfterHoursLimitsPage = () => {
                 <Settings className="h-5 w-5 text-blue-600" />
                 <div>
                   <p className="font-medium">Limit Activated: GCC Multi Currency</p>
-                  <p className="text-sm text-slate-600">After hours limit enabled • Yesterday 16:00</p>
+                  <p className="text-sm text-slate-600">After business hours limit enabled • Yesterday 16:00</p>
                 </div>
               </div>
               <Badge variant="outline" className="bg-blue-50 text-blue-700">Activated</Badge>
