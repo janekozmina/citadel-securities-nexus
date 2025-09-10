@@ -83,24 +83,52 @@ export function NestedSidebar({ isOpen, onToggle }: NestedSidebarProps) {
     if (primaryItem) {
       toExpand.add(primaryItem.id);
       
-      // Always expand secondary navigation if it exists
-      if (secondaryNavigation[primaryItem.id]) {
-        // Find which secondary item should be expanded
-        const secondaryItems = secondaryNavigation[primaryItem.id];
-        const secondaryItem = secondaryItems.find(item => 
-          currentPath.startsWith(item.path) && item.path !== primaryItem.path
+      // Handle Admin-style navigation (children directly in navigation items)
+      if (primaryItem.children) {
+        const childItem = primaryItem.children.find(child =>
+          currentPath.startsWith(child.path)
         );
-        
-        if (secondaryItem) {
-          toExpand.add(secondaryItem.id);
+        if (childItem) {
+          toExpand.add(childItem.id);
           
-          // Expand third level if exists
-          if (secondaryItem.children) {
-            const thirdLevelItem = secondaryItem.children.find(child =>
-              currentPath.startsWith(child.path)
+          if (childItem.children) {
+            const grandChildItem = childItem.children.find(grandChild =>
+              currentPath.startsWith(grandChild.path)
             );
-            if (thirdLevelItem) {
-              toExpand.add(thirdLevelItem.id);
+            if (grandChildItem) {
+              toExpand.add(grandChildItem.id);
+            }
+          }
+        }
+      }
+      
+      // Handle Participant-style navigation (secondaryNavigation structure)
+      if (secondaryNavigation[primaryItem.id]) {
+        const secondaryItems = secondaryNavigation[primaryItem.id];
+        
+        // For participant navigation, find which secondary section matches
+        // by checking if any of its items match the current path
+        for (const secondaryKey of Object.keys(secondaryNavigation)) {
+          if (secondaryKey.startsWith('participant-')) {
+            const sectionItems = secondaryNavigation[secondaryKey];
+            const matchingItem = sectionItems.find(item => 
+              currentPath.startsWith(item.path)
+            );
+            
+            if (matchingItem) {
+              // Expand the section (e.g., 'participant-dictionaries')
+              toExpand.add(secondaryKey);
+              
+              // Also expand the specific item if it has children
+              if (matchingItem.children) {
+                const childItem = matchingItem.children.find(child =>
+                  currentPath.startsWith(child.path)
+                );
+                if (childItem) {
+                  toExpand.add(childItem.id);
+                }
+              }
+              break;
             }
           }
         }
