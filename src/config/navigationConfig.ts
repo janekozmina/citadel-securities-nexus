@@ -198,7 +198,7 @@ export const primaryNavigation: NavigationItem[] = [
     icon: Monitor,
     description: 'Monitoring and operational tools',
     system: 'COMMON',
-    roles: ['Admin', 'CBBOperator', 'BankOperator', 'Broker', 'Custodian', 'Auditor', 'CSDParticipant'],
+    roles: ['CSDParticipant'],
     keywords: ['monitoring', 'tools', 'operations'],
     tags: ['monitoring', 'tools']
   },
@@ -209,7 +209,7 @@ export const primaryNavigation: NavigationItem[] = [
     icon: BookOpen,
     description: 'Master data and configuration dictionaries',
     system: 'COMMON',
-    roles: ['Admin', 'CBBOperator', 'BankOperator', 'Broker', 'Custodian', 'Auditor', 'CSDParticipant'],
+    roles: ['CSDParticipant'],
     keywords: ['dictionaries', 'master', 'data', 'configuration'],
     tags: ['dictionaries', 'data']
   },
@@ -220,7 +220,7 @@ export const primaryNavigation: NavigationItem[] = [
     icon: FileBarChart,
     description: 'Scheduled, BI and central system reports',
     system: 'COMMON',
-    roles: ['Admin', 'CBBOperator', 'BankOperator', 'Broker', 'Custodian', 'Auditor', 'CSDParticipant'],
+    roles: ['CSDParticipant'],
     keywords: ['reports', 'bi', 'scheduled', 'central'],
     tags: ['reports', 'analytics']
   },
@@ -231,7 +231,7 @@ export const primaryNavigation: NavigationItem[] = [
     icon: BookOpen,
     description: 'Access knowledge base and documentation',
     system: 'COMMON',
-    roles: ['Admin', 'CBBOperator', 'BankOperator', 'Broker', 'Custodian', 'Auditor', 'CSDParticipant'],
+    roles: ['CSDParticipant'],
     keywords: ['knowledge', 'documentation', 'help'],
     tags: ['knowledge', 'help']
   },
@@ -242,7 +242,7 @@ export const primaryNavigation: NavigationItem[] = [
     icon: UserPlus,
     description: 'Participant onboarding and training',
     system: 'COMMON',
-    roles: ['Admin', 'CBBOperator', 'BankOperator', 'Broker', 'Custodian', 'Auditor', 'CSDParticipant'],
+    roles: ['CSDParticipant'],
     keywords: ['onboarding', 'training', 'setup'],
     tags: ['onboarding', 'training']
   },
@@ -253,7 +253,7 @@ export const primaryNavigation: NavigationItem[] = [
     icon: Send,
     description: 'Submit requests to Central Bank',
     system: 'COMMON',
-    roles: ['Admin', 'CBBOperator', 'BankOperator', 'Broker', 'Custodian', 'Auditor', 'CSDParticipant'],
+    roles: ['CSDParticipant'],
     keywords: ['requests', 'central', 'bank', 'submit'],
     tags: ['requests', 'central-bank']
   },
@@ -264,7 +264,7 @@ export const primaryNavigation: NavigationItem[] = [
     icon: Settings,
     description: 'System administration and configuration',
     system: 'COMMON',
-    roles: ['Admin', 'CBBOperator', 'BankOperator', 'Broker', 'Custodian', 'Auditor', 'CSDParticipant'],
+    roles: ['CSDParticipant'],
     keywords: ['administration', 'users', 'roles', 'system'],
     tags: ['administration', 'config']
   }
