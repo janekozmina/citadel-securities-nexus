@@ -3,8 +3,11 @@ import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Input } from '@/components/ui/input';
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table';
 import { Badge } from '@/components/ui/badge';
+import { Button } from '@/components/ui/button';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
-import { Search } from 'lucide-react';
+import { Search, Edit, Trash2 } from 'lucide-react';
+import { formatCurrency } from '@/config/currencyConfig';
+import portalConfig from '@/config/portalConfig';
 
 const CollateralsPage = () => {
   const [searchTerm, setSearchTerm] = useState('');
@@ -13,122 +16,47 @@ const CollateralsPage = () => {
 
   const collateralsData = [
     {
-      trn: 'CITI$001042SC001',
-      amount: 'NGN',
-      currency: 'CITINGLA',
-      sender: 'ABNINGLA',
-      giver: 'CITINGLA',
+      trn: 'NBB$001042SC001',
+      amount: formatCurrency(100),
+      currency: portalConfig.currencies.primary,
+      sender: 'NBBINGLA',
+      giver: 'NBBINGLA',
       taker: 'Collateral Claims Taker MX',
       type: '16.02.2022',
       settlementDate: 'A',
       step: 'Done',
       stepName: 'M',
-      statusName: 'CITI$001042SC001',
+      statusName: 'NBB$001042SC001',
       repoTrn: '',
       rf: ''
     },
     {
       trn: 'R326077CFA',
-      amount: '100 NGN',
-      currency: 'CBNENGLACSID',
-      sender: 'CITINGLA',
-      giver: 'CBNENGLA',
+      amount: formatCurrency(100),
+      currency: portalConfig.currencies.primary,
+      sender: 'BBKENGLACSID',
+      giver: 'BBKINGLA',
       taker: 'Collateral Proposal Giver auto allocation',
       type: '16.02.2022',
       settlementDate: 'A',
       step: 'Done',
       stepName: 'A',
-      statusName: 'CITI$002425S001',
+      statusName: 'BBK$002425S001',
       repoTrn: 'rtecons',
       rf: 'Substitute'
     },
     {
-      trn: 'CITI$001042SC001',
-      amount: 'NGN',
-      currency: 'CITINGLA',
-      sender: 'CITINGLA',
-      giver: 'ABNINGLA',
+      trn: 'GIB$001042SC001',
+      amount: formatCurrency(150),
+      currency: portalConfig.currencies.primary,
+      sender: 'GIBINGLA',
+      giver: 'GIBINGLA',
       taker: 'Collateral Proposal MX',
       type: '16.02.2022',
       settlementDate: 'A',
       step: 'Rejected',
       stepName: 'A',
-      statusName: 'CITI$001042SC001',
-      repoTrn: '',
-      rf: ''
-    },
-    {
-      trn: 'R326100CFA',
-      amount: '100 NGN',
-      currency: 'CBNENGLACSID',
-      sender: 'CITINGLA',
-      giver: 'CBNENGLA',
-      taker: 'Collateral Proposal Giver auto allocation',
-      type: '16.02.2022',
-      settlementDate: 'A',
-      step: 'Done',
-      stepName: 'R',
-      statusName: 'CITI$002425S002',
-      repoTrn: 'rtecons',
-      rf: 'Substitute'
-    },
-    {
-      trn: 'R326100CFA',
-      amount: '100 NGN',
-      currency: 'CBNENGLACSID',
-      sender: 'CITINGLA',
-      giver: 'CBNENGLA',
-      taker: 'Collateral Proposal Giver auto allocation',
-      type: '16.02.2022',
-      settlementDate: 'A',
-      step: 'Done',
-      stepName: 'A',
-      statusName: 'CITI$002425S006',
-      repoTrn: 'rtecons',
-      rf: 'Substitute'
-    },
-    {
-      trn: 'R326766CFA',
-      amount: '300 NGN',
-      currency: 'CBNENGLACSID',
-      sender: 'CITINGLA',
-      giver: 'CBNENGLA',
-      taker: 'Collateral Proposal Giver auto allocation',
-      type: '16.02.2022',
-      settlementDate: 'A',
-      step: 'Done',
-      stepName: 'A',
-      statusName: 'CITI$002425S008',
-      repoTrn: 'rtecons',
-      rf: 'Substitute'
-    },
-    {
-      trn: 'CITI$002423C001',
-      amount: 'NGN',
-      currency: 'CITINGLA',
-      sender: 'ABNINGLA',
-      giver: 'CITINGLA',
-      taker: 'Collateral Claims Taker MX',
-      type: '16.02.2022',
-      settlementDate: 'A',
-      step: 'Done',
-      stepName: 'M',
-      statusName: 'CITI$002423C001',
-      repoTrn: '',
-      rf: ''
-    },
-    {
-      trn: 'CITI$001224C001',
-      amount: '130,470.13 NGN',
-      currency: 'CITINGLA',
-      sender: 'CITINGLA',
-      giver: 'CITINGLA',
-      taker: 'Collateral Claims Taker MX',
-      type: '16.02.2022',
-      settlementDate: 'A',
-      step: 'Done',
-      stepName: 'A',
-      statusName: 'CITI$001224C001',
+      statusName: 'GIB$001042SC001',
       repoTrn: '',
       rf: ''
     }
@@ -226,14 +154,15 @@ const CollateralsPage = () => {
                       <TableHead className="font-semibold text-xs">Step name</TableHead>
                       <TableHead className="font-semibold text-xs">Status name</TableHead>
                       <TableHead className="font-semibold text-xs">REPO TRN</TableHead>
-                      <TableHead className="font-semibold text-xs">RF</TableHead>
+                      <TableHead className="font-semibold">RF</TableHead>
+                      <TableHead className="font-semibold">Actions</TableHead>
                     </TableRow>
                   </TableHeader>
                   <TableBody>
                     {filteredCollaterals.map((collateral, index) => (
                       <TableRow 
                         key={index} 
-                        className={`text-xs hover:bg-muted/30 ${
+                        className={`hover:bg-muted/30 ${
                           index === 2 ? 'bg-blue-50' : ''
                         }`}
                       >
@@ -269,6 +198,16 @@ const CollateralsPage = () => {
                               </button>
                             </div>
                           )}
+                        </TableCell>
+                        <TableCell>
+                          <div className="flex gap-1">
+                            <Button variant="outline" size="sm">
+                              <Edit className="w-3 h-3" />
+                            </Button>
+                            <Button variant="outline" size="sm">
+                              <Trash2 className="w-3 h-3" />
+                            </Button>
+                          </div>
                         </TableCell>
                       </TableRow>
                     ))}

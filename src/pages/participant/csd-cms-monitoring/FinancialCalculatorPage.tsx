@@ -5,27 +5,29 @@ import { Button } from '@/components/ui/button';
 import { Label } from '@/components/ui/label';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { Calculator, Calendar } from 'lucide-react';
+import { formatCurrency } from '@/config/currencyConfig';
+import portalConfig from '@/config/portalConfig';
 
 const FinancialCalculatorPage = () => {
   const [calculatorData, setCalculatorData] = useState({
-    code: 'TESTGOVBOND01 - TESTGOVBOND01',
+    code: 'BHRGOVBOND01 - BHRGOVBOND01',
     settlementDate: '14.07.2025',
     maturityDate: '11.04.2028',
     currentCoupon: '2',
     couponFrequency: 'QUTR - Payment frequency is quarterly',
     lastCouponDate: '11.07.2025',
     nextCouponDate: '11.10.2025',
-    accruedInterestPercent: '0.00000',
-    accruedInterestPerUnit: '0.00000',
-    currency: 'AED',
+    accruedInterestPercent: '0.000',
+    accruedInterestPerUnit: '0.000',
+    currency: portalConfig.currencies.primary,
     dayCountConventionDefault: 'A005 - Actual/365 (Fixed)',
     dayCountConventionAll: 'A005 - Actual/365 (Fixed)',
     quotationMethod: 'PYIEL - Quotation based on yield. Standard P(Y...',
-    quotation: '5.50000',
-    price: '86.08090',
-    cleanPrice: '86.08090',
-    currentYield: '0.00000',
-    yieldToMaturity: '5.50000'
+    quotation: '5.500',
+    price: '86.081',
+    cleanPrice: '86.081',
+    currentYield: '0.000',
+    yieldToMaturity: '5.500'
   });
 
   const handleInputChange = (field: string, value: string) => {

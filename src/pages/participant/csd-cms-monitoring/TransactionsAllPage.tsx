@@ -3,27 +3,30 @@ import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Input } from '@/components/ui/input';
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table';
 import { Badge } from '@/components/ui/badge';
-import { Search } from 'lucide-react';
+import { Button } from '@/components/ui/button';
+import { Search, Edit, Trash2 } from 'lucide-react';
+import { formatCurrency } from '@/config/currencyConfig';
+import portalConfig from '@/config/portalConfig';
 
 const TransactionsAllPage = () => {
   const [searchTerm, setSearchTerm] = useState('');
 
   const transactionsData = [
     {
-      reference: 'CT1XXXXX03045004',
+      reference: 'BH1XXXXX03045004',
       operation: 'DvP',
-      instrument: 'TESTGOVBOND01',
+      instrument: 'BHRGOVBOND01',
       quantity: '2,000',
       feeAmount: '2,000',
       valueDate: '14.07.2025',
       settlementDate: '14.07.2025',
-      dealAmount: '1,771.62',
-      actualAmount: '1,771.62',
-      currency: 'AED',
-      seller: 'CITIPHMK',
-      deliveryCSD: 'CITIDEPO',
-      buyer: 'DEUTPHMK',
-      receiveCSD: 'DEUTDEPO',
+      dealAmount: formatCurrency(1771.62),
+      actualAmount: formatCurrency(1771.62),
+      currency: portalConfig.currencies.primary,
+      seller: 'NBBPHMK',
+      deliveryCSD: 'NBBDEPO',
+      buyer: 'BBKPHMK',
+      receiveCSD: 'BBKDEPO',
       localStatus: 'Sent',
       statusInCSD: 'Not matched',
       remoteStatus: 'Central settlement',
@@ -31,20 +34,20 @@ const TransactionsAllPage = () => {
       priority: ''
     },
     {
-      reference: 'CT1XXXXX03045003',
+      reference: 'BH1XXXXX03045003',
       operation: 'DvP',
-      instrument: 'TESTGOVBOND01',
+      instrument: 'BHRGOVBOND01',
       quantity: '1,000',
       feeAmount: '1,000',
       valueDate: '14.07.2025',
       settlementDate: '14.07.2025',
-      dealAmount: '99,000.00',
-      actualAmount: '99,000.00',
-      currency: 'AED',
-      seller: 'CITIPHMK',
-      deliveryCSD: 'CITIDEPO',
-      buyer: 'DEUTPHMK',
-      receiveCSD: 'DEUTDEPO',
+      dealAmount: formatCurrency(99000.00),
+      actualAmount: formatCurrency(99000.00),
+      currency: portalConfig.currencies.primary,
+      seller: 'GIBPHMK',
+      deliveryCSD: 'GIBDEPO',
+      buyer: 'AUBPHMK',
+      receiveCSD: 'AUBDEPO',
       localStatus: 'Sent',
       statusInCSD: 'Denied',
       remoteStatus: 'Settled',
@@ -127,12 +130,12 @@ const TransactionsAllPage = () => {
                   <TableHead className="font-semibold text-xs">Status in CSD</TableHead>
                   <TableHead className="font-semibold text-xs">Remote</TableHead>
                   <TableHead className="font-semibold text-xs">Instructions</TableHead>
-                  <TableHead className="font-semibold text-xs">Prior</TableHead>
+                  <TableHead className="font-semibold">Actions</TableHead>
                 </TableRow>
               </TableHeader>
               <TableBody>
                 {filteredData.map((transaction, index) => (
-                  <TableRow key={index} className="text-xs hover:bg-muted/30">
+                  <TableRow key={index} className="hover:bg-muted/30">
                     <TableCell className="font-mono font-medium">
                       {transaction.reference}
                     </TableCell>
@@ -170,6 +173,16 @@ const TransactionsAllPage = () => {
                     </TableCell>
                     <TableCell className="font-mono">{transaction.instructions}</TableCell>
                     <TableCell>{transaction.priority}</TableCell>
+                    <TableCell>
+                      <div className="flex gap-1">
+                        <Button variant="outline" size="sm">
+                          <Edit className="w-3 h-3" />
+                        </Button>
+                        <Button variant="outline" size="sm">
+                          <Trash2 className="w-3 h-3" />
+                        </Button>
+                      </div>
+                    </TableCell>
                   </TableRow>
                 ))}
               </TableBody>

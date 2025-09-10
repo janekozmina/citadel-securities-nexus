@@ -1,13 +1,15 @@
 import React from 'react';
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
+import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, PieChart, Pie, Cell } from 'recharts';
 import { Users, Clock, MessageSquare, Banknote } from 'lucide-react';
 import { Badge } from '@/components/ui/badge';
+import { formatCurrency } from '@/config/currencyConfig';
+import portalConfig from '@/config/portalConfig';
 
 const DashboardsPage = () => {
   // Mock data for Transaction DEPO chart
   const transactionData = [
-    { name: 'FG of Nigeria', value: 35.36, color: '#8B5CF6' }
+    { name: 'Government Bonds', value: 35.36, color: '#8B5CF6' }
   ];
 
   // Mock data for Business day timeline
@@ -27,17 +29,15 @@ const DashboardsPage = () => {
     { name: 'pain.001', value: 2 }
   ];
 
-  // Mock connected users data
+  // Mock connected users data with Bahraini banks
   const connectedUsers = [
-    { login: 'CITI1', username: 'CITI1 CITI1', loginTime: '30.12.2021 14:00:26', status: 'online' },
-    { login: 'Diamond', username: 'Diamond Diamond', loginTime: '30.12.2021 12:36:17', status: 'offline' },
+    { login: 'NBB1', username: 'NBB NBB1', loginTime: '30.12.2021 14:00:26', status: 'online' },
+    { login: 'BBK1', username: 'BBK BBK1', loginTime: '30.12.2021 12:36:17', status: 'offline' },
     { login: 'system', username: 'system system', loginTime: '30.12.2021 12:35:31', status: 'offline' },
-    { login: 'ABQN1', username: 'ABQN1 ABQN1', loginTime: '30.12.2021 10:32:45', status: 'offline' },
-    { login: 'FCMB1', username: 'FCMB FCMB', loginTime: '29.12.2021 19:48:30', status: 'offline' },
-    { login: 'AFRZN2', username: 'AFRZN2 AFRZN2', loginTime: '29.12.2021 19:47:43', status: 'offline' }
+    { login: 'GIB1', username: 'GIB GIB1', loginTime: '30.12.2021 10:32:45', status: 'offline' },
+    { login: 'AUB1', username: 'AUB AUB1', loginTime: '29.12.2021 19:48:30', status: 'offline' },
+    { login: 'HSBC1', username: 'HSBC HSBC1', loginTime: '29.12.2021 19:47:43', status: 'offline' }
   ];
-
-  const COLORS = ['#0088FE', '#00C49F', '#FFBB28', '#FF8042', '#8884D8'];
 
   return (
     <div className="space-y-6">
@@ -49,25 +49,14 @@ const DashboardsPage = () => {
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
         {/* Transactions DEPO */}
         <Card>
-          <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
+          <CardHeader>
             <CardTitle className="text-base font-semibold">Transactions DEPO</CardTitle>
-            <div className="flex items-center gap-2">
-              <button className="p-1 hover:bg-muted rounded">
-                <div className="w-4 h-4 border border-current"></div>
-              </button>
-              <button className="p-1 hover:bg-muted rounded">
-                <div className="w-4 h-4">↗</div>
-              </button>
-              <button className="p-1 hover:bg-muted rounded">
-                <div className="w-4 h-4">⌄</div>
-              </button>
-            </div>
           </CardHeader>
           <CardContent>
             <div className="flex items-center space-x-6">
               <div className="flex-1">
                 <div className="mb-4">
-                  <div className="text-sm text-muted-foreground mb-2">FG of Nigeria</div>
+                  <div className="text-sm text-muted-foreground mb-2">{portalConfig.banks.central}</div>
                   <div className="space-y-1">
                     <div className="bg-blue-500 text-white px-3 py-1 rounded text-sm">Government Variable Rate Bonds</div>
                     <div className="bg-blue-500 text-white px-3 py-1 rounded text-sm">Treasury Bonds</div>
@@ -106,19 +95,8 @@ const DashboardsPage = () => {
 
         {/* Business day */}
         <Card>
-          <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
+          <CardHeader>
             <CardTitle className="text-base font-semibold">Business day</CardTitle>
-            <div className="flex items-center gap-2">
-              <button className="p-1 hover:bg-muted rounded">
-                <div className="w-4 h-4 border border-current"></div>
-              </button>
-              <button className="p-1 hover:bg-muted rounded">
-                <div className="w-4 h-4">↗</div>
-              </button>
-              <button className="p-1 hover:bg-muted rounded">
-                <div className="w-4 h-4">⌄</div>
-              </button>
-            </div>
           </CardHeader>
           <CardContent>
             <div className="space-y-3">
@@ -150,19 +128,8 @@ const DashboardsPage = () => {
 
         {/* Connected users */}
         <Card>
-          <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
+          <CardHeader>
             <CardTitle className="text-base font-semibold">Connected users</CardTitle>
-            <div className="flex items-center gap-2">
-              <button className="p-1 hover:bg-muted rounded">
-                <div className="w-4 h-4 border border-current"></div>
-              </button>
-              <button className="p-1 hover:bg-muted rounded">
-                <div className="w-4 h-4">↗</div>
-              </button>
-              <button className="p-1 hover:bg-muted rounded">
-                <div className="w-4 h-4">⌄</div>
-              </button>
-            </div>
           </CardHeader>
           <CardContent>
             <div className="space-y-2">
@@ -192,19 +159,8 @@ const DashboardsPage = () => {
 
         {/* Message types */}
         <Card>
-          <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
+          <CardHeader>
             <CardTitle className="text-base font-semibold">Message types</CardTitle>
-            <div className="flex items-center gap-2">
-              <button className="p-1 hover:bg-muted rounded">
-                <div className="w-4 h-4 border border-current"></div>
-              </button>
-              <button className="p-1 hover:bg-muted rounded">
-                <div className="w-4 h-4">↗</div>
-              </button>
-              <button className="p-1 hover:bg-muted rounded">
-                <div className="w-4 h-4">⌄</div>
-              </button>
-            </div>
           </CardHeader>
           <CardContent>
             <div className="h-48">

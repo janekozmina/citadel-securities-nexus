@@ -5,7 +5,9 @@ import { Button } from '@/components/ui/button';
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table';
 import { Badge } from '@/components/ui/badge';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
-import { Search, Calendar, FileText, Settings } from 'lucide-react';
+import { Search, Calendar, FileText, Settings, Edit, Trash2 } from 'lucide-react';
+import { formatCurrency } from '@/config/currencyConfig';
+import portalConfig from '@/config/portalConfig';
 
 const CorporateActionsPage = () => {
   const [searchTerm, setSearchTerm] = useState('');

@@ -3,7 +3,10 @@ import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Input } from '@/components/ui/input';
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table';
 import { Badge } from '@/components/ui/badge';
-import { Search, X } from 'lucide-react';
+import { Button } from '@/components/ui/button';
+import { Search, Edit, Trash2 } from 'lucide-react';
+import { formatCurrency } from '@/config/currencyConfig';
+import portalConfig from '@/config/portalConfig';
 
 const ViewInstrumentsPage = () => {
   const [searchTerm, setSearchTerm] = useState('');
@@ -14,11 +17,11 @@ const ViewInstrumentsPage = () => {
       name: 'Treasury Bonds2023.11.22 Issue',
       isin: 'N',
       type: 'Treasury Bonds',
-      issuer: 'Central Bank of Nigeria',
-      issuedAmount: '2,000,000,000',
-      amountInCirculation: '2,000,000,000',
+      issuer: portalConfig.banks.central,
+      issuedAmount: formatCurrency(2000000000),
+      amountInCirculation: formatCurrency(2000000000),
       faceValue: '500',
-      currency: 'NGN',
+      currency: portalConfig.currencies.primary,
       issueDate: '2022-11-22T00:00:000'
     },
     {
@@ -26,11 +29,11 @@ const ViewInstrumentsPage = () => {
       name: 'Treasury Bonds2023.05.22 Issue',
       isin: 'N',
       type: 'Treasury Bonds',
-      issuer: 'Central Bank of Nigeria',
-      issuedAmount: '1,000,000,000',
-      amountInCirculation: '500,000,000',
+      issuer: portalConfig.banks.central,
+      issuedAmount: formatCurrency(1000000000),
+      amountInCirculation: formatCurrency(500000000),
       faceValue: '100000',
-      currency: 'NGN',
+      currency: portalConfig.currencies.primary,
       issueDate: '2022-11-22T00:00:000'
     },
     {
@@ -38,11 +41,11 @@ const ViewInstrumentsPage = () => {
       name: 'Federal Treasury Bonds2023.05.22 Issue',
       isin: 'N',
       type: 'Federal Treasury Bonds',
-      issuer: 'Central Bank of Nigeria',
-      issuedAmount: '2,000,000',
-      amountInCirculation: '1,000,000',
+      issuer: portalConfig.banks.central,
+      issuedAmount: formatCurrency(2000000),
+      amountInCirculation: formatCurrency(1000000),
       faceValue: '50000',
-      currency: 'NGN',
+      currency: portalConfig.currencies.primary,
       issueDate: '2022-11-22T00:00:000'
     },
     {
@@ -50,11 +53,11 @@ const ViewInstrumentsPage = () => {
       name: 'Treasury Bonds2024.05.19 Issue',
       isin: 'N',
       type: 'Treasury Bonds',
-      issuer: 'Central Bank of Nigeria',
-      issuedAmount: '100,000,000',
-      amountInCirculation: '90,050,000',
+      issuer: portalConfig.banks.central,
+      issuedAmount: formatCurrency(100000000),
+      amountInCirculation: formatCurrency(90050000),
       faceValue: '10000',
-      currency: 'NGN',
+      currency: portalConfig.currencies.primary,
       issueDate: '2023-05-19T00:00:000'
     },
     {
@@ -62,132 +65,12 @@ const ViewInstrumentsPage = () => {
       name: 'Treasury Bonds2024.05.18 Issue',
       isin: 'N',
       type: 'Treasury Bonds',
-      issuer: 'Central Bank of Nigeria',
-      issuedAmount: '100,000,000',
+      issuer: portalConfig.banks.central,
+      issuedAmount: formatCurrency(100000000),
       amountInCirculation: '0',
       faceValue: '100000',
-      currency: 'NGN',
+      currency: portalConfig.currencies.primary,
       issueDate: '2023-05-18T00:00:000'
-    },
-    {
-      code: 'test2',
-      name: 'Treasury Bonds2024.05.19 Issue',
-      isin: 'N',
-      type: 'Treasury Bonds',
-      issuer: 'Central Bank of Nigeria',
-      issuedAmount: '1,000,000,000',
-      amountInCirculation: '0',
-      faceValue: '1000000',
-      currency: 'NGN',
-      issueDate: '2023-05-19T00:00:000'
-    },
-    {
-      code: 'test10',
-      name: 'Treasury Bonds2023.11.21 Issue',
-      isin: 'N',
-      type: 'Treasury Bonds',
-      issuer: 'Central Bank of Nigeria',
-      issuedAmount: '100,000,000',
-      amountInCirculation: '0',
-      faceValue: '1000',
-      currency: 'NGN',
-      issueDate: '2022-11-21T00:00:000'
-    },
-    {
-      code: 'test7',
-      name: 'Treasury Bonds2023.05.22 Issue',
-      isin: 'N',
-      type: 'Treasury Bonds',
-      issuer: 'Central Bank of Nigeria',
-      issuedAmount: '10,000,000,000',
-      amountInCirculation: '5,000,000,000',
-      faceValue: '10000',
-      currency: 'NGN',
-      issueDate: '2022-11-22T00:00:000'
-    },
-    {
-      code: 'TESTufo0003',
-      name: 'Treasury Bonds2024.08.11 Issue',
-      isin: 'N',
-      type: 'Treasury Bonds',
-      issuer: 'Debt Management Office',
-      issuedAmount: '100,000',
-      amountInCirculation: '0',
-      faceValue: '100000',
-      currency: 'NGN',
-      issueDate: '2023-08-11T00:00:000'
-    },
-    {
-      code: 'TESTBILLAUCT002',
-      name: 'CBN Special Bill2023.09.11 Issue',
-      isin: 'N',
-      type: 'CBN Special Bill',
-      issuer: 'Central Bank of Nigeria',
-      issuedAmount: '900,000',
-      amountInCirculation: '0',
-      faceValue: '1000',
-      currency: 'NGN',
-      issueDate: '2023-08-11T00:00:000'
-    },
-    {
-      code: 'TESTBILLAUCT001',
-      name: 'Nigerian Treasury Bills2023.11.10 Issue',
-      isin: 'N',
-      type: 'Nigerian Treasury Bills',
-      issuer: 'Debt Management Office',
-      issuedAmount: '900,000,000',
-      amountInCirculation: '0',
-      faceValue: '1000',
-      currency: 'NGN',
-      issueDate: '2023-08-11T00:00:000'
-    },
-    {
-      code: 'TEST100',
-      name: 'Federal Treasury Bonds2024.06.05 Issue',
-      isin: 'N',
-      type: 'Federal Treasury Bonds',
-      issuer: 'Debt Management Office',
-      issuedAmount: '100,000',
-      amountInCirculation: '0',
-      faceValue: '100000',
-      currency: 'NGN',
-      issueDate: '2023-06-05T00:00:000'
-    },
-    {
-      code: 'REDMTEST005',
-      name: 'FG of Nigeria Green Bonds2023.06.02 Issue',
-      isin: 'N',
-      type: 'FG of Nigeria Green Bonds',
-      issuer: 'Debt Management Office',
-      issuedAmount: '1,000,000,000',
-      amountInCirculation: '0',
-      faceValue: '1000',
-      currency: 'NGN',
-      issueDate: '2023-05-19T00:00:000'
-    },
-    {
-      code: 'NGTO30207207',
-      name: 'Nigeria Treasury Bills 2020.07.02 Issue',  
-      isin: 'Y',
-      type: 'Nigerian Treasury Bills',
-      issuer: 'Debt Management Office',
-      issuedAmount: '0',
-      amountInCirculation: '0',
-      faceValue: '1000',
-      currency: 'NGN',
-      issueDate: '2019-07-04T00:00:000'
-    },
-    {
-      code: 'NGTO31102209',
-      name: 'Nigeria Treasury Bills 2021.01.28 Issue',
-      isin: 'Y',
-      type: 'Nigerian Treasury Bills',
-      issuer: 'Debt Management Office',
-      issuedAmount: '0',
-      amountInCirculation: '0',
-      faceValue: '1000',
-      currency: 'NGN',
-      issueDate: '2020-01-30T00:00:000'
     }
   ];
 
@@ -236,9 +119,6 @@ const ViewInstrumentsPage = () => {
                 />
               </div>
               <Badge variant="secondary">{filteredData.length} row(s)</Badge>
-              <button className="p-2 hover:bg-muted rounded">
-                <X className="h-4 w-4" />
-              </button>
             </div>
           </div>
         </CardHeader>
@@ -257,13 +137,14 @@ const ViewInstrumentsPage = () => {
                   <TableHead className="font-semibold">Face value</TableHead>
                   <TableHead className="font-semibold">Currency</TableHead>
                   <TableHead className="font-semibold">Issue Date</TableHead>
+                  <TableHead className="font-semibold">Actions</TableHead>
                 </TableRow>
               </TableHeader>
               <TableBody>
                 {filteredData.map((instrument, index) => (
                   <TableRow key={index} className="hover:bg-muted/30">
                     <TableCell className="font-mono font-medium text-blue-600">
-                      {instrument.code}
+                      {instrument.code}  
                     </TableCell>
                     <TableCell className="font-medium">{instrument.name}</TableCell>
                     <TableCell className="text-center">
@@ -276,7 +157,9 @@ const ViewInstrumentsPage = () => {
                         {instrument.type}
                       </Badge>
                     </TableCell>
-                    <TableCell>{instrument.issuer}</TableCell>
+                    <TableCell className="truncate max-w-32" title={instrument.issuer}>
+                      {instrument.issuer}
+                    </TableCell>
                     <TableCell className="font-mono text-right">{instrument.issuedAmount}</TableCell>
                     <TableCell className="font-mono text-right">{instrument.amountInCirculation}</TableCell>
                     <TableCell className="font-mono text-right">{instrument.faceValue}</TableCell>
@@ -284,6 +167,16 @@ const ViewInstrumentsPage = () => {
                       <Badge variant="outline">{instrument.currency}</Badge>
                     </TableCell>
                     <TableCell className="font-mono">{instrument.issueDate}</TableCell>
+                    <TableCell>
+                      <div className="flex gap-1">
+                        <Button variant="outline" size="sm">
+                          <Edit className="w-3 h-3" />
+                        </Button>
+                        <Button variant="outline" size="sm">
+                          <Trash2 className="w-3 h-3" />
+                        </Button>
+                      </div>
+                    </TableCell>
                   </TableRow>
                 ))}
               </TableBody>

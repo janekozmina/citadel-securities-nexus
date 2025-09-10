@@ -3,18 +3,21 @@ import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Input } from '@/components/ui/input';
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table';
 import { Badge } from '@/components/ui/badge';
-import { Search, X } from 'lucide-react';
+import { Button } from '@/components/ui/button';
+import { Search, X, Edit, Trash2 } from 'lucide-react';
+import { formatCurrency } from '@/config/currencyConfig';
+import portalConfig from '@/config/portalConfig';
 
 const BalancesPage = () => {
   const [searchTerm, setSearchTerm] = useState('');
 
   const balancesData = [
     {
-      account: 'CITIDEPO',
-      participantCode: 'CITIPNMK',
-      participantName: 'CITI BANK',
-      instrument: 'CUAENH6N23741',
-      instrumentName: 'CUAENH6N23741',
+      account: 'NBBDEPO',
+      participantCode: 'NBBPNMK',
+      participantName: portalConfig.banks.commercial[0], // National Bank of Bahrain
+      instrument: 'BHRGOVBND23741',
+      instrumentName: 'BHRGOVBND23741',
       maturityDate: '12.01.2026',
       avai: 10,
       blck: 0,
@@ -24,7 +27,7 @@ const BalancesPage = () => {
       peda: 0,
       borr: 0,
       draw: 0,
-      failav: '10,000,000',
+      failav: formatCurrency(10000000),
       failblk: 0,
       faiplstr: 0,
       faipled: 0,
@@ -32,11 +35,11 @@ const BalancesPage = () => {
       facraw: 0
     },
     {
-      account: 'CITIDEPO',
-      participantCode: 'CITIPNMK',
-      participantName: 'CITI BANK',
-      instrument: 'TESTGOVBOND01',
-      instrumentName: 'TESTGOVBOND01',
+      account: 'NBBDEPO',
+      participantCode: 'NBBPNMK',
+      participantName: portalConfig.banks.commercial[0],
+      instrument: 'BHRGOVBOND01',
+      instrumentName: 'BHRGOVBOND01',
       maturityDate: '11.04.2028',
       avai: 0,
       blck: 0,
@@ -46,7 +49,7 @@ const BalancesPage = () => {
       peda: 0,
       borr: 0,
       draw: 0,
-      failav: 10001000,
+      failav: formatCurrency(10001000),
       failblk: 0,
       faiplstr: 2000,
       faipled: 0,
@@ -54,11 +57,11 @@ const BalancesPage = () => {
       facraw: 0
     },
     {
-      account: 'CITIDEPO',
-      participantCode: 'CITIPNMK',
-      participantName: 'CITI BANK',
-      instrument: 'CUAENH6N23669',
-      instrumentName: 'CUAENH6N23669',
+      account: 'BBKDEPO',
+      participantCode: 'BBKPNMK',
+      participantName: portalConfig.banks.commercial[3], // Bank of Bahrain and Kuwait
+      instrument: 'BHRGOVBND23669',
+      instrumentName: 'BHRGOVBND23669',
       maturityDate: '18.07.2025',
       avai: 3,
       blck: 0,
@@ -68,7 +71,7 @@ const BalancesPage = () => {
       peda: 0,
       borr: 0,
       draw: 0,
-      failav: '3,000,000',
+      failav: formatCurrency(3000000),
       failblk: 0,
       faiplstr: 0,
       faipled: 0,
@@ -76,11 +79,11 @@ const BalancesPage = () => {
       facraw: 0
     },
     {
-      account: 'CITIDEPO',
-      participantCode: 'CITIPNMK',
-      participantName: 'CITI BANK',
-      instrument: 'TESTGOVBOND05',
-      instrumentName: 'TESTGOVBOND05',
+      account: 'GIBDEPO',
+      participantCode: 'GIBPNMK',
+      participantName: portalConfig.banks.commercial[16], // Gulf International Bank
+      instrument: 'BHRGOVBOND05',
+      instrumentName: 'BHRGOVBOND05',
       maturityDate: '14.07.2028',
       avai: 200000000,
       blck: 0,
@@ -90,51 +93,7 @@ const BalancesPage = () => {
       peda: 0,
       borr: 0,
       draw: 0,
-      failav: '200,000,000',
-      failblk: 0,
-      faiplstr: 0,
-      faipled: 0,
-      faipmndca: 0,
-      facraw: 0
-    },
-    {
-      account: 'CITIDEPO',
-      participantCode: 'CITIPNMK',
-      participantName: 'CITI BANK',
-      instrument: 'TESTGOVBOND06',
-      instrumentName: 'TESTGOVBOND06',
-      maturityDate: '14.07.2027',
-      avai: 300000000,
-      blck: 0,
-      rstr: 0,
-      pled: 0,
-      issu: 0,
-      peda: 0,
-      borr: 0,
-      draw: 0,
-      failav: '300,000,000',
-      failblk: 0,
-      faiplstr: 0,
-      faipled: 0,
-      faipmndca: 0,
-      facraw: 0
-    },
-    {
-      account: 'CITIDEPO',
-      participantCode: 'CITIPNMK',
-      participantName: 'CITI BANK',
-      instrument: 'CUAENH6N23745',
-      instrumentName: 'CUAENH6N23745',
-      maturityDate: '13.10.2025',
-      avai: 30,
-      blck: 0,
-      rstr: 0,
-      pled: 0,
-      issu: 0,
-      peda: 0,
-      borr: 0,
-      draw: 0,
-      failav: '30,000,000',
+      failav: formatCurrency(200000000),
       failblk: 0,
       faiplstr: 0,
       faipled: 0,
@@ -170,51 +129,49 @@ const BalancesPage = () => {
                   className="w-64 pl-10"
                 />
               </div>
-              <div className="text-sm text-muted-foreground">
-                {filteredData.length} row(s)
-              </div>
-              <button className="p-2 hover:bg-muted rounded">
-                <X className="h-4 w-4" />
-              </button>
+              <Badge variant="secondary">{filteredData.length} row(s)</Badge>
             </div>
           </div>
         </CardHeader>
         <CardContent className="p-0">
           <div className="overflow-x-auto">
             <Table>
-              <TableHeader>
+              <TableHeader className="bg-muted/50">
                 <TableRow>
-                  <TableHead className="text-xs">Account</TableHead>
-                  <TableHead className="text-xs">Participant code</TableHead>
-                  <TableHead className="text-xs">Participant name</TableHead>
-                  <TableHead className="text-xs">Instrument</TableHead>
-                  <TableHead className="text-xs">Instrument Name</TableHead>
-                  <TableHead className="text-xs">Maturity date</TableHead>
-                  <TableHead className="text-xs">AVAI</TableHead>
-                  <TableHead className="text-xs">BLCK</TableHead>
-                  <TableHead className="text-xs">RSTR</TableHead>
-                  <TableHead className="text-xs">PLED</TableHead>
-                  <TableHead className="text-xs">ISSU</TableHead>
-                  <TableHead className="text-xs">PEDA</TableHead>
-                  <TableHead className="text-xs">BORR</TableHead>
-                  <TableHead className="text-xs">DRAW</TableHead>
-                  <TableHead className="text-xs">FailAV</TableHead>
-                  <TableHead className="text-xs">FailBLK</TableHead>
-                  <TableHead className="text-xs">FaiPLSTR</TableHead>
-                  <TableHead className="text-xs">FaiPLED</TableHead>
-                  <TableHead className="text-xs">FaiPMNDCA</TableHead>
-                  <TableHead className="text-xs">FaCRAW</TableHead>
+                  <TableHead className="font-semibold">Account</TableHead>
+                  <TableHead className="font-semibold">Participant code</TableHead>
+                  <TableHead className="font-semibold">Participant name</TableHead>
+                  <TableHead className="font-semibold">Instrument</TableHead>
+                  <TableHead className="font-semibold">Instrument Name</TableHead>
+                  <TableHead className="font-semibold">Maturity date</TableHead>
+                  <TableHead className="font-semibold">AVAI</TableHead>
+                  <TableHead className="font-semibold">BLCK</TableHead>
+                  <TableHead className="font-semibold">RSTR</TableHead>
+                  <TableHead className="font-semibold">PLED</TableHead>
+                  <TableHead className="font-semibold">ISSU</TableHead>
+                  <TableHead className="font-semibold">PEDA</TableHead>
+                  <TableHead className="font-semibold">BORR</TableHead>
+                  <TableHead className="font-semibrel">DRAW</TableHead>
+                  <TableHead className="font-semibold">FailAV</TableHead>
+                  <TableHead className="font-semibold">FailBLK</TableHead>
+                  <TableHead className="font-semibold">FaiPLSTR</TableHead>
+                  <TableHead className="font-semibold">FaiPLED</TableHead>
+                  <TableHead className="font-semibold">FaiPMNDCA</TableHead>
+                  <TableHead className="font-semibold">FaCRAW</TableHead>
+                  <TableHead className="font-semibold">Actions</TableHead>
                 </TableRow>
               </TableHeader>
               <TableBody>
                 {filteredData.map((row, index) => (
-                  <TableRow key={index} className="text-xs">
+                  <TableRow key={index} className="hover:bg-muted/30">
                     <TableCell className="font-mono">{row.account}</TableCell>
                     <TableCell className="font-mono">{row.participantCode}</TableCell>
-                    <TableCell>{row.participantName}</TableCell>
+                    <TableCell className="truncate max-w-32" title={row.participantName}>
+                      {row.participantName}
+                    </TableCell>
                     <TableCell className="font-mono">{row.instrument}</TableCell>
                     <TableCell className="font-mono">{row.instrumentName}</TableCell>
-                    <TableCell>{row.maturityDate}</TableCell>
+                    <TableCell className="font-mono">{row.maturityDate}</TableCell>
                     <TableCell className={`font-mono ${row.avai > 0 ? 'text-red-600 bg-red-50' : ''}`}>
                       {row.avai}
                     </TableCell>
@@ -231,6 +188,16 @@ const BalancesPage = () => {
                     <TableCell className="font-mono">{row.faipled}</TableCell>
                     <TableCell className="font-mono">{row.faipmndca}</TableCell>
                     <TableCell className="font-mono">{row.facraw}</TableCell>
+                    <TableCell>
+                      <div className="flex gap-1">
+                        <Button variant="outline" size="sm">
+                          <Edit className="w-3 h-3" />
+                        </Button>
+                        <Button variant="outline" size="sm">
+                          <Trash2 className="w-3 h-3" />
+                        </Button>
+                      </div>
+                    </TableCell>
                   </TableRow>
                 ))}
               </TableBody>
