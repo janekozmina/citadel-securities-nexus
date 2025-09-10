@@ -34,9 +34,11 @@ export function ResponsiveSidebar({ isOpen, onToggle }: ResponsiveSidebarProps) 
   // Filter items based on user permissions
   const getAccessibleItems = (items: NavigationItem[]): NavigationItem[] => {
     return items.filter(item => {
+      console.log('Filtering item:', item.title, 'Roles required:', item.roles, 'User role:', user?.role);
       if (!item.roles || item.roles.length === 0) return true;
       if (user?.role && item.roles.includes(user.role)) return true;
-      return canAccessRoute(item.roles);
+      console.log('Item filtered out:', item.title);
+      return false; // Changed from canAccessRoute to false for stricter filtering
     });
   };
 
