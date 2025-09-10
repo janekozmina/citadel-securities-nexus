@@ -157,6 +157,19 @@ import BillingResultsPage from './pages/participant/monitoring/BillingResultsPag
 import ParticipantAuctionsSummary from './pages/participant/ParticipantAuctionsSummary';
 import ParticipantReporting from './pages/participant/ParticipantReporting';
 
+// Participant Dictionary Pages
+import PositionsPage from './pages/participant/dictionaries/PositionsPage';
+import ParticipantsPage from './pages/participant/dictionaries/ParticipantsPage';
+import CorrespondentsPage from './pages/participant/dictionaries/CorrespondentsPage';
+import RejectCodesPage from './pages/participant/dictionaries/RejectCodesPage';
+import TransactionCodesPage from './pages/participant/dictionaries/TransactionCodesPage';
+import CurrenciesPage from './pages/participant/dictionaries/CurrenciesPage';
+import AccountsPage from './pages/participant/dictionaries/AccountsPage';
+import NostroVostroLoroPage from './pages/participant/dictionaries/NostroVostroLoroPage';
+import SpecialAccountsPage from './pages/participant/dictionaries/SpecialAccountsPage';
+import PrioritiesPage from './pages/participant/dictionaries/PrioritiesPage';
+import BillingConfigurationsPage from './pages/participant/dictionaries/BillingConfigurationsPage';
+
 const queryClient = new QueryClient();
 
 const App = () => (
@@ -248,6 +261,150 @@ const App = () => (
               <ProtectedRoute>
                 <MainLayout>
                   <ParticipantReporting />
+                </MainLayout>
+              </ProtectedRoute>
+            } />
+            
+            {/* Participant Monitoring Tools */}
+            <Route path="/participant/monitoring/payment-search" element={
+              <ProtectedRoute>
+                <MainLayout>
+                  <PaymentSearchPage />
+                </MainLayout>
+              </ProtectedRoute>
+            } />
+            <Route path="/participant/monitoring/message-audit" element={
+              <ProtectedRoute>
+                <MainLayout>
+                  <MessageAuditPage />
+                </MainLayout>
+              </ProtectedRoute>
+            } />
+            <Route path="/participant/monitoring/reconciliation" element={
+              <ProtectedRoute>
+                <MainLayout>
+                  <ReconciliationPage />
+                </MainLayout>
+              </ProtectedRoute>
+            } />
+            <Route path="/participant/monitoring/transactions" element={
+              <ProtectedRoute>
+                <MainLayout>
+                  <TransactionsMonitoringPage />
+                </MainLayout>
+              </ProtectedRoute>
+            } />
+            <Route path="/participant/monitoring/authorization-queue" element={
+              <ProtectedRoute>
+                <MainLayout>
+                  <AuthorizationQueuePage />
+                </MainLayout>
+              </ProtectedRoute>
+            } />
+            <Route path="/participant/monitoring/gcc-transactions" element={
+              <ProtectedRoute>
+                <MainLayout>
+                  <GCCTransactionsPage />
+                </MainLayout>
+              </ProtectedRoute>
+            } />
+            <Route path="/participant/monitoring/exchange-rates" element={
+              <ProtectedRoute>
+                <MainLayout>
+                  <ExchangeRatesPage />
+                </MainLayout>
+              </ProtectedRoute>
+            } />
+            <Route path="/participant/monitoring/billing-results" element={
+              <ProtectedRoute>
+                <MainLayout>
+                  <BillingResultsPage />
+                </MainLayout>
+              </ProtectedRoute>
+            } />
+            <Route path="/participant/transaction-history" element={
+              <ProtectedRoute>
+                <MainLayout>
+                  <ParticipantTransactionHistory />
+                </MainLayout>
+              </ProtectedRoute>
+            } />
+            
+            {/* Participant Dictionary Routes */}
+            <Route path="/participant/dictionaries/positions" element={
+              <ProtectedRoute>
+                <MainLayout>
+                  <PositionsPage />
+                </MainLayout>
+              </ProtectedRoute>
+            } />
+            <Route path="/participant/dictionaries/participants" element={
+              <ProtectedRoute>
+                <MainLayout>
+                  <ParticipantsPage />
+                </MainLayout>
+              </ProtectedRoute>
+            } />
+            <Route path="/participant/dictionaries/correspondents" element={
+              <ProtectedRoute>
+                <MainLayout>
+                  <CorrespondentsPage />
+                </MainLayout>
+              </ProtectedRoute>
+            } />
+            <Route path="/participant/dictionaries/reject-codes" element={
+              <ProtectedRoute>
+                <MainLayout>
+                  <RejectCodesPage />
+                </MainLayout>
+              </ProtectedRoute>
+            } />
+            <Route path="/participant/dictionaries/transaction-codes" element={
+              <ProtectedRoute>
+                <MainLayout>
+                  <TransactionCodesPage />
+                </MainLayout>
+              </ProtectedRoute>
+            } />
+            <Route path="/participant/dictionaries/currencies" element={
+              <ProtectedRoute>
+                <MainLayout>
+                  <CurrenciesPage />
+                </MainLayout>
+              </ProtectedRoute>
+            } />
+            <Route path="/participant/dictionaries/accounts" element={
+              <ProtectedRoute>
+                <MainLayout>
+                  <AccountsPage />
+                </MainLayout>
+              </ProtectedRoute>
+            } />
+            <Route path="/participant/dictionaries/nostro-vostro-loro" element={
+              <ProtectedRoute>
+                <MainLayout>
+                  <NostroVostroLoroPage />
+                </MainLayout>
+              </ProtectedRoute>
+            } />
+            <Route path="/participant/dictionaries/special-accounts" element={
+              <ProtectedRoute>
+                <MainLayout>
+                  <SpecialAccountsPage />
+                </MainLayout>
+              </ProtectedRoute>
+            } />
+            <Route path="/participant/dictionaries/priorities" element={
+              <ProtectedRoute>
+                <MainLayout>
+                  <PrioritiesPage />
+                </MainLayout>
+              </ProtectedRoute>
+            } />
+            <Route path="/participant/dictionaries/billing-configurations" element={
+              <ProtectedRoute>
+                <MainLayout>
+                  <BillingConfigurationsPage />
                 </MainLayout>
               </ProtectedRoute>
             } />
