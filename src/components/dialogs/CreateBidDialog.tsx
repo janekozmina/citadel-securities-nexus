@@ -192,20 +192,6 @@ export const CreateBidDialog = ({ open, onOpenChange }: CreateBidDialogProps) =>
               </div>
 
               <div>
-                <Label htmlFor="participantId">Participant ID</Label>
-                <Select onValueChange={(value) => setFormData(prev => ({ ...prev, participantId: value }))}>
-                  <SelectTrigger>
-                    <SelectValue placeholder="Select participant" />
-                  </SelectTrigger>
-                  <SelectContent>
-                    <SelectItem value="P001">P001 - ABC Bank</SelectItem>
-                    <SelectItem value="P002">P002 - XYZ Financial</SelectItem>
-                    <SelectItem value="P003">P003 - DEF Securities</SelectItem>
-                  </SelectContent>
-                </Select>
-              </div>
-
-              <div>
                 <Label htmlFor="notes">Notes (Optional)</Label>
                 <Input
                   id="notes"
