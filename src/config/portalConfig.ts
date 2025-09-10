@@ -258,6 +258,20 @@ export const portalConfig = {
   demo: {
     users: [
       {
+        email: 'admin@demo.com',
+        password: 'CMA!@#$',
+        role: 'Admin',
+        name: 'System Administrator',
+        department: 'IT Operations'
+      },
+      {
+        email: 'participant@demo.com',
+        password: 'CMA!@#$',
+        role: 'CSDParticipant',
+        name: 'Participant',
+        department: 'Securities Operations'
+      },
+      {
         email: 'admin@cbb.gov.bh',
         password: 'admin123',
         role: 'Admin',
@@ -277,13 +291,6 @@ export const portalConfig = {
         role: 'BankOperator',
         name: 'NBB Operator',
         department: 'Treasury Operations'
-      },
-      {
-        email: 'participant@demo.com',
-        password: 'CMA!@#$',
-        role: 'CSDParticipant',
-        name: 'Participant',
-        department: 'Securities Operations'
       }
     ],
     mfaCodes: ['123456', '000000'] // Demo MFA codes
