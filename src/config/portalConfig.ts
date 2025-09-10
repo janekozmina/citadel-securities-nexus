@@ -282,7 +282,7 @@ export const portalConfig = {
         email: 'participant@demo.com',
         password: 'CMA!@#$',
         role: 'CSDParticipant',
-        name: 'CSD Participant',
+        name: 'Participant',
         department: 'Securities Operations'
       }
     ],
