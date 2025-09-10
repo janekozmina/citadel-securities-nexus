@@ -186,35 +186,6 @@ const ParticipantOnboardingPage = () => {
         </CardContent>
       </Card>
 
-      {/* External Onboarding Access */}
-      <Card className="border-blue-200 bg-blue-50/50">
-        <CardHeader>
-          <CardTitle className="flex items-center gap-2">
-            <ExternalLink className="h-5 w-5 text-blue-600" />
-            External Onboarding Platform
-          </CardTitle>
-          <CardDescription>Access the dedicated onboarding and training platform</CardDescription>
-        </CardHeader>
-        <CardContent>
-          <div className="flex items-center justify-between">
-            <div>
-              <p className="text-sm mb-2">
-                Complete your comprehensive onboarding process on the external platform with interactive tutorials and assessments.
-              </p>
-              <div className="flex items-center gap-2 text-xs text-muted-foreground">
-                <Badge variant="outline" className="text-xs">Interactive Training</Badge>
-                <Badge variant="outline" className="text-xs">Progress Tracking</Badge>
-                <Badge variant="outline" className="text-xs">Certification</Badge>
-              </div>
-            </div>
-            <Button onClick={handleExternalOnboarding}>
-              <ExternalLink className="w-4 h-4 mr-2" />
-              Access
-            </Button>
-          </div>
-        </CardContent>
-      </Card>
-
       <Tabs defaultValue="steps" className="w-full">
         <TabsList className="grid w-full grid-cols-2">
           <TabsTrigger value="steps">Onboarding Steps</TabsTrigger>
@@ -302,34 +273,6 @@ const ParticipantOnboardingPage = () => {
           </Card>
         </TabsContent>
       </Tabs>
-
-      {/* Quick Actions */}
-      <Card>
-        <CardHeader>
-          <CardTitle>Quick Actions</CardTitle>
-          <CardDescription>Common onboarding tasks and resources</CardDescription>
-        </CardHeader>
-        <CardContent>
-          <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
-            <Button variant="outline" className="h-20 flex-col gap-2">
-              <FileText className="w-5 h-5" />
-              <span className="text-sm">Documentation</span>
-            </Button>
-            <Button variant="outline" className="h-20 flex-col gap-2">
-              <Users className="w-5 h-5" />
-              <span className="text-sm">Contact Support</span>
-            </Button>
-            <Button variant="outline" className="h-20 flex-col gap-2">
-              <Award className="w-5 h-5" />
-              <span className="text-sm">Certifications</span>
-            </Button>
-            <Button variant="outline" className="h-20 flex-col gap-2" onClick={handleExternalOnboarding}>
-              <ExternalLink className="w-5 h-5" />
-              <span className="text-sm">External Platform</span>
-            </Button>
-          </div>
-        </CardContent>
-      </Card>
     </div>
   );
 };

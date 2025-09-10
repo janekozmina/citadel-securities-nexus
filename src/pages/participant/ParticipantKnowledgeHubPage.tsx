@@ -113,35 +113,6 @@ const ParticipantKnowledgeHubPage = () => {
         </CardContent>
       </Card>
 
-      {/* External Access */}
-      <Card className="border-blue-200 bg-blue-50/50">
-        <CardHeader>
-          <CardTitle className="flex items-center gap-2">
-            <Globe className="h-5 w-5 text-blue-600" />
-            External Knowledge Hub
-          </CardTitle>
-          <CardDescription>Access the comprehensive online knowledge base</CardDescription>
-        </CardHeader>
-        <CardContent>
-          <div className="flex items-center justify-between">
-            <div>
-              <p className="text-sm mb-2">
-                Get access to the latest documentation, video tutorials, and community resources.
-              </p>
-              <div className="flex items-center gap-2 text-xs text-muted-foreground">
-                <Badge variant="outline" className="text-xs">24/7 Access</Badge>
-                <Badge variant="outline" className="text-xs">Video Tutorials</Badge>
-                <Badge variant="outline" className="text-xs">Community Support</Badge>
-              </div>
-            </div>
-            <Button onClick={handleExternalKnowledgeHub}>
-              <ExternalLink className="w-4 h-4 mr-2" />
-              Access
-            </Button>
-          </div>
-        </CardContent>
-      </Card>
-
       {/* Recent Updates */}
       <Card>
         <CardHeader>
@@ -206,30 +177,6 @@ const ParticipantKnowledgeHubPage = () => {
           </Card>
         ))}
       </div>
-
-      {/* Quick Actions */}
-      <Card>
-        <CardHeader>
-          <CardTitle>Quick Actions</CardTitle>
-          <CardDescription>Common knowledge base tasks</CardDescription>
-        </CardHeader>
-        <CardContent>
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-            <Button variant="outline" className="h-20 flex-col gap-2">
-              <Video className="w-5 h-5" />
-              <span className="text-sm">Video Tutorials</span>
-            </Button>
-            <Button variant="outline" className="h-20 flex-col gap-2">
-              <Download className="w-5 h-5" />
-              <span className="text-sm">Download Resources</span>
-            </Button>
-            <Button variant="outline" className="h-20 flex-col gap-2" onClick={handleExternalKnowledgeHub}>
-              <ExternalLink className="w-5 h-5" />
-              <span className="text-sm">External Hub</span>
-            </Button>
-          </div>
-        </CardContent>
-      </Card>
     </div>
   );
 };
