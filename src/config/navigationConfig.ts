@@ -192,7 +192,7 @@ export const primaryNavigation: NavigationItem[] = [
     tags: ['participants', 'management']
   },
   {
-    id: 'monitoring-tools',
+    id: 'participant-monitoring',
     title: 'Monitoring Tools',
     path: '/participant/monitoring',
     icon: Monitor,
@@ -203,7 +203,7 @@ export const primaryNavigation: NavigationItem[] = [
     tags: ['monitoring', 'tools']
   },
   {
-    id: 'dictionaries',
+    id: 'participant-dictionaries',
     title: 'Dictionaries',
     path: '/participant/dictionaries',
     icon: BookOpen,

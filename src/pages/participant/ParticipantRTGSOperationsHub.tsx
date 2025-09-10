@@ -1,7 +1,8 @@
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
-import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
+import { Button } from '@/components/ui/button';
+import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { 
   Building2, 
   Send, 
@@ -12,238 +13,284 @@ import {
   Users,
   FileText,
   Clock,
-  CheckCircle
+  CheckCircle,
+  Calculator,
+  RefreshCw
 } from 'lucide-react';
-import { useAuth } from '@/contexts/AuthContext';
 import { ParticipantRTGSOperationsDialogs } from '@/components/participant/ParticipantRTGSOperationsDialogs';
 
 const ParticipantRTGSOperationsHub = () => {
-  const { user } = useAuth();
-  const [activeDialog, setActiveDialog] = useState<string | null>(null);
+  const [selectedOperation, setSelectedOperation] = useState('');
 
-  useEffect(() => {
-    document.title = 'RTGS Operations Hub | Participant Portal';
-  }, []);
+  const operationsCategories = [
+    {
+      title: 'Payment Operations',
+      icon: Send,
+      operations: [
+        { id: 'institution-transfer', name: 'Institution Transfer', description: 'Bank-to-bank transfer operations' },
+        { id: 'institution-cover-transfer', name: 'Institution Cover Transfer', description: 'Cover payment instructions' },
+        { id: 'customer-credit-transfer', name: 'Single Customer Credit Transfer', description: 'Direct customer payments' },
+        { id: 'free-format-message', name: 'Free Format Message', description: 'General communication messages' }
+      ]
+    },
+    {
+      title: 'Liquidity Management',
+      icon: Banknote,
+      operations: [
+        { id: 'liquidity-check', name: 'Check Available Liquidity', description: 'Review current liquidity positions' },
+        { id: 'intraday-facility', name: 'Intraday Liquidity Facility', description: 'Access intraday credit facilities' },
+        { id: 'settlement-limits', name: 'Settlement Limit Management', description: 'Manage RTGS settlement limits' },
+        { id: 'queue-management', name: 'Queue Management', description: 'Manage queued transactions' }
+      ]
+    },
+    {
+      title: 'Monitoring & Reports',
+      icon: FileText,
+      operations: [
+        { id: 'transaction-status', name: 'Transaction Status Inquiry', description: 'Check payment status and history' },
+        { id: 'balance-report', name: 'Balance & Position Report', description: 'Current balances and positions' },
+        { id: 'daily-statements', name: 'Daily Account Statements', description: 'Comprehensive daily reports' },
+        { id: 'operational-reports', name: 'Operational Reports', description: 'System and operational insights' }
+      ]
+    }
+  ];
+
+  const recentOperations = [
+    { id: 'RT001', type: 'Institution Transfer', recipient: 'BBK', amount: 500000, status: 'Completed', time: '14:30' },
+    { id: 'RT002', type: 'Customer Credit Transfer', recipient: 'Individual', amount: 250000, status: 'Processing', time: '13:45' },
+    { id: 'RT003', type: 'Cover Transfer', recipient: 'GIB', amount: 100000, status: 'Pending', time: '12:20' },
+    { id: 'RT004', type: 'Institution Transfer', recipient: 'AHLI', amount: 750000, status: 'Completed', time: '11:15' }
+  ];
+
+  const getStatusColor = (status: string) => {
+    switch (status.toLowerCase()) {
+      case 'completed': return 'default';
+      case 'processing': return 'secondary';
+      case 'pending': return 'outline';
+      case 'failed': return 'destructive';
+      default: return 'secondary';
+    }
+  };
+
+  const handleOperationSelect = (operationId: string) => {
+    setSelectedOperation(operationId);
+  };
 
   return (
-    <div className="p-6 space-y-6">
+    <div className="space-y-6">
       {/* Header */}
-      <div className="flex items-center justify-between">
+      <div className="flex justify-between items-center">
         <div>
-          <h1 className="text-2xl font-bold text-slate-900">RTGS Operations Hub</h1>
-          <p className="text-slate-600">Execute RTGS transactions and manage payment operations.</p>
+          <h1 className="text-3xl font-bold">RTGS Operations Hub</h1>
+          <p className="text-muted-foreground">Real-Time Gross Settlement System Operations Center</p>
         </div>
       </div>
 
-      {/* Quick Stats */}
-      <div className="grid grid-cols-1 md:grid-cols-4 gap-6">
-        <Card>
-          <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-            <CardTitle className="text-sm font-medium">Available Balance</CardTitle>
-            <Banknote className="h-4 w-4 text-blue-600" />
-          </CardHeader>
-          <CardContent>
-            <div className="text-2xl font-bold">2,450,000 BHD</div>
-            <p className="text-xs text-slate-600">Ready for transactions</p>
-          </CardContent>
-        </Card>
+      <Tabs defaultValue="operations" className="w-full">
+        <TabsList className="grid w-full grid-cols-3">
+          <TabsTrigger value="operations">Available Operations</TabsTrigger>
+          <TabsTrigger value="recent">Recent Activity</TabsTrigger>
+          <TabsTrigger value="quick">Quick Actions</TabsTrigger>
+        </TabsList>
 
-        <Card>
-          <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-            <CardTitle className="text-sm font-medium">Transactions Today</CardTitle>
-            <ArrowUpDown className="h-4 w-4 text-green-600" />
-          </CardHeader>
-          <CardContent>
-            <div className="text-2xl font-bold">12</div>
-            <p className="text-xs text-green-600">8 completed</p>
-          </CardContent>
-        </Card>
-
-        <Card>
-          <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-            <CardTitle className="text-sm font-medium">Pending Operations</CardTitle>
-            <Clock className="h-4 w-4 text-amber-600" />
-          </CardHeader>
-          <CardContent>
-            <div className="text-2xl font-bold">3</div>
-            <p className="text-xs text-slate-600">Awaiting processing</p>
-          </CardContent>
-        </Card>
-
-        <Card>
-          <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-            <CardTitle className="text-sm font-medium">Daily Limit Usage</CardTitle>
-            <Users className="h-4 w-4 text-purple-600" />
-          </CardHeader>
-          <CardContent>
-            <div className="text-2xl font-bold">17%</div>
-            <p className="text-xs text-slate-600">4,150,000 BHD available</p>
-          </CardContent>
-        </Card>
-      </div>
-
-      {/* RTGS Operations */}
-      <Card>
-        <CardHeader>
-          <CardTitle className="flex items-center gap-2">
-            <Send className="h-5 w-5" />
-            RTGS Operations
-          </CardTitle>
-          <CardDescription>Execute real-time gross settlement transactions</CardDescription>
-        </CardHeader>
-        <CardContent>
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
-            <Button 
-              variant="outline" 
-              className="h-24 flex-col gap-2"
-              onClick={() => setActiveDialog('institution-transfer')}
-            >
-              <div className="text-center">
-                <div className="font-medium text-sm">Institution Transfer</div>
-                <div className="text-xs text-muted-foreground">Bank-to-bank transfer</div>
-              </div>
-            </Button>
-
-            <Button 
-              variant="outline" 
-              className="h-24 flex-col gap-2"
-              onClick={() => setActiveDialog('institution-cover-transfer')}
-            >
-              <div className="text-center">
-                <div className="font-medium text-sm">Institution Cover Transfer</div>
-                <div className="text-xs text-muted-foreground">Cover payment instruction</div>
-              </div>
-            </Button>
-
-            <Button 
-              variant="outline" 
-              className="h-24 flex-col gap-2"
-              onClick={() => setActiveDialog('customer-credit-transfer')}
-            >
-              <div className="text-center">
-                <div className="font-medium text-sm">Single Customer Credit Transfer</div>
-                <div className="text-xs text-muted-foreground">Customer payment</div>
-              </div>
-            </Button>
-
-            <Button 
-              variant="outline" 
-              className="h-24 flex-col gap-2"
-              onClick={() => setActiveDialog('free-format-message')}
-            >
-              <div className="text-center">
-                <div className="font-medium text-sm">Free Format Message</div>
-                <div className="text-xs text-muted-foreground">General communication</div>
-              </div>
-            </Button>
+        <TabsContent value="operations">
+          <div className="grid gap-6">
+            {operationsCategories.map((category) => (
+              <Card key={category.title}>
+                <CardHeader>
+                  <CardTitle className="flex items-center gap-2">
+                    <category.icon className="h-5 w-5" />
+                    {category.title}
+                  </CardTitle>
+                  <CardDescription>
+                    Available operations for {category.title.toLowerCase()}
+                  </CardDescription>
+                </CardHeader>
+                <CardContent>
+                  <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+                    {category.operations.map((operation) => (
+                      <div
+                        key={operation.id}
+                        className="p-4 border rounded-lg cursor-pointer hover:bg-accent transition-colors"
+                        onClick={() => handleOperationSelect(operation.id)}
+                      >
+                        <h4 className="font-medium mb-2">{operation.name}</h4>
+                        <p className="text-sm text-muted-foreground">{operation.description}</p>
+                        <Button 
+                          variant="outline" 
+                          size="sm" 
+                          className="mt-3 w-full"
+                          onClick={() => handleOperationSelect(operation.id)}
+                        >
+                          Initiate Operation
+                        </Button>
+                      </div>
+                    ))}
+                  </div>
+                </CardContent>
+              </Card>
+            ))}
           </div>
-        </CardContent>
-      </Card>
+        </TabsContent>
 
-      {/* Recent Activity */}
-      <Card>
-        <CardHeader>
-          <CardTitle className="flex items-center gap-2">
-            <Clock className="h-5 w-5" />
-            Recent Activity
-          </CardTitle>
-          <CardDescription>Latest RTGS operations and status updates</CardDescription>
-        </CardHeader>
-        <CardContent>
-          <div className="space-y-4">
-            <div className="flex items-center justify-between p-4 bg-slate-50 rounded-lg">
-              <div className="flex items-center gap-3">
-                <Building2 className="h-5 w-5 text-blue-600" />
-                <div>
-                  <p className="font-medium">Institution Transfer to BBK</p>
-                  <p className="text-sm text-slate-600">Reference: RT20241210001 • 500,000 BHD</p>
-                </div>
+        <TabsContent value="recent">
+          <Card>
+            <CardHeader>
+              <CardTitle className="flex items-center gap-2">
+                <Clock className="h-5 w-5" />
+                Recent RTGS Operations
+              </CardTitle>
+              <CardDescription>Your latest RTGS operational activities</CardDescription>
+            </CardHeader>
+            <CardContent>
+              <div className="space-y-4">
+                {recentOperations.map((operation) => (
+                  <div key={operation.id} className="flex justify-between items-center p-4 rounded-lg border">
+                    <div className="flex-1">
+                      <div className="flex items-center gap-2 mb-1">
+                        <span className="font-medium">{operation.type}</span>
+                        <Badge variant={getStatusColor(operation.status)} className="text-xs">
+                          {operation.status}
+                        </Badge>
+                      </div>
+                      <p className="text-sm text-muted-foreground">To: {operation.recipient}</p>
+                      <p className="text-xs text-muted-foreground">Ref: {operation.id}</p>
+                    </div>
+                    <div className="text-right">
+                      <p className="font-medium">BHD {operation.amount.toLocaleString()}</p>
+                      <p className="text-xs text-muted-foreground">{operation.time}</p>
+                      <Button variant="outline" size="sm" className="mt-1">
+                        View Details
+                      </Button>
+                    </div>
+                  </div>
+                ))}
               </div>
-              <Badge variant="outline" className="bg-green-50 text-green-700">Completed</Badge>
-            </div>
+            </CardContent>
+          </Card>
+        </TabsContent>
 
-            <div className="flex items-center justify-between p-4 bg-slate-50 rounded-lg">
-              <div className="flex items-center gap-3">
-                <CreditCard className="h-5 w-5 text-purple-600" />
-                <div>
-                  <p className="font-medium">Customer Credit Transfer</p>
-                  <p className="text-sm text-slate-600">Reference: RT20241210002 • 250,000 BHD</p>
-                </div>
-              </div>
-              <Badge variant="outline" className="bg-amber-50 text-amber-700">Processing</Badge>
-            </div>
+        <TabsContent value="quick">
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+            <Card>
+              <CardHeader>
+                <CardTitle className="flex items-center gap-2">
+                  <Send className="h-5 w-5" />
+                  Quick Institution Transfer
+                </CardTitle>
+                <CardDescription>Fast bank-to-bank transfer</CardDescription>
+              </CardHeader>
+              <CardContent>
+                <Button className="w-full" onClick={() => setSelectedOperation('institution-transfer')}>
+                  <Send className="w-4 h-4 mr-2" />
+                  Open Transfer Form
+                </Button>
+              </CardContent>
+            </Card>
 
-            <div className="flex items-center justify-between p-4 bg-slate-50 rounded-lg">
-              <div className="flex items-center gap-3">
-                <Send className="h-5 w-5 text-green-600" />
-                <div>
-                  <p className="font-medium">Cover Transfer to GIB</p>
-                  <p className="text-sm text-slate-600">Reference: RT20241210003 • 100,000 BHD</p>
-                </div>
-              </div>
-              <Badge variant="outline" className="bg-blue-50 text-blue-700">Sent</Badge>
-            </div>
+            <Card>
+              <CardHeader>
+                <CardTitle className="flex items-center gap-2">
+                  <CreditCard className="h-5 w-5" />
+                  Customer Payment
+                </CardTitle>
+                <CardDescription>Process customer credit transfer</CardDescription>
+              </CardHeader>
+              <CardContent>
+                <Button className="w-full" onClick={() => setSelectedOperation('customer-credit-transfer')}>
+                  <CreditCard className="w-4 h-4 mr-2" />
+                  Open Payment Form
+                </Button>
+              </CardContent>
+            </Card>
+
+            <Card>
+              <CardHeader>
+                <CardTitle className="flex items-center gap-2">
+                  <Banknote className="h-5 w-5" />
+                  Check Liquidity
+                </CardTitle>
+                <CardDescription>Review available liquidity</CardDescription>
+              </CardHeader>
+              <CardContent>
+                <Button className="w-full" onClick={() => setSelectedOperation('liquidity-check')}>
+                  <Banknote className="w-4 h-4 mr-2" />
+                  Check Liquidity
+                </Button>
+              </CardContent>
+            </Card>
+
+            <Card>
+              <CardHeader>
+                <CardTitle className="flex items-center gap-2">
+                  <FileText className="h-5 w-5" />
+                  Transaction Status
+                </CardTitle>
+                <CardDescription>Check payment status</CardDescription>
+              </CardHeader>
+              <CardContent>
+                <Button className="w-full" onClick={() => setSelectedOperation('transaction-status')}>
+                  <FileText className="w-4 h-4 mr-2" />
+                  Check Status
+                </Button>
+              </CardContent>
+            </Card>
+
+            <Card>
+              <CardHeader>
+                <CardTitle className="flex items-center gap-2">
+                  <Calculator className="h-5 w-5" />
+                  Balance Report
+                </CardTitle>
+                <CardDescription>Generate balance report</CardDescription>
+              </CardHeader>
+              <CardContent>
+                <Button variant="outline" className="w-full">
+                  <Calculator className="w-4 h-4 mr-2" />
+                  Coming Soon
+                </Button>
+              </CardContent>
+            </Card>
           </div>
-        </CardContent>
-      </Card>
+        </TabsContent>
+      </Tabs>
 
-      {/* System Information */}
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-        <Card>
+      {/* Selection Dialog */}
+      {selectedOperation && ![
+        'institution-transfer', 'customer-credit-transfer', 'liquidity-check', 'transaction-status',
+        'institution-cover-transfer', 'free-format-message'
+      ].includes(selectedOperation) && (
+        <Card className="mt-6">
           <CardHeader>
-            <CardTitle className="flex items-center gap-2">
-              <FileText className="h-5 w-5" />
-              Operating Hours
-            </CardTitle>
+            <CardTitle>Operation Details: {selectedOperation}</CardTitle>
+            <CardDescription>Configure and execute the selected RTGS operation</CardDescription>
           </CardHeader>
           <CardContent>
-            <div className="space-y-3">
-              <div className="flex justify-between">
-                <span className="text-slate-600">Business Hours:</span>
-                <span className="font-medium">08:00 - 17:00</span>
-              </div>
-              <div className="flex justify-between">
-                <span className="text-slate-600">Cut-off Time:</span>
-                <span className="font-medium">16:30</span>
-              </div>
-              <div className="flex justify-between">
-                <span className="text-slate-600">Current Status:</span>
-                <Badge variant="outline" className="bg-green-50 text-green-700">Open</Badge>
+            <div className="space-y-4">
+              <p className="text-sm text-muted-foreground">
+                Selected operation: <span className="font-medium">{selectedOperation}</span>
+              </p>
+              <div className="flex gap-2">
+                <Button>
+                  <FileText className="w-4 h-4 mr-2" />
+                  Configure Operation
+                </Button>
+                <Button variant="outline" onClick={() => setSelectedOperation('')}>
+                  Cancel
+                </Button>
               </div>
             </div>
           </CardContent>
         </Card>
-
-        <Card>
-          <CardHeader>
-            <CardTitle className="flex items-center gap-2">
-              <Users className="h-5 w-5" />
-              Quick Actions
-            </CardTitle>
-          </CardHeader>
-          <CardContent>
-            <div className="space-y-3">
-              <Button variant="outline" className="w-full justify-start">
-                <FileText className="h-4 w-4 mr-2" />
-                View Transaction History
-              </Button>
-              <Button variant="outline" className="w-full justify-start">
-                <Clock className="h-4 w-4 mr-2" />
-                Check Pending Operations
-              </Button>
-              <Button variant="outline" className="w-full justify-start">
-                <Banknote className="h-4 w-4 mr-2" />
-                Account Balance Report
-              </Button>
-            </div>
-          </CardContent>
-        </Card>
-      </div>
-
+      )}
+      
       {/* RTGS Operations Dialogs */}
       <ParticipantRTGSOperationsDialogs 
-        activeDialog={activeDialog}
-        onClose={() => setActiveDialog(null)}
+        activeDialog={[
+          'institution-transfer', 'customer-credit-transfer', 'liquidity-check', 'transaction-status',
+          'institution-cover-transfer', 'free-format-message'
+        ].includes(selectedOperation) ? selectedOperation : null}
+        onClose={() => setSelectedOperation('')}
       />
     </div>
   );

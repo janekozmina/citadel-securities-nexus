@@ -1,7 +1,8 @@
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
-import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
+import { Button } from '@/components/ui/button';
+import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { 
   Globe, 
   Send, 
@@ -9,26 +10,77 @@ import {
   Building2,
   ArrowUpDown,
   Clock,
-  CheckCircle
+  CheckCircle,
+  FileText,
+  Calculator,
+  Banknote
 } from 'lucide-react';
-import { useAuth } from '@/contexts/AuthContext';
 import { ParticipantGCCOperationsDialogs } from '@/components/participant/ParticipantGCCOperationsDialogs';
 
 const ParticipantGCCOperations = () => {
-  const { user } = useAuth();
-  const [activeDialog, setActiveDialog] = useState<string | null>(null);
+  const [selectedOperation, setSelectedOperation] = useState('');
 
-  useEffect(() => {
-    document.title = 'GCC Operations | Participant Portal';
-  }, []);
+  const operationsCategories = [
+    {
+      title: 'GCC Transfer Operations',
+      icon: Globe,
+      operations: [
+        { id: 'gcc-institution-transfer', name: 'GCC Multi Currency Institution Transfer', description: 'Inter-bank GCC transfer operations' },
+        { id: 'gcc-customer-transfer', name: 'GCC Multi Currency Customer Transfer', description: 'Customer cross-border payments within GCC' },
+        { id: 'gcc-swift-transfer', name: 'GCC SWIFT Message Transfer', description: 'SWIFT-based cross-border messaging' },
+        { id: 'gcc-status-inquiry', name: 'GCC Transfer Status Inquiry', description: 'Check status of GCC transfers' }
+      ]
+    },
+    {
+      title: 'Currency Exchange Operations',
+      icon: ArrowUpDown,
+      operations: [
+        { id: 'currency-exchange', name: 'Multi-Currency Exchange', description: 'Exchange between GCC currencies' },
+        { id: 'fx-rate-inquiry', name: 'FX Rate Inquiry', description: 'Check current exchange rates' },
+        { id: 'currency-settlement', name: 'Currency Settlement', description: 'Settle multi-currency transactions' },
+        { id: 'hedging-operations', name: 'Currency Hedging', description: 'Risk management for currency exposure' }
+      ]
+    },
+    {
+      title: 'Monitoring & Reports',
+      icon: FileText,
+      operations: [
+        { id: 'gcc-balance-report', name: 'Multi-Currency Balance Report', description: 'Balances across all GCC currencies' },
+        { id: 'gcc-transaction-history', name: 'GCC Transaction History', description: 'Historical GCC transaction records' },
+        { id: 'gcc-settlement-report', name: 'GCC Settlement Report', description: 'Cross-border settlement analytics' },
+        { id: 'gcc-compliance-report', name: 'GCC Compliance Report', description: 'Regulatory compliance reporting' }
+      ]
+    }
+  ];
+
+  const recentOperations = [
+    { id: 'GCC001', type: 'Institution Transfer', currency: 'SAR', recipient: 'SABB', amount: 1875000, status: 'Completed', time: '14:30' },
+    { id: 'GCC002', type: 'Customer Transfer', currency: 'KWD', recipient: 'NBK', amount: 75000, status: 'Processing', time: '13:45' },
+    { id: 'GCC003', type: 'Institution Transfer', currency: 'AED', recipient: 'ADCB', amount: 920000, status: 'Pending', time: '12:20' },
+    { id: 'GCC004', type: 'Customer Transfer', currency: 'QAR', recipient: 'QNB', amount: 550000, status: 'Completed', time: '11:15' }
+  ];
+
+  const getStatusColor = (status: string) => {
+    switch (status.toLowerCase()) {
+      case 'completed': return 'default';
+      case 'processing': return 'secondary';
+      case 'pending': return 'outline';
+      case 'failed': return 'destructive';
+      default: return 'secondary';
+    }
+  };
+
+  const handleOperationSelect = (operationId: string) => {
+    setSelectedOperation(operationId);
+  };
 
   return (
-    <div className="p-6 space-y-6">
+    <div className="space-y-6">
       {/* Header */}
-      <div className="flex items-center justify-between">
+      <div className="flex justify-between items-center">
         <div>
-          <h1 className="text-2xl font-bold text-slate-900">GCC Operations</h1>
-          <p className="text-slate-600">Gulf Cooperation Council multi-currency operations and transfers.</p>
+          <h1 className="text-3xl font-bold">GCC Operations Hub</h1>
+          <p className="text-muted-foreground">Gulf Cooperation Council Multi-Currency Operations Center</p>
         </div>
         <Badge variant="outline" className="bg-green-50 text-green-700">
           <CheckCircle className="w-3 h-3 mr-1" />
@@ -36,201 +88,210 @@ const ParticipantGCCOperations = () => {
         </Badge>
       </div>
 
-      {/* Quick Stats */}
-      <div className="grid grid-cols-1 md:grid-cols-4 gap-6">
-        <Card>
-          <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-            <CardTitle className="text-sm font-medium">Available Balance (Multi-Currency)</CardTitle>
-            <Globe className="h-4 w-4 text-blue-600" />
-          </CardHeader>
-          <CardContent>
-            <div className="text-2xl font-bold">5 Currencies</div>
-            <p className="text-xs text-slate-600">BHD, SAR, AED, KWD, QAR</p>
-          </CardContent>
-        </Card>
+      <Tabs defaultValue="operations" className="w-full">
+        <TabsList className="grid w-full grid-cols-3">
+          <TabsTrigger value="operations">Available Operations</TabsTrigger>
+          <TabsTrigger value="recent">Recent Activity</TabsTrigger>
+          <TabsTrigger value="quick">Quick Actions</TabsTrigger>
+        </TabsList>
 
-        <Card>
-          <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-            <CardTitle className="text-sm font-medium">GCC Transactions Today</CardTitle>
-            <ArrowUpDown className="h-4 w-4 text-green-600" />
-          </CardHeader>
-          <CardContent>
-            <div className="text-2xl font-bold">8</div>
-            <p className="text-xs text-green-600">6 completed</p>
-          </CardContent>
-        </Card>
-
-        <Card>
-          <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-            <CardTitle className="text-sm font-medium">Pending Operations</CardTitle>
-            <Clock className="h-4 w-4 text-amber-600" />
-          </CardHeader>
-          <CardContent>
-            <div className="text-2xl font-bold">2</div>
-            <p className="text-xs text-slate-600">Multi-currency pending</p>
-          </CardContent>
-        </Card>
-
-        <Card>
-          <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-            <CardTitle className="text-sm font-medium">Network Status</CardTitle>
-            <Globe className="h-4 w-4 text-purple-600" />
-          </CardHeader>
-          <CardContent>
-            <div className="text-2xl font-bold">100%</div>
-            <p className="text-xs text-slate-600">All GCC banks connected</p>
-          </CardContent>
-        </Card>
-      </div>
-
-      {/* GCC Operations */}
-      <Card>
-        <CardHeader>
-          <CardTitle className="flex items-center gap-2">
-            <Globe className="h-5 w-5" />
-            GCC Multi-Currency Operations
-          </CardTitle>
-          <CardDescription>Execute cross-border multi-currency transactions within GCC</CardDescription>
-        </CardHeader>
-        <CardContent>
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-            <Button 
-              variant="outline" 
-              className="h-24 flex-col gap-2"
-              onClick={() => setActiveDialog('gcc-institution-transfer')}
-            >
-              <div className="text-center">
-                <div className="font-medium text-sm">GCC Multi Currency Institution Transfer</div>
-                <div className="text-xs text-muted-foreground">Inter-bank GCC transfer</div>
-              </div>
-            </Button>
-
-            <Button 
-              variant="outline" 
-              className="h-24 flex-col gap-2"
-              onClick={() => setActiveDialog('gcc-customer-transfer')}
-            >
-              <div className="text-center">
-                <div className="font-medium text-sm">GCC Multi Currency Customer Transfer</div>
-                <div className="text-xs text-muted-foreground">Customer cross-border payment</div>
-              </div>
-            </Button>
+        <TabsContent value="operations">
+          <div className="grid gap-6">
+            {operationsCategories.map((category) => (
+              <Card key={category.title}>
+                <CardHeader>
+                  <CardTitle className="flex items-center gap-2">
+                    <category.icon className="h-5 w-5" />
+                    {category.title}
+                  </CardTitle>
+                  <CardDescription>
+                    Available operations for {category.title.toLowerCase()}
+                  </CardDescription>
+                </CardHeader>
+                <CardContent>
+                  <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+                    {category.operations.map((operation) => (
+                      <div
+                        key={operation.id}
+                        className="p-4 border rounded-lg cursor-pointer hover:bg-accent transition-colors"
+                        onClick={() => handleOperationSelect(operation.id)}
+                      >
+                        <h4 className="font-medium mb-2">{operation.name}</h4>
+                        <p className="text-sm text-muted-foreground">{operation.description}</p>
+                        <Button 
+                          variant="outline" 
+                          size="sm" 
+                          className="mt-3 w-full"
+                          onClick={() => handleOperationSelect(operation.id)}
+                        >
+                          Initiate Operation
+                        </Button>
+                      </div>
+                    ))}
+                  </div>
+                </CardContent>
+              </Card>
+            ))}
           </div>
-        </CardContent>
-      </Card>
+        </TabsContent>
 
-      {/* Recent GCC Activity */}
-      <Card>
-        <CardHeader>
-          <CardTitle className="flex items-center gap-2">
-            <Clock className="h-5 w-5" />
-            Recent GCC Activity
-          </CardTitle>
-          <CardDescription>Latest GCC multi-currency operations</CardDescription>
-        </CardHeader>
-        <CardContent>
-          <div className="space-y-4">
-            <div className="flex items-center justify-between p-4 bg-slate-50 rounded-lg">
-              <div className="flex items-center gap-3">
-                <Globe className="h-5 w-5 text-blue-600" />
-                <div>
-                  <p className="font-medium">Institution Transfer to SABB (SAR)</p>
-                  <p className="text-sm text-slate-600">Reference: GCC20241210001 • 1,875,000 SAR</p>
-                </div>
+        <TabsContent value="recent">
+          <Card>
+            <CardHeader>
+              <CardTitle className="flex items-center gap-2">
+                <Clock className="h-5 w-5" />
+                Recent GCC Operations
+              </CardTitle>
+              <CardDescription>Your latest GCC multi-currency activities</CardDescription>
+            </CardHeader>
+            <CardContent>
+              <div className="space-y-4">
+                {recentOperations.map((operation) => (
+                  <div key={operation.id} className="flex justify-between items-center p-4 rounded-lg border">
+                    <div className="flex-1">
+                      <div className="flex items-center gap-2 mb-1">
+                        <span className="font-medium">{operation.type}</span>
+                        <Badge variant="outline" className="text-xs">{operation.currency}</Badge>
+                        <Badge variant={getStatusColor(operation.status)} className="text-xs">
+                          {operation.status}
+                        </Badge>
+                      </div>
+                      <p className="text-sm text-muted-foreground">To: {operation.recipient}</p>
+                      <p className="text-xs text-muted-foreground">Ref: {operation.id}</p>
+                    </div>
+                    <div className="text-right">
+                      <p className="font-medium">{operation.currency} {operation.amount.toLocaleString()}</p>
+                      <p className="text-xs text-muted-foreground">{operation.time}</p>
+                      <Button variant="outline" size="sm" className="mt-1">
+                        View Details
+                      </Button>
+                    </div>
+                  </div>
+                ))}
               </div>
-              <Badge variant="outline" className="bg-green-50 text-green-700">Completed</Badge>
-            </div>
+            </CardContent>
+          </Card>
+        </TabsContent>
 
-            <div className="flex items-center justify-between p-4 bg-slate-50 rounded-lg">
-              <div className="flex items-center gap-3">
-                <CreditCard className="h-5 w-5 text-green-600" />
-                <div>
-                  <p className="font-medium">Customer Transfer to NBK (KWD)</p>
-                  <p className="text-sm text-slate-600">Reference: GCC20241210002 • 75,000 KWD</p>
-                </div>
-              </div>
-              <Badge variant="outline" className="bg-amber-50 text-amber-700">Processing</Badge>
-            </div>
+        <TabsContent value="quick">
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+            <Card>
+              <CardHeader>
+                <CardTitle className="flex items-center gap-2">
+                  <Globe className="h-5 w-5" />
+                  Quick GCC Institution Transfer
+                </CardTitle>
+                <CardDescription>Fast inter-bank GCC transfer</CardDescription>
+              </CardHeader>
+              <CardContent>
+                <Button className="w-full" onClick={() => setSelectedOperation('gcc-institution-transfer')}>
+                  <Globe className="w-4 h-4 mr-2" />
+                  Open Transfer Form
+                </Button>
+              </CardContent>
+            </Card>
 
-            <div className="flex items-center justify-between p-4 bg-slate-50 rounded-lg">
-              <div className="flex items-center gap-3">
-                <Building2 className="h-5 w-5 text-purple-600" />
-                <div>
-                  <p className="font-medium">Institution Transfer to ADCB (AED)</p>
-                  <p className="text-sm text-slate-600">Reference: GCC20241210003 • 920,000 AED</p>
-                </div>
-              </div>
-              <Badge variant="outline" className="bg-blue-50 text-blue-700">Sent</Badge>
-            </div>
+            <Card>
+              <CardHeader>
+                <CardTitle className="flex items-center gap-2">
+                  <CreditCard className="h-5 w-5" />
+                  GCC Customer Transfer
+                </CardTitle>
+                <CardDescription>Cross-border customer payment</CardDescription>
+              </CardHeader>
+              <CardContent>
+                <Button className="w-full" onClick={() => setSelectedOperation('gcc-customer-transfer')}>
+                  <CreditCard className="w-4 h-4 mr-2" />
+                  Open Payment Form
+                </Button>
+              </CardContent>
+            </Card>
+
+            <Card>
+              <CardHeader>
+                <CardTitle className="flex items-center gap-2">
+                  <ArrowUpDown className="h-5 w-5" />
+                  Currency Exchange
+                </CardTitle>
+                <CardDescription>Multi-currency exchange</CardDescription>
+              </CardHeader>
+              <CardContent>
+                <Button className="w-full" onClick={() => setSelectedOperation('currency-exchange')}>
+                  <ArrowUpDown className="w-4 h-4 mr-2" />
+                  Exchange Currency
+                </Button>
+              </CardContent>
+            </Card>
+
+            <Card>
+              <CardHeader>
+                <CardTitle className="flex items-center gap-2">
+                  <FileText className="h-5 w-5" />
+                  GCC Balance Report
+                </CardTitle>
+                <CardDescription>Multi-currency balance overview</CardDescription>
+              </CardHeader>
+              <CardContent>
+                <Button className="w-full" onClick={() => setSelectedOperation('gcc-balance-report')}>
+                  <FileText className="w-4 h-4 mr-2" />
+                  Generate Report
+                </Button>
+              </CardContent>
+            </Card>
+
+            <Card>
+              <CardHeader>
+                <CardTitle className="flex items-center gap-2">
+                  <Calculator className="h-5 w-5" />
+                  FX Rate Calculator
+                </CardTitle>
+                <CardDescription>Calculate exchange rates</CardDescription>
+              </CardHeader>
+              <CardContent>
+                <Button variant="outline" className="w-full">
+                  <Calculator className="w-4 h-4 mr-2" />
+                  Coming Soon
+                </Button>
+              </CardContent>
+            </Card>
           </div>
-        </CardContent>
-      </Card>
+        </TabsContent>
+      </Tabs>
 
-      {/* Currency Information */}
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-        <Card>
+      {/* Selection Dialog */}
+      {selectedOperation && ![
+        'gcc-institution-transfer', 'gcc-customer-transfer', 'currency-exchange', 'gcc-balance-report'
+      ].includes(selectedOperation) && (
+        <Card className="mt-6">
           <CardHeader>
-            <CardTitle className="flex items-center gap-2">
-              <Globe className="h-5 w-5" />
-              Available Currencies
-            </CardTitle>
+            <CardTitle>Operation Details: {selectedOperation}</CardTitle>
+            <CardDescription>Configure and execute the selected GCC operation</CardDescription>
           </CardHeader>
           <CardContent>
-            <div className="space-y-3">
-              <div className="flex justify-between">
-                <span className="text-slate-600">Bahraini Dinar (BHD):</span>
-                <span className="font-medium">2,450,000</span>
-              </div>
-              <div className="flex justify-between">
-                <span className="text-slate-600">Saudi Riyal (SAR):</span>
-                <span className="font-medium">9,225,000</span>
-              </div>
-              <div className="flex justify-between">
-                <span className="text-slate-600">UAE Dirham (AED):</span>
-                <span className="font-medium">9,775,000</span>
-              </div>
-              <div className="flex justify-between">
-                <span className="text-slate-600">Kuwaiti Dinar (KWD):</span>
-                <span className="font-medium">810,000</span>
-              </div>
-              <div className="flex justify-between">
-                <span className="text-slate-600">Qatari Riyal (QAR):</span>
-                <span className="font-medium">9,680,000</span>
+            <div className="space-y-4">
+              <p className="text-sm text-muted-foreground">
+                Selected operation: <span className="font-medium">{selectedOperation}</span>
+              </p>
+              <div className="flex gap-2">
+                <Button>
+                  <FileText className="w-4 h-4 mr-2" />
+                  Configure Operation
+                </Button>
+                <Button variant="outline" onClick={() => setSelectedOperation('')}>
+                  Cancel
+                </Button>
               </div>
             </div>
           </CardContent>
         </Card>
-
-        <Card>
-          <CardHeader>
-            <CardTitle className="flex items-center gap-2">
-              <Clock className="h-5 w-5" />
-              Operating Hours
-            </CardTitle>
-          </CardHeader>
-          <CardContent>
-            <div className="space-y-3">
-              <div className="flex justify-between">
-                <span className="text-slate-600">GCC Network Hours:</span>
-                <span className="font-medium">24/7</span>
-              </div>
-              <div className="flex justify-between">
-                <span className="text-slate-600">Peak Hours:</span>
-                <span className="font-medium">08:00 - 17:00 GST</span>
-              </div>
-              <div className="flex justify-between">
-                <span className="text-slate-600">Current Status:</span>
-                <Badge variant="outline" className="bg-green-50 text-green-700">Online</Badge>
-              </div>
-            </div>
-          </CardContent>
-        </Card>
-      </div>
-
+      )}
+      
       {/* GCC Operations Dialogs */}
       <ParticipantGCCOperationsDialogs 
-        activeDialog={activeDialog}
-        onClose={() => setActiveDialog(null)}
+        activeDialog={[
+          'gcc-institution-transfer', 'gcc-customer-transfer', 'currency-exchange', 'gcc-balance-report'
+        ].includes(selectedOperation) ? selectedOperation : null}
+        onClose={() => setSelectedOperation('')}
       />
     </div>
   );
