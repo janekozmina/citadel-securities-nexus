@@ -193,7 +193,7 @@ import DepositsOperationsPage from './pages/participant/csd-cms-monitoring/Depos
 import YieldCurvePage from './pages/participant/csd-cms-monitoring/YieldCurvePage';
 import TradesSecondaryMarketPage from './pages/participant/csd-cms-monitoring/TradesSecondaryMarketPage';
 import TaxProceedsPage from './pages/participant/csd-cms-monitoring/TaxProceedsPage';
-import MessageAuditPage from './pages/participant/csd-cms-monitoring/MessageAuditPage';
+import MessageAuditCSDPage from './pages/participant/csd-cms-monitoring/MessageAuditPage';
 import InvestorRegistrationPage from './pages/participant/csd-cms-monitoring/InvestorRegistrationPage';
 import PositionAccountsPage from './pages/participant/csd-cms-monitoring/PositionAccountsPage';
 
@@ -506,6 +506,90 @@ const App = () => (
               <ProtectedRoute>
                 <MainLayout>
                   <CollateralsPage />
+                </MainLayout>
+              </ProtectedRoute>
+            } />
+            <Route path="/participant/csd-cms-monitoring/collateral-substitution" element={
+              <ProtectedRoute>
+                <MainLayout>
+                  <CollateralSubstitutionPage />
+                </MainLayout>
+              </ProtectedRoute>
+            } />
+            <Route path="/participant/csd-cms-monitoring/margin-call-release" element={
+              <ProtectedRoute>
+                <MainLayout>
+                  <MarginCallReleasePage />
+                </MainLayout>
+              </ProtectedRoute>
+            } />
+            <Route path="/participant/csd-cms-monitoring/ilf-operations-cb" element={
+              <ProtectedRoute>
+                <MainLayout>
+                  <ILFOperationsCBPage />
+                </MainLayout>
+              </ProtectedRoute>
+            } />
+            <Route path="/participant/csd-cms-monitoring/repo-operations-cb" element={
+              <ProtectedRoute>
+                <MainLayout>
+                  <RepoOperationsCBPage />
+                </MainLayout>
+              </ProtectedRoute>
+            } />
+            <Route path="/participant/csd-cms-monitoring/interbank-repo-operations" element={
+              <ProtectedRoute>
+                <MainLayout>
+                  <InterbankRepoOperationsPage />
+                </MainLayout>
+              </ProtectedRoute>
+            } />
+            <Route path="/participant/csd-cms-monitoring/deposits-operations" element={
+              <ProtectedRoute>
+                <MainLayout>
+                  <DepositsOperationsPage />
+                </MainLayout>
+              </ProtectedRoute>
+            } />
+            <Route path="/participant/csd-cms-monitoring/yield-curve" element={
+              <ProtectedRoute>
+                <MainLayout>
+                  <YieldCurvePage />
+                </MainLayout>
+              </ProtectedRoute>
+            } />
+            <Route path="/participant/csd-cms-monitoring/trades-secondary-market" element={
+              <ProtectedRoute>
+                <MainLayout>
+                  <TradesSecondaryMarketPage />
+                </MainLayout>
+              </ProtectedRoute>
+            } />
+            <Route path="/participant/csd-cms-monitoring/tax-proceeds" element={
+              <ProtectedRoute>
+                <MainLayout>
+                  <TaxProceedsPage />
+                </MainLayout>
+              </ProtectedRoute>
+            } />
+            <Route path="/participant/csd-cms-monitoring/message-audit" element={
+              <ProtectedRoute>
+                <MainLayout>
+                  <MessageAuditCSDPage />
+                </MainLayout>
+              </ProtectedRoute>
+            } />
+            <Route path="/participant/csd-cms-monitoring/investor-registration" element={
+              <ProtectedRoute>
+                <MainLayout>
+                  <InvestorRegistrationPage />
+                </MainLayout>
+              </ProtectedRoute>
+            } />
+            <Route path="/participant/csd-cms-monitoring/position-accounts" element={
+              <ProtectedRoute>
+                <MainLayout>
+                  <PositionAccountsPage />
                 </MainLayout>
               </ProtectedRoute>
             } />

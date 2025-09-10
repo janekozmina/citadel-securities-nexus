@@ -1248,6 +1248,90 @@ export const secondaryNavigation: Record<string, NavigationItem[]> = {
       path: '/participant/csd-cms-monitoring/collaterals',
       icon: Shield,
       description: 'Collateral management'
+    },
+    {
+      id: 'csd-cms-collateral-substitution',
+      title: 'Collateral Substitution',
+      path: '/participant/csd-cms-monitoring/collateral-substitution',
+      icon: RefreshCw,
+      description: 'Collateral substitution operations'
+    },
+    {
+      id: 'csd-cms-margin-call-release',
+      title: 'Margin Call Release',
+      path: '/participant/csd-cms-monitoring/margin-call-release',
+      icon: AlertCircle,
+      description: 'Margin call release operations'
+    },
+    {
+      id: 'csd-cms-ilf-operations-cb',
+      title: 'ILF Operations with CB',
+      path: '/participant/csd-cms-monitoring/ilf-operations-cb',
+      icon: Banknote,
+      description: 'Intraday Liquidity Facility operations'
+    },
+    {
+      id: 'csd-cms-repo-operations-cb',
+      title: 'REPO Operations with CB',
+      path: '/participant/csd-cms-monitoring/repo-operations-cb',
+      icon: TrendingUp,
+      description: 'REPO operations with Central Bank'
+    },
+    {
+      id: 'csd-cms-interbank-repo-operations',
+      title: 'Interbank REPO Operations',
+      path: '/participant/csd-cms-monitoring/interbank-repo-operations',
+      icon: Building2,
+      description: 'Interbank REPO operations'
+    },
+    {
+      id: 'csd-cms-deposits-operations',
+      title: 'Deposits Operations',
+      path: '/participant/csd-cms-monitoring/deposits-operations',
+      icon: Banknote,
+      description: 'Deposit operations management'
+    },
+    {
+      id: 'csd-cms-yield-curve',
+      title: 'Yield Curve',
+      path: '/participant/csd-cms-monitoring/yield-curve',
+      icon: TrendingUp,
+      description: 'Yield curve analytics'
+    },
+    {
+      id: 'csd-cms-trades-secondary-market',
+      title: 'Trades Secondary Market',
+      path: '/participant/csd-cms-monitoring/trades-secondary-market',
+      icon: ArrowUpDown,
+      description: 'Secondary market trades'
+    },
+    {
+      id: 'csd-cms-tax-proceeds',
+      title: 'Tax Proceeds',
+      path: '/participant/csd-cms-monitoring/tax-proceeds',
+      icon: Receipt,
+      description: 'Tax proceeds management'
+    },
+    {
+      id: 'csd-cms-message-audit',
+      title: 'Message Audit',
+      path: '/participant/csd-cms-monitoring/message-audit',
+      icon: MessageSquare,
+      description: 'Message audit and monitoring'
+    },
+    {
+      id: 'csd-cms-investor-registration',
+      title: 'Investor Registration',
+      path: '/participant/csd-cms-monitoring/investor-registration',
+      icon: UserPlus,
+      description: 'Investor registration management'
+    },
+    {
+      id: 'csd-cms-position-accounts',
+      title: 'Position Accounts',
+      path: '/participant/csd-cms-monitoring/position-accounts',
+      icon: Users,
+      description: 'Position accounts management'
     }
   ],
 
