@@ -27,7 +27,6 @@ const ParticipantGCCOperations = () => {
       operations: [
         { id: 'gcc-institution-transfer', name: 'GCC Multi Currency Institution Transfer', description: 'Inter-bank GCC transfer operations' },
         { id: 'gcc-customer-transfer', name: 'GCC Multi Currency Customer Transfer', description: 'Customer cross-border payments within GCC' },
-        { id: 'gcc-swift-transfer', name: 'GCC SWIFT Message Transfer', description: 'SWIFT-based cross-border messaging' },
         { id: 'gcc-status-inquiry', name: 'GCC Transfer Status Inquiry', description: 'Check status of GCC transfers' }
       ]
     },
@@ -35,10 +34,7 @@ const ParticipantGCCOperations = () => {
       title: 'Currency Exchange Operations',
       icon: ArrowUpDown,
       operations: [
-        { id: 'currency-exchange', name: 'Multi-Currency Exchange', description: 'Exchange between GCC currencies' },
-        { id: 'fx-rate-inquiry', name: 'FX Rate Inquiry', description: 'Check current exchange rates' },
-        { id: 'currency-settlement', name: 'Currency Settlement', description: 'Settle multi-currency transactions' },
-        { id: 'hedging-operations', name: 'Currency Hedging', description: 'Risk management for currency exposure' }
+        { id: 'fx-rate-inquiry', name: 'FX Rate Inquiry', description: 'Check current exchange rates' }
       ]
     },
     {
@@ -210,22 +206,6 @@ const ParticipantGCCOperations = () => {
             <Card>
               <CardHeader>
                 <CardTitle className="flex items-center gap-2">
-                  <ArrowUpDown className="h-5 w-5" />
-                  Currency Exchange
-                </CardTitle>
-                <CardDescription>Multi-currency exchange</CardDescription>
-              </CardHeader>
-              <CardContent>
-                <Button className="w-full" onClick={() => setSelectedOperation('currency-exchange')}>
-                  <ArrowUpDown className="w-4 h-4 mr-2" />
-                  Exchange Currency
-                </Button>
-              </CardContent>
-            </Card>
-
-            <Card>
-              <CardHeader>
-                <CardTitle className="flex items-center gap-2">
                   <FileText className="h-5 w-5" />
                   GCC Balance Report
                 </CardTitle>
@@ -260,7 +240,7 @@ const ParticipantGCCOperations = () => {
 
       {/* Selection Dialog */}
       {selectedOperation && ![
-        'gcc-institution-transfer', 'gcc-customer-transfer', 'currency-exchange', 'gcc-balance-report'
+        'gcc-institution-transfer', 'gcc-customer-transfer', 'gcc-balance-report'
       ].includes(selectedOperation) && (
         <Card className="mt-6">
           <CardHeader>
@@ -289,7 +269,7 @@ const ParticipantGCCOperations = () => {
       {/* GCC Operations Dialogs */}
       <ParticipantGCCOperationsDialogs 
         activeDialog={[
-          'gcc-institution-transfer', 'gcc-customer-transfer', 'currency-exchange', 'gcc-balance-report'
+          'gcc-institution-transfer', 'gcc-customer-transfer', 'gcc-balance-report'
         ].includes(selectedOperation) ? selectedOperation : null}
         onClose={() => setSelectedOperation('')}
       />
