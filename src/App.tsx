@@ -165,7 +165,7 @@ import TransactionCodesPage from './pages/participant/dictionaries/TransactionCo
 import CurrenciesPage from './pages/participant/dictionaries/CurrenciesPage';
 import AccountsPage from './pages/participant/dictionaries/AccountsPage';
 import NostroVostroLoroPage from './pages/participant/dictionaries/NostroVostroLoroPage';
-import SpecialAccountsPage from './pages/participant/dictionaries/SpecialAccountsPage';
+
 import PrioritiesPage from './pages/participant/dictionaries/PrioritiesPage';
 import BillingConfigurationsPage from './pages/participant/dictionaries/BillingConfigurationsPage';
 
@@ -383,13 +383,6 @@ const App = () => (
               <ProtectedRoute>
                 <MainLayout>
                   <NostroVostroLoroPage />
-                </MainLayout>
-              </ProtectedRoute>
-            } />
-            <Route path="/participant/dictionaries/special-accounts" element={
-              <ProtectedRoute>
-                <MainLayout>
-                  <SpecialAccountsPage />
                 </MainLayout>
               </ProtectedRoute>
             } />

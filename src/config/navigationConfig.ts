@@ -1306,13 +1306,6 @@ export const secondaryNavigation: Record<string, NavigationItem[]> = {
       description: 'Manage correspondent account types'
     },
     {
-      id: 'participant-special-accounts',
-      title: 'Special Accounts',
-      path: '/participant/dictionaries/special-accounts',
-      icon: Star,
-      description: 'Manage special account definitions'
-    },
-    {
       id: 'participant-priorities',
       title: 'Priorities',
       path: '/participant/dictionaries/priorities',
