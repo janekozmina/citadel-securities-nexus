@@ -53,7 +53,7 @@ const DashboardsPage = () => {
             <CardTitle className="text-base font-semibold">Transactions DEPO</CardTitle>
           </CardHeader>
           <CardContent>
-            <div className="flex items-center space-x-6">
+            <div className="flex items-center justify-between">
               <div className="flex-1">
                 <div className="mb-4">
                   <div className="text-sm text-muted-foreground mb-2">{portalConfig.banks.central}</div>
@@ -68,22 +68,24 @@ const DashboardsPage = () => {
                   <div className="text-2xl font-bold text-purple-600">T = 0</div>
                 </div>
               </div>
-              <div className="w-32 h-32">
-                <ResponsiveContainer width="100%" height="100%">
-                  <PieChart>
-                    <Pie
-                      data={transactionData}
-                      cx="50%"
-                      cy="50%"
-                      innerRadius={40}
-                      outerRadius={60}
-                      paddingAngle={5}
-                      dataKey="value"
-                    >
-                      <Cell fill="#8B5CF6" />
-                    </Pie>
-                  </PieChart>
-                </ResponsiveContainer>
+              <div className="flex flex-col items-center">
+                <div className="w-32 h-32">
+                  <ResponsiveContainer width="100%" height="100%">
+                    <PieChart>
+                      <Pie
+                        data={transactionData}
+                        cx="50%"
+                        cy="50%"
+                        innerRadius={40}
+                        outerRadius={60}
+                        paddingAngle={5}
+                        dataKey="value"
+                      >
+                        <Cell fill="#8B5CF6" />
+                      </Pie>
+                    </PieChart>
+                  </ResponsiveContainer>
+                </div>
                 <div className="text-center mt-2">
                   <div className="text-lg font-semibold">Amount</div>
                   <div className="text-lg font-bold">35.36k</div>

@@ -184,6 +184,18 @@ import CorporateActionsPage from './pages/participant/csd-cms-monitoring/Corpora
 import FinancialCalculatorPage from './pages/participant/csd-cms-monitoring/FinancialCalculatorPage';
 import TransactionsAllPage from './pages/participant/csd-cms-monitoring/TransactionsAllPage';
 import CollateralsPage from './pages/participant/csd-cms-monitoring/CollateralsPage';
+import CollateralSubstitutionPage from './pages/participant/csd-cms-monitoring/CollateralSubstitutionPage';
+import MarginCallReleasePage from './pages/participant/csd-cms-monitoring/MarginCallReleasePage';
+import ILFOperationsCBPage from './pages/participant/csd-cms-monitoring/ILFOperationsCBPage';
+import RepoOperationsCBPage from './pages/participant/csd-cms-monitoring/RepoOperationsCBPage';
+import InterbankRepoOperationsPage from './pages/participant/csd-cms-monitoring/InterbankRepoOperationsPage';
+import DepositsOperationsPage from './pages/participant/csd-cms-monitoring/DepositsOperationsPage';
+import YieldCurvePage from './pages/participant/csd-cms-monitoring/YieldCurvePage';
+import TradesSecondaryMarketPage from './pages/participant/csd-cms-monitoring/TradesSecondaryMarketPage';
+import TaxProceedsPage from './pages/participant/csd-cms-monitoring/TaxProceedsPage';
+import MessageAuditPage from './pages/participant/csd-cms-monitoring/MessageAuditPage';
+import InvestorRegistrationPage from './pages/participant/csd-cms-monitoring/InvestorRegistrationPage';
+import PositionAccountsPage from './pages/participant/csd-cms-monitoring/PositionAccountsPage';
 
 const queryClient = new QueryClient();
 
