@@ -230,7 +230,7 @@ const AfterHoursLimitsPage = () => {
                 {editingId === limit.id ? (
                   <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
                     <div>
-                      <Label htmlFor={`general-${limit.id}`}>Общий лимит (BHD)</Label>
+                      <Label htmlFor={`general-${limit.id}`}>General Limit (BHD)</Label>
                       <Input
                         id={`general-${limit.id}`}
                         type="number"
@@ -242,7 +242,7 @@ const AfterHoursLimitsPage = () => {
                       />
                     </div>
                     <div>
-                      <Label htmlFor={`single-${limit.id}`}>Лимит на одну транзакцию (BHD)</Label>
+                      <Label htmlFor={`single-${limit.id}`}>Single Transaction Limit (BHD)</Label>
                       <Input
                         id={`single-${limit.id}`}
                         type="number"
@@ -254,7 +254,7 @@ const AfterHoursLimitsPage = () => {
                       />
                     </div>
                     <div>
-                      <Label htmlFor={`threshold-${limit.id}`}>Тресхолд уведомления (%)</Label>
+                      <Label htmlFor={`threshold-${limit.id}`}>Notification Threshold (%)</Label>
                       <Input
                         id={`threshold-${limit.id}`}
                         type="number"
@@ -275,15 +275,15 @@ const AfterHoursLimitsPage = () => {
                 ) : (
                   <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
                     <div className="bg-slate-50 p-3 rounded">
-                      <p className="text-xs text-slate-600">Общий лимит After business hours</p>
+                      <p className="text-xs text-slate-600">General Limit After Business Hours</p>
                       <p className="font-semibold">BHD {limit.generalLimit.toLocaleString()}</p>
                     </div>
                     <div className="bg-slate-50 p-3 rounded">
-                      <p className="text-xs text-slate-600">Лимит на одну транзакцию After business hours</p>
+                      <p className="text-xs text-slate-600">Single Transaction Limit After Business Hours</p>
                       <p className="font-semibold">BHD {limit.singleTransactionLimit.toLocaleString()}</p>
                     </div>
                     <div className="bg-slate-50 p-3 rounded">
-                      <p className="text-xs text-slate-600">Тресхолд при котором отправляется уведомление</p>
+                      <p className="text-xs text-slate-600">Threshold at which notification is sent</p>
                       <p className="font-semibold">{limit.notificationThreshold}%</p>
                     </div>
                     <div className="bg-slate-50 p-3 rounded">
