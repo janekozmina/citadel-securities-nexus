@@ -147,7 +147,7 @@ import ParticipantTransactionHistory from './pages/participant/ParticipantTransa
 import AfterHoursLimitsPage from './pages/participant/monitoring/AfterHoursLimitsPage';
 import PaymentSearchPage from './pages/participant/monitoring/PaymentSearchPage';
 import MessageAuditPage from './pages/participant/monitoring/MessageAuditPage';
-import ReconciliationPage from './pages/participant/monitoring/ReconciliationPage';
+
 import TransactionsMonitoringPage from './pages/participant/monitoring/TransactionsMonitoringPage';
 import AuthorizationQueuePage from './pages/participant/monitoring/AuthorizationQueuePage';
 import GCCTransactionsPage from './pages/participant/monitoring/GCCTransactionsPage';
@@ -283,13 +283,6 @@ const App = () => (
               <ProtectedRoute>
                 <MainLayout>
                   <MessageAuditPage />
-                </MainLayout>
-              </ProtectedRoute>
-            } />
-            <Route path="/participant/monitoring/reconciliation" element={
-              <ProtectedRoute>
-                <MainLayout>
-                  <ReconciliationPage />
                 </MainLayout>
               </ProtectedRoute>
             } />

@@ -1204,13 +1204,6 @@ export const secondaryNavigation: Record<string, NavigationItem[]> = {
       description: 'Audit message logs'
     },
     {
-      id: 'participant-reconciliation',
-      title: 'Reconciliation',
-      path: '/participant/monitoring/reconciliation',
-      icon: CheckSquare2,
-      description: 'Account reconciliation'
-    },
-    {
       id: 'participant-transactions',
       title: 'Transactions',
       path: '/participant/monitoring/transactions',
