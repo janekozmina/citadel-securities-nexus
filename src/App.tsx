@@ -143,6 +143,8 @@ import ParticipantCSDDashboard from './pages/participant/ParticipantCSDDashboard
 import ParticipantRTGSDashboard from './pages/participant/ParticipantRTGSDashboard';
 import ParticipantOperationsHub from './pages/participant/ParticipantOperationsHub';
 import ParticipantRTGSOperationsHub from './pages/participant/ParticipantRTGSOperationsHub';
+import ParticipantGCCOperations from './pages/participant/ParticipantGCCOperations';
+import AfterHoursLimitsPage from './pages/participant/monitoring/AfterHoursLimitsPage';
 import ParticipantAuctionsSummary from './pages/participant/ParticipantAuctionsSummary';
 import ParticipantReporting from './pages/participant/ParticipantReporting';
 

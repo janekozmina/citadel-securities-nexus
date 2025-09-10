@@ -18,6 +18,7 @@ import {
   Lock,
   AlertTriangle,
   CheckCircle,
+  CheckSquare2,
   Wallet,
   DollarSign,
   PieChart,
