@@ -190,6 +190,28 @@ export const primaryNavigation: NavigationItem[] = [
     roles: ['Admin', 'CBBOperator'],
     keywords: ['participants', 'portals', 'onboarding', 'unified'],
     tags: ['participants', 'management']
+  },
+  {
+    id: 'monitoring-tools',
+    title: 'Monitoring Tools',
+    path: '/participant/monitoring',
+    icon: Monitor,
+    description: 'Monitoring and operational tools',
+    system: 'COMMON',
+    roles: ['BankOperator'],
+    keywords: ['monitoring', 'tools', 'operations'],
+    tags: ['monitoring', 'tools']
+  },
+  {
+    id: 'dictionaries',
+    title: 'Dictionaries',
+    path: '/participant/dictionaries',
+    icon: BookOpen,
+    description: 'Master data and configuration dictionaries',
+    system: 'COMMON',
+    roles: ['BankOperator'],
+    keywords: ['dictionaries', 'master', 'data', 'configuration'],
+    tags: ['dictionaries', 'data']
   }
 ];
 
