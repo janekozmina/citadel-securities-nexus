@@ -13,11 +13,16 @@ import {
   Target,
   Bell,
   Calendar,
-  Activity
+  Activity,
+  ArrowUpDown,
+  FileText,
+  CreditCard
 } from 'lucide-react';
 import { useAuth } from '@/contexts/AuthContext';
+import { ParticipantQuickActionsDialogs } from '@/components/participant/ParticipantQuickActionsDialogs';
 
 const ParticipantHomePage = () => {
+  const [activeDialog, setActiveDialog] = useState<string | null>(null);
   const { user } = useAuth();
   const [activeTab, setActiveTab] = useState('overview');
 
@@ -204,25 +209,79 @@ const ParticipantHomePage = () => {
         </CardHeader>
         <CardContent>
           <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
-            <Button variant="outline" className="h-20 flex-col gap-2">
+            <Button 
+              variant="outline" 
+              className="h-20 flex-col gap-2"
+              onClick={() => setActiveDialog('general-transfer')}
+            >
+              <ArrowUpDown className="h-5 w-5" />
+              <span className="text-sm">General Transfer</span>
+            </Button>
+            <Button 
+              variant="outline" 
+              className="h-20 flex-col gap-2"
+              onClick={() => setActiveDialog('dvp-transfer')}
+            >
               <TrendingUp className="h-5 w-5" />
-              <span className="text-sm">New Transfer</span>
+              <span className="text-sm">DvP Transfer</span>
             </Button>
-            <Button variant="outline" className="h-20 flex-col gap-2">
+            <Button 
+              variant="outline" 
+              className="h-20 flex-col gap-2"
+              onClick={() => setActiveDialog('check-funds')}
+            >
+              <CreditCard className="h-5 w-5" />
+              <span className="text-sm">Check Funds</span>
+            </Button>
+            <Button 
+              variant="outline" 
+              className="h-20 flex-col gap-2"
+              onClick={() => setActiveDialog('house-transfer')}
+            >
+              <Building2 className="h-5 w-5" />
+              <span className="text-sm">House Transfer</span>
+            </Button>
+            <Button 
+              variant="outline" 
+              className="h-20 flex-col gap-2"
+              onClick={() => setActiveDialog('rvp-instruction')}
+            >
+              <FileText className="h-5 w-5" />
+              <span className="text-sm">RvP Instruction</span>
+            </Button>
+            <Button 
+              variant="outline" 
+              className="h-20 flex-col gap-2"
+              onClick={() => setActiveDialog('dvp-instruction')}
+            >
+              <FileText className="h-5 w-5" />
+              <span className="text-sm">DvP Instruction</span>
+            </Button>
+            <Button 
+              variant="outline" 
+              className="h-20 flex-col gap-2"
+              onClick={() => setActiveDialog('interbank-repo-receive')}
+            >
               <BarChart3 className="h-5 w-5" />
-              <span className="text-sm">View Portfolio</span>
+              <span className="text-sm">Interbank Repo</span>
             </Button>
-            <Button variant="outline" className="h-20 flex-col gap-2">
+            <Button 
+              variant="outline" 
+              className="h-20 flex-col gap-2"
+              onClick={() => setActiveDialog('islamic-repo-receive')}
+            >
               <Clock className="h-5 w-5" />
-              <span className="text-sm">Auction Bids</span>
-            </Button>
-            <Button variant="outline" className="h-20 flex-col gap-2">
-              <AlertCircle className="h-5 w-5" />
-              <span className="text-sm">Reports</span>
+              <span className="text-sm">Islamic Repo</span>
             </Button>
           </div>
         </CardContent>
       </Card>
+
+      {/* Quick Actions Dialogs */}
+      <ParticipantQuickActionsDialogs 
+        activeDialog={activeDialog}
+        onClose={() => setActiveDialog(null)}
+      />
     </div>
   );
 };
