@@ -447,6 +447,57 @@ const App = () => (
               </ProtectedRoute>
             } />
             
+            {/* CSD/CMS Monitoring Routes */}
+            <Route path="/participant/csd-cms-monitoring/dashboards" element={
+              <ProtectedRoute>
+                <MainLayout>
+                  <DashboardsPage />
+                </MainLayout>
+              </ProtectedRoute>
+            } />
+            <Route path="/participant/csd-cms-monitoring/balances" element={
+              <ProtectedRoute>
+                <MainLayout>
+                  <BalancesPage />
+                </MainLayout>
+              </ProtectedRoute>
+            } />
+            <Route path="/participant/csd-cms-monitoring/view-instruments" element={
+              <ProtectedRoute>
+                <MainLayout>
+                  <ViewInstrumentsPage />
+                </MainLayout>
+              </ProtectedRoute>
+            } />
+            <Route path="/participant/csd-cms-monitoring/corporate-actions" element={
+              <ProtectedRoute>
+                <MainLayout>
+                  <CorporateActionsPage />
+                </MainLayout>
+              </ProtectedRoute>
+            } />
+            <Route path="/participant/csd-cms-monitoring/financial-calculator" element={
+              <ProtectedRoute>
+                <MainLayout>
+                  <FinancialCalculatorPage />
+                </MainLayout>
+              </ProtectedRoute>
+            } />
+            <Route path="/participant/csd-cms-monitoring/transactions-all" element={
+              <ProtectedRoute>
+                <MainLayout>
+                  <TransactionsAllPage />
+                </MainLayout>
+              </ProtectedRoute>
+            } />
+            <Route path="/participant/csd-cms-monitoring/collaterals" element={
+              <ProtectedRoute>
+                <MainLayout>
+                  <CollateralsPage />
+                </MainLayout>
+              </ProtectedRoute>
+            } />
+            
             {/* RTGS System */}
             <Route path="/rtgs" element={
               <ProtectedRoute>
