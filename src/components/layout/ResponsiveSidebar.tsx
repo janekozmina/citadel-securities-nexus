@@ -34,12 +34,10 @@ export function ResponsiveSidebar({ isOpen, onToggle }: ResponsiveSidebarProps) 
   // Filter items based on user permissions
   const getAccessibleItems = (items: NavigationItem[]): NavigationItem[] => {
     return items.filter(item => {
-      console.log('Filtering item:', item.title, 'Roles required:', item.roles, 'User role:', user?.role);
-      
       // If no roles specified, show to everyone
       if (!item.roles || item.roles.length === 0) return true;
       
-      // Special handling for participant-only pages
+      // Special handling for participant-only pages - ONLY show to CSDParticipant
       const participantOnlyPages = [
         'participant-monitoring', 
         'participant-dictionaries', 
@@ -50,18 +48,12 @@ export function ResponsiveSidebar({ isOpen, onToggle }: ResponsiveSidebarProps) 
         'participant-administration'
       ];
       
-      // If it's a participant-only page
       if (participantOnlyPages.includes(item.id)) {
-        // Only show to CSDParticipant
-        const hasAccess = user?.role === 'CSDParticipant';
-        console.log('Participant-only page:', item.title, 'Access:', hasAccess);
-        return hasAccess;
+        return user?.role === 'CSDParticipant';
       }
       
-      // For all other pages, show if user role is in the allowed roles
-      const hasAccess = user?.role && item.roles.includes(user.role);
-      console.log('Regular page:', item.title, 'Access:', hasAccess);
-      return hasAccess;
+      // For all other pages, check if user role is in allowed roles
+      return user?.role && item.roles.includes(user.role);
     });
   };
 
@@ -384,13 +376,6 @@ export function ResponsiveSidebar({ isOpen, onToggle }: ResponsiveSidebarProps) 
           {currentLevel === 'tertiary' && renderTertiaryLevel()}
         </div>
 
-        {/* Footer - Debug info */}
-        {!isCollapsed && (
-          <div className="p-4 border-t border-white/20 text-xs text-white/60">
-            <div>Level: {currentLevel}</div>
-            <div>Path: {location.pathname}</div>
-          </div>
-        )}
       </aside>
     </>
   );
