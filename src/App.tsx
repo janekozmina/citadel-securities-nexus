@@ -105,7 +105,6 @@ import CSDConfigurationPage from "./pages/admin/CSDConfigurationPage";
 
 // Participants Pages
 import ParticipantUnifiedPortalPage from "./pages/participants/ParticipantUnifiedPortalPage";
-import ParticipantOnboardingPage from "./pages/participants/ParticipantOnboardingPage";
 
 // New User Management Pages
 import RTGSUserAccountsPage from "./pages/admin/RTGSUserAccountsPage";
@@ -169,6 +168,13 @@ import NostroVostroLoroPage from './pages/participant/dictionaries/NostroVostroL
 import SpecialAccountsPage from './pages/participant/dictionaries/SpecialAccountsPage';
 import PrioritiesPage from './pages/participant/dictionaries/PrioritiesPage';
 import BillingConfigurationsPage from './pages/participant/dictionaries/BillingConfigurationsPage';
+
+// Participant Additional Pages
+import ParticipantReportsPage from './pages/participant/ParticipantReportsPage';
+import ParticipantKnowledgeHubPage from './pages/participant/ParticipantKnowledgeHubPage';
+import ParticipantOnboardingPage from './pages/participant/ParticipantOnboardingPage';
+import ParticipantRequestsPage from './pages/participant/ParticipantRequestsPage';
+import ParticipantAdministrationPage from './pages/participant/ParticipantAdministrationPage';
 
 const queryClient = new QueryClient();
 
@@ -405,6 +411,43 @@ const App = () => (
               <ProtectedRoute>
                 <MainLayout>
                   <BillingConfigurationsPage />
+                </MainLayout>
+              </ProtectedRoute>
+            } />
+            
+            {/* Participant Additional Pages */}
+            <Route path="/participant/reports" element={
+              <ProtectedRoute>
+                <MainLayout>
+                  <ParticipantReportsPage />
+                </MainLayout>
+              </ProtectedRoute>
+            } />
+            <Route path="/participant/knowledge-hub" element={
+              <ProtectedRoute>
+                <MainLayout>
+                  <ParticipantKnowledgeHubPage />
+                </MainLayout>
+              </ProtectedRoute>
+            } />
+            <Route path="/participant/onboarding" element={
+              <ProtectedRoute>
+                <MainLayout>
+                  <ParticipantOnboardingPage />
+                </MainLayout>
+              </ProtectedRoute>
+            } />
+            <Route path="/participant/requests" element={
+              <ProtectedRoute>
+                <MainLayout>
+                  <ParticipantRequestsPage />
+                </MainLayout>
+              </ProtectedRoute>
+            } />
+            <Route path="/participant/administration" element={
+              <ProtectedRoute>
+                <MainLayout>
+                  <ParticipantAdministrationPage />
                 </MainLayout>
               </ProtectedRoute>
             } />

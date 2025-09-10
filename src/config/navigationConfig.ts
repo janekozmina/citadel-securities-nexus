@@ -212,6 +212,61 @@ export const primaryNavigation: NavigationItem[] = [
     roles: ['Admin', 'CBBOperator', 'BankOperator', 'Broker', 'Custodian', 'Auditor', 'CSDParticipant'],
     keywords: ['dictionaries', 'master', 'data', 'configuration'],
     tags: ['dictionaries', 'data']
+  },
+  {
+    id: 'participant-reports',
+    title: 'Reports',
+    path: '/participant/reports',
+    icon: FileBarChart,
+    description: 'Scheduled, BI and central system reports',
+    system: 'COMMON',
+    roles: ['Admin', 'CBBOperator', 'BankOperator', 'Broker', 'Custodian', 'Auditor', 'CSDParticipant'],
+    keywords: ['reports', 'bi', 'scheduled', 'central'],
+    tags: ['reports', 'analytics']
+  },
+  {
+    id: 'participant-knowledge-hub',
+    title: 'Knowledge Hub',
+    path: '/participant/knowledge-hub',
+    icon: BookOpen,
+    description: 'Access knowledge base and documentation',
+    system: 'COMMON',
+    roles: ['Admin', 'CBBOperator', 'BankOperator', 'Broker', 'Custodian', 'Auditor', 'CSDParticipant'],
+    keywords: ['knowledge', 'documentation', 'help'],
+    tags: ['knowledge', 'help']
+  },
+  {
+    id: 'participant-onboarding',
+    title: 'Onboarding',
+    path: '/participant/onboarding',
+    icon: UserPlus,
+    description: 'Participant onboarding and training',
+    system: 'COMMON',
+    roles: ['Admin', 'CBBOperator', 'BankOperator', 'Broker', 'Custodian', 'Auditor', 'CSDParticipant'],
+    keywords: ['onboarding', 'training', 'setup'],
+    tags: ['onboarding', 'training']
+  },
+  {
+    id: 'participant-requests',
+    title: 'Requests for CB',
+    path: '/participant/requests',
+    icon: Send,
+    description: 'Submit requests to Central Bank',
+    system: 'COMMON',
+    roles: ['Admin', 'CBBOperator', 'BankOperator', 'Broker', 'Custodian', 'Auditor', 'CSDParticipant'],
+    keywords: ['requests', 'central', 'bank', 'submit'],
+    tags: ['requests', 'central-bank']
+  },
+  {
+    id: 'participant-administration',
+    title: 'Administration',
+    path: '/participant/administration',
+    icon: Settings,
+    description: 'System administration and configuration',
+    system: 'COMMON',
+    roles: ['Admin', 'CBBOperator', 'BankOperator', 'Broker', 'Custodian', 'Auditor', 'CSDParticipant'],
+    keywords: ['administration', 'users', 'roles', 'system'],
+    tags: ['administration', 'config']
   }
 ];
 
