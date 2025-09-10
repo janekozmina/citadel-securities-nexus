@@ -70,7 +70,7 @@ export function NestedSidebar({ isOpen, onToggle }: NestedSidebarProps) {
     });
   };
 
-  // Auto-expand based on current route
+  // Auto-expand based on current route - keep navigation expanded at all levels
   useEffect(() => {
     const currentPath = location.pathname;
     const toExpand = new Set<string>();
@@ -80,17 +80,30 @@ export function NestedSidebar({ isOpen, onToggle }: NestedSidebarProps) {
       currentPath.startsWith(item.path) && item.path !== '/'
     );
     
-    if (primaryItem && secondaryNavigation[primaryItem.id]) {
+    if (primaryItem) {
       toExpand.add(primaryItem.id);
       
-      // Find which secondary item should be expanded
-      const secondaryItems = secondaryNavigation[primaryItem.id];
-      const secondaryItem = secondaryItems.find(item => 
-        currentPath.startsWith(item.path) && item.path !== primaryItem.path
-      );
-      
-      if (secondaryItem && secondaryItem.children) {
-        toExpand.add(secondaryItem.id);
+      // Always expand secondary navigation if it exists
+      if (secondaryNavigation[primaryItem.id]) {
+        // Find which secondary item should be expanded
+        const secondaryItems = secondaryNavigation[primaryItem.id];
+        const secondaryItem = secondaryItems.find(item => 
+          currentPath.startsWith(item.path) && item.path !== primaryItem.path
+        );
+        
+        if (secondaryItem) {
+          toExpand.add(secondaryItem.id);
+          
+          // Expand third level if exists
+          if (secondaryItem.children) {
+            const thirdLevelItem = secondaryItem.children.find(child =>
+              currentPath.startsWith(child.path)
+            );
+            if (thirdLevelItem) {
+              toExpand.add(thirdLevelItem.id);
+            }
+          }
+        }
       }
     }
     

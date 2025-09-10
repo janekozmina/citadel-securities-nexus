@@ -13,6 +13,7 @@ interface Position {
   type: string;
   owner: string;
   ownerBIC: string;
+  currentBalance: number;
 }
 
 interface Report {
@@ -34,35 +35,40 @@ const PositionsPage = () => {
       currency: 'BHD',
       type: 'RTGS Account',
       owner: 'NATIONAL BANK OF BAHRAIN',
-      ownerBIC: 'NBOBBHB0'
+      ownerBIC: 'NBOBBHB0',
+      currentBalance: 15750000
     },
     {
       accountCode: 'CUS',
       currency: 'BHD',
       type: 'SSS Account',
       owner: 'NATIONAL BANK OF BAHRAIN',
-      ownerBIC: 'NBOBBHB0'
+      ownerBIC: 'NBOBBHB0',
+      currentBalance: 8924500
     },
     {
       accountCode: 'IDC',
       currency: 'BHD',
       type: 'SSS Account',
       owner: 'NATIONAL BANK OF BAHRAIN',
-      ownerBIC: 'NBOBBHB0'
+      ownerBIC: 'NBOBBHB0',
+      currentBalance: 12340000
     },
     {
       accountCode: 'NRD',
       currency: 'BHD',
       type: 'SSS Account',
       owner: 'NATIONAL BANK OF BAHRAIN',
-      ownerBIC: 'NBOBBHB0'
+      ownerBIC: 'NBOBBHB0',
+      currentBalance: 25680000
     },
     {
       accountCode: 'TRD',
       currency: 'BHD',
       type: 'SSS Account',
       owner: 'NATIONAL BANK OF BAHRAIN',
-      ownerBIC: 'NBOBBHB0'
+      ownerBIC: 'NBOBBHB0',
+      currentBalance: 5123450
     }
   ];
 
@@ -119,6 +125,7 @@ const PositionsPage = () => {
                 <TableHead>Type</TableHead>
                 <TableHead>Owner</TableHead>
                 <TableHead>Owner BIC</TableHead>
+                <TableHead>Current Balance</TableHead>
               </TableRow>
             </TableHeader>
             <TableBody>
@@ -135,6 +142,9 @@ const PositionsPage = () => {
                   <TableCell>{position.type}</TableCell>
                   <TableCell>{position.owner}</TableCell>
                   <TableCell>{position.ownerBIC}</TableCell>
+                  <TableCell className="font-mono">
+                    {position.currentBalance.toLocaleString()} {position.currency}
+                  </TableCell>
                 </TableRow>
               ))}
             </TableBody>

@@ -101,8 +101,6 @@ const AccountsPage = () => {
                 <TableHead>Account Name</TableHead>
                 <TableHead>Participant</TableHead>
                 <TableHead>Account Type</TableHead>
-                <TableHead>Currency</TableHead>
-                <TableHead>Balance</TableHead>
                 <TableHead>Status</TableHead>
                 <TableHead>Actions</TableHead>
               </TableRow>
@@ -117,12 +115,6 @@ const AccountsPage = () => {
                     <Badge variant={getAccountTypeColor(account.accountType)}>
                       {account.accountType}
                     </Badge>
-                  </TableCell>
-                  <TableCell>
-                    <Badge variant="outline">{account.currency}</Badge>
-                  </TableCell>
-                  <TableCell className="font-mono">
-                    {account.balance.toLocaleString()} {account.currency}
                   </TableCell>
                   <TableCell>
                     <Badge variant="default">{account.status}</Badge>
