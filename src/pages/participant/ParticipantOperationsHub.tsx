@@ -49,19 +49,24 @@ const ParticipantOperationsHub = () => {
         { id: 'overnight-liquidity', name: 'Overnight Liquidity Facility', description: 'Overnight liquidity facility operations' },
         { id: 'intrabank-facility', name: 'Intrabank borrowing facility (by instrument)', description: 'Internal borrowing by instrument' },
         { id: 'unallocated-facility', name: 'Unallocated borrowing facility', description: 'General purpose borrowing' },
-        { id: 'ilf-pool', name: 'ILF (Pool)', description: 'Intraday Liquidity Facility pool' },
-        { id: 'specific-ilf', name: 'Specific ILF borrowing back', description: 'Targeted ILF operations' }
+        { id: 'ilf-pool', name: 'Operation ILF by pool', description: 'Intraday Liquidity Facility pool operations' },
+        { id: 'specific-ilf', name: 'Specific ILF borrowing back', description: 'Targeted ILF operations' },
+        { id: 'intrabank-transfer-ilf', name: 'Intrabank transfer for ILF', description: 'Internal transfers for ILF operations' },
+        { id: 'intraday-liquidity-instrument', name: 'Intraday Liquidity facility by Instrument', description: 'Intraday liquidity with collateral allocation' },
+        { id: 'ilf-buyback', name: 'ILF buyback', description: 'ILF buyback operations' }
       ]
     },
     {
       title: 'Repo Operations',
       icon: RefreshCw,
       operations: [
-                  { id: 'repo-transaction', name: 'Repo Transaction', description: 'Repurchase agreement operations' },
-                  { id: 'reverse-repo', name: 'Reverse Repo', description: 'Reverse repurchase operations' },
-                  { id: 'tri-party-repo', name: 'Tri-party Repo', description: 'Three-party repo arrangements' },
-                  { id: 'islamic-repo', name: 'Islamic Repo Operations', description: 'Sharia-compliant repo operations' },
-                  { id: 'interbank-repo-rvp', name: 'Interbank REPO (RvP)', description: 'Interbank repurchase agreement with receipt vs payment' }
+        { id: 'repo-transaction', name: 'Repo Transaction', description: 'Repurchase agreement operations' },
+        { id: 'reverse-repo', name: 'Reverse Repo', description: 'Reverse repurchase operations' },
+        { id: 'tri-party-repo', name: 'Tri-party Repo', description: 'Three-party repo arrangements' },
+        { id: 'islamic-repo', name: 'Islamic Repo', description: 'Sharia-compliant repo operations' },
+        { id: 'interbank-repo-rvp', name: 'Interbank REPO (RvP)', description: 'Interbank repurchase agreement with receipt vs payment' },
+        { id: 'interbank-repo-dvp', name: 'Interbank REPO (DvP)', description: 'Interbank repo with delivery vs payment' },
+        { id: 'islamic-repo-dvp', name: 'Islamic Repo (DvP)', description: 'Islamic repo with delivery vs payment' }
       ]
     },
     {
@@ -77,13 +82,23 @@ const ParticipantOperationsHub = () => {
       ]
     },
     {
-      title: 'Other Operations',
+      title: 'Overnight & Islamic Operations',
       icon: Briefcase,
       operations: [
-        { id: 'overnight-facility', name: 'Overnight facility (by instrument)', description: 'Overnight facility operations by instrument type' },
-        { id: 'overnight-lending', name: 'Overnight facility for instrument', description: 'Overnight instrument-specific facility' },
-        { id: 'islamic-overnight', name: 'Islamic overnight facility (by instrument)', description: 'Sharia-compliant overnight facility' },
-        { id: 'islamic-instrument', name: 'Islamic overnight facility for instrument', description: 'Islamic overnight facility for specific instruments' },
+        { id: 'islamic-overnight-instrument', name: 'Islamic Overnight facility by Instrument', description: 'Islamic overnight facility for instruments' },
+        { id: 'conventional-overnight-instrument', name: 'Conventional Overnight facility by Instrument', description: 'Conventional overnight with collateral allocation' },
+        { id: 'interbank-money-placement', name: 'Interbank Money Placement', description: 'Interbank money market operations' },
+        { id: 'sharia-deposit-wadiah', name: 'Sharia deposit (wadiah)', description: 'Islamic deposit operations' },
+        { id: 'interbank-rollover', name: 'Interbank Rollover', description: 'Interbank rollover operations' }
+      ]
+    },
+    {
+      title: 'Other Operations',
+      icon: Layers,
+      operations: [
+        { id: 'pledge-lien-initiation', name: 'Pledge/Lien Initiation', description: 'Initiate pledge or lien operations' },
+        { id: 'lien-release', name: 'Lien Release', description: 'Release lien operations' },
+        { id: 'auto-generated-reports', name: 'Auto Generated Reports', description: 'Generate automated reports' },
         { id: 'rtgs-settlement', name: 'RTGS settlement limit (JO)', description: 'RTGS settlement limitations' },
         { id: 'rtgs-securities', name: 'RTGS settlement limit (by securities)', description: 'Securities-based RTGS limits' },
         { id: 'rtgs-issuer', name: 'RTGS settlement limit (by issuer)', description: 'Issuer-based RTGS limits' },
@@ -214,7 +229,13 @@ const ParticipantOperationsHub = () => {
         'rvf-instruction', 'dvf-instruction', 'house-transfer', 'rvp-instruction', 
         'rvp-when-issued', 'dvp-instruction', 'dvp-when-issued',
         'interbank-repo-receive', 'interbank-repo-deliver', 
-        'islamic-repo-receive', 'islamic-repo-deliver', 'interbank-repo-rvp'
+        'islamic-repo-receive', 'islamic-repo-deliver', 'interbank-repo-rvp',
+        'islamic-repo', 'interbank-repo-dvp', 'islamic-repo-dvp',
+        'intrabank-transfer-ilf', 'ilf-pool', 'intraday-liquidity-instrument',
+        'islamic-overnight-instrument', 'conventional-overnight-instrument',
+        'interbank-money-placement', 'sharia-deposit-wadiah', 'ilf-buyback',
+        'interbank-rollover', 'pledge-lien-initiation', 'lien-release',
+        'auto-generated-reports'
       ].includes(selectedOperation) && (
         <Card className="mt-6">
           <CardHeader>
@@ -247,7 +268,13 @@ const ParticipantOperationsHub = () => {
           'rvf-instruction', 'dvf-instruction', 'house-transfer', 'rvp-instruction', 
           'rvp-when-issued', 'dvp-instruction', 'dvp-when-issued',
           'interbank-repo-receive', 'interbank-repo-deliver', 
-          'islamic-repo-receive', 'islamic-repo-deliver', 'interbank-repo-rvp'
+          'islamic-repo-receive', 'islamic-repo-deliver', 'interbank-repo-rvp',
+          'islamic-repo', 'interbank-repo-dvp', 'islamic-repo-dvp',
+          'intrabank-transfer-ilf', 'ilf-pool', 'intraday-liquidity-instrument',
+          'islamic-overnight-instrument', 'conventional-overnight-instrument',
+          'interbank-money-placement', 'sharia-deposit-wadiah', 'ilf-buyback',
+          'interbank-rollover', 'pledge-lien-initiation', 'lien-release',
+          'auto-generated-reports'
         ].includes(selectedOperation) ? selectedOperation : null}
         onClose={() => setSelectedOperation('')}
       />
