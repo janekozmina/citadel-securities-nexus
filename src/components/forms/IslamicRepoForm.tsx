@@ -41,9 +41,10 @@ type IslamicRepoFormData = z.infer<typeof islamicRepoSchema>;
 interface IslamicRepoFormProps {
   open: boolean;
   onOpenChange: (open: boolean) => void;
+  type?: string;
 }
 
-export function IslamicRepoForm({ open, onOpenChange }: IslamicRepoFormProps) {
+export function IslamicRepoForm({ open, onOpenChange, type }: IslamicRepoFormProps) {
   const [isSubmitting, setIsSubmitting] = useState(false);
 
   const form = useForm<IslamicRepoFormData>({

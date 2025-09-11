@@ -12,8 +12,12 @@ import RvpWhenIssuedForm from '@/components/forms/RvpWhenIssuedForm';
 import DvpInstructionForm from '@/components/forms/DvpInstructionForm';
 import DvpWhenIssuedForm from '@/components/forms/DvpWhenIssuedForm';
 import InterbankRepoForm from '@/components/forms/InterbankRepoForm';
-import IslamicRepoForm from '@/components/forms/IslamicRepoForm';
+import { IslamicRepoForm } from '@/components/forms/IslamicRepoForm';
 import InterbankRepoRvpForm from '@/components/forms/InterbankRepoRvpForm';
+import { InterbankRepoDvpForm } from '@/components/forms/InterbankRepoDvpForm';
+import { IslamicRepoDvpForm } from '@/components/forms/IslamicRepoDvpForm';
+import { IntrabankTransferIlfForm } from '@/components/forms/IntrabankTransferIlfForm';
+import { OperationIlfPoolForm } from '@/components/forms/OperationIlfPoolForm';
 import { useToast } from '@/hooks/use-toast';
 
 interface ParticipantQuickActionsDialogsProps {
@@ -198,13 +202,61 @@ export const ParticipantQuickActionsDialogs = ({ activeDialog, onClose }: Partic
           />
         );
 
-      case 'interbank-repo-rvp':
+      case 'islamic-repo':
         return (
-          <InterbankRepoRvpForm
+          <IslamicRepoForm
             open={true}
             onOpenChange={(open) => !open && onClose()}
           />
         );
+      case 'interbank-repo-dvp':
+        return (
+          <InterbankRepoDvpForm
+            open={true}
+            onOpenChange={(open) => !open && onClose()}
+          />
+        );
+      case 'islamic-repo-dvp':
+        return (
+          <IslamicRepoDvpForm
+            open={true}
+            onOpenChange={(open) => !open && onClose()}
+          />
+        );
+      case 'intrabank-transfer-ilf':
+        return (
+          <IntrabankTransferIlfForm
+            open={true}
+            onOpenChange={(open) => !open && onClose()}
+          />
+        );
+      case 'ilf-pool':
+        return (
+          <OperationIlfPoolForm
+            open={true}
+            onOpenChange={(open) => !open && onClose()}
+          />
+        );
+      case 'intraday-liquidity-instrument':
+        return <div>Intraday Liquidity facility by Instrument - Coming Soon</div>;
+      case 'islamic-overnight-instrument':
+        return <div>Islamic Overnight facility by Instrument - Coming Soon</div>;
+      case 'conventional-overnight-instrument':
+        return <div>Conventional Overnight facility by Instrument - Coming Soon</div>;
+      case 'interbank-money-placement':
+        return <div>Interbank Money Placement - Coming Soon</div>;
+      case 'sharia-deposit-wadiah':
+        return <div>Sharia deposit (wadiah) - Coming Soon</div>;
+      case 'ilf-buyback':
+        return <div>ILF buyback - Coming Soon</div>;
+      case 'interbank-rollover':
+        return <div>Interbank Rollover - Coming Soon</div>;
+      case 'pledge-lien-initiation':
+        return <div>Pledge/Lien Initiation - Coming Soon</div>;
+      case 'lien-release':
+        return <div>Lien Release - Coming Soon</div>;
+      case 'auto-generated-reports':
+        return <div>Auto Generated Reports - Coming Soon</div>;
       
       default:
         return null;
@@ -218,7 +270,9 @@ export const ParticipantQuickActionsDialogs = ({ activeDialog, onClose }: Partic
     'dvp-transfer', 'repo-pledge', 'rvf-instruction', 'dvf-instruction',
     'house-transfer', 'rvp-instruction', 'rvp-when-issued', 'dvp-instruction',
     'dvp-when-issued', 'interbank-repo-receive', 'interbank-repo-deliver',
-    'islamic-repo-receive', 'islamic-repo-deliver', 'interbank-repo-rvp'
+    'islamic-repo-receive', 'islamic-repo-deliver', 'interbank-repo-rvp',
+    'islamic-repo', 'interbank-repo-dvp', 'islamic-repo-dvp',
+    'intrabank-transfer-ilf', 'ilf-pool'
   ];
   
   if (formsWithOwnDialog.includes(activeDialog!)) {
