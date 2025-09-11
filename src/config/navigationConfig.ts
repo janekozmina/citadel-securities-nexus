@@ -193,13 +193,13 @@ export const primaryNavigation: NavigationItem[] = [
   },
   {
     id: 'participant-monitoring',
-    title: 'Monitoring Tools',
+    title: 'RTGS Monitoring',
     path: '/participant/monitoring',
     icon: Monitor,
-    description: 'Monitoring and operational tools',
+    description: 'RTGS monitoring and operational tools',
     system: 'COMMON',
     roles: ['CSDParticipant'],
-    keywords: ['monitoring', 'tools', 'operations'],
+    keywords: ['rtgs', 'monitoring', 'tools', 'operations'],
     tags: ['monitoring', 'tools']
   },
   {

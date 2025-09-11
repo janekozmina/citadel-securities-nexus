@@ -84,7 +84,7 @@ const TransactionsAllPage = () => {
   return (
     <div className="space-y-6">
       <div>
-        <h1 className="text-3xl font-bold">6) Transactions All</h1>
+        <h1 className="text-3xl font-bold">Transactions All</h1>
         <p className="text-muted-foreground">All transaction records with creation date from 04.09.2025 00:00:00 to 04.09.2025 23:59:00</p>
       </div>
 
