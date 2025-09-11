@@ -137,17 +137,6 @@ export const primaryNavigation: NavigationItem[] = [
     tags: ['securities', 'participant']
   },
   {
-    id: 'participant-csd-cms-monitoring',  
-    title: 'CSD/CMS Monitoring',
-    path: '/participant/csd-cms-monitoring',
-    icon: Monitor,
-    description: 'CSD/CMS Monitoring and Analytics',
-    system: 'CSD',
-    roles: ['CSDParticipant'],
-    keywords: ['csd', 'cms', 'monitoring', 'analytics'],
-    tags: ['monitoring', 'csd', 'cms']
-  },
-  {
     id: 'participant-rtgs',
     title: 'RTGS',
     path: '/participant/rtgs-dashboard',

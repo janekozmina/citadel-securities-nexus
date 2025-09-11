@@ -57,7 +57,7 @@ const FinancialCalculatorPage = () => {
         <p className="text-muted-foreground">Advanced financial calculation tools for bonds and securities</p>
       </div>
 
-      <Card className="max-w-6xl">
+      <Card>
         <CardHeader>
           <CardTitle>Financial Calculator</CardTitle>
         </CardHeader>

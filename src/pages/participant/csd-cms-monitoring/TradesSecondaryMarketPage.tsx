@@ -7,6 +7,8 @@ import { formatCurrency } from '@/config/currencyConfig';
 import portalConfig from '@/config/portalConfig';
 
 const TradesSecondaryMarketPage = () => {
+  const participantCode = 'PTCP001'; // Unique participant code for logged-in user
+  
   const tradesData = [
     {
       reference: 'CITIAXXX09045017',
@@ -15,7 +17,7 @@ const TradesSecondaryMarketPage = () => {
       description: 'Collateral is not enough, lack of instruments',
       sellingDocType: 'DvPRepoGLTradeMX',
       buyingDocType: '',
-      sellersAccount: 'SSCBCASHVI',
+      sellersAccount: participantCode + 'DEPO',
       deliveryAgent: 'CBAIJAEAB',
       buyersAccount: 'CITICASHVI',
       receivingAgent: 'CITIFHMX',
@@ -27,9 +29,9 @@ const TradesSecondaryMarketPage = () => {
       type: 'Trade',
       status: 'Repo buyback',
       description: 'Collateral is not enough, lack of instruments',
-      sellingDocType: 'CITIDEPO',
+      sellingDocType: participantCode + 'DEPO',
       buyingDocType: 'CITIFHMX',
-      sellersAccount: 'CITIDEPO',
+      sellersAccount: participantCode + 'DEPO',
       deliveryAgent: 'CITIFHMX',
       buyersAccount: 'CITIDEPO',
       receivingAgent: 'CITIFHMX',
