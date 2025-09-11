@@ -13,6 +13,7 @@ import DvpInstructionForm from '@/components/forms/DvpInstructionForm';
 import DvpWhenIssuedForm from '@/components/forms/DvpWhenIssuedForm';
 import InterbankRepoForm from '@/components/forms/InterbankRepoForm';
 import IslamicRepoForm from '@/components/forms/IslamicRepoForm';
+import InterbankRepoRvpForm from '@/components/forms/InterbankRepoRvpForm';
 import { useToast } from '@/hooks/use-toast';
 
 interface ParticipantQuickActionsDialogsProps {
@@ -64,13 +65,15 @@ export const ParticipantQuickActionsDialogs = ({ activeDialog, onClose }: Partic
         return 'Islamic Repo (Receive)';
       case 'islamic-repo-deliver':
         return 'Islamic Repo (Deliver)';
-      default:
-        return '';
-    }
-  };
+        case 'interbank-repo-rvp':
+          return 'Interbank REPO (RvP)';
+        default:
+          return '';
+        }
+      };
 
-  const renderDialogContent = () => {
-    switch (activeDialog) {
+      const renderDialogContent = () => {
+        switch (activeDialog) {
       case 'check-funds':
         return (
           <CheckFundsForm
@@ -194,6 +197,14 @@ export const ParticipantQuickActionsDialogs = ({ activeDialog, onClose }: Partic
             type="deliver"
           />
         );
+
+      case 'interbank-repo-rvp':
+        return (
+          <InterbankRepoRvpForm
+            open={true}
+            onOpenChange={(open) => !open && onClose()}
+          />
+        );
       
       default:
         return null;
@@ -207,7 +218,7 @@ export const ParticipantQuickActionsDialogs = ({ activeDialog, onClose }: Partic
     'dvp-transfer', 'repo-pledge', 'rvf-instruction', 'dvf-instruction',
     'house-transfer', 'rvp-instruction', 'rvp-when-issued', 'dvp-instruction',
     'dvp-when-issued', 'interbank-repo-receive', 'interbank-repo-deliver',
-    'islamic-repo-receive', 'islamic-repo-deliver'
+    'islamic-repo-receive', 'islamic-repo-deliver', 'interbank-repo-rvp'
   ];
   
   if (formsWithOwnDialog.includes(activeDialog!)) {

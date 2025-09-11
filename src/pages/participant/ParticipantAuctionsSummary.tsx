@@ -236,9 +236,10 @@ const ParticipantAuctionsSummary = () => {
 
       {/* Main Content */}
       <Tabs defaultValue="active" className="w-full">
-        <TabsList className="grid w-full grid-cols-3">
+        <TabsList className="grid w-full grid-cols-4">
           <TabsTrigger value="active">Active Auctions</TabsTrigger>
           <TabsTrigger value="completed">Completed Auctions</TabsTrigger>
+          <TabsTrigger value="bids">Bids</TabsTrigger>
           <TabsTrigger value="calendar">Auction Calendar</TabsTrigger>
         </TabsList>
 
@@ -368,6 +369,105 @@ const ParticipantAuctionsSummary = () => {
                           <FileText className="w-3 h-3 mr-1" />
                           View Report
                         </Button>
+                      </div>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </CardContent>
+          </Card>
+        </TabsContent>
+
+        <TabsContent value="bids">
+          <Card>
+            <CardHeader>
+              <CardTitle className="flex items-center gap-2">
+                <Target className="h-5 w-5" />
+                My Bids
+              </CardTitle>
+              <CardDescription>All bids submitted by your institution</CardDescription>
+            </CardHeader>
+            <CardContent>
+              <div className="space-y-4">
+                {[
+                  {
+                    id: 'BID001',
+                    auctionId: 'AUC001',
+                    instrument: 'TB-2024-Q1-001',
+                    type: 'Treasury Bill',
+                    bidAmount: 15000000,
+                    bidRate: 4.25,
+                    status: 'Active',
+                    submittedDate: '2024-01-14 10:30:00',
+                    maturity: '91 Days'
+                  },
+                  {
+                    id: 'BID002',
+                    auctionId: 'AUC003',
+                    instrument: 'SUKUK-2024-3Y-001',
+                    type: 'Islamic Sukuk',
+                    bidAmount: 10000000,
+                    bidRate: 4.85,
+                    status: 'Active',
+                    submittedDate: '2024-01-14 14:15:00',
+                    maturity: '3 Years'
+                  },
+                  {
+                    id: 'BID003',
+                    auctionId: 'AUC-C001',
+                    instrument: 'TB-2024-001',
+                    type: 'Treasury Bill',
+                    bidAmount: 12000000,
+                    bidRate: 4.20,
+                    status: 'Partially Allocated',
+                    submittedDate: '2024-01-09 09:45:00',
+                    maturity: '91 Days',
+                    allocatedAmount: 8000000
+                  }
+                ].map((bid) => (
+                  <div key={bid.id} className="p-4 border rounded-lg">
+                    <div className="flex justify-between items-start mb-3">
+                      <div>
+                        <div className="flex items-center gap-2 mb-1">
+                          <h3 className="font-medium">{bid.type}</h3>
+                          <Badge variant={getStatusColor(bid.status)} className="text-xs">
+                            {bid.status}
+                          </Badge>
+                        </div>
+                        <p className="text-sm text-muted-foreground">{bid.instrument}</p>
+                        <p className="text-xs text-muted-foreground">Bid ID: {bid.id} | Auction: {bid.auctionId}</p>
+                      </div>
+                      <div className="text-right">
+                        <p className="text-sm font-medium">Bid: BHD {bid.bidAmount.toLocaleString()}</p>
+                        <p className="text-xs text-muted-foreground">Rate: {bid.bidRate}%</p>
+                      </div>
+                    </div>
+
+                    <div className="grid grid-cols-1 md:grid-cols-4 gap-4 text-sm">
+                      <div>
+                        <p className="text-muted-foreground">Submitted</p>
+                        <p className="font-medium">{new Date(bid.submittedDate).toLocaleString()}</p>
+                      </div>
+                      <div>
+                        <p className="text-muted-foreground">Maturity</p>
+                        <p className="font-medium">{bid.maturity}</p>
+                      </div>
+                      <div>
+                        <p className="text-muted-foreground">Allocated</p>
+                        <p className="font-medium">
+                          {bid.allocatedAmount ? `BHD ${bid.allocatedAmount.toLocaleString()}` : 'Pending'}
+                        </p>
+                      </div>
+                      <div className="flex gap-2">
+                        <Button size="sm" variant="outline">
+                          <Eye className="w-3 h-3 mr-1" />
+                          View Details
+                        </Button>
+                        {bid.status === 'Active' && (
+                          <Button size="sm" variant="outline">
+                            Modify Bid
+                          </Button>
+                        )}
                       </div>
                     </div>
                   </div>

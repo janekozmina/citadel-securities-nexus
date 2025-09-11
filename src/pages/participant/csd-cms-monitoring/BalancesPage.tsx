@@ -11,10 +11,12 @@ import portalConfig from '@/config/portalConfig';
 const BalancesPage = () => {
   const [searchTerm, setSearchTerm] = useState('');
 
+  const participantCode = 'PTCP001'; // Unique participant code for logged-in user
+  
   const balancesData = [
     {
       account: 'NBBDEPO',
-      participantCode: 'NBBPNMK',
+      participantCode: participantCode,
       participantName: portalConfig.banks.commercial[0], // National Bank of Bahrain
       instrument: 'BHRGOVBND23741',
       instrumentName: 'BHRGOVBND23741',
@@ -36,7 +38,7 @@ const BalancesPage = () => {
     },
     {
       account: 'NBBDEPO',
-      participantCode: 'NBBPNMK',
+      participantCode: participantCode,
       participantName: portalConfig.banks.commercial[0],
       instrument: 'BHRGOVBOND01',
       instrumentName: 'BHRGOVBOND01',
@@ -58,7 +60,7 @@ const BalancesPage = () => {
     },
     {
       account: 'BBKDEPO',
-      participantCode: 'BBKPNMK',
+      participantCode: participantCode,
       participantName: portalConfig.banks.commercial[3], // Bank of Bahrain and Kuwait
       instrument: 'BHRGOVBND23669',
       instrumentName: 'BHRGOVBND23669',
@@ -80,7 +82,7 @@ const BalancesPage = () => {
     },
     {
       account: 'GIBDEPO',
-      participantCode: 'GIBPNMK',
+      participantCode: participantCode,
       participantName: portalConfig.banks.commercial[16], // Gulf International Bank
       instrument: 'BHRGOVBOND05',
       instrumentName: 'BHRGOVBOND05',
@@ -192,9 +194,6 @@ const BalancesPage = () => {
                       <div className="flex gap-1">
                         <Button variant="outline" size="sm">
                           <Edit className="w-3 h-3" />
-                        </Button>
-                        <Button variant="outline" size="sm">
-                          <Trash2 className="w-3 h-3" />
                         </Button>
                       </div>
                     </TableCell>

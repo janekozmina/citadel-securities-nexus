@@ -214,6 +214,17 @@ export const primaryNavigation: NavigationItem[] = [
     tags: ['monitoring', 'tools']
   },
   {
+    id: 'participant-csd-cms-monitoring',  
+    title: 'CSD/CMS Monitoring',
+    path: '/participant/csd-cms-monitoring',
+    icon: Monitor,
+    description: 'CSD/CMS Monitoring and Analytics',
+    system: 'CSD',
+    roles: ['CSDParticipant'],
+    keywords: ['csd', 'cms', 'monitoring', 'analytics'],
+    tags: ['monitoring', 'csd', 'cms']
+  },
+  {
     id: 'participant-dictionaries',
     title: 'Dictionaries',
     path: '/participant/dictionaries',

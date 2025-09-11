@@ -10,6 +10,8 @@ import portalConfig from '@/config/portalConfig';
 
 const TransactionsAllPage = () => {
   const [searchTerm, setSearchTerm] = useState('');
+  
+  const participantCode = 'PTCP001'; // Unique participant code for logged-in user
 
   const transactionsData = [
     {
@@ -44,8 +46,8 @@ const TransactionsAllPage = () => {
       dealAmount: formatCurrency(99000.00),
       actualAmount: formatCurrency(99000.00),
       currency: portalConfig.currencies.primary,
-      seller: 'GIBPHMK',
-      deliveryCSD: 'GIBDEPO',
+      seller: participantCode,
+      deliveryCSD: participantCode + 'DEPO',
       buyer: 'AUBPHMK',
       receiveCSD: 'AUBDEPO',
       localStatus: 'Sent',
@@ -177,9 +179,6 @@ const TransactionsAllPage = () => {
                       <div className="flex gap-1">
                         <Button variant="outline" size="sm">
                           <Edit className="w-3 h-3" />
-                        </Button>
-                        <Button variant="outline" size="sm">
-                          <Trash2 className="w-3 h-3" />
                         </Button>
                       </div>
                     </TableCell>

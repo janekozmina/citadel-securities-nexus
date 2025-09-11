@@ -57,10 +57,11 @@ const ParticipantOperationsHub = () => {
       title: 'Repo Operations',
       icon: RefreshCw,
       operations: [
-        { id: 'repo-transaction', name: 'Repo Transaction', description: 'Repurchase agreement operations' },
-        { id: 'reverse-repo', name: 'Reverse Repo', description: 'Reverse repurchase operations' },
-        { id: 'tri-party-repo', name: 'Tri-party Repo', description: 'Three-party repo arrangements' },
-        { id: 'islamic-repo', name: 'Islamic Repo Operations', description: 'Sharia-compliant repo operations' }
+                  { id: 'repo-transaction', name: 'Repo Transaction', description: 'Repurchase agreement operations' },
+                  { id: 'reverse-repo', name: 'Reverse Repo', description: 'Reverse repurchase operations' },
+                  { id: 'tri-party-repo', name: 'Tri-party Repo', description: 'Three-party repo arrangements' },
+                  { id: 'islamic-repo', name: 'Islamic Repo Operations', description: 'Sharia-compliant repo operations' },
+                  { id: 'interbank-repo-rvp', name: 'Interbank REPO (RvP)', description: 'Interbank repurchase agreement with receipt vs payment' }
       ]
     },
     {
@@ -123,10 +124,9 @@ const ParticipantOperationsHub = () => {
       </div>
 
       <Tabs defaultValue="operations" className="w-full">
-        <TabsList className="grid w-full grid-cols-3">
+        <TabsList className="grid w-full grid-cols-2">
           <TabsTrigger value="operations">Available Operations</TabsTrigger>
           <TabsTrigger value="recent">Recent Activity</TabsTrigger>
-          <TabsTrigger value="quick">Quick Actions</TabsTrigger>
         </TabsList>
 
         <TabsContent value="operations">
@@ -206,89 +206,6 @@ const ParticipantOperationsHub = () => {
           </Card>
         </TabsContent>
 
-        <TabsContent value="quick">
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-            <Card>
-              <CardHeader>
-                <CardTitle className="flex items-center gap-2">
-                  <Send className="h-5 w-5" />
-                  Quick DvP Transfer
-                </CardTitle>
-                <CardDescription>Initiate a delivery vs payment transfer</CardDescription>
-              </CardHeader>
-              <CardContent>
-                <Button className="w-full" onClick={() => setSelectedOperation('dvp-transfer')}>
-                  <Send className="w-4 h-4 mr-2" />
-                  Open DvP Transfer Form
-                </Button>
-              </CardContent>
-            </Card>
-
-            <Card>
-              <CardHeader>
-                <CardTitle className="flex items-center gap-2">
-                  <RefreshCw className="h-5 w-5" />
-                  Quick Repo
-                </CardTitle>
-                <CardDescription>Initiate a repurchase agreement</CardDescription>
-              </CardHeader>
-              <CardContent>
-                <Button className="w-full" onClick={() => setSelectedOperation('repo-pledge')}>
-                  <RefreshCw className="w-4 h-4 mr-2" />
-                  Open Repo Pledge Form
-                </Button>
-              </CardContent>
-            </Card>
-
-            <Card>
-              <CardHeader>
-                <CardTitle className="flex items-center gap-2">
-                  <ArrowUpDown className="h-5 w-5" />
-                  General Transfer
-                </CardTitle>
-                <CardDescription>Initiate a general funds transfer</CardDescription>
-              </CardHeader>
-              <CardContent>
-                <Button className="w-full" onClick={() => setSelectedOperation('general-transfer')}>
-                  <ArrowUpDown className="w-4 h-4 mr-2" />
-                  Open Transfer Form
-                </Button>
-              </CardContent>
-            </Card>
-
-            <Card>
-              <CardHeader>
-                <CardTitle className="flex items-center gap-2">
-                  <DollarSign className="h-5 w-5" />
-                  Check Funds
-                </CardTitle>
-                <CardDescription>Check available funds and balances</CardDescription>
-              </CardHeader>
-              <CardContent>
-                <Button className="w-full" onClick={() => setSelectedOperation('check-funds')}>
-                  <DollarSign className="w-4 h-4 mr-2" />
-                  Check Funds
-                </Button>
-              </CardContent>
-            </Card>
-
-            <Card>
-              <CardHeader>
-                <CardTitle className="flex items-center gap-2">
-                  <Calculator className="h-5 w-5" />
-                  Position Calculator
-                </CardTitle>
-                <CardDescription>Calculate position requirements</CardDescription>
-              </CardHeader>
-              <CardContent>
-                <Button variant="outline" className="w-full">
-                  <Calculator className="w-4 h-4 mr-2" />
-                  Coming Soon
-                </Button>
-              </CardContent>
-            </Card>
-          </div>
-        </TabsContent>
       </Tabs>
 
       {/* Selection Dialog */}
@@ -297,7 +214,7 @@ const ParticipantOperationsHub = () => {
         'rvf-instruction', 'dvf-instruction', 'house-transfer', 'rvp-instruction', 
         'rvp-when-issued', 'dvp-instruction', 'dvp-when-issued',
         'interbank-repo-receive', 'interbank-repo-deliver', 
-        'islamic-repo-receive', 'islamic-repo-deliver'
+        'islamic-repo-receive', 'islamic-repo-deliver', 'interbank-repo-rvp'
       ].includes(selectedOperation) && (
         <Card className="mt-6">
           <CardHeader>
@@ -330,7 +247,7 @@ const ParticipantOperationsHub = () => {
           'rvf-instruction', 'dvf-instruction', 'house-transfer', 'rvp-instruction', 
           'rvp-when-issued', 'dvp-instruction', 'dvp-when-issued',
           'interbank-repo-receive', 'interbank-repo-deliver', 
-          'islamic-repo-receive', 'islamic-repo-deliver'
+          'islamic-repo-receive', 'islamic-repo-deliver', 'interbank-repo-rvp'
         ].includes(selectedOperation) ? selectedOperation : null}
         onClose={() => setSelectedOperation('')}
       />

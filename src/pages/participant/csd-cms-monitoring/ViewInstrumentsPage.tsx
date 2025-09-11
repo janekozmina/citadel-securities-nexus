@@ -172,9 +172,6 @@ const ViewInstrumentsPage = () => {
                         <Button variant="outline" size="sm">
                           <Edit className="w-3 h-3" />
                         </Button>
-                        <Button variant="outline" size="sm">
-                          <Trash2 className="w-3 h-3" />
-                        </Button>
                       </div>
                     </TableCell>
                   </TableRow>
