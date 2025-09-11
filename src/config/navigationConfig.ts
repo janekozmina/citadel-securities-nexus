@@ -126,17 +126,6 @@ export const primaryNavigation: NavigationItem[] = [
     tags: ['securities', 'trading', 'custody']
   },
   {
-    id: 'participant-csd',
-    title: 'CSD',
-    path: '/participant/csd-dashboard',
-    icon: Building2,
-    description: 'CSD Participant Services',
-    system: 'CSD',
-    roles: ['CSDParticipant'],
-    keywords: ['csd', 'participant', 'securities', 'operations'],
-    tags: ['securities', 'participant']
-  },
-  {
     id: 'participant-rtgs',
     title: 'RTGS',
     path: '/participant/rtgs-dashboard',
@@ -146,6 +135,17 @@ export const primaryNavigation: NavigationItem[] = [
     roles: ['CSDParticipant'],
     keywords: ['rtgs', 'participant', 'payments', 'operations'],
     tags: ['payments', 'participant']
+  },
+  {
+    id: 'participant-csd',
+    title: 'CSD',
+    path: '/participant/csd-dashboard',
+    icon: Building2,
+    description: 'CSD Participant Services',
+    system: 'CSD',
+    roles: ['CSDParticipant'],
+    keywords: ['csd', 'participant', 'securities', 'operations'],
+    tags: ['securities', 'participant']
   },
   {
     id: 'cms',
